@@ -1,0 +1,182 @@
+/* ============================================================
+   variants/05-pixel-tech/css/base.css
+   Reset, box-sizing, root variables, skip-link, focus styles,
+   prefers-reduced-motion, grid background texture
+   ============================================================ */
+
+/* CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+/* Body */
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Grid background texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgb(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* ─── CSS Custom Properties (Brand Tokens) ─── */
+:root {
+  /* Primary colors */
+  --color-neon-green: #39FF14;
+  --color-black: #000;
+  --color-silver: #C8C8C8;
+
+  /* Secondary colors */
+  --color-dark-gray: #1A1A1A;
+  --color-matrix-green: #0F6;
+
+  /* Accent colors */
+  --color-electric-purple: #9B30FF;
+
+  /* Semantic colors */
+  --color-bg-primary: var(--color-black);
+  --color-bg-secondary: var(--color-dark-gray);
+  --color-text-primary: var(--color-silver);
+  --color-text-secondary: var(--color-neon-green);
+  --color-accent: var(--color-electric-purple);
+  --color-border: var(--color-dark-gray);
+  --color-highlight: var(--color-matrix-green);
+
+  /* Typography - Font families (self-hosted WOFF2 with system fallbacks) */
+
+  /* TODO: Download WOFF2 files and host in /variants/05-pixel-tech/fonts/ */
+  --font-headline: 'Orbitron Bold', 'Courier New', courier, monospace;
+  --font-body: 'Inter Medium', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
+  --font-ui: 'Roboto Mono', 'Courier New', courier, monospace;
+  --font-code: 'JetBrains Mono', 'Courier New', courier, monospace;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Touch target minimum */
+  --touch-target: 44px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+}
+
+/* ─── Skip Link ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-neon-green);
+  color: var(--color-black);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  padding: var(--space-sm) var(--space-md);
+  z-index: 10000;
+  text-decoration: none;
+  border: 2px solid var(--color-neon-green);
+  border-radius: 0;
+
+  /* Sharp corners - no rounded corners per brand */
+}
+
+.skip-link:focus {
+  top: var(--space-sm);
+  outline: 2px solid var(--color-electric-purple);
+  outline-offset: 2px;
+}
+
+/* ─── Focus Styles ─── */
+:focus-visible {
+  outline: 2px solid var(--color-neon-green);
+  outline-offset: 2px;
+  background: transparent;
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-electric-purple);
+  color: var(--color-silver);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-matrix-green);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neon-green);
+}

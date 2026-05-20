@@ -1,0 +1,476 @@
+/* ============================================================
+   variants/05-pixel-tech/css/components.css
+   Terminal-style buttons with neon green glow,
+   pixel-sharp corners (NO rounded corners),
+   grid overlays, digital noise texture, glitch animations
+   ============================================================ */
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-md) var(--space-xl);
+  min-height: var(--touch-target);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+/* Sharp corners - no rounded corners per brand do's */
+.btn,
+.btn::before,
+.btn::after {
+  border-radius: 0;
+}
+
+/* Primary button - neon green glow */
+.btn-primary {
+  background: var(--color-neon-green);
+  color: var(--color-black);
+  border-color: var(--color-neon-green);
+  box-shadow:
+    0 0 10px rgb(57, 255, 20, 0.3),
+    inset 0 0 20px rgb(57, 255, 20, 0.1);
+}
+
+.btn-primary:hover {
+  background: var(--color-matrix-green);
+  box-shadow:
+    0 0 20px rgb(57, 255, 20, 0.5),
+    0 0 40px rgb(0, 255, 102, 0.3),
+    inset 0 0 30px rgb(57, 255, 20, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 5px rgb(57, 255, 20, 0.3),
+    inset 0 0 10px rgb(57, 255, 20, 0.1);
+}
+
+/* Secondary button - outline style */
+.btn-secondary {
+  background: transparent;
+  color: #7FFF7F;
+  border-color: #7FFF7F;
+}
+
+.btn-secondary:hover {
+  background: rgb(57, 255, 20, 0.1);
+  box-shadow:
+    0 0 15px rgb(57, 255, 20, 0.2),
+    inset 0 0 15px rgb(57, 255, 20, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  background: rgb(57, 255, 20, 0.15);
+}
+
+/* Small button */
+.btn-small {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.75rem;
+  min-height: 44px;
+}
+
+/* Large button */
+.btn-large {
+  padding: var(--space-lg) var(--space-2xl);
+  font-size: 1rem;
+  min-height: 56px;
+}
+
+/* Button glitch effect on hover */
+.btn-primary:hover::before,
+.btn-secondary:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(155, 48, 255, 0.3),
+    transparent
+  );
+  animation: btn-glitch 0.3s ease forwards;
+}
+
+@keyframes btn-glitch {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ─── Glitch Animations ─── */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  color: var(--color-neon-green);
+  animation: glitch-1 2s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.glitch::after {
+  color: var(--color-electric-purple);
+  animation: glitch-2 3s infinite linear alternate-reverse;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-1 {
+  0%, 90% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, 2px); }
+  98% { transform: translate(1px, -2px); }
+}
+
+@keyframes glitch-2 {
+  0%, 85% { transform: translate(0); }
+  87% { transform: translate(2px, 1px); }
+  89% { transform: translate(-2px, -1px); }
+  91% { transform: translate(1px, 2px); }
+  93% { transform: translate(-1px, -2px); }
+}
+
+/* Disable glitch animation when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before,
+  .glitch::after {
+    animation: none;
+  }
+}
+
+/* ─── Pixel Loading Animation ─── */
+.pixel-loader {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.pixel-loader span {
+  background: var(--color-neon-green);
+  animation: pixel-pulse 1s infinite;
+}
+
+.pixel-loader span:nth-child(1) { animation-delay: 0s; }
+.pixel-loader span:nth-child(2) { animation-delay: 0.1s; }
+.pixel-loader span:nth-child(3) { animation-delay: 0.2s; }
+.pixel-loader span:nth-child(4) { animation-delay: 0.1s; }
+.pixel-loader span:nth-child(5) { animation-delay: 0.2s; }
+.pixel-loader span:nth-child(6) { animation-delay: 0.3s; }
+.pixel-loader span:nth-child(7) { animation-delay: 0.2s; }
+.pixel-loader span:nth-child(8) { animation-delay: 0.3s; }
+.pixel-loader span:nth-child(9) { animation-delay: 0.4s; }
+
+@keyframes pixel-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    background: var(--color-matrix-green);
+  }
+}
+
+/* ─── Digital Noise Texture Overlay ─── */
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 1;
+}
+
+/* ─── Grid Overlay ─── */
+.grid-overlay {
+  position: relative;
+}
+
+.grid-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(57, 255, 20, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(57, 255, 20, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Terminal Cursor ─── */
+.terminal-cursor::after {
+  content: '_';
+  color: var(--color-neon-green);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ─── Scan Line Effect ─── */
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgb(0, 0, 0, 0.1) 0,
+    rgb(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── Pixel Border ─── */
+.pixel-border {
+  position: relative;
+}
+
+.pixel-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-neon-green) 0%,
+    var(--color-electric-purple) 50%,
+    var(--color-neon-green) 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.pixel-border:hover::before {
+  opacity: 1;
+}
+
+/* ─── Neon Glow Text ─── */
+.neon-text {
+  color: var(--color-neon-green);
+  text-shadow:
+    0 0 5px var(--color-neon-green),
+    0 0 10px var(--color-neon-green),
+    0 0 20px var(--color-matrix-green);
+}
+
+.neon-text-purple {
+  color: var(--color-electric-purple);
+  text-shadow:
+    0 0 5px var(--color-electric-purple),
+    0 0 10px var(--color-electric-purple),
+    0 0 20px rgb(155, 48, 255, 0.5);
+}
+
+/* ─── Hover Lift Effect ─── */
+.hover-lift {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 30px rgb(0, 0, 0, 0.5),
+    0 0 20px rgb(57, 255, 20, 0.1);
+}
+
+/* ─── Pitch Bullets ─── */
+.pitch-bullets {
+  list-style: none;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.pitch-bullets li {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--color-silver);
+  padding: var(--space-md) 0 var(--space-md) var(--space-2xl);
+  position: relative;
+  border-bottom: 1px solid var(--color-dark-gray);
+}
+
+.pitch-bullets li::before {
+  content: '[ ]';
+  position: absolute;
+  left: 0;
+  color: var(--color-matrix-green);
+  font-family: var(--font-code);
+}
+
+.pitch-bullets li:nth-child(odd)::before {
+  content: '[x]';
+  color: var(--color-neon-green);
+}
+
+/* ─── Features More Link ─── */
+.features-more {
+  text-align: center;
+  margin-top: var(--space-2xl);
+}
+
+.features-more a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-neon-green);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-neon-green);
+  display: inline-block;
+  transition: all var(--transition-fast);
+}
+
+.features-more a:hover {
+  background: var(--color-neon-green);
+  color: var(--color-black);
+}
+
+/* ─── Icon Animations ─── */
+.feature-icon svg,
+.client-card-icon svg {
+  transition: transform var(--transition-base);
+}
+
+.feature-card:hover .feature-icon svg,
+.client-card:hover .client-card-icon svg {
+  transform: scale(1.1);
+}
+
+/* ─── Link Arrow ─── */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-ui);
+  color: var(--color-neon-green);
+  transition: all var(--transition-fast);
+}
+
+.link-arrow::after {
+  content: '→';
+  transition: transform var(--transition-fast);
+}
+
+.link-arrow:hover {
+  color: var(--color-electric-purple);
+  text-shadow: 0 0 8px var(--color-electric-purple);
+}
+
+.link-arrow:hover::after {
+  transform: translateX(4px);
+}
+
+/* ─── Animated Border ─── */
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-neon-green),
+    var(--color-electric-purple),
+    var(--color-matrix-green),
+    var(--color-neon-green)
+  );
+  background-size: 300% 100%;
+  z-index: -1;
+  animation: border-flow 3s linear infinite;
+}
+
+.animated-border:hover::before {
+  background: linear-gradient(
+    90deg,
+    var(--color-electric-purple),
+    var(--color-neon-green),
+    var(--color-matrix-green),
+    var(--color-electric-purple)
+  );
+}
+
+/* ─── Pixel Transition Animation ─── */
+@keyframes pixel-transition {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  }
+
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.pixel-reveal {
+  animation: pixel-transition 0.6s ease-out forwards;
+}
+
+/* ─── Counter Animation ─── */
+.counter {
+  display: inline-block;
+  font-family: var(--font-code);
+  color: var(--color-neon-green);
+}
