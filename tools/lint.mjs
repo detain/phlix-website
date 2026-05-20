@@ -5,7 +5,7 @@
 // while the variant directories are still empty placeholders.
 
 import { spawn } from 'node:child_process';
-import { globSync } from 'node:fs';
+import { globSync } from 'glob';
 
 const [, , tool, ...rest] = process.argv;
 if (!tool) {

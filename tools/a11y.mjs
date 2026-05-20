@@ -4,8 +4,9 @@
 // variants that have an index.html.
 
 import { spawn } from 'node:child_process';
-import { existsSync, globSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { globSync } from 'glob';
 
 const cfgPath = resolve(process.cwd(), '.pa11yci.json');
 const indexPages = globSync('variants/**/index.html');
