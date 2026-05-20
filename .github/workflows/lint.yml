@@ -2,7 +2,7 @@ name: Lint
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
 
 jobs:
@@ -15,6 +15,12 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run lint
-      - run: npm run a11y
+      - name: Format check
+        run: npm run format:check
+      - name: Lint (html / css / js)
+        run: npm run lint
+      - name: npm audit (high severity gate)
+        run: npm audit --audit-level=high
+      - name: Accessibility (pa11y-ci, soft-fail until pages exist)
+        run: npm run a11y
         continue-on-error: true

@@ -29,33 +29,34 @@ Cross-variant changes (a typo in `shared/content.json`, a new GH Actions step, a
 
 Each variant must implement the same eight pages with identical content:
 
-| Page | URL | Purpose |
-|------|-----|---------|
-| Home | `/` | Hero + pitch + top features + CTAs |
-| Features | `/features.html` | Deep dive on library, SyncPlay, transcoding, auth, Live TV, DLNA, plugins, hub |
-| Clients | `/clients.html` | Roku, Tizen, Windows, Mobile, DLNA — what each looks like, what's stable vs beta |
-| Download | `/download.html` | Install paths (server, hub, each client), system reqs, quickstart commands |
-| Plugins | `/plugins.html` | The plugin model + link to phlix-plugin-example |
-| Docs | `/docs.html` | Summary + link-out to phlix-docs |
-| Hub | `/hub.html` | What Phlix Hub does, self-host vs public hub |
-| About | `/about.html` | Philosophy (self-hosted, BSD-3, open contribution), license, contact |
+| Page     | URL              | Purpose                                                                          |
+| -------- | ---------------- | -------------------------------------------------------------------------------- |
+| Home     | `/`              | Hero + pitch + top features + CTAs                                               |
+| Features | `/features.html` | Deep dive on library, SyncPlay, transcoding, auth, Live TV, DLNA, plugins, hub   |
+| Clients  | `/clients.html`  | Roku, Tizen, Windows, Mobile, DLNA — what each looks like, what's stable vs beta |
+| Download | `/download.html` | Install paths (server, hub, each client), system reqs, quickstart commands       |
+| Plugins  | `/plugins.html`  | The plugin model + link to phlix-plugin-example                                  |
+| Docs     | `/docs.html`     | Summary + link-out to phlix-docs                                                 |
+| Hub      | `/hub.html`      | What Phlix Hub does, self-host vs public hub                                     |
+| About    | `/about.html`    | Philosophy (self-hosted, BSD-3, open contribution), license, contact             |
 
 Content lives in `shared/content.json`. Variants render from that JSON at build time (no runtime fetch). Brand tokens (colors, fonts, voice) live in `shared/data/brand-kits.json` and feed each variant's CSS custom properties.
 
 ### Non-goals
+
 - No backend. No PHP. No database. No login. The Phlix product itself has all of that — the site is a brochure.
 - No AI image generation in this iteration. Each variant's `img/PROMPTS.md` records exactly what to feed an image model later. CSS/SVG-only artwork is preferred meanwhile.
 - No CMS. Editing copy means editing `shared/content.json`.
 
 ## 2. Variant matrix
 
-| # | Slug | Brand kit | Primary | Accent | Vibe | Fonts |
-|---|------|-----------|---------|--------|------|-------|
-| 01 | `minimalist-cinema` | Film-Strip X | `#2D9CFF` electric blue | `#00F0FF` neon aqua | Modern, tech-forward | Montserrat / Inter |
-| 02 | `spotlight-projector` | Projector Beam | `#F5C542` gold | `#FFB84D` amber | Cinematic, premium | Cinzel / Lora |
-| 03 | `retro-film-reel` | Film Reel Badge | `#C0392B` retro red | `#1ABC9C` teal | Nostalgic, friendly | Bebas Neue / Open Sans |
-| 04 | `portal-hub` | Portal Ring | `#00E5FF` neon cyan | `#FF00C8` magenta | Futuristic, glassmorphic | Poppins / Inter |
-| 05 | `pixel-tech` | Pixel→Smooth | `#39FF14` neon green | `#9B30FF` electric purple | Cyberpunk, dev-friendly | Orbitron / Inter |
+| #   | Slug                  | Brand kit       | Primary                 | Accent                    | Vibe                     | Fonts                  |
+| --- | --------------------- | --------------- | ----------------------- | ------------------------- | ------------------------ | ---------------------- |
+| 01  | `minimalist-cinema`   | Film-Strip X    | `#2D9CFF` electric blue | `#00F0FF` neon aqua       | Modern, tech-forward     | Montserrat / Inter     |
+| 02  | `spotlight-projector` | Projector Beam  | `#F5C542` gold          | `#FFB84D` amber           | Cinematic, premium       | Cinzel / Lora          |
+| 03  | `retro-film-reel`     | Film Reel Badge | `#C0392B` retro red     | `#1ABC9C` teal            | Nostalgic, friendly      | Bebas Neue / Open Sans |
+| 04  | `portal-hub`          | Portal Ring     | `#00E5FF` neon cyan     | `#FF00C8` magenta         | Futuristic, glassmorphic | Poppins / Inter        |
+| 05  | `pixel-tech`          | Pixel→Smooth    | `#39FF14` neon green    | `#9B30FF` electric purple | Cyberpunk, dev-friendly  | Orbitron / Inter       |
 
 Source of truth for each kit: `phlix-server/docs/brand/brand_identity.md` (do not paraphrase — quote it).
 
@@ -109,9 +110,11 @@ phlix-website/
 ## 5. Repo metadata (GitHub)
 
 **Description** (≤350 chars):
+
 > Marketing site for Phlix — a self-hostable PHP media server with Roku, Tizen, Windows, and Mobile clients. Ships five concurrent design variants from the Phlix brand kits (minimalist cinema, spotlight projector, retro film reel, portal hub, pixel-tech).
 
 **19 topics** (GitHub allows 20; one slot left for future use):
+
 ```
 phlix                      media-server               streaming
 plex-alternative           jellyfin-alternative       emby-alternative
@@ -124,21 +127,22 @@ open-source
 
 ## 6. The agent pipeline
 
-This is the part that runs *after* the skeleton is committed. The pipeline is encoded in `docs/HANDOFF_PROMPT.md`; this section explains its shape.
+This is the part that runs _after_ the skeleton is committed. The pipeline is encoded in `docs/HANDOFF_PROMPT.md`; this section explains its shape.
 
 ### 6.1 Phase B — Build (5 parallel agents, one per variant directory)
 
 **Parallel-by-directory is the central rule of this project.** Each variant lives in its own subtree; no agent ever crosses between them. The five builder agents launch from a single message and each operates exclusively inside its assigned directory:
 
-| Agent slot | Working directory | Brand kit (read-only) |
-|------------|-------------------|-----------------------|
-| Builder #1 | `variants/01-minimalist-cinema/` | `phlix-server/docs/brand/brand_identity.md` § "Concept 1: Minimalist Cinema Icon" |
-| Builder #2 | `variants/02-spotlight-projector/` | § "Concept 2: The Spotlight Projector" |
-| Builder #3 | `variants/03-retro-film-reel/` | § "Concept 3: Retro Film Reel Badge" |
-| Builder #4 | `variants/04-portal-hub/` | § "Concept 4: Portal / Hub Icon" |
-| Builder #5 | `variants/05-pixel-tech/` | § "Concept 5: Pixel-Tech Hybrid" |
+| Agent slot | Working directory                  | Brand kit (read-only)                                                             |
+| ---------- | ---------------------------------- | --------------------------------------------------------------------------------- |
+| Builder #1 | `variants/01-minimalist-cinema/`   | `phlix-server/docs/brand/brand_identity.md` § "Concept 1: Minimalist Cinema Icon" |
+| Builder #2 | `variants/02-spotlight-projector/` | § "Concept 2: The Spotlight Projector"                                            |
+| Builder #3 | `variants/03-retro-film-reel/`     | § "Concept 3: Retro Film Reel Badge"                                              |
+| Builder #4 | `variants/04-portal-hub/`          | § "Concept 4: Portal / Hub Icon"                                                  |
+| Builder #5 | `variants/05-pixel-tech/`          | § "Concept 5: Pixel-Tech Hybrid"                                                  |
 
 **Hard isolation rules:**
+
 - A builder MAY read anything under `shared/`, `phlix-server/docs/brand/`, and its own `variants/<NN>-*/` directory.
 - A builder MUST NOT read or write any other `variants/<MM>-*/` directory. No copy-pasting between variants — the visual independence of the five outputs is the whole point.
 - A builder MUST NOT modify `shared/content.json`, `shared/data/brand-kits.json`, `tools/`, `docs/`, or `.github/`. Those are driver-level changes routed through the supervising session.
@@ -151,6 +155,7 @@ Each builder:
 3. Writes a brief `variants/<NN>-*/BUILD_LOG.md` describing what it did and any deviations.
 
 **Builder agent contract** (full version in `docs/AGENT_CONTRACTS.md`):
+
 - MUST consume content from `shared/content.json` verbatim — no rewriting marketing copy.
 - MUST use brand tokens from `shared/data/brand-kits.json` — no off-palette colors.
 - MUST include `<meta>` tags from the `meta` block in `content.json` + variant-specific `og:image`.
@@ -162,13 +167,13 @@ Each builder:
 
 The five variant subtrees are independent throughout the entire review/fix pipeline. R1 runs as **five concurrent reviewer/fixer pairs**, each scoped to one directory:
 
-| R1 pair | Source dir (read+write) | Review output dir (write-only) |
-|---------|-------------------------|--------------------------------|
-| Pair #1 | `variants/01-minimalist-cinema/` | `reviews/01-minimalist-cinema/` |
+| R1 pair | Source dir (read+write)            | Review output dir (write-only)    |
+| ------- | ---------------------------------- | --------------------------------- |
+| Pair #1 | `variants/01-minimalist-cinema/`   | `reviews/01-minimalist-cinema/`   |
 | Pair #2 | `variants/02-spotlight-projector/` | `reviews/02-spotlight-projector/` |
-| Pair #3 | `variants/03-retro-film-reel/` | `reviews/03-retro-film-reel/` |
-| Pair #4 | `variants/04-portal-hub/` | `reviews/04-portal-hub/` |
-| Pair #5 | `variants/05-pixel-tech/` | `reviews/05-pixel-tech/` |
+| Pair #3 | `variants/03-retro-film-reel/`     | `reviews/03-retro-film-reel/`     |
+| Pair #4 | `variants/04-portal-hub/`          | `reviews/04-portal-hub/`          |
+| Pair #5 | `variants/05-pixel-tech/`          | `reviews/05-pixel-tech/`          |
 
 Within a pair the work is sequential (reviewer, then fixer, then reviewer again — they share state through the review file). Across pairs everything is parallel — five independent loops, five independent directory pairs, zero cross-talk.
 
@@ -197,20 +202,21 @@ Total parallel agents in this phase: 5 directories × 10 dimensions = up to 50 s
 
 Reviewer batch per variant directory:
 
-| Reviewer | Output file | Rubric (full in `docs/REVIEW_RUBRICS.md`) |
-|----------|-------------|--------------------------------------------|
-| Accessibility | `accessibility.md` | WCAG 2.2 AA: contrast, focus, alt text, ARIA, keyboard, motion, form labels |
-| Usability | `usability.md` | Nielsen heuristics, IA clarity, error prevention, recognition over recall |
-| Responsive | `responsive.md` | 320/375/414/768/1024/1280/1920 viewport probes, touch targets ≥44 px |
-| Performance | `performance.md` | Lighthouse perf ≥90, LCP <2.5s, CLS <0.1, INP <200ms, asset budgets |
-| Localization | `localization.md` | i18n readiness: hard-coded strings, lang attr, date/number formats, RTL, font subsetting |
-| CTA / Funnel | `cta-funnel.md` | Visibility of primary CTA, secondary path, friction count, conversion logic |
-| Content Quality | `content-quality.md` | Tone match to brand voice, clarity, jargon audit, claims accuracy vs phlix-server reality |
-| Social Metadata | `social-metadata.md` | OG, Twitter card, JSON-LD, favicon set, og:image render-test, share previews |
-| SEO | `seo.md` | Title/meta lengths, headings, semantic HTML, schema.org, sitemap.xml, robots.txt, canonical |
-| Branding Consistency | `branding-consistency.md` | Adherence to brand_identity.md kit: colors, fonts, voice, do/don't list |
+| Reviewer             | Output file               | Rubric (full in `docs/REVIEW_RUBRICS.md`)                                                   |
+| -------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
+| Accessibility        | `accessibility.md`        | WCAG 2.2 AA: contrast, focus, alt text, ARIA, keyboard, motion, form labels                 |
+| Usability            | `usability.md`            | Nielsen heuristics, IA clarity, error prevention, recognition over recall                   |
+| Responsive           | `responsive.md`           | 320/375/414/768/1024/1280/1920 viewport probes, touch targets ≥44 px                        |
+| Performance          | `performance.md`          | Lighthouse perf ≥90, LCP <2.5s, CLS <0.1, INP <200ms, asset budgets                         |
+| Localization         | `localization.md`         | i18n readiness: hard-coded strings, lang attr, date/number formats, RTL, font subsetting    |
+| CTA / Funnel         | `cta-funnel.md`           | Visibility of primary CTA, secondary path, friction count, conversion logic                 |
+| Content Quality      | `content-quality.md`      | Tone match to brand voice, clarity, jargon audit, claims accuracy vs phlix-server reality   |
+| Social Metadata      | `social-metadata.md`      | OG, Twitter card, JSON-LD, favicon set, og:image render-test, share previews                |
+| SEO                  | `seo.md`                  | Title/meta lengths, headings, semantic HTML, schema.org, sitemap.xml, robots.txt, canonical |
+| Branding Consistency | `branding-consistency.md` | Adherence to brand_identity.md kit: colors, fonts, voice, do/don't list                     |
 
 Every output uses the rubric template in `docs/REVIEW_RUBRICS.md`:
+
 - ✅ Passed items
 - ⚠️ Concerns (non-blocking)
 - ❌ Failures (must fix)
@@ -220,6 +226,7 @@ Every output uses the rubric template in `docs/REVIEW_RUBRICS.md`:
 ### 6.5 Phase C — Collate + plan improvements
 
 After all R3 outputs land, one **collator agent** per variant reads every `reviews/<NN>-*/<dimension>.md` and emits `reviews/<NN>-*/ROUND-<N>-SUMMARY.md` containing:
+
 - Aggregate score (weighted average across dimensions; weights in `docs/REVIEW_RUBRICS.md`)
 - Top-10 ranked issues across all dimensions
 - A **concrete improvement plan**: numbered, with file paths, acceptance criteria, estimated lines-of-change
@@ -229,6 +236,7 @@ After all R3 outputs land, one **collator agent** per variant reads every `revie
 One improvement agent per variant directory, all five launched simultaneously. Each consumes its own `reviews/<NN>-*/ROUND-<N>-SUMMARY.md`, applies fixes only within its `variants/<NN>-*/` subtree, and appends to its `BUILD_LOG.md`. Cross-variant fixes (a shared bug surfacing identically in all five) route through the driver, not through an improvement agent.
 
 Then **return to Phase R3** for the next round. Loop until either:
+
 - Aggregate score ≥ 90 across all 10 dimensions AND zero ❌ items, **or**
 - Round number ≥ 5 (cap — escalate to human review)
 

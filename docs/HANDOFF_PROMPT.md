@@ -18,6 +18,7 @@ Read these four files in order. Do not skip. Do not skim past the agent contract
 4. `shared/content.json` and `shared/data/brand-kits.json` — the data every variant must consume
 
 Also skim these from the sibling Phlix repos (read-only):
+
 - `/home/sites/phlix/phlix-server/docs/brand/brand_identity.md`
 - `/home/sites/phlix/phlix-server/docs/brand/logo_concepts.md`
 - `/home/sites/phlix/phlix-server/docs/brand/dash_ui_prompts.md`
@@ -38,13 +39,13 @@ Then `npm install` and verify `npm run build`, `npm run dev:01`, and `npm run li
 
 The central rule of this project is **five concurrent workstreams, one per variant directory, zero cross-talk**. Launch all five builders in a **single message** containing five parallel `Agent` calls, each scoped to one directory:
 
-| Builder | Working dir (read+write) | Brand kit § |
-|---------|--------------------------|-------------|
-| #1 | `variants/01-minimalist-cinema/` | Concept 1 — Minimalist Cinema Icon |
-| #2 | `variants/02-spotlight-projector/` | Concept 2 — The Spotlight Projector |
-| #3 | `variants/03-retro-film-reel/` | Concept 3 — Retro Film Reel Badge |
-| #4 | `variants/04-portal-hub/` | Concept 4 — Portal / Hub Icon |
-| #5 | `variants/05-pixel-tech/` | Concept 5 — Pixel-Tech Hybrid |
+| Builder | Working dir (read+write)           | Brand kit §                         |
+| ------- | ---------------------------------- | ----------------------------------- |
+| #1      | `variants/01-minimalist-cinema/`   | Concept 1 — Minimalist Cinema Icon  |
+| #2      | `variants/02-spotlight-projector/` | Concept 2 — The Spotlight Projector |
+| #3      | `variants/03-retro-film-reel/`     | Concept 3 — Retro Film Reel Badge   |
+| #4      | `variants/04-portal-hub/`          | Concept 4 — Portal / Hub Icon       |
+| #5      | `variants/05-pixel-tech/`          | Concept 5 — Pixel-Tech Hybrid       |
 
 Each builder MUST be told (and the prompt MUST enforce): "You may only touch your assigned `variants/NN-*/` directory. You may not read any sibling `variants/MM-*/`. No copy-pasting CSS or HTML from another variant — visual independence between the five is the whole point."
 
@@ -107,6 +108,7 @@ Spawn five improvement agents in a single message, each scoped to one `variants/
 Then **go back to Phase R3** for round N+1.
 
 **Loop exit condition** (per variant):
+
 - Aggregate score ≥90 AND zero ❌ across all 10 dimensions, OR
 - Round ≥5 — write `reviews/<NN>-*/STUCK.md` and continue with the next variant. Surface the STUCK file to the user at the end.
 
