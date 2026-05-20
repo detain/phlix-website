@@ -8,13 +8,13 @@ The marketing / landing site for **[Phlix](https://github.com/detain/phlix-serve
 
 This repo ships **five concurrent design variants**, one per brand-identity concept in `phlix-server/docs/brand/`. Each variant lives in its own subtree under `variants/` and consumes the same shared content from `shared/content.json`, so they differ in visual language only.
 
-| # | Variant | Brand kit | Vibe |
-|---|---------|-----------|------|
-| 01 | [`minimalist-cinema`](variants/01-minimalist-cinema/) | Film-Strip X | Modern, tech-forward, electric blue + charcoal |
-| 02 | [`spotlight-projector`](variants/02-spotlight-projector/) | Projector Beam | Cinematic, premium, gold + black |
-| 03 | [`retro-film-reel`](variants/03-retro-film-reel/) | Film Reel Badge | Nostalgic, friendly, red + cream + teal |
-| 04 | [`portal-hub`](variants/04-portal-hub/) | Portal Ring | Futuristic, glassmorphic, neon cyan + magenta |
-| 05 | [`pixel-tech`](variants/05-pixel-tech/) | Pixel→Smooth | Cyberpunk, developer-energy, neon green + black |
+| # | Variant | Brand kit | Vibe | Live Preview |
+|---|---------|-----------|------|-------------|
+| 01 | [`minimalist-cinema`](variants/01-minimalist-cinema/) | Film-Strip X | Modern, tech-forward, electric blue + charcoal | https://detain.github.io/phlix-website/01-minimalist-cinema/ |
+| 02 | [`spotlight-projector`](variants/02-spotlight-projector/) | Projector Beam | Cinematic, premium, gold + black | https://detain.github.io/phlix-website/02-spotlight-projector/ |
+| 03 | [`retro-film-reel`](variants/03-retro-film-reel/) | Film Reel Badge | Nostalgic, friendly, red + cream + teal | https://detain.github.io/phlix-website/03-retro-film-reel/ |
+| 04 | [`portal-hub`](variants/04-portal-hub/) | Portal Ring | Futuristic, glassmorphic, neon cyan + magenta | https://detain.github.io/phlix-website/04-portal-hub/ |
+| 05 | [`pixel-tech`](variants/05-pixel-tech/) | Pixel→Smooth | Cyberpunk, developer-energy, neon green + black | https://detain.github.io/phlix-website/05-pixel-tech/ |
 
 ## Quick start
 
