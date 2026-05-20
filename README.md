@@ -60,7 +60,7 @@ phlix-website/
 ## Brand source of truth
 
 Brand kits, taglines, and prompt language live in
-[`phlix-server/docs/brand/`](https://github.com/detain/phlix-server/tree/main/docs/brand):
+[`phlix-server/docs/brand/`](https://github.com/detain/phlix-server/tree/master/docs/brand):
 `brand_identity.md`, `logo_concepts.md`, `dash_ui_prompts.md`, `svg_prompts.md`.
 Variants must consume those — do not invent new colors, fonts, or voice.
 

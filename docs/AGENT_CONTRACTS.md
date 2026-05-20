@@ -9,6 +9,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 **Goal**: Implement one website variant end-to-end.
 
 **Inputs**:
+
 - `phlix-server/docs/brand/brand_identity.md` (read only the assigned concept's section)
 - `phlix-server/docs/brand/logo_concepts.md` (assigned concept)
 - `phlix-server/docs/brand/dash_ui_prompts.md` (assigned concept)
@@ -17,6 +18,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 - `shared/data/brand-kits.json` (its variant entry)
 
 **Outputs** under `variants/<NN>-<slug>/`:
+
 - `index.html`, `features.html`, `clients.html`, `download.html`, `plugins.html`, `docs.html`, `hub.html`, `about.html`
 - `css/{base.css, theme.css, components.css}`
 - `js/main.js`
@@ -25,6 +27,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 - `BUILD_LOG.md` (chronological, ≤100 lines)
 
 **MUST**:
+
 - Render every page from `shared/content.json` — do not paraphrase marketing copy.
 - Use brand tokens from `shared/data/brand-kits.json` exclusively for colors and fonts.
 - Include `<html lang="en">`, a skip-link, visible focus styles, `prefers-reduced-motion` media query.
@@ -35,6 +38,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 - Score Lighthouse Performance + Accessibility + Best Practices ≥90 each, locally, on `index.html`.
 
 **MUST NOT**:
+
 - Add a framework (React, Vue, Svelte, Alpine, jQuery, etc.).
 - Add a bundler (Vite, Webpack, Parcel, esbuild config).
 - Pull fonts or scripts from a third-party CDN at runtime. Self-host or inline.
@@ -54,10 +58,11 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 **Output**: `reviews/<NN>-<slug>/code-review.md` following the rubric template (`REVIEW_RUBRICS.md`).
 
 **MUST flag** any of the following as ❌:
+
 - Color or font outside the assigned brand kit
 - Missing meta tag from the required head set
 - HTML/CSS/JS lint error
-- Missing alt text, label, or aria-* on any interactive element
+- Missing alt text, label, or aria-\* on any interactive element
 - Horizontal scroll at any tested viewport
 - Hard-coded copy that doesn't exist in `content.json`
 - Use of a banned dependency (frameworks, bundlers, runtime CDN)
@@ -73,15 +78,18 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 **Inputs**: the variant's source + the most recent `<dimension>.md` review file.
 
 **Outputs**:
+
 - Edits to variant files
 - Append a dated entry to `BUILD_LOG.md` listing each ❌ resolved and how
 
 **MUST**:
+
 - Address every ❌ before exiting.
 - Re-run linters and confirm green.
 - Not silently drop any ❌ — if one is infeasible, escalate via `BUILD_LOG.md` "BLOCKED" entry.
 
 **MUST NOT**:
+
 - Touch other variants.
 - Rewrite `shared/content.json` (changes there must be coordinated separately).
 
@@ -94,6 +102,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 **Goal**: Functional + UX QA pass on a variant.
 
 **Checklist** (output as a table in `reviews/<NN>-<slug>/tester.md`, pass/fail per row):
+
 - All 8 pages render
 - Nav links go to the right page
 - Footer links resolve (no 404, including external)
@@ -117,6 +126,7 @@ Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the co
 **Inputs**: `VARIANT.md`, `BUILD_LOG.md`, `img/PROMPTS.md`, root `README.md`.
 
 **Output**: `reviews/<NN>-<slug>/documenter.md` — pass/fail per:
+
 - `VARIANT.md` describes what's distinctive in ≤200 lines, no dead links
 - `BUILD_LOG.md` shows each implementation phase / fix round
 - `img/PROMPTS.md` has one entry per image asset with resolution, aspect, full prompt
@@ -154,6 +164,7 @@ Each reviewer writes one file under `reviews/<NN>-<slug>/<dimension>.md`. They f
 **Inputs**: every file in `reviews/<NN>-<slug>/` for this round.
 
 **Output**: `reviews/<NN>-<slug>/ROUND-<N>-SUMMARY.md` with:
+
 - Aggregate weighted score (weights in `REVIEW_RUBRICS.md`)
 - Top-10 ranked issues across all dimensions
 - Improvement plan — numbered tasks, each with: file path, what to change, acceptance criterion, est. lines
@@ -175,6 +186,7 @@ Identical interface to **Fixer**, but reads the round summary's improvement plan
 **Inputs**: all `ROUND-*-SUMMARY.md` files across all variants.
 
 **Output**: `reviews/COMPARISON.md` containing:
+
 - Strengths and weaknesses per variant
 - Likely audience fit per variant
 - Recommended primary variant (with reasoning)
