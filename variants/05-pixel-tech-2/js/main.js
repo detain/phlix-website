@@ -15,32 +15,57 @@
 
     if (!toggle || !menu) return;
 
+    // Focus trap for mobile nav
+    function trapFocus(e) {
+      if (!menu.classList.contains('is-open')) return;
+
+      const focusableElements = menu.querySelectorAll(
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+
     toggle.addEventListener('click', function () {
       const isOpen = menu.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen.toString());
 
-      // Prevent body scroll when menu is open
       document.body.style.overflow = isOpen ? 'hidden' : '';
 
-      // Add visual feedback
       if (isOpen) {
         menu.style.boxShadow = 'inset 0 0 100px rgba(0, 255, 65, 0.1)';
+        const focusableElements = menu.querySelectorAll(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length) {
+          focusableElements[0].focus();
+        }
       } else {
         menu.style.boxShadow = 'none';
       }
     });
 
-    // Close menu on escape
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) {
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
         toggle.focus();
+      } else if (e.key === 'Tab') {
+        trapFocus(e);
       }
     });
 
-    // Close menu when clicking a link
     menu.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         menu.classList.remove('is-open');
