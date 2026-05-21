@@ -1,76 +1,76 @@
 /*!
  * base.css — Reset, box-sizing, root variables, skip-link, focus, reduced-motion
  * Variant: 01-minimalist-cinema-2
- * Bold Typography Edition: Magazine editorial feel, large headlines, cinema red accents
+ * Bold Typography Edition: Magazine editorial feel, large headlines, blue accents
  */
 
-/* ─── Font imports (self-hosted) ─────────────────────────────────────────── */
+/* ─── Font imports (self-hosted) — from brand kit ─────────────────────────── */
 
-/* Cormorant Garamond for display headlines */
-
-/* Karla for body text */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('../fonts/cormorant-garamond-700.woff2') format('woff2');
-  font-weight: 700;
+  font-family: Montserrat;
   font-style: normal;
+  font-weight: 800;
   font-display: swap;
+  src: url('../fonts/montserrat-extrabold.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('../fonts/cormorant-garamond-600.woff2') format('woff2');
-  font-weight: 600;
+  font-family: Inter;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Karla;
-  src: url('../fonts/karla-400.woff2') format('woff2');
   font-weight: 400;
-  font-style: normal;
   font-display: swap;
+  src: url('../fonts/inter-regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: Karla;
-  src: url('../fonts/karla-500.woff2') format('woff2');
+  font-family: Inter;
+  font-style: normal;
   font-weight: 500;
-  font-style: normal;
   font-display: swap;
+  src: url('../fonts/inter-medium.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: Karla;
-  src: url('../fonts/karla-700.woff2') format('woff2');
-  font-weight: 700;
+  font-family: Roboto;
   font-style: normal;
+  font-weight: 500;
   font-display: swap;
+  src: url('../fonts/roboto-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-regular.woff2') format('woff2');
 }
 
 :root {
   /* Brand colors from brand-kits.json - Minimalist Cinema V2 */
-  --color-deep-navy: #1a1a2e;
-  --color-off-white: #f5f5f5;
-  --color-cinema-red: #e63946;
-  --color-text: #2b2d42;
-  --color-muted: #8d99ae;
+  --color-electric-blue: #2d9cff;
+  --color-charcoal: #1a1a1a;
+  --color-white: #fff;
+  --color-slate-gray: #2e2e2e;
+  --color-soft-blue: #a7d8ff;
+  --color-neon-aqua: #00f0ff;
 
-  /* Semantic aliases */
-  --color-primary: var(--color-deep-navy);
-  --color-background: var(--color-off-white);
-  --color-surface: var(--color-off-white);
-  --color-accent: var(--color-cinema-red);
-  --color-link: var(--color-cinema-red);
-  --color-link-hover: var(--color-deep-navy);
-  --color-text-heading: var(--color-deep-navy);
+  /* Semantic aliases - Bold Typography keeps single column */
+  --color-primary: var(--color-charcoal);
+  --color-background: var(--color-white);
+  --color-surface: var(--color-white);
+  --color-accent: var(--color-electric-blue);
+  --color-link: var(--color-electric-blue);
+  --color-link-hover: var(--color-charcoal);
+  --color-text-heading: var(--color-charcoal);
+  --color-text: var(--color-charcoal);
+  --color-text-muted: #555;
 
-  /* Typography scale - Bold Typography Edition */
-  --font-headline: 'Cormorant Garamond', georgia, serif;
-  --font-body: 'Karla', system-ui, sans-serif;
-  --font-ui: 'Karla', system-ui, sans-serif;
-  --font-code: 'Courier New', monospace;
+  /* Typography scale - Bold Typography Edition with brand kit fonts */
+  --font-headline: 'Montserrat', 'Arial Black', sans-serif;
+  --font-body: 'Inter', 'Arial', sans-serif;
+  --font-ui: 'Roboto', 'Arial', sans-serif;
+  --font-code: 'JetBrains Mono', 'Courier New', monospace;
 
   /* Spacing - More breathable */
   --space-xs: 0.25rem;
@@ -90,9 +90,9 @@
   --radius-full: 9999px;
 
   /* Shadows - subtle, minimal */
-  --shadow-sm: 0 1px 2px rgb(26, 26, 46, 0.06);
-  --shadow-md: 0 4px 12px rgb(26, 26, 46, 0.08);
-  --shadow-lg: 0 8px 24px rgb(26, 26, 46, 0.1);
+  --shadow-sm: 0 1px 2px rgb(26, 26, 26, 0.06);
+  --shadow-md: 0 4px 12px rgb(26, 26, 26, 0.08);
+  --shadow-lg: 0 8px 24px rgb(26, 26, 26, 0.1);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -179,8 +179,8 @@ a:hover {
   left: 50%;
   transform: translateX(-50%);
   padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-deep-navy);
-  color: var(--color-off-white);
+  background-color: var(--color-electric-blue);
+  color: var(--color-white);
   font-family: var(--font-ui);
   font-size: 0.875rem;
   border-radius: var(--radius-md);
@@ -190,20 +190,20 @@ a:hover {
 
 .skip-link:focus {
   top: var(--space-md);
-  outline: 2px solid var(--color-cinema-red);
+  outline: 2px solid var(--color-neon-aqua);
   outline-offset: 2px;
 }
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid var(--color-cinema-red);
+  outline: 2px solid var(--color-electric-blue);
   outline-offset: 2px;
 }
 
 /* Selection */
 ::selection {
-  background-color: var(--color-deep-navy);
-  color: var(--color-off-white);
+  background-color: var(--color-charcoal);
+  color: var(--color-white);
 }
 
 /* Reduced motion */
