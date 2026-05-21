@@ -15,24 +15,58 @@
 
     if (!toggle || !navList) return;
 
+    let focusTrapEnabled = false;
+
+    function enableFocusTrap() {
+      focusTrapEnabled = true;
+    }
+
+    function disableFocusTrap() {
+      focusTrapEnabled = false;
+    }
+
     toggle.addEventListener('click', function () {
       const isOpen = navList.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen);
+      if (isOpen) {
+        enableFocusTrap();
+        navList.querySelector('.main-nav__link').focus();
+      } else {
+        disableFocusTrap();
+      }
     });
 
-    // Close menu when clicking a link
+    navList.addEventListener('keydown', function (e) {
+      if (!focusTrapEnabled) return;
+
+      if (e.key === 'Tab') {
+        const focusableLinks = navList.querySelectorAll('.main-nav__link');
+        const firstLink = focusableLinks[0];
+        const lastLink = focusableLinks[focusableLinks.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstLink) {
+          e.preventDefault();
+          lastLink.focus();
+        } else if (!e.shiftKey && document.activeElement === lastLink) {
+          e.preventDefault();
+          firstLink.focus();
+        }
+      }
+    });
+
     navList.querySelectorAll('.main-nav__link').forEach(function (link) {
       link.addEventListener('click', function () {
         navList.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
+        disableFocusTrap();
       });
     });
 
-    // Close menu on escape key
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navList.classList.contains('is-open')) {
         navList.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
+        disableFocusTrap();
         toggle.focus();
       }
     });
