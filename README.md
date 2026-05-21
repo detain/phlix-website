@@ -95,6 +95,34 @@ All 25 variants scored on 10 dimensions: Accessibility, Branding, Content Qualit
 - Mobile nav focus trap added to 05-pixel-tech-5
 - og:site_name added to 9 index files, twitter:creator to all 25
 
+## Tooling notes
+
+### Stylelint v17 / `stylelint-config-standard` v40
+
+The dev stack pins `stylelint@^17`, `stylelint-config-standard@^40`,
+and `stylelint-config-recommended@^18`. **Do not** mix these majors —
+v17 of stylelint requires the v40 / v18 configs; pairing v17 with the
+older v3x configs surfaces a peer-dep conflict at `npm install` time
+and `npm` will refuse to resolve. If you need to bump stylelint,
+bump all three packages together.
+
+### eslint config
+
+`eslint.config.js` (flat config; `js.configs.recommended` +
+`globals.browser`) runs zero-warning on every variant in `variants/`.
+Unused parameters are silenced via the standard
+`argsIgnorePattern: '^_'` convention — prefix any deliberately-unused
+parameter with `_` rather than disabling the rule inline.
+
+### Node 24
+
+`engines.node` is `>=24`. The CI workflows use Node-24-native action
+majors (`actions/checkout@v6`, `actions/setup-node@v6`) — the older
+`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` env shim is no longer needed and
+has been removed. See
+[`phlix-docs / dev / contributing`](https://detain.github.io/phlix-docs/dev/contributing#ci-github-actions-policy)
+for the cross-repo action-version policy.
+
 ## License
 
 BSD-3-Clause. See [LICENSE](LICENSE).

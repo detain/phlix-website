@@ -1,112 +1,126 @@
-# Wave 1 Review — 03-retro-film-reel-1
+# Wave 1 Review — 03-retro-film-reel-1 (Classic Diner)
 
-## Overview
-- **Wave:** 1 of 5 (Classic Diner variation)
-- **Review Date:** 2026-05-21
-- **Reviewer:** Brand Variant Coordinator
-- **Build Status:** Passing
-- **Lint Status:** Passing
+## Overall Assessment
 
-## Brand Kit Reference
-```json
-{
-  "name": "Retro Film Reel V1 — Classic Diner",
-  "personality": ["Nostalgic", "Fun", "Friendly", "Americana", "Vintage cinema vibe"],
-  "colors": {
-    "primary": { "retro_red": "#C0392B", "cream": "#F5E9D4", "teal": "#1ABC9C", "black_outline": "#111111" },
-    "secondary": { "mustard": "#D4A017", "soft_brown": "#8C5E3C" },
-    "accent": { "mint": "#A3E4D7" }
-  },
-  "fonts": { "headline": "Bebas Neue", "body": "Open Sans", "ui": "Nunito", "code": "Cousine" },
-  "tagline_primary": "Home Theater, Upgraded.",
-  "header_motif": "Neon sign flicker"
-}
-```
+**Build Status:** PASS
+**Lint Status:** PASS  
+**Review Date:** 2026-05-21
 
-## Dimension Scores
+## Dimensions Evaluated
 
-| Dimension | Score | Pass/Fail | Notes |
-|-----------|-------|-----------|-------|
-| Accessibility | 85/100 | PASS | Color contrast issues exist but mostly pass |
-| Branding | 95/100 | PASS | Correct retro diner aesthetic with neon effects |
-| Content Quality | 100/100 | PASS | All content matches shared/content.json |
-| CTA Funnel | 75/100 | PASS | Has primary CTA, could use mid-page capture |
-| Mobile Nav | 80/100 | PASS | Works but hamburger state indicator could be improved |
-| Responsive | 85/100 | PASS | 768px breakpoint exists, 480px could be enhanced |
-| SEO | 80/100 | PASS | Meta tags present, could add sitemap.xml |
-| Social Metadata | 100/100 | PASS | All og: and twitter: tags correct |
-| Usability | 85/100 | PASS | Good UX, minor improvements possible |
-| Performance | 85/100 | PASS | Self-hosted fonts, good loading |
+| Dimension | Score | Status |
+|-----------|-------|--------|
+| Accessibility | 42/100 | FAIL |
+| Branding Consistency | 95/100 | PASS |
+| Content Quality | 100/100 | PASS |
+| CTA Funnel | 55/100 | FAIL |
+| Mobile Nav | 72/100 | MARGINAL |
+| Responsive | 70/100 | MARGINAL |
+| SEO | 0/100 | FAIL |
+| Social Metadata | 100/100 | PASS |
+| Usability | 72/100 | MARGINAL |
+| Performance | 40/100 | FAIL |
 
-## Visual Review
+**Overall Score:** 65/100 (below 90 threshold)
 
-### Layout (PASS)
-- Hero section renders correctly with halftone texture overlay
-- Pitch section with dark background provides good contrast
-- Feature cards display in responsive grid
-- Footer has proper dark theme with retro styling
+---
 
-### Typography (PASS)
-- Headlines use Bebas Neue correctly
-- Body text uses Open Sans
-- UI elements use Nunito
-- No Google Fonts CDN violations (self-hosted WOFF2)
+## Critical Issues
 
-### Colors (PASS with minor issues)
-- Primary retro_red (#C0392B) used correctly on buttons and accents
-- Cream (#F5E9D4) background consistent throughout
-- Teal (#1ABC9C) used for eyebrow but contrast on cream = 3.2:1 (borderline)
-- Mint (#A3E4D7) used for accents with good contrast
+### 1. SEO Infrastructure Missing (0/100) — CRITICAL
+- No `sitemap.xml` at site root
+- No `robots.txt` at site root
+- Must be addressed before launch
 
-### Branding Elements (PASS)
-- Neon flicker animation on logo text
-- Halftone texture overlay on hero (subtle diner feel)
-- Bold black outlines with offset shadows (retro comic style)
-- Red/cream chrome color scheme
-- Header motif "neon sign flicker" properly implemented
+### 2. Performance: @font-face Declarations (40/100) — HIGH
+- Font WOFF2 files exist at `css/fonts/*.woff2`
+- `@font-face` rules defined in `index.html` `<style>` block (lines 44-85)
+- This is non-standard; should be in `base.css` or a fonts.css file
+- Dev server shows render error: `Cannot read properties of undefined (reading 'index_title')`
 
-### Mobile Responsiveness (PASS)
-- Menu toggle visible at ≤768px
-- Navigation collapses to hamburger menu
-- Grid layouts adapt to single column on mobile
-- Typography scales with clamp()
+### 3. Accessibility Color Contrast Failures — CRITICAL
+| Element | Colors | Ratio | Required | Status |
+|---------|-------|-------|----------|--------|
+| Hero eyebrow | `#1ABC9C` teal on `#F5E9D4` cream | 1.85:1 | 3:1 | FAIL |
+| Footer headings | `#D4A017` mustard on `#111` black | 4.05:1 | 4.5:1 | FAIL |
+| Feature card body | `#8C5E3C` soft-brown on `#F5E9D4` cream | 3.76:1 | 4.5:1 | FAIL |
+| Focus indicator | `#1ABC9C` teal | 1.85:1 | 3:1 | FAIL |
 
-### JavaScript (PASS)
-- Mobile menu toggle works correctly
-- ARIA attributes properly set
-- Smooth scroll for anchor links
-- prefers-reduced-motion respected
+### 4. Mobile Navigation Issues — MEDIUM
+- Hamburger icon has no visual state change when menu opens (no X transformation)
+- 480px breakpoint missing (only 768px exists)
 
-### Accessibility (PASS)
-- Skip link present
-- Proper ARIA landmarks
-- Focus indicators visible
-- Heading hierarchy correct
+---
 
-## Issues Found
+## Brand Consistency Review
 
-### Minor Issues (non-blocking)
-1. **Mobile menu X indicator** — When menu is open, hamburger doesn't transform to X
-2. **480px breakpoint** — Could use specific adjustments for large phones
-3. **Dead FAQ code** — initFaqAccordion() exists but no FAQ content in HTML
-4. **No sitemap.xml** — SEO best practice not implemented
+### Colors (per brand-kits.json)
+| Token | Expected | Actual | Status |
+|-------|----------|--------|--------|
+| `--color-retro-red` | `#C0392B` | `#c0392b` | PASS |
+| `--color-cream` | `#F5E9D4` | `#f5e9d4` | PASS |
+| `--color-teal` | `#1ABC9C` | `#1abc9c` | PASS |
+| `--color-black-outline` | `#111111` | `#111` | PASS |
+| `--color-mustard` | `#D4A017` | `#d4a017` | PASS |
+| `--color-soft-brown` | `#8C5E3C` | `#8c5e3c` | PASS |
+| `--color-mint` | `#A3E4D7` | `#a3e4d7` | PASS |
 
-### Strengths
-1. Self-hosted fonts (no CDN dependency)
-2. Proper semantic HTML structure
-3. Good ARIA implementation
-4. Consistent retro diner aesthetic
-5. prefers-reduced-motion fully supported
+### Fonts (per brand-kits.json)
+| Token | Expected | Actual | Status |
+|-------|----------|--------|--------|
+| Headline | Bebas Neue | `var(--font-headline)` → 'Bebas Neue' | PASS |
+| Body | Open Sans | `var(--font-body)` → 'Open Sans' | PASS |
+| UI | Nunito | `var(--font-ui)` → 'Nunito' | PASS |
+| Code | Cousine | `var(--font-code)` → 'Cousine' | PASS |
 
-## Final Assessment
-**Score: 87/100 — PASS**
+### UI Style Execution
+- Neon sign flicker on logo — PASS (CSS animation at line 57-84)
+- Chrome/retro aesthetic — PASS (bold black outlines, offset shadows)
+- Halftone texture overlay on hero — PASS (line 179-186)
+- Red/cream contrast — PASS
 
-The variant is well-implemented with strong branding consistency. The retro diner aesthetic is fully realized. Build and lint pass. No critical issues that block release.
+---
 
-### Fixes Required Before Final
-- None required (minor improvements only)
+## Content Quality
+- All visible text verified against `shared/data/brand-kits.json` tagline: "Home Theater, Upgraded."
+- Hero headline: "Your media. Your library. Your Phlix." — appropriate
+- No placeholder text, TODOs, or Lorem ipsum
+- Meta description: 158 chars (under 160 limit)
 
-### Recommended Improvements (Optional)
-1. Add CSS transform for hamburger-to-X on open state
-2. Add 480px specific breakpoint adjustments
-3. Add sitemap.xml for SEO
+---
+
+## Mobile Responsive Breakpoints
+| Breakpoint | Status |
+|-------------|--------|
+| 768px | Present |
+| 480px | MISSING |
+| Desktop | Working |
+
+---
+
+## JS Quality
+- Vanilla JS, no frameworks
+- Proper `'use strict'` mode
+- Accessible keyboard handling (Escape to close menu)
+- `prefers-reduced-motion` respected
+- No console errors in production build
+
+---
+
+## What Works Well
+1. Semantic HTML structure (`<header>`, `<main>`, `<nav>`, `<footer>`, `<section>`, `<article>`)
+2. Proper ARIA implementation (aria-current, aria-expanded, aria-controls, aria-hidden)
+3. Skip link present
+4. Self-hosted fonts (no CDN)
+5. Social metadata complete (OG + Twitter cards)
+6. Strong retro diner aesthetic with neon effects
+7. Build and lint both pass cleanly
+
+---
+
+## Required Fixes Before Wave 2
+1. Add `sitemap.xml` and `robots.txt` to site root
+2. Move `@font-face` declarations from inline `<style>` to CSS file
+3. Fix all color contrast failures (4 items)
+4. Add hamburger-to-X transformation for mobile menu state
+5. Add 480px responsive breakpoint
