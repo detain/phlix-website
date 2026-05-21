@@ -14,6 +14,9 @@
     navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen.toString());
+      if (isOpen) {
+        navMenu.querySelector('a').focus();
+      }
     });
 
     // Close on outside click
@@ -21,6 +24,23 @@
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Focus trap for mobile nav
+    navMenu.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        const focusableElements = navMenu.querySelectorAll('a, button');
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
       }
     });
 
@@ -51,28 +71,36 @@
   }
 
   // ─── Scroll reveal animations ─────────────────────────────────────────────
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px',
-  };
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
 
-  const revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
+    const revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
 
-  document
-    .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card')
-    .forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      revealObserver.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card')
+      .forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        revealObserver.observe(el);
+      });
+  } else {
+    document
+      .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card')
+      .forEach(function (el) {
+        el.classList.add('revealed');
+      });
+  }
 
   // Add revealed class styles
   const style = document.createElement('style');
@@ -85,6 +113,9 @@
   document.head.appendChild(style);
 
   // ─── Smooth scroll for anchor links ───────────────────────────────────────
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
+
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -93,7 +124,7 @@
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
       }
     });
   });
@@ -127,12 +158,4 @@
 
   // ─── Focus trap for modal-like elements (if any) ──────────────────────────
   // Placeholder for future modal implementation
-
-  // ─── Reduce motion check ─────────────────────────────────────────────────
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (prefersReducedMotion) {
-    // Disable parallax and complex animations
-    document.documentElement.style.setProperty('--transition-base', '0.01ms');
-  }
 })();
