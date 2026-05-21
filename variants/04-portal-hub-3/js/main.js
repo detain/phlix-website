@@ -14,6 +14,12 @@
     navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen.toString());
+      if (isOpen) {
+        const firstLink = navMenu.querySelector('a');
+        if (firstLink) {
+          firstLink.focus();
+        }
+      }
     });
 
     // Close on outside click
