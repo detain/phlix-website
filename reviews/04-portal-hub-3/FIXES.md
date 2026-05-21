@@ -54,6 +54,57 @@
 
 ---
 
+## Wave 3 Fixes (Current Session)
+
+### 6. Theme-Color Meta Tag Fixed (REVIEW)
+
+**File:** `variants/04-portal-hub-3/index.html`
+
+**Issue:** `theme-color` meta tag used wrong color `#0D1A0D` instead of brand `#0A0F1F`
+
+**Fix:** Changed meta theme-color content from `#0D1A0D` to `#0A0F1F`
+
+### 7. CSS Variable Definitions Added for Button States (ACCESSIBILITY)
+
+**File:** `variants/04-portal-hub-3/css/base.css`
+
+**Issue:** Button hover/active states had invisible text (white-on-white) because `--color-primary` was not defined in `:root`
+
+**Fix:** Added missing CSS variable aliases in `:root`:
+- `--color-primary: var(--color-white)` - used for text on dark backgrounds
+- `--color-text: var(--color-bg-primary)` - used for dark backgrounds when text is light
+
+This fixes:
+- `.btn-primary:hover` now properly uses `--color-text` (dark navy) as background with white text
+- `.skip-link` text color now properly references `--color-primary`
+- `::selection` text color now properly references `--color-primary`
+- `.code-block code` text color now properly references `--color-text`
+
+### 8. Mobile Nav Focus on Open (ACCESSIBILITY)
+
+**File:** `variants/04-portal-hub-3/js/main.js`
+
+**Issue:** Mobile nav didn't move focus to menu when opened
+
+**Fix:** Added `firstLink.focus()` call when nav menu opens (when `isOpen` is true)
+
+### 9. Font Size Readability Fixes (READABILITY)
+
+**File:** `variants/04-portal-hub-3/css/theme.css`
+
+**Issue:** Multiple text elements were below 16px minimum readability standard
+
+**Fix:** Updated font sizes to meet 16px minimum:
+- `.nav-menu a`: 0.85rem → 1rem (13.6px → 16px)
+- `.hero-sub`: clamp(0.9rem, 2vw, 1.1rem) → clamp(1rem, 2vw, 1.1rem) (14.4px → 16px min)
+- `.pitch-bullets li`: 0.95rem → 1rem (15.2px → 16px)
+- `.feature-card p`: 0.85rem → 1rem (13.6px → 16px)
+- `.footer-col h3`: 0.8rem → 1rem (12.8px → 16px)
+- `.footer-col a`: 0.85rem → 1rem (13.6px → 16px)
+- `.footer-copy`: 0.8rem → 1rem (12.8px → 16px)
+
+---
+
 ## Verification
 
 - Build: Passes after fixes
