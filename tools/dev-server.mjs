@@ -16,7 +16,7 @@
 import http from 'node:http';
 import url from 'node:url';
 import path from 'node:path';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { renderPage } from './render.mjs';
 
 const argv = process.argv.slice(2);
