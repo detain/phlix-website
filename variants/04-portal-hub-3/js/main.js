@@ -32,6 +32,30 @@
         navToggle.focus();
       }
     });
+
+    // Focus trap for mobile nav
+    const navLinks = navMenu.querySelectorAll('a');
+    if (navLinks.length > 0) {
+      navMenu.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        if (!navMenu.classList.contains('is-open')) return;
+
+        const firstLink = navLinks[0];
+        const lastLink = navLinks[navLinks.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstLink) {
+            e.preventDefault();
+            lastLink.focus();
+          }
+        } else {
+          if (document.activeElement === lastLink) {
+            e.preventDefault();
+            firstLink.focus();
+          }
+        }
+      });
+    }
   }
 
   // ─── Scroll reveal animations ─────────────────────────────────────────────
