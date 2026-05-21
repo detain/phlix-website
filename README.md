@@ -68,6 +68,33 @@ Variants must consume those — do not invent new colors, fonts, or voice.
 
 No AI image-generation model is currently wired in. SVG and CSS-only artwork is preferred; placeholder images live in `shared/assets/placeholders/` and should be swapped for real renders later. Each variant's `img/` folder includes a `PROMPTS.md` with the exact SVG/Midjourney/DALL·E prompt that should produce the artwork once a model is available.
 
+## Variant Scores (Wave Review Summary)
+
+All 25 variants scored on 10 dimensions: Accessibility, Branding, Content Quality, CTA Funnel, Localization, Performance, Responsive, SEO, Social Metadata, Usability.
+
+| Variant | Wave 1 (Final) | Wave 2 | Wave 3 | Wave 4 | Wave 5 | Avg |
+|---------|----------------|--------|--------|--------|--------|-----|
+| 01-minimalist-cinema | **80** | 71 | 61 | 79 | 75 | **73.2** |
+| 02-spotlight-projector | **79** | 68 | 72 | **83** | 79 | **76.2** |
+| 03-retro-film-reel | **57** | 78 | FAIL* | 78 | **81** | **73.5** |
+| 04-portal-hub | **78** | 55 | FAIL* | 72 | 76 | **70.3** |
+| 05-pixel-tech | **82** | 62 | FAIL* | 80 | 74 | **74.5** |
+
+\* Wave 3 variants 03, 04, 05 scored qualitative FAIL due to systematic brand aesthetic mismatches.
+
+**Top performers:** 02-spotlight-projector-4 (83), 05-pixel-tech-1 (82), 03-retro-film-reel-5 (81)
+
+**Full comparison:** See [reviews/COMPARISON.md](reviews/COMPARISON.md)
+
+## Phase I Fixes Applied (2026-05-21)
+- Removed Google Fonts CDN from 01-minimalist-cinema-5, 04-portal-hub-4
+- Fixed brand CSS variables (colors/fonts) in 01-minimalist-cinema-5, 04-portal-hub-4
+- og:image: relative → absolute URLs (97 HTML files)
+- sitemap.xml: root → variant-specific URLs (13 files)
+- Muted text contrast fixed for WCAG AA (01-4, 02-4, 02-5, 03-4)
+- Mobile nav focus trap added to 05-pixel-tech-5
+- og:site_name added to 9 index files, twitter:creator to all 25
+
 ## License
 
 BSD-3-Clause. See [LICENSE](LICENSE).
