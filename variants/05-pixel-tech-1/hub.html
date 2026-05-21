@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phlix Hub — Access Anywhere</title>
+  <meta name="description" content="Phlix Hub: reverse-tunnel relay for accessing your self-hosted media server from anywhere. Self-hostable or use the public hub.">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/hub">
+  <meta property="og:title" content="Phlix Hub — Access Anywhere">
+  <meta property="og:description" content="Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public hub.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/hub">
+  <meta property="og:image" content="/img/og.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phlix Hub — Access Anywhere">
+  <meta name="twitter:description" content="Access your media server from anywhere with Phlix Hub.">
+  <meta name="twitter:image" content="/img/og.svg">
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo" aria-label="Phlix home">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 8L4 16L8 24H12L8 16L12 8H8Z" fill="#39FF14"/>
+            <path d="M14 8H18L22 16L18 24H14L18 16L14 8Z" fill="#39FF14" opacity="0.7"/>
+            <path d="M20 8H24L28 16L24 24H20L24 16L20 8Z" fill="#39FF14" opacity="0.4"/>
+          </svg>
+          PHLIX
+        </a>
+        <nav aria-label="Main navigation">
+          <ul class="terminal-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/clients">Clients</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/plugins">Plugins</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/hub" aria-current="page">Hub</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+          ≡
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <button class="mobile-nav-close" aria-label="Close navigation menu">×</button>
+    <ul class="mobile-nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/clients">Clients</a></li>
+      <li><a href="/download">Download</a></li>
+      <li><a href="/plugins">Plugins</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/hub">Hub</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <section class="hero" style="padding-bottom: var(--space-2xl);">
+      <div class="container">
+        <span class="hero-eyebrow">Phlix Hub</span>
+        <h1>Access anywhere. No port forwarding.</h1>
+        <p class="hero-subheadline">Sign in once. Reverse-tunnel relay handles NAT traversal. Use the public hub or self-host it.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="problem-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-label">The Problem</span>
+          <h2 id="problem-heading">NAT is your enemy</h2>
+        </header>
+
+        <div class="terminal-window" style="max-width: 700px; margin: 0 auto;">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">phlix ~ network-diagram</span>
+          </div>
+          <div class="terminal-body">
+            <p><span class="prompt">$ </span>ping home</p>
+            <p class="output">PING home.local (192.168.1.100): 56 data bytes</p>
+            <p class="output">64 bytes from 192.168.1.100: icmp_seq=0 ttl=64 time=2.1 ms</p>
+            <p><span class="prompt">$ </span>ping home --remote</p>
+            <p class="output">ping: cannot resolve host: NAT blocks direct access</p>
+            <p class="output">Solution: use Phlix Hub relay.</p>
+          </div>
+        </div>
+
+        <p style="max-width: 60ch; margin: var(--space-xl) auto 0; text-align: center; font-family: var(--font-ui); color: var(--silver);">
+          Your media server sits behind your router's NAT. Your phone on 4G can't reach it. Neither can your friend at their house. Port forwarding is insecure and a hassle.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="solution-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-label">The Solution</span>
+          <h2 id="solution-heading">Reverse-tunnel relay</h2>
+        </header>
+
+        <div class="terminal-window" style="max-width: 700px; margin: 0 auto;">
+          <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">phlix ~ hub-mode</span>
+          </div>
+          <div class="terminal-body">
+            <p><span class="prompt">$ </span>phlix hub --connect</p>
+            <p class="output">Connecting to hub.phlix.io...</p>
+            <p class="output">Authenticated as user@example.com</p>
+            <p class="output">2 servers registered:</p>
+            <p class="output">  - Home NAS (online)</p>
+            <p class="output">  - Cabin Server (online)</p>
+            <p class="output">Relay ready. Clients can now connect.</p>
+          </div>
+        </div>
+
+        <p style="max-width: 60ch; margin: var(--space-xl) auto 0; text-align: center; font-family: var(--font-ui); color: var(--silver);">
+          Phlix Hub opens an outbound tunnel from your server to a relay. Clients connect to the relay. No inbound ports needed.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="options-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-label">Hosting Options</span>
+          <h2 id="options-heading">Your server, your hub</h2>
+        </header>
+
+        <div class="hub-comparison">
+          <div class="hub-option">
+            <h3>Public Hub</h3>
+            <p>Use hub.phlix.io for free. No setup required. Your credentials stay yours — the relay just forwards traffic.</p>
+            <p style="margin-top: var(--space-md); color: var(--neon-green); font-family: var(--font-code); font-size: 0.875rem;">Free to use</p>
+          </div>
+
+          <div class="hub-option">
+            <h3>Self-Hosted</h3>
+            <p>Run phlix-hub on your own VPS. Full control. You handle authentication and relay infrastructure.</p>
+            <p style="margin-top: var(--space-md); font-family: var(--font-code); font-size: 0.875rem; color: var(--electric-purple);">Full control</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="security-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-label">Security</span>
+          <h2 id="security-heading">Built secure</h2>
+        </header>
+
+        <div class="feature-grid" style="max-width: 800px; margin: 0 auto; grid-template-columns: 1fr 1fr;">
+          <div class="feature-card">
+            <span class="feature-card-icon">[!]</span>
+            <h3>Encrypted tunnels</h3>
+            <p>All relay traffic is encrypted. No plaintext streaming over the tunnel.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card-icon">[#]</span>
+            <h3>User auth</h3>
+            <p>Hub authentication is separate from your media server. OAuth 2.0 + JWT.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card-icon">[~]</span>
+            <h3>No media storage</h3>
+            <p>The relay only forwards binary stream data. Nothing is persisted on the hub.</p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-card-icon">[*]</span>
+            <h3>Self-hostable</h3>
+            <p>Audit the relay code yourself. Run it on infrastructure you control.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="source-heading">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-label">Source</span>
+          <h2 id="source-heading">Open source relay</h2>
+        </header>
+
+        <div class="link-card" style="max-width: 700px; margin: 0 auto;">
+          <h3>phlix-hub on GitHub</h3>
+          <p>Cloud directory + reverse-tunnel relay. MIT licensed. Deploy on any VPS.</p>
+          <span class="link-card-arrow">&rarr;</span>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--space-xl);">
+          <a href="https://github.com/detain/phlix-hub" class="btn btn-primary" rel="noopener noreferrer">View on GitHub</a>
+          <a href="https://detain.github.io/phlix-docs/hub-admin" class="btn btn-secondary" rel="noopener noreferrer">Hub Admin Docs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/clients">Clients</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/plugins">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Developers</h4>
+          <ul>
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-website/blob/master/LICENSE">License (BSD-3)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <p style="font-family: var(--font-ui); font-size: 0.75rem; color: var(--dark-gray);">BSD-3-Clause</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

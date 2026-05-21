@@ -10,11 +10,11 @@ This repo ships **five concurrent design variants**, one per brand-identity conc
 
 | # | Variant | Brand kit | Vibe | Live Preview |
 |---|---------|-----------|------|-------------|
-| 01 | [`minimalist-cinema`](variants/01-minimalist-cinema/) | Film-Strip X | Modern, tech-forward, electric blue + charcoal | https://detain.github.io/phlix-website/01-minimalist-cinema/ |
-| 02 | [`spotlight-projector`](variants/02-spotlight-projector/) | Projector Beam | Cinematic, premium, gold + black | https://detain.github.io/phlix-website/02-spotlight-projector/ |
-| 03 | [`retro-film-reel`](variants/03-retro-film-reel/) | Film Reel Badge | Nostalgic, friendly, red + cream + teal | https://detain.github.io/phlix-website/03-retro-film-reel/ |
-| 04 | [`portal-hub`](variants/04-portal-hub/) | Portal Ring | Futuristic, glassmorphic, neon cyan + magenta | https://detain.github.io/phlix-website/04-portal-hub/ |
-| 05 | [`pixel-tech`](variants/05-pixel-tech/) | Pixel→Smooth | Cyberpunk, developer-energy, neon green + black | https://detain.github.io/phlix-website/05-pixel-tech/ |
+| 01 | [`minimalist-cinema-1`](variants/01-minimalist-cinema-1/) | Minimalist Cinema V1 (Ultra-Minimal) | Ultra-minimal, electric blue, single-column | https://detain.github.io/phlix-website/01-minimalist-cinema-1/ |
+| 02 | [`spotlight-projector-1`](variants/02-spotlight-projector-1/) | Projector Beam | Cinematic, premium, gold + black | https://detain.github.io/phlix-website/02-spotlight-projector-1/ |
+| 03 | [`retro-film-reel-1`](variants/03-retro-film-reel-1/) | Film Reel Badge | Nostalgic, friendly, red + cream + teal — Classic Diner | https://detain.github.io/phlix-website/03-retro-film-reel-1/ |
+| 04 | [`portal-hub-1`](variants/04-portal-hub-1/) | Portal Ring | Futuristic, glassmorphic, neon cyan + magenta | https://detain.github.io/phlix-website/04-portal-hub-1/ |
+| 05 | [`05-pixel-tech-1`](variants/05-pixel-tech-1/) | Pixel→Smooth | Cyberpunk, developer-energy, neon green + black | https://detain.github.io/phlix-website/05-pixel-tech-1/ |
 
 ## Quick start
 

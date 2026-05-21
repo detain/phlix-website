@@ -1,0 +1,222 @@
+/* ============================================================
+   BASE.CSS — Reset, tokens, and foundation
+   Minimalist Cinema V4 — Warm Editorial
+   Magazine-quality, breathable, terracotta accents
+   ============================================================ */
+
+/* --- Font-face declarations (self-hosted) ------------------ */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/lora-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/lora-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/source-sans-3-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/source-sans-3-semibold.ttf') format('truetype');
+}
+
+/* --- Design tokens ----------------------------------------- */
+:root {
+  /* Colors — Warm Editorial */
+  --color-cream: #F7F3EE;
+  --color-warm-black: #2D2926;
+  --color-terracotta: #C4583A;
+  --color-muted: #475569;
+  --color-white: #FDFCFB;
+
+  /* Semantic */
+  --color-bg: var(--color-cream);
+  --color-text: var(--color-warm-black);
+  --color-text-muted: var(--color-muted);
+  --color-cta: var(--color-terracotta);
+  --color-cta-hover: #A84832;
+  --color-border: rgba(45, 41, 38, 0.12);
+  --color-surface: rgba(253, 252, 251, 0.8);
+
+  /* Typography */
+  --font-headline: 'Lora', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-ui: 'Source Sans 3', system-ui, sans-serif;
+
+  /* Spacing scale (8px base) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --space-8: 8rem;
+  --space-9: 12rem;
+
+  /* Layout */
+  --max-width: 68rem;
+  --content-width: 42rem;
+  --gutter: var(--space-4);
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(45, 41, 38, 0.06);
+  --shadow-md: 0 4px 16px rgba(45, 41, 38, 0.08);
+  --shadow-lg: 0 8px 32px rgba(45, 41, 38, 0.10);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* --- Motion preference -------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Reset -------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* --- Accessibility ----------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-2);
+  z-index: 9999;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-terracotta);
+  color: var(--color-white);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+  outline: 2px solid var(--color-warm-black);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Scrollbar --------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warm-black);
+}
+
+/* --- Utilities --------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

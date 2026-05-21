@@ -1,0 +1,230 @@
+/* css/base.css — Reset, box-sizing, root variables, skip-link, focus, reduced motion */
+/* Variant: 04-portal-hub-2 — Glassmorphism Focus */
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Space Grotesk Bold'), local('SpaceGrotesk-Bold'), url('../fonts/space-grotesk-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Space Grotesk SemiBold'), local('SpaceGrotesk-SemiBold'), url('../fonts/space-grotesk-semibold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Space Grotesk Medium'), local('SpaceGrotesk-Medium'), url('../fonts/space-grotesk-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('DM Sans Regular'), local('DMSans-Regular'), url('../fonts/dm-sans-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('DM Sans Medium'), local('DMSans-Medium'), url('../fonts/dm-sans-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('DM Sans Bold'), local('DMSans-Bold'), url('../fonts/dm-sans-bold.woff2') format('woff2');
+}
+
+/* ─── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Root variables ─────────────────────────────────────────────────────────── */
+:root {
+  /* Colors from brand kit 04-portal-hub-2 */
+  --color-deep-navy: #0A1628;
+  --color-ice-blue: #E8F4FD;
+  --color-neon-cyan: #00D4FF;
+  --color-text-primary: #0F1C2E;
+  --color-muted: #5B7A99;
+
+  /* Semantic tokens */
+  --color-bg-primary: var(--color-deep-navy);
+  --color-bg-secondary: #061018;
+  --color-bg-glass: rgba(232, 244, 253, 0.08);
+  --color-bg-glass-hover: rgba(232, 244, 253, 0.12);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-muted);
+  --color-text-inverse: var(--color-ice-blue);
+  --color-accent: var(--color-neon-cyan);
+  --color-accent-dim: rgba(0, 212, 255, 0.15);
+  --color-accent-glow: rgba(0, 212, 255, 0.3);
+
+  /* Typography */
+  --font-headline: 'Space Grotesk', 'Space Grotesk Bold', 'Space Grotesk SemiBold', system-ui, sans-serif;
+  --font-body: 'DM Sans', 'DM Sans Regular', system-ui, sans-serif;
+  --font-ui: 'DM Sans', 'DM Sans Medium', system-ui, sans-serif;
+  --font-code: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition-glass: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.4);
+  --shadow-glow-strong: 0 0 60px rgba(0, 212, 255, 0.6);
+}
+
+/* ─── Skip link ────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-deep-navy);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-ice-blue);
+  outline-offset: 2px;
+}
+
+/* ─── Focus styles ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Base typography ────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text-inverse);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-code);
+}
+
+/* ─── Scrollbar styling ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ice-blue);
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-deep-navy);
+}

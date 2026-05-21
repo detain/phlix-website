@@ -1,0 +1,217 @@
+/*!
+ * base.css — Reset, box-sizing, root variables, skip-link, focus, reduced-motion
+ * Variant: 01-minimalist-cinema-2
+ * Bold Typography Edition: Magazine editorial feel, large headlines, cinema red accents
+ */
+
+/* ─── Font imports (self-hosted) ─────────────────────────────────────────── */
+/* Cormorant Garamond for display headlines */
+/* Karla for body text */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../fonts/cormorant-garamond-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../fonts/cormorant-garamond-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karla';
+  src: url('../fonts/karla-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karla';
+  src: url('../fonts/karla-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karla';
+  src: url('../fonts/karla-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Brand colors from brand-kits.json - Minimalist Cinema V2 */
+  --color-deep-navy: #1A1A2E;
+  --color-off-white: #F5F5F5;
+  --color-cinema-red: #E63946;
+  --color-text: #2B2D42;
+  --color-muted: #8D99AE;
+
+  /* Semantic aliases */
+  --color-primary: var(--color-deep-navy);
+  --color-background: var(--color-off-white);
+  --color-surface: var(--color-off-white);
+  --color-accent: var(--color-cinema-red);
+  --color-link: var(--color-cinema-red);
+  --color-link-hover: var(--color-deep-navy);
+  --color-text-heading: var(--color-deep-navy);
+
+  /* Typography scale - Bold Typography Edition */
+  --font-headline: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Karla', system-ui, sans-serif;
+  --font-ui: 'Karla', system-ui, sans-serif;
+  --font-code: 'Courier New', monospace;
+
+  /* Spacing - More breathable */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-full: 9999px;
+
+  /* Shadows - subtle, minimal */
+  --shadow-sm: 0 1px 2px rgb(26, 26, 46, 0.06);
+  --shadow-md: 0 4px 12px rgb(26, 26, 46, 0.08);
+  --shadow-lg: 0 8px 24px rgb(26, 26, 46, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Layout */
+  --max-width: 1100px;
+  --header-height: 80px;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-deep-navy);
+  color: var(--color-off-white);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  z-index: 10000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-md);
+  outline: 2px solid var(--color-cinema-red);
+  outline-offset: 2px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-cinema-red);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-deep-navy);
+  color: var(--color-off-white);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

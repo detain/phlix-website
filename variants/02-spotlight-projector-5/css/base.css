@@ -1,0 +1,245 @@
+/*!
+ * base.css — Reset, box-sizing, root variables, skip-link, focus, reduced-motion
+ * Variant: 02-spotlight-projector-5
+ * Brand: Copper Luxe — Luxury theater, warm copper/bronze tones, intimate atmosphere
+ * Colors: #0D0D0D (deep black), #F5E6D3 (warm cream), #B87333 (copper),
+ *         #1A1A1A (text), #8B7355 (muted)
+ * Fonts: Cormorant (headlines), Spectral (body) — self-hosted with font-display: swap
+ */
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('../fonts/Cormorant-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('../fonts/Cormorant-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('../fonts/Cormorant-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('../fonts/Cormorant-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spectral';
+  src: url('../fonts/Spectral-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spectral';
+  src: url('../fonts/Spectral-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spectral';
+  src: url('../fonts/Spectral-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spectral';
+  src: url('../fonts/Spectral-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Brand colors — Copper Luxe */
+  --color-deep-black: #0D0D0D;
+  --color-warm-cream: #F5E6D3;
+  --color-copper: #B87333;
+  --color-text: #1A1A1A;
+  --color-muted: #475569;
+
+  /* Semantic aliases */
+  --color-primary: var(--color-copper);
+  --color-background: var(--color-deep-black);
+  --color-surface: rgba(245, 230, 211, 0.03);
+  --color-surface-elevated: rgba(245, 230, 211, 0.06);
+  --color-text-primary: var(--color-warm-cream);
+  --color-text-secondary: var(--color-muted);
+  --color-accent: var(--color-copper);
+  --color-link: var(--color-copper);
+  --color-link-hover: #D4894A;
+
+  /* Typography scale */
+  --font-headline: 'Cormorant', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-ui: 'Spectral', Georgia, serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows — copper glow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.7);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.8);
+  --shadow-copper-glow: 0 2px 20px rgba(184, 115, 51, 0.15);
+  --shadow-copper-glow-hover: 0 4px 30px rgba(184, 115, 51, 0.25);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Layout */
+  --max-width: 1200px;
+  --header-height: 72px;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-copper);
+  color: var(--color-deep-black);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  z-index: 10000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-md);
+  outline: 2px solid var(--color-link-hover);
+  outline-offset: 2px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-copper);
+  color: var(--color-deep-black);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
