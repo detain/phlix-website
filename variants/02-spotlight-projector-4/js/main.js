@@ -58,7 +58,7 @@
         e.preventDefault();
         targetEl.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
         targetEl.setAttribute('tabindex', '-1');
         targetEl.focus({ preventScroll: true });
@@ -119,5 +119,4 @@
       dd.setAttribute('hidden', '');
     }
   });
-
 })();

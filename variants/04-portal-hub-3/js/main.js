@@ -3,7 +3,7 @@
  * Mobile nav toggle, terminal effects, scan animations
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ─── Mobile nav toggle ────────────────────────────────────────────────────
@@ -11,13 +11,13 @@
   const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen.toString());
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -25,7 +25,7 @@
     });
 
     // Close on escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -37,11 +37,11 @@
   // ─── Scroll reveal animations ─────────────────────────────────────────────
   const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -50px 0px',
   };
 
-  const revealObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
+  const revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
         revealObserver.unobserve(entry.target);
@@ -49,12 +49,15 @@
     });
   }, observerOptions);
 
-  document.querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card, .faq-item').forEach(function(el) {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(10px)';
-    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease, border-color 0.2s ease, box-shadow 0.2s ease';
-    revealObserver.observe(el);
-  });
+  document
+    .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card, .faq-item')
+    .forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(10px)';
+      el.style.transition =
+        'opacity 0.4s ease, transform 0.4s ease, border-color 0.2s ease, box-shadow 0.2s ease';
+      revealObserver.observe(el);
+    });
 
   // Add revealed class styles
   const style = document.createElement('style');
@@ -67,8 +70,8 @@
   document.head.appendChild(style);
 
   // ─── Smooth scroll for anchor links ───────────────────────────────────────
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -85,34 +88,37 @@
   const navLinks = document.querySelectorAll('.nav-menu a');
 
   if (sections.length && navLinks.length) {
-    const sectionObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navLinks.forEach(function(link) {
-            link.removeAttribute('aria-current');
-            if (link.getAttribute('href') === '#' + id) {
-              link.setAttribute('aria-current', 'page');
-            }
-          });
-        }
-      });
-    }, { threshold: 0.3 });
+    const sectionObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(function (link) {
+              link.removeAttribute('aria-current');
+              if (link.getAttribute('href') === '#' + id) {
+                link.setAttribute('aria-current', 'page');
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
 
-    sections.forEach(function(section) {
+    sections.forEach(function (section) {
       sectionObserver.observe(section);
     });
   }
 
   // ─── Terminal typing effect ──────────────────────────────────────────────
   const typingElements = document.querySelectorAll('.terminal-type');
-  typingElements.forEach(function(el) {
+  typingElements.forEach(function (el) {
     const text = el.textContent;
     el.textContent = '';
     el.style.visibility = 'visible';
 
     let i = 0;
-    const typeInterval = setInterval(function() {
+    const typeInterval = setInterval(function () {
       if (i < text.length) {
         el.textContent += text.charAt(i);
         i++;
@@ -129,5 +135,4 @@
     // Disable complex animations
     document.documentElement.style.setProperty('--transition-base', '0.01ms');
   }
-
 })();

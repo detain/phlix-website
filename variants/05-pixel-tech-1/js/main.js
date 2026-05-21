@@ -1,5 +1,5 @@
 /* main.js — Terminal typing animation, cursor blink, mobile nav */
-(function() {
+(function () {
   'use strict';
 
   /* ===== TERMINAL TYPING ANIMATION ===== */
@@ -60,17 +60,19 @@
     closeBtn.addEventListener('click', closeNav);
 
     // Close on escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('open')) {
         closeNav();
       }
     });
 
     // Focus trap: keep Tab/Shift+Tab within the open nav
-    nav.addEventListener('keydown', function(e) {
+    nav.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
-      const focusable = nav.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const focusable = nav.querySelectorAll(
+        'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
       if (focusable.length === 0) return;
 
       const first = focusable[0];
@@ -91,7 +93,7 @@
 
     // Close when clicking a link
     const mobileLinks = nav.querySelectorAll('a');
-    mobileLinks.forEach(function(link) {
+    mobileLinks.forEach(function (link) {
       link.addEventListener('click', closeNav);
     });
   }
@@ -101,7 +103,7 @@
     // Check for reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       // Just show everything immediately
-      document.querySelectorAll('.feature-card, .client-card, .pitch-item').forEach(function(el) {
+      document.querySelectorAll('.feature-card, .client-card, .pitch-item').forEach(function (el) {
         el.style.opacity = '1';
         el.style.transform = 'none';
       });
@@ -109,33 +111,36 @@
     }
 
     const cards = document.querySelectorAll('.feature-card, .client-card, .pitch-item');
-    cards.forEach(function(card, index) {
+    cards.forEach(function (card, index) {
       card.style.opacity = '0';
       card.style.transform = 'translateY(20px)';
       card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-      card.style.transitionDelay = (index * 0.08) + 's';
+      card.style.transitionDelay = index * 0.08 + 's';
     });
 
     // Trigger animations on scroll
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    cards.forEach(function(card) {
+    cards.forEach(function (card) {
       observer.observe(card);
     });
   }
 
   /* ===== SMOOTH SCROLL FOR ANCHOR LINKS ===== */
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -149,7 +154,7 @@
   }
 
   /* ===== INIT ===== */
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     initTerminalTyping();
     initMobileNav();
     initStaggeredEntrance();

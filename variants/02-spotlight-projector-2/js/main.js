@@ -61,7 +61,7 @@
         e.preventDefault();
         targetEl.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
         targetEl.setAttribute('tabindex', '-1');
         targetEl.focus({ preventScroll: true });
@@ -118,20 +118,25 @@
 
   // ─── Intersection Observer for fade-in animations ─────────────────────────
   if ('IntersectionObserver' in window) {
-    const fadeInElements = document.querySelectorAll('.feature-card, .client-card, .hub-feature, .plugin-step');
+    const fadeInElements = document.querySelectorAll(
+      '.feature-card, .client-card, .hub-feature, .plugin-step',
+    );
 
-    const fadeInObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          fadeInObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const fadeInObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            fadeInObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     fadeInElements.forEach(function (el) {
       el.style.opacity = '0';
@@ -140,5 +145,4 @@
       fadeInObserver.observe(el);
     });
   }
-
 })();
