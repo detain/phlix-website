@@ -1,7 +1,7 @@
 /* ============================================================
    variants/05-pixel-tech-5/css/base.css
-   Electric Blue Cyber aesthetic: dark blue backgrounds,
-   electric blue neon glow, futuristic cyber feel
+   Cyberpunk Street aesthetic: neon city nights,
+   blade runner aesthetics, urban neon glows, rain-slicked streets
    ============================================================ */
 
 /* CSS Reset */
@@ -59,7 +59,7 @@ svg {
   height: auto;
 }
 
-/* Cyber grid texture - electric blue on dark */
+/* Neon city nights background */
 body::before {
   content: '';
   position: fixed;
@@ -69,35 +69,39 @@ body::before {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  background-image:
-    linear-gradient(rgb(0, 168, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(0, 168, 255, 0.03) 1px, transparent 1px);
-  background-size: 4px 4px;
+  background:
+    radial-gradient(ellipse at center, rgb(57, 255, 20, 0.02) 0%, transparent 70%),
+    linear-gradient(180deg, #000 0%, #1a1a1a 50%, #000 100%);
 }
 
 /* ─── CSS Custom Properties (Brand Tokens) ─── */
 :root {
-  /* Electric Blue Cyber Colors */
-  --color-primary: #050510; /* near black blue */
-  --color-secondary: #0a0a20; /* dark blue */
-  --color-accent: #00a8ff; /* electric blue */
-  --color-text: #e0f4ff; /* light blue-white */
-  --color-muted: #4a6a8a; /* muted steel blue */
+  /* Primary colors - Cyberpunk Street palette */
+  --color-neon-green: #39FF14;
+  --color-black: #000;
+  --color-silver: #c0c0c0;
+
+  /* Secondary colors */
+  --color-dark-gray: #1a1a1a;
+  --color-matrix-green: #0F6;
+
+  /* Accent - electric purple for neon glow */
+  --color-electric-purple: #9B30FF;
 
   /* Semantic colors */
-  --color-bg-primary: var(--color-primary);
-  --color-bg-secondary: var(--color-secondary);
-  --color-text-primary: var(--color-text);
-  --color-text-secondary: var(--color-accent);
-  --color-accent-primary: var(--color-accent);
-  --color-border: var(--color-secondary);
-  --color-highlight: var(--color-accent);
+  --color-bg-primary: var(--color-black);
+  --color-bg-secondary: var(--color-dark-gray);
+  --color-text-primary: var(--color-silver);
+  --color-text-secondary: var(--color-neon-green);
+  --color-accent-primary: var(--color-electric-purple);
+  --color-border: var(--color-dark-gray);
+  --color-highlight: var(--color-matrix-green);
 
   /* Typography - Font families (self-hosted) */
-  --font-headline: 'Rajdhani', 'Arial Black', sans-serif;
-  --font-body: 'Work Sans', system-ui, -apple-system, sans-serif;
-  --font-ui: 'Work Sans', system-ui, sans-serif;
-  --font-code: 'Rajdhani', monospace;
+  --font-headline: 'Orbitron', monospace;
+  --font-body: 'Inter', sans-serif;
+  --font-ui: 'Roboto Mono', monospace;
+  --font-code: 'JetBrains Mono', monospace;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -123,25 +127,25 @@ body::before {
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--color-neon-green);
+  color: var(--color-black);
   font-family: var(--font-ui);
   font-weight: 700;
   padding: var(--space-sm) var(--space-md);
   z-index: 10000;
   text-decoration: none;
-  border: 2px solid var(--color-accent);
+  border: 2px solid var(--color-neon-green);
 }
 
 .skip-link:focus {
   top: var(--space-sm);
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-electric-purple);
   outline-offset: 2px;
 }
 
 /* ─── Focus Styles ─── */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-neon-green);
   outline-offset: 2px;
   background: transparent;
 }
@@ -160,8 +164,8 @@ body::before {
 
 /* ─── Selection ─── */
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--color-electric-purple);
+  color: var(--color-black);
 }
 
 /* ─── Scrollbar ─── */
@@ -171,13 +175,14 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-secondary);
+  background: var(--color-dark-gray);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-accent);
+  background: var(--color-matrix-green);
+  border: 1px solid var(--color-neon-green);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3bf;
+  background: var(--color-neon-green);
 }
