@@ -1,51 +1,17 @@
-# Wave 2 Fixes: 02-spotlight-projector-2
+# FIXES Applied - 02-spotlight-projector-2 (Wave 2)
 
-## Fix Phase Summary
+## Issues Fixed
 
-**Date:** 2026-05-21
-**Wave:** 2 of 5
-
----
-
-## Issues Found
-
-No critical issues were identified during the review phase. The variant passes all quality checks:
-
-- ✅ Build passes
-- ✅ HTML/CSS/JS lint passes
-- ✅ Brand kit colors correctly implemented
-- ✅ Brand kit fonts correctly loaded (self-hosted)
-- ✅ UI style matches "Art Deco Elegance" theme
-- ✅ Responsive design implemented
-- ✅ Accessibility features present
-- ✅ SEO meta tags complete
-
----
-
-## Fixes Applied
-
-**None required** - The variant is production-ready as-is.
-
----
+- **Mobile nav focus trap issue** - The focus trap was only listening for Tab key events directly on the `mainNav` element. When focus somehow escaped the nav (e.g., via dynamically added elements or edge cases in event propagation), Tab would exit the menu. Fixed by:
+  - Changed from `mainNav.addEventListener('keydown', ...)` to `document.addEventListener('keydown', ...)` for the focus trap
+  - Now checks if `document.activeElement` is inside the nav using `mainNav.contains(activeEl)`
+  - If focus has escaped the nav, it immediately redirects focus back to first (forward Tab) or last (Shift+Tab) focusable element
+  - The trap is now active only when the nav has `is-open` class
 
 ## Files Modified
 
-None - No edits were necessary.
+- `variants/02-spotlight-projector-2/js/main.js` - Focus trap implementation updated (lines 35-61)
 
----
+## Overall Result
 
-## Verification
-
-After review, the following commands were run:
-- `npm run build` - ✅ Pass (30 variants built)
-- `npm run lint:html` - ✅ No errors
-- `npm run lint:css` - ✅ No errors
-- `npm run lint:js` - ✅ No errors
-
----
-
-## Final State
-
-- **Variant Status:** Production-ready
-- **Lint Status:** All passing
-- **Build Status:** Successful
+**Pass** - Mobile nav focus trap is now properly implemented at the document level, ensuring focus cannot escape the open mobile menu regardless of how Tab navigation occurs.

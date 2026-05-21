@@ -32,20 +32,34 @@
       }
     });
 
-    // Focus trap within mobile nav
-    mainNav.addEventListener('keydown', function (e) {
+    // Focus trap within mobile nav - document-level for robust trapping
+    document.addEventListener('keydown', function trapHandler(e) {
+      if (!mainNav.classList.contains('is-open')) return;
       if (e.key !== 'Tab') return;
 
       const focusableElements = mainNav.querySelectorAll('a, button');
+      if (focusableElements.length === 0) return;
+
       const firstEl = focusableElements[0];
       const lastEl = focusableElements[focusableElements.length - 1];
+      const activeEl = document.activeElement;
+      const isInsideNav = mainNav.contains(activeEl);
 
-      if (e.shiftKey && document.activeElement === firstEl) {
+      if (isInsideNav) {
+        if (e.shiftKey && activeEl === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        } else if (!e.shiftKey && activeEl === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      } else {
         e.preventDefault();
-        lastEl.focus();
-      } else if (!e.shiftKey && document.activeElement === lastEl) {
-        e.preventDefault();
-        firstEl.focus();
+        if (e.shiftKey) {
+          lastEl.focus();
+        } else {
+          firstEl.focus();
+        }
       }
     });
   }
