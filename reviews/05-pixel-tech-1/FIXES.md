@@ -1,37 +1,26 @@
-# Wave 1 Fixes - 05-pixel-tech-1 (Terminal Hacker)
+# Fixes Applied — variant 05-pixel-tech-1
 
-**Date:** 2026-05-21
-**Variant:** 05-pixel-tech-1
+## Issue 1: Contrast FAIL — Footer Text
+**Problem:** Footer text "BSD-3-Clause" used `--dark-gray` (#1a1a1a) on black background (~1.6:1 contrast ratio, fails WCAG 4.5:1 requirement)
 
----
+**Fix:** Changed `color: var(--dark-gray)` to `color: var(--silver)` (#c0c0c0) for proper contrast (~12:1)
 
-## Fixes Applied
-
-### Fix 1: Corrected matrix-green hex value
-
-**File:** `variants/05-pixel-tech-1/css/base.css`
-**Line:** 66
-
-**Before:**
-```css
---matrix-green: #0f6;
-```
-
-**After:**
-```css
---matrix-green: #0F6;
-```
-
-**Reason:** The original CSS had `#0f6` (lowercase) but stylelint requires uppercase shorthand hex format. The value `#0F6` is equivalent to `#00FF66` (brand-kit specifies `matrix_green: "#00FF66"`). Updated to uppercase shorthand format to satisfy both the brand color intent and lint requirements.
-
-**Verification:** Lint now passes with no errors.
+**File Modified:** `variants/05-pixel-tech-1/index.html:288`
 
 ---
 
-## Summary
+## Issue 2: ARIA Issue — Incorrect aria-current
+**Problem:** Navigation links incorrectly used `aria-current="false"` on lines 60-66. ARIA current should be `aria-current="page"` when on the current page, or omitted entirely when not current.
 
-| Fix | Status | Impact |
-|-----|--------|--------|
-| Correct matrix-green hex value | APPLIED | Low (cosmetic) |
+**Fix:** Removed `aria-current="false"` from all nav links in the main navigation (Features, Clients, Download, Plugins, Docs, Hub, About)
 
-**Total fixes applied: 1**
+**File Modified:** `variants/05-pixel-tech-1/index.html:60-66`
+
+---
+
+## Issue 3: Font Size FAIL — .feature-card p
+**Problem:** `.feature-card p` in `css/components.css:258` (actually in theme.css) used `font-size: 0.875rem` (14px), failing the minimum 16px (1rem) requirement.
+
+**Fix:** Changed `font-size: 0.875rem` to `font-size: 1rem`
+
+**File Modified:** `variants/05-pixel-tech-1/css/theme.css:257-258`
