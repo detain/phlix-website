@@ -20,7 +20,7 @@
       if (!menu.classList.contains('is-open')) return;
 
       const focusableElements = menu.querySelectorAll(
-        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -45,7 +45,7 @@
       if (isOpen) {
         menu.style.boxShadow = 'inset 0 0 100px rgba(0, 255, 65, 0.1)';
         const focusableElements = menu.querySelectorAll(
-          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
         );
         if (focusableElements.length) {
           focusableElements[0].focus();
