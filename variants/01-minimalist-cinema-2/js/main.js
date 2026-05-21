@@ -102,8 +102,9 @@
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         target.scrollIntoView({
-          behavior: 'smooth',
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
           block: 'start',
         });
 
