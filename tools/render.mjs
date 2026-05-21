@@ -38,10 +38,6 @@ function brandColor(slug, category, name) {
   return brandVar(slug, `colors.${category}.${name}`) || '#000000';
 }
 
-function brandFont(slug, role) {
-  return brandVar(slug, `fonts.${role}`) || 'sans-serif';
-}
-
 // ─── HTML shell ────────────────────────────────────────────────────────────────
 
 /**
@@ -50,7 +46,6 @@ function brandFont(slug, role) {
 function htmlShell(slug, page, content) {
   const site = content.site;
   const meta = content.meta;
-  const kit = getBrandKit(slug);
 
   const title = meta[`${page}_title`] || pageTitle(page, content);
   const description = meta.description || '';
@@ -58,7 +53,6 @@ function htmlShell(slug, page, content) {
   const canonical = `${site.url}/${page === 'index' ? '' : page + '.html'}`;
 
   const primaryColor = brandColor(slug, 'primary', Object.keys(getBrandKit(slug).colors?.primary || {})[0] || 'electric_blue');
-  const accentColor = brandColor(slug, 'accent', Object.keys(getBrandKit(slug).colors?.accent || {})[0] || 'neon_aqua');
 
   return `<!doctype html>
 <html lang="${site.default_locale}">
@@ -174,7 +168,6 @@ function pageTitle(page, content) {
 }
 
 function buildIndex(slug, content) {
-  const kit = getBrandKit(slug);
   return `
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
@@ -388,7 +381,7 @@ function buildDocs(slug, content) {
     </div>`;
 }
 
-function buildHub(slug, content) {
+function buildHub(slug, _content) {
   return `
     <div class="page-header">
       <div class="page-header-inner">

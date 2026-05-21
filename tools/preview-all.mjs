@@ -19,7 +19,7 @@
 import http from 'node:http';
 import url from 'node:url';
 import path from 'node:path';
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 
 const PORT = 5174;
 const ROOT = process.cwd();

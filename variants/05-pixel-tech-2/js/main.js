@@ -241,11 +241,10 @@
 
     // Subtle random screen flicker
     const body = document.body;
-    let flickerTimeout;
 
     function scheduleFlicker() {
       const delay = 5000 + Math.random() * 15000;
-      flickerTimeout = setTimeout(function () {
+      setTimeout(function () {
         body.style.opacity = '0.97';
         setTimeout(
           function () {
