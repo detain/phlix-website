@@ -1,99 +1,76 @@
 /*!
  * base.css — Reset, box-sizing, root variables, skip-link, focus, reduced-motion
  * Variant: 02-spotlight-projector-4
- * Brand: Warm Spotlight — Modern premium luxury, warm amber glows, cozy theater atmosphere
- * Colors: #1A1208 (warm dark brown), #F5E6C8 (warm cream), #E89B3C (amber),
- *         #3D2B1F (warm text), #8B7355 (muted)
- * Fonts: Vollkorn (headlines), Nunito (body) — self-hosted with font-display: swap
+ * Brand: Modern Premium — Clean contemporary luxury, minimal but warm
+ * Colors: #F5C542 (gold_spotlight), #000000 (deep_black), #FFF7E6 (warm_white),
+ *         #7A1F1F (burgundy), #3A3A3A (soft_shadow_gray), #FFB84D (amber_glow)
+ * Fonts: Cinzel Bold (headlines), Lora Regular (body), Source Sans Pro (ui), Fira Code (code)
  */
 
 @font-face {
-  font-family: Vollkorn;
-  src: url('../fonts/Vollkorn-Regular.woff2') format('woff2');
+  font-family: 'Cinzel';
+  src: url('../fonts/cinzel-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('../fonts/lora-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Vollkorn;
-  src: url('../fonts/Vollkorn-Medium.woff2') format('woff2');
+  font-family: 'Lora';
+  src: url('../fonts/lora-medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Vollkorn;
-  src: url('../fonts/Vollkorn-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Vollkorn;
-  src: url('../fonts/Vollkorn-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Nunito;
-  src: url('../fonts/Nunito-Regular.woff2') format('woff2');
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/source-sans-pro-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Nunito;
-  src: url('../fonts/Nunito-Medium.woff2') format('woff2');
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/source-sans-pro-semibold.woff2') format('woff2');
   font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Nunito;
-  src: url('../fonts/Nunito-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Nunito;
-  src: url('../fonts/Nunito-Bold.woff2') format('woff2');
-  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  /* Brand colors — Warm Spotlight */
-  --color-warm-brown: #1a1208;
-  --color-warm-cream: #f5e6c8;
-  --color-amber: #e89b3c;
-  --color-text: #3d2b1f;
-  --color-muted: #475569;
+  /* Brand colors — Modern Premium */
+  --color-gold-spotlight: #F5C542;
+  --color-deep-black: #000000;
+  --color-warm-white: #FFF7E6;
+  --color-burgundy: #7A1F1F;
+  --color-soft-shadow-gray: #3A3A3A;
+  --color-amber-glow: #FFB84D;
 
   /* Semantic aliases */
-  --color-primary: var(--color-amber);
-  --color-background: var(--color-warm-brown);
-  --color-surface: rgb(245, 230, 200, 0.03);
-  --color-surface-elevated: rgb(245, 230, 200, 0.06);
-  --color-text-primary: var(--color-warm-cream);
-  --color-text-secondary: var(--color-muted);
-  --color-accent: var(--color-amber);
-  --color-link: var(--color-amber);
-  --color-link-hover: #f5b04c;
+  --color-primary: var(--color-gold-spotlight);
+  --color-background: var(--color-deep-black);
+  --color-surface: rgba(255, 247, 230, 0.03);
+  --color-surface-elevated: rgba(255, 247, 230, 0.06);
+  --color-text-primary: var(--color-warm-white);
+  --color-text-secondary: var(--color-soft-shadow-gray);
+  --color-accent: var(--color-amber-glow);
+  --color-link: var(--color-gold-spotlight);
+  --color-link-hover: var(--color-amber-glow);
 
   /* Typography scale */
-  --font-headline: 'Vollkorn', georgia, serif;
-  --font-body: 'Nunito', system-ui, sans-serif;
-  --font-ui: 'Nunito', system-ui, sans-serif;
+  --font-headline: 'Cinzel', georgia, serif;
+  --font-body: 'Lora', system-ui, serif;
+  --font-ui: 'Source Sans Pro', system-ui, sans-serif;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -112,13 +89,13 @@
   --radius-xl: 12px;
   --radius-full: 9999px;
 
-  /* Shadows — warm spotlight glow */
+  /* Shadows — modern premium glow */
   --shadow-sm: 0 1px 2px rgb(0, 0, 0, 0.4);
   --shadow-md: 0 4px 8px rgb(0, 0, 0, 0.5);
   --shadow-lg: 0 10px 20px rgb(0, 0, 0, 0.6);
   --shadow-xl: 0 20px 40px rgb(0, 0, 0, 0.7);
-  --shadow-amber-glow: 0 2px 20px rgb(232, 155, 60, 0.15);
-  --shadow-amber-glow-hover: 0 4px 30px rgb(232, 155, 60, 0.25);
+  --shadow-gold-glow: 0 2px 20px rgba(245, 197, 66, 0.15);
+  --shadow-gold-glow-hover: 0 4px 30px rgba(245, 197, 66, 0.25);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -205,8 +182,8 @@ a:hover {
   left: 50%;
   transform: translateX(-50%);
   padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-amber);
-  color: var(--color-warm-brown);
+  background-color: var(--color-gold-spotlight);
+  color: var(--color-deep-black);
   font-family: var(--font-ui);
   font-size: 0.875rem;
   border-radius: var(--radius-md);
@@ -222,14 +199,14 @@ a:hover {
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid var(--color-amber);
+  outline: 2px solid var(--color-gold-spotlight);
   outline-offset: 2px;
 }
 
 /* Selection */
 ::selection {
-  background-color: var(--color-amber);
-  color: var(--color-warm-brown);
+  background-color: var(--color-gold-spotlight);
+  color: var(--color-deep-black);
 }
 
 /* Reduced motion */
