@@ -1,50 +1,43 @@
-# Wave 1 Test Results — 01-minimalist-cinema-1
+# TEST Report: 01-minimalist-cinema-1
 
-**Date:** 2026-05-21
-**Variant:** 01-minimalist-cinema-1
+**Variant**: 01-minimalist-cinema-1 (wave 1)
+**Brand**: 01-minimalist-cinema
+**Date**: 2026-05-21
 
-## Build Test
+---
 
-**Command:** `npm run build`
+## Build Status
 
-**Result:** ✓ PASS
+**PASS**
 
-```
-All 25 variants built successfully:
-  ✓ 01-minimalist-cinema through 01-minimalist-cinema-5
-  ✓ 02-spotlight-projector through 05-pixel-tech-5
-```
+- `npm run build` completed successfully
+- Built 30 variants including 01-minimalist-cinema-1
+- Output: `dist/` directory
 
-## Lint Test
+---
 
-**Command:** `npm run lint`
+## Lint Status
 
-**Result:** ✗ FAIL (project-wide)
+**PASS**
 
-### Errors Found (not in 01-minimalist-cinema-1)
+- `npm run lint` — no errors found (scanned 240 files)
+- `npm run lint:css -- --fix` — no issues to fix
+- `npm run format` — all files already formatted (unchanged)
 
-| File | Line | Error |
-|------|------|-------|
-| variants/04-portal-hub-1/css/theme.css | 186:26 | Expected "rgba" to be "rgb" (color-function-alias-notation) |
+---
 
-**Note:** This lint error is in `04-portal-hub-1`, which is outside the 01-minimalist-cinema variant scope. The error is not present in any 01-minimalist-cinema-1 through 01-minimalist-cinema-5 files.
+## Files Modified
 
-### Individual Lint Verification for 01-minimalist-cinema-1
+None
 
-**Command:** `npx --no-install stylelint variants/01-minimalist-cinema-1/css/*.css`
+---
 
-**Result:** ✓ PASS (no errors)
+## Final Verification
 
-### Summary
+- Build: PASS
+- Lint HTML: PASS
+- Lint CSS: PASS
+- Lint JS: PASS
+- Format: PASS (all files properly formatted)
 
-- **01-minimalist-cinema-1 lint status:** PASS
-- **Project-wide lint status:** FAIL (due to 04-portal-hub-1)
-- **Action required:** Coordinator for 04-portal-hub must fix the rgba→rgb issue
-
-## Test Artifacts
-
-- Build artifacts available in `variants/01-minimalist-cinema-{N}/` directories
-- CSS files: base.css, components.css, theme.css
-- JS files: main.js
-- Fonts: 5 self-hosted woff2 files
-- Images: favicon.svg, logo.svg, og.svg
+All checks passed for 01-minimalist-cinema-1 wave 1.
