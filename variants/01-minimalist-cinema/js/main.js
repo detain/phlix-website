@@ -14,7 +14,8 @@
 
   if (navToggle && navMenu) {
     let isOpen = false;
-    const focusableSelectors = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusableSelectors =
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     function openNav() {
       isOpen = true;
@@ -102,7 +103,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update focus for accessibility
@@ -157,10 +158,11 @@
   // ─── Keyboard Navigation Enhancement ─────────────────────────────────────────
 
   // Ensure all interactive elements are properly focusable
-  document.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(function (el) {
-    if (!el.hasAttribute('tabindex') || el.getAttribute('tabindex') === '0') {
-      // Already focusable
-    }
-  });
-
+  document
+    .querySelectorAll('a, button, input, select, textarea, [tabindex]')
+    .forEach(function (el) {
+      if (!el.hasAttribute('tabindex') || el.getAttribute('tabindex') === '0') {
+        // Already focusable
+      }
+    });
 })();

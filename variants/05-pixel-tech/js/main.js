@@ -4,7 +4,7 @@
    No frameworks - vanilla JS only
    ============================================================ */
 
-(function() {
+(function () {
   'use strict';
 
   // ─── Mobile Navigation ───
@@ -14,7 +14,7 @@
 
     if (!toggle || !menu) return;
 
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function () {
       const isOpen = menu.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen.toString());
 
@@ -23,7 +23,7 @@
     });
 
     // Close menu on escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) {
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
@@ -33,8 +33,8 @@
     });
 
     // Close menu when clicking a link
-    menu.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
@@ -52,7 +52,7 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    glitchElements.forEach(function(el) {
+    glitchElements.forEach(function (el) {
       // Random glitch intervals
       function triggerGlitch() {
         el.style.animation = 'none';
@@ -77,25 +77,28 @@
     if (prefersReducedMotion) return;
 
     const animatedElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .faq-item, .hub-section'
+      '.feature-card, .client-card, .download-card, .faq-item, .hub-section',
     );
 
     if (!animatedElements.length) return;
 
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('pixel-reveal');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('pixel-reveal');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
-    animatedElements.forEach(function(el, index) {
-      el.style.animationDelay = (index * 0.1) + 's';
+    animatedElements.forEach(function (el, index) {
+      el.style.animationDelay = index * 0.1 + 's';
       observer.observe(el);
     });
   }
@@ -105,12 +108,12 @@
     // Add visual feedback on button hover
     const buttons = document.querySelectorAll('.btn');
 
-    buttons.forEach(function(btn) {
-      btn.addEventListener('mouseenter', function() {
+    buttons.forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () {
         this.classList.add('is-hovering');
       });
 
-      btn.addEventListener('mouseleave', function() {
+      btn.addEventListener('mouseleave', function () {
         this.classList.remove('is-hovering');
       });
     });
@@ -121,13 +124,15 @@
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-menu a');
 
-    navLinks.forEach(function(link) {
+    navLinks.forEach(function (link) {
       const href = link.getAttribute('href');
 
       // Check if current page matches
-      if (currentPath === href ||
-          currentPath.endsWith(href) ||
-          (href === '/' && (currentPath === '/' || currentPath === ''))) {
+      if (
+        currentPath === href ||
+        currentPath.endsWith(href) ||
+        (href === '/' && (currentPath === '/' || currentPath === ''))
+      ) {
         link.setAttribute('aria-current', 'page');
       }
     });
@@ -136,21 +141,21 @@
   // ─── Keyboard Navigation Enhancement ───
   function initKeyboardNav() {
     // Add focus-visible class management
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Tab') {
         document.body.classList.add('keyboard-nav');
       }
     });
 
-    document.addEventListener('mousedown', function() {
+    document.addEventListener('mousedown', function () {
       document.body.classList.remove('keyboard-nav');
     });
   }
 
   // ─── Smooth Scroll for Anchor Links ───
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -159,7 +164,7 @@
           e.preventDefault();
           target.scrollIntoView({
             behavior: 'smooth',
-            block: 'start'
+            block: 'start',
           });
 
           // Update focus for accessibility
@@ -187,5 +192,4 @@
   } else {
     init();
   }
-
 })();

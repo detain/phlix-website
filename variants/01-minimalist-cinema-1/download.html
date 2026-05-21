@@ -1,94 +1,658 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Download Phlix — the self-hosted PHP media server. PHP 8.3+, Workerman 5, and a quick-start guide to get your server running in minutes.">
-  <meta name="keywords" content="phlix download, install phlix, php media server, self-hosted media">
-  <title>Download — Phlix</title>
-  <link rel="canonical" href="https://detain.github.io/phlix-website/download">
-  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/download">
-  <meta property="og:title" content="Download — Phlix">
-  <meta property="og:description" content="Download Phlix — the self-hosted PHP media server.">
-  <meta property="og:image" content="/img/og.svg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Download — Phlix">
-  <meta name="twitter:description" content="Download Phlix — the self-hosted PHP media server.">
-  <meta name="twitter:image" content="/img/og.svg">
-  <style>
-    /* Self-hosted fonts (no Google CDN) */
-    @font-face{font-family:Montserrat;font-style:normal;font-weight:800;font-display:swap;src:url('../fonts/montserrat-extrabold.woff2') format('woff2')}
-    @font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/inter-regular.woff2') format('woff2')}
-    @font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/inter-medium.woff2') format('woff2')}
-    @font-face{font-family:Roboto;font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/roboto-medium.woff2') format('woff2')}
-    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/jetbrains-mono-regular.woff2') format('woff2')}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}body{font-family:'Inter','Arial',sans-serif;font-weight:400;color:#1A1A1A;background-color:#fff;line-height:1.65;min-height:100vh;overflow-x:hidden}h1,h2,h3,h4,h5,h6{font-family:'Montserrat','Arial Black',sans-serif;font-weight:800;line-height:1.15;color:#1A1A1A;letter-spacing:-0.02em}h1{font-size:clamp(2.25rem,5vw,3.75rem)}h2{font-size:clamp(1.75rem,3.5vw,2.5rem)}h3{font-size:1.125rem;margin-bottom:.5rem}p{font-size:1rem;line-height:1.75;color:#1A1A1A;max-width:65ch}.lead{font-size:1.125rem;line-height:1.7;color:#555;max-width:55ch}a{color:inherit;text-decoration:none}ul{list-style:none}img,svg,video{display:block;max-width:100%;height:auto}button{font-family:inherit;cursor:pointer;border:none;background:none}code,pre{font-family:'JetBrains Mono','Courier New',monospace;font-size:.875rem}.skip-link{position:absolute;top:-100%;left:1rem;z-index:9999;padding:.5rem 1.5rem;background:#2D9CFF;color:#fff;font-family:'Roboto','Arial',sans-serif;font-size:.875rem;border-radius:.375rem;transition:top .15s ease}.skip-link:focus{top:1rem;outline:2px solid #00F0FF;outline-offset:2px}:focus-visible{outline:2px solid #2D9CFF;outline-offset:3px;border-radius:.375rem}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#fff}::-webkit-scrollbar-thumb{background:#2E2E2E;border-radius:3px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}:root{--space-1:.5rem;--space-2:1rem;--space-3:1.5rem;--space-4:2rem;--space-5:3rem;--space-6:4rem;--radius-sm:.375rem;--radius-md:.75rem;--radius-lg:1.25rem;--shadow-sm:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 16px rgba(0,0,0,.10);--transition-fast:150ms ease;--transition-base:250ms ease;--color-electric-blue:#2D9CFF;--color-charcoal:#1A1A1A;--color-white:#fff;--color-slate-gray:#2E2E2E;--color-text-muted:#555;--color-soft-blue:#A7D8FF;--color-border:#E0E0E0;--gutter:2rem}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E0E0E0}.site-header__inner{display:flex;align-items:center;justify-content:space-between;height:4rem;gap:2rem;padding-inline:2rem;max-width:72rem;margin-inline:auto}.site-header__logo{display:flex;align-items:center;gap:.5rem;font-family:'Montserrat','Arial Black',sans-serif;font-weight:800;font-size:1.25rem;color:#1A1A1A;text-decoration:none;flex-shrink:0}.site-header__logo:hover{color:#2D9CFF}.site-header__nav{display:flex;align-items:center;gap:1.5rem}.site-header__nav a{font-family:'Roboto','Arial',sans-serif;font-weight:500;font-size:.875rem;color:#1A1A1A;text-decoration:none;position:relative;padding-bottom:2px;min-height:44px;display:flex;align-items:center}.site-header__nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:#2D9CFF;transition:width .25s ease}.site-header__nav a:hover::after,.site-header__nav a[aria-current=page]::after{width:100%}.site-header__nav a[aria-current=page]{color:#2D9CFF}.site-footer{background:#1A1A1A;color:#fff;padding-block:6rem;margin-top:8rem}.site-footer__inner{max-width:72rem;margin-inline:auto;padding-inline:2rem;display:grid;gap:3rem}.site-footer__brand{max-width:28ch}.site-footer__brand p{color:rgba(255,255,255,.6);font-size:.875rem;margin-top:.75rem}.site-footer__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:2rem}.site-footer__col h3{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1rem}.site-footer__col ul{display:flex;flex-direction:column;gap:.75rem}.site-footer__col a{font-size:.875rem;color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s ease}.site-footer__col a:hover{color:#fff}.site-footer__bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}.site-footer__bottom p{font-size:.8125rem;color:rgba(255,255,255,.4);max-width:none}.container{max-width:72rem;margin-inline:auto;padding-inline:2rem}.page-header{padding-block:6rem 4rem;border-bottom:1px solid #E0E0E0;margin-bottom:4rem}.page-header__eyebrow{font-family:'Roboto','Arial',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#2D9CFF;margin-bottom:.5rem}.page-header h1{max-width:20ch}.page-header .lead{margin-top:1rem}.section{padding-block:4rem}.section--lg{padding-block:6rem}.section-label{font-family:'Roboto','Arial',sans-serif;font-size:.6875rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2D9CFF;margin-bottom:.5rem}.install-card{padding:1.5rem;border-radius:1.25rem;border:1px solid #E0E0E0;background:#FAFAFA;margin-bottom:1.25rem}.install-card__os{font-family:'Montserrat','Arial Black',sans-serif;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:.5rem}.install-card__cmd{font-family:'JetBrains Mono','Courier New',monospace;font-size:.875rem;background:#1A1A1A;color:#A7D8FF;padding:1rem 1.25rem;border-radius:.75rem;overflow-x:auto;line-height:1.6}.reqs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1.5rem;margin-top:3rem}.req-card{padding:1.5rem;border-radius:1.25rem;border:1px solid #E0E0E0}.req-card h3{font-size:.875rem;margin-bottom:.5rem}.req-card p{font-size:.875rem;color:#555;line-height:1.55}.btn{display:inline-flex;align-items:center;gap:.25rem;font-family:'Roboto','Arial',sans-serif;font-weight:500;font-size:.9375rem;line-height:1;padding:.75rem 1.625rem;border-radius:.75rem;text-decoration:none;cursor:pointer;border:none;transition:background-color .15s ease,box-shadow .15s ease,transform .15s ease;white-space:nowrap;min-height:44px}.btn--primary{background:#2D9CFF;color:#fff;box-shadow:0 2px 8px rgba(45,156,255,.35)}.btn--primary:hover{background:#1a7fd4;box-shadow:0 4px 16px rgba(45,156,255,.45);transform:translateY(-1px)}.btn--secondary{background:transparent;color:#1A1A1A;box-shadow:inset 0 0 0 1.5px #E0E0E0}.btn--secondary:hover{background:#F8F8F8}.btn--lg{font-size:1rem;padding:1rem 2rem}.callout{padding:1.5rem;border-left:3px solid #2D9CFF;background:#F8FBFF;border-radius:0 .75rem .75rem 0;margin-top:2rem}.callout p{font-size:.9375rem;line-height:1.65;color:#1A1A1A;max-width:none}@media(max-width:768px){.site-footer__grid{grid-template-columns:1fr}}@media(max-width:480px){.site-header__nav{gap:1rem}}
-    /* Mobile nav */
-    .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:10px;background:none;border:none;cursor:pointer;z-index:200}.nav-toggle__bar{width:100%;height:2px;background:#1A1A1A;border-radius:1px;transition:transform .25s ease,opacity .25s ease}.nav-toggle.is-open .nav-toggle__bar:nth-child(1){transform:translateY(7px) rotate(45deg)}.nav-toggle.is-open .nav-toggle__bar:nth-child(2){opacity:0}.nav-toggle.is-open .nav-toggle__bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-    @media(max-width:768px){.nav-toggle{display:flex}.site-header__nav{display:none;position:fixed;top:0;right:0;width:75%;max-width:320px;height:100vh;background:#fff;flex-direction:column;align-items:flex-start;gap:0;padding:5rem 2rem 2rem;box-shadow:-4px 0 24px rgba(0,0,0,.15);transform:translateX(100%);transition:transform .3s ease}.site-header__nav.is-open{display:flex;transform:translateX(0)}.site-header__nav a{min-height:44px;font-size:1rem;padding:.75rem 0;width:100%;border-bottom:1px solid #E0E0E0}}
-  </style>
-</head>
-<body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  <header class="site-header">
-    <div class="site-header__inner">
-      <a href="/" class="site-header__logo" aria-label="Phlix home">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect width="28" height="28" rx="6" fill="#2D9CFF"/><line x1="8" y1="8" x2="20" y2="20" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="8" x2="8" y2="20" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
-        Phlix
-      </a>
-      <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-        <span class="nav-toggle__bar"></span>
-      </button>
-      
-      <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">
-        <a href="/features">Features</a>
-        <a href="/clients">Clients</a>
-        <a href="/hub">Hub</a>
-        <a href="/download" aria-current="page">Download</a>
-        <a href="/docs">Docs</a>
-      </nav>
-    </div>
-  </header>
-  <main id="main-content">
-    <div class="page-header">
-      <div class="container">
-        <p class="page-header__eyebrow">Get started</p>
-        <h1>Download and install Phlix in minutes.</h1>
-        <p class="lead">PHP 8.3+ and Composer. That's the only thing your server needs.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Download Phlix — the self-hosted PHP media server. PHP 8.3+, Workerman 5, and a quick-start guide to get your server running in minutes."
+    />
+    <meta
+      name="keywords"
+      content="phlix download, install phlix, php media server, self-hosted media"
+    />
+    <title>Download — Phlix</title>
+    <link rel="canonical" href="https://detain.github.io/phlix-website/download" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/download" />
+    <meta property="og:title" content="Download — Phlix" />
+    <meta property="og:description" content="Download Phlix — the self-hosted PHP media server." />
+    <meta property="og:image" content="/img/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Download — Phlix" />
+    <meta name="twitter:description" content="Download Phlix — the self-hosted PHP media server." />
+    <meta name="twitter:image" content="/img/og.svg" />
+    <style>
+      /* Self-hosted fonts (no Google CDN) */
+      @font-face {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 800;
+        font-display: swap;
+        src: url('../fonts/montserrat-extrabold.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('../fonts/inter-regular.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('../fonts/inter-medium.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('../fonts/roboto-medium.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('../fonts/jetbrains-mono-regular.woff2') format('woff2');
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        font-family: 'Inter', 'Arial', sans-serif;
+        font-weight: 400;
+        color: #1a1a1a;
+        background-color: #fff;
+        line-height: 1.65;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Montserrat', 'Arial Black', sans-serif;
+        font-weight: 800;
+        line-height: 1.15;
+        color: #1a1a1a;
+        letter-spacing: -0.02em;
+      }
+      h1 {
+        font-size: clamp(2.25rem, 5vw, 3.75rem);
+      }
+      h2 {
+        font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      }
+      h3 {
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: #1a1a1a;
+        max-width: 65ch;
+      }
+      .lead {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: #555;
+        max-width: 55ch;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      ul {
+        list-style: none;
+      }
+      img,
+      svg,
+      video {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+      code,
+      pre {
+        font-family: 'JetBrains Mono', 'Courier New', monospace;
+        font-size: 0.875rem;
+      }
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        z-index: 9999;
+        padding: 0.5rem 1.5rem;
+        background: #2d9cff;
+        color: #fff;
+        font-family: 'Roboto', 'Arial', sans-serif;
+        font-size: 0.875rem;
+        border-radius: 0.375rem;
+        transition: top 0.15s ease;
+      }
+      .skip-link:focus {
+        top: 1rem;
+        outline: 2px solid #00f0ff;
+        outline-offset: 2px;
+      }
+      :focus-visible {
+        outline: 2px solid #2d9cff;
+        outline-offset: 3px;
+        border-radius: 0.375rem;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #fff;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #2e2e2e;
+        border-radius: 3px;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      :root {
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
+        --space-6: 4rem;
+        --radius-sm: 0.375rem;
+        --radius-md: 0.75rem;
+        --radius-lg: 1.25rem;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --color-electric-blue: #2d9cff;
+        --color-charcoal: #1a1a1a;
+        --color-white: #fff;
+        --color-slate-gray: #2e2e2e;
+        --color-text-muted: #555;
+        --color-soft-blue: #a7d8ff;
+        --color-border: #e0e0e0;
+        --gutter: 2rem;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .site-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+        gap: 2rem;
+        padding-inline: 2rem;
+        max-width: 72rem;
+        margin-inline: auto;
+      }
+      .site-header__logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Montserrat', 'Arial Black', sans-serif;
+        font-weight: 800;
+        font-size: 1.25rem;
+        color: #1a1a1a;
+        text-decoration: none;
+        flex-shrink: 0;
+      }
+      .site-header__logo:hover {
+        color: #2d9cff;
+      }
+      .site-header__nav {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .site-header__nav a {
+        font-family: 'Roboto', 'Arial', sans-serif;
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: #1a1a1a;
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 2px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      .site-header__nav a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: #2d9cff;
+        transition: width 0.25s ease;
+      }
+      .site-header__nav a:hover::after,
+      .site-header__nav a[aria-current='page']::after {
+        width: 100%;
+      }
+      .site-header__nav a[aria-current='page'] {
+        color: #2d9cff;
+      }
+      .site-footer {
+        background: #1a1a1a;
+        color: #fff;
+        padding-block: 6rem;
+        margin-top: 8rem;
+      }
+      .site-footer__inner {
+        max-width: 72rem;
+        margin-inline: auto;
+        padding-inline: 2rem;
+        display: grid;
+        gap: 3rem;
+      }
+      .site-footer__brand {
+        max-width: 28ch;
+      }
+      .site-footer__brand p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.875rem;
+        margin-top: 0.75rem;
+      }
+      .site-footer__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        gap: 2rem;
+      }
+      .site-footer__col h3 {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 1rem;
+      }
+      .site-footer__col ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .site-footer__col a {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      .site-footer__col a:hover {
+        color: #fff;
+      }
+      .site-footer__bottom {
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .site-footer__bottom p {
+        font-size: 0.8125rem;
+        color: rgba(255, 255, 255, 0.4);
+        max-width: none;
+      }
+      .container {
+        max-width: 72rem;
+        margin-inline: auto;
+        padding-inline: 2rem;
+      }
+      .page-header {
+        padding-block: 6rem 4rem;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 4rem;
+      }
+      .page-header__eyebrow {
+        font-family: 'Roboto', 'Arial', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #2d9cff;
+        margin-bottom: 0.5rem;
+      }
+      .page-header h1 {
+        max-width: 20ch;
+      }
+      .page-header .lead {
+        margin-top: 1rem;
+      }
+      .section {
+        padding-block: 4rem;
+      }
+      .section--lg {
+        padding-block: 6rem;
+      }
+      .section-label {
+        font-family: 'Roboto', 'Arial', sans-serif;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #2d9cff;
+        margin-bottom: 0.5rem;
+      }
+      .install-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        border: 1px solid #e0e0e0;
+        background: #fafafa;
+        margin-bottom: 1.25rem;
+      }
+      .install-card__os {
+        font-family: 'Montserrat', 'Arial Black', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #555;
+        margin-bottom: 0.5rem;
+      }
+      .install-card__cmd {
+        font-family: 'JetBrains Mono', 'Courier New', monospace;
+        font-size: 0.875rem;
+        background: #1a1a1a;
+        color: #a7d8ff;
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
+        overflow-x: auto;
+        line-height: 1.6;
+      }
+      .reqs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .req-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        border: 1px solid #e0e0e0;
+      }
+      .req-card h3 {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+      .req-card p {
+        font-size: 0.875rem;
+        color: #555;
+        line-height: 1.55;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-family: 'Roboto', 'Arial', sans-serif;
+        font-weight: 500;
+        font-size: 0.9375rem;
+        line-height: 1;
+        padding: 0.75rem 1.625rem;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        transition:
+          background-color 0.15s ease,
+          box-shadow 0.15s ease,
+          transform 0.15s ease;
+        white-space: nowrap;
+        min-height: 44px;
+      }
+      .btn--primary {
+        background: #2d9cff;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(45, 156, 255, 0.35);
+      }
+      .btn--primary:hover {
+        background: #1a7fd4;
+        box-shadow: 0 4px 16px rgba(45, 156, 255, 0.45);
+        transform: translateY(-1px);
+      }
+      .btn--secondary {
+        background: transparent;
+        color: #1a1a1a;
+        box-shadow: inset 0 0 0 1.5px #e0e0e0;
+      }
+      .btn--secondary:hover {
+        background: #f8f8f8;
+      }
+      .btn--lg {
+        font-size: 1rem;
+        padding: 1rem 2rem;
+      }
+      .callout {
+        padding: 1.5rem;
+        border-left: 3px solid #2d9cff;
+        background: #f8fbff;
+        border-radius: 0 0.75rem 0.75rem 0;
+        margin-top: 2rem;
+      }
+      .callout p {
+        font-size: 0.9375rem;
+        line-height: 1.65;
+        color: #1a1a1a;
+        max-width: none;
+      }
+      @media (max-width: 768px) {
+        .site-footer__grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 480px) {
+        .site-header__nav {
+          gap: 1rem;
+        }
+      }
+      /* Mobile nav */
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 200;
+      }
+      .nav-toggle__bar {
+        width: 100%;
+        height: 2px;
+        background: #1a1a1a;
+        border-radius: 1px;
+        transition:
+          transform 0.25s ease,
+          opacity 0.25s ease;
+      }
+      .nav-toggle.is-open .nav-toggle__bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .nav-toggle.is-open .nav-toggle__bar:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-toggle.is-open .nav-toggle__bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      @media (max-width: 768px) {
+        .nav-toggle {
+          display: flex;
+        }
+        .site-header__nav {
+          display: none;
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 75%;
+          max-width: 320px;
+          height: 100vh;
+          background: #fff;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0;
+          padding: 5rem 2rem 2rem;
+          box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        }
+        .site-header__nav.is-open {
+          display: flex;
+          transform: translateX(0);
+        }
+        .site-header__nav a {
+          min-height: 44px;
+          font-size: 1rem;
+          padding: 0.75rem 0;
+          width: 100%;
+          border-bottom: 1px solid #e0e0e0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo" aria-label="Phlix home">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <rect width="28" height="28" rx="6" fill="#2D9CFF" />
+            <line
+              x1="8"
+              y1="8"
+              x2="20"
+              y2="20"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+            <line
+              x1="20"
+              y1="8"
+              x2="8"
+              y2="20"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          Phlix
+        </a>
+        <button
+          id="nav-toggle"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Toggle navigation"
+        >
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+        </button>
+        
+        <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">
+          <a href="/features">Features</a>
+          <a href="/clients">Clients</a>
+          <a href="/hub">Hub</a>
+          <a href="/download" aria-current="page">Download</a>
+          <a href="/docs">Docs</a>
+        </nav>
       </div>
-    </div>
+    </header>
+    <main id="main-content">
+      <div class="page-header">
+        <div class="container">
+          <p class="page-header__eyebrow">Get started</p>
+          <h1>Download and install Phlix in minutes.</h1>
+          <p class="lead">PHP 8.3+ and Composer. That's the only thing your server needs.</p>
+        </div>
+      </div>
 
-    <div class="section section--lg">
-      <div class="container">
-
-        <p class="section-label">Quick start</p>
-        <h2>Clone and run</h2>
-        <div class="install-card" style="margin-top:1.5rem;">
-          <p class="install-card__os">Terminal — Linux / macOS / Windows (WSL)</p>
-          <pre class="install-card__cmd">git clone https://github.com/detain/phlix-server.git
+      <div class="section section--lg">
+        <div class="container">
+          <p class="section-label">Quick start</p>
+          <h2>Clone and run</h2>
+          <div class="install-card" style="margin-top: 1.5rem">
+            <p class="install-card__os">Terminal — Linux / macOS / Windows (WSL)</p>
+            <pre class="install-card__cmd">
+git clone https://github.com/detain/phlix-server.git
 cd phlix-server
 composer install
-php start.php</pre>
-        </div>
+php start.php</pre
+            >
+          </div>
 
-        <p class="section-label" style="margin-top:3rem;">With Docker</p>
-        <div class="install-card" style="margin-top:1.5rem;">
-          <p class="install-card__os">Docker</p>
-          <pre class="install-card__cmd">docker run -d \
+          <p class="section-label" style="margin-top: 3rem">With Docker</p>
+          <div class="install-card" style="margin-top: 1.5rem">
+            <p class="install-card__os">Docker</p>
+            <pre class="install-card__cmd">
+docker run -d \
   --name phlix \
   -p 8080:8080 \
   -v /path/to/your/media:/media:ro \
-  detain/phlix-server:latest</pre>
-        </div>
+  detain/phlix-server:latest</pre
+            >
+          </div>
 
-        <p class="section-label" style="margin-top:3rem;">With Docker Compose</p>
-        <div class="install-card" style="margin-top:1.5rem;">
-          <p class="install-card__os">docker-compose.yml</p>
-          <pre class="install-card__cmd">services:
+          <p class="section-label" style="margin-top: 3rem">With Docker Compose</p>
+          <div class="install-card" style="margin-top: 1.5rem">
+            <p class="install-card__os">docker-compose.yml</p>
+            <pre class="install-card__cmd">
+services:
   phlix:
     image: detain/phlix-server:latest
     container_name: phlix
@@ -96,55 +660,124 @@ php start.php</pre>
       - "8080:8080"
     volumes:
       - /path/to/your/media:/media:ro
-    restart: unless-stopped</pre>
-        </div>
-
-        <!-- System requirements -->
-        <div class="reqs-grid">
-          <div class="req-card">
-            <h3>PHP</h3>
-            <p>8.3 or higher with extensions: pdo, json, mbstring, curl, zip, gmp, pcntl, posix, sockets</p>
+    restart: unless-stopped</pre
+            >
           </div>
-          <div class="req-card">
-            <h3>Web server</h3>
-            <p>Workerman 5.x (included via Composer). Reverse-proxy with nginx or Caddy for TLS termination.</p>
+
+          <!-- System requirements -->
+          <div class="reqs-grid">
+            <div class="req-card">
+              <h3>PHP</h3>
+              <p>
+                8.3 or higher with extensions: pdo, json, mbstring, curl, zip, gmp, pcntl, posix,
+                sockets
+              </p>
+            </div>
+            <div class="req-card">
+              <h3>Web server</h3>
+              <p>
+                Workerman 5.x (included via Composer). Reverse-proxy with nginx or Caddy for TLS
+                termination.
+              </p>
+            </div>
+            <div class="req-card">
+              <h3>Storage</h3>
+              <p>
+                Local filesystem, NFS, or SMB mount. All media formats FFmpeg can read are
+                supported.
+              </p>
+            </div>
+            <div class="req-card">
+              <h3>Network</h3>
+              <p>
+                LAN exposure for local clients. Port 8080 TCP. Hub relay connects outbound on port
+                443.
+              </p>
+            </div>
           </div>
-          <div class="req-card">
-            <h3>Storage</h3>
-            <p>Local filesystem, NFS, or SMB mount. All media formats FFmpeg can read are supported.</p>
+
+          <div class="callout">
+            <p>
+              <strong>Need help?</strong> The
+              <a
+                href="https://detain.github.io/phlix-docs"
+                style="color: #2d9cff; text-decoration: underline"
+                >full setup guide</a
+              >
+              covers reverse-proxy configuration, TLS, and troubleshooting.
+            </p>
           </div>
-          <div class="req-card">
-            <h3>Network</h3>
-            <p>LAN exposure for local clients. Port 8080 TCP. Hub relay connects outbound on port 443.</p>
+
+          <div
+            style="margin-top: 3rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap"
+          >
+            <a
+              href="https://github.com/detain/phlix-server"
+              class="btn btn--primary btn--lg"
+              rel="noopener noreferrer"
+              target="_blank"
+              >View on GitHub</a
+            >
+            <a href="https://detain.github.io/phlix-docs" class="btn btn--secondary btn--lg"
+              >Full documentation</a
+            >
           </div>
         </div>
-
-        <div class="callout">
-          <p><strong>Need help?</strong> The <a href="https://detain.github.io/phlix-docs" style="color:#2D9CFF;text-decoration:underline;">full setup guide</a> covers reverse-proxy configuration, TLS, and troubleshooting.</p>
-        </div>
-
-        <div style="margin-top:3rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-          <a href="https://github.com/detain/phlix-server" class="btn btn--primary btn--lg" rel="noopener noreferrer" target="_blank">View on GitHub</a>
-          <a href="https://detain.github.io/phlix-docs" class="btn btn--secondary btn--lg">Full documentation</a>
-        </div>
-
       </div>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <div class="site-footer__inner">
-      <div class="site-footer__brand">
-        <a href="/" class="logo" style="font-family:'Montserrat','Arial Black',sans-serif;font-weight:800;font-size:1.25rem;color:#fff;text-decoration:none;">Phlix</a>
-        <p>Open-source media, on your terms.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__brand">
+          <a
+            href="/"
+            class="logo"
+            style="
+              font-family: 'Montserrat', 'Arial Black', sans-serif;
+              font-weight: 800;
+              font-size: 1.25rem;
+              color: #fff;
+              text-decoration: none;
+            "
+            >Phlix</a
+          >
+          <p>Open-source media, on your terms.</p>
+        </div>
+        <div class="site-footer__grid">
+          <div class="site-footer__col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">Features</a></li>
+              <li><a href="/clients">Clients</a></li>
+              <li><a href="/download">Download</a></li>
+              <li><a href="/plugins">Plugins</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__col">
+            <h3>Developers</h3>
+            <ul>
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+              <li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__col">
+            <h3>Project</h3>
+            <ul>
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+              <li>
+                <a href="https://github.com/detain/phlix-website/blob/master/LICENSE"
+                  >License (BSD-3)</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="site-footer__bottom"><p>BSD-3-Clause. Open-source media server.</p></div>
       </div>
-      <div class="site-footer__grid">
-        <div class="site-footer__col"><h3>Product</h3><ul><li><a href="/features">Features</a></li><li><a href="/clients">Clients</a></li><li><a href="/download">Download</a></li><li><a href="/plugins">Plugins</a></li></ul></div>
-        <div class="site-footer__col"><h3>Developers</h3><ul><li><a href="https://detain.github.io/phlix-docs">Documentation</a></li><li><a href="https://github.com/detain/phlix-server">Server source</a></li><li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li><li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li></ul></div>
-        <div class="site-footer__col"><h3>Project</h3><ul><li><a href="https://github.com/detain">GitHub org</a></li><li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li><li><a href="https://github.com/detain/phlix-hub">Hub</a></li><li><a href="https://github.com/detain/phlix-website/blob/master/LICENSE">License (BSD-3)</a></li></ul></div>
-      </div>
-      <div class="site-footer__bottom"><p>BSD-3-Clause. Open-source media server.</p></div>
-    </div>
-  </footer>
-  <script src="/js/main.js" defer></script>
-</body>
+    </footer>
+    <script src="/js/main.js" defer></script>
+  </body>
 </html>

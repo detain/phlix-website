@@ -14,7 +14,8 @@
 
   if (navToggle && navMenu) {
     let isOpen = false;
-    const focusableSelectors = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusableSelectors =
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     function openNav() {
       isOpen = true;
@@ -96,7 +97,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         target.setAttribute('tabindex', '-1');
@@ -143,5 +144,4 @@
       }
     });
   }
-
 })();
