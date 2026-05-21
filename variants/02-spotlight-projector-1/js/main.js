@@ -13,14 +13,42 @@
 
     if (!toggle || !nav) return;
 
+    let focusableNavLinks = [];
+
+    function updateFocusableLinks() {
+      focusableNavLinks = Array.from(nav.querySelectorAll('a'));
+    }
+
     toggle.addEventListener('click', function () {
       const isOpen = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen);
 
-      // Trap focus in mobile menu
       if (isOpen) {
-        const firstLink = nav.querySelector('a');
+        updateFocusableLinks();
+        const firstLink = focusableNavLinks[0];
         if (firstLink) firstLink.focus();
+      }
+    });
+
+    // Full focus trap - prevent focus from escaping mobile nav
+    nav.addEventListener('keydown', function (e) {
+      if (!nav.classList.contains('is-open')) return;
+
+      if (e.key === 'Tab') {
+        const firstLink = focusableNavLinks[0];
+        const lastLink = focusableNavLinks[focusableNavLinks.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstLink) {
+            e.preventDefault();
+            lastLink.focus();
+          }
+        } else {
+          if (document.activeElement === lastLink) {
+            e.preventDefault();
+            firstLink.focus();
+          }
+        }
       }
     });
 

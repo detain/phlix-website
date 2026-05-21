@@ -1,53 +1,27 @@
-# Wave 1 Fixes: 02-spotlight-projector-1
+# FIXES Applied - 02-spotlight-projector-1 (Wave 1)
 
-## Fix Phase Summary
+## Issues Fixed
 
-**Date:** 2026-05-21
-**Wave:** 1 of 5
+### ACCESSIBILITY: Mobile nav focus trap issue
+- **Problem**: Focus could escape the mobile nav when open - only first link focus was implemented
+- **Fix**: Implemented full focus trap in `initMobileMenu()` that:
+  - Tracks all focusable nav links in an array
+  - Intercepts Tab key to cycle focus within the nav when open
+  - Shift+Tab cycles backwards from first to last link
+  - Only active when mobile nav is open (`is-open` class present)
 
----
-
-## Issues Found
-
-No critical issues were identified during the review phase. The variant passes all quality checks:
-
-- ✅ Build passes
-- ✅ HTML/CSS/JS lint passes
-- ✅ Brand kit colors correctly implemented
-- ✅ Brand kit fonts correctly loaded (self-hosted)
-- ✅ UI style matches "Classic Cinematic" theme
-- ✅ Responsive design implemented
-- ✅ Accessibility features present (skip link, ARIA, focus management)
-- ✅ SEO meta tags complete
-- ✅ JSON-LD structured data present
-
----
-
-## Fixes Applied
-
-**None required** - The variant is production-ready as-is.
-
----
+### READABILITY: 15px text resized to 16px minimum
+- **Problem**: Some text in feature cards, nav, and footer was 15px (0.9375rem) instead of 16px minimum
+- **Fix**: Updated font sizes from 0.9375rem to 1rem in:
+  - `.main-nav a` - navigation links
+  - `.feature-card p` - feature card descriptions
+  - `.footer-col a` - footer links
 
 ## Files Modified
 
-None - No edits were necessary.
+- `variants/02-spotlight-projector-1/js/main.js` - Focus trap implementation
+- `variants/02-spotlight-projector-1/css/theme.css` - Font size fixes (3 selectors)
 
----
+## Overall Result
 
-## Verification
-
-After review, the following commands were run:
-- `npm run build` - ✅ Pass (30 variants built)
-- `npm run lint:html` - ✅ No errors
-- `npm run lint:css` - ✅ No errors
-- `npm run lint:js` - ✅ No errors
-
----
-
-## Final State
-
-- **Variant Status:** Production-ready
-- **Lint Status:** All passing
-- **Build Status:** Successful
-- **Review Score:** 88/100
+**PASS** - Both accessibility and readability issues resolved. Focus now properly traps within mobile nav on Tab keystrokes, and all body text meets the 16px minimum readable size requirement.
