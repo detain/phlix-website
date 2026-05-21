@@ -1,0 +1,240 @@
+/* base.css - Reset, fonts, and CSS custom properties for Portal Hub V1 */
+
+/* Font-face declarations - using system fonts as fallbacks */
+@font-face {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: local('Poppins SemiBold'), local('Poppins-SemiBold');
+}
+
+/* CSS Custom Properties - Brand tokens */
+:root {
+    /* Primary Colors */
+    --color-neon-cyan: #00E5FF;
+    --color-midnight-blue: #0A0F1F;
+    --color-white: #FFF;
+
+    /* Secondary Colors */
+    --color-deep-navy: #08101C;
+    --color-soft-cyan: #7FF6FF;
+
+    /* Accent Colors */
+    --color-magenta-pulse: #FF00C8;
+
+    /* Semantic Colors */
+    --color-bg-primary: var(--color-midnight-blue);
+    --color-bg-secondary: var(--color-deep-navy);
+    --color-text-primary: var(--color-white);
+    --color-text-secondary: var(--color-soft-cyan);
+    --color-accent: var(--color-neon-cyan);
+    --color-accent-alt: var(--color-magenta-pulse);
+
+    /* Typography Scale */
+    --font-headline: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Inter Light', 'Inter', system-ui, sans-serif;
+    --font-ui: 'SF Pro Rounded', 'Inter', system-ui, sans-serif;
+    --font-code: 'IBM Plex Mono', 'Consolas', monospace;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-glow: 0 0 20px rgba(0, 229, 255, 0.3);
+    --shadow-glow-strong: 0 0 30px rgba(0, 229, 255, 0.5);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+
+    /* Layout */
+    --max-width: 1200px;
+    --header-height: 72px;
+}
+
+/* Modern CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .portal-ring {
+        animation-play-state: paused;
+    }
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-soft-cyan);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    font-family: var(--font-ui);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Skip Link */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-accent);
+    color: var(--color-midnight-blue);
+    font-weight: 600;
+    z-index: 9999;
+    border-radius: var(--radius-md);
+}
+
+.skip-link:focus {
+    top: var(--space-md);
+}
+
+/* Selection */
+::selection {
+    background: var(--color-accent);
+    color: var(--color-midnight-blue);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-deep-navy);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-neon-cyan);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-soft-cyan);
+}
+
+/* Lists */
+ul, ol {
+    list-style: none;
+}
+
+/* Code */
+code, pre {
+    font-family: var(--font-code);
+    font-size: 0.875em;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+@media (width >= 768px) {
+    .container {
+        padding: 0 var(--space-xl);
+    }
+}
+
+/* Touch target minimum */
+a, button {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

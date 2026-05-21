@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features — Phlix</title>
+  <meta name="description" content="Deep dive into Phlix features: library management, SyncPlay, transcoding, auth, Live TV, DLNA, plugins, and the Phlix Hub.">
+  <meta name="keywords" content="phlix features, media server features, SyncPlay, DLNA, transcoding">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/features">
+  <meta property="og:title" content="Features — Phlix">
+  <meta property="og:description" content="Deep dive into Phlix features: library management, SyncPlay, transcoding, auth, Live TV, DLNA, plugins, and the Phlix Hub.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/img/og.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Features — Phlix">
+  <meta name="twitter:description" content="Deep dive into Phlix features: library management, SyncPlay, transcoding, auth, Live TV, DLNA, plugins, and the Phlix Hub.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/img/og.svg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://detain.github.io/phlix-website/features">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Fonts (self-hosted) -->
+  <style>
+    @font-face {
+      font-family: 'Bebas Neue';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: local('Bebas Neue'), local('BebasNeue-Regular'), url('css/fonts/bebas-neue.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: local('Open Sans Regular'), local('OpenSans-Regular'), url('css/fonts/open-sans.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Nunito';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: local('Nunito Bold'), local('Nunito-Bold'), url('css/fonts/nunito-bold.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Cousine';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: local('Cousine Regular'), local('Cousine-Regular'), url('css/fonts/cousine.woff2') format('woff2');
+    }
+  </style>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="site-logo" aria-label="Phlix Home">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" stroke="#C0392B" stroke-width="3" fill="none"/>
+            <circle cx="20" cy="20" r="8" fill="#C0392B"/>
+            <path d="M20 4 L20 8 M20 32 L20 36 M4 20 L8 20 M32 20 L36 20" stroke="#C0392B" stroke-width="2"/>
+          </svg>
+          <span class="site-logo__text">Phlix</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav-list">
+            <span class="menu-toggle__bar"></span>
+            <span class="menu-toggle__bar"></span>
+            <span class="menu-toggle__bar"></span>
+          </button>
+          <ul class="main-nav__list" id="main-nav-list" role="list">
+            <li><a href="/" class="main-nav__link">Home</a></li>
+            <li><a href="/features" class="main-nav__link" aria-current="page">Features</a></li>
+            <li><a href="/clients" class="main-nav__link">Clients</a></li>
+            <li><a href="/download" class="main-nav__link">Download</a></li>
+            <li><a href="/plugins" class="main-nav__link">Plugins</a></li>
+            <li><a href="/docs" class="main-nav__link">Docs</a></li>
+            <li><a href="/hub" class="main-nav__link">Hub</a></li>
+            <li><a href="/about" class="main-nav__link">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main">
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <span class="page-header__eyebrow">What Phlix Does</span>
+        <h1 class="page-header__title">Features & <span>Capabilities</span></h1>
+        <p class="page-header__desc">Everything you need to stream your media, your way — self-hosted and under your control.</p>
+      </div>
+    </section>
+
+    <!-- Features Deep Dive -->
+    <section class="content-section">
+      <div class="container">
+        <div class="content-block">
+          <!-- Library -->
+          <h2>Library that organizes itself</h2>
+          <p>Phlix watches your media folders and automatically organizes your library. The folder-watcher hashes mtimes to detect changes, the scanner parses episode filenames (S01E02) and movie titles ((2020)), and ItemRepository hydrates metadata from multiple sources.</p>
+          <p>Add a file, and it appears in your library — no manual metadata entry required.</p>
+
+          <!-- SyncPlay -->
+          <h3>SyncPlay across the room or across the country</h3>
+          <p>Movie night with friends shouldn't require everyone to be in the same room. Phlix's SyncPlay uses a weighted-mean NTP offset calculated over 5 samples to keep every device locked to the same frame.</p>
+          <p>Play, pause, seek — everyone moves together, whether they're on the same LAN or connected through the Phlix Hub.</p>
+
+          <!-- Transcoding -->
+          <h3>Transcoding that picks the right quality</h3>
+          <p>Not every device can play every format. Phlix's QualitySelector applies profiles for mobile-low, mobile-high, web, and tv-4k. The transcoder uses CRF 23/28 with libx264/libx265 and outputs HLS master and variant playlists.</p>
+          <p>Your 4K HDR content gets transcoded to match what your device can actually handle.</p>
+
+          <!-- Auth -->
+          <h3>Multi-user, multi-profile, parental controls</h3>
+          <p>Phlix uses JWT auth with refresh tokens and Argon2ID password hashing for security. Each user can have up to 5 profiles, protected with 4- or 6-digit PINs. Content rating filters range from G to NC-17, so you can control what younger viewers access.</p>
+
+          <!-- Live TV -->
+          <h3>Live TV with DVR + EPG</h3>
+          <p>ChannelManager, GuideManager, and Recorder work together to give you scheduled recordings and a guide that doesn't make you click through menus. Watch live TV or set recordings for shows you'll miss.</p>
+
+          <!-- DLNA -->
+          <h3>DLNA for the devices you already own</h3>
+          <p>Your smart TV from 2018? Your old Xbox? DLNA support via ContentDirectory, AvTransport, and a DeviceRegistry means your existing devices can access your Phlix library without installing anything new.</p>
+
+          <!-- Plugins -->
+          <h3>Plugin system with a real contract</h3>
+          <p>Extend Phlix with plugins that implement LifecycleInterface and ship a manifest. The plugin loader picks them up automatically. See <a href="https://github.com/detain/phlix-plugin-example">phlix-plugin-example</a> for the smallest working starter.</p>
+
+          <!-- Hub -->
+          <h3>Phlix Hub — reach any of your servers from anywhere</h3>
+          <p>Sign in once to the Hub, and a reverse-tunnel relay handles NAT traversal. You can self-host the Hub, or use the public one. Access your home server from a friend's house, your phone, or any device with the Phlix client installed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Back to Top -->
+    <section class="content-section bg-alt">
+      <div class="container text-center">
+        <a href="/download" class="btn btn--primary">Get Started</a>
+        <a href="/" class="btn btn--secondary" style="margin-left: 1rem;">Back to Home</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-col">
+          <h3 class="footer-col__heading">Product</h3>
+          <ul class="footer-col__list">
+            <li><a href="/features" class="footer-col__link">Features</a></li>
+            <li><a href="/clients" class="footer-col__link">Clients</a></li>
+            <li><a href="/download" class="footer-col__link">Download</a></li>
+            <li><a href="/plugins" class="footer-col__link">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-col__heading">Developers</h3>
+          <ul class="footer-col__list">
+            <li><a href="https://detain.github.io/phlix-docs" class="footer-col__link">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server" class="footer-col__link">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example" class="footer-col__link">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference" class="footer-col__link">API reference</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-col__heading">Project</h3>
+          <ul class="footer-col__list">
+            <li><a href="https://github.com/detain" class="footer-col__link">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues" class="footer-col__link">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub" class="footer-col__link">Hub</a></li>
+            <li><a href="https://github.com/phlix-website/blob/master/LICENSE" class="footer-col__link">License (BSD-3)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Open-source media, on your terms. &copy; 2024 Phlix</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

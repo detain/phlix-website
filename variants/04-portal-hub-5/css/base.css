@@ -1,0 +1,253 @@
+/* base.css - Reset, fonts, and CSS custom properties for Portal Hub V5 - Solarpunk */
+
+/* Self-hosted Nunito Sans from local fonts */
+@font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/NunitoSans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/NunitoSans-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/NunitoSans-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/NunitoSans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* CSS Custom Properties - Solarpunk warm amber theme */
+:root {
+    /* Primary Colors - Solarpunk warm solar tones */
+    --color-warm-white: #FFFBEB;
+    --color-near-black: #1A1A1A;
+    --color-amber: #F59E0B;
+    --color-amber-dark: #D97706;
+    --color-amber-light: #FCD34D;
+    --color-muted: #78716C;
+
+    /* Semantic Colors */
+    --color-bg-primary: var(--color-warm-white);
+    --color-bg-secondary: #FEF3C7;
+    --color-bg-dark: var(--color-near-black);
+    --color-text-primary: var(--color-near-black);
+    --color-text-secondary: var(--color-muted);
+    --color-accent: var(--color-amber);
+    --color-accent-hover: var(--color-amber-dark);
+    --color-accent-light: var(--color-amber-light);
+
+    /* Typography Scale - Solarpunk display feel */
+    --font-headline: 'Nunito Sans', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Nunito Sans', system-ui, sans-serif;
+    --font-ui: 'Nunito Sans', system-ui, sans-serif;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+
+    /* Border Radius - organic, friendly */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* Shadows - warm, soft for solarpunk */
+    --shadow-sm: 0 2px 8px rgba(245, 158, 11, 0.1);
+    --shadow-md: 0 4px 16px rgba(245, 158, 11, 0.15);
+    --shadow-lg: 0 8px 32px rgba(245, 158, 11, 0.2);
+    --shadow-glow: 0 0 24px rgba(245, 158, 11, 0.3);
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+
+    /* Layout */
+    --max-width: 1200px;
+    --header-height: 72px;
+}
+
+/* Modern CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-amber-dark);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    font-family: var(--font-ui);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Skip Link */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-accent);
+    color: var(--color-near-black);
+    font-weight: 600;
+    z-index: 9999;
+    border-radius: var(--radius-md);
+}
+
+.skip-link:focus {
+    top: var(--space-md);
+}
+
+/* Selection */
+::selection {
+    background: var(--color-amber);
+    color: var(--color-near-black);
+}
+
+/* Scrollbar - warm amber styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-amber);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-amber-dark);
+}
+
+/* Lists */
+ul, ol {
+    list-style: none;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+@media (width >= 768px) {
+    .container {
+        padding: 0 var(--space-xl);
+    }
+}
+
+/* Touch target minimum */
+a, button {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

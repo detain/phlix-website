@@ -1,0 +1,594 @@
+/* theme.css - Visual theme for Spotlight Projector V2 - Art Deco Elegance */
+
+/* Art Deco geometric background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    /* Corner geometric accents */
+    linear-gradient(135deg, rgba(245, 197, 66, 0.03) 0%, transparent 30%) at 0% 0%,
+    linear-gradient(225deg, rgba(245, 197, 66, 0.03) 0%, transparent 30%) at 100% 0%,
+    linear-gradient(315deg, rgba(245, 197, 66, 0.03) 0%, transparent 30%) at 100% 100%,
+    linear-gradient(45deg, rgba(245, 197, 66, 0.03) 0%, transparent 30%) at 0% 100%,
+    /* Radial ambient glow */
+    radial-gradient(ellipse at 50% 0%, rgba(245, 197, 66, 0.08) 0%, transparent 50%),
+    var(--deep-black);
+}
+
+/* Art deco stepped pattern overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 40px,
+      rgba(245, 197, 66, 0.02) 40px,
+      rgba(245, 197, 66, 0.02) 42px
+    );
+  opacity: 0.5;
+}
+
+/* Header with Art Deco sunburst animation */
+.site-header {
+  position: relative;
+  padding: var(--space-lg) 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border-bottom: 2px solid var(--deco-gold-border);
+}
+
+/* Art deco sunburst animation for header */
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(245, 197, 66, 0.1) 0%, transparent 60%);
+  animation: sunburst-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sunburst-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header::before {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+/* Logo with Art Deco styling */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-spotlight);
+  text-decoration: none;
+  transition: text-shadow var(--transition-base);
+  /* Art deco text styling */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.logo:hover {
+  color: var(--gold-spotlight);
+  text-shadow:
+    0 0 10px rgba(245, 197, 66, 0.5),
+    0 0 20px rgba(245, 197, 66, 0.3),
+    0 0 30px rgba(245, 197, 66, 0.2);
+}
+
+.logo svg {
+  width: 36px;
+  height: 36px;
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--gold-spotlight);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Navigation with Art Deco styling */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.main-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--warm-white);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 4px;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  /* Art deco: chevron indicator on hover */
+  position: relative;
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  background: var(--gold-spotlight);
+  transition: transform var(--transition-base);
+}
+
+.main-nav a:hover::after,
+.main-nav a[aria-current="page"]::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.main-nav a:hover {
+  color: var(--gold-spotlight);
+  background-color: rgba(245, 197, 66, 0.1);
+}
+
+.main-nav a:focus-visible {
+  outline: 2px solid var(--gold-spotlight);
+  outline-offset: 2px;
+}
+
+.main-nav a[aria-current="page"] {
+  color: var(--gold-spotlight);
+  background-color: rgba(245, 197, 66, 0.15);
+}
+
+/* Mobile menu button */
+.menu-toggle {
+  display: none;
+  padding: var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--soft-shadow-gray);
+  border-radius: 4px;
+  color: var(--warm-white);
+  cursor: pointer;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+  border-color: var(--gold-spotlight);
+  color: var(--gold-spotlight);
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid var(--gold-spotlight);
+  outline-offset: 2px;
+}
+
+.menu-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hero section with Art Deco styling */
+.hero {
+  position: relative;
+  padding: var(--space-4xl) 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Art deco sunburst behind hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%;
+  height: 150%;
+  background:
+    conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(245, 197, 66, 0.05) 10deg,
+      transparent 20deg,
+      rgba(245, 197, 66, 0.05) 30deg,
+      transparent 40deg,
+      rgba(245, 197, 66, 0.05) 50deg,
+      transparent 60deg,
+      rgba(245, 197, 66, 0.05) 70deg,
+      transparent 80deg,
+      rgba(245, 197, 66, 0.05) 90deg,
+      transparent 100deg,
+      rgba(245, 197, 66, 0.05) 110deg,
+      transparent 120deg,
+      rgba(245, 197, 66, 0.05) 130deg,
+      transparent 140deg,
+      rgba(245, 197, 66, 0.05) 150deg,
+      transparent 160deg,
+      rgba(245, 197, 66, 0.05) 170deg,
+      transparent 180deg,
+      rgba(245, 197, 66, 0.05) 190deg,
+      transparent 200deg,
+      rgba(245, 197, 66, 0.05) 210deg,
+      transparent 220deg,
+      rgba(245, 197, 66, 0.05) 230deg,
+      transparent 240deg,
+      rgba(245, 197, 66, 0.05) 250deg,
+      transparent 260deg,
+      rgba(245, 197, 66, 0.05) 270deg,
+      transparent 280deg,
+      rgba(245, 197, 66, 0.05) 290deg,
+      transparent 300deg,
+      rgba(245, 197, 66, 0.05) 310deg,
+      transparent 320deg,
+      rgba(245, 197, 66, 0.05) 330deg,
+      transparent 340deg,
+      rgba(245, 197, 66, 0.05) 350deg,
+      transparent 360deg
+    );
+  pointer-events: none;
+  z-index: 0;
+  animation: sunburst-rotate 60s linear infinite;
+}
+
+@keyframes sunburst-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before {
+    animation: none;
+  }
+}
+
+/* Hero spotlight effect */
+.hero-spotlight {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(245, 197, 66, 0.12) 0%,
+    rgba(255, 184, 77, 0.06) 30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero typography with Art Deco styling */
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-glow);
+  margin-bottom: var(--space-md);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-lg);
+  text-shadow:
+    0 0 40px rgba(245, 197, 66, 0.3),
+    0 2px 0 rgba(0, 0, 0, 0.5);
+  /* Art deco letter spacing */
+  letter-spacing: 0.08em;
+}
+
+.hero-tagline {
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  color: var(--warm-white);
+  max-width: 700px;
+  margin: 0 auto var(--space-xl);
+  line-height: 1.6;
+}
+
+/* Buttons with Art Deco styling */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: var(--space-sm) var(--space-lg);
+  min-height: var(--touch-target);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  /* Art deco: uppercase with letter spacing */
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn--primary {
+  background-color: var(--gold-spotlight);
+  color: var(--deep-black);
+  /* Art deco gold shadow */
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(245, 197, 66, 0.3);
+}
+
+.btn--primary:hover {
+  background-color: var(--amber-glow);
+  color: var(--deep-black);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(245, 197, 66, 0.5);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--gold-spotlight);
+  outline-offset: 2px;
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--warm-white);
+  border: 2px solid var(--gold-spotlight);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(245, 197, 66, 0.1);
+  border-color: var(--amber-glow);
+  color: var(--gold-spotlight);
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--gold-spotlight);
+  outline-offset: 2px;
+}
+
+/* CTA group */
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+/* Sections */
+.section {
+  padding: var(--space-4xl) 0;
+}
+
+.section--alt {
+  background-color: rgba(58, 58, 58, 0.2);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-3xl);
+}
+
+.section-header h2 {
+  margin-bottom: var(--space-md);
+  /* Art deco underline */
+  display: inline-block;
+  position: relative;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-spotlight), transparent);
+}
+
+.section-header p {
+  color: rgba(255, 247, 230, 0.8);
+}
+
+/* Feature grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.feature-card {
+  background: linear-gradient(135deg, rgba(58, 58, 58, 0.4) 0%, rgba(58, 58, 58, 0.2) 100%);
+  border: 1px solid var(--deco-gold-border);
+  border-radius: 4px;
+  padding: var(--space-xl);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  /* Art deco corner accents */
+  position: relative;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--gold-spotlight) 0%, transparent 30%, transparent 70%, var(--gold-spotlight) 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 197, 66, 0.4);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(245, 197, 66, 0.1);
+}
+
+.feature-card:hover::before {
+  opacity: 0.3;
+}
+
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-md);
+  color: var(--gold-spotlight);
+}
+
+.feature-card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-sm);
+  color: var(--gold-spotlight);
+}
+
+.feature-card p {
+  color: rgba(255, 247, 230, 0.85);
+  font-size: 0.9375rem;
+  margin-bottom: 0;
+}
+
+/* Footer with Art Deco styling */
+.site-footer {
+  background: linear-gradient(180deg, rgba(58, 58, 58, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+  border-top: 2px solid var(--deco-gold-border);
+  padding: var(--space-3xl) 0 var(--space-xl);
+  margin-top: var(--space-4xl);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+}
+
+.footer-col h4 {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-spotlight);
+  margin-bottom: var(--space-md);
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col li {
+  margin-bottom: var(--space-sm);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: rgba(255, 247, 230, 0.75);
+  transition: color var(--transition-fast);
+}
+
+.footer-col a:hover {
+  color: var(--gold-spotlight);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(58, 58, 58, 0.5);
+}
+
+.footer-tagline {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: rgba(255, 247, 230, 0.85);
+  margin-bottom: var(--space-sm);
+}
+
+/* Responsive nav */
+@media (width <= 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.98);
+    border-top: 2px solid var(--deco-gold-border);
+    padding: var(--space-md);
+    gap: var(--space-xs);
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav a {
+    width: 100%;
+    justify-content: center;
+  }
+}

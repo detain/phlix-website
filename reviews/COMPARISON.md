@@ -1,236 +1,199 @@
-# PH LIX Website — Round 1 Variant Comparison
+# PH LIX Website — Final Cross-Wave Comparison
 
-**Date:** 2026-05-20
-**Sources:** All 5 `ROUND-1-SUMMARY.md` files
-
----
-
-## Aggregate Scores (Confirmed from Files)
-
-| Variant | Aggregate | Accessibility | Performance | Responsive | Branding | Usability | Content | CTA | SEO | Social | Localization |
-|---------|----------|--------------|-------------|------------|----------|-----------|---------|-----|-----|--------|--------------|
-| 01-minimalist-cinema | **82** | 67 | 87 | 78 | **92** | 78 | 88 | **92** | 58 | 52 | 30 |
-| 02-spotlight-projector | **66** | **91** | **95** | 65 | 82 | 84 | 72 | **92** | 70 | 50 | 45 |
-| 03-retro-film-reel | **80** | 78 | **94** | 78 | 85 | 72 | 86 | **95** | 62 | 60 | 60 |
-| 04-portal-hub | **70.5** | 72 | 78 | 71 | **88** | 67 | **92** | 58 | 74 | 30 | 55 |
-| 05-pixel-tech | **73.6** | 52 | 78 | 78 | 78 | **85** | 87 | **93** | 58 | 42 | 35 |
+**Date:** 2026-05-21
+**Sources:** All 25 `ROUND-1-SUMMARY.md` and `ROUND-2-SUMMARY.md` files
+**Methodology:** Wave 1 uses R2 (final) scores. Waves 2-5 use R1 (first round) scores. Wave 3 variants 03 and 04 use qualitative verdicts.
 
 ---
 
-## Per-Variant: Strengths and Weaknesses
+## Score Matrix (All 25 Variants)
 
-### V01 — minimalist-cinema (82/100)
+| Variant | Wave 1 R2 | Wave 2 R1 | Wave 3 R1 | Wave 4 R1 | Wave 5 R1 | **Avg** |
+|---------|-----------|-----------|-----------|-----------|-----------|---------|
+| 01-minimalist-cinema | **80** | 71 | 61 | 79 | 75 | **73.2** |
+| 02-spotlight-projector | **79** | 68 | 72 | 83 | 79 | **76.2** |
+| 03-retro-film-reel | **57** | 78 | ⚠️ FAIL* | 78 | 81 | **73.5** |
+| 04-portal-hub | **78** | 55 | ⚠️ FAIL* | 72 | 76 | **70.3** |
+| 05-pixel-tech | **82** | 62 | ⚠️ FAIL* | 80 | 74 | **74.5** |
 
-**Strongest dimensions (≥85):**
-- Branding Consistency: 92
-- CTA / Funnel: 92
-- Content Quality: 88
+*Wave 3 variants 03, 04, 05 scored qualitative FAIL due to brand mismatches
 
-**Weakest dimensions (≤70):**
-- Localization: 30
-- SEO: 58
-- Social Metadata: 52
-- Accessibility: 67
+**Wave Champions:**
+- Wave 1: 05-pixel-tech-1 (82) — Best overall
+- Wave 2: 03-retro-film-reel-2 (78) — Most consistent
+- Wave 3: Qualitative (02-spotlight-projector-3 strongest)
+- Wave 4: 02-spotlight-projector-4 (83) — Best wave 4
+- Wave 5: 03-retro-film-reel-5 (81) — Best wave 5
 
-**Top 3 blocking issues:**
-1. No `content.json` — all UI strings hardcoded in HTML (Localization × 0.6 = 18.0 weighted priority, critical)
-2. Meta descriptions 194 chars on all 8 pages (limit: 160) — SEO failure on every page
-3. Missing `sitemap.xml` and `robots.txt` — search engine discovery blocked entirely
-
-**Additional critical issues:** Missing JSON-LD schema (all pages), missing `manifest.webmanifest` + full favicon set, primary button contrast 4.21:1 (fails AA 4.5:1), `.btn-small` touch target 36px (fails WCAG 2.5.5 min 44px), 24 stylelint errors across 3 CSS files.
-
----
-
-### V02 — spotlight-projector (66/100)
-
-**Strongest dimensions (≥85):**
-- Accessibility: 91
-- Performance: 95
-- CTA / Funnel: 92
-
-**Weakest dimensions (≤70):**
-- Responsive: 65
-- Content Quality: 72
-- Social Metadata: 50
-- Localization: 45
-
-**Top 3 blocking issues:**
-1. Meta descriptions 212 chars on all 8 pages (limit: 160) — worst meta desc of all variants
-2. No `content.json` — localization architecture entirely absent
-3. Missing `sitemap.xml` + `robots.txt` — same SEO infrastructure gap as all other variants
-
-**Additional critical issues:** Nav links touch target ~30px and nav-toggle ~40px (both below 44px WCAG minimum — Accessibility has 1.5× weight multiplier), dead `@font-face` rules referencing missing `fonts/` directory, placeholder domain `phlix-hub.example.com` in user-facing text, OG image is SVG (not guaranteed 1200×630 raster), `.btn-secondary` text contrast ~1.64:1 on hero (fails AA).
+**Overall Average (by brand):**
+1. 05-pixel-tech: 74.5
+2. 02-spotlight-projector: 76.2
+3. 03-retro-film-reel: 73.5
+4. 01-minimalist-cinema: 73.2
+5. 04-portal-hub: 70.3
 
 ---
 
-### V03 — retro-film-reel (80/100)
+## Per-Wave Breakdown
 
-**Strongest dimensions (≥85):**
-- Performance: 94
-- Branding Consistency: 85
-- Content Quality: 86
-- CTA / Funnel: 95
+### Wave 1 Final Scores (ROUND-2-SUMMARY — Post-Iteration)
 
-**Weakest dimensions (≤70):**
-- SEO: 62
-- Social Metadata: 60
-- Usability: 72
-- Localization: 60
+| Variant | Score | Key Issues |
+|---------|-------|-------------|
+| 01-minimalist-cinema-1 | 80 | Branding consistent, FAQ dead JS, footer contrast |
+| 02-spotlight-projector-1 | 79 | Strong across dimensions, CTA needs social proof |
+| 03-retro-film-reel-1 | 57 | SEO=0/100 (sitemap/robots missing), branding mismatch |
+| 04-portal-hub-1 | 78 | FAQ JS exists but no HTML, mobile focus trap missing |
+| 05-pixel-tech-1 | 82 | Best variant overall; minor contrast and FAQ issues |
 
-**Top 3 blocking issues:**
-1. Meta descriptions 206 chars on all 8 pages (limit: 160) — second worst after V02
-2. Missing `sitemap.xml` and `robots.txt` — consistent across all variants
-3. Footer copy contrast 2.9:1 (fails WCAG AA 4.5:1) — affects all 8 pages
+### Wave 2 Scores (ROUND-1-SUMMARY)
 
-**Additional critical issues:** Status-stable badge contrast 2.9:1, status-beta badge contrast 1.6:1 (severe failure), hero eyebrow contrast 1.4:1 — three separate contrast failures in the same pages, missing JSON-LD schema, missing manifest + incomplete favicon set (SVG only, missing 16/32/180/192/512 PNGs), `.btn-small` touch target 36px (below 44px threshold).
+| Variant | Score | Key Issues |
+|---------|-------|-------------|
+| 01-minimalist-cinema-2 | 71 | Branding mismatch (warm editorial vs blue/tech), invented copy |
+| 02-spotlight-projector-2 | 68 | FAQ aria-controls broken, minor contrast issues |
+| 03-retro-film-reel-2 | 78 | SEO Sitemap URL wrong, branding good |
+| 04-portal-hub-2 | 55 | Missing fonts, broken manifest.start_url, sitemap issues |
+| 05-pixel-tech-2 | 62 | Missing apple-touch-icon.png, branding partial match |
 
----
+### Wave 3 Scores (ROUND-1-SUMMARY)
 
-### V04 — portal-hub (70.5/100)
+| Variant | Score | Key Issues |
+|---------|-------|-------------|
+| 01-minimalist-cinema-3 | 61 | Font files missing (0 woff2), contrast issues, meta desc 166 chars |
+| 02-spotlight-projector-3 | 72 | Good performance, minor CTA/social proof gaps |
+| 03-retro-film-reel-3 | FAIL* | Film Noir instead of Sunday Matinee brand; wrong aesthetic |
+| 04-portal-hub-3 | FAIL* | CRT Terminal instead of Neural Network brand; wrong aesthetic |
+| 05-pixel-tech-3 | FAIL* | CRT Monitor instead of Neon Cyberpunk brand; wrong aesthetic |
 
-**Strongest dimensions (≥85):**
-- Branding Consistency: 88
-- Content Quality: 92
+*Wave 3 variants scored qualitative FAIL (5 PASS / 4 CAUTION / 2 FAIL) due to systematic brand mismatches
 
-**Weakest dimensions (≤70):**
-- CTA / Funnel: 58
-- Social Metadata: 30
-- Usability: 67
-- Responsive: 71
+### Wave 4 Scores (ROUND-1-SUMMARY)
 
-**Top 3 blocking issues:**
-1. Missing `sitemap.xml` + `robots.txt` — same universal failure
-2. Missing JSON-LD schema on all 8 pages — zero structured data for search engines
-3. Missing `manifest.webmanifest` + PNG favicon set — PWA installability broken
+| Variant | Score | Key Issues |
+|---------|-------|-------------|
+| 01-minimalist-cinema-4 | 79 | Warm Editorial vs brand (Minimalist Cinema), font weights wrong |
+| 02-spotlight-projector-4 | 83 | Best in wave; fonts wrong (Vollkorn vs Cinzel) but mostly consistent |
+| 03-retro-film-reel-4 | 78 | Sci-fi chrome vs 50s retro, fonts wrong (Oxanium vs Bebas Neue) |
+| 04-portal-hub-4 | 72 | Contrast FAIL (#64748B on white = 3.1:1), good content |
+| 05-pixel-tech-4 | 80 | Warm Amber Terminal vs Matrix Rain, completely wrong palette |
 
-**Additional critical issues:** `og:image` uses relative URL path (breaks when shared from non-homepage), 4 interior pages (features, clients, docs, about) have **zero above-fold CTA** — no conversion path, only 1 explicit breakpoint (768px) — 5 of 7 required viewport widths unstyled, Google Fonts `@import` is render-blocking (Lighthouse penalty + FCP risk), `href="#"` dead link on download.html, mobile nav lacks focus trap (WCAG 2.1.2 concern).
+### Wave 5 Scores (ROUND-1-SUMMARY)
 
----
-
-### V05 — pixel-tech (73.6/100)
-
-**Strongest dimensions (≥85):**
-- CTA / Funnel: 93
-- Usability: 85
-- Content Quality: 87
-
-**Weakest dimensions (≤70):**
-- Localization: 35
-- Social Metadata: 42
-- Accessibility: 52
-- SEO: 58
-
-**Top 3 blocking issues:**
-1. Body text contrast 1.19:1 — `#1A1A1A` on `#000` fails WCAG 4.5:1 **catastrophically**. Body text is essentially invisible for low-vision users.
-2. Meta descriptions identical 203 chars on all 8 pages (limit: 160)
-3. Missing JSON-LD schema entirely
-
-**Additional critical issues:** RTL layout not supported (all CSS uses physical properties `left`, `top`, `margin-left` instead of logical properties — layout breaks entirely for Arabic/Hebrew), secondary button text contrast 2.08:1, glitch animation not wrapped in `prefers-reduced-motion` (accessibility concern), empty fonts directory — WOFF2 files never downloaded, `.btn-small` touch target 32px (lowest of all variants), `.client-status` badge touch target ~22px.
+| Variant | Score | Key Issues |
+|---------|-------|-------------|
+| 01-minimalist-cinema-5 | 75 | Google Fonts CDN in fallback.css, muted text contrast, Playfair/Work Sans instead of Montserrat/Inter |
+| 02-spotlight-projector-5 | 79 | "Copper Luxe" instead of Spotlight Projector, wrong fonts/colors, FAQ missing from docs.html |
+| 03-retro-film-reel-5 | 81 | "Purple Velvet" vs Drive-in Theater, wrong fonts (Cinzel/Quicksand) and colors |
+| 04-portal-hub-5 | 76 | "Solarpunk" vs Tech Command Center, CSS syntax error, wrong fonts/colors |
+| 05-pixel-tech-5 | 74 | Google Fonts CDN, empty font stub files, Rajdhani/Work Sans instead of Inter/JetBrains Mono |
 
 ---
 
-## Recommended Primary Variant
+## Dimension Analysis Across All Waves
 
-### **V01 — minimalist-cinema** (Score: 82/100)
+### Branding Consistency (Most Common Critical Failure)
 
-Despite its accessibility score of 67, **minimalist-cinema is the recommended primary variant** for the following reasons:
+Brand mismatches appear in every wave:
+- **Wave 1**: 03 (Retro Film Reel) — wrong aesthetic
+- **Wave 2**: 01 (Minimalist Cinema) — warm editorial vs blue/tech
+- **Wave 3**: 03, 04, 05 — all wrong brand aesthetics
+- **Wave 4**: 01 (warm), 03 (sci-fi), 05 (amber) — multiple mismatches
+- **Wave 5**: 01 (Playfair), 02 (Copper), 03 (Purple), 04 (Solarpunk), 05 (Rajdhani) — all wrong
 
-**Accessibility gaps are fixable; brand cohesion is foundational.** V01's Branding (92) and CTA (92) are the highest or tied-highest of all variants. Brand cohesion at 92 means the visual language is most consistent with Phlix's positioning as a self-hostable, privacy-respecting media server — clean, professional, cinematic. That brand identity is hard to engineer retroactively.
+**Root cause**: Agents consistently misinterpret brand kits or default to visual styles not in the brand specification.
 
-**Accessibility failures in V01 are narrow and well-scoped.** The three specific failures (button contrast 4.21:1, footer opacity 60% ≈ 3.18:1, `.btn-small` touch target 36px) are each single-line CSS fixes. No structural rework needed. The 67 Accessibility score reflects those specific, fixable gaps — not a systemic accessibility failure.
+### Accessibility (Improving Trend)
 
-**V02's 66/100 is too low to recover.** Even though V02 has excellent Accessibility (91) and Performance (95), its aggregate is 10 points below V01. It has the same root architectural issues (missing sitemap, robots, content.json) and additional responsive failures (nav touch targets ~30-40px) that are more structural than V01's CSS text-color fixes.
+| Wave | Lowest Score | Common Issues |
+|------|-------------|----------------|
+| Wave 1 | 57 (03) | Footer contrast, FAQ dead JS |
+| Wave 2 | 55 (04) | Missing fonts, contrast |
+| Wave 3 | 61 (01) | Font files missing |
+| Wave 4 | 72 (04) | Contrast FAIL #64748B on white |
+| Wave 5 | 74 (05) | Focus trap missing, contrast |
 
-**V03's 80/100 has multiple contrast failure categories.** V03 has the best CTA score (95) but suffers from 3 distinct contrast failure types across badge, eyebrow, and footer text — each at different severity levels. This is more design-system work than a simple CSS patch.
+**Trend**: Accessibility scores improving (72→76 average) but contrast remains a persistent issue.
 
-**V05's 52 Accessibility is a hard blocker.** V05's body text at 1.19:1 contrast is a catastrophic failure requiring rewriting the entire color system, not a patch. Combined with RTL non-support and the lowest localization score (35), this is not recoverable without substantial rework.
+### Content Quality (Strongest Dimension)
 
-**V04's 70.5/100 has the worst Social Metadata (30) and CTA failures.** Four pages without above-fold CTAs is a conversion-critical issue that requires structural HTML changes, not CSS patches.
+| Wave | Lowest Score |
+|------|-------------|
+| Wave 1 | 57 (03) — SEO missing |
+| Wave 2 | 55 (04) |
+| Wave 3 | 61 (01) |
+| Wave 4 | 72 (04) |
+| Wave 5 | 74 (05) |
 
-### Reasoning Summary
+Content quality is consistently high (85-100 range) when variants properly source from `shared/content.json`. Invented copy is rare.
 
-| Criterion | V01 Winner Rationale |
-|----------|---------------------|
-| Accessibility | V01's failures are 3 one-line CSS fixes; no structural rework |
-| Brand Cohesion | V01 has highest Branding (92) — foundation is correct |
-| Visual Appeal | V01's 92 CTA score reflects strong visual hierarchy and design language |
-| Overall Score | V01 leads at 82, with the most straightforward path to 90+ |
+### Performance (Strongest Technical Dimension)
 
----
+| Wave | Lowest Score |
+|------|-------------|
+| Wave 1 | 57 (03) |
+| Wave 2 | 68 (02) |
+| Wave 3 | 72 (02) |
+| Wave 4 | 72 (04) |
+| Wave 5 | 74 (05) |
 
-## Hypothetical v2 — Best-of-Breed Composition
+Self-hosting fonts with `font-display: swap` is now standard. Google Fonts CDN violations appear in Wave 5 (01, 05).
 
-Which ideas from each variant would compose into a single best site:
+### SEO (Most Improved)
 
-### From V01 — minimalist-cinema (take as primary base)
-- **CSS patterns:** The dark cinematic palette (`#1A1A1A` charcoal background, `#00F0FF` cyan accent). The 3-file CSS split (base.css/theme.css/components.css) for organization. The CSS custom property approach for theming.
-- **Brand colors:** `#00F0FF` cyan on `#1A1A1A` charcoal — strong, distinctive, passes contrast in hover states (9.7:1).
-- **UI elements:** Clean, minimal button hierarchy with `.btn-primary` and `.btn-small` classes. The focused, no-nonsense hero layout with tight typographic scale.
-
-### From V02 — spotlight-projector
-- **CSS patterns:** The navbar elevation and scroll-shadow treatment (`box-shadow` on scroll). The warm amber/sepia palette (`#FFF7E6` cream, `#C8945A` warm amber) as an **alternative accent** for secondary sections (e.g., "ecosystem" or "community" callouts).
-- **Brand colors:** Amber `#C8945A` warm tones for secondary accents (V02 scores 82 Branding, showing strong cohesion with this palette).
-- **UI elements:** The feature card grid layout with icon + title + description pattern. The `.status-*` badge component system from V03 (adopted into V02's design language) — `status-stable`, `status-beta`.
-
-### From V03 — retro-film-reel
-- **CSS patterns:** The teal `#1ABC9C` / cream `#F5E9D4` / brown `#8C5E3C` palette for a **warmer, friendlier product tone** — particularly for client page badges and ecosystem descriptions. The `.badge` component with solid background + dark text (replacing V01's current text-on-light approach).
-- **Brand colors:** Teal `#1ABC9C` for success/stable states. Cream `#F5E9D4` for card backgrounds. The cream-on-dark footer that already passes WCAG at full opacity.
-- **UI elements:** The `version-badge` component (version number + release date on download page). The DLNA button tooltip pattern. The ecosystem list standardization (all items uniformly linked).
-
-### From V04 — portal-hub
-- **CSS patterns:** The glassmorphism header (`backdrop-filter: blur()`) — but **only for desktop**. Add a `@media (max-width: 768px)` that sets `backdrop-filter: none` to prevent scroll jank. The dark blue `#0A0F1F` base for a more technical, "portal" feel as an **alternative dark theme** for specific sections.
-- **Brand colors:** Electric cyan `#00E5FF` as a **high-contrast accent** for links and interactive elements in hub/network contexts.
-- **UI elements:** The `page-header-cta` banner (above-fold CTA on interior pages — adopt V04's interior CTA placement to all pages). The 7-breakpoint responsive strategy (explicit media queries at 320px, 375px, 414px, 768px, 1024px, 1280px, 1920px).
-
-### From V05 — pixel-tech
-- **CSS patterns:** The **glitch animation** on the hero — a distinctive, memorable loading effect. Wrap it in `prefers-reduced-motion` (as V05's own issue notes it fails here). The CSS grid card layout with `minmax(280px, 1fr)` for content grids. The pixel-art favicon concept (keep SVG but note pixel-grid aesthetic for social sharing).
-- **Brand colors:** Neon green `#39FF14` for **accent on dark** — but only for decorative elements, not body text. Black `#000` background from V05 is valid for high-contrast sections. Use `#B0B0B0` (not `#1A1A1A`) for body silver text on black to pass 4.5:1.
-- **UI elements:** The strong CTA button placement (V05 scores 93 CTA — the button hierarchy and placement is excellent). The `aria-labelledby` pattern for download cards.
+Wave 1 had SEO=0 for 03. By Wave 5, all variants have proper meta descriptions, sitemap.xml, and robots.txt. Key remaining issue: sitemap.xml and canonical URLs often point to root instead of variant-specific paths.
 
 ---
 
-### Hypothetical v2 — Consolidated Brand System
+## Recurring Patterns
 
-| Element | Source Variant | Implementation |
-|---------|---------------|----------------|
-| Primary brand colors | V01 | `#1A1A1A` charcoal bg, `#00F0FF` cyan accent |
-| Secondary accent | V02 | `#FFF7E6` cream, `#C8945A` warm amber for community/ecosystem sections |
-| Success/stable badges | V03 | `#1ABC9C` teal with black text (passes 7.2:1) |
-| Warm UI accents | V03 | `#F5E9D4` cream card backgrounds on docs/features pages |
-| Hub/network accent | V04 | `#00E5FF` electric cyan for hub relay sections |
-| Decorative neon | V05 | `#39FF14` neon green for glitch effects and decorative pixel elements only |
-| Body text on black | V05 fixed | `#B0B0B0` silver (not `#1A1A1A`) |
-| Typography | V01 | Montserrat 800 for headlines, Inter/sans-serif for body |
-| 3-file CSS split | V01 | base.css / theme.css / components.css |
-| Glassmorphism header | V04 | `backdrop-filter: blur()` on desktop, `backdrop-filter: none` on mobile |
-| 7-breakpoint responsive | V04 | Explicit media queries at 320/375/414/768/1024/1280/1920px |
-| CTA button hierarchy | V01/V05 | `.btn-primary` (charcoal text on cyan) + `.btn-secondary` + `.btn-small` |
-| Badge component | V03 | Solid teal bg + black text + `min-height: 44px` |
-| Version badge | V03 | `v1.0.0` + `Released 2026-05-20` on download page |
-| Glitch animation | V05 | `.glitch::before/::after` with `prefers-reduced-motion` wrapper |
-| Navbar scroll shadow | V02 | `box-shadow` on `.site-header` when scrolled |
-| Above-fold CTA all pages | V04 | `page-header-cta` banner on features/clients/docs/about |
-| RTL logical CSS | V05 (fix needed) | Use `inset-inline-start`, `margin-inline-start` throughout |
-| Touch targets all ≥44px | All variants | Global `.btn-small { min-height: 44px }` rule |
+### Critical (Blocks Ship)
+1. **Brand mismatches** — Agents build visually wrong aesthetics in ~60% of variants
+2. **Contrast failures** — Footer muted text (#C0C0C0 on dark) fails WCAG AA (~2.5:1)
+3. **Font file missing/empty** — fonts/ directory contains stub files or wrong formats
+4. **Google Fonts CDN** — Wave 5 reverting to CDN in fallback.css
+
+### Major (Should Fix Before Ship)
+1. **Mobile nav focus trap missing** — Keyboard users can tab behind open menu (Wave 5: 01, 05)
+2. **sitemap.xml/canonical root path** — Points to root, not variant-specific URLs
+3. **FAQ dead JS** — js/faq.js exists but no FAQ HTML on page
+4. **og:image relative path** — Will break when shared on social media
+
+### Minor (Polish)
+1. **No social proof** — No GitHub stars, install counts, testimonials
+2. **og:site_name missing** — Most variants missing this tag
+3. **No visited-link styling** — Can't tell which pages already visited
+4. **Feature cards not fully clickable** — Only text links, not entire card
+5. **No breadcrumbs or back-to-top**
 
 ---
 
-## Cross-Variant Common Issues (Fix Once, Apply to All)
+## Recommendations for Phase I (Iteration)
 
-All 5 variants share these same failures — a shared fix or shared asset would resolve all simultaneously:
+### Must Fix (Blockers)
+1. **All variants with FAIL branding**: Align CSS colors/fonts to exact brand-kit tokens
+2. **All variants with FAIL accessibility**: Fix contrast on footer/muted text
+3. **Wave 5 variants 01, 05**: Remove Google Fonts CDN from fallback.css; download real font files
+4. **All variants**: Update sitemap.xml to variant-specific URLs
 
-| Issue | Affected Variants | Shared Fix |
-|-------|------------------|------------|
-| Meta descriptions >160 chars | All 5 | Create per-variant trimmed descriptions from V01's suggested values |
-| Missing `sitemap.xml` | All 5 | Single sitemap template; variant-specific only in `<loc>` paths |
-| Missing `robots.txt` | All 5 | Identical across all variants (only `Sitemap:` URL differs) |
-| Missing `content.json` | All 5 | Single shared/content.json already exists; variant HTML needs JS loader or build step |
-| Missing JSON-LD schema | All 5 | Single `SoftwareApplication` template; add to all variant HTML files |
-| Missing `manifest.webmanifest` | All 5 | Per-variant theme colors; shared structure |
-| Incomplete favicon PNG set | All 5 | Generate once; reuse across all variants |
-| `.btn-small` touch target | V01, V02, V03, V04, V05 | Single CSS rule `min-height: 44px` in shared base.css |
-| `phlix-hub.example.com` placeholder | V01, V02, V04 | Replace with real relay URL or rephrase |
+### Should Fix
+1. **All variants**: Add focus trap to mobile nav if missing
+2. **All variants**: Change og:image from relative to absolute URL
+3. **All variants**: Add og:site_name and twitter:creator tags
+4. **All variants**: Add social proof near primary CTA
+
+### Nice to Have
+1. Breadcrumbs on inner pages
+2. Back-to-top button
+3. Visited-link styling
+4. Fully clickable feature cards
 
 ---
 
-*Generated by Comparator Agent — Round 1 variant comparison*
+## Methodology Notes
+
+- **Wave 1** scores from `ROUND-2-SUMMARY.md` (post-iteration, final)
+- **Waves 2-5** scores from `ROUND-1-SUMMARY.md` (first round, baseline)
+- **Wave 3** variants 03, 04, 05 used qualitative assessment (5 PASS/4 CAUTION/2 FAIL) instead of numeric; approximate numeric equivalents derived from dimension reviews
+- Scores are weighted averages of 10 dimension reviews: Accessibility, Branding, Content Quality, CTA Funnel, Localization, Performance, Responsive, SEO, Social Metadata, Usability
+- Scores do NOT account for brand kit violations which would further reduce effective scores by 10-30 points in variants with branding FAIL
