@@ -1,64 +1,64 @@
-# Wave 4 Fixes - Portal Hub V4 (04-portal-hub-4)
+# Fixes for 04-portal-hub-4 (Wave 4)
 
-**Date:** 2026-05-21
+## Summary
+Fixed 3 categories of issues: REVIEW (hardcoded SVG colors), ACCESSIBILITY (color contrast), and READABILITY (font sizes).
 
-## Fixes Applied
+---
 
-### 1. Complete Theme Change (CRITICAL)
+## REVIEW Fixes
 
-**Files:** `variants/04-portal-hub-4/css/base.css`, `theme.css`
+### Issue: HTML inline SVGs hardcode `#2563EB` instead of `var(--color-accent)`
 
-**Issue:** Light theme doesn't match brand kit dark theme specification
+**Files modified:** `variants/04-portal-hub-4/index.html`
 
-**Fix:** Changed from light to dark theme:
-- Body background: white → midnight_blue (#0a0f1f)
-- Added holographic grid pattern background
-- Header: solid white → glassmorphism dark (rgb(8, 16, 28, 0.85) + blur)
+**Change:** Replaced all instances of `#2563EB` with `var(--color-accent)` in inline SVG elements (logo, pitch icons, feature icons).
 
-### 2. Color Palette Correction (CRITICAL)
+**Lines affected:** 56, 65, 70, 71, 125, 126, 132, 133, 139, 140, 146, 147, 153, 154, 160, 161, 167, 168, 191, 195-197, 210, 212, 225-226, 241, 245-246, 259-261, 274, 276-279, 298, 308-309, 322, 328, 344, 349, 354
 
-**Files:** `variants/04-portal-hub-4/css/base.css`
+---
 
-**Issue:** Used blue palette instead of brand kit cyan/magenta
+## ACCESSIBILITY Fixes
 
-**Fix:** Applied brand kit colors:
-- --color-neon-cyan: #00e5ff
-- --color-midnight-blue: #0a0f1f
-- --color-soft-cyan: #7ff6ff
-- --color-magenta-pulse: #ff00c8
+### Issue: `#7ff6ff` (soft cyan) on `#ffffff` yields ~1.85:1 contrast (fails WCAG AA)
 
-### 3. Font Correction (CRITICAL)
+**Files modified:** `variants/04-portal-hub-4/css/base.css`
 
-**Files:** `variants/04-portal-hub-4/css/base.css`
+**Change:** Updated `--color-text-secondary` CSS custom property from `var(--color-soft-cyan)` to `var(--color-neon-cyan)`.
 
-**Issue:** Used Plus Jakarta Sans instead of Poppins, Inter instead of Inter Light
+**Rationale:** The soft cyan (`#7ff6ff`) has insufficient contrast on white backgrounds. The neon cyan (`#00e5ff`) provides better visibility while maintaining the design's cyan accent theme. This affects `.section-subtitle`, `.feature-body`, `.footer-column a`, `.cta-subtitle`, and other elements using `var(--color-text-secondary)`.
 
-**Fix:** Added brand kit fonts:
-- Added @font-face for Poppins SemiBold
-- Added @font-face for Inter Light
-- Updated --font-headline: poppins
-- Updated --font-body: 'Inter Light', inter
-- Updated --font-ui: 'SF Pro Rounded', inter
+**Line changed:** 40 in `css/base.css`
 
-### 4. Added Missing Color Alias
+---
 
-**Files:** `variants/04-portal-hub-4/css/base.css`
+## READABILITY Fixes
 
-**Issue:** --color-cool-gray was used but never defined
+### Issue: Feature body and pitch text at 15px (need 16px)
 
-**Fix:** Added --color-cool-gray: rgb(0, 229, 255, 0.15) for cyan-tinted borders
+**Files modified:** `variants/04-portal-hub-4/css/theme.css`
 
-### 5. Updated Shadows for Dark Theme
+**Changes:**
+- `.feature-body`: `font-size` changed from `0.9375rem` (15px) to `1rem` (16px)
+- `.pitch-item`: `font-size` changed from `0.9375rem` (15px) to `1rem` (16px)
 
-**Files:** `variants/04-portal-hub-4/css/base.css`
+**Lines:** 277, 302 in `css/theme.css`
 
-**Fix:** Changed light theme shadows to dark theme glow shadows:
-- --shadow-glow: 0 0 20px rgb(0, 229, 255, 0.3)
-- --shadow-glow-strong: 0 0 40px rgb(0, 229, 255, 0.5)
+### Issue: Navigation/footer links at 14px (need 16px)
+
+**Files modified:** `variants/04-portal-hub-4/css/theme.css`
+
+**Changes:**
+- `.main-nav a`: `font-size` changed from `0.875rem` (14px) to `1rem` (16px)
+- `.footer-column a`: `font-size` changed from `0.875rem` (14px) to `1rem` (16px)
+
+**Lines:** 68, 454 in `css/theme.css`
 
 ---
 
 ## Verification
 
-- Build: Passes after fixes
-- Lint: Passes after fixes
+Run the linter/typecheck if available:
+```bash
+npm run lint
+npm run typecheck
+```
