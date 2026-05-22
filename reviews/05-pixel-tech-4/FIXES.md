@@ -1,74 +1,54 @@
-# Wave 4 Fixes - 05-pixel-tech-4 (Matrix Rain)
-
-**Date:** 2026-05-21
-**Variant:** 05-pixel-tech-4
-
----
-
-## Fixes Applied
-
-### Fix 1: Complete Color Palette Rewrite
-
-**File:** `variants/05-pixel-tech-4/css/base.css`
-**Lines:** 63-86
-
-**Before:** Warm Amber Terminal palette (warm browns #1a1209, amber #ff9500, etc.)
-**After:** Matrix Rain palette per brand-kit:
-- `--color-neon-green: #39FF14`
-- `--color-black: #000`
-- `--color-silver: #c0c0c0`
-- `--color-dark-gray: #1a1a1a`
-- `--color-matrix-green: #0F6`
-- `--color-electric-purple: #9B30FF`
-
-### Fix 2: Font Families Corrected
-
-**File:** `variants/05-pixel-tech-4/css/base.css`
-**Lines:** 97-101
-
-**Before:** Fira Code, Fira Sans (not in brand-kit)
-**After:** Per brand-kit:
-- `--font-headline: 'Orbitron', monospace`
-- `--font-body: 'Inter', sans-serif`
-- `--font-ui: 'Roboto Mono', monospace`
-- `--font-code: 'JetBrains Mono', monospace`
-
-### Fix 3: Font-face Declarations Updated
-
-**File:** `variants/05-pixel-tech-4/css/theme.css`
-**Lines:** 8-43
-
-**Before:** Referenced Fira Code, Fira Sans font files
-**After:** References correct brand-kit font files:
-- Orbitron Bold (orbitron-bold-700.woff2)
-- Inter Medium (inter-medium-500.woff2)
-- Roboto Mono (roboto-mono-regular-400.woff2)
-- JetBrains Mono (jetbrains-mono-regular-400.woff2)
-
-### Fix 4: Matrix Header Effects Updated
-
-**File:** `variants/05-pixel-tech-4/css/theme.css`
-
-**Before:** Amber glow animation
-**After:** Green matrix rain animation using brand colors
-
-### Fix 5: Comment Header Corrected
-
-**File:** `variants/05-pixel-tech-4/css/base.css` and `theme.css`
-
-**Before:** "Warm Amber Terminal: cozy dark brown, amber glow"
-**After:** "Matrix Rain: green digital rain, falling code, hacker style"
-
----
+# Fixes Applied - Variant 05-pixel-tech-4 (Wave 4)
 
 ## Summary
+All 5 issues from REVIEW, ACCESSIBILITY, and READABILITY phases have been fixed.
 
-| Fix | Status | Impact |
-|-----|--------|--------|
-| Complete color palette rewrite | APPLIED | High |
-| Font families corrected | APPLIED | High |
-| Font-face declarations updated | APPLIED | High |
-| Matrix effects updated to brand colors | APPLIED | High |
-| Comment headers corrected | APPLIED | Low |
+---
 
-**Total fixes applied: 5**
+## Issue 1: Brand Colors FAIL
+**Problem:** `--color-matrix-green: #0f6` should be `#00FF66`
+**Fix:** Updated the CSS custom property value
+**File Modified:** `variants/05-pixel-tech-4/css/base.css:87`
+
+---
+
+## Issue 2: Contrast FAIL (Accessibility)
+**Problem:** `--color-muted: #1a1a1a` on black = 1.7:1 (needs 4.5:1) - affects `.footer-copy`, `.status-beta`
+**Fix:** Changed `--color-muted` to use `--silver` (#c0c0c0) instead of `--color-dark-gray`
+**File Modified:** `variants/05-pixel-tech-4/css/base.css:105`
+
+---
+
+## Issue 3: Focus Trap FAIL (Accessibility)
+**Problem:** Mobile nav has no focus trap
+**Fix:** Added `trapFocus()` function and integrated it into `initMobileNav()` to trap focus within the mobile menu when open
+**File Modified:** `variants/05-pixel-tech-4/js/main.js`
+
+---
+
+## Issue 4: Font Sizes FAIL (Readability)
+**Problem:** `.nav-menu a` (14px), `.feature-card p` (14.4px), `.footer-col a` (14px) all below 16px
+**Fix:** Raised all three font sizes to `1rem` (16px)
+**Files Modified:**
+- `variants/05-pixel-tech-4/css/theme.css:120` (`.nav-menu a`)
+- `variants/05-pixel-tech-4/css/theme.css:414` (`.feature-card p`)
+- `variants/05-pixel-tech-4/css/theme.css:736` (`.footer-col a`)
+
+---
+
+## Issue 5: Reduced Motion FAIL (Readability)
+**Problem:** `matrix-rain` and `blink` animations don't have targeted reduced-motion overrides
+**Fix:** Added `@media (prefers-reduced-motion: reduce)` blocks that disable the specific animations:
+- `matrix-rain` disabled on `.site-header::after`
+- `blink` disabled on `.terminal-cursor::after`
+**Files Modified:**
+- `variants/05-pixel-tech-4/css/theme.css` (matrix-rain)
+- `variants/05-pixel-tech-4/css/components.css` (blink)
+
+---
+
+## Files Modified
+- `variants/05-pixel-tech-4/css/base.css`
+- `variants/05-pixel-tech-4/css/theme.css`
+- `variants/05-pixel-tech-4/css/components.css`
+- `variants/05-pixel-tech-4/js/main.js`

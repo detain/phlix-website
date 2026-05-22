@@ -20,6 +20,11 @@
 
       // Prevent body scroll when menu is open
       document.body.style.overflow = isOpen ? 'hidden' : '';
+
+      // Focus trap when menu opens
+      if (isOpen) {
+        trapFocus(menu);
+      }
     });
 
     // Close menu on escape
@@ -40,6 +45,38 @@
         document.body.style.overflow = '';
       });
     });
+  }
+
+  // ─── Focus Trap ───
+  function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+    );
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    function handleTabKey(e) {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          lastFocusable.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          firstFocusable.focus();
+          e.preventDefault();
+        }
+      }
+    }
+
+    element.addEventListener('keydown', handleTabKey);
+
+    // Store cleanup function
+    element._trapCleanup = function() {
+      element.removeEventListener('keydown', handleTabKey);
+    };
   }
 
   // ─── Amber Glow Effect ───
