@@ -1,7 +1,7 @@
 /**
  * main.js
  * Mobile nav toggle with focus trap, smooth scroll, sci-fi animations
- * Variant: 03-retro-film-reel-4 (Sci-Fi Retro)
+ * Variant: 03-retro-film-reel-4 (Hollywood Golden Age)
  */
 
 (function () {
