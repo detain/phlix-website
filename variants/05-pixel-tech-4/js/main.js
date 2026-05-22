@@ -50,7 +50,7 @@
   // ─── Focus Trap ───
   function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
-      'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+      'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select',
     );
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -74,7 +74,7 @@
     element.addEventListener('keydown', handleTabKey);
 
     // Store cleanup function
-    element._trapCleanup = function() {
+    element._trapCleanup = function () {
       element.removeEventListener('keydown', handleTabKey);
     };
   }
