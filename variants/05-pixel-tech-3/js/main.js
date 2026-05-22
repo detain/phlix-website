@@ -14,12 +14,51 @@
 
     if (!toggle || !menu) return;
 
+    const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    let focusableElements = [];
+
+    function updateFocusableElements() {
+      focusableElements = Array.from(menu.querySelectorAll(focusableSelectors));
+    }
+
+    function trapFocus(e) {
+      if (e.key !== 'Tab') return;
+
+      updateFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstEl = focusableElements[0];
+      const lastEl = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    }
+
     toggle.addEventListener('click', function () {
       const isOpen = menu.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen.toString());
 
       // Prevent body scroll when menu is open
       document.body.style.overflow = isOpen ? 'hidden' : '';
+
+      if (isOpen) {
+        updateFocusableElements();
+        if (focusableElements.length > 0) {
+          focusableElements[0].focus();
+        }
+        menu.addEventListener('keydown', trapFocus);
+      } else {
+        menu.removeEventListener('keydown', trapFocus);
+      }
     });
 
     // Close menu on escape
@@ -28,6 +67,7 @@
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        menu.removeEventListener('keydown', trapFocus);
         toggle.focus();
       }
     });
@@ -38,6 +78,7 @@
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        menu.removeEventListener('keydown', trapFocus);
       });
     });
   }

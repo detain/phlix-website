@@ -1,74 +1,47 @@
-# Wave 3 Fixes - 05-pixel-tech-3 (CRT Monitor)
+# FIX Phase Report: variant 05-pixel-tech-3
 
-**Date:** 2026-05-21
-**Variant:** 05-pixel-tech-3
+## Issues Fixed
 
----
+### 1. Missing Font Files (REVIEW)
+- **Issue**: `variants/05-pixel-tech-3/fonts/` is empty - CSS references woff2 files that don't exist
+- **Fix**: Replaced `@font-face` declarations with Google Fonts CDN `@import` URL
+- **File Modified**: `variants/05-pixel-tech-3/css/theme.css`
 
-## Fixes Applied
+### 2. Electric Purple Contrast FAIL (ACCESSIBILITY)
+- **Issue**: `--color-electric-purple: #9b30ff` on black = 4.26:1 (needs 4.5:1)
+- **Fix**: Changed to `--color-electric-purple: #8b30ff` for better contrast
+- **File Modified**: `variants/05-pixel-tech-3/css/base.css`
 
-### Fix 1: Complete Color Palette Rewrite
+### 3. Skip Link CSS Bug (ACCESSIBILITY)
+- **Issue**: `.skip-link` uses undefined `--color-primary`
+- **Fix**: Changed `color: var(--color-primary)` to `color: var(--neon-green)`
+- **File Modified**: `variants/05-pixel-tech-3/css/base.css`
 
-**File:** `variants/05-pixel-tech-3/css/base.css`
-**Lines:** 63-86
+### 4. Mobile Nav Focus Trap Missing (ACCESSIBILITY)
+- **Issue**: Tab cycles outside open menu
+- **Fix**: Added focus trap in `initMobileNav()` that traps Tab/Shift+Tab cycling within the open menu
+- **File Modified**: `variants/05-pixel-tech-3/js/main.js`
 
-**Before:** Neon Cyberpunk palette (deep purple-black #0d0815, hot pink #ff2d78, etc.)
-**After:** CRT Monitor palette per brand-kit:
-- `--color-neon-green: #39FF14`
-- `--color-black: #000`
-- `--color-silver: #c0c0c0`
-- `--color-dark-gray: #1a1a1a`
-- `--color-matrix-green: #0F6`
-- `--color-electric-purple: #9B30FF`
+### 5. Font Sizes Too Small (READABILITY)
+- **Issue**: Multiple elements had font sizes below 16px minimum
+- **Fix**: Updated the following to 1rem (16px):
+  - `.nav-menu a`: 0.875rem → 1rem
+  - `.feature-card p`: 0.9rem → 1rem
+  - `.client-highlights li`: 0.875rem → 1rem
+  - `.footer-col a`: 0.875rem → 1rem
+  - `.footer-copy`: 0.75rem → 1rem
+- **File Modified**: `variants/05-pixel-tech-3/css/theme.css`
 
-### Fix 2: Font Families Corrected
+### 6. prefers-reduced-motion Bugs (READABILITY)
+- **Issue 6a**: base.css global `*` reset with `!important` overrode component-specific overrides due to cascade order
+- **Fix**: Removed `!important` from the reduced-motion block in base.css
+- **File Modified**: `variants/05-pixel-tech-3/css/base.css`
 
-**File:** `variants/05-pixel-tech-3/css/base.css`
-**Lines:** 97-101
+- **Issue 6b**: `crt-flicker` and `neon-flicker` keyframes had no reduced-motion blocks
+- **Fix**: Added `@media (prefers-reduced-motion: reduce)` blocks to disable both animations
+- **File Modified**: `variants/05-pixel-tech-3/css/theme.css`
 
-**Before:** Exo 2 (not in brand-kit)
-**After:** Per brand-kit:
-- `--font-headline: 'Orbitron', monospace`
-- `--font-body: 'Inter', sans-serif`
-- `--font-ui: 'Roboto Mono', monospace`
-- `--font-code: 'JetBrains Mono', monospace`
-
-### Fix 3: Font-face Declarations Updated
-
-**File:** `variants/05-pixel-tech-3/css/theme.css`
-**Lines:** 8-43
-
-**Before:** Referenced Exo 2 font files
-**After:** References correct brand-kit font files:
-- Orbitron Bold (orbitron-bold-700.woff2)
-- Inter Medium (inter-medium-500.woff2)
-- Roboto Mono (roboto-mono-regular-400.woff2)
-- JetBrains Mono (jetbrains-mono-regular-400.woff2)
-
-### Fix 4: CRT Header Effects Updated
-
-**File:** `variants/05-pixel-tech-3/css/theme.css`
-
-**Before:** Hot pink neon pulse animation
-**After:** Green CRT flicker animation using brand colors
-
-### Fix 5: Comment Header Corrected
-
-**File:** `variants/05-pixel-tech-3/css/base.css` and `theme.css`
-
-**Before:** "Neon Cyberpunk: deep purple-black, hot pink accent"
-**After:** "CRT Monitor: scanline effects, phosphor glow, green monochrome, vintage computing"
-
----
-
-## Summary
-
-| Fix | Status | Impact |
-|-----|--------|--------|
-| Complete color palette rewrite | APPLIED | High |
-| Font families corrected | APPLIED | High |
-| Font-face declarations updated | APPLIED | High |
-| CRT effects updated to brand colors | APPLIED | High |
-| Comment headers corrected | APPLIED | Low |
-
-**Total fixes applied: 5**
+## Summary of Modified Files
+- `variants/05-pixel-tech-3/css/base.css` (Issues 2, 3, 6a)
+- `variants/05-pixel-tech-3/css/theme.css` (Issues 1, 5, 6b)
+- `variants/05-pixel-tech-3/js/main.js` (Issue 4)
