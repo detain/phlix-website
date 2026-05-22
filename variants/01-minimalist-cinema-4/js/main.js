@@ -11,7 +11,8 @@
   var nav = document.getElementById('site-nav');
 
   if (navToggle && nav) {
-    var focusableSelectors = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    var focusableSelectors =
+      'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
     var focusTrap;
 
     function getFocusableElements() {
