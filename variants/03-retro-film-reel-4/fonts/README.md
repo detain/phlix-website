@@ -4,36 +4,43 @@ This variant requires self-hosted fonts. Download the following fonts and place 
 
 ## Required Fonts
 
-### Oxanium (Display / Headlines)
-Download from: https://fonts.google.com/specimen/Oxanium
-Weights needed: 400, 500, 600, 700
+### Bebas Neue (Display / Headlines)
+Download from: https://fonts.google.com/specimen/Bebas+Neue
+Weights needed: 400
 Format: WOFF2
 
 Files needed:
-- oxanium-400.woff2
-- oxanium-500.woff2
-- oxanium-600.woff2
-- oxanium-700.woff2
+- bebas-neue-400.woff2
 
-### IBM Plex Sans (Body)
-Download from: https://fonts.google.com/specimen/IBM+Plex+Sans
+### Open Sans (Body)
+Download from: https://fonts.google.com/specimen/Open+Sans
 Weights needed: 300, 400, 500, 600
 Format: WOFF2
 
 Files needed:
-- ibm-plex-sans-300.woff2
-- ibm-plex-sans-400.woff2
-- ibm-plex-sans-500.woff2
-- ibm-plex-sans-600.woff2
+- open-sans-300.woff2
+- open-sans-400.woff2
+- open-sans-500.woff2
+- open-sans-600.woff2
 
-### IBM Plex Mono (Code)
-Download from: https://fonts.google.com/specimen/IBM+Plex+Mono
+### Nunito (UI)
+Download from: https://fonts.google.com/specimen/Nunito
+Weights needed: 400, 500, 600
+Format: WOFF2
+
+Files needed:
+- nunito-400.woff2
+- nunito-500.woff2
+- nunito-600.woff2
+
+### Cousine (Code)
+Download from: https://fonts.google.com/specimen/Cousine
 Weights needed: 400, 500
 Format: WOFF2
 
 Files needed:
-- ibm-plex-mono-400.woff2
-- ibm-plex-mono-500.woff2
+- cousine-400.woff2
+- cousine-500.woff2
 
 ## Alternative: Download from GitHub
 
