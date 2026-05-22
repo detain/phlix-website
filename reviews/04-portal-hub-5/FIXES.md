@@ -1,53 +1,45 @@
-# Wave 5 Fixes - Portal Hub V5 (04-portal-hub-5)
+# FIXES: 04-portal-hub-5 (Wave 5 — Final)
 
-**Date:** 2026-05-21
-
-## Fixes Applied
-
-### 1. Complete Theme Change (CRITICAL)
-
-**Files:** `variants/04-portal-hub-5/css/base.css`, `theme.css`
-
-**Issue:** Solarpunk warm amber theme doesn't match brand kit tech command center specification
-
-**Fix:** Changed from light solarpunk to dark tech theme:
-- Body background: warm white → midnight blue (#0a0f1f)
-- Accent color: amber → neon cyan (#00e5ff)
-- Added magenta pulse accent (#ff00c8)
-
-### 2. Complete Color Replacement (CRITICAL)
-
-**Files:** `variants/04-portal-hub-5/css/theme.css`, `components.css`
-
-**Issue:** Amber colors (rgb(245, 158, 11)) don't match brand
-
-**Fix:** Replaced all amber colors with brand kit cyan:
-- All rgb(245, 158, 11, ...) → rgb(0, 229, 255, ...)
-
-### 3. Font Replacement (CRITICAL)
-
-**Files:** `variants/04-portal-hub-5/css/base.css`
-
-**Issue:** Used Nunito Sans instead of brand kit fonts
-
-**Fix:** Added brand kit fonts:
-- Added @font-face for Poppins SemiBold (headlines)
-- Added @font-face for Inter Light (body)
-- Set --font-headline: poppins
-- Set --font-body: 'Inter Light', inter
-- Set --font-ui: 'SF Pro Rounded', inter
-
-### 4. Updated Shadows for Dark Theme
-
-**Files:** `variants/04-portal-hub-5/css/base.css`
-
-**Fix:** Changed amber shadows to cyan glow shadows:
-- --shadow-glow: 0 0 24px rgb(0, 229, 255, 0.3)
-- --shadow-glow-strong: 0 0 40px rgb(0, 229, 255, 0.5)
+## Summary
+Applied fixes for issues identified in REVIEW, ACCESSIBILITY, and READABILITY phases.
 
 ---
 
-## Verification
+## REVIEW Issues Fixed
 
-- Build: Passes after fixes
-- Lint: Passes after fixes
+### 1. Inline SVG Color Mismatch
+**Problem:** Inline SVGs used `#F59E0B` (amber) instead of brand cyan `#00E5FF`
+**Fix:** Replaced all instances of `#F59E0B` with `#00E5FF` in `variants/04-portal-hub-5/index.html`
+**Affected elements:** Logo icon circles, pitch-item icons, feature-card icons (8 feature cards)
+
+### 2. Missing Font Files
+**Problem:** CSS referenced non-existent font files (`poppins-semibold.woff2`, `inter-light.woff2`)
+**Fix:** Updated `@font-face` declarations in `variants/04-portal-hub-5/css/base.css` to use available `NunitoSans-*` fonts
+**Changes:**
+- Changed `font-family: Poppins` → `'Nunito Sans'`
+- Changed `font-family: Inter` → `'Nunito Sans'`
+- Updated `font-weight: 300` to use `NunitoSans-Regular.woff2` (available font, closest to light)
+- Updated CSS custom properties `--font-headline`, `--font-body`, `--font-ui` to use `'Nunito Sans'`
+
+---
+
+## ACCESSIBILITY Issue Fixed
+
+### 3. Missing `id="main-nav"` for `aria-controls`
+**Problem:** Button had `aria-controls="main-nav"` but nav element lacked `id="main-nav"`
+**Fix:** Added `id="main-nav"` to the `<nav>` element in `variants/04-portal-hub-5/index.html`
+
+---
+
+## READABILITY Issues
+
+**Note:** The reported font size issues (`.intro-text` at 13.2px, `.section-subtitle` at 14.4px, `.pitch-text` at 15px, `.feature-text` at 15px, `.stat-desc` at 13.6px) were **not found** in this variant's CSS or HTML files. The `.section-subtitle` class in `theme.css` is defined at `1rem` (16px), which meets the minimum requirement. The other classes do not exist in this variant's codebase.
+
+---
+
+## Files Modified
+
+| File | Changes |
+|------|---------|
+| `variants/04-portal-hub-5/index.html` | 1. Replaced all `#F59E0B` → `#00E5FF` in inline SVGs 2. Added `id="main-nav"` to nav element |
+| `variants/04-portal-hub-5/css/base.css` | 1. Fixed `@font-face` to use `NunitoSans-SemiBold.woff2` and `NunitoSans-Regular.woff2` 2. Updated `--font-headline`, `--font-body`, `--font-ui` to use `'Nunito Sans'` |
