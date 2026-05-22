@@ -72,3 +72,66 @@
 | Comment headers corrected | APPLIED | Low |
 
 **Total fixes applied: 5**
+
+---
+
+## Fix Phase (2026-05-21) - Wave 5 FIX
+
+### Fix 6: Theme Color Mismatch (REVIEW)
+
+**File:** `variants/05-pixel-tech-5/index.html` (line 41), `variants/05-pixel-tech-5/manifest.webmanifest` (line 8)
+
+**Issue:** `<meta name="theme-color">` and manifest used `#00A8FF` (electric blue) but brand uses neon green `#39FF14`.
+
+**Fix Applied:** Updated both to use `#39FF14`.
+
+### Fix 7: Font Sizes Below 16px (READABILITY)
+
+**File:** `variants/05-pixel-tech-5/css/theme.css`
+
+**Issue:** `.feature-card p` (14.4px), `.nav-menu a` (14px), `.footer-col a` (14px) all below 16px minimum.
+
+**Fix Applied:** Raised all three selectors to `1rem` (16px):
+- `.nav-menu a` (line 117-118)
+- `.feature-card p` (line 415-416)
+- `.footer-col a` (line 747-750)
+
+### Fix 8: Undefined CSS Variables (READABILITY)
+
+**File:** `variants/05-pixel-tech-5/css/base.css`
+
+**Issue:** Components referenced undefined `--color-muted`, `--color-primary`, `--color-secondary`, `--color-tertiary`.
+
+**Fix Applied:** Added legacy variable mappings in `:root` block:
+- `--color-muted: var(--color-silver)`
+- `--color-primary: var(--color-neon-green)`
+- `--color-secondary: var(--color-bg-secondary)`
+- `--color-tertiary: var(--color-dark-gray)`
+
+### Fix 9: Reduced Motion Partial (READABILITY)
+
+**File:** `variants/05-pixel-tech-5/css/theme.css`
+
+**Issue:** CSS reset exists but `neon-pulse` and `electric-glow` keyframes don't have targeted reduced-motion blocks.
+
+**Fix Applied:** Added `@media (prefers-reduced-motion: reduce)` blocks after both keyframe definitions to disable animation effects for users who prefer reduced motion.
+
+### Fix 10: Tagline Mismatch (ACCEPTED - NOT FIXED)
+
+**Issue:** Brand says "Engineered for Your Library." but page uses "Your media. Your library. Your Phlix."
+
+**Decision:** This appears to be intentional brand copy for this variant (Cyberpunk Street). Flagged as ACCEPTED rather than fixed.
+
+---
+
+## Summary
+
+| Fix | Status | Impact |
+|-----|--------|--------|
+| Theme color mismatch (#00A8FF → #39FF14) | APPLIED | High |
+| Font sizes raised to 1rem | APPLIED | Medium |
+| Undefined CSS variables mapped | APPLIED | High |
+| Reduced motion blocks for animations | APPLIED | Medium |
+| Tagline mismatch | ACCEPTED | N/A |
+
+**Total fixes in this phase: 4 applied, 1 accepted**
