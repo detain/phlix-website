@@ -1,38 +1,34 @@
-# Wave 3 Test Results - 05-pixel-tech-3 (CRT Monitor)
+# Test Results: 05-pixel-tech-3 (Wave 3)
 
-**Date:** 2026-05-21
+**Brand:** 05-pixel-tech
 **Variant:** 05-pixel-tech-3
+**Phase:** TEST
 
----
+## Build Result: PASS
 
-## Test Commands
+Build completed successfully. 30 variants built including:
+- 05-pixel-tech
+- 05-pixel-tech-1
+- 05-pixel-tech-2
+- 05-pixel-tech-3
+- 05-pixel-tech-4
+- 05-pixel-tech-5
 
-### Build Test
-```bash
-npm run build
-```
+## Lint Result: PASS (for this variant)
 
-**Result:** ✅ PASS
+No lint errors found specifically for `05-pixel-tech-3` variant in any of the three lint checks:
+- HTML lint: PASS (no errors for 05-pixel-tech-3)
+- CSS lint: PASS (no errors for 05-pixel-tech-3)
+- JS lint: PASS (no errors for 05-pixel-tech-3)
 
-All 30 variants built successfully.
+## Pre-existing Errors (unrelated to this variant)
 
-### Lint Test (Wave 3)
-```bash
-npx stylelint "variants/05-pixel-tech-3/**/*.css"
-```
+The lint run reported CSS errors in variant `01-minimalist-cinema-4`:
+- `variants/01-minimalist-cinema-4/css/theme.css` - color-function-alias-notation errors
+- `variants/01-minimalist-cinema-4/css/base.css` - color-function-alias-notation errors
 
-**Result:** ✅ PASS
+These errors are in a different variant and are not related to `05-pixel-tech-3`.
 
-Wave 3 CSS files pass lint after fixes.
+## Fixes Applied
 
----
-
-## Test Summary
-
-| Test | Status | Notes |
-|------|--------|-------|
-| `npm run build` | ✅ PASS | All variants build successfully |
-| Wave 3 CSS lint | ✅ PASS | CSS files pass lint |
-| Full project lint | ⚠️ PARTIAL | Pre-existing errors in other variants |
-
-**Overall: PASS** (for wave 3 scope)
+No fixes were required for `05-pixel-tech-3`.
