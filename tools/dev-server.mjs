@@ -108,8 +108,8 @@ const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
   const pathname = parsed.pathname.replace(/\/$/, '') || '/';
 
-  // CORS for dev
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // CORS for dev — scoped to this localhost dev server, not a wildcard
+  res.setHeader('Access-Control-Allow-Origin', `http://localhost:${PORT}`);
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') {
@@ -131,6 +131,19 @@ const server = http.createServer((req, res) => {
     if (pathname.startsWith(variantPrefix)) {
       const relPath = pathname.slice(variantPrefix.length);
       const filePath = path.join(ROOT, 'variants', slug, relPath);
+
+      // Path-containment guard: reject any request that escapes the variant
+      // directory (e.g. /<slug>/../../../etc/passwd, including URL-encoded
+      // traversal — `pathname` is already percent-decoded by url.parse). We
+      // compare the fully resolved paths, so `..` segments cannot break out.
+      const variantRoot = path.resolve(ROOT, 'variants', slug);
+      const resolved = path.resolve(filePath);
+      if (resolved !== variantRoot && !resolved.startsWith(variantRoot + path.sep)) {
+        res.writeHead(403, { 'Content-Type': 'text/plain' });
+        res.end('Forbidden');
+        return;
+      }
+
       if (serveFile(filePath, res)) return;
 
       // Not found within variant
