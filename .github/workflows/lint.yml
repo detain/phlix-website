@@ -19,8 +19,11 @@ jobs:
         run: npm run format:check
       - name: Lint (html / css / js)
         run: npm run lint
-      - name: npm audit (high severity gate)
-        run: npm audit --audit-level=high
+      - name: npm audit (moderate severity gate)
+        # Tightened from high -> moderate (S2): after S1 re-classified deps to
+        # tooling-only + existing overrides, `npm audit` reports 0 vulnerabilities,
+        # so a moderate gate is achievable and exits 0. See PR for evidence.
+        run: npm audit --audit-level=moderate
       - name: Accessibility (pa11y-ci, soft-fail until pages exist)
         run: npm run a11y
         continue-on-error: true
