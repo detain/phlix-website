@@ -18,6 +18,7 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mjs';
 
 const ROOT = process.cwd();
 const SRC_VARIANTS = resolve(ROOT, 'variants');
@@ -55,9 +56,15 @@ if (existsSync(resolve(SRC_SHARED, 'assets'))) {
 }
 
 writeFileSync(join(DIST, 'index.html'), indexPage(variantSummaries), 'utf8');
-writeFileSync(join(DIST, 'robots.txt'), 'User-agent: *\nAllow: /\n', 'utf8');
 
-console.log(`[build] wrote ${variantSummaries.length} variant(s) + index → ${DIST}`);
+// Sitemap of every page's canonical URL + robots.txt that references it.
+const urls = sitemapUrls();
+writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
+writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
+
+console.log(
+  `[build] wrote ${variantSummaries.length} variant(s) + index + sitemap (${urls.length} URLs) → ${DIST}`,
+);
 for (const v of variantSummaries) {
   console.log(`  ${v.built ? '✓' : '·'} ${v.slug}${v.built ? '' : ' (placeholder)'}`);
 }
