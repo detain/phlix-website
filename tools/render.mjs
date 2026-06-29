@@ -42,12 +42,16 @@ function brandColor(slug, category, name) {
 
 /**
  * Returns the full HTML shell for a page, with all <head> content filled in.
+ * @param {string} slug - Variant slug
+ * @param {string} page - Page key
+ * @param {object} contentData - Full content object from content.json
+ * @param {string} pageContent - Rendered page HTML content
  */
-function htmlShell(slug, page, content) {
-  const site = content.site;
-  const meta = content.meta;
+function htmlShell(slug, page, contentData, pageContent) {
+  const site = contentData.site;
+  const meta = contentData.meta;
 
-  const title = meta[`${page}_title`] || pageTitle(page, content);
+  const title = meta[`${page}_title`] || pageTitle(page, contentData);
   const description = meta.description || '';
   const ogImage = `/variants/${slug}${meta.og_image || '/img/og.png'}`;
   const canonical = `${site.url}/${page === 'index' ? '' : page + '.html'}`;
@@ -123,15 +127,15 @@ function htmlShell(slug, page, content) {
 
   <!-- Main content -->
   <main id="main-content" tabindex="-1">
-${content}
+${pageContent}
   </main>
 
   <!-- Footer -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
-      <p class="footer-tagline">${escHtml(content.footer?.tagline || site.name)}</p>
+      <p class="footer-tagline">${escHtml(contentData.footer?.tagline || site.name)}</p>
       <nav class="footer-nav" aria-label="Footer navigation">
-        ${(content.footer?.columns || []).map(col => `
+        ${(contentData.footer?.columns || []).map(col => `
         <div class="footer-col">
           <h3>${escHtml(col.heading)}</h3>
           <ul role="list">
@@ -176,8 +180,8 @@ function buildIndex(slug, content) {
         <h1 id="hero-heading">${escHtml(content.hero.headline)}</h1>
         <p class="hero-sub">${escHtml(content.hero.subheadline)}</p>
         <div class="hero-cta">
-          <a href="${content.hero.primary_cta.href}" class="btn btn-primary">${escHtml(content.hero.primary_cta.label)}</a>
-          <a href="${content.hero.secondary_cta.href}" class="btn btn-secondary">${escHtml(content.hero.secondary_cta.label)}</a>
+          <a href="${escHtml(content.hero.primary_cta.href)}" class="btn btn-primary">${escHtml(content.hero.primary_cta.label)}</a>
+          <a href="${escHtml(content.hero.secondary_cta.href)}" class="btn btn-secondary">${escHtml(content.hero.secondary_cta.label)}</a>
         </div>
       </div>
     </section>
@@ -394,7 +398,7 @@ function buildHub(slug, _content) {
       <p>Sign in once. The Hub's reverse-tunnel relay handles NAT traversal so you can access your server from your phone, your Roku at a friend's house, or any device anywhere in the world.</p>
 
       <h2>Self-host or use the public hub</h2>
-      <p>You can run your own <a href="https://github.com/detain/phlix-hub">phlix-hub</a> instance, or use the public one at phlix-hub.example.com &mdash; no configuration required.</p>
+      <p>You can run your own <a href="https://github.com/detain/phlix-hub">phlix-hub</a> instance, or use the public relay &mdash; no configuration required.</p>
 
       <h2>Hub mode in clients</h2>
       <p>Every official client supports Hub mode. When enabled, the client connects through the Hub relay instead of directly to your LAN server.</p>
@@ -478,7 +482,7 @@ export function renderPage(slug, content, page) {
   const builder = PAGE_BUILDERS[page];
   if (!builder) throw new Error(`Unknown page: ${page}`);
   const pageContent = builder(slug, content);
-  return htmlShell(slug, page, pageContent);
+  return htmlShell(slug, page, content, pageContent);
 }
 
 /**
