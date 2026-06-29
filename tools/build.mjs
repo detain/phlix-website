@@ -20,6 +20,23 @@ import {
 import { join, resolve } from 'node:path';
 import { buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mjs';
 
+/**
+ * Simple CSS minifier - removes comments, collapses whitespace, optimizes.
+ */
+function minifyCss(css) {
+  return css
+    // Remove CSS comments (/* ... */)
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    // Remove newlines and multiple spaces
+    .replace(/\s+/g, ' ')
+    // Remove space around { } : ; , >
+    .replace(/\s*([{}:;,>])\s*/g, '$1')
+    // Remove trailing semicolon before }
+    .replace(/;}/g, '}')
+    // Remove leading/trailing whitespace
+    .trim();
+}
+
 const ROOT = process.cwd();
 const SRC_VARIANTS = resolve(ROOT, 'variants');
 const SRC_SHARED = resolve(ROOT, 'shared');
@@ -40,6 +57,8 @@ const variantSummaries = variantDirs.map((slug) => {
   const hasIndex = existsSync(join(src, 'index.html'));
   if (hasIndex) {
     cpSync(src, dst, { recursive: true });
+    // Minify CSS files in the copied variant
+    minifyCssDir(dst);
   } else {
     mkdirSync(dst, { recursive: true });
     writeFileSync(
@@ -144,4 +163,21 @@ function placeholderPage(slug, kit) {
 
 function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+/**
+ * Recursively find and minify all CSS files in a directory.
+ */
+function minifyCssDir(dir) {
+  if (!existsSync(dir)) return;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      minifyCssDir(fullPath);
+    } else if (entry.isFile() && entry.name.endsWith('.css')) {
+      const css = readFileSync(fullPath, 'utf8');
+      const minified = minifyCss(css);
+      writeFileSync(fullPath, minified, 'utf8');
+    }
+  }
 }
