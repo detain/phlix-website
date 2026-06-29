@@ -81,6 +81,11 @@ const urls = sitemapUrls();
 writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
 
+// Cloudflare Pages headers file (S4: Content-Security-Policy)
+if (existsSync(resolve(ROOT, '_headers'))) {
+  cpSync(resolve(ROOT, '_headers'), join(DIST, '_headers'));
+}
+
 console.log(
   `[build] wrote ${variantSummaries.length} variant(s) + index + sitemap (${urls.length} URLs) → ${DIST}`,
 );

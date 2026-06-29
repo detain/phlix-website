@@ -28,6 +28,20 @@ const TARGET_VARIANT = variantIdx >= 0 ? argv[variantIdx + 1] : null;
 const ROOT = path.resolve(process.cwd());
 const CONTENT = JSON.parse(readFileSync(path.join(ROOT, 'shared/content.json'), 'utf8'));
 
+// Content-Security-Policy baseline for phlix-website
+// Fonts are self-hosted (no external CDN), images optimized, no unsafe-inline scripts
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+
 const ALL_VARIANTS = [
   '01-minimalist-cinema',
   '02-spotlight-projector',
@@ -112,6 +126,14 @@ const server = http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', `http://localhost:${PORT}`);
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Content-Security-Policy baseline (S4)
+  // - 'self' for scripts, styles, fonts, connect, base, form-action
+  // - 'unsafe-inline' for styles (required: 322 inline style= attributes across variants)
+  // - data: for img-src (SVG favicons, inline images)
+  // - No external CDNs: fonts are self-hosted woff2
+  res.setHeader('Content-Security-Policy', CSP);
+
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
