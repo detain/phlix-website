@@ -10,11 +10,14 @@
 import {
   cpSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readFileSync,
   readdirSync,
+  readlinkSync,
   rmSync,
   statSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -56,7 +59,8 @@ const variantSummaries = variantDirs.map((slug) => {
   const dst = join(DIST, slug);
   const hasIndex = existsSync(join(src, 'index.html'));
   if (hasIndex) {
-    cpSync(src, dst, { recursive: true });
+    cpSync(src, dst, { recursive: true, dereference: true });
+    fixSymlinks(dst);
     // Minify CSS files in the copied variant
     minifyCssDir(dst);
   } else {
@@ -164,6 +168,29 @@ function placeholderPage(slug, kit) {
 </body>
 </html>
 `;
+}
+
+function fixSymlinks(dir, distDir = DIST) {
+  if (!existsSync(dir)) return;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = join(dir, entry.name);
+    if (entry.isDirectory() && !entry.isSymbolicLink()) {
+      fixSymlinks(fullPath, distDir);
+    } else if (entry.isSymbolicLink()) {
+      const target = readlinkSync(fullPath);
+      const resolvedTarget = resolve(dir, target);
+      if (!resolvedTarget.startsWith(distDir)) {
+        rmSync(fullPath);
+        if (existsSync(resolvedTarget)) {
+          if (statSync(resolvedTarget).isDirectory()) {
+            cpSync(resolvedTarget, fullPath, { recursive: true, dereference: true });
+          } else {
+            cpSync(resolvedTarget, fullPath);
+          }
+        }
+      }
+    }
+  }
 }
 
 function escapeHtml(s) {
