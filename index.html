@@ -19,6 +19,10 @@
             --border: #2a2a32;
             --shadow: rgba(0, 0, 0, 0.5);
 
+            /* Hover-zoom factors for the enlarged preview popout. */
+            --zoom-x: 3;
+            --zoom-y: 2;
+
             /* Design set theme colors */
             --set-01: #a3a3a3;
             --set-02: #fbbf24;
@@ -117,57 +121,13 @@
             margin: 0 auto;
         }
 
-        .design-set {
-            margin-bottom: 4rem;
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(20, 20, 24, 0.8) 0%, rgba(12, 12, 15, 0.4) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .design-set::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--set-color, var(--accent));
-            opacity: 0.8;
-        }
-
-        .set-header {
-            display: flex;
-            align-items: baseline;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .set-number {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--bg-deep);
-            background: var(--set-color, var(--accent));
-            padding: 0.25rem 0.75rem;
-            border-radius: 2px;
-            letter-spacing: 0.1em;
-        }
-
-        .set-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
+        /* One continuous grid for every variant. Cards are ordered by set and
+           grouped only by color (no per-set section blocks), so rows can mix the
+           tail of one set with the head of the next without a forced row break. */
         .variants-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
         .variant-card {
@@ -176,9 +136,8 @@
             border-radius: 12px;
             overflow: visible;
             border: 1px solid var(--border);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        box-shadow 0.4s ease,
-                        z-index 0s;
+            /* Set-colored top edge is the grouping cue in the mixed grid. */
+            border-top: 3px solid var(--set-color, var(--accent));
             cursor: pointer;
             text-decoration: none;
             display: block;
@@ -186,18 +145,32 @@
         }
 
         .variant-card:hover {
-            transform: scale(2) translateY(-20px);
-            box-shadow: 0 25px 80px var(--shadow), 0 0 0 1px var(--set-color, var(--accent));
             z-index: 1000;
         }
 
         .preview-container {
             position: relative;
             width: 100%;
-            height: 380px;
+            height: 285px;
             background: var(--bg-surface);
             overflow: hidden;
-            border-radius: 11px 11px 0 0;
+            border-radius: 10px 10px 0 0;
+            transform: scale(1);
+            transform-origin: center center;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.35s ease,
+                        border-radius 0.2s ease;
+        }
+
+        /* Hover: enlarge the preview into an UNDISTORTED ~3x-wide / ~2x-tall
+           popout that stays while the cursor is over it. The container stretches
+           by (--zoom-x, --zoom-y); the iframe counter-stretches (below) so the
+           net scale is uniform — the site grows without distorting. */
+        .variant-card:hover .preview-container {
+            transform: scale(var(--zoom-x), var(--zoom-y));
+            box-shadow: 0 30px 90px var(--shadow), 0 0 0 2px var(--set-color, var(--accent));
+            border-radius: 8px;
+            z-index: 1000;
         }
 
         .preview-container iframe {
@@ -212,7 +185,17 @@
             transform: scale(var(--preview-scale, 0.25));
             transform-origin: top left;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease,
+                        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Counter-stretch so container(--zoom-x,--zoom-y) ∘ iframe scale nets to
+           a uniform (--preview-scale * --zoom-x) in both axes → no distortion. */
+        .variant-card:hover .preview-container iframe {
+            transform: scale(
+                var(--preview-scale, 0.25),
+                calc(var(--preview-scale, 0.25) * var(--zoom-x) / var(--zoom-y))
+            );
         }
 
         .preview-container iframe.loaded {
@@ -246,7 +229,7 @@
         }
 
         .variant-info {
-            padding: 1rem 1.25rem;
+            padding: 0.7rem 0.85rem;
             background: var(--bg-card);
             border-top: 1px solid var(--border);
             border-radius: 0 0 11px 11px;
@@ -254,16 +237,34 @@
 
         .variant-name {
             font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.3rem;
             letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .variant-meta {
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .set-tag {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.62rem;
+            color: var(--bg-deep);
+            background: var(--set-color, var(--accent));
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
         }
 
         footer {
@@ -333,16 +334,18 @@
             }
 
             .variants-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 1rem;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 0.75rem;
             }
 
             .preview-container {
-                height: 300px;
+                height: 225px;
             }
 
-            .variant-card:hover {
-                transform: scale(1.5) translateY(-10px);
+            /* Gentler zoom so the popout stays on small screens. */
+            .variant-card {
+                --zoom-x: 2.4;
+                --zoom-y: 1.7;
             }
         }
     </style>
@@ -350,7 +353,7 @@
 <body>
     <header>
         <h1>phlix Variants</h1>
-        <p class="subtitle">20 Design Sets &middot; 100 Variants</p>
+        <p class="subtitle">Design variant previews</p>
     </header>
 
     <main id="variants-container">
@@ -401,14 +404,24 @@
         // rule above) so the whole site width is visible. Must match the iframe
         // `width` in CSS.
         const PREVIEW_WIDTH = 1280;
+        // Must match --zoom-x in CSS; used only to keep the popout on-screen.
+        const HOVER_ZOOM_X = 3;
 
         // Set --preview-scale on a card's preview container from its current
         // width, so width:1280px * scale renders exactly the container width.
+        // Also anchor the hover-zoom origin to the left/right edge for the edge
+        // columns so the enlarged popout doesn't spill off-screen.
         function applyPreviewScale(container) {
             const w = container.clientWidth;
-            if (w > 0) {
-                container.style.setProperty('--preview-scale', (w / PREVIEW_WIDTH).toFixed(4));
-            }
+            if (w <= 0) return;
+            container.style.setProperty('--preview-scale', (w / PREVIEW_WIDTH).toFixed(4));
+            const r = container.getBoundingClientRect();
+            const spill = (w * (HOVER_ZOOM_X - 1)) / 2;
+            const vw = document.documentElement.clientWidth;
+            let ox = 'center';
+            if (r.left < spill) ox = 'left';
+            else if (vw - r.right < spill) ox = 'right';
+            container.style.transformOrigin = `${ox} center`;
         }
 
         function applyAllPreviewScales() {
@@ -510,12 +523,14 @@
             return grouped;
         }
 
-        function renderVariantCard(folder, index, setColor) {
+        function renderVariantCard(folder, index, set, variantNum) {
             const card = document.createElement('a');
             card.className = 'variant-card';
             card.href = `${VARIANT_BASE}${folder}/index.html`;
-            card.style.animationDelay = `${index * 0.05}s`;
-            card.style.setProperty('--set-color', setColor);
+            // Cap the entrance stagger so later cards don't stay hidden for long.
+            card.style.animationDelay = `${Math.min(index, 24) * 0.03}s`;
+            card.style.setProperty('--set-color', set.color);
+            card.dataset.set = set.num;
 
             card.innerHTML = `
                 <div class="preview-container">
@@ -525,7 +540,7 @@
                 </div>
                 <div class="variant-info">
                     <div class="variant-name">${folder}</div>
-                    <div class="variant-meta">Variant ${index + 1}</div>
+                    <div class="variant-meta"><span class="set-tag">${set.num}</span> ${formatSetName(set.name)} &middot; #${variantNum}</div>
                 </div>
             `;
 
@@ -544,35 +559,30 @@
             const variants = await getVariants();
             const grouped = groupBySet(variants);
 
+            // One grid for everything: iterate sets in order so same-set cards
+            // stay adjacent (grouped by color), but let them flow continuously so
+            // a row can hold the end of one set and the start of the next.
+            const grid = document.createElement('div');
+            grid.className = 'variants-grid';
+
             let cardIndex = 0;
             for (const set of designSets) {
                 const key = `${set.num}-${set.name}`;
                 const setVariants = grouped[key];
                 if (!setVariants || setVariants.length === 0) continue;
 
-                const setSection = document.createElement('section');
-                setSection.className = 'design-set';
-                setSection.style.setProperty('--set-color', set.color);
-
-                const header = document.createElement('div');
-                header.className = 'set-header';
-                header.innerHTML = `
-                    <span class="set-number">${set.num}</span>
-                    <h2 class="set-name">${formatSetName(set.name)}</h2>
-                `;
-                setSection.appendChild(header);
-
-                const grid = document.createElement('div');
-                grid.className = 'variants-grid';
-
                 for (const variant of setVariants) {
-                    const card = renderVariantCard(variant.folder, cardIndex, set.color);
+                    const card = renderVariantCard(variant.folder, cardIndex, set, variant.variantNum);
                     grid.appendChild(card);
                     cardIndex++;
                 }
+            }
 
-                setSection.appendChild(grid);
-                container.appendChild(setSection);
+            container.appendChild(grid);
+
+            const subtitle = document.querySelector('.subtitle');
+            if (subtitle) {
+                subtitle.textContent = `${designSets.length} design sets · ${cardIndex} variants`;
             }
 
             // Cards are laid out now — size every preview to its card width, and
