@@ -98,54 +98,20 @@ for (const v of variantSummaries) {
 }
 
 function indexPage(variants) {
-  const items = variants
-    .map(
-      (v) => `      <li>
-        <a href="./${v.slug}/">${escapeHtml(v.kit?.name ?? v.slug)}</a>
-        ${v.built ? '<span class="ok">built</span>' : '<span class="todo">placeholder</span>'}
-        <p>${escapeHtml(v.kit?.personality?.join(' · ') ?? '')}</p>
-      </li>`,
-    )
-    .join('\n');
-
-  return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Phlix — design variant preview</title>
-  <meta name="description" content="Preview index for the five Phlix website design variants.">
-  <link rel="canonical" href="https://detain.github.io/phlix-website/">
-  <style>
-    :root { color-scheme: light dark; font: 16px/1.5 system-ui, sans-serif; }
-    body { max-width: 50rem; margin: 2rem auto; padding: 0 1rem; }
-    h1 { margin-top: 0; }
-    ul { list-style: none; padding: 0; }
-    li { border: 1px solid #ccc4; border-radius: 0.5rem; padding: 1rem; margin-bottom: 0.75rem; }
-    a { font-weight: 600; text-decoration: none; }
-    a:hover, a:focus { text-decoration: underline; }
-    .ok { background: #1a3; color: #fff; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; }
-    .todo { background: #777; color: #fff; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; }
-    p { margin: 0.25rem 0 0; color: #666; font-size: 0.9rem; }
-    footer { margin-top: 2rem; color: #777; font-size: 0.85rem; }
-  </style>
-</head>
-<body>
-  <h1>Phlix website — variant preview</h1>
-  <p>Five brand-themed design variants of the Phlix marketing site. See
-    <a href="https://github.com/detain/phlix-website">detain/phlix-website</a>
-    for the source and build plan.</p>
-  <ul>
-${items}
-  </ul>
-  <footer>
-    <p><a href="https://github.com/detain/phlix-server">phlix-server</a> ·
-       <a href="https://detain.github.io/phlix-docs">phlix-docs</a> ·
-       <a href="https://github.com/detain/phlix-hub">phlix-hub</a></p>
-  </footer>
-</body>
-</html>
-`;
+  // The deployed gallery IS the hand-authored root index.html (the redesigned
+  // variant preview). dist/ is the GitHub Pages publish root, so we inject the
+  // real list of built variant folders as a manifest; the page renders from it
+  // with root-relative (./<folder>/) paths. GitHub Pages has no directory
+  // listing, so the page's runtime fetch('dist/') discovery cannot work there —
+  // the manifest is the source of truth for what gets shown.
+  const builtSlugs = variants.filter((v) => v.built).map((v) => v.slug);
+  const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
+  const manifest = `<script>window.__PHLIX_VARIANTS__=${JSON.stringify({ variants: builtSlugs })};</script>`;
+  // Inject in <head> so it runs before the page's main inline script reads it.
+  if (!template.includes('</head>')) {
+    throw new Error('build: root index.html is missing a </head> to inject the variant manifest');
+  }
+  return template.replace('</head>', `  ${manifest}\n</head>`);
 }
 
 function placeholderPage(slug, kit) {
