@@ -128,6 +128,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
+            align-items: start;
         }
 
         .variant-card {
@@ -241,18 +242,54 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 0.3rem;
-            letter-spacing: 0.02em;
-            white-space: nowrap;
+            letter-spacing: 0.01em;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .variant-meta {
-            font-size: 0.68rem;
+        .variant-variation {
+            font-size: 0.66rem;
+            line-height: 1.35;
             color: var(--text-secondary);
+            margin-bottom: 0.45rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .variant-personality {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chip {
+            font-size: 0.58rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.05rem 0.45rem;
+            white-space: nowrap;
+        }
+
+        .variant-swatches {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            flex-shrink: 0;
         }
 
         .set-tag {
@@ -399,6 +436,48 @@
         const MANIFEST = (typeof window !== 'undefined' && window.__PHLIX_VARIANTS__) || null;
         const VARIANT_BASE = MANIFEST ? './' : 'dist/';
 
+        // Brand-kit metadata (name / variation / personality / colors) per
+        // variant. Injected at build time as window.__PHLIX_BRAND_KITS__; when
+        // opened locally from the repo root it is fetched from shared/data/.
+        const BRAND_KITS_INJECTED = (typeof window !== 'undefined' && window.__PHLIX_BRAND_KITS__) || null;
+
+        async function getBrandKits() {
+            if (BRAND_KITS_INJECTED) return BRAND_KITS_INJECTED;
+            try {
+                const res = await fetch('shared/data/brand-kits.json');
+                if (!res.ok) return {};
+                const json = await res.json();
+                return json.variants || json || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        // Flatten a kit's nested colour groups into a flat list of hex strings.
+        function kitColors(kit) {
+            if (!kit || !kit.colors) return [];
+            const out = [];
+            for (const group of Object.values(kit.colors)) {
+                if (group && typeof group === 'object') out.push(...Object.values(group));
+            }
+            return out.filter((c) => typeof c === 'string');
+        }
+
+        // Vivid card accent: the kit's accent colour, else its first primary.
+        function kitAccent(kit) {
+            const c = kit && kit.colors;
+            if (!c) return null;
+            const acc = c.accent && Object.values(c.accent)[0];
+            const prim = c.primary && Object.values(c.primary)[0];
+            return acc || prim || null;
+        }
+
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
+                { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+            ));
+        }
+
         // Desktop width each variant is rendered at inside its preview iframe.
         // The frame is then CSS-scaled down to the card's width (see the iframe
         // rule above) so the whole site width is visible. Must match the iframe
@@ -523,14 +602,32 @@
             return grouped;
         }
 
-        function renderVariantCard(folder, index, set, variantNum) {
+        function renderVariantCard(folder, index, set, variantNum, kit) {
             const card = document.createElement('a');
             card.className = 'variant-card';
             card.href = `${VARIANT_BASE}${folder}/index.html`;
+            card.title = folder;
             // Cap the entrance stagger so later cards don't stay hidden for long.
             card.style.animationDelay = `${Math.min(index, 24) * 0.03}s`;
-            card.style.setProperty('--set-color', set.color);
+            // Colour the card by the brand kit's own accent when available.
+            const accent = kitAccent(kit) || set.color;
+            card.style.setProperty('--set-color', accent);
             card.dataset.set = set.num;
+
+            // Prefer the brand-kit name; otherwise synthesise one in the same
+            // "<Set Name> V<n>" style the kits use.
+            const name = (kit && kit.name) || `${formatSetName(set.name)} V${variantNum}`;
+            const variation = (kit && kit.variation) || '';
+            const personality = kit && Array.isArray(kit.personality) ? kit.personality.slice(0, 3) : [];
+            const colors = kitColors(kit).slice(0, 6);
+
+            const variationHtml = variation
+                ? `<div class="variant-variation">${esc(variation)}</div>` : '';
+            const personalityHtml = personality.length
+                ? `<div class="variant-personality">${personality.map((p) => `<span class="chip">${esc(p)}</span>`).join('')}</div>` : '';
+            const swatchHtml = colors
+                .map((c) => `<span class="swatch" style="background:${esc(c)}"></span>`)
+                .join('');
 
             card.innerHTML = `
                 <div class="preview-container">
@@ -539,8 +636,13 @@
                     <div class="preview-overlay"></div>
                 </div>
                 <div class="variant-info">
-                    <div class="variant-name">${folder}</div>
-                    <div class="variant-meta"><span class="set-tag">${set.num}</span> ${formatSetName(set.name)} &middot; #${variantNum}</div>
+                    <div class="variant-name">${esc(name)}</div>
+                    ${variationHtml}
+                    ${personalityHtml}
+                    <div class="variant-swatches">
+                        <span class="set-tag">${set.num}</span>
+                        ${swatchHtml}
+                    </div>
                 </div>
             `;
 
@@ -557,6 +659,7 @@
 
             const container = document.getElementById('variants-container');
             const variants = await getVariants();
+            const kits = await getBrandKits();
             const grouped = groupBySet(variants);
 
             // One grid for everything: iterate sets in order so same-set cards
@@ -572,7 +675,7 @@
                 if (!setVariants || setVariants.length === 0) continue;
 
                 for (const variant of setVariants) {
-                    const card = renderVariantCard(variant.folder, cardIndex, set, variant.variantNum);
+                    const card = renderVariantCard(variant.folder, cardIndex, set, variant.variantNum, kits[variant.folder]);
                     grid.appendChild(card);
                     cardIndex++;
                 }
