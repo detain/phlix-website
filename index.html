@@ -126,19 +126,20 @@
            tail of one set with the head of the next without a forced row break. */
         .variants-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.1rem;
             align-items: start;
         }
 
         .variant-card {
             position: relative;
-            background: var(--bg-card);
+            /* Tint the whole card with the variant's own brand colour. */
+            background: color-mix(in srgb, var(--set-color, var(--accent)) 7%, var(--bg-card));
             border-radius: 12px;
             overflow: visible;
-            border: 1px solid var(--border);
+            border: 1px solid color-mix(in srgb, var(--set-color, var(--accent)) 22%, var(--border));
             /* Set-colored top edge is the grouping cue in the mixed grid. */
-            border-top: 3px solid var(--set-color, var(--accent));
+            border-top: 4px solid var(--set-color, var(--accent));
             cursor: pointer;
             text-decoration: none;
             display: block;
@@ -152,7 +153,7 @@
         .preview-container {
             position: relative;
             width: 100%;
-            height: 285px;
+            height: 150px;
             background: var(--bg-surface);
             overflow: hidden;
             border-radius: 10px 10px 0 0;
@@ -230,18 +231,20 @@
         }
 
         .variant-info {
-            padding: 0.7rem 0.85rem;
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
+            padding: 0.85rem 1rem;
+            /* Brand-tinted info panel so each card's colours carry through. */
+            background: color-mix(in srgb, var(--set-color, var(--accent)) 14%, var(--bg-card));
+            border-top: 1px solid color-mix(in srgb, var(--set-color, var(--accent)) 40%, var(--border));
             border-radius: 0 0 11px 11px;
         }
 
         .variant-name {
             font-family: 'Space Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 0.92rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
+            /* Pull the name toward the brand colour while staying readable. */
+            color: color-mix(in srgb, var(--set-color, var(--accent)) 28%, var(--text-primary));
+            margin-bottom: 0.35rem;
             letter-spacing: 0.01em;
             line-height: 1.3;
             display: -webkit-box;
@@ -251,10 +254,10 @@
         }
 
         .variant-variation {
-            font-size: 0.66rem;
-            line-height: 1.35;
+            font-size: 0.82rem;
+            line-height: 1.4;
             color: var(--text-secondary);
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.55rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -264,41 +267,44 @@
         .variant-personality {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.25rem;
-            margin-bottom: 0.5rem;
+            gap: 0.35rem;
+            margin-bottom: 0.6rem;
         }
 
+        /* Each chip is tinted with one of the variant's own palette colours
+           (set inline as --chip-color), foreground border + soft background. */
         .chip {
-            font-size: 0.58rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
+            font-size: 0.72rem;
+            color: var(--text-primary);
+            border: 1px solid var(--chip-color, var(--border));
+            background: color-mix(in srgb, var(--chip-color, var(--border)) 18%, transparent);
             border-radius: 999px;
-            padding: 0.05rem 0.45rem;
+            padding: 0.12rem 0.6rem;
             white-space: nowrap;
         }
 
         .variant-swatches {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.4rem;
             flex-wrap: wrap;
         }
 
         .swatch {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             flex-shrink: 0;
         }
 
         .set-tag {
             font-family: 'Space Mono', monospace;
             font-weight: 700;
-            font-size: 0.62rem;
+            font-size: 0.76rem;
             color: var(--bg-deep);
             background: var(--set-color, var(--accent));
-            padding: 0.1rem 0.4rem;
+            padding: 0.14rem 0.5rem;
             border-radius: 3px;
             letter-spacing: 0.05em;
             flex-shrink: 0;
@@ -371,17 +377,17 @@
             }
 
             .variants-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 0.75rem;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 0.8rem;
             }
 
             .preview-container {
-                height: 225px;
+                height: 120px;
             }
 
             /* Gentler zoom so the popout stays on small screens. */
             .variant-card {
-                --zoom-x: 2.4;
+                --zoom-x: 2.2;
                 --zoom-y: 1.7;
             }
         }
@@ -470,6 +476,27 @@
             const acc = c.accent && Object.values(c.accent)[0];
             const prim = c.primary && Object.values(c.primary)[0];
             return acc || prim || null;
+        }
+
+        // Relative luminance of a #rrggbb colour (0 = black, 1 = white).
+        function hexLum(hex) {
+            const m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+            if (!m) return 0.5;
+            const n = parseInt(m[1], 16);
+            const r = ((n >> 16) & 255) / 255;
+            const g = ((n >> 8) & 255) / 255;
+            const b = (n & 255) / 255;
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+
+        // Palette for chip borders: drop near-black / near-white so every chip
+        // border stays visible on the dark panel. Falls back to the accent.
+        function chipPalette(kit, accent) {
+            const cols = kitColors(kit).filter((c) => {
+                const l = hexLum(c);
+                return l > 0.22 && l < 0.9;
+            });
+            return cols.length ? cols : [accent];
         }
 
         function esc(s) {
@@ -620,11 +647,13 @@
             const variation = (kit && kit.variation) || '';
             const personality = kit && Array.isArray(kit.personality) ? kit.personality.slice(0, 3) : [];
             const colors = kitColors(kit).slice(0, 6);
+            const chipCols = chipPalette(kit, accent);
 
             const variationHtml = variation
                 ? `<div class="variant-variation">${esc(variation)}</div>` : '';
             const personalityHtml = personality.length
-                ? `<div class="variant-personality">${personality.map((p) => `<span class="chip">${esc(p)}</span>`).join('')}</div>` : '';
+                ? `<div class="variant-personality">${personality.map((p, i) =>
+                    `<span class="chip" style="--chip-color:${esc(chipCols[i % chipCols.length])}">${esc(p)}</span>`).join('')}</div>` : '';
             const swatchHtml = colors
                 .map((c) => `<span class="swatch" style="background:${esc(c)}"></span>`)
                 .join('');
