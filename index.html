@@ -201,10 +201,16 @@
         }
 
         .preview-container iframe {
-            width: 100%;
-            height: 100%;
+            /* Render the variant at full desktop width (PREVIEW_WIDTH px) then
+               scale the whole frame down so the entire width of the site is
+               visible inside the card, instead of a clipped narrow viewport.
+               --preview-scale is set per-card in JS from the card's width. */
+            width: 1280px;
+            height: calc(100% / var(--preview-scale, 0.25));
             border: none;
             pointer-events: none;
+            transform: scale(var(--preview-scale, 0.25));
+            transform-origin: top left;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -390,6 +396,25 @@
         const MANIFEST = (typeof window !== 'undefined' && window.__PHLIX_VARIANTS__) || null;
         const VARIANT_BASE = MANIFEST ? './' : 'dist/';
 
+        // Desktop width each variant is rendered at inside its preview iframe.
+        // The frame is then CSS-scaled down to the card's width (see the iframe
+        // rule above) so the whole site width is visible. Must match the iframe
+        // `width` in CSS.
+        const PREVIEW_WIDTH = 1280;
+
+        // Set --preview-scale on a card's preview container from its current
+        // width, so width:1280px * scale renders exactly the container width.
+        function applyPreviewScale(container) {
+            const w = container.clientWidth;
+            if (w > 0) {
+                container.style.setProperty('--preview-scale', (w / PREVIEW_WIDTH).toFixed(4));
+            }
+        }
+
+        function applyAllPreviewScales() {
+            document.querySelectorAll('.preview-container').forEach(applyPreviewScale);
+        }
+
         // IntersectionObserver for lazy loading iframes
         let iframeObserver;
         const loadedIframes = new WeakSet();
@@ -549,6 +574,15 @@
                 setSection.appendChild(grid);
                 container.appendChild(setSection);
             }
+
+            // Cards are laid out now — size every preview to its card width, and
+            // keep them correct as the grid reflows on resize.
+            applyAllPreviewScales();
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(applyAllPreviewScales, 150);
+            });
         }
 
         function formatSetName(name) {
