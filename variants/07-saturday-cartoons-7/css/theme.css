@@ -1,0 +1,413 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Saturday Cartoons V7 — Comic Book Pop
+   Bold outlines, starburst accents, dynamic layouts
+   ============================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 2px;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* hero */
+.hero {
+  padding-block: var(--space-7);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: var(--color-yellow);
+  transform: rotate(15deg);
+  z-index: -1;
+  border: var(--comic-outline);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  transform: rotate(-2deg);
+  border: var(--comic-outline);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  text-transform: none;
+  position: relative;
+}
+
+.hero-sub {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 50ch;
+  margin-bottom: var(--space-4);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* pitch */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  position: relative;
+}
+
+.pitch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent) 0,
+    var(--color-accent) 20px,
+    var(--color-yellow) 20px,
+    var(--color-yellow) 40px,
+    var(--color-blue) 40px,
+    var(--color-blue) 60px
+  );
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  border: var(--comic-outline);
+  transform: rotate(-1deg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pitch-bullets li:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.pitch-bullets li::before {
+  content: '★';
+  position: absolute;
+  left: -0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--color-yellow);
+  text-shadow: 2px 2px 0 var(--color-border-strong);
+}
+
+/* features overview + detail */
+.features-overview {
+  padding-block: var(--space-7);
+  position: relative;
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-5);
+  position: relative;
+  display: inline-block;
+}
+
+.features-overview h2::after,
+.pitch h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: var(--color-accent);
+  transform: skewX(-5deg);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.features-more {
+  margin-top: var(--space-5);
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: var(--comic-outline);
+  background: var(--color-bg);
+  padding: var(--space-3);
+  transform: rotate(-0.5deg);
+}
+
+.feature-detail:nth-child(even) {
+  transform: rotate(0.5deg);
+}
+
+.feature-detail-icon {
+  color: var(--color-blue);
+  flex-shrink: 0;
+  padding: var(--space-2);
+  background: var(--color-yellow);
+  border: var(--comic-outline);
+}
+
+.feature-detail-text h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-1);
+}
+
+/* page header */
+.page-header {
+  padding-block: var(--space-6) var(--space-4);
+  position: relative;
+  background: var(--color-surface);
+  border-bottom: var(--comic-outline);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-yellow) 0,
+    var(--color-yellow) 10px,
+    var(--color-border-strong) 10px,
+    var(--color-border-strong) 20px
+  );
+}
+
+.page-lead {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* lists / faq / code */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-3);
+  border: var(--comic-outline);
+  background: var(--color-bg);
+  transform: rotate(-0.5deg);
+  box-shadow: var(--shadow-sm);
+}
+
+.ecosystem-list li:nth-child(even) {
+  transform: rotate(0.5deg);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: var(--comic-outline);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+  font-size: 1.2rem;
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  border: 2px solid var(--color-border);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: var(--comic-outline);
+  box-shadow: var(--shadow-md);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* cta banner */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  position: relative;
+  background: var(--color-yellow);
+  border-block: var(--comic-outline);
+  margin-top: var(--space-6);
+}
+
+.cta-banner::before {
+  content: 'POW!';
+  position: absolute;
+  top: -1rem;
+  right: 5%;
+  font-family: var(--font-headline);
+  font-size: 4rem;
+  color: var(--color-accent);
+  text-shadow: 4px 4px 0 var(--color-border-strong);
+  transform: rotate(12deg);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+  position: relative;
+  display: inline-block;
+}
+
+.cta-banner h2::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: -10%;
+  width: 120%;
+  height: 6px;
+  background: var(--color-border-strong);
+  transform: skewX(-5deg);
+}
+
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+
+  .hero::before {
+    width: 100%;
+    right: -50%;
+    transform: rotate(5deg);
+  }
+}
