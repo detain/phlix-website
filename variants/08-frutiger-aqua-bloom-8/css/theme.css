@@ -1,0 +1,360 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Frutiger Aqua Bloom V8 — Lagoon Drift
+   archetype: immersive with flowing wave motifs
+   ============================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+}
+
+h2 {
+  font-size: clamp(1.65rem, 3.5vw, 2.4rem);
+}
+
+h3 {
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* hero */
+.hero {
+  padding-block: var(--space-7);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, var(--color-seafoam) 0%, transparent 70%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  text-transform: none;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  max-width: 50ch;
+  margin-bottom: var(--space-4);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* pitch */
+.pitch {
+  padding-block: var(--space-6);
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface2) 100%);
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+/* features overview + detail */
+.features-overview {
+  padding-block: var(--space-7);
+  position: relative;
+}
+
+.features-overview::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent 0%, var(--color-surface2) 100%);
+  pointer-events: none;
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  position: relative;
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.feature-detail-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-1);
+}
+
+/* page header */
+.page-header {
+  padding-block: var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-seafoam),
+    var(--color-accent-secondary)
+  );
+}
+
+.page-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* lists / faq / code */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+}
+
+/* cta banner */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--space-6);
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0c16.569 0 30 13.431 30 30 0 16.569-13.431 30-30 30C13.431 60 0 46.569 0 30 0 13.431 13.431 0 30 0zm0 10c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20-8.954-20-20-20z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.cta-banner h2 {
+  color: var(--color-cta-text);
+  margin-bottom: var(--space-4);
+}
+
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+}
+
+/* ── archetype: immersive ── */
+body.v-immersive .hero {
+  background: linear-gradient(180deg, var(--color-surface2), var(--color-bg));
+  text-align: center;
+}
+
+body.v-immersive .hero-inner {
+  text-align: center;
+  margin-inline: auto;
+  padding-block: var(--space-9);
+  position: relative;
+  z-index: 1;
+}
+
+body.v-immersive .hero h1 {
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+}
+
+body.v-immersive .hero-cta {
+  justify-content: center;
+}
+
+body.v-immersive .feature-cards {
+  grid-template-columns: repeat(3, 1fr);
+}

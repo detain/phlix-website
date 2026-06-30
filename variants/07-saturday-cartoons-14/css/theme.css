@@ -1,0 +1,545 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Saturday Cartoons V14 — Doodle Sketch
+   archetype: doodle-sketch (hand-drawn, wobbly, paper texture)
+   ============================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding-block: var(--space-7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Paper texture overlay via SVG filter */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, var(--color-doodle-yellow) 0%, transparent 25%),
+    radial-gradient(circle at 80% 70%, var(--color-doodle-pink) 0%, transparent 20%),
+    radial-gradient(circle at 60% 20%, var(--color-doodle-blue) 0%, transparent 15%);
+  opacity: 0.25;
+  z-index: 0;
+  animation: float-doodles 8s ease-in-out infinite;
+}
+
+/* Squiggle decoration */
+.hero::after {
+  content: '~';
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  font-family: var(--font-headline);
+  font-size: 8rem;
+  color: var(--color-doodle-green);
+  opacity: 0.15;
+  z-index: 0;
+  animation: wiggle 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float-doodles {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(3deg);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(3deg) scale(1.05);
+  }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  display: inline-block;
+  background: var(--color-doodle-yellow);
+  color: var(--color-heading);
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 3px dashed var(--color-heading);
+  transform: rotate(-2deg);
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+@keyframes bounce-subtle {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-2deg) translateY(-4px);
+  }
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  text-transform: none;
+  position: relative;
+}
+
+/* Underline that looks hand-drawn */
+.hero h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 85%;
+  height: 6px;
+  background: var(--color-doodle-pink);
+  border-radius: 3px;
+  transform: rotate(-1deg);
+  border: 2px solid var(--color-border);
+}
+
+.hero-sub {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  margin-bottom: var(--space-4);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ─── PITCH ─── */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  border-top: 4px dashed var(--color-border);
+  border-bottom: 4px dashed var(--color-border);
+  position: relative;
+}
+
+/* Doodle circles decoration */
+.pitch::before,
+.pitch::after {
+  content: '●';
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.15;
+  color: var(--color-doodle-purple);
+}
+
+.pitch::before {
+  top: 0.5rem;
+  left: 2rem;
+  animation: spin-slow 20s linear infinite;
+}
+
+.pitch::after {
+  bottom: 0.5rem;
+  right: 2rem;
+  animation: spin-slow 15s linear infinite reverse;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 2.2rem;
+  font-size: 1.05rem;
+}
+
+/* Hand-drawn checkbox style bullet */
+.pitch-bullets li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  color: var(--color-doodle-green);
+  font-size: 1.2rem;
+  font-weight: 700;
+  transform: rotate(-5deg) scale(1.1);
+}
+
+/* ─── FEATURES OVERVIEW ─── */
+.features-overview {
+  padding-block: var(--space-7);
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+  position: relative;
+  display: inline-block;
+}
+
+/* Hand-drawn underline effect */
+.features-overview h2::after,
+.pitch h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -5px;
+  width: 110%;
+  height: 8px;
+  background: var(--color-doodle-yellow);
+  border-radius: 4px;
+  transform: rotate(-1deg);
+  z-index: -1;
+  border: 2px solid var(--color-border);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+/* ─── CONTENT GRID ─── */
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 3px dashed var(--color-border);
+}
+
+.feature-detail-icon {
+  color: var(--color-doodle-blue);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-1);
+}
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  padding-block: var(--space-6) var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 4px dashed var(--color-border);
+  position: relative;
+}
+
+/* Corner doodle decorations */
+.page-header::before {
+  content: '✿';
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 1.5rem;
+  color: var(--color-doodle-pink);
+  opacity: 0.5;
+  animation: wiggle 4s ease-in-out infinite;
+}
+
+.page-lead {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* ─── LISTS / FAQ / CODE ─── */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 3px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 2px dashed var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  border: 2px solid var(--color-border);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 3px dashed var(--color-border);
+  position: relative;
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: var(--color-doodle-yellow);
+  border-top: 4px dashed var(--color-heading);
+  border-bottom: 4px dashed var(--color-heading);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Confetti dots decoration */
+.cta-banner::before {
+  content: '★ · ✦ · ★ · ✦ · ★';
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: var(--color-heading);
+  opacity: 0.3;
+  letter-spacing: 0.5em;
+  animation: slide-dots 10s linear infinite;
+}
+
+@keyframes slide-dots {
+  from {
+    transform: translateX(-50%) translateX(-20px);
+  }
+
+  to {
+    transform: translateX(-50%) translateX(20px);
+  }
+}
+
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+
+  .cta-banner::before {
+    font-size: 6rem;
+  }
+}
+
+/* ── ARCHETYPE: doodle-sketch ── */
+
+/* Doodle-style background pattern */
+body.v-doodle-sketch .hero {
+  background:
+    radial-gradient(circle at 10% 90%, var(--color-doodle-green) 0%, transparent 20%),
+    radial-gradient(circle at 90% 10%, var(--color-doodle-orange) 0%, transparent 18%),
+    var(--color-bg);
+}
+
+/* Sketchy card styling - dashed borders, slight rotation */
+body.v-doodle-sketch .feature-card {
+  border: 4px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+body.v-doodle-sketch .feature-card:hover {
+  transform: translateY(-8px) rotate(1deg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Alternate rotations for visual interest */
+body.v-doodle-sketch .feature-card:nth-child(even) {
+  transform: rotate(0.5deg);
+}
+
+body.v-doodle-sketch .feature-card:nth-child(even):hover {
+  transform: translateY(-8px) rotate(1.5deg);
+}
+
+body.v-doodle-sketch .feature-card:nth-child(3n) {
+  transform: rotate(-0.5deg);
+}
+
+body.v-doodle-sketch .feature-card:nth-child(3n):hover {
+  transform: translateY(-8px) rotate(-1.5deg);
+}
+
+/* Hand-drawn checkbox bullets */
+body.v-doodle-sketch .pitch-bullets li::before {
+  content: '☑';
+  font-size: 1.1rem;
+}
+
+/* Bouncy eyebrow animation */
+body.v-doodle-sketch .hero-eyebrow {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero::after,
+  body.v-doodle-sketch .hero-eyebrow {
+    animation: none;
+  }
+}
