@@ -1,0 +1,426 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Forest Canopy V7 — Mossy Grove
+   archetype: v-mossy (deep forest floor with bioluminescent accents)
+   Organic textures, earthy depth, glowing amber highlights
+   ============================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding-block: var(--space-7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Forest canopy light rays effect */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgb(212 168 87 / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 100%, rgb(90 138 95 / 0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* Subtle moss texture overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.hero-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  text-transform: none;
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  margin-bottom: var(--space-4);
+  line-height: 1.7;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ─── PITCH ─── */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  position: relative;
+}
+
+.pitch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 2rem;
+  padding-top: 0.3rem;
+}
+
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgb(212 168 87 / 0.5);
+}
+
+/* ─── FEATURES OVERVIEW ─── */
+.features-overview {
+  padding-block: var(--space-7);
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+/* ─── CONTENT GRID ─── */
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.feature-detail-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-1);
+}
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  padding-block: var(--space-6) var(--space-4);
+  background: var(--color-surface);
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
+}
+
+.page-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* ─── LISTS / FAQ / CODE ─── */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: linear-gradient(180deg, var(--color-surface2), var(--color-surface));
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgb(212, 168, 87, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+}
+
+/* ── ARCHETYPE: v-mossy ── */
+
+body.v-mossy .hero {
+  background: linear-gradient(180deg, var(--color-surface2) 0%, var(--color-bg) 100%);
+  text-align: center;
+}
+
+body.v-mossy .hero-inner {
+  text-align: center;
+  margin-inline: auto;
+  padding-block: var(--space-9);
+}
+
+body.v-mossy .hero h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+}
+
+body.v-mossy .hero-cta {
+  justify-content: center;
+}
+
+body.v-mossy .feature-cards {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Feature cards with organic moss styling */
+body.v-mossy .feature-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+body.v-mossy .feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-fern), var(--color-moss), var(--color-accent));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+body.v-mossy .feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  border-color: var(--color-border-strong);
+}
+
+body.v-mossy .feature-card:hover::before {
+  opacity: 1;
+}

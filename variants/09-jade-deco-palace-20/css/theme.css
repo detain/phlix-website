@@ -1,0 +1,669 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Jade Deco Palace V20 — Monolith Spire
+   archetype: monolith-spire-art-deco
+   ============================================================ */
+
+/* Vertical slit-scan background pattern - creates tall monolith feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      var(--color-bg) 0%,
+      transparent 15%,
+      transparent 85%,
+      var(--color-bg) 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 48px,
+      var(--color-border) 48px,
+      var(--color-border) 49px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 120px,
+      var(--color-surface) 120px,
+      var(--color-surface) 121px
+    );
+  background-size:
+    100% 100%,
+    49px 100%,
+    100% 121px;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Chevron sunburst overlay in header area */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  background: repeating-linear-gradient(
+    165deg,
+    transparent 0px,
+    transparent 30px,
+    var(--color-accent-dim) 30px,
+    var(--color-accent-dim) 31px,
+    transparent 31px,
+    transparent 60px
+  );
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5.5vw, 4rem);
+  letter-spacing: 0.1em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  letter-spacing: 0.08em;
+}
+
+h3 {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  letter-spacing: 0.05em;
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* hero */
+.hero {
+  padding-block: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Monolith vertical line accent in hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--color-accent-dim) 20%,
+    var(--color-accent) 50%,
+    var(--color-accent-dim) 80%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Chevron bottom border */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent) 0px,
+    var(--color-accent) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-platinum-light);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  display: inline-block;
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(90deg, transparent, var(--color-platinum-dim));
+}
+
+.hero-eyebrow::after {
+  background: linear-gradient(90deg, var(--color-platinum-dim), transparent);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.hero h1::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dim));
+  margin-top: var(--space-3);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  margin-bottom: var(--space-4);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* pitch */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  position: relative;
+}
+
+/* Vertical slit lines in pitch */
+.pitch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 80px,
+    var(--color-border) 80px,
+    var(--color-border) 81px
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pitch-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 1.8rem;
+  padding-block: 0.5rem;
+}
+
+/* Chevron bullet marker */
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0;
+  height: 0;
+  border-left: 0.7rem solid var(--color-accent);
+  border-top: 0.45rem solid transparent;
+  border-bottom: 0.45rem solid transparent;
+}
+
+.pitch-bullets li::after {
+  content: '';
+  position: absolute;
+  left: 0.35rem;
+  top: 0.85em;
+  width: 0;
+  height: 0;
+  border-left: 0.35rem solid var(--color-accent-dim);
+  border-top: 0.22rem solid transparent;
+  border-bottom: 0.22rem solid transparent;
+}
+
+/* features overview + detail */
+.features-overview {
+  padding-block: var(--space-7);
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+
+.features-overview h2::after,
+.pitch h2::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-platinum-dim));
+  margin-top: var(--space-2);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.feature-detail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: var(--color-accent);
+  transition: height var(--transition-base);
+}
+
+.feature-detail:hover::before {
+  height: 100%;
+}
+
+.feature-detail-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-1);
+}
+
+.feature-detail-text h2::after {
+  display: none;
+}
+
+/* page header */
+.page-header {
+  padding-block: var(--space-6) var(--space-5);
+  position: relative;
+  background: var(--color-surface);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent) 0px,
+    var(--color-accent) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-dim) 0%,
+    var(--color-border-strong) 50%,
+    var(--color-accent-dim) 100%
+  );
+}
+
+.page-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* lists / faq / code */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+  letter-spacing: 0.04em;
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  border-left: 2px solid var(--color-accent-dim);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent-dim);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+}
+
+/* cta banner */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: var(--color-surface2);
+  position: relative;
+  margin-top: var(--space-6);
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent) 0px,
+    var(--color-accent) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner h2::after {
+  display: none;
+}
+
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+}
+
+/* ── archetype: monolith-spire-art-deco ── */
+
+/* Monolith vertical line accent */
+.spire-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-block: var(--space-4);
+  position: relative;
+}
+
+.spire-line::before,
+.spire-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong));
+}
+
+.spire-line::after {
+  background: linear-gradient(90deg, var(--color-border-strong), transparent);
+}
+
+.spire-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-accent);
+  animation: spire-pulse 3s ease-in-out infinite;
+}
+
+@keyframes spire-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scaleY(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1.1);
+  }
+}
+
+/* Chevron accent block */
+.chevron-accent {
+  position: relative;
+  padding-left: var(--space-4);
+}
+
+.chevron-accent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-accent) 0px,
+    var(--color-accent) 4px,
+    var(--color-accent-dim) 4px,
+    var(--color-accent-dim) 8px,
+    transparent 8px,
+    transparent 12px
+  );
+}
+
+/* Spire corner elements */
+.spire-corner {
+  position: relative;
+}
+
+.spire-corner::before,
+.spire-corner::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-color: var(--color-platinum-dim);
+  border-style: solid;
+  opacity: 0.4;
+}
+
+.spire-corner::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.spire-corner::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* Monolith indicator */
+.monolith-indicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-platinum-dim);
+}
+
+.monolith-indicator::before,
+.monolith-indicator::after {
+  content: '';
+  width: 1px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--color-platinum-dim), transparent);
+}
+
+.monolith-icon {
+  width: 14px;
+  height: 14px;
+  animation: spire-rise 2.5s ease-in-out infinite;
+}
+
+@keyframes spire-rise {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
