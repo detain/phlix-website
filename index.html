@@ -381,6 +381,15 @@
             { num: '20', name: 'botanica-nouveau', color: '#10b981' }
         ];
 
+        // When this page is deployed, tools/build.mjs injects
+        // window.__PHLIX_VARIANTS__ with the real list of built variant folders.
+        // In that context dist/ is the publish root, so variant pages live at
+        // ./<folder>/. When the page is opened locally from the repo root (no
+        // manifest), variants live under dist/<folder>/ and are discovered at
+        // runtime via getVariants().
+        const MANIFEST = (typeof window !== 'undefined' && window.__PHLIX_VARIANTS__) || null;
+        const VARIANT_BASE = MANIFEST ? './' : 'dist/';
+
         // IntersectionObserver for lazy loading iframes
         let iframeObserver;
         const loadedIframes = new WeakSet();
@@ -423,6 +432,11 @@
 
         // Get all variant folders from dist
         async function getVariants() {
+            // Deployed build: use the injected manifest (GitHub Pages has no
+            // directory listing, so the fetch() discovery below cannot work there).
+            if (MANIFEST && Array.isArray(MANIFEST.variants)) {
+                return MANIFEST.variants;
+            }
             try {
                 const response = await fetch('dist/');
                 const text = await response.text();
@@ -474,14 +488,14 @@
         function renderVariantCard(folder, index, setColor) {
             const card = document.createElement('a');
             card.className = 'variant-card';
-            card.href = `dist/${folder}/index.html`;
+            card.href = `${VARIANT_BASE}${folder}/index.html`;
             card.style.animationDelay = `${index * 0.05}s`;
             card.style.setProperty('--set-color', setColor);
 
             card.innerHTML = `
                 <div class="preview-container">
                     <div class="placeholder">Loading preview...</div>
-                    <iframe data-src="dist/${folder}/index.html" loading="lazy"></iframe>
+                    <iframe data-src="${VARIANT_BASE}${folder}/index.html" loading="lazy"></iframe>
                     <div class="preview-overlay"></div>
                 </div>
                 <div class="variant-info">
