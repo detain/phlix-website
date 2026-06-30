@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phlix Website Variants</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0c0c0f;
+            --bg-surface: #141418;
+            --bg-card: #1a1a1f;
+            --text-primary: #f0f0f0;
+            --text-secondary: #8a8a95;
+            --accent: #e8ff47;
+            --accent-alt: #47c3ff;
+            --border: #2a2a32;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        header {
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 50%, var(--accent-alt) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .design-set {
+            margin-bottom: 4rem;
+        }
+
+        .set-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .set-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(232, 255, 71, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            letter-spacing: 0.1em;
+        }
+
+        .set-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .variant-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0s;
+            cursor: pointer;
+        }
+
+        .variant-card:hover {
+            transform: scale(2);
+            box-shadow: 0 25px 80px var(--shadow), 0 0 0 1px var(--accent);
+            z-index: 1000;
+        }
+
+        .variant-card.floating {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+            box-shadow: 0 40px 120px var(--shadow), 0 0 0 1px var(--accent);
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .preview-container {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: var(--bg-surface);
+            overflow: hidden;
+        }
+
+        .preview-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .variant-info {
+            padding: 1rem 1.25rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(26, 26, 31, 0.95) 100%);
+            border-top: 1px solid var(--border);
+        }
+
+        .variant-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .variant-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        /* Staggered entrance animation */
+        .variant-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stagger delays */
+        .design-set:nth-child(1) .variant-card:nth-child(1) { animation-delay: 0.05s; }
+        .design-set:nth-child(1) .variant-card:nth-child(2) { animation-delay: 0.1s; }
+        .design-set:nth-child(1) .variant-card:nth-child(3) { animation-delay: 0.15s; }
+        .design-set:nth-child(1) .variant-card:nth-child(4) { animation-delay: 0.2s; }
+        .design-set:nth-child(1) .variant-card:nth-child(5) { animation-delay: 0.25s; }
+
+        .design-set:nth-child(2) .variant-card:nth-child(1) { animation-delay: 0.3s; }
+        .design-set:nth-child(2) .variant-card:nth-child(2) { animation-delay: 0.35s; }
+        .design-set:nth-child(2) .variant-card:nth-child(3) { animation-delay: 0.4s; }
+        .design-set:nth-child(2) .variant-card:nth-child(4) { animation-delay: 0.45s; }
+        .design-set:nth-child(2) .variant-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .design-set:nth-child(3) .variant-card:nth-child(1) { animation-delay: 0.55s; }
+        .design-set:nth-child(3) .variant-card:nth-child(2) { animation-delay: 0.6s; }
+        .design-set:nth-child(3) .variant-card:nth-child(3) { animation-delay: 0.65s; }
+        .design-set:nth-child(3) .variant-card:nth-child(4) { animation-delay: 0.7s; }
+        .design-set:nth-child(3) .variant-card:nth-child(5) { animation-delay: 0.75s; }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Hover instruction */
+        .hover-hint {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--bg-surface);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+
+            .variants-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1rem;
+            }
+
+            .preview-container {
+                height: 300px;
+            }
+
+            .variant-card:hover {
+                transform: scale(1.5);
+            }
+
+            .variant-card.floating {
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>phlix Variants</h1>
+        <p class="subtitle">20 Design Sets &middot; 139 Variants</p>
+    </header>
+
+    <main id="variants-container">
+        <!-- Variants will be injected here by JavaScript -->
+    </main>
+
+    <div class="hover-hint">Hover over a card to enlarge</div>
+
+    <footer>
+        phlix Website Variants Preview &middot; Built with intention
+    </footer>
+
+    <script>
+        const designSets = [
+            { num: '01', name: 'minimalist-cinema' },
+            { num: '02', name: 'spotlight-projector' },
+            { num: '03', name: 'retro-film-reel' },
+            { num: '04', name: 'portal-hub' },
+            { num: '05', name: 'pixel-tech' },
+            { num: '06', name: 'atelier-vogue' },
+            { num: '07', name: 'saturday-cartoons' },
+            { num: '08', name: 'frutiger-aqua-bloom' },
+            { num: '09', name: 'jade-deco-palace' },
+            { num: '10', name: 'forest-canopy' },
+            { num: '11', name: 'lectern-hall' },
+            { num: '12', name: 'liquid-psychedelia' },
+            { num: '13', name: 'bauhaus-primary' },
+            { num: '14', name: 'deep-current' },
+            { num: '15', name: 'swiss-international' },
+            { num: '16', name: 'blueprint-works' },
+            { num: '17', name: 'graphite-mono' },
+            { num: '18', name: 'broadsheet-press' },
+            { num: '19', name: 'palm-springs-modern' },
+            { num: '20', name: 'botanica-nouveau' }
+        ];
+
+        // Get all variant folders from dist
+        async function getVariants() {
+            const response = await fetch('dist/');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const folders = Array.from(doc.querySelectorAll('a'))
+                .map(a => a.textContent.trim())
+                .filter(name => name && name !== 'assets' && name !== '_headers' && name !== 'index.html' && name !== 'robots.txt' && name !== 'sitemap.xml');
+            return folders;
+        }
+
+        function groupBySet(variants) {
+            const grouped = {};
+            for (const variant of variants) {
+                const match = variant.match(/^(\d{2})-([a-z-]+)-(\d+)$/);
+                if (match) {
+                    const setNum = match[1];
+                    const setName = match[2];
+                    const variantNum = parseInt(match[3], 10);
+                    const key = `${setNum}-${setName}`;
+                    if (!grouped[key]) {
+                        grouped[key] = [];
+                    }
+                    grouped[key].push({ folder: variant, variantNum });
+                }
+            }
+            // Sort variants within each group
+            for (const key in grouped) {
+                grouped[key].sort((a, b) => a.variantNum - b.variantNum);
+            }
+            return grouped;
+        }
+
+        function renderVariantCard(folder, index) {
+            const card = document.createElement('div');
+            card.className = 'variant-card';
+            card.style.animationDelay = `${index * 0.05}s`;
+
+            card.innerHTML = `
+                <div class="preview-container">
+                    <iframe src="dist/${folder}/index.html" loading="lazy"></iframe>
+                    <div class="preview-overlay"></div>
+                </div>
+                <div class="variant-info">
+                    <div class="variant-name">${folder}</div>
+                    <div class="variant-meta">Variant ${index + 1}</div>
+                </div>
+            `;
+
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('floating');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('floating');
+            });
+
+            return card;
+        }
+
+        async function init() {
+            const container = document.getElementById('variants-container');
+            const variants = await getVariants();
+            const grouped = groupBySet(variants);
+
+            let cardIndex = 0;
+            for (const set of designSets) {
+                const key = `${set.num}-${set.name}`;
+                const setVariants = grouped[key];
+                if (!setVariants || setVariants.length === 0) continue;
+
+                const setSection = document.createElement('section');
+                setSection.className = 'design-set';
+
+                const header = document.createElement('div');
+                header.className = 'set-header';
+                header.innerHTML = `
+                    <span class="set-number">${set.num}</span>
+                    <h2 class="set-name">${formatSetName(set.name)}</h2>
+                `;
+                setSection.appendChild(header);
+
+                const grid = document.createElement('div');
+                grid.className = 'variants-grid';
+
+                for (const variant of setVariants) {
+                    grid.appendChild(renderVariantCard(variant.folder, cardIndex));
+                    cardIndex++;
+                }
+
+                setSection.appendChild(grid);
+                container.appendChild(setSection);
+            }
+        }
+
+        function formatSetName(name) {
+            return name.split('-').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        init();
+    </script>
+</body>
+</html>

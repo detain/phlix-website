@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plugins — Phlix</title>
+    <meta
+      name="description"
+      content="Extend Phlix with plugins. Learn about the LifecycleInterface manifest system and browse community plugins for metadata, channels, and more."
+    />
+    <meta name="theme-color" content="#FF3366" />
+    <link rel="canonical" href="https://phlix.online/v/16/plugins.html" />
+    <meta property="og:url" content="https://phlix.online/v/16/plugins.html" />
+    <meta property="og:title" content="Plugins — Phlix" />
+    <meta
+      property="og:description"
+      content="Extend Phlix with plugins. LifecycleInterface and manifest system for custom metadata sources, channels, and transcoding."
+    />
+    <meta property="og:image" content="https://phlix.online/v/16/img/og-image.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2032%2032'%3E%3Crect%20width%3D'32'%20height%3D'32'%20rx%3D'6'%20fill%3D'%23FF3366'%2F%3E%3Cpath%20d%3D'M12%209%20L23%2016%20L12%2023%20Z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E"
+    />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body class="v-pop-art-dots">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+      <nav class="nav-primary" aria-label="Primary">
+        <a class="nav-logo" href="index.html" aria-label="Phlix home"
+          ><img src="img/logo.svg" alt="Phlix" width="120" height="40"
+        /></a>
+        <button
+          class="nav-toggle"
+          aria-controls="nav-menu"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main-content">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>Plugins</h1>
+          <p class="page-lead">
+            Extend Phlix with custom plugins for metadata, channels, transcoding, and more.
+          </p>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2 class="section-title">Plugin Architecture</h2>
+        <div class="feature-detail" id="lifecycle">
+          <div class="feature-detail-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+          </div>
+          <div class="feature-detail-text">
+            <h2>LifecycleInterface</h2>
+            <p>
+              Every Phlix plugin implements the <code>LifecycleInterface</code>, which provides a
+              versioned contract for installation, activation, and initialization. This ensures
+              plugins work correctly across Phlix updates.
+            </p>
+          </div>
+        </div>
+        <div class="feature-detail" id="manifest">
+          <div class="feature-detail-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <div class="feature-detail-text">
+            <h2>Manifest System</h2>
+            <p>
+              Each plugin ships with a <code>manifest.json</code> that declares its version,
+              dependencies, service bindings, and lifecycle hooks. Phlix reads this manifest during
+              bootstrap to wire up your plugin automatically.
+            </p>
+          </div>
+        </div>
+        <div class="feature-detail" id="hooks">
+          <div class="feature-detail-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+              />
+            </svg>
+          </div>
+          <div class="feature-detail-text">
+            <h2>Service Hooks</h2>
+            <p>
+              Plugins can hook into metadata fetching, transcoding pipelines, channel sources,
+              authentication, and more. Services are registered via the manifest and injected where
+              needed.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2 class="section-title">Getting Started</h2>
+        <div class="feature-detail" id="example">
+          <div class="feature-detail-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+            </svg>
+          </div>
+          <div class="feature-detail-text">
+            <h2>phlix-plugin-example</h2>
+            <p>
+              Start building your first plugin with the official example repository. It demonstrates
+              a minimal plugin with LifecycleInterface implementation, manifest.json, service
+              bindings, and tests.
+            </p>
+            <a
+              class="btn btn-primary"
+              href="https://github.com/detain/phlix-plugin-example"
+              rel="noopener noreferrer"
+              >View Plugin Example</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2 class="section-title">Plugin Capabilities</h2>
+        <div class="feature-cards">
+          <article class="feature-card">
+            <svg
+              class="feature-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 6h16M4 12h16M4 18h12" />
+            </svg>
+            <h3>Metadata Sources</h3>
+            <p>
+              Add custom metadata fetchers for movies, TV shows, music, or any content type.
+              Override or extend TMDB, TVDB, and Fanart.tv data.
+            </p>
+          </article>
+          <article class="feature-card">
+            <svg
+              class="feature-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="2" />
+              <path d="M16.24 7.76a6 6 0 010 8.49M7.76 16.24a6 6 0 010-8.49" />
+            </svg>
+            <h3>Channel Sources</h3>
+            <p>
+              Build live TV channel integrations for IPTV services, antenna tuners, or streaming
+              platforms. Users browse channels as if they were broadcast.
+            </p>
+          </article>
+          <article class="feature-card">
+            <svg
+              class="feature-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
+              />
+            </svg>
+            <h3>Transcoding</h3>
+            <p>
+              Add custom transcoding profiles, codecs, or delivery methods. Plug into the FFmpeg
+              pipeline or provide entirely new streaming formats.
+            </p>
+          </article>
+          <article class="feature-card">
+            <svg
+              class="feature-icon"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0110 0v4" />
+            </svg>
+            <h3>Authentication</h3>
+            <p>
+              Implement custom auth providers for SSO, OIDC, or institutional identity systems.
+              Extend the JWT-based auth flow with your own user management.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <section class="cta-banner">
+        <div class="cta-banner-inner">
+          <h2>Build something new</h2>
+          <a
+            class="btn btn-primary btn-large"
+            href="https://github.com/detain/phlix-plugin-example"
+            rel="noopener noreferrer"
+            >Start Building</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul>
+              <li>
+                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
+                  >Server source</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+                  >Plugin example</a
+                >
+              </li>
+              <li>
+                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
+                  >API reference</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul>
+              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
+              <li>
+                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
+                  >Issues</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/detain/phlix-website/blob/master/LICENSE"
+                  rel="noopener noreferrer"
+                  >License (BSD-3)</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <p class="footer-copy">© Saturday Cartoons V16 Pop Art Dots · Phlix — BSD-3-Clause</p>
+      </div>
+    </footer>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,583 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Saturday Cartoons V20 — Comic Kaboom
+   archetype: comic-kaboom (bold comic book action style)
+   ============================================================ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.1;
+  text-wrap: balance;
+  letter-spacing: 0.03em;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding-block: var(--space-7);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgb(255, 51, 102, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgb(0, 150, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgb(255, 215, 0, 0.05) 0%, transparent 70%);
+}
+
+/* Action lines background pattern */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 20px,
+    rgb(255, 107, 53, 0.03) 20px,
+    rgb(255, 107, 53, 0.03) 21px
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-2);
+  display: inline-block;
+  background: var(--color-heading);
+  color: var(--color-cta-text);
+  padding: 0.4rem 1.2rem;
+  border-radius: var(--radius-xl);
+  border: 4px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid var(--color-border);
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+}
+
+/* Comic burst underline effect */
+.hero h1::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpolygon points='0,20 10,0 20,20 30,5 40,20 50,8 60,20 70,3 80,20 90,10 100,20 110,5 120,20 130,8 140,20 150,3 160,20 170,10 180,20 190,5 200,20' fill='%23ff6b35'/%3E%3C/svg%3E")
+    repeat-x;
+  background-size: 200px 20px;
+}
+
+.hero-sub {
+  font-size: 1.3rem;
+  color: var(--color-text-muted);
+  max-width: 55ch;
+  margin-bottom: var(--space-4);
+  font-weight: 500;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Hero POW! burst decoration */
+.hero-burst {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  font-family: var(--font-headline);
+  font-size: 4rem;
+  color: var(--color-pow-yellow);
+  transform: rotate(15deg) scale(0);
+  opacity: 0;
+  z-index: 0;
+  text-shadow:
+    3px 3px 0 var(--color-border),
+    -1px -1px 0 var(--color-border),
+    1px -1px 0 var(--color-border),
+    -1px 1px 0 var(--color-border);
+  animation: burst-appear 0.6s 0.3s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes burst-appear {
+  0% {
+    transform: rotate(15deg) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: rotate(15deg) scale(1.2) rotate(-10deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(15deg) scale(1) rotate(0deg);
+    opacity: 0.9;
+  }
+}
+
+/* ─── PITCH ─── */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  border-top: 6px solid var(--color-heading);
+  border-bottom: 6px solid var(--color-heading);
+  position: relative;
+}
+
+.pitch::before {
+  content: 'WHAM!';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  background: var(--color-pow-yellow);
+  color: var(--color-border);
+  padding: 0.2rem 1rem;
+  border: 4px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: 24px;
+  height: 24px;
+  background: var(--color-accent);
+  border: 3px solid var(--color-border);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+/* ─── FEATURES OVERVIEW ─── */
+.features-overview {
+  padding-block: var(--space-7);
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+  position: relative;
+  display: inline-block;
+}
+
+/* Starburst underline for section titles */
+.features-overview h2::after,
+.pitch h2::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 15'%3E%3Cpolygon points='5,15 10,0 15,15 20,5 25,15 30,2 35,15 40,8 45,15 50,3 55,15 60,6 65,15 70,4 75,15 80,7 85,15 90,5 95,15 100,8' fill='%230096ff'/%3E%3C/svg%3E")
+    repeat-x;
+  background-size: 100px 15px;
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+/* ─── CONTENT GRID ─── */
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 4px solid var(--color-border);
+}
+
+.feature-detail-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-1);
+}
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  padding-block: var(--space-6) var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 6px solid var(--color-heading);
+}
+
+.page-lead {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* ─── LISTS / FAQ / CODE ─── */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 4px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 4px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.15em 0.45em;
+  border-radius: 6px;
+  border: 3px solid var(--color-border);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  border: 5px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-heading) 0%,
+    var(--color-accent-secondary) 50%,
+    var(--color-accent) 100%
+  );
+  border-top: 8px solid var(--color-border);
+  border-bottom: 8px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0,
+    transparent 15px,
+    rgb(255, 255, 255, 0.05) 15px,
+    rgb(255, 255, 255, 0.05) 30px
+  );
+  pointer-events: none;
+}
+
+.cta-burst {
+  position: absolute;
+  bottom: -20px;
+  right: 10%;
+  font-family: var(--font-headline);
+  font-size: 5rem;
+  color: var(--color-pow-yellow);
+  transform: rotate(-10deg);
+  text-shadow:
+    4px 4px 0 var(--color-border),
+    -2px -2px 0 var(--color-border),
+    2px -2px 0 var(--color-border),
+    -2px 2px 0 var(--color-border);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.cta-banner-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+  color: var(--color-cta-text);
+  text-shadow: 3px 3px 0 var(--color-border);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+
+  .hero-burst {
+    font-size: 2.5rem;
+    top: 5%;
+    right: 2%;
+  }
+}
+
+/* ── ARCHETYPE: comic-kaboom ── */
+
+/* Feature cards with comic style */
+body.v-comic-kaboom .feature-card {
+  border: 5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform var(--transition-bounce),
+    box-shadow var(--transition-bounce);
+  position: relative;
+  overflow: hidden;
+  animation: card-slam 0.5s ease-out backwards;
+}
+
+body.v-comic-kaboom .feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--color-pow-yellow) 0%,
+    var(--color-accent) 50%,
+    var(--color-pow-red) 100%
+  );
+}
+
+body.v-comic-kaboom .feature-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+body.v-comic-kaboom .feature-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+body.v-comic-kaboom .feature-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+body.v-comic-kaboom .feature-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+body.v-comic-kaboom .feature-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+body.v-comic-kaboom .feature-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+body.v-comic-kaboom .feature-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+@keyframes card-slam {
+  0% {
+    transform: translateY(-50px) rotate(-5deg);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translateY(5px) rotate(1deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Hero eyebrow bounce */
+body.v-comic-kaboom .hero-eyebrow {
+  animation: eyebrow-pop 2s ease-in-out infinite;
+}
+
+@keyframes eyebrow-pop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.v-comic-kaboom .hero-eyebrow,
+  body.v-comic-kaboom .feature-card,
+  body.v-comic-kaboom .hero-burst {
+    animation: none;
+  }
+}
