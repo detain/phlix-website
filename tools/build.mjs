@@ -105,13 +105,29 @@ function indexPage(variants) {
   // listing, so the page's runtime fetch('dist/') discovery cannot work there —
   // the manifest is the source of truth for what gets shown.
   const builtSlugs = variants.filter((v) => v.built).map((v) => v.slug);
+  // Trim brand kits to only the fields the cards render, then inject alongside
+  // the manifest: shared/data/ is not deployed, so the page cannot fetch the
+  // kits in production — the injected copy is the source of truth there.
+  const kits = {};
+  for (const [slug, k] of Object.entries(brandKits.variants ?? {})) {
+    kits[slug] = {
+      name: k.name,
+      variation: k.variation,
+      personality: k.personality,
+      colors: k.colors,
+    };
+  }
   const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  const manifest = `<script>window.__PHLIX_VARIANTS__=${JSON.stringify({ variants: builtSlugs })};</script>`;
+  const inject =
+    `<script>` +
+    `window.__PHLIX_VARIANTS__=${JSON.stringify({ variants: builtSlugs })};` +
+    `window.__PHLIX_BRAND_KITS__=${JSON.stringify(kits)};` +
+    `</script>`;
   // Inject in <head> so it runs before the page's main inline script reads it.
   if (!template.includes('</head>')) {
-    throw new Error('build: root index.html is missing a </head> to inject the variant manifest');
+    throw new Error('build: root index.html is missing a </head> to inject site data');
   }
-  return template.replace('</head>', `  ${manifest}\n</head>`);
+  return template.replace('</head>', `  ${inject}\n</head>`);
 }
 
 function placeholderPage(slug, kit) {
