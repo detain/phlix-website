@@ -1,0 +1,630 @@
+/* ============================================================
+   THEME.CSS — typography, layout, page structure
+   Jade Deco Palace V7 — Radiant Lattice
+   archetype: radiant-lattice-art-deco
+   ============================================================ */
+
+/* Art Deco radiant sunburst background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 10deg,
+    var(--color-border) 10deg,
+    var(--color-border) 10.5deg,
+    transparent 10.5deg,
+    transparent 20deg
+  );
+  background-size: 200px 200px;
+  opacity: 0.08;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Chevron overlay pattern */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 30px,
+    var(--color-border) 30px,
+    var(--color-border) 31px,
+    transparent 31px,
+    transparent 60px
+  );
+  opacity: 0.05;
+  z-index: -1;
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  color: var(--color-heading);
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  letter-spacing: 0.12em;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  letter-spacing: 0.1em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  letter-spacing: 0.08em;
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  text-underline-offset: 0.18em;
+}
+
+/* layout containers */
+main {
+  display: block;
+}
+
+.hero-inner,
+.pitch-inner,
+.features-overview-inner,
+.cta-banner-inner,
+.page-header-inner,
+.content-section {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-section {
+  max-width: 60rem;
+  padding-block: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.content-section h2 {
+  margin-top: var(--space-3);
+}
+
+.content-section p,
+.content-section ul,
+.content-section dl {
+  max-width: 65ch;
+}
+
+/* hero */
+.hero {
+  padding-block: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-accent) 50%,
+    var(--color-gold) 100%
+  );
+}
+
+/* Fan/sunburst decorative element behind hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: repeating-conic-gradient(
+    from 180deg at 50% 0%,
+    transparent 0deg,
+    transparent 8deg,
+    var(--color-gold-dim) 8deg,
+    var(--color-gold-dim) 8.5deg,
+    transparent 8.5deg,
+    transparent 16deg
+  );
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-gold);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+/* Chevron underline for hero heading */
+.hero h1::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 2rem solid transparent;
+  border-right: 2rem solid transparent;
+  border-top: 0.5rem solid var(--color-gold);
+  margin-top: var(--space-3);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  margin-bottom: var(--space-4);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* pitch */
+.pitch {
+  padding-block: var(--space-6);
+  background: var(--color-surface);
+  position: relative;
+}
+
+.pitch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-accent) 50%,
+    var(--color-gold) 100%
+  );
+}
+
+.pitch-bullets {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pitch-bullets li {
+  position: relative;
+  padding-left: 1.8rem;
+  padding-block: 0.5rem;
+}
+
+/* Chevron bullet markers */
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0;
+  height: 0;
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent;
+  border-left: 0.8rem solid var(--color-accent);
+}
+
+.pitch-bullets li::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.85em;
+  width: 0;
+  height: 0;
+  border-top: 0.25rem solid transparent;
+  border-bottom: 0.25rem solid transparent;
+  border-left: 0.4rem solid var(--color-gold);
+}
+
+/* features overview + detail */
+.features-overview {
+  padding-block: var(--space-7);
+}
+
+.features-overview h2,
+.pitch h2 {
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+
+/* Sunburst dot decoration for section headings */
+.features-overview h2::after,
+.pitch h2::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-accent));
+  margin-top: var(--space-2);
+  clip-path: polygon(0 50%, 30% 0, 70% 0, 100% 50%, 70% 100%, 30% 100%);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.features-more {
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.content-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.feature-detail {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* Radial glow on hover */
+.feature-detail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.feature-detail:hover::before {
+  opacity: 0.15;
+}
+
+.feature-detail-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.feature-detail-text h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-1);
+}
+
+.feature-detail-text h2::after {
+  display: none;
+}
+
+/* page header */
+.page-header {
+  padding-block: var(--space-6) var(--space-5);
+  position: relative;
+  background: var(--color-surface);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-accent) 50%,
+    var(--color-gold) 100%
+  );
+}
+
+/* Chevron pattern at bottom of page header */
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0,
+    transparent 8px,
+    var(--color-gold-dim) 8px,
+    var(--color-gold-dim) 10px
+  );
+}
+
+.page-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* lists / faq / code */
+.docs-links,
+.ecosystem-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ecosystem-list li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.faq-item {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-headline);
+  margin-bottom: var(--space-1);
+  letter-spacing: 0.05em;
+}
+
+.faq-item dd {
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  border-left: 2px solid var(--color-accent);
+}
+
+.code-block {
+  font-family: var(--font-code);
+  background: var(--color-code-bg);
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-gold);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+}
+
+/* cta banner */
+.cta-banner {
+  padding-block: var(--space-7);
+  text-align: center;
+  background: var(--color-surface2);
+  position: relative;
+  margin-top: var(--space-6);
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-gold) 50%, transparent 100%);
+}
+
+/* Fan/sunburst at bottom of cta */
+.cta-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 80px;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 100%,
+    transparent 0deg,
+    transparent 15deg,
+    var(--color-gold-dim) 15deg,
+    var(--color-gold-dim) 15.5deg,
+    transparent 15.5deg,
+    transparent 30deg
+  );
+  opacity: 0.2;
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner h2::after {
+  display: none;
+}
+
+@media (width <= 860px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 600px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
+  }
+}
+
+/* ── archetype: radiant-lattice-art-deco ── */
+
+/* Sunburst decorative element */
+.sunburst {
+  position: relative;
+}
+
+.sunburst::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 10deg,
+    var(--color-gold-dim) 10deg,
+    var(--color-gold-dim) 10.5deg,
+    transparent 10.5deg,
+    transparent 20deg
+  );
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Chevron border accent */
+.chevron-border {
+  position: relative;
+  padding-left: var(--space-4);
+}
+
+.chevron-border::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-gold) 0,
+    var(--color-gold) 10px,
+    transparent 10px,
+    transparent 15px,
+    var(--color-accent) 15px,
+    var(--color-accent) 25px,
+    transparent 25px,
+    transparent 30px
+  );
+}
+
+/* Radial decorative corner */
+.radial-corner {
+  position: relative;
+}
+
+.radial-corner::before,
+.radial-corner::after {
+  content: '';
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.radial-corner::before {
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at top left, var(--color-gold), transparent 70%);
+}
+
+.radial-corner::after {
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle at bottom right, var(--color-accent), transparent 70%);
+}
+
+/* Art deco geometric divider */
+.radial-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-block: var(--space-4);
+}
+
+.radial-divider::before,
+.radial-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong));
+}
+
+.radial-divider::after {
+  background: linear-gradient(90deg, var(--color-border-strong), transparent);
+}
+
+.radial-divider-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-gold);
+}

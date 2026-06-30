@@ -18,6 +18,28 @@
             --accent-alt: #47c3ff;
             --border: #2a2a32;
             --shadow: rgba(0, 0, 0, 0.5);
+
+            /* Design set theme colors */
+            --set-01: #a3a3a3;
+            --set-02: #fbbf24;
+            --set-03: #f97316;
+            --set-04: #8b5cf6;
+            --set-05: #22c55e;
+            --set-06: #ec4899;
+            --set-07: #facc15;
+            --set-08: #14b8a6;
+            --set-09: #34d399;
+            --set-10: #22c55e;
+            --set-11: #a78bfa;
+            --set-12: #e879f9;
+            --set-13: #ef4444;
+            --set-14: #0ea5e9;
+            --set-15: #f43f5e;
+            --set-16: #3b82f6;
+            --set-17: #6b7280;
+            --set-18: #78716c;
+            --set-19: #fb923c;
+            --set-20: #10b981;
         }
 
         * {
@@ -97,6 +119,23 @@
 
         .design-set {
             margin-bottom: 4rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(20, 20, 24, 0.8) 0%, rgba(12, 12, 15, 0.4) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .design-set::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--set-color, var(--accent));
+            opacity: 0.8;
         }
 
         .set-header {
@@ -112,8 +151,8 @@
             font-family: 'Space Mono', monospace;
             font-size: 0.75rem;
             font-weight: 700;
-            color: var(--accent);
-            background: rgba(232, 255, 71, 0.1);
+            color: var(--bg-deep);
+            background: var(--set-color, var(--accent));
             padding: 0.25rem 0.75rem;
             border-radius: 2px;
             letter-spacing: 0.1em;
@@ -135,26 +174,21 @@
             position: relative;
             background: var(--bg-card);
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible;
             border: 1px solid var(--border);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0s;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.4s ease,
+                        z-index 0s;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
         }
 
         .variant-card:hover {
-            transform: scale(2);
-            box-shadow: 0 25px 80px var(--shadow), 0 0 0 1px var(--accent);
+            transform: scale(2) translateY(-20px);
+            box-shadow: 0 25px 80px var(--shadow), 0 0 0 1px var(--set-color, var(--accent));
             z-index: 1000;
-        }
-
-        .variant-card.floating {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(2);
-            box-shadow: 0 40px 120px var(--shadow), 0 0 0 1px var(--accent);
-            z-index: 1001;
-            pointer-events: none;
         }
 
         .preview-container {
@@ -163,6 +197,7 @@
             height: 380px;
             background: var(--bg-surface);
             overflow: hidden;
+            border-radius: 11px 11px 0 0;
         }
 
         .preview-container iframe {
@@ -170,6 +205,28 @@
             height: 100%;
             border: none;
             pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .preview-container iframe.loaded {
+            opacity: 1;
+        }
+
+        .preview-container .placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-card) 100%);
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            z-index: -1;
         }
 
         .preview-overlay {
@@ -184,8 +241,9 @@
 
         .variant-info {
             padding: 1rem 1.25rem;
-            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(26, 26, 31, 0.95) 100%);
+            background: var(--bg-card);
             border-top: 1px solid var(--border);
+            border-radius: 0 0 11px 11px;
         }
 
         .variant-name {
@@ -225,25 +283,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* Stagger delays */
-        .design-set:nth-child(1) .variant-card:nth-child(1) { animation-delay: 0.05s; }
-        .design-set:nth-child(1) .variant-card:nth-child(2) { animation-delay: 0.1s; }
-        .design-set:nth-child(1) .variant-card:nth-child(3) { animation-delay: 0.15s; }
-        .design-set:nth-child(1) .variant-card:nth-child(4) { animation-delay: 0.2s; }
-        .design-set:nth-child(1) .variant-card:nth-child(5) { animation-delay: 0.25s; }
-
-        .design-set:nth-child(2) .variant-card:nth-child(1) { animation-delay: 0.3s; }
-        .design-set:nth-child(2) .variant-card:nth-child(2) { animation-delay: 0.35s; }
-        .design-set:nth-child(2) .variant-card:nth-child(3) { animation-delay: 0.4s; }
-        .design-set:nth-child(2) .variant-card:nth-child(4) { animation-delay: 0.45s; }
-        .design-set:nth-child(2) .variant-card:nth-child(5) { animation-delay: 0.5s; }
-
-        .design-set:nth-child(3) .variant-card:nth-child(1) { animation-delay: 0.55s; }
-        .design-set:nth-child(3) .variant-card:nth-child(2) { animation-delay: 0.6s; }
-        .design-set:nth-child(3) .variant-card:nth-child(3) { animation-delay: 0.65s; }
-        .design-set:nth-child(3) .variant-card:nth-child(4) { animation-delay: 0.7s; }
-        .design-set:nth-child(3) .variant-card:nth-child(5) { animation-delay: 0.75s; }
 
         /* Scrollbar styling */
         ::-webkit-scrollbar {
@@ -297,11 +336,7 @@
             }
 
             .variant-card:hover {
-                transform: scale(1.5);
-            }
-
-            .variant-card.floating {
-                transform: translate(-50%, -50%) scale(1.5);
+                transform: scale(1.5) translateY(-10px);
             }
         }
     </style>
@@ -309,14 +344,14 @@
 <body>
     <header>
         <h1>phlix Variants</h1>
-        <p class="subtitle">20 Design Sets &middot; 139 Variants</p>
+        <p class="subtitle">20 Design Sets &middot; 100 Variants</p>
     </header>
 
     <main id="variants-container">
         <!-- Variants will be injected here by JavaScript -->
     </main>
 
-    <div class="hover-hint">Hover over a card to enlarge</div>
+    <div class="hover-hint">Hover to preview &middot; Click to open</div>
 
     <footer>
         phlix Website Variants Preview &middot; Built with intention
@@ -324,38 +359,94 @@
 
     <script>
         const designSets = [
-            { num: '01', name: 'minimalist-cinema' },
-            { num: '02', name: 'spotlight-projector' },
-            { num: '03', name: 'retro-film-reel' },
-            { num: '04', name: 'portal-hub' },
-            { num: '05', name: 'pixel-tech' },
-            { num: '06', name: 'atelier-vogue' },
-            { num: '07', name: 'saturday-cartoons' },
-            { num: '08', name: 'frutiger-aqua-bloom' },
-            { num: '09', name: 'jade-deco-palace' },
-            { num: '10', name: 'forest-canopy' },
-            { num: '11', name: 'lectern-hall' },
-            { num: '12', name: 'liquid-psychedelia' },
-            { num: '13', name: 'bauhaus-primary' },
-            { num: '14', name: 'deep-current' },
-            { num: '15', name: 'swiss-international' },
-            { num: '16', name: 'blueprint-works' },
-            { num: '17', name: 'graphite-mono' },
-            { num: '18', name: 'broadsheet-press' },
-            { num: '19', name: 'palm-springs-modern' },
-            { num: '20', name: 'botanica-nouveau' }
+            { num: '01', name: 'minimalist-cinema', color: '#a3a3a3' },
+            { num: '02', name: 'spotlight-projector', color: '#fbbf24' },
+            { num: '03', name: 'retro-film-reel', color: '#f97316' },
+            { num: '04', name: 'portal-hub', color: '#8b5cf6' },
+            { num: '05', name: 'pixel-tech', color: '#22c55e' },
+            { num: '06', name: 'atelier-vogue', color: '#ec4899' },
+            { num: '07', name: 'saturday-cartoons', color: '#facc15' },
+            { num: '08', name: 'frutiger-aqua-bloom', color: '#14b8a6' },
+            { num: '09', name: 'jade-deco-palace', color: '#34d399' },
+            { num: '10', name: 'forest-canopy', color: '#22c55e' },
+            { num: '11', name: 'lectern-hall', color: '#a78bfa' },
+            { num: '12', name: 'liquid-psychedelia', color: '#e879f9' },
+            { num: '13', name: 'bauhaus-primary', color: '#ef4444' },
+            { num: '14', name: 'deep-current', color: '#0ea5e9' },
+            { num: '15', name: 'swiss-international', color: '#f43f5e' },
+            { num: '16', name: 'blueprint-works', color: '#3b82f6' },
+            { num: '17', name: 'graphite-mono', color: '#6b7280' },
+            { num: '18', name: 'broadsheet-press', color: '#78716c' },
+            { num: '19', name: 'palm-springs-modern', color: '#fb923c' },
+            { num: '20', name: 'botanica-nouveau', color: '#10b981' }
         ];
+
+        // IntersectionObserver for lazy loading iframes
+        let iframeObserver;
+        const loadedIframes = new WeakSet();
+
+        function initIntersectionObserver() {
+            iframeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const card = entry.target;
+                    const iframe = card.querySelector('iframe');
+
+                    if (!iframe) return;
+
+                    if (entry.isIntersecting) {
+                        // Card is visible - load the iframe
+                        loadIframe(iframe);
+                    } else {
+                        // Card is out of view - optionally unload
+                        // For performance, we keep loaded iframes in memory
+                        // but reset opacity to allow re-trigger
+                    }
+                });
+            }, {
+                rootMargin: '100px',
+                threshold: 0.1
+            });
+        }
+
+        function loadIframe(iframe) {
+            if (loadedIframes.has(iframe)) return;
+
+            const src = iframe.dataset.src;
+            if (!src) return;
+
+            iframe.src = src;
+            iframe.onload = () => {
+                iframe.classList.add('loaded');
+            };
+            loadedIframes.add(iframe);
+        }
 
         // Get all variant folders from dist
         async function getVariants() {
-            const response = await fetch('dist/');
-            const text = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, 'text/html');
-            const folders = Array.from(doc.querySelectorAll('a'))
-                .map(a => a.textContent.trim())
-                .filter(name => name && name !== 'assets' && name !== '_headers' && name !== 'index.html' && name !== 'robots.txt' && name !== 'sitemap.xml');
-            return folders;
+            try {
+                const response = await fetch('dist/');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const folders = Array.from(doc.querySelectorAll('a'))
+                    .map(a => a.href)
+                    .map(href => {
+                        const parts = href.split('/');
+                        return parts[parts.length - 1];
+                    })
+                    .filter(name => name && name !== 'assets' && !name.includes('_headers') && name !== 'index.html' && name !== 'robots.txt' && name !== 'sitemap.xml' && name.match(/^\d{2}-[a-z-]+-\d+$/));
+                return folders;
+            } catch (e) {
+                console.warn('Could not fetch dist listing, using fallback');
+                // Fallback: generate all possible variants
+                const variants = [];
+                designSets.forEach(set => {
+                    for (let i = 1; i <= 5; i++) {
+                        variants.push(`${set.num}-${set.name}-${i}`);
+                    }
+                });
+                return variants;
+            }
         }
 
         function groupBySet(variants) {
@@ -380,14 +471,17 @@
             return grouped;
         }
 
-        function renderVariantCard(folder, index) {
-            const card = document.createElement('div');
+        function renderVariantCard(folder, index, setColor) {
+            const card = document.createElement('a');
             card.className = 'variant-card';
+            card.href = `dist/${folder}/index.html`;
             card.style.animationDelay = `${index * 0.05}s`;
+            card.style.setProperty('--set-color', setColor);
 
             card.innerHTML = `
                 <div class="preview-container">
-                    <iframe src="dist/${folder}/index.html" loading="lazy"></iframe>
+                    <div class="placeholder">Loading preview...</div>
+                    <iframe data-src="dist/${folder}/index.html" loading="lazy"></iframe>
                     <div class="preview-overlay"></div>
                 </div>
                 <div class="variant-info">
@@ -396,18 +490,17 @@
                 </div>
             `;
 
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('floating');
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('floating');
-            });
+            // Observe card for lazy loading
+            if (iframeObserver) {
+                iframeObserver.observe(card);
+            }
 
             return card;
         }
 
         async function init() {
+            initIntersectionObserver();
+
             const container = document.getElementById('variants-container');
             const variants = await getVariants();
             const grouped = groupBySet(variants);
@@ -420,6 +513,7 @@
 
                 const setSection = document.createElement('section');
                 setSection.className = 'design-set';
+                setSection.style.setProperty('--set-color', set.color);
 
                 const header = document.createElement('div');
                 header.className = 'set-header';
@@ -433,7 +527,8 @@
                 grid.className = 'variants-grid';
 
                 for (const variant of setVariants) {
-                    grid.appendChild(renderVariantCard(variant.folder, cardIndex));
+                    const card = renderVariantCard(variant.folder, cardIndex, set.color);
+                    grid.appendChild(card);
                     cardIndex++;
                 }
 

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plugins — Phlix</title>
+    <meta
+      name="description"
+      content="Extend Phlix with plugins. Versioned manifest contract, LifecycleInterface, and drop-in installation."
+    />
+    <meta name="theme-color" content="#0a1210" />
+    <meta name="color-scheme" content="dark" />
+    <link
+      rel="canonical"
+      href="https://detain.github.io/phlix-website/variants/09-jade-deco-palace-11/plugins.html"
+    />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/variants/09-jade-deco-palace-11/plugins.html"
+    />
+    <meta property="og:title" content="Plugins — Phlix" />
+    <meta
+      property="og:description"
+      content="Extend Phlix with plugins. Versioned manifest contract, LifecycleInterface, and drop-in installation."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/variants/09-jade-deco-palace-11/img/og.png"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2032%2032'%3E%3Crect%20width%3D'32'%20height%3D'32'%20rx%3D'4'%20fill%3D'%230a1210'%2F%3E%3Cpath%20d%3D'M12%209%20L23%2016%20L12%2023%20Z'%20fill%3D'%233dd6a8'%2F%3E%3C%2Fsvg%3E"
+    />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body class="v-obsidian-gallery">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+      <nav class="nav-primary" aria-label="Primary">
+        <a class="nav-logo" href="index.html" aria-label="Phlix home"
+          ><img src="img/logo.svg" alt="Phlix" width="120" height="40"
+        /></a>
+        <button
+          class="nav-toggle"
+          aria-controls="nav-menu"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main-content">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>Plugins</h1>
+          <p class="page-lead">Extend Phlix with a clean, versioned plugin contract.</p>
+        </div>
+      </div>
+      <div class="content-section">
+        <h2>Plugin architecture</h2>
+        <p>
+          Each plugin ships a <code>manifest.json</code> that declares its version, dependencies,
+          and lifecycle hooks. The PluginLoader validates the manifest against the current schema
+          version before activating anything.
+        </p>
+        <h3>LifecycleInterface</h3>
+        <p>Plugins implement one or more of:</p>
+        <ul>
+          <li>
+            <code>onInstall()</code> — run once after the plugin is dropped into the plugins
+            directory
+          </li>
+          <li><code>onUpgrade($fromVersion)</code> — run when the plugin version changes</li>
+          <li><code>onUninstall()</code> — cleanup when the plugin is removed</li>
+          <li>
+            <code>onReady()</code> — called after all plugins are loaded and the server is ready
+          </li>
+        </ul>
+        <h3>Minimal example</h3>
+        <div class="code-block">
+          <code>
+            <pre>
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "schema": "1.0",
+  "requires": { "phlix": ">=1.0.0" },
+  "hooks": ["onReady"]
+}</pre>
+          </code>
+        </div>
+        <h2>Ecosystem</h2>
+        <ul class="ecosystem-list">
+          <li>
+            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+              >phlix-plugin-example</a
+            >
+            — the smallest working plugin. Use as a starter.
+          </li>
+          <li>
+            <a href="https://github.com/detain/phlix-plugin-auth-ldap" rel="noopener noreferrer"
+              >phlix-plugin-auth-ldap</a
+            >
+            — LDAP / Active Directory auth backend.
+          </li>
+          <li>
+            <a href="https://github.com/detain/phlix-plugin-storage-s3" rel="noopener noreferrer"
+              >phlix-plugin-storage-s3</a
+            >
+            — store media on S3-compatible object storage.
+          </li>
+          <li>
+            <a href="https://github.com/detain/phlix-plugin-import-plex" rel="noopener noreferrer"
+              >phlix-plugin-import-plex</a
+            >
+            — import libraries from a Plex server.
+          </li>
+        </ul>
+        <h2>Publishing</h2>
+        <p>
+          Submit a PR to the
+          <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">phlix-hub</a> repo
+          to list your plugin in the Hub. The Hub also handles distribution if you don't want to
+          host releases yourself.
+        </p>
+      </div>
+      <section class="cta-banner">
+        <div class="cta-banner-inner">
+          <h2>Write your first plugin</h2>
+          <a
+            class="btn btn-primary btn-large"
+            href="https://github.com/detain/phlix-plugin-example"
+            rel="noopener noreferrer"
+            >View phlix-plugin-example</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul>
+              <li>
+                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
+                  >Server source</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+                  >Plugin example</a
+                >
+              </li>
+              <li>
+                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
+                  >API reference</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul>
+              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
+              <li>
+                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
+                  >Issues</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/detain/phlix-website/blob/master/LICENSE"
+                  rel="noopener noreferrer"
+                  >License (BSD-3)</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <p class="footer-copy">© Jade Deco Palace V11 Obsidian Gallery · Phlix — BSD-3-Clause</p>
+      </div>
+    </footer>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
