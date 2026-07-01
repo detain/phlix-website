@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>phlix Website Variants</title>
+    <title>Phlix Website Brand Kits</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -310,6 +310,55 @@
             flex-shrink: 0;
         }
 
+        /* Cards whose brand kit has no built site yet: dimmed, not clickable,
+           and never zoom on hover (there is no preview to enlarge). */
+        .variant-card.unbuilt {
+            cursor: default;
+            opacity: 0.72;
+        }
+
+        .variant-card.unbuilt:hover .preview-container {
+            transform: scale(1);
+            box-shadow: none;
+        }
+
+        .preview-container .pending {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.4rem;
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    var(--bg-surface),
+                    var(--bg-surface) 12px,
+                    var(--bg-card) 12px,
+                    var(--bg-card) 24px);
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .status-tag {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.68rem;
+            padding: 0.12rem 0.45rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+            border: 1px solid currentColor;
+        }
+
+        .status-tag.pending-tag {
+            color: var(--text-secondary);
+        }
+
         footer {
             text-align: center;
             padding: 3rem 2rem;
@@ -395,88 +444,29 @@
 </head>
 <body>
     <header>
-        <h1>phlix Variants</h1>
-        <p class="subtitle">Design variant previews</p>
+        <h1>Phlix Brand Kits</h1>
+        <p class="subtitle">Brand-kit site previews</p>
     </header>
 
     <main id="variants-container">
-        <!-- Variants will be injected here by JavaScript -->
+        <!-- Brand-kit cards are injected here by JavaScript -->
     </main>
 
     <div class="hover-hint">Hover to preview &middot; Click to open</div>
 
     <footer>
-        phlix Website Variants Preview &middot; Built with intention
+        Phlix Website Brand Kits &middot; Built with intention
     </footer>
 
     <script>
-        const designSets = [
-            { num: '01', name: 'minimalist-cinema', color: '#a3a3a3' },
-            { num: '02', name: 'spotlight-projector', color: '#fbbf24' },
-            { num: '03', name: 'retro-film-reel', color: '#f97316' },
-            { num: '04', name: 'portal-hub', color: '#8b5cf6' },
-            { num: '05', name: 'pixel-tech', color: '#22c55e' },
-            { num: '06', name: 'atelier-vogue', color: '#ec4899' },
-            { num: '07', name: 'saturday-cartoons', color: '#facc15' },
-            { num: '08', name: 'frutiger-aqua-bloom', color: '#14b8a6' },
-            { num: '09', name: 'jade-deco-palace', color: '#34d399' },
-            { num: '10', name: 'forest-canopy', color: '#22c55e' },
-            { num: '11', name: 'lectern-hall', color: '#a78bfa' },
-            { num: '12', name: 'liquid-psychedelia', color: '#e879f9' },
-            { num: '13', name: 'bauhaus-primary', color: '#ef4444' },
-            { num: '14', name: 'deep-current', color: '#0ea5e9' },
-            { num: '15', name: 'swiss-international', color: '#f43f5e' },
-            { num: '16', name: 'blueprint-works', color: '#3b82f6' },
-            { num: '17', name: 'graphite-mono', color: '#6b7280' },
-            { num: '18', name: 'broadsheet-press', color: '#78716c' },
-            { num: '19', name: 'palm-springs-modern', color: '#fb923c' },
-            { num: '20', name: 'botanica-nouveau', color: '#10b981' }
-        ];
-
-        // When this page is deployed, tools/build.mjs injects
-        // window.__PHLIX_VARIANTS__ with the real list of built variant folders.
-        // In that context dist/ is the publish root, so variant pages live at
-        // ./<folder>/. When the page is opened locally from the repo root (no
-        // manifest), variants live under dist/<folder>/ and are discovered at
-        // runtime via getVariants().
-        const MANIFEST = (typeof window !== 'undefined' && window.__PHLIX_VARIANTS__) || null;
-        const VARIANT_BASE = MANIFEST ? './' : 'dist/';
-
-        // Brand-kit metadata (name / variation / personality / colors) per
-        // variant. Injected at build time as window.__PHLIX_BRAND_KITS__; when
-        // opened locally from the repo root it is fetched from shared/data/.
-        const BRAND_KITS_INJECTED = (typeof window !== 'undefined' && window.__PHLIX_BRAND_KITS__) || null;
-
-        async function getBrandKits() {
-            if (BRAND_KITS_INJECTED) return BRAND_KITS_INJECTED;
-            try {
-                const res = await fetch('shared/data/brand-kits.json');
-                if (!res.ok) return {};
-                const json = await res.json();
-                return json.variants || json || {};
-            } catch (e) {
-                return {};
-            }
-        }
-
-        // Flatten a kit's nested colour groups into a flat list of hex strings.
-        function kitColors(kit) {
-            if (!kit || !kit.colors) return [];
-            const out = [];
-            for (const group of Object.values(kit.colors)) {
-                if (group && typeof group === 'object') out.push(...Object.values(group));
-            }
-            return out.filter((c) => typeof c === 'string');
-        }
-
-        // Vivid card accent: the kit's accent colour, else its first primary.
-        function kitAccent(kit) {
-            const c = kit && kit.colors;
-            if (!c) return null;
-            const acc = c.accent && Object.values(c.accent)[0];
-            const prim = c.primary && Object.values(c.primary)[0];
-            return acc || prim || null;
-        }
+        // tools/build.mjs injects window.__PHLIX_KITS__ — one entry per brand
+        // kit in brand-kits/*.js, each marked `built:true` when a generated site
+        // exists in sites/<slug>/ (copied to dist/<slug>/). dist/ is the GitHub
+        // Pages publish root, so built sites live at ./<slug>/. When index.html
+        // is opened directly from the repo (no build), the manifest is absent and
+        // the page shows a build hint.
+        const KITS = (typeof window !== 'undefined' && Array.isArray(window.__PHLIX_KITS__))
+            ? window.__PHLIX_KITS__ : null;
 
         // Relative luminance of a #rrggbb colour (0 = black, 1 = white).
         function hexLum(hex) {
@@ -491,8 +481,8 @@
 
         // Palette for chip borders: drop near-black / near-white so every chip
         // border stays visible on the dark panel. Falls back to the accent.
-        function chipPalette(kit, accent) {
-            const cols = kitColors(kit).filter((c) => {
+        function chipPalette(colors, accent) {
+            const cols = (colors || []).filter((c) => {
                 const l = hexLum(c);
                 return l > 0.22 && l < 0.9;
             });
@@ -505,9 +495,9 @@
             ));
         }
 
-        // Desktop width each variant is rendered at inside its preview iframe.
-        // The frame is then CSS-scaled down to the card's width (see the iframe
-        // rule above) so the whole site width is visible. Must match the iframe
+        // Desktop width each site is rendered at inside its preview iframe. The
+        // frame is then CSS-scaled down to the card's width (see the iframe rule
+        // above) so the whole site width is visible. Must match the iframe
         // `width` in CSS.
         const PREVIEW_WIDTH = 1280;
         // Must match --zoom-x in CSS; used only to keep the popout on-screen.
@@ -531,7 +521,7 @@
         }
 
         function applyAllPreviewScales() {
-            document.querySelectorAll('.preview-container').forEach(applyPreviewScale);
+            document.querySelectorAll('.variant-card:not(.unbuilt) .preview-container').forEach(applyPreviewScale);
         }
 
         // IntersectionObserver for lazy loading iframes
@@ -541,19 +531,8 @@
         function initIntersectionObserver() {
             iframeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    const card = entry.target;
-                    const iframe = card.querySelector('iframe');
-
-                    if (!iframe) return;
-
-                    if (entry.isIntersecting) {
-                        // Card is visible - load the iframe
-                        loadIframe(iframe);
-                    } else {
-                        // Card is out of view - optionally unload
-                        // For performance, we keep loaded iframes in memory
-                        // but reset opacity to allow re-trigger
-                    }
+                    const iframe = entry.target.querySelector('iframe');
+                    if (iframe && entry.isIntersecting) loadIframe(iframe);
                 });
             }, {
                 rootMargin: '100px',
@@ -563,94 +542,36 @@
 
         function loadIframe(iframe) {
             if (loadedIframes.has(iframe)) return;
-
             const src = iframe.dataset.src;
             if (!src) return;
-
             iframe.src = src;
-            iframe.onload = () => {
-                iframe.classList.add('loaded');
-            };
+            iframe.onload = () => { iframe.classList.add('loaded'); };
             loadedIframes.add(iframe);
         }
 
-        // Get all variant folders from dist
-        async function getVariants() {
-            // Deployed build: use the injected manifest (GitHub Pages has no
-            // directory listing, so the fetch() discovery below cannot work there).
-            if (MANIFEST && Array.isArray(MANIFEST.variants)) {
-                return MANIFEST.variants;
+        // Render one brand-kit card. Built kits are clickable anchors with a
+        // live iframe preview; unbuilt kits are dimmed, non-interactive tiles.
+        function renderKitCard(kit, index) {
+            const built = !!kit.built;
+            const card = document.createElement(built ? 'a' : 'div');
+            card.className = 'variant-card' + (built ? '' : ' unbuilt');
+            if (built) {
+                card.href = `./${kit.slug}/index.html`;
             }
-            try {
-                const response = await fetch('dist/');
-                const text = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/html');
-                const folders = Array.from(doc.querySelectorAll('a'))
-                    .map(a => a.href)
-                    .map(href => {
-                        const parts = href.split('/');
-                        return parts[parts.length - 1];
-                    })
-                    .filter(name => name && name !== 'assets' && !name.includes('_headers') && name !== 'index.html' && name !== 'robots.txt' && name !== 'sitemap.xml' && name.match(/^\d{2}-[a-z-]+-\d+$/));
-                return folders;
-            } catch (e) {
-                console.warn('Could not fetch dist listing, using fallback');
-                // Fallback: generate all possible variants
-                const variants = [];
-                designSets.forEach(set => {
-                    for (let i = 1; i <= 5; i++) {
-                        variants.push(`${set.num}-${set.name}-${i}`);
-                    }
-                });
-                return variants;
-            }
-        }
-
-        function groupBySet(variants) {
-            const grouped = {};
-            for (const variant of variants) {
-                const match = variant.match(/^(\d{2})-([a-z-]+)-(\d+)$/);
-                if (match) {
-                    const setNum = match[1];
-                    const setName = match[2];
-                    const variantNum = parseInt(match[3], 10);
-                    const key = `${setNum}-${setName}`;
-                    if (!grouped[key]) {
-                        grouped[key] = [];
-                    }
-                    grouped[key].push({ folder: variant, variantNum });
-                }
-            }
-            // Sort variants within each group
-            for (const key in grouped) {
-                grouped[key].sort((a, b) => a.variantNum - b.variantNum);
-            }
-            return grouped;
-        }
-
-        function renderVariantCard(folder, index, set, variantNum, kit) {
-            const card = document.createElement('a');
-            card.className = 'variant-card';
-            card.href = `${VARIANT_BASE}${folder}/index.html`;
-            card.title = folder;
+            card.title = built ? kit.name : `${kit.name} (site not built yet)`;
             // Cap the entrance stagger so later cards don't stay hidden for long.
             card.style.animationDelay = `${Math.min(index, 24) * 0.03}s`;
-            // Colour the card by the brand kit's own accent when available.
-            const accent = kitAccent(kit) || set.color;
+
+            const accent = kit.accent || '#e8ff47';
             card.style.setProperty('--set-color', accent);
-            card.dataset.set = set.num;
 
-            // Prefer the brand-kit name; otherwise synthesise one in the same
-            // "<Set Name> V<n>" style the kits use.
-            const name = (kit && kit.name) || `${formatSetName(set.name)} V${variantNum}`;
-            const variation = (kit && kit.variation) || '';
-            const personality = kit && Array.isArray(kit.personality) ? kit.personality.slice(0, 3) : [];
-            const colors = kitColors(kit).slice(0, 6);
-            const chipCols = chipPalette(kit, accent);
+            const tagline = kit.tagline || kit.archetype || '';
+            const personality = Array.isArray(kit.personality) ? kit.personality.slice(0, 3) : [];
+            const colors = (kit.colors || []).slice(0, 6);
+            const chipCols = chipPalette(kit.colors, accent);
 
-            const variationHtml = variation
-                ? `<div class="variant-variation">${esc(variation)}</div>` : '';
+            const taglineHtml = tagline
+                ? `<div class="variant-variation">${esc(tagline)}</div>` : '';
             const personalityHtml = personality.length
                 ? `<div class="variant-personality">${personality.map((p, i) =>
                     `<span class="chip" style="--chip-color:${esc(chipCols[i % chipCols.length])}">${esc(p)}</span>`).join('')}</div>` : '';
@@ -658,63 +579,60 @@
                 .map((c) => `<span class="swatch" style="background:${esc(c)}"></span>`)
                 .join('');
 
+            const previewHtml = built
+                ? `<div class="placeholder">Loading preview…</div>
+                   <iframe data-src="./${esc(kit.slug)}/index.html" loading="lazy" title="${esc(kit.name)} preview"></iframe>
+                   <div class="preview-overlay"></div>`
+                : `<div class="pending">Site not built yet</div>`;
+
+            const statusTag = built
+                ? `<span class="set-tag">Live</span>`
+                : `<span class="status-tag pending-tag">Pending</span>`;
+
             card.innerHTML = `
                 <div class="preview-container">
-                    <div class="placeholder">Loading preview...</div>
-                    <iframe data-src="${VARIANT_BASE}${folder}/index.html" loading="lazy"></iframe>
-                    <div class="preview-overlay"></div>
+                    ${previewHtml}
                 </div>
                 <div class="variant-info">
-                    <div class="variant-name">${esc(name)}</div>
-                    ${variationHtml}
+                    <div class="variant-name">${esc(kit.name)}</div>
+                    ${taglineHtml}
                     ${personalityHtml}
                     <div class="variant-swatches">
-                        <span class="set-tag">${set.num}</span>
+                        ${statusTag}
                         ${swatchHtml}
                     </div>
                 </div>
             `;
 
-            // Observe card for lazy loading
-            if (iframeObserver) {
+            if (built && iframeObserver) {
                 iframeObserver.observe(card);
             }
 
             return card;
         }
 
-        async function init() {
+        function init() {
+            const container = document.getElementById('variants-container');
+
+            if (!KITS) {
+                container.innerHTML =
+                    '<p style="font-family:\'Space Mono\',monospace;color:var(--text-secondary);text-align:center;padding:3rem 1rem;">' +
+                    'Run <code>npm run build</code> to generate the brand-kit gallery, then open <code>dist/index.html</code>.</p>';
+                return;
+            }
+
             initIntersectionObserver();
 
-            const container = document.getElementById('variants-container');
-            const variants = await getVariants();
-            const kits = await getBrandKits();
-            const grouped = groupBySet(variants);
-
-            // One grid for everything: iterate sets in order so same-set cards
-            // stay adjacent (grouped by color), but let them flow continuously so
-            // a row can hold the end of one set and the start of the next.
             const grid = document.createElement('div');
             grid.className = 'variants-grid';
 
-            let cardIndex = 0;
-            for (const set of designSets) {
-                const key = `${set.num}-${set.name}`;
-                const setVariants = grouped[key];
-                if (!setVariants || setVariants.length === 0) continue;
-
-                for (const variant of setVariants) {
-                    const card = renderVariantCard(variant.folder, cardIndex, set, variant.variantNum, kits[variant.folder]);
-                    grid.appendChild(card);
-                    cardIndex++;
-                }
-            }
-
+            KITS.forEach((kit, i) => grid.appendChild(renderKitCard(kit, i)));
             container.appendChild(grid);
 
+            const builtCount = KITS.filter((k) => k.built).length;
             const subtitle = document.querySelector('.subtitle');
             if (subtitle) {
-                subtitle.textContent = `${designSets.length} design sets · ${cardIndex} variants`;
+                subtitle.textContent = `${KITS.length} brand kits · ${builtCount} live`;
             }
 
             // Cards are laid out now — size every preview to its card width, and
@@ -725,12 +643,6 @@
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(applyAllPreviewScales, 150);
             });
-        }
-
-        function formatSetName(name) {
-            return name.split('-').map(word =>
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
         }
 
         init();

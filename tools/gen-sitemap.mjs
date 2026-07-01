@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { globSync } from 'glob';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const VARIANTS = join(ROOT, 'variants');
+const SITES = join(ROOT, 'sites');
 
 export const SITE_URL = String(
   JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8')).site.url,
@@ -23,10 +23,10 @@ export const SITE_URL = String(
 
 export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
 
-/** Every canonical URL across the variant HTML pages, sorted & de-duplicated. */
+/** Every canonical URL across the built site HTML pages, sorted & de-duplicated. */
 export function sitemapUrls() {
   const urls = new Set();
-  for (const rel of globSync('*/*.html', { cwd: VARIANTS })) {
+  for (const rel of globSync('*/*.html', { cwd: SITES })) {
     const [slug, file] = rel.split('/');
     urls.add(file === 'index.html' ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${slug}/${file}`);
   }

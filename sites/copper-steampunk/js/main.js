@@ -43,37 +43,27 @@
   prefersReducedMotion.addEventListener('change', handleReducedMotion);
 
   /* ── Scroll reveals ───────────────────────────────────────────────────── */
-  if (!prefersReducedMotion.matches) {
-    var revealElements = document.querySelectorAll(
-      '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-list li, .faq-item'
+  var revealElements = document.querySelectorAll(
+    '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-list li, .faq-item'
+  );
+
+  if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
 
-    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      );
-
-      revealElements.forEach(function (el) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(12px)';
-        el.style.transition =
-          'opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1)';
-        revealObserver.observe(el);
-      });
-
-      document.head.insertAdjacentHTML(
-        'beforeend',
-        '<style>.revealed{opacity:1!important;transform:none!important;}</style>'
-      );
-    }
+    revealElements.forEach(function (el) {
+      el.classList.add('scroll-hidden');
+      revealObserver.observe(el);
+    });
   }
 
   /* ── Active nav link highlighting ─────────────────────────────────────── */
