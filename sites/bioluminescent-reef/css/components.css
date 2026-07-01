@@ -1,0 +1,651 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Bioluminescent Reef
+   Header/nav, footer, buttons, cards, forms, badges, media cards
+   ========================================================================== */
+
+/* ─── Site header ──────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(2 15 28 / 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-primary {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--color-phosphor-white);
+  padding: var(--space-2);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color 300ms ease-in-out, background 300ms ease-in-out;
+  margin-left: auto;
+}
+
+.nav-toggle:hover {
+  background: rgb(0, 232, 200, 0.1);
+  color: var(--color-biolume-aqua);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  margin-left: auto;
+}
+
+.nav-menu a {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-medium);
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-ui);
+  color: rgb(200, 240, 255, 0.75);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: color 300ms ease-in-out, background 300ms ease-in-out;
+  position: relative;
+}
+
+.nav-menu a::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: var(--space-3);
+  right: var(--space-3);
+  height: 1px;
+  background: var(--color-biolume-aqua);
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-out;
+}
+
+.nav-menu a:hover {
+  color: var(--color-biolume-aqua);
+  background: rgb(0, 232, 200, 0.06);
+}
+
+.nav-menu a:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.nav-menu a[aria-current="page"] {
+  color: var(--color-biolume-aqua);
+}
+
+.nav-menu a[aria-current="page"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ─── Site footer ───────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-hadal-darkness);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-12) 0 var(--space-8);
+  position: relative;
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-biolume-aqua), transparent);
+  opacity: 0.2;
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.footer-tagline {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgb(200, 240, 255, 0.5);
+  margin-bottom: var(--space-8);
+  max-width: none;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-semibold);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-biolume-aqua);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: rgb(200, 240, 255, 0.6);
+  text-decoration: none;
+  transition: color 300ms ease-in-out;
+}
+
+.footer-col a:hover {
+  color: var(--color-biolume-aqua);
+}
+
+.footer-copy {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: rgb(200, 240, 255, 0.35);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  max-width: none;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-semibold);
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-ui);
+  line-height: 1;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 200ms ease-out, color 200ms ease-out,
+              border-color 200ms ease-out, box-shadow 200ms ease-out,
+              transform 200ms ease-out, opacity 200ms ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Primary — Biolume aqua jellyfish glow */
+.btn-primary {
+  background: var(--color-biolume-aqua);
+  color: var(--color-hadal-darkness);
+  border-color: var(--color-biolume-aqua);
+  box-shadow: 0 0 16px rgb(0, 232, 200, 0.4), 0 0 40px rgb(0, 232, 200, 0.15);
+}
+
+.btn-primary::before {
+  background: radial-gradient(ellipse at center, rgb(255, 255, 255, 0.2) 0%, transparent 70%);
+}
+
+.btn-primary:hover {
+  background: #00f5d4;
+  box-shadow: 0 0 24px rgb(0, 232, 200, 0.6), 0 0 60px rgb(0, 232, 200, 0.25);
+  color: var(--color-hadal-darkness);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+/* Primary anglerfish amber — the lure, only for single most important CTA */
+.btn-lure {
+  background: var(--color-anglerfish-amber);
+  color: var(--color-hadal-darkness);
+  border-color: var(--color-anglerfish-amber);
+  box-shadow: 0 0 14px rgb(255, 123, 0, 0.5), 0 0 36px rgb(255, 123, 0, 0.2);
+  animation: lure-pulse 2s ease-in-out infinite;
+}
+
+@keyframes lure-pulse {
+  0%, 100% { box-shadow: 0 0 14px rgb(255, 123, 0, 0.5), 0 0 36px rgb(255, 123, 0, 0.2); }
+  50% { box-shadow: 0 0 22px rgb(255, 123, 0, 0.7), 0 0 50px rgb(255, 123, 0, 0.3); }
+}
+
+.btn-lure:hover {
+  background: #ff8c1a;
+  color: var(--color-hadal-darkness);
+  animation: none;
+}
+
+.btn-lure:active {
+  transform: scale(1.04);
+}
+
+/* Secondary — ghost with aqua edge */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-biolume-aqua);
+  border-color: var(--color-biolume-aqua);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: rgb(0, 232, 200, 0.08);
+  color: var(--color-biolume-aqua);
+  box-shadow: 0 0 12px rgb(0, 232, 200, 0.2);
+}
+
+/* Ghost — deep current border, phosphor white */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-phosphor-white);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-neutral);
+  color: var(--color-phosphor-white);
+  background: rgb(200, 240, 255, 0.04);
+}
+
+/* Danger — red tide */
+.btn-danger {
+  background: var(--color-red-tide);
+  color: var(--color-phosphor-white);
+  border-color: var(--color-red-tide);
+}
+
+.btn-danger:hover {
+  background: #d91f52;
+  color: var(--color-phosphor-white);
+  box-shadow: 0 0 12px rgb(204, 26, 74, 0.4);
+}
+
+/* Link */
+.btn-link {
+  background: transparent;
+  color: var(--color-biolume-aqua);
+  border: none;
+  padding-inline: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn-link:hover {
+  color: var(--color-abyssal-violet);
+  text-decoration-color: var(--color-abyssal-violet);
+}
+
+/* Small */
+.btn-small {
+  font-size: 0.8rem;
+  padding: var(--space-2) var(--space-4);
+}
+
+/* Large */
+.btn-large {
+  font-size: 1rem;
+  padding: var(--space-4) var(--space-8);
+}
+
+/* Icon button */
+.btn-icon {
+  background: var(--color-midnight-zone);
+  color: var(--color-phosphor-white);
+  border-color: var(--color-border);
+  padding: var(--space-3);
+  width: 44px;
+  height: 44px;
+}
+
+.btn-icon:hover {
+  background: rgb(0, 232, 200, 0.1);
+  color: var(--color-biolume-aqua);
+  border-color: var(--color-biolume-aqua);
+}
+
+/* FAB — floating anglerfish amber action */
+.btn-fab {
+  background: var(--color-anglerfish-amber);
+  color: var(--color-hadal-darkness);
+  border-color: var(--color-anglerfish-amber);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-anglerfish-amber);
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-fab:hover {
+  background: #ff8c1a;
+  color: var(--color-hadal-darkness);
+  box-shadow: 0 0 22px rgb(255, 123, 0, 0.75), 0 0 50px rgb(255, 123, 0, 0.3);
+}
+
+/* ─── Media / poster cards ───────────────────────────────────────────────── */
+.media-card {
+  position: relative;
+  background: var(--color-abyssal-trench);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 300ms ease-in-out;
+}
+
+.media-card:hover {
+  border-color: rgb(0, 232, 200, 0.4);
+}
+
+.media-card-poster {
+  aspect-ratio: 2/3;
+  background: var(--color-hadal-darkness);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-card-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-card-body {
+  padding: var(--space-3);
+}
+
+.media-card-title {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-medium);
+  font-size: 0.875rem;
+  color: var(--color-phosphor-white);
+  margin-bottom: var(--space-1);
+}
+
+.media-card-meta {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: rgb(200, 240, 255, 0.5);
+}
+
+/* ─── Badges ─────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-semibold);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  line-height: 1.2;
+}
+
+.badge-quality {
+  color: var(--color-anglerfish-amber);
+  border-color: var(--color-anglerfish-amber);
+  background: rgb(255, 123, 0, 0.08);
+}
+
+.badge-status {
+  color: var(--color-biolume-aqua);
+  border-color: var(--color-biolume-aqua);
+  background: rgb(0, 232, 200, 0.08);
+}
+
+.badge-special {
+  color: var(--color-abyssal-violet);
+  border-color: var(--color-abyssal-violet);
+  background: rgb(119, 0, 255, 0.08);
+}
+
+/* ─── Forms ─────────────────────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-ui-medium);
+  color: var(--color-phosphor-white);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  background: var(--color-abyssal-trench);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-phosphor-white);
+  transition: border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: rgb(200, 240, 255, 0.35);
+}
+
+.form-input:focus {
+  border-color: var(--color-biolume-aqua);
+  box-shadow: 0 0 0 3px rgb(0, 232, 200, 0.15);
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-biolume-aqua);
+  cursor: pointer;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.form-switch input[type="checkbox"] {
+  width: 40px;
+  height: 22px;
+  accent-color: var(--color-biolume-aqua);
+  cursor: pointer;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300E8C8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+/* ─── Toast / notifications ──────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 1000;
+  background: var(--color-abyssal-trench);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-biolume-aqua);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-phosphor-white);
+  box-shadow: var(--shadow-lg);
+  max-width: 360px;
+}
+
+.toast--success {
+  border-left-color: var(--color-symbiont-green);
+}
+
+.toast--warning {
+  border-left-color: var(--color-lure-flicker);
+}
+
+.toast--error {
+  border-left-color: var(--color-red-tide);
+}
+
+/* ─── Tables ─────────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+thead {
+  background: var(--color-midnight-zone);
+}
+
+th {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui-medium);
+  font-size: 0.8rem;
+  letter-spacing: var(--tracking-ui);
+  color: rgb(200, 240, 255, 0.65);
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  color: rgb(200, 240, 255, 0.8);
+}
+
+tbody tr:hover {
+  background: rgb(3, 20, 42, 0.5);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--color-abyssal-trench);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4);
+    gap: var(--space-1);
+    box-shadow: 0 8px 32px rgb(0, 0, 0, 0.8);
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+    font-size: 1rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .feature-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (width <= 480px) {
+  .hero-inner {
+    padding: var(--space-12) 0;
+  }
+
+  .btn-large {
+    font-size: 0.95rem;
+    padding: var(--space-4) var(--space-6);
+  }
+}
+
+/* ─── TV / 10-foot UI ───────────────────────────────────────────────────── */
+@media (width >= 1280px) and (pointer: coarse) {
+  .nav-menu a {
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-4);
+  }
+}

@@ -1,0 +1,287 @@
+/* ===========================================================================
+   base.css — Bamboo Sanctuary
+   Reset + CSS token layer (:root custom properties)
+   =========================================================================== */
+
+/* ── Self-hosted fonts (downloaded via node download-fonts.mjs) ─────────── */
+@import url("./fonts/fonts.css");
+
+/* ── Modern CSS Reset ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Design Tokens — Color (from kit.colors + kit.design_tokens.color) ── */
+:root {
+  /* Semantic color roles */
+  --color-primary:       #8FAF9F;
+  --color-primary-dark:  #7A9E8A;
+  --color-secondary:     #C5A97B;
+  --color-tertiary:     #7A9E89;
+  --color-bg:            #F2EDE5;
+  --color-surface:       #F8F5F0;
+  --color-surface-alt:   #E8E3DA;
+  --color-text:          #2A2A25;
+  --color-neutral:       #8E8E85;
+  --color-success:       #9DC4A8;
+  --color-warning:       #C4924A;
+  --color-error:         #B85C4A;
+  --color-error-dark:    #A0503F;
+  --color-info:          #6C9EB0;
+  --color-border:        #4A4A42;
+  --color-shadow:        rgb(42, 42, 37, 0.12);
+  --color-overlay:     rgb(26, 28, 22, 0.55);
+  --color-focus:       #8FAF9F;
+
+  /* Semantic aliases */
+  --color-celadon-grove:  #8FAF9F;
+  --color-bamboo-tan:     #C5A97B;
+  --color-muted-sage:     #7A9E89;
+  --color-stone-gray:     #8E8E85;
+  --color-washi-white:    #F2EDE5;
+  --color-morning-mist:   #F8F5F0;
+  --color-gravel-path:    #E8E3DA;
+  --color-charcoal-ink:   #2A2A25;
+  --color-ink-wash:       #4A4A42;
+  --color-night-grove:    #1A1C16;
+  --color-new-leaf:       #9DC4A8;
+  --color-amber-resin:    #C4924A;
+  --color-persimmon:      #B85C4A;
+  --color-still-pond:     #6C9EB0;
+
+  /* ── Design Tokens — Spacing (from kit.spacing_scale) ───────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-18: 72px;
+  --space-24: 96px;
+
+  /* ── Design Tokens — Corner Radius (from kit.corner_radius) ───────── */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
+
+  /* ── Design Tokens — Typography (from kit.fonts) ────────────────────── */
+  --font-headline: 'Cormorant Garamond', 'Garamond', georgia, serif;
+  --font-display:  'Cormorant Garamond', 'Garamond', serif;
+  --font-body:     'Lora', georgia, 'Times New Roman', serif;
+  --font-ui:       'DM Sans', system-ui, 'Helvetica Neue', sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+  --font-number:   'Cormorant Garamond', 'Garamond', serif;
+
+  /* Tracking + leading */
+  --tracking-headline: 0.05em;
+  --tracking-display:  0.08em;
+  --tracking-body:     0.01em;
+  --tracking-ui:       0.02em;
+  --tracking-mono:     0em;
+  --lh-headline: 1.1;
+  --lh-display:  0.95;
+  --lh-body:     1.75;
+  --lh-ui:       1.35;
+  --lh-mono:     1.6;
+
+  /* ── Design Tokens — Shadows (cool charcoal, from kit.shadows) ──────── */
+  --shadow-sm: 0 1px 3px rgb(42, 42, 37, 0.08);
+  --shadow-md: 0 4px 12px rgb(42, 42, 37, 0.10);
+  --shadow-lg: 0 12px 32px rgb(42, 42, 37, 0.13);
+
+  /* ── Design Tokens — Motion ─────────────────────────────────────────── */
+  --duration-fast:   200ms;
+  --duration-medium: 400ms;
+  --duration-slow:  700ms;
+  --easing-gentle:   cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-smooth:   ease-in-out;
+
+  /* ── Layout ───────────────────────────────────────────────────────────── */
+  --max-width:     1400px;
+  --content-width: 1280px;
+  --gutter:        clamp(var(--space-6), 4vw, var(--space-12));
+}
+
+/* ── Base element defaults ──────────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2.25rem, 4vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+h4 { font-size: 1.125rem; }
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--easing-smooth);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+  line-height: var(--lh-mono);
+}
+
+/* ── Skip link ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-morning-mist);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: var(--tracking-ui);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--easing-smooth);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-morning-mist),
+    0 0 0 4px var(--color-focus);
+}
+
+/* ── Focus ring (WCAG 2.2 AA, kit.accessibility.focus_style) ────────────── */
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-washi-white),
+    0 0 0 4px var(--color-focus);
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Reduced motion (kit.accessibility.motion_reduction) ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Text selection ─────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-morning-mist);
+}
+
+/* ── Custom scrollbar (webkit) ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
