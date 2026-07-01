@@ -44,7 +44,7 @@
 
   /* ── Scroll reveals ───────────────────────────────────────────────────── */
   var revealElements = document.querySelectorAll(
-    '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-list li, .faq-item'
+    '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-list li, .faq-item',
   );
 
   if (revealElements.length > 0 && 'IntersectionObserver' in window) {
@@ -57,7 +57,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     revealElements.forEach(function (el) {
@@ -72,7 +72,11 @@
 
   navLinks.forEach(function (link) {
     var href = link.getAttribute('href');
-    if (href === currentPath || (currentPath === '' && href === 'index.html') || (currentPath === 'index.html' && href === './')) {
+    if (
+      href === currentPath ||
+      (currentPath === '' && href === 'index.html') ||
+      (currentPath === 'index.html' && href === './')
+    ) {
       link.setAttribute('aria-current', 'page');
     }
   });

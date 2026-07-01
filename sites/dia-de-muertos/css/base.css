@@ -1,0 +1,282 @@
+/* ==========================================================================
+   base.css — Día de Muertos brand kit
+   Reset, design tokens (:root CSS variables), base element styles
+   ========================================================================== */
+
+/* ─── Modern reset ─────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── CSS custom properties (design tokens) ─────────────────────────────── */
+:root {
+  /* ── Color system ── */
+  --color-primary: #ffb800;
+  --color-secondary: #c0b;
+  --color-tertiary: #f35;
+  --color-bg: #0c0512;
+  --color-surface: #130820;
+  --color-surface-alt: #1a1030;
+  --color-text: #fff0e8;
+  --color-neutral: #5a4070;
+  --color-success: #e8a000;
+  --color-warning: #ff7a00;
+  --color-error: #e5154e;
+  --color-info: #00c9b1;
+  --color-focus: #ffb800;
+  --color-border: #2d1845;
+  --color-overlay: rgb(12, 5, 18, 0.82);
+
+  /* ── Gradients ── */
+  --grad-ofrenda: linear-gradient(175deg, #c0b, #ffb800);
+  --grad-marigold: radial-gradient(rgb(255, 184, 0, 0.4), rgb(12, 5, 18, 0));
+  --grad-cemetery: linear-gradient(180deg, #1a1030, #0c0512);
+
+  /* ── Spacing scale (8pt) ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ── Border radius scale ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ── Typography ── */
+  --font-headline: 'Playfair Display', georgia, 'Times New Roman', serif;
+  --font-display: 'Cinzel Decorative', 'Trajan Pro', 'Times New Roman', serif;
+  --font-body: 'Lora', palatino, georgia, serif;
+  --font-ui: 'IBM Plex Sans', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', courier, monospace;
+
+  /* ── Type sizes ── */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 4px rgb(0, 0, 0, 0.65);
+  --shadow-md: 0 4px 14px rgb(0, 0, 0, 0.72), 0 0 10px rgb(255, 184, 0, 0.09);
+  --shadow-lg: 0 10px 36px rgb(0, 0, 0, 0.82), 0 0 24px rgb(255, 184, 0, 0.14);
+  --shadow-marigold: 0 0 14px rgb(255, 184, 0, 0.55), 0 0 32px rgb(255, 184, 0, 0.22);
+  --shadow-purple: 0 0 12px rgb(204, 0, 187, 0.5), 0 0 28px rgb(204, 0, 187, 0.18);
+  --shadow-calavera: 0 0 12px rgb(255, 51, 85, 0.5), 0 0 28px rgb(255, 51, 85, 0.18);
+
+  /* ── Layout ── */
+  --max-width: 1400px;
+  --content-width: 1100px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 280ms ease-in-out;
+  --transition-slow: 400ms ease-in-out;
+  --ease-craft: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Base element styles ───────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--color-surface-alt);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin: 0 0 var(--space-4);
+  border: 1px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text);
+}
+
+/* ─── Skip link ──────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Focus visible ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(255, 184, 0, 0.25);
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: rgb(255, 184, 0, 0.3);
+  color: var(--color-text);
+}
+
+/* ─── Scrollbar (webkit) ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

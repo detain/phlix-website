@@ -14,12 +14,12 @@ if (!tool) {
 }
 
 const targets = {
-  html: { bin: 'htmlhint', patterns: ['variants/**/*.html'] },
-  css:  { bin: 'stylelint', patterns: ['variants/**/*.css'] },
-  js:   { bin: 'eslint',    patterns: ['variants/**/*.js', 'tools/**/*.mjs'] },
-  links:{ bin: 'linkinator', patterns: ['variants/**/*.html'], extraArgs: ['--silent'] },
-  'format-check': { bin: 'prettier', patterns: ['variants/**/*.html', 'variants/**/*.css', 'variants/**/*.js', 'shared/**/*.json', 'docs/**/*.md'], extraArgs: ['--check'] },
-  format:         { bin: 'prettier', patterns: ['variants/**/*.html', 'variants/**/*.css', 'variants/**/*.js', 'shared/**/*.json', 'docs/**/*.md'], extraArgs: ['--write'] },
+  html: { bin: 'htmlhint', patterns: ['variants/**/*.html', 'sites/**/*.html'] },
+  css:  { bin: 'stylelint', patterns: ['variants/**/*.css', 'sites/**/*.css'] },
+  js:   { bin: 'eslint',    patterns: ['variants/**/*.js', 'sites/**/*.js', 'tools/**/*.mjs'] },
+  links:{ bin: 'linkinator', patterns: ['variants/**/*.html', 'sites/**/*.html'], extraArgs: ['--silent'] },
+  'format-check': { bin: 'prettier', patterns: ['variants/**/*.html', 'variants/**/*.css', 'variants/**/*.js', 'sites/**/*.html', 'sites/**/*.css', 'sites/**/*.js', 'shared/**/*.json', 'docs/**/*.md'], extraArgs: ['--check'] },
+  format:         { bin: 'prettier', patterns: ['variants/**/*.html', 'variants/**/*.css', 'variants/**/*.js', 'sites/**/*.html', 'sites/**/*.css', 'sites/**/*.js', 'shared/**/*.json', 'docs/**/*.md'], extraArgs: ['--write'] },
 };
 
 const t = targets[tool];

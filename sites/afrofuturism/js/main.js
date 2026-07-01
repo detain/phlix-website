@@ -10,7 +10,7 @@
 
   /* ── Mobile nav toggle ──────────────────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -46,18 +46,23 @@
   if (!reducedMotion.matches) {
     var reveals = document.querySelectorAll('.animate-on-scroll');
     if (reveals.length > 0 && 'IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px',
+        },
+      );
+      reveals.forEach(function (el) {
+        observer.observe(el);
       });
-      reveals.forEach(function (el) { observer.observe(el); });
     }
   }
 
@@ -65,20 +70,25 @@
   var sections = document.querySelectorAll('section[id]');
   if (sections.length > 0) {
     var navLinks = document.querySelectorAll('.nav-link');
-    var sectionObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var id = entry.target.getAttribute('id');
-          navLinks.forEach(function (link) {
-            link.classList.remove('is-active');
-            if (link.getAttribute('href') === '#' + id) {
-              link.classList.add('is-active');
-            }
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    sections.forEach(function (section) { sectionObserver.observe(section); });
+    var sectionObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.getAttribute('id');
+            navLinks.forEach(function (link) {
+              link.classList.remove('is-active');
+              if (link.getAttribute('href') === '#' + id) {
+                link.classList.add('is-active');
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+    sections.forEach(function (section) {
+      sectionObserver.observe(section);
+    });
 
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'hidden') {
@@ -86,5 +96,4 @@
       }
     });
   }
-
 })();

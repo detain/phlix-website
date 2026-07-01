@@ -8,7 +8,7 @@
 
   /* ── Nav toggle (mobile) ── */
   var toggle = document.querySelector('.nav-toggle');
-  var menu   = document.querySelector('.nav-menu');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.addEventListener('click', function () {
@@ -36,14 +36,12 @@
   }
 
   /* ── Reduced motion ── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Scroll reveals ── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var reveals = document.querySelectorAll(
-      '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-item, .faq-item'
+      '.feature-card, .feature-detail, .client-card, .download-card, .ecosystem-item, .faq-item',
     );
 
     var observer = new IntersectionObserver(
@@ -56,7 +54,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     reveals.forEach(function (el) {

@@ -1,0 +1,852 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Desert Horizon
+   Header/nav, footer, buttons, cards, forms, badges, feature cards, etc.
+   American Southwest: terracotta CTAs, turquoise interactive, adobe surfaces
+   ========================================================================== */
+
+/* ==========================================================================
+   SITE HEADER & NAVIGATION
+   Adobe-dust header with 4px Navajo-pattern strip beneath
+   ========================================================================== */
+
+.site-header {
+  background: var(--color-adobe);
+  border-bottom: 2px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  gap: var(--space-4);
+}
+
+/* Navajo strip at top of header */
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-terracotta) 0,
+    var(--color-terracotta) 20px,
+    var(--color-turquoise) 20px,
+    var(--color-turquoise) 36px,
+    var(--color-coral) 36px,
+    var(--color-coral) 50px,
+    var(--color-umber) 50px,
+    var(--color-umber) 52px
+  );
+  background-size: 52px 4px;
+  background-repeat: repeat-x;
+}
+
+/* ── Nav Logo ── */
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  gap: var(--space-2);
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+}
+
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+}
+
+/* ── Nav Toggle (mobile) ── */
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: background var(--transition-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+  background: var(--color-clay);
+}
+
+.nav-toggle-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* ── Nav Menu ── */
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition:
+    background var(--transition-fast) var(--ease-out),
+    color var(--transition-fast) var(--ease-out);
+}
+
+.nav-menu a:hover {
+  background: var(--color-clay);
+  color: var(--color-terracotta);
+}
+
+.nav-menu a[aria-current='page'] {
+  background: var(--color-terracotta);
+  color: var(--color-adobe);
+}
+
+/* ── Mobile Nav Backdrop ── */
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  z-index: 98;
+  opacity: 0;
+  transition: opacity var(--transition-base) var(--ease-out);
+}
+
+.nav-backdrop.is-visible {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   BUTTONS
+   Terracotta primary, Mesa turquoise secondary, ghost/danger variants
+   All corners 8px radius, Source Sans 3 bold
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 24px;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast) var(--ease-out),
+    color var(--transition-fast) var(--ease-out),
+    border-color var(--transition-fast) var(--ease-out),
+    transform var(--transition-fast) var(--ease-out),
+    box-shadow var(--transition-fast) var(--ease-out);
+  white-space: nowrap;
+  min-height: 44px; /* 44px touch target per accessibility spec */
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Primary — Terracotta */
+.btn-primary {
+  background: var(--color-terracotta);
+  color: #faf0dc;
+  border-color: var(--color-terracotta);
+}
+
+.btn-primary:hover {
+  background: #a8441e;
+  border-color: #a8441e;
+  color: #faf0dc;
+  box-shadow: var(--shadow-md);
+}
+
+/* Secondary — Mesa Turquoise */
+.btn-secondary {
+  background: var(--color-turquoise);
+  color: var(--color-adobe);
+  border-color: var(--color-turquoise);
+}
+
+.btn-secondary:hover {
+  background: #1f7369;
+  border-color: #1f7369;
+  color: var(--color-adobe);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ghost — 2px umber border, no fill */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-umber);
+  border-color: var(--color-umber);
+}
+
+.btn-ghost:hover {
+  background: var(--color-clay);
+  color: var(--color-umber);
+}
+
+/* Danger — Cholla Red */
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-adobe);
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background: #8c2818;
+  border-color: #8c2818;
+  color: var(--color-adobe);
+}
+
+/* Link — Turquoise, underline on hover */
+.btn-link {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: transparent;
+  padding-inline: var(--space-2);
+  text-decoration: none;
+  min-height: auto;
+}
+
+.btn-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Small */
+.btn-small {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  min-height: 36px;
+}
+
+/* Large */
+.btn-large {
+  padding: 14px 36px;
+  font-size: 1.05rem;
+  border-radius: var(--radius-lg);
+}
+
+/* Icon button — circular */
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-adobe);
+  color: var(--color-umber);
+  border: 2px solid var(--color-border);
+}
+
+.btn-icon:hover {
+  background: var(--color-clay);
+}
+
+/* FAB — Floating action button, terracotta pill */
+.btn-fab {
+  padding: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-terracotta);
+  color: var(--color-adobe);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-fab:hover {
+  background: #a8441e;
+  box-shadow: 0 16px 36px rgba(92, 46, 20, 0.32);
+}
+
+/* ==========================================================================
+   FEATURE CARDS
+   Adobe-dust surface, umber border, optional Navajo-strip accent
+   ========================================================================== */
+
+.feature-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    transform var(--transition-base) var(--ease-out),
+    box-shadow var(--transition-base) var(--ease-out);
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Optional Navajo-strip accent at top */
+.feature-card::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-terracotta) 0,
+    var(--color-terracotta) 12px,
+    var(--color-turquoise) 12px,
+    var(--color-turquoise) 24px
+  );
+  background-size: 24px 4px;
+  background-repeat: repeat-x;
+  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-clay);
+  border-radius: var(--radius-md);
+  color: var(--color-terracotta);
+  flex-shrink: 0;
+}
+
+.feature-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--color-terracotta);
+}
+
+.feature-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.feature-card p {
+  font-family: var(--font-body);
+  font-size: 0.925rem;
+  color: var(--color-umber);
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+/* ==========================================================================
+   FEATURE DETAIL (features.html — large format)
+   ========================================================================== */
+
+.feature-detail {
+  display: grid;
+  gap: var(--space-6);
+  padding-block: var(--space-8);
+  border-bottom: 2px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .feature-detail {
+    grid-template-columns: 80px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+}
+
+.feature-detail:last-child {
+  border-bottom: none;
+}
+
+.feature-detail-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-clay);
+  border-radius: var(--radius-md);
+  color: var(--color-terracotta);
+}
+
+.feature-detail-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--color-terracotta);
+}
+
+.feature-detail-text h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.3rem, 2vw + 0.5rem, 1.75rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.feature-detail-text p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-umber);
+  line-height: 1.65;
+  max-width: 70ch;
+}
+
+/* ==========================================================================
+   CLIENT CARDS
+   ========================================================================== */
+
+.client-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    transform var(--transition-base) var(--ease-out),
+    box-shadow var(--transition-base) var(--ease-out);
+}
+
+.client-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.client-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.client-card h2 {
+  font-family: var(--font-headline);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.client-status {
+  display: inline-block;
+  padding: 3px 10px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.client-status.status-stable {
+  background: var(--color-surface-alt);
+  color: var(--color-umber);
+}
+
+.client-status.status-beta {
+  background: var(--color-surface-alt);
+  color: var(--color-terracotta);
+  border-color: var(--color-terracotta);
+}
+
+.client-status.status-deprecated {
+  background: var(--color-clay);
+  color: var(--color-umber);
+  opacity: 0.7;
+}
+
+.client-tagline {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-umber);
+  font-style: italic;
+  margin: 0;
+}
+
+.client-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.client-highlights li {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 3px 10px;
+  background: var(--color-clay);
+  color: var(--color-umber);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(46, 26, 14, 0.2);
+}
+
+.client-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   DOWNLOAD CARDS
+   ========================================================================== */
+
+.download-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.download-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.download-card p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-umber);
+  margin: 0;
+}
+
+.download-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   BADGES
+   Slightly rounded rectangle (4px), 2px umber outline
+   Ocotillo amber for quality, turquoise for status, terracotta for favorite
+   ========================================================================== */
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  line-height: 1.4;
+}
+
+.badge-quality {
+  background: var(--color-ochre);
+  color: var(--color-umber);
+  border-color: var(--color-ochre);
+}
+
+.badge-status {
+  background: var(--color-turquoise);
+  color: var(--color-adobe);
+  border-color: var(--color-turquoise);
+}
+
+.badge-favorite {
+  background: var(--color-terracotta);
+  color: var(--color-adobe);
+  border-color: var(--color-terracotta);
+}
+
+.badge-new {
+  background: var(--color-turquoise);
+  color: var(--color-adobe);
+  border-color: var(--color-turquoise);
+}
+
+/* ==========================================================================
+   FORMS (plugin, settings pages — future use)
+   Sandstone-filled, 2px umber border, 8px radius
+   ========================================================================== */
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-fast) var(--ease-out),
+    box-shadow var(--transition-fast) var(--ease-out);
+  appearance: none;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(42, 140, 130, 0.2);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+/* ==========================================================================
+   SITE FOOTER
+   Sandstone background, sage text, saguaro silhouette mark
+   ========================================================================== */
+
+.site-footer {
+  background: var(--color-bg);
+  border-top: 2px solid var(--color-border);
+  padding-block: var(--space-12) var(--space-8);
+  position: relative;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-terracotta) 0,
+    var(--color-terracotta) 20px,
+    var(--color-turquoise) 20px,
+    var(--color-turquoise) 40px
+  );
+  background-size: 40px 4px;
+  background-repeat: repeat-x;
+}
+
+.site-footer .container {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .site-footer .container {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+}
+
+.footer-tagline {
+  font-family: var(--font-headline);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-umber);
+  margin-bottom: var(--space-6);
+  font-style: italic;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-6);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-neutral);
+  text-decoration: none;
+  transition: color var(--transition-fast) var(--ease-out);
+}
+
+.footer-col a:hover {
+  color: var(--color-terracotta);
+}
+
+.footer-copy {
+  grid-column: 1 / -1;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-clay);
+}
+
+/* ==========================================================================
+   MOBILE NAV (≤768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 85vw);
+    background: var(--color-adobe);
+    flex-direction: column;
+    align-items: stretch;
+    padding: calc(64px + var(--space-8)) var(--space-6) var(--space-8);
+    gap: var(--space-2);
+    z-index: 99;
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+  }
+
+  .nav-menu a[aria-current='page'] {
+    background: var(--color-terracotta);
+    color: var(--color-adobe);
+  }
+
+  .nav-backdrop {
+    display: block;
+  }
+
+  .site-header {
+    position: sticky;
+  }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL ANIMATION
+   (triggered by IntersectionObserver in main.js)
+   ========================================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   TABLES (ecosystem/docs)
+   Arvo bold caps on sun-bleached-clay header row, umber border
+   ========================================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+}
+
+th {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+}
+
+td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-clay);
+  font-size: 0.9rem;
+}
+
+tr:nth-child(even) td {
+  background: var(--color-surface-alt);
+}
+
+tr:hover td {
+  background: var(--color-clay);
+}
