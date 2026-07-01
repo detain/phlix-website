@@ -9,7 +9,7 @@ import { resolve } from 'node:path';
 import { globSync } from 'glob';
 
 const cfgPath = resolve(process.cwd(), '.pa11yci.json');
-const indexPages = globSync('variants/**/index.html');
+const indexPages = globSync('variants/**/index.html').concat(globSync('sites/**/index.html'));
 
 if (!existsSync(cfgPath) && indexPages.length === 0) {
   console.log('[a11y] no built pages and no .pa11yci.json — skipping');

@@ -1,0 +1,222 @@
+/* base.css — Mid-Century Modern Brand Kit
+   Reset, :root tokens, element defaults, focus, reduced-motion
+   =========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ─── Design tokens — Mid-Century Modern ─────────────────────────────────── */
+:root {
+  /* Brand colors */
+  --color-primary: #00afaf;
+  --color-secondary: #f2b705;
+  --color-tertiary: #e8543c;
+  --color-bg: #111008;
+  --color-surface: #1a1710;
+  --color-surface-alt: #231f16;
+  --color-text: #f5efe8;
+  --color-neutral: #8c7b6a;
+  --color-success: #00a878;
+  --color-warning: #d4920a;
+  --color-error: #c0392b;
+  --color-info: #2196b0;
+  --color-focus: #00afaf;
+  --color-border: #2e2a1e;
+  --color-shadow: rgb(0, 175, 175, 0.12);
+  --color-overlay: rgb(17, 16, 8, 0.8);
+
+  /* Extended palette */
+  --color-coral: #e8543c;
+  --color-teal: #00afaf;
+  --color-yellow: #f2b705;
+  --color-jade: #00a878;
+  --color-charcoal: #111008;
+  --color-ebony: #1a1710;
+  --color-dark-walnut: #231f16;
+  --color-cream: #f5efe8;
+  --color-tan-linen: #8c7b6a;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+  --font-display: 'Bebas Neue', 'Impact', 'Haettenschweiler', sans-serif;
+  --font-body: 'Libre Baskerville', 'Georgia', 'Times New Roman', serif;
+  --font-ui: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', 'Courier', monospace;
+  --tracking-headline: 0.04em;
+  --tracking-display: 0.08em;
+  --tracking-body: 0em;
+  --tracking-ui: 0.05em;
+  --tracking-mono: 0.02em;
+  --lh-headline: 1.1;
+  --lh-display: 0.9;
+  --lh-body: 1.7;
+  --lh-ui: 1.35;
+  --lh-mono: 1.5;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgb(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 14px rgb(0, 0, 0, 0.55), 0 0 8px rgb(0, 175, 175, 0.06);
+  --shadow-lg: 0 10px 36px rgb(0, 0, 0, 0.65), 0 0 20px rgb(0, 175, 175, 0.1);
+  --shadow-teal-glow: 0 0 12px rgb(0, 175, 175, 0.4), 0 0 28px rgb(0, 175, 175, 0.15);
+  --shadow-yellow-glow: 0 0 12px rgb(242, 183, 5, 0.5), 0 0 28px rgb(242, 183, 5, 0.18);
+  --shadow-coral-glow: 0 0 12px rgb(232, 84, 60, 0.4), 0 0 28px rgb(232, 84, 60, 0.14);
+
+  /* Layout */
+  --content-width: 1400px;
+  --gutter: var(--space-6);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Skip link ───────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-bg) !important;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  letter-spacing: var(--tracking-ui);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ─── Focus styles ────────────────────────────────────────────────────────── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(0, 175, 175, 0.18);
+}
+
+/* ─── Base element styles ─────────────────────────────────────────────────── */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+a:hover {
+  color: var(--color-secondary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-text);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-mono);
+}

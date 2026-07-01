@@ -1,0 +1,336 @@
+/* ==========================================================================
+   BASE.CSS — Psychedelic Groove
+   Modern CSS reset + design tokens as CSS custom properties
+   ========================================================================== */
+
+/* Box sizing + reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  overflow-wrap: break-word;
+}
+
+ul[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* ── CSS Custom Properties (Design Tokens) ─────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-primary: #9b00ff;
+  --color-secondary: #f50;
+  --color-tertiary: #cf0;
+  --color-bg: #0a0018;
+  --color-surface: #120825;
+  --color-surface-alt: #1a1030;
+  --color-text: #f5f0ff;
+  --color-neutral: #6b5080;
+  --color-success: #39ff14;
+  --color-warning: #f90;
+  --color-error: #f24;
+  --color-info: #00cfff;
+  --color-border: #2d1a4a;
+  --color-focus: #cf0;
+
+  /* Spacing scale (px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius tokens */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
+  --radius-pill: 999px;
+
+  /* Font families */
+  --font-headline: "Lobster", "Pacifico", "Righteous", cursive;
+  --font-display: "Fredoka One", "Righteous", sans-serif;
+  --font-body: "Nunito", "Varela Round", system-ui, sans-serif;
+  --font-ui: "Nunito", "Varela Round", system-ui, sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
+
+  /* Font sizes (fluid scale) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.01em;
+  --tracking-wider: 0.02em;
+  --tracking-widest: 0.03em;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgb(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 16px rgb(0, 0, 0, 0.7), 0 0 12px rgb(155, 0, 255, 0.12);
+  --shadow-lg: 0 10px 40px rgb(0, 0, 0, 0.8), 0 0 30px rgb(155, 0, 255, 0.18);
+  --shadow-uv-bloom: 0 0 16px rgb(155, 0, 255, 0.6), 0 0 40px rgb(155, 0, 255, 0.25);
+  --shadow-lime-shock: 0 0 14px rgb(204, 255, 0, 0.7), 0 0 36px rgb(204, 255, 0, 0.25);
+  --shadow-orange-radiance: 0 0 14px rgb(255, 85, 0, 0.55), 0 0 36px rgb(255, 85, 0, 0.2);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-above: 10;
+  --z-nav: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* Layout */
+  --max-width: 1400px;
+  --header-height: 72px;
+}
+
+
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--font-normal);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Skip link ───────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-text);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wider);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Focus visible ───────────────────────────────────────────────────────────── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(155, 0, 255, 0.35);
+}
+
+/* ── Text selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Typography base ─────────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+}
+
+h5 {
+  font-size: var(--text-xl);
+}
+
+h6 {
+  font-size: var(--text-lg);
+}
+
+p {
+  line-height: var(--leading-relaxed);
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-tertiary);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Code / pre ──────────────────────────────────────────────────────────────── */
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+pre {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+}
+
+code {
+  color: var(--color-tertiary);
+}
+
+pre code {
+  color: inherit;
+  background: none;
+  padding: 0;
+}
+
+/* ── Lists ───────────────────────────────────────────────────────────────────── */
+ul,
+ol {
+  padding-inline-start: var(--space-6);
+}
+
+li {
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+/* ── Images ──────────────────────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Horizontal rule ─────────────────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: var(--space-12) 0;
+}

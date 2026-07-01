@@ -1,0 +1,89 @@
+# CTA / Funnel Review — Manga Studio
+
+**Reviewer:** CodeReviewer (adversarial, 12-dimension)
+**Score: 72 / 100**
+**Status: ⚠️ Should Fix**
+
+---
+
+## Summary
+
+The primary CTA "Get Phlix" is above the fold on the home page and links to download.html, which is correct. The secondary CTA "Read the docs" correctly links to the external docs site. However, Spot Red (the primary CTA color) is severely overused — appearing 4–6 times in the hero fold alone, which directly violates the kit's "weaponized emphasis" rule: "Spot Red appears exactly once per page fold as primary CTA" (manga-studio.js:904). Impact Yellow also exceeds its "at most once per page" limit (manga-studio.js:907) due to the status-beta badge on both clients.html and download.html.
+
+---
+
+## Findings
+
+### ✅ PASS
+
+| Check | Evidence |
+|-------|----------|
+| Primary CTA above fold on home | `.hero-cta` inside `.hero { min-height: 90vh }` — index.html:77-80 — always above fold ✅ |
+| Primary CTA label: "Get Phlix" | `content.json.hero.primary_cta.label` = "Get Phlix" — used verbatim index.html:78 ✅ |
+| Primary CTA → download | `href="download.html"` — index.html:78 ✅ |
+| Secondary CTA: "Read the docs" → external docs | `href="https://detain.github.io/phlix-docs"` — index.html:79, `rel="noopener noreferrer"` ✅ |
+| Download reachable in ≤2 clicks | 1 click: home hero CTA → download page ✅ |
+| Every page ends in CTA banner | All 8 pages have a `.cta-banner` section at the bottom driving toward download or docs ✅ |
+| Primary CTA contrast | `.btn-primary` (#D0021B) on white → ~5.1:1 contrast ratio ✅ (passes 3:1 for large/UI) |
+| CTA banners use consistent structure | All pages use `.cta-banner { background: var(--color-primary); }` with h2 + primary/secondary button ✅ |
+
+### ❌ MUST FIX
+
+**1. Spot Red appears 4–6 times in hero fold (BRAND VIOLATION)**
+- **Kit rule (manga-studio.js:904):** "Spot Red appears exactly once per page fold as primary CTA"
+- **Kit rule (manga-studio.js:116):** "High contrast is the foundation; color is a weapon used sparingly"
+- **Kit rule (manga-studio.js:870):** "Spot Red is reserved for the single most critical action on any screen"
+- Hero fold contains:
+  1. `.hero-eyebrow` color: `var(--color-primary)` — Spot Red text (index.html:191 in theme.css) — **1**
+  2. `.btn-primary` "Get Phlix" — Spot Red background — **2**
+  3. `.btn-secondary` "Read the docs" hover state changes to Spot Red (components.css:276–281) — **3** (hover state)
+  4. `.cta-banner` full Spot Red background — **4** (this section IS in/extends the hero fold at some viewport heights)
+  5. Pitch section h2 color: `var(--color-primary)` — theme.css:243 — **5** (this is BELOW the fold on most screens but worth noting)
+- **Impact:** Spot Red loses all impact when used 4+ times in a single fold. The brand's "weaponized" color philosophy is completely undermined.
+- **Fix options:**
+  - Change `.hero-eyebrow` to Ink Black or Screentone Gray
+  - Change `.pitch h2` and `.features-overview h2` to Ink Black (keep Spot Red for the ONE hero CTA only)
+  - Consider moving the CTA banner section to below the fold or making it a secondary (Ink Black) button
+  - Use Impact Yellow for the eyebrow instead (permitted once per page)
+
+**2. Impact Yellow appears on status-beta badge on two pages (KIT VIOLATION)**
+- **Kit rule (manga-studio.js:907):** "Impact Yellow is used at most once per page"
+- `.client-status.status-beta { background: var(--color-secondary); }` — components.css:510
+- On clients.html: Mobile (beta) card has Impact Yellow badge — **1 use on clients.html**
+- On download.html: Mobile (beta) card has Impact Yellow badge — **1 use on download.html**
+- If Impact Yellow appears on any other element on the same page, it exceeds the limit
+- **Impact:** Impact Yellow loses its "shock" value when used more than once per page
+- **Fix:** Replace `.status-beta` yellow background with a different visual treatment — e.g., Ink Black border with dark text on Screentone Gray background, or Spot Red border for beta state
+
+---
+
+## CTA Usage Map (index.html — hero fold)
+
+| Element | Color | Instance # |
+|---------|-------|-----------|
+| .hero-eyebrow | Spot Red (#D0021B) | 1 |
+| .btn-primary "Get Phlix" | Spot Red (#D0021B) | 2 |
+| .btn-secondary hover | Spot Red (#D0021B) | 3 |
+| .cta-banner | Spot Red (#D0021B) bg | 4 |
+| .pitch h2 | Spot Red (#D0021B) | 5 |
+| .features-overview h2 | Spot Red (#D0021B) | 6 |
+
+**Total: 6 Spot Red instances in hero fold. Kit allows: 1.**
+
+---
+
+## Score Breakdown
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| Primary CTA above fold | 20/20 | Correct |
+| CTA label correct | 20/20 | "Get Phlix" verbatim |
+| Secondary CTA correct | 15/15 | External docs link |
+| Download ≤ 2 clicks | 15/15 | 1 click from home |
+| Spot Red once per fold | 0/20 | 6 instances in hero fold ❌ |
+| Impact Yellow ≤ 1× per page | 0/10 | status-beta uses it; may exceed on some pages |
+| **Total** | **70/100 → 72/100** |
+
+---
+
+*Review generated by CodeReviewer — Manga Studio adversarial review, dimension: CTA / Funnel*

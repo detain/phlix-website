@@ -1,0 +1,204 @@
+/* ===========================================================================
+   base.css — Manga Studio
+   Reset, CSS custom properties (tokens), element defaults
+   =========================================================================== */
+
+/* ── Google Fonts loaded via <link> in HTML <head> for non-render-blocking -->
+
+/* ── Modern reset ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── CSS custom properties — Design tokens (Manga Studio) ───────────────── */
+:root {
+  /* Color system */
+  --color-primary: #d0021b; /* Spot Red */
+  --color-secondary: #ffd000; /* Impact Yellow */
+  --color-tertiary: #c0c0c0; /* Screentone Gray */
+  --color-bg: #f8f8f4; /* Manga White */
+  --color-surface: #fff; /* Panel White */
+  --color-surface-alt: #ebebeb; /* Light Screentone */
+  --color-text: #0d0d0d; /* Ink Black */
+  --color-neutral: #5a5a5a; /* Panel Gray */
+  --color-success: #00a86b; /* Studio Green */
+  --color-warning: #f60; /* Deadline Orange */
+  --color-error: #b30015; /* Urgent Red */
+  --color-info: #1a5fb4; /* Blueprint Blue */
+  --color-focus: #d0021b; /* Focus Red Ring */
+  --color-border: #0d0d0d; /* Panel Border Black */
+  --color-shadow: rgb(13, 13, 13, 0.2); /* Ink Wash Shadow */
+  --color-overlay: rgb(0, 0, 0, 0.72); /* Panel Blackout */
+
+  /* Gradients */
+  --grad-ink-wash: linear-gradient(180deg, rgb(13, 13, 13, 0), rgb(13, 13, 13, 0.55));
+  --grad-speed-burst: radial-gradient(rgb(255, 208, 0, 0.18), rgb(255, 208, 0, 0));
+  --grad-spot-slash: linear-gradient(112deg, #d0021b, #8b0012);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius — near-zero on structural elements */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Black Han Sans', 'Anton', impact, sans-serif;
+  --font-display: 'Rampart One', 'Black Han Sans', impact, sans-serif;
+  --font-body: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', sans-serif;
+  --font-ui: 'M PLUS 1p', 'Noto Sans JP', system-ui, sans-serif;
+  --font-mono: 'Source Code Pro', 'Courier New', monospace;
+
+  /* Typography tracking & leading */
+  --tracking-headline: -0.01em;
+  --lh-headline: 1;
+  --tracking-display: 0.02em;
+  --lh-display: 0.95;
+  --tracking-body: 0em;
+  --lh-body: 1.7;
+  --tracking-ui: 0.01em;
+  --lh-ui: 1.3;
+  --tracking-mono: 0em;
+  --lh-mono: 1.5;
+
+  /* Text sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Shadows — hard offset, no blur (manga spot art technique) */
+  --shadow-sm: 0 1px 3px rgb(13, 13, 13, 0.16);
+  --shadow-md: 2px 4px 0px rgb(13, 13, 13, 1);
+  --shadow-lg: 4px 6px 0px rgb(13, 13, 13, 1);
+
+  /* Borders */
+  --border-default: 2px solid #0d0d0d;
+  --border-thin: 1px solid #0d0d0d;
+  --border-thick: 3px solid #0d0d0d;
+  --border-accent: 2px solid #d0021b;
+
+  /* Layout */
+  --max-width: 1440px;
+  --content-width: 1200px;
+  --gutter: var(--space-6);
+}
+
+/* ── Base element styles ─────────────────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-body);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Skip link ───────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  z-index: 9999;
+  letter-spacing: var(--tracking-ui);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ── Focus styles — 2px Spot Red ring, instant snap ───────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

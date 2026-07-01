@@ -1,0 +1,332 @@
+/* ==========================================================================
+   base.css — Obsidian Pulse
+   Reset + CSS custom properties (design tokens) + base element styles
+   ========================================================================== */
+
+/* ── Font-face declarations ──────────────────────────────────────────────── */
+@font-face {
+  font-family: 'DM Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+  src: url('fonts/dm-sans-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/dm-sans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url('fonts/dm-sans-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+  src: url('fonts/space-grotesk-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/space-grotesk-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url('fonts/space-grotesk-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/inter-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url('fonts/inter-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+  src: url('fonts/inter-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/jetbrains-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url('fonts/jetbrains-mono-500.woff2') format('woff2');
+}
+
+/* ── Design tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Color tokens */
+  --color-primary:       #00B4FF;
+  --color-primary-glow:  rgba(0, 180, 255, 0.25);
+  --color-secondary:      #C8CDD6;
+  --color-tertiary:      #F0F2F5;
+  --color-bg:            #0A0B0E;
+  --color-surface:       #111317;
+  --color-surface-alt:   #16191F;
+  --color-text:          #F0F2F5;
+  --color-text-muted:    #C8CDD6;
+  --color-success:       #00C896;
+  --color-warning:       #FFB020;
+  --color-error:         #FF3A3A;
+  --color-info:          #4DC8F5;
+  --color-border:        #2A2E38;
+  --color-focus:         #00B4FF;
+  --color-neutral:       #1C1F26;
+  --color-shadow:        rgba(0, 0, 0, 0.6);
+  --color-overlay:       rgba(10, 11, 14, 0.85);
+
+  /* Gradient tokens */
+  --gradient-pulse-horizon: linear-gradient(90deg, #0A0B0E 0%, #0D1520 50%, #0A0B0E 100%);
+  --gradient-blue-edge-glow: radial-gradient(circle, rgba(0, 180, 255, 0.18) 0%, rgba(0, 180, 255, 0.0) 100%);
+  --gradient-surface-sheen: linear-gradient(180deg, #16191F 0%, #111317 100%);
+
+  /* Spacing scale (only allowed values) */
+  --space-1:  2px;
+  --space-2:  4px;
+  --space-3:  8px;
+  --space-4:  12px;
+  --space-5:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius tokens */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   6px;
+  --radius-xl:   8px;
+  --radius-pill: 4px;
+
+  /* Font tokens */
+  --font-headline: 'DM Sans', 'Inter', 'Helvetica Neue', sans-serif;
+  --font-display:  'Space Grotesk', 'DM Sans', 'Inter', sans-serif;
+  --font-body:     'DM Sans', 'Inter', system-ui, sans-serif;
+  --font-ui:       'Inter', 'DM Sans', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Font sizes (fluid scale) */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+  --text-7xl:  4.5rem;
+
+  /* Font weights */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+
+  /* Line heights */
+  --leading-tight:  1.05;
+  --leading-snug:   1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.01em;
+  --tracking-normal:  0.01em;
+  --tracking-wide:     0.04em;
+  --tracking-wider:    0.08em;
+  --tracking-widest:  0.12em;
+
+  /* Shadow tokens */
+  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.65);
+  --shadow-lg:  0 12px 40px rgba(0, 0, 0, 0.8);
+  --shadow-glow-blue: 0 0 12px rgba(0, 180, 255, 0.25);
+
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 1200px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.25, 0.0, 0.0, 1.0);
+  --duration-slow: 400ms;
+  --duration-medium: 250ms;
+  --duration-fast: 150ms;
+}
+
+/* ── Modern reset ────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+img, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-wider);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+p {
+  margin-bottom: var(--space-5);
+  max-width: 70ch;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Skip link ───────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-5);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-bg) !important;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-normal);
+  border-radius: var(--radius-md);
+  text-decoration: none !important;
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-5);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ── Focus visible ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 1px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 8px var(--color-primary-glow);
+}
+
+/* ── Text selection ──────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,246 @@
+/* ==========================================================================
+   BASE.CSS — Marble Atrium brand kit
+   Modern reset, box-sizing, and complete CSS token system from the kit.
+   Every color/spacing/radius/shadow/font is a var() — no raw values.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Custom Properties — Design Tokens from marble-atrium.js §17
+   -------------------------------------------------------------------------- */
+:root {
+  /* COLOR TOKENS */
+  --color-primary: #b8960c;
+  --color-secondary: #2d5016;
+  --color-tertiary: #e8c4c4;
+  --color-neutral: #a0a09a;
+  --color-bg: #f7f5f2;
+  --color-surface: #eeece8;
+  --color-surface-alt: #e5e2dc;
+  --color-text: #0f0f0e;
+  --color-success: #c8ddb8;
+  --color-warning: #e8d080;
+  --color-error: #8b2635;
+  --color-info: #5a7a8a;
+  --color-focus: #b8960c;
+  --color-border: #c8c4bc;
+
+  /* SHADOW TOKENS (cool-neutral stone — never warm, never black) */
+  --shadow-sm: 0 1px 3px rgb(140, 140, 132, 0.1);
+  --shadow-md: 0 4px 12px rgb(140, 140, 132, 0.12);
+  --shadow-lg: 0 12px 32px rgb(140, 140, 132, 0.14);
+
+  /* SPACING SCALE TOKENS */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* RADIUS TOKENS */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* FONT FAMILY TOKENS */
+  --font-headline: 'Cormorant Garamond', 'Garamond', georgia, serif;
+  --font-display: 'Cormorant', 'Cormorant Garamond', georgia, serif;
+  --font-body: 'Jost', 'Helvetica Neue', helvetica, arial, sans-serif;
+  --font-ui: 'Jost', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --font-number: 'Cormorant Garamond', georgia, serif;
+
+  /* MOTION TOKENS */
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+  --duration-deliberate: 600ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* BORDER TOKENS */
+  --border-hairline: 1px solid #c8c4bc;
+  --border-gold: 1px solid #b8960c;
+  --border-focus: 2px solid #b8960c;
+
+  /* GRADIENTS */
+  --gradient-marble-wash: linear-gradient(160deg, #f7f5f2 0%, #eeece8 50%, #e5e2dc 100%);
+  --gradient-gold-veil: linear-gradient(
+    135deg,
+    rgb(184, 150, 12, 0.08) 0%,
+    rgb(184, 150, 12, 0) 100%
+  );
+  --gradient-glass-ceiling: radial-gradient(
+    ellipse at 50% 0%,
+    rgb(247, 245, 242, 0) 0%,
+    rgb(238, 236, 232, 0.7) 70%
+  );
+  --gradient-botanical-dusk: linear-gradient(
+    180deg,
+    rgb(45, 80, 22, 0.12) 0%,
+    rgb(45, 80, 22, 0) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Modern Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--duration-base) var(--easing-default);
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+}
+
+/* --------------------------------------------------------------------------
+   Skip Link — Accessibility
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: top var(--duration-fast) var(--easing-default);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   Focus Visible — Champagne Gold engraved frame
+   WCAG 2.2 AA: gold 2px ring + 2px white offset = engraved precision
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   Text Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: var(--color-tertiary);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Custom Scrollbar — minimal, stone-toned
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion — honor prefers-reduced-motion
+   Replace all transitions with 0-duration fades; disable marble-vein animation
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

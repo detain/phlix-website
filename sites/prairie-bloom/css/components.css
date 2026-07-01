@@ -1,0 +1,471 @@
+/**
+ * components.css — Prairie Bloom brand kit
+ * Header/nav, footer, buttons, cards, forms, badges
+ */
+
+/* ─── Site header ───────────────────────────────────────────────────────────── */
+.site-header {
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-primary {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.nav-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.nav-logo:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--color-text);
+  margin-left: auto;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-speed) ease-out;
+}
+
+.nav-toggle:hover {
+  background: var(--color-surface-alt);
+}
+
+.nav-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  display: block;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: var(--space-1);
+  margin-left: auto;
+  align-items: center;
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: background var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a:hover {
+  background: var(--color-surface-alt);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.nav-menu a[aria-current="page"] {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* Mobile nav */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-4);
+    margin: 0;
+    display: none;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    min-height: 48px;
+  }
+}
+
+/* ─── Site footer ───────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-surface-alt);
+  border-top: 2px solid var(--color-border);
+  padding: var(--space-12) 0 var(--space-8);
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.footer-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--color-text);
+  opacity: 0.85;
+  max-width: none;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
+  border: none;
+  padding: 0;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
+}
+
+.footer-col a:hover {
+  opacity: 1;
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-copy {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  opacity: 0.6;
+  max-width: none;
+  border-top: 2px dashed var(--color-surface);
+  padding-top: var(--space-6);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms var(--transition-ease), box-shadow 140ms ease-out, background var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
+  min-height: 44px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: #e6b420;
+  border-color: #e6b420;
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-surface);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background: #6a4e91;
+  border-color: #6a4e91;
+  color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-surface);
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background: #7a1f1f;
+  border-color: #7a1f1f;
+  color: var(--color-surface);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.btn-link {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: transparent;
+  padding-inline: var(--space-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn-link:hover {
+  color: var(--color-tertiary);
+  text-decoration: underline;
+}
+
+.btn-small {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  min-height: 36px;
+}
+
+.btn-large {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1rem;
+  min-height: 52px;
+}
+
+/* ─── Media badges ──────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  white-space: nowrap;
+}
+
+.badge-quality { color: var(--color-warning); }
+.badge-status  { color: var(--color-info); }
+.badge-fave    { color: var(--color-tertiary); }
+.badge-pick    { color: var(--color-neutral); }
+
+/* ─── Form elements ─────────────────────────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  width: 100%;
+  min-height: 44px;
+  transition: border-color var(--transition-speed) ease-out, box-shadow var(--transition-speed) ease-out;
+  appearance: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: var(--focus-ring);
+}
+
+label {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
+@keyframes sunflower-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%       { transform: rotate(2deg); }
+}
+
+@keyframes pollen-drift {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(40px) translateX(15px);
+    opacity: 0;
+  }
+}
+
+@keyframes grow-bloom {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion: replace with simple fade */
+@media (prefers-reduced-motion: reduce) {
+  .sunflower-sway { animation: none; }
+  .pollen-drift   { animation: none; }
+  .grow-bloom     { animation: none; opacity: 1; }
+  .fade-in-up     { animation: fade-in 200ms ease-out both; }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+/* ─── Hero decorative sunflower ─────────────────────────────────────────────── */
+.hero-sunflower {
+  position: absolute;
+  top: var(--space-8);
+  right: var(--space-8);
+  width: 120px;
+  height: 120px;
+  animation: sunflower-sway 6s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sunflower { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-sunflower {
+    width: 64px;
+    height: 64px;
+    top: var(--space-4);
+    right: var(--space-4);
+  }
+}

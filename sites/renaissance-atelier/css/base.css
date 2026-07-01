@@ -1,0 +1,290 @@
+/* ============================================================================
+   base.css — Reset, tokens, and base element defaults
+   Renaissance Atelier brand kit — phlix-website/sites/renaissance-atelier/
+   ============================================================================ */
+
+/* ─── Font-face declarations (self-hosted WOFF2) ─────────────────────────── */
+
+/* Fonts sourced from Google Fonts, downloaded and self-hosted for perf */
+
+/* @font-face declarations will be injected by the build process */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('css/fonts/cormorant-garamond-v.woff2') format('woff2');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant SC';
+  src: url('css/fonts/cormorant-sc-v.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('css/fonts/eb-garamond-v.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('css/fonts/libre-baskerville-v.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('css/fonts/courier-prime-v.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Modern reset ────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+/* ─── Design tokens — CSS custom properties ─────────────────────────────── */
+:root {
+  /* Colors — semantic roles from brand kit §6 / design_tokens §17 */
+  --color-primary:      #2B4A8C;
+  --color-primary-hover:#1E3568;
+  --color-secondary:    #A0522D;
+  --color-secondary-hover:#7A3D21;
+  --color-tertiary:     #C8971A;
+  --color-tertiary-light:#F0CC6A;
+  --color-neutral:     #4A7C6F;
+  --color-bg:           #F4ECD8;
+  --color-surface:      #FAF4E4;
+  --color-surface-alt:  #EDE1C6;
+  --color-text:         #2C1A0E;
+  --color-text-muted:   rgb(44, 26, 14, 0.55);
+  --color-success:      #5A8A5E;
+  --color-warning:      #D4961A;
+  --color-error:        #8C1F28;
+  --color-info:         #2A5FA5;
+  --color-focus:        #C8971A;
+  --color-border:       #3D1F0A;
+  --color-shadow:       rgb(44, 26, 14, 0.35);
+  --color-overlay:      rgb(14, 10, 6, 0.72);
+
+  /* Gradient CSS custom properties (from brand kit gradients) */
+  --gradient-chiaroscuro: linear-gradient(160deg, #2C1A0E, #A0522D, #C8971A);
+  --gradient-lapis:       radial-gradient(ellipse at center, #2B4A8C, #1A2D5A);
+  --gradient-candle-bloom: radial-gradient(ellipse at center, rgb(200,151,26,0.45), rgb(244,236,216,0) 70%);
+  --gradient-gold-shimmer: linear-gradient(45deg, #C8971A, #F0CC6A, #C8971A);
+
+  /* Spacing scale (8-point, from kit spacing_scale) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius scale */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+  --radius-arch: 50% 50% 0 0;
+
+  /* Typography roles */
+  --font-headline: 'Cormorant Garamond', 'IM Fell English', 'Garamond', 'Times New Roman', serif;
+  --font-display:  'Cormorant SC', 'Cormorant Garamond', 'Garamond', serif;
+  --font-body:     'EB Garamond', 'Garamond', 'Palatino Linotype', 'Georgia', serif;
+  --font-ui:       'Libre Baskerville', 'Baskerville', 'Book Antiqua', 'Georgia', serif;
+  --font-mono:     'Courier Prime', 'Courier New', monospace;
+  --font-number:   'Cormorant Garamond', 'Garamond', serif;
+  --font-size-base:      17px;
+  --line-height-body:    1.7;
+  --line-height-ui:      1.35;
+  --line-height-headline:1.1;
+  --tracking-headline:   -0.01em;
+  --tracking-display:    0.05em;
+  --tracking-ui:         0.02em;
+
+  /* Shadow tokens — warm umber-tinted */
+  --shadow-sm: 0 1px 3px rgb(44, 26, 14, 0.20);
+  --shadow-md: 0 4px 12px rgb(44, 26, 14, 0.28);
+  --shadow-lg: 0 12px 32px rgb(44, 26, 14, 0.36);
+  --shadow-xl: 0 24px 64px rgb(44, 26, 14, 0.44);
+
+  /* Animation / motion */
+  --duration-fast:     150ms;
+  --duration-base:     200ms;
+  --duration-slow:     350ms;
+  --duration-sfumato:  600ms;
+  --easing-standard:    cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-out:        ease-out;
+  --easing-in-out:     ease-in-out;
+
+  /* Borders */
+  --border-width:   1.5px;
+  --border-style:   solid;
+  --border-color:   #3D1F0A;
+  --border-default: 1.5px solid #3D1F0A;
+  --border-double-gap: 4px;
+
+  /* Layout */
+  --max-width:  1400px;
+  --max-content: 960px;
+  --gutter:      var(--space-12);
+}
+
+/* ─── Base element defaults ───────────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-feature-settings: 'kern' 1, 'liga' 1, 'onum' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Parchment grain texture — texture_level: heavy ─────────────────────── */
+/* Subtle noise overlay on entire page for Renaissance tactile feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.038;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  line-height: var(--line-height-headline);
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-text);
+}
+
+p {
+  line-height: var(--line-height-body);
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ─── Skip link ───────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  inset-inline-start: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transition: top var(--duration-fast) var(--easing-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+/* ─── Focus visible — gold leaf halo ──────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+/* ─── Text selection — warm parchment tones ───────────────────────────────── */
+::selection {
+  background: rgb(200, 151, 26, 0.25);
+  color: var(--color-text);
+}
+
+/* ─── Scrollbar styling (webkit) ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-surface-alt);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
