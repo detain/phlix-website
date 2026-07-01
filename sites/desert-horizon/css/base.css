@@ -1,0 +1,295 @@
+/* ==========================================================================
+   BASE.CSS — Desert Horizon
+   Reset, design tokens (:root), base element defaults
+   Brand: American Southwest at golden hour — terracotta, turquoise, sandstone
+   ========================================================================== */
+
+/* Modern CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================================
+   DESIGN TOKENS — :root
+   Mapped from desert-horizon.js design_tokens + color/spacing/radius/shadow
+   ========================================================================== */
+
+:root {
+  /* ── Colors — Semantic Roles ── */
+  --color-primary: #c2542a; /* Terracotta — primary CTAs, key emphasis */
+  --color-secondary: #2a8c82; /* Mesa Turquoise — links, focus, interactive */
+  --color-tertiary: #e07050; /* Sunset Coral — peak accents, hero gradients */
+  --color-neutral: #7a8c68; /* Sage Green — muted chrome, dividers, tags */
+  --color-bg: #f2e4c8; /* Sandstone — universal page background */
+  --color-surface: #faf0dc; /* Adobe Dust — card and panel surfaces */
+  --color-surface-alt: #e8d6b4; /* Sun-Bleached Clay — alternate surface, rows */
+  --color-text: #2e1a0e; /* Burnt Umber — body/headline text */
+  --color-success: #8bc48a; /* Prickly Pear Green — success states */
+  --color-warning: #d4900a; /* Ocotillo Amber — warnings */
+  --color-error: #a83220; /* Cholla Red — errors, destructive actions */
+  --color-info: #2176a6; /* Sky Mesa Blue — informational */
+  --color-focus: #2a8c82; /* Turquoise Focus Ring — keyboard focus */
+  --color-border: #2e1a0e; /* Canyon Outline — card outlines, dividers */
+  --color-shadow: rgba(92, 46, 20, 0.22); /* Desert Shadow — warm umber */
+  --color-overlay: rgba(26, 12, 4, 0.65); /* Night Mesa — modal scrim */
+
+  /* ── Semantic Aliases (brand names) ── */
+  --color-terracotta: #c2542a;
+  --color-turquoise: #2a8c82;
+  --color-coral: #e07050;
+  --color-sage: #7a8c68;
+  --color-sandstone: #f2e4c8;
+  --color-adobe: #faf0dc;
+  --color-clay: #e8d6b4;
+  --color-umber: #2e1a0e;
+  --color-ochre: #d4900a;
+
+  /* ── Gradients ── */
+  --gradient-golden-horizon: linear-gradient(160deg, #e07050, #c2542a, #8c3a18);
+  --gradient-mesa-dusk: linear-gradient(180deg, #f2b87a, #c2542a, #5c2e14);
+  --gradient-turquoise-wash: radial-gradient(
+    circle,
+    rgba(42, 140, 130, 0.15),
+    rgba(42, 140, 130, 0)
+  );
+
+  /* ── Spacing Scale (9 steps) ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ── Border Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ── Typography Roles ── */
+  --font-headline: 'Playfair Display', 'Rockwell', georgia, serif;
+  --font-display: 'Arvo', 'Rockwell', 'Courier New', serif;
+  --font-body: 'Lora', palatino, georgia, serif;
+  --font-ui: 'Source Sans 3', 'Open Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* ── Shadows (warm umber-tinted, never grey) ── */
+  --shadow-sm: 0 1px 3px rgba(92, 46, 20, 0.16);
+  --shadow-md: 0 4px 12px rgba(92, 46, 20, 0.2);
+  --shadow-lg: 0 12px 28px rgba(92, 46, 20, 0.26);
+
+  /* ── Layout ── */
+  --max-width: 1400px;
+  --content-width: 1200px;
+  --gutter: 24px;
+
+  /* ── Transitions (slow, deliberate, earthy) ── */
+  --transition-base: 300ms ease-out;
+  --transition-slow: 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: 150ms ease-out;
+  --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ==========================================================================
+   BASE ELEMENT STYLES
+   ========================================================================== */
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  font-weight: 900;
+}
+h2 {
+  font-size: clamp(1.75rem, 3vw + 0.75rem, 2.75rem);
+}
+h3 {
+  font-size: clamp(1.2rem, 2vw + 0.5rem, 1.6rem);
+}
+h4 {
+  font-size: 1.2rem;
+}
+
+p {
+  font-family: var(--font-body);
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   SKIP LINK
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-terracotta);
+  color: var(--color-adobe);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--transition-fast);
+  letter-spacing: 0.02em;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-turquoise);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   FOCUS STYLES
+   3px turquoise focus ring with 2px sandstone offset per accessibility spec
+   ========================================================================== */
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(42, 140, 130, 0.15);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   TEXT SELECTION
+   ========================================================================== */
+
+::selection {
+  background: var(--color-terracotta);
+  color: var(--color-adobe);
+}
+
+/* ==========================================================================
+   SCROLLBAR (webkit) — warm umber styling
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-umber);
+  border-radius: var(--radius-pill);
+  opacity: 0.5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-terracotta);
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   Honor prefers-reduced-motion: replace slow transitions with simple fades
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   CONTAINER / LAYOUT UTILITY
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-width: 760px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}

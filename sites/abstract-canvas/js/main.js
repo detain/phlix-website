@@ -9,7 +9,7 @@
   /* ── Mobile Nav Toggle ───────────────────────────────────────────────── */
 
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
   const navBackdrop = document.querySelector('.nav-backdrop');
 
   function openNav() {
@@ -83,7 +83,7 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
     );
 
     revealElements.forEach(function (el) {
@@ -110,5 +110,4 @@
 
   handleReducedMotion();
   prefersReducedMotion.addEventListener('change', handleReducedMotion);
-
 })();
