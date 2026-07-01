@@ -1,0 +1,319 @@
+/* ==========================================================================
+   BASE.CSS — Moroccan Bazaar reset, tokens, and base element defaults
+   ========================================================================== */
+
+/* ── Modern reset ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design tokens (from moroccan-bazaar.js design_tokens + color/spacing/radius/shadow) ── */
+:root {
+  /* Color palette */
+  --color-primary: #e8531a;
+  --color-secondary: #1a4580;
+  --color-tertiary: #b87828;
+  --color-bg: #140a04;
+  --color-surface: #200e06;
+  --color-surface-alt: #2a1208;
+  --color-text: #f2e4cc;
+  --color-neutral: #8c6a4a;
+  --color-success: #2e7d4f;
+  --color-warning: #d4920a;
+  --color-error: #cc1a1a;
+  --color-info: #2a6a8c;
+  --color-focus: #e8531a;
+  --color-border: #3c2010;
+
+  /* Gradients */
+  --grad-souk-sunset: linear-gradient(155deg, #e8531a, #b87828);
+  --grad-lantern-halo: radial-gradient(rgb(184, 120, 40, 0.4), rgb(20, 10, 4, 0));
+  --grad-medina-depth: linear-gradient(180deg, #200e06, #140a04);
+  --grad-zellige-shimmer: linear-gradient(135deg, #1a4580, #b87828);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Cormorant Garamond', garamond, georgia, serif;
+  --font-display: 'Cinzel', 'Trajan Pro', serif;
+  --font-body: 'Lora', palatino, georgia, serif;
+  --font-ui: 'Nunito Sans', system-ui, 'Helvetica Neue', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', courier, monospace;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgb(20, 10, 4, 0.7);
+  --shadow-md: 0 4px 14px rgb(20, 10, 4, 0.75), 0 0 8px rgb(184, 120, 40, 0.09);
+  --shadow-lg: 0 10px 36px rgb(20, 10, 4, 0.82), 0 0 22px rgb(184, 120, 40, 0.14);
+  --shadow-copper-glow: 0 0 14px rgb(184, 120, 40, 0.55), 0 0 32px rgb(184, 120, 40, 0.22);
+  --shadow-terracotta-glow: 0 0 14px rgb(232, 83, 26, 0.5), 0 0 32px rgb(232, 83, 26, 0.18);
+  --shadow-indigo-glow: 0 0 12px rgb(26, 69, 128, 0.45), 0 0 28px rgb(26, 69, 128, 0.16);
+
+  /* Transitions */
+  --transition-fast: 180ms ease-out;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 400ms cubic-bezier(0.35, 0, 0.15, 1);
+  --transition-lantern: 500ms cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* Layout */
+  --content-width: 1400px;
+  --max-width: 1400px;
+}
+
+/* ── Self-hosted fonts ─────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src:
+    url('fonts/cormorant-garamond-600.woff2') format('woff2'),
+    url('fonts/cormorant-garamond-700.woff2') format('woff2');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Cinzel;
+  src:
+    url('fonts/cinzel-400.woff2') format('woff2'),
+    url('fonts/cinzel-700.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Lora;
+  src:
+    url('fonts/lora-400.woff2') format('woff2'),
+    url('fonts/lora-500.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito Sans';
+  src:
+    url('fonts/nunito-sans-400.woff2') format('woff2'),
+    url('fonts/nunito-sans-500.woff2') format('woff2'),
+    url('fonts/nunito-sans-600.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src:
+    url('fonts/fira-code-400.woff2') format('woff2'),
+    url('fonts/fira-code-500.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Base element defaults ─────────────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+p {
+  line-height: 1.7;
+  margin: 0 0 1em;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--color-tertiary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+strong {
+  font-weight: 700;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ── Skip link ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Focus visible ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(184, 120, 40, 0.22);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Text selection ────────────────────────────────────────────────────── */
+::selection {
+  background: rgb(232, 83, 26, 0.35);
+  color: var(--color-text);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

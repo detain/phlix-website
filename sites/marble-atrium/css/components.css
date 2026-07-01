@@ -1,0 +1,803 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Marble Atrium brand kit
+   Header, nav, footer, buttons, cards, forms, badges, and more.
+   Kit: marble-white surfaces, hairline gold rule on active, minimal chrome.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   SITE HEADER — Marble-white bar, hairline stone bottom border
+   Topbar per kit navigation.topbar
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: var(--border-hairline);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: var(--space-8);
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  height: 36px;
+  width: auto;
+}
+
+/* Primary Nav */
+.nav-primary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu a {
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--duration-base) var(--easing-default),
+    background-color var(--duration-base) var(--easing-default);
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.nav-menu a[aria-current='page'] {
+  color: var(--color-primary);
+  font-weight: 500;
+  border-bottom: 2px solid var(--color-primary);
+  border-radius: 0;
+  padding-block: var(--space-2);
+}
+
+/* Mobile Nav Toggle — invisible until needed */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text);
+  flex-shrink: 0;
+  transition: border-color var(--duration-base) var(--easing-default);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.nav-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile nav open state */
+@media (width <= 900px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: var(--border-hairline);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-4) var(--space-6);
+    gap: var(--space-2);
+    z-index: 99;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: var(--border-hairline);
+    min-height: 52px;
+  }
+
+  .nav-menu a[aria-current='page'] {
+    border-bottom: 2px solid var(--color-primary);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   BUTTONS — from kit §13 buttons
+   All buttons: 2px radius, never pill-shaped except search_bar pill exception.
+   Primary: champagne gold fill, marble-white text, rectilinear.
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--easing-default),
+    color var(--duration-base) var(--easing-default),
+    border-color var(--duration-base) var(--easing-default),
+    transform var(--duration-fast) var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default);
+  min-height: 44px;
+  min-width: 44px;
+  white-space: nowrap;
+}
+
+/* Primary: Champagne Gold fill */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: #9a7d0a;
+  border-color: #9a7d0a;
+  color: var(--color-bg);
+  text-decoration: none;
+}
+
+.btn-primary:active {
+  transform: scale(0.99);
+  background: #7a6208;
+}
+
+/* Secondary: ghost — 1px Jet Black border, no fill */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Danger: Garnet fill — irreversible destructive actions only */
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-bg);
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background: #6b1c28;
+  border-color: #6b1c28;
+  color: var(--color-bg);
+  text-decoration: none;
+}
+
+/* Ghost: 1px Hairline Stone border — de-emphasised tertiary */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: var(--color-neutral);
+  text-decoration: none;
+}
+
+/* Link: gold text, underline appears on hover */
+.btn-link {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: transparent;
+  padding-inline: 0;
+  border-radius: 0;
+  min-height: auto;
+}
+
+.btn-link:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Icon: no bg; icon at 20px; hairline border on hover */
+.btn-icon {
+  background: transparent;
+  color: var(--color-text);
+  border-color: transparent;
+  padding: var(--space-2);
+  width: 44px;
+  height: 44px;
+}
+
+.btn-icon:hover {
+  border-color: var(--color-border);
+  text-decoration: none;
+}
+
+/* FAB: Square floating action button — architectural, not pill */
+.btn-fab {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-fab:hover {
+  background: #9a7d0a;
+  border-color: #9a7d0a;
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   FEATURE CARD — kit cards spec
+   Polished stone slab: wide padding, thin border, almost-flat.
+   Hover: lift 1px + whisper shadow + gold hairline border fades in 200ms
+   -------------------------------------------------------------------------- */
+.feature-card {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  transition:
+    transform var(--duration-base) var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default),
+    border-color 200ms var(--easing-default);
+}
+
+.feature-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-primary);
+}
+
+.feature-card .feature-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.feature-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.feature-card p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* Feature detail — larger, for features page */
+.feature-detail {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+}
+
+.feature-detail .feature-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-6);
+  color: var(--color-primary);
+}
+
+.feature-detail h2 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+}
+
+.feature-detail p {
+  font-size: 1rem;
+  line-height: 1.75;
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   CLIENT CARD — status badge + highlights list + source button
+   -------------------------------------------------------------------------- */
+.client-card {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.client-card h2 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.client-tagline {
+  font-size: 0.9375rem;
+  opacity: 0.8;
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.client-highlights {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.client-highlights li {
+  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+}
+
+.client-card .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* --------------------------------------------------------------------------
+   DOWNLOAD CARD
+   -------------------------------------------------------------------------- */
+.download-card {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+}
+
+.download-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+
+.download-card p {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   BADGES — from kit §14 badges
+   Rectilinear (2px radius), 1px border, label-caps typography
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Quality badges: Champagne Gold border + text */
+.badge-quality {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
+/* Status badges: Botanical Green border + text */
+.badge-status {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+  background: transparent;
+}
+
+/* Informational: Veining Grey */
+.badge-info {
+  border-color: var(--color-neutral);
+  color: var(--color-neutral);
+  background: transparent;
+}
+
+/* Status variants on client cards */
+.status-stable {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.status-beta {
+  border-color: var(--color-warning);
+  color: #6b5a00;
+}
+
+.status-deprecated {
+  border-color: var(--color-neutral);
+  color: var(--color-neutral);
+}
+
+/* --------------------------------------------------------------------------
+   CHIPS — rectilinear, 2px radius, hairline stone border, pale stone bg
+   Selected chips gain 1px Champagne Gold border per component_styles.chip
+   -------------------------------------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--duration-base) var(--easing-default);
+  min-height: 32px;
+}
+
+.chip:hover,
+.chip.selected {
+  border-color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   SEARCH BAR — single pill exception (search bar only)
+   Kit: search_bar: marble-white pill, 1px border, magnifier in Veining Grey
+   -------------------------------------------------------------------------- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-4);
+  max-width: 400px;
+  transition: border-color var(--duration-base) var(--easing-default);
+}
+
+.search-bar:focus-within {
+  border-color: var(--color-primary);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  outline: none;
+  min-width: 0;
+}
+
+.search-bar input::placeholder {
+  color: var(--color-neutral);
+}
+
+.search-bar .search-icon {
+  color: var(--color-neutral);
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   SITE FOOTER — kit navigation.footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--color-surface);
+  border-top: var(--border-hairline);
+  padding-block: var(--space-16) var(--space-8);
+}
+
+.site-footer .container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.footer-tagline {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+@media (width <= 640px) {
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+.footer-col h4 {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+  color: var(--color-neutral);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  text-decoration: none;
+  opacity: 0.8;
+  transition:
+    opacity var(--duration-base) var(--easing-default),
+    color var(--duration-base) var(--easing-default);
+}
+
+.footer-col a:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.footer-copy {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-neutral);
+  padding-top: var(--space-4);
+  border-top: var(--border-hairline);
+}
+
+/* --------------------------------------------------------------------------
+   FORMS — kit forms spec
+   Marble-white fill, 1px Hairline Stone border, 2px radius, 16px vert padding
+   -------------------------------------------------------------------------- */
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  transition: border-color var(--duration-base) var(--easing-default);
+  min-height: 44px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.form-input.error {
+  border-left: 3px solid var(--color-error);
+}
+
+.form-input.success {
+  border-left: 3px solid var(--color-success);
+}
+
+.form-error {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+  margin-top: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Tables — kit tables spec
+   -------------------------------------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: var(--color-surface-alt);
+}
+
+thead th {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: var(--border-hairline);
+}
+
+tbody tr {
+  border-bottom: var(--border-hairline);
+  transition: background-color 100ms var(--easing-default);
+}
+
+tbody tr:hover {
+  background: var(--color-surface);
+}
+
+tbody td {
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.9375rem;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background: var(--color-surface-alt);
+}
+
+/* --------------------------------------------------------------------------
+   Toast — kit component_styles.toast
+   Marble-white pill sliding up, 1px hairline stone border
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  background: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  z-index: 200;
+  transform: translateY(120%);
+  transition: transform var(--duration-slow) var(--easing-default);
+}
+
+.toast.visible {
+  transform: translateY(0);
+}
+
+.toast.success .toast-icon {
+  color: var(--color-secondary);
+}
+.toast.error .toast-icon {
+  color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   Hub-specific sections
+   -------------------------------------------------------------------------- */
+.hub-feature {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  margin-block: var(--space-6);
+}
+
+.hub-feature h3 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+}
+
+.hub-feature p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  opacity: 0.85;
+}

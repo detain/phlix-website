@@ -1,0 +1,186 @@
+/* ==========================================================================
+   BASE.CSS — Pixel Dungeon brand kit
+   Cartridge Black / Mario Red / Game Blue / Coin Yellow-Green palette
+   Press Start 2P + Silkscreen typography
+   Chunky pixel grid, 0px radius, steps() motion, CRT scanline aesthetic
+   ========================================================================== */
+
+/* Modern reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Colors ── */
+  --color-primary:    #E8001A;  /* Mario Red */
+  --color-secondary:   #0055AA;  /* Game Blue */
+  --color-tertiary:    #88BB00;  /* Coin Yellow-Green */
+  --color-bg:          #0A0A0A;  /* Cartridge Black */
+  --color-surface:     #151515;  /* Screen Black */
+  --color-surface-alt: #1E1E1E;  /* Console Dark */
+  --color-text:        #F5F5F0;  /* Screen White */
+  --color-neutral:     #666660;  /* Pixel Gray */
+  --color-success:     #00AA44;  /* 1UP Green */
+  --color-warning:     #FFCC00;  /* Low Health Yellow */
+  --color-error:       #CC0000;  /* Game Over Red */
+  --color-info:        #5599FF;  /* Sky Blue */
+  --color-border:      #333333;  /* Dungeon Stone */
+  --color-focus:       #FFCC00;  /* Select Yellow */
+  --color-shadow:      #000000;  /* Pixel Drop */
+
+  /* ── Gradients ── */
+  --gradient-dungeon-depth: linear-gradient(180deg, #151515 0%, #0A0A0A 100%);
+  --gradient-coin-shimmer:  linear-gradient(135deg, #FFCC00 0%, #88BB00 100%);
+  --gradient-hero-entrance: linear-gradient(180deg, #0055AA 0%, #0A0A0A 100%);
+
+  /* ── Spacing ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  16px;
+  --space-4:  24px;
+  --space-6:  32px;
+  --space-8:  48px;
+  --space-12: 64px;
+  --space-16: 96px;
+  --space-24: 128px;
+
+  /* ── Border Radius ── */
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-xl:   0px;
+  --radius-pill: 0px;
+
+  /* ── Typography ── */
+  --font-headline: 'Press Start 2P', 'Courier New', monospace;
+  --font-display:  'Press Start 2P', 'Courier New', monospace;
+  --font-body:     'Silkscreen', 'Courier New', monospace;
+  --font-ui:       'Silkscreen', 'Courier New', monospace;
+  --font-mono:     'Press Start 2P', 'Courier New', monospace;
+
+  /* ── Shadows (hard pixel offset — no blur) ── */
+  --shadow-sm:        2px 2px 0px rgba(0,0,0,1);
+  --shadow-md:        3px 3px 0px rgba(0,0,0,1);
+  --shadow-lg:        4px 4px 0px rgba(0,0,0,1);
+  --shadow-pixel-red:  2px 2px 0px #CC0000;
+  --shadow-pixel-blue: 2px 2px 0px #003377;
+  --shadow-pixel-coin: 2px 2px 0px #558800;
+
+  /* ── Layout ── */
+  --max-width: 1280px;
+  --grid-unit:  8px;
+}
+
+/* ── Base element defaults ── */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  min-height: 100vh;
+  /* CRT scanline overlay */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.05) 2px,
+    rgba(0,0,0,0.05) 4px
+  );
+}
+
+/* ── Typography defaults ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 2.0;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(1rem, 4vw, 1.5rem); }
+h2 { font-size: clamp(0.875rem, 3vw, 1.125rem); }
+h3 { font-size: clamp(0.75rem, 2.5vw, 0.875rem); }
+
+p { margin-bottom: var(--space-3); }
+
+a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color 100ms steps(1);
+}
+a:hover { color: var(--color-secondary); text-decoration: underline; }
+
+/* ── Focus ring — pixel crisp, blinking cursor style ── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 0;
+  animation: blink-cursor 500ms steps(1) infinite;
+}
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-2);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  padding: var(--space-2) var(--space-3);
+  text-decoration: none;
+  border: 2px solid var(--color-focus);
+}
+.skip-link:focus { top: var(--space-2); }
+
+/* ── Selection ── */
+::selection { background: var(--color-primary); color: var(--color-text); }
+
+/* ── Scrollbar (webkit) — pixel styled ── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-neutral); }
+
+/* ── Images / media ── */
+img, video { display: block; max-width: 100%; height: auto; }
+
+/* ── Lists ── */
+ul, ol { padding-left: var(--space-6); }
+li { margin-bottom: var(--space-1); }
+
+/* ── Code / pre ── */
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 2.0;
+  letter-spacing: 0.05em;
+}
+
+/* ── Horizontal rule — pixel divider ── */
+hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  :focus-visible { animation: none; }
+}

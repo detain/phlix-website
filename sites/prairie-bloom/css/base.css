@@ -1,0 +1,243 @@
+/**
+ * base.css — Prairie Bloom brand kit
+ * CSS reset + design token :root variables
+ */
+
+/* ─── Font-face declarations (self-hosted WOFF2) ─────────────────────────── */
+/* TODO: Download WOFF2 files and replace CDN links */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Zilla+Slab:ital,wght@0,700;1,700&display=swap');
+
+/* ─── Design tokens — :root variables ─────────────────────────────────────── */
+:root {
+  /* Color system */
+  --color-primary:    #F2C12E;
+  --color-secondary:   #7B5EA7;
+  --color-tertiary:    #B83A3A;
+  --color-neutral:    #4E7C59;
+  --color-bg:          #F7F0DC;
+  --color-surface:     #FBF6EA;
+  --color-surface-alt: #EDE3C5;
+  --color-text:       #2C1D0E;
+  --color-success:     #A8D5AE;
+  --color-warning:     #D9A520;
+  --color-error:       #9C2A2A;
+  --color-info:        #4A90C4;
+  --color-focus:       #7B5EA7;
+  --color-border:      #2C1D0E;
+  --color-shadow:      rgba(92, 61, 30, 0.22);
+  --color-overlay:     rgba(28, 17, 10, 0.58);
+
+  /* Gradients */
+  --gradient-sunflower-sunrise: linear-gradient(160deg, #F2C12E, #D9A520);
+  --gradient-prairie-sky:      linear-gradient(180deg, #A8CFEA, #F7F0DC);
+  --gradient-wildflower-bloom:  radial-gradient(ellipse at center, rgba(123,94,167,0.18), rgba(247,240,220,0));
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   18px;
+  --radius-xl:   28px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Zilla Slab', 'Rockwell', serif;
+  --font-display:  'Playfair Display', 'Georgia', serif;
+  --font-body:     'Lora', 'Georgia', serif;
+  --font-ui:       'Nunito', 'system-ui', sans-serif;
+  --font-mono:     'Fira Code', 'Courier New', monospace;
+
+  /* Shadows (warm earth tint) */
+  --shadow-sm: 0 1px 3px rgba(92, 61, 30, 0.16);
+  --shadow-md: 0 4px 12px rgba(92, 61, 30, 0.20);
+  --shadow-lg: 0 10px 28px rgba(92, 61, 30, 0.26);
+
+  /* Focus ring — wildflower violet with 2px hay-cream offset */
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-focus);
+
+  /* Content max-width */
+  --max-width: 1320px;
+  --max-width-prose: 72ch;
+
+  /* Transition defaults */
+  --transition-speed: 160ms;
+  --transition-ease:   cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Modern reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease-out;
+}
+
+a:hover {
+  color: var(--color-tertiary);
+  text-decoration: underline;
+}
+
+/* ─── Text selection — sunflower yellow ───────────────────────────────────── */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* ─── Scrollbar — warm earth tones ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* ─── Skip link ─────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: top var(--transition-speed) ease-out;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ─── Focus visible — wildflower violet ring ────────────────────────────────── */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Base element styles ────────────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-headline);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+
+p {
+  max-width: var(--max-width-prose);
+  line-height: 1.7;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+hr {
+  border: none;
+  border-top: 2px dashed var(--color-surface-alt);
+  margin: var(--space-8) 0;
+}
