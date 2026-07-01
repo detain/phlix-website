@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Phlix plugin system — implement LifecycleInterface, ship a manifest, drop in plugins/. See phlix-plugin-example for the smallest working starter.">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/celtic-twilight/plugins.html">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/celtic-twilight/plugins.html">
+  <meta property="og:title" content="Plugins — Phlix">
+  <meta property="og:description" content="Phlix plugin system — implement LifecycleInterface, ship a manifest, drop in plugins/.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/celtic-twilight/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Plugins — Phlix">
+  <meta name="twitter:description" content="Phlix plugin system — implement LifecycleInterface, ship a manifest, drop in plugins/.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/celtic-twilight/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <title>Plugins — Phlix</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header" role="banner">
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <a class="nav-logo" href="./" aria-label="Phlix home"><img src="img/logo.svg" alt="Phlix logo" width="120" height="40"></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="./">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="plugins.html" aria-current="page">Plugins</a></li>
+        <li><a href="docs.html">Docs</a></li>
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <div class="page-header">
+      <div class="container">
+        <div class="page-header__content">
+          <p class="section-eyebrow">Open the door</p>
+          <h1>Plugins</h1>
+          <p class="page-header__lead">A versioned contract, a drop-in loader, a manifest that speaks for itself. The plugin system Phlix deserves.</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="content-section" aria-labelledby="plugin-model-heading">
+      <div class="container container--narrow">
+        <h2 id="plugin-model-heading" style="margin-bottom: var(--space-4);">The plugin model</h2>
+        <p style="margin-bottom: var(--space-4);">Every plugin implements <code>LifecycleInterface</code> and ships a <code>manifest.json</code>. Drop the plugin folder into <code>plugins/</code> and the loader finds it. No registry. No ceremony.</p>
+        <div class="code-block">
+          <pre><code>plugins/
+  my-metadata-provider/
+    manifest.json        # name, version, lifecycle hooks
+    src/
+      MyPlugin.php      # implements LifecycleInterface</code></pre>
+        </div>
+        <p style="font-family: var(--font-ui); font-size: 0.875rem; color: var(--color-peat);">The manifest declares which lifecycle events the plugin responds to: <code>onboot</code>, <code>onscan</code>, <code>onmetadata</code>, <code>onshutdown</code>. The loader invokes them in turn.</p>
+      </div>
+    </section>
+
+    <section class="content-section content-section--alt" aria-labelledby="ecosystem-plugins-heading">
+      <div class="container container--narrow">
+        <h2 id="ecosystem-plugins-heading" style="margin-bottom: var(--space-6);">Ecosystem plugins</h2>
+        <p style="margin-bottom: var(--space-6);">The community grows the circle. Once a plugin is stable, consider adding it to the Phlix ecosystem listing.</p>
+      </div>
+    </section>
+
+    <section class="content-section" aria-labelledby="write-plugin-heading">
+      <div class="container container--narrow">
+        <h2 id="write-plugin-heading" style="margin-bottom: var(--space-4);">Write your own</h2>
+        <p style="margin-bottom: var(--space-4);">The reference implementation is the smallest possible working plugin. Study it, then weave your own.</p>
+        <div class="code-block">
+          <pre><code>https://github.com/detain/phlix-plugin-example</code></pre>
+        </div>
+        <p style="margin-bottom: var(--space-6);">The example covers the full lifecycle: manifest authoring, service registration, metadata enrichment, and graceful shutdown. It is the illuminated initial letter — everything else begins here.</p>
+      </div>
+    </section>
+
+    <section class="cta-banner" aria-label="Learn more">
+      <div class="container">
+        <div class="cta-banner__content">
+          <h2>All the tales the land remembers.</h2>
+          <p style="font-family: var(--font-body); color: rgba(244,237,216,0.75); margin-bottom: var(--space-6);">Add your chapter to the chronicle.</p>
+          <a href="https://detain.github.io/phlix-docs" class="btn btn-ghost btn-lg" rel="noopener noreferrer">Read the docs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" role="contentinfo">
+    <p class="footer-tagline">Open-source media, on your terms.</p>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <div class="footer-nav__columns">
+        <div class="footer-nav__column"><h3>Product</h3><ul><li><a href="features.html">Features</a></li><li><a href="clients.html">Clients</a></li><li><a href="download.html">Download</a></li><li><a href="plugins.html">Plugins</a></li></ul></div>
+        <div class="footer-nav__column"><h3>Developers</h3><ul><li><a href="https://detain.github.io/phlix-docs">Documentation</a></li><li><a href="https://github.com/detain/phlix-server">Server source</a></li><li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li><li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li></ul></div>
+        <div class="footer-nav__column"><h3>Project</h3><ul><li><a href="https://github.com/detain">GitHub org</a></li><li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li><li><a href="https://github.com/detain/phlix-hub">Hub</a></li><li><a href="https://github.com/phlix-website/blob/master/LICENSE">License (BSD-3)</a></li></ul></div>
+      </div>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Phlix &mdash; BSD-3-Clause</p>
+  </footer>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

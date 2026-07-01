@@ -1,0 +1,257 @@
+/* ==========================================================================
+   BASE.CSS — Abstract Canvas
+   Reset, design tokens (:root), base element defaults
+   ========================================================================== */
+
+/* Modern CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ==========================================================================
+   DESIGN TOKENS — :root
+   Mapped directly from abstract-canvas.js design_tokens and color/spacing blocks
+   ========================================================================== */
+
+:root {
+  /* ── Colors ── */
+  --color-primary:     #1A1A1A;
+  --color-secondary:   #CC2200;
+  --color-tertiary:    #0055AA;
+  --color-bg:          #F0EDE4;
+  --color-surface:     #E8E4D8;
+  --color-surface-alt: #DDD8C8;
+  --color-text:        #141210;
+  --color-neutral:     #8A8070;
+  --color-success:     #1A7A4A;
+  --color-warning:     #C8900A;
+  --color-error:       #B8001C;
+  --color-info:        #1A6BA8;
+  --color-border:      #C8C2B0;
+  --color-focus:       #0055AA;
+  --color-shadow:      rgba(138, 128, 112, 0.18);
+  --color-overlay:     rgba(240, 237, 228, 0.88);
+
+  /* Semantic aliases */
+  --color-cobalt:       #0055AA;
+  --color-cadmium:      #CC2200;
+  --color-gallery-linen:#F0EDE4;
+  --color-canvas-cream: #E8E4D8;
+  --color-aged-ground:  #DDD8C8;
+  --color-paint-ink:    #141210;
+  --color-viridian:     #1A7A4A;
+  --color-ochre:        #C8900A;
+  --color-alizarin:     #B8001C;
+  --color-cerulean:     #1A6BA8;
+  --color-umber:        #8A8070;
+  --color-sizing:       #C8C2B0;
+
+  /* ── Spacing Scale ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ── Border Radius ── */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   18px;
+  --radius-pill: 999px;
+
+  /* ── Typography ── */
+  --font-headline: 'Cormorant Garamond', Garamond, Georgia, serif;
+  --font-display:  'Bebas Neue', Impact, Haettenschweiler, sans-serif;
+  --font-body:     'Lora', Palatino, Georgia, serif;
+  --font-ui:       'Inter', system-ui, 'Helvetica Neue', sans-serif;
+  --font-mono:     'JetBrains Mono', 'Courier New', Courier, monospace;
+
+  /* ── Shadows ── */
+  --shadow-sm:          0 1px 4px rgba(138,128,112,0.15);
+  --shadow-md:          0 4px 16px rgba(138,128,112,0.18), 0 1px 4px rgba(20,18,16,0.06);
+  --shadow-lg:          0 10px 36px rgba(138,128,112,0.22), 0 2px 8px rgba(20,18,16,0.08);
+  --shadow-cadmium:     0 0 0 2px rgba(204,34,0,0.25), 0 4px 16px rgba(204,34,0,0.1);
+  --shadow-ultramarine: 0 0 0 2px rgba(0,85,170,0.2), 0 4px 16px rgba(0,85,170,0.08);
+  --shadow-gallery:     0 2px 12px rgba(138,128,112,0.12), 0 1px 2px rgba(20,18,16,0.05);
+
+  /* ── Layout ── */
+  --max-width: 1400px;
+  --content-width: 1200px;
+  --gutter: 24px;
+
+  /* ── Transitions ── */
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 400ms ease-in-out;
+  --transition-fast: 150ms ease-in-out;
+  --ease-gallery: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+
+/* ==========================================================================
+   BASE ELEMENT STYLES
+   ========================================================================== */
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast) var(--ease-gallery);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); }
+h2 { font-size: clamp(1.75rem, 3vw + 0.75rem, 3rem); }
+h3 { font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem); }
+h4 { font-size: 1.25rem; }
+
+p {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   SKIP LINK
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   FOCUS STYLES
+   2px ultramarine focus ring with 2px gallery-linen offset + outer umber halo
+   per accessibility.focus_style
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0,85,170,0.15);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   TEXT SELECTION
+   ========================================================================== */
+
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+}
+
+/* ==========================================================================
+   SCROLLBAR (webkit)
+   Warm gallery styling
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sizing);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-umber);
+}
+
+/* ==========================================================================
+   CANVAS TEXTURE OVERLAY
+   Subtle linen grain via SVG noise filter — applied to body::before
+   ========================================================================== */
+
+/* ==========================================================================
+   REDUCED MOTION
+   Honor prefers-reduced-motion unconditionally
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

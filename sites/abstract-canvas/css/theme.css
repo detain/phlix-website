@@ -1,0 +1,758 @@
+/* ==========================================================================
+   THEME.CSS — Abstract Canvas
+   Typography scale, layout containers, immersive page structure
+   Layout archetype: IMMERSIVE
+   ========================================================================== */
+
+/* ==========================================================================
+   TYPOGRAPHY SCALE
+   ========================================================================== */
+
+/* Display — Bebas Neue, for numerals, title cards, poster labels */
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw + 1rem, 8rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* Headline — Cormorant Garamond, dramatic page titles */
+.headline {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+/* Section heading */
+.section-title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 3vw + 0.75rem, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+/* Feature card title */
+.feature-title {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-primary);
+}
+
+/* Body — Lora, long-form reading */
+.body-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.body-small {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-neutral);
+}
+
+/* UI — Inter, buttons, labels, navigation */
+.ui-text {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+}
+
+.ui-small {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-neutral);
+}
+
+.ui-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+}
+
+/* Mono — JetBrains Mono, code, technical readouts */
+.mono-text {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+/* Caption / artist attribution — Cormorant Garamond italic */
+.caption {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-neutral);
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content-container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Full-bleed breakout */
+.full-bleed {
+  width: 100%;
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* ==========================================================================
+   PAGE STRUCTURE — IMMERSIVE ARCHETYPE
+   Full-bleed hero with color-field gradient backdrop, generous breathing room,
+   asymmetric composition, gallery grid sections
+   ========================================================================== */
+
+/* ── HERO ──────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(170deg, rgba(204,34,0,0.12) 0%, transparent 50%),
+    linear-gradient(200deg, rgba(0,85,170,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 50%, rgba(240,237,228,1.0) 0%, rgba(221,216,200,0.0) 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-24) var(--gutter);
+  max-width: calc(var(--content-width) / 2 + 200px);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.hero-headline {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 6vw + 1rem, 5.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
+  line-height: 1.65;
+  color: var(--color-text);
+  max-width: 56ch;
+  margin-bottom: var(--space-8);
+  opacity: 0.85;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Hero decorative color-field block — Rothko-inspired */
+.hero-accent-block {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35%;
+  max-width: 520px;
+  aspect-ratio: 3/4;
+  pointer-events: none;
+}
+
+.hero-accent-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(204,34,0,0.7) 0%, rgba(204,34,0,0.3) 40%, transparent 70%),
+    linear-gradient(200deg, rgba(0,85,170,0.6) 0%, transparent 50%);
+  border-radius: var(--radius-md);
+  opacity: 0.85;
+}
+
+.hero-accent-block::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-sm);
+}
+
+/* ── PITCH ─────────────────────────────────────────────────────────────── */
+
+.pitch {
+  padding: var(--space-24) 0;
+  background: var(--color-bg);
+}
+
+.pitch-header {
+  margin-bottom: var(--space-12);
+}
+
+.pitch-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-6);
+}
+
+.pitch-item {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-secondary);
+}
+
+  .pitch-item-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: var(--color-primary);
+    margin-top: 2px;
+  }
+
+.pitch-item p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* ── FEATURES OVERVIEW ─────────────────────────────────────────────────── */
+
+.features-overview {
+  padding: var(--space-24) 0;
+  background: var(--color-surface);
+}
+
+.features-overview .section-title {
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+.feature-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition:
+    border-color var(--transition-base) var(--ease-gallery),
+    box-shadow var(--transition-base) var(--ease-gallery),
+    transform var(--transition-base) var(--ease-gallery);
+}
+
+.feature-card:hover {
+  border-color: var(--color-secondary);
+  border-top-width: 2px;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.feature-card-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-card h3 {
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.features-more-link {
+  text-align: center;
+}
+
+/* ── CTA BANNER ────────────────────────────────────────────────────────── */
+
+.cta-banner {
+  padding: var(--space-24) 0;
+  background:
+    linear-gradient(170deg, rgba(204,34,0,0.08) 0%, transparent 60%),
+    var(--color-surface-alt);
+  text-align: center;
+}
+
+.cta-banner h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 3vw + 0.75rem, 3rem);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+}
+
+.cta-banner p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--color-text);
+  max-width: 52ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+  opacity: 0.8;
+}
+
+/* ── PAGE HEADER ───────────────────────────────────────────────────────── */
+
+.page-header {
+  padding: var(--space-16) 0 var(--space-12);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.page-header h1 {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw + 0.5rem, 4rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.page-header .lead {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  max-width: 60ch;
+  margin-inline: auto;
+  opacity: 0.8;
+}
+
+/* ── CONTENT SECTION ───────────────────────────────────────────────────── */
+
+.content-section {
+  padding: var(--space-16) 0;
+}
+
+.content-section + .content-section {
+  padding-top: 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+  gap: var(--space-8);
+}
+
+.feature-detail {
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.feature-detail .feature-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-detail h2 {
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-detail p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* ── CLIENT CARDS ──────────────────────────────────────────────────────── */
+
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-6);
+}
+
+.client-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition:
+    border-color var(--transition-base) var(--ease-gallery),
+    box-shadow var(--transition-base) var(--ease-gallery);
+}
+
+.client-card:hover {
+  border-color: var(--color-secondary);
+  border-top-width: 2px;
+  box-shadow: var(--shadow-md);
+}
+
+.client-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.client-card h2 {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  flex: 1;
+}
+
+.client-tagline {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
+}
+
+.client-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.client-highlight {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+}
+
+/* ── STATUS BADGE ──────────────────────────────────────────────────────── */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid currentColor;
+}
+
+.status-stable { color: var(--color-success); }
+.status-beta   { color: var(--color-warning); }
+.status-deprecated { color: var(--color-neutral); }
+
+/* ── DOWNLOAD SECTION ──────────────────────────────────────────────────── */
+
+.download-section {
+  padding: var(--space-24) 0;
+}
+
+.code-block {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  margin: var(--space-6) 0;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+/* ── ECOSYSTEM ──────────────────────────────────────────────────────────── */
+
+.ecosystem-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ecosystem-item {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  align-items: center;
+}
+
+.ecosystem-item-name {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+
+.ecosystem-item-desc {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* ── PLUGINS ────────────────────────────────────────────────────────────── */
+
+.plugin-model {
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-secondary);
+  margin: var(--space-8) 0;
+}
+
+/* ── FAQ ────────────────────────────────────────────────────────────────── */
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.faq-item {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.faq-item dt {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.faq-item dd {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* ── HUB PAGE ───────────────────────────────────────────────────────────── */
+
+.hub-diagram {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+  margin: var(--space-8) 0;
+}
+
+.hub-node {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.hub-node-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-primary);
+  margin: 0 auto var(--space-3);
+}
+
+.hub-node h4 {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.hub-node p {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   ABOUT PAGE — Philosophy & License
+   ========================================================================== */
+
+.about-section {
+  padding: var(--space-12) 0;
+}
+
+.about-section h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.25rem);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+}
+
+.about-section p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+  max-width: 68ch;
+  margin-bottom: var(--space-4);
+  opacity: 0.85;
+}
+
+.about-section p + p {
+  margin-top: var(--space-4);
+}
+
+/* ==========================================================================
+   ENTRANCE ANIMATIONS
+   Organic and imperfect — like paint spreading across canvas
+   ========================================================================== */
+
+@keyframes brushstroke-reveal {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    opacity: 0;
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes color-field-sweep {
+  from {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  to {
+    opacity: 0.85;
+    transform: scaleX(1);
+  }
+}
+
+.animate-reveal {
+  opacity: 0;
+  animation: fade-up 450ms ease-in-out forwards;
+}
+
+.animate-reveal.is-visible {
+  opacity: 1;
+}
+
+/* Staggered entrance for lists/grids */
+.stagger-children > *:nth-child(1)  { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2)  { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3)  { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4)  { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5)  { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6)  { animation-delay: 400ms; }
+.stagger-children > *:nth-child(7)  { animation-delay: 480ms; }
+.stagger-children > *:nth-child(8)  { animation-delay: 560ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

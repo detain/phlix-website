@@ -1,0 +1,255 @@
+/* ==========================================================================
+   BASE.CSS — Celtic Twilight
+   Modern reset, CSS tokens, element defaults, accessibility base
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Colors ── */
+  --color-primary:      #2D6A4F;
+  --color-secondary:    #6B3FA0;
+  --color-tertiary:    #B8860B;
+  --color-bg:           #F4EDD8;
+  --color-surface:      #FAF7EE;
+  --color-surface-alt:  #E8E0F0;
+  --color-text:         #1A1208;
+  --color-border:       #2C2010;
+  --color-success:      #A8DABC;
+  --color-warning:      #D4A827;
+  --color-error:        #8B2020;
+  --color-info:         #2B6CB0;
+  --color-focus:        #C9980A;
+  --color-shadow:       rgba(30, 15, 48, 0.28);
+  --color-overlay:      rgba(13, 8, 32, 0.65);
+
+  /* ── Semantic aliases from kit ── */
+  --color-emerald:      #2D6A4F;
+  --color-amethyst:     #6B3FA0;
+  --color-gold:         #B8860B;
+  --color-vellum:       #F4EDD8;
+  --color-mist:         #FAF7EE;
+  --color-heather:      #E8E0F0;
+  --color-peat:         #2C2010;
+  --color-ink:          #1A1208;
+
+  /* ── Gradients ── */
+  --gradient-dusk:        linear-gradient(160deg, #2D6A4F 0%, #4A2578 50%, #1A0D2E 100%);
+  --gradient-gold-glow:   radial-gradient(circle, rgba(201,152,10,0.45) 0%, rgba(201,152,10,0) 70%);
+  --gradient-mist-rise:   linear-gradient(0deg, rgba(244,237,216,0) 0%, rgba(250,247,238,0.9) 100%);
+
+  /* ── Spacing Scale ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ── Corner Radius ── */
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   18px;
+  --radius-xl:   28px;
+  --radius-pill: 999px;
+
+  /* ── Typography ── */
+  --font-headline: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-display:  'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  --font-body:     'EB Garamond', Garamond, Palatino, Georgia, serif;
+  --font-ui:       'Nunito', 'Open Sans', system-ui, sans-serif;
+  --font-mono:     'DM Mono', 'Fira Mono', 'Courier New', monospace;
+
+  --tracking-headline: 0.06em;
+  --tracking-display:   0.08em;
+  --tracking-body:     0.01em;
+  --tracking-ui:       0.02em;
+
+  --lh-headline: 1.1;
+  --lh-display:  1.0;
+  --lh-body:     1.7;
+  --lh-ui:       1.35;
+
+  /* ── Shadows (twilight-purple tinted) ── */
+  --shadow-sm: 0 1px 3px rgba(30, 15, 48, 0.14);
+  --shadow-md: 0 4px 12px rgba(30, 15, 48, 0.20);
+  --shadow-lg: 0 10px 28px rgba(30, 15, 48, 0.28);
+
+  /* ── Layout ── */
+  --max-width: 1320px;
+  --gutter:    var(--space-6);
+}
+
+/* ── Font-face declarations — self-hosted WOFF2 ── */
+@font-face {
+  font-family: 'Cinzel';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnTYrvDE5ZdqU.woff2') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnTYrvDE5ZdqU.woff2') format('woff2');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/ebgaramond/v26/k3kXo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.woff2') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/ebgaramond/v26/k3kXo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.woff2') format('woff2');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/ebgaramond/v26/k3kXo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.woff2') format('woff2');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshdTQ3j77e.woff2') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshdTQ3j77e.woff2') format('woff2');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshdTQ3j77e.woff2') format('woff2');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/dmmono/v14/aFTU7PB1QTsUX8KYvrumxqs.woff2') format('woff2');
+  font-weight: 400;
+}
+
+/* ── Base elements ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  letter-spacing: var(--tracking-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-ui);
+  border: none;
+  background: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-text);
+}
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-ui);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Focus styles ── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Text selection ── */
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-mist);
+}
+
+/* ── Scrollbar (webkit) ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-peat);
+  border-radius: var(--radius-pill);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
