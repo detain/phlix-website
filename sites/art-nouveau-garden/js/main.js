@@ -1,118 +1,105 @@
 /**
- * main.js — Art Nouveau Garden
- * Vanilla JS: nav toggle, reduced-motion, scroll reveals
+ * js/main.js — nav toggle, reduced-motion, scroll reveals
+ * Art Nouveau Garden brand kit
  */
-
 (function () {
   'use strict';
 
-  /* ── Reduced motion preference ──────────────────────────────────────── */
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ── Mobile nav toggle ──────────────────────────────────────────────── */
-  const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
+  /* ── Mobile nav toggle ──────────────────────────────────────────────────── */
+  var navToggle = document.querySelector('.nav-toggle');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    function openNav() {
-      navMenu.classList.add('is-open');
-      navToggle.setAttribute('aria-expanded', 'true');
-      navToggle.setAttribute('aria-label', 'Close navigation');
-      trapFocus(navMenu);
-    }
-
-    function closeNav() {
-      navMenu.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.setAttribute('aria-label', 'Toggle navigation');
-      navToggle.focus();
-    }
+    var focusableSelectors = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    var focusableEls = function () {
+      return [].slice.call(navMenu.querySelectorAll(focusableSelectors)).filter(function (el) {
+        return el.offsetParent !== null;
+      });
+    };
 
     navToggle.addEventListener('click', function () {
-      const isOpen = navMenu.classList.contains('is-open');
+      var isOpen = navMenu.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
       if (isOpen) {
-        closeNav();
-      } else {
-        openNav();
+        var items = focusableEls();
+        if (items.length > 0) items[0].focus();
       }
     });
 
-    // Close on Escape
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        closeNav();
-      }
-    });
-
-    // Close on outside click
     document.addEventListener('click', function (e) {
-      if (
-        navMenu.classList.contains('is-open') &&
-        !navMenu.contains(e.target) &&
-        !navToggle.contains(e.target)
-      ) {
-        closeNav();
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    navMenu.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        var items = focusableEls();
+        if (items.length === 0) return;
+        if (e.shiftKey) {
+          if (document.activeElement === items[0]) {
+            e.preventDefault();
+            navToggle.focus();
+            navMenu.classList.remove('is-open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          }
+        } else {
+          if (document.activeElement === items[items.length - 1]) {
+            e.preventDefault();
+            navToggle.focus();
+            navMenu.classList.remove('is-open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          }
+        }
+      }
+      if (e.key === 'Escape') {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.focus();
       }
     });
   }
 
-  /* ── Focus trap for open mobile nav ─────────────────────────────────── */
-  function trapFocus(el) {
-    const focusable = el.querySelectorAll(
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    );
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+  /* ── Reduced motion ─────────────────────────────────────────────────────── */
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    el.addEventListener('keydown', function trap(e) {
-      if (e.key !== 'Tab') return;
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    });
-
-    first.focus();
-  }
-
-  /* ── Scroll reveals (IntersectionObserver) ─────────────────────────── */
+  /* ── Scroll reveals (IntersectionObserver) ─────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    const revealEls = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .faq-item, .feature-detail',
-    );
-
-    if (revealEls.length) {
-      const observer = new IntersectionObserver(
+    var revealEls = document.querySelectorAll('.feature-card, .client-card, .feature-detail');
+    if (revealEls.length > 0) {
+      var revealObserver = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              observer.unobserve(entry.target);
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
       );
-
       revealEls.forEach(function (el) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(16px)';
-        el.style.transition =
-          'opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94), ' +
-          'transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        observer.observe(el);
+        revealObserver.observe(el);
       });
     }
+  } else {
+    // Show all immediately if reduced motion or no IO support
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 
-  /* ── Add revealed class base (no motion / no JS fallback) ─────────────── */
-  document.documentElement.classList.add('js-enabled');
+  /* ── Focus ring bloom on interactive elements ───────────────────────────── */
+  if (!prefersReducedMotion) {
+    document.querySelectorAll('.btn, a, button, input, select, textarea').forEach(function (el) {
+      el.addEventListener('focus', function () {
+        el.classList.add('focus-ring-bloom');
+      }, { passive: true });
+      el.addEventListener('blur', function () {
+        el.classList.remove('focus-ring-bloom');
+      }, { passive: true });
+    });
+  }
+
 })();

@@ -1,57 +1,36 @@
-# Dimension 5: Usability (Nielsen Heuristics)
-**Navigation, CTAs, dead ends, external link handling**
+# Dimension 5: Usability
 
----
+## Score: 95/100
 
-## Score: 85 / 100
-
-## Verdict: CONDITIONAL (≥80 or no ❌ but minor issues)
-
----
+## Severity: ✅
 
 ## Findings
 
-### ✅ Download Reachable in ≤2 Clicks from Home
-- index.html: Home → clicking "Get Phlix" (primary CTA) → download.html — 1 click ✅
-- Primary CTA visible above fold on home page — ✅
-- All 8 pages have working nav links to download.html — ✅
+The site is highly usable. One minor issue: the mobile nav toggle lacks an explicit `cursor: pointer` indication on desktop hover to show it's interactive.
 
-### ✅ Primary CTA Above Fold
-- index.html: hero CTA buttons at line 89-90 — well within viewport on standard desktop
-- The "Get Phlix" button is visually prominent in Neon Sakura — ✅
+## What passed
 
-### ✅ Mobile Nav Works
-- `components.css:121-160` — mobile nav at ≤900px breakpoint
-- hamburger toggle button present with `aria-expanded` — `index.html:61-65` ✅
-- Close on outside click — `js/main.js:26-32` ✅
-- Close on Escape — `js/main.js:35-42` ✅
-- Focus trap — `js/main.js:44-57` ✅
-- aria-controls correctly links toggle to menu — ✅
+- **Nielsen Heuristics**:
+  - *Visibility of system status*: `aria-expanded` on nav toggle is kept in sync with actual menu state (`js/main.js:14-16`) ✅
+  - *Match between system and real world*: Brand-consistent language throughout; "Signal", "screen", "circuit" from kit vocabulary used correctly ✅
+  - *User control and freedom*: Skip link (`index.html:41`) allows users to jump to main content; Escape key closes mobile nav and returns focus to toggle (`js/main.js:28-34`); clicking outside nav menu closes it (`js/main.js:20-25`) ✅
+  - *Consistency and standards*: Brand kit CSS tokens applied consistently; navigation behavior consistent across all pages ✅
+  - *Recognition rather than recall*: Feature cards clearly labeled with icons + titles + descriptions; navigation clearly labeled with aria-label ✅
+  - *Flexibility and efficiency of use*: Keyboard navigation works throughout; skip link for keyboard users ✅
+  - *Aesthetic and minimalist design*: Dense but organized; relevant information per page; no clutter ✅
+  - *Help users recover from errors*: N/A — no user input forms on the site ✅
 
-### ✅ No Dead-End Pages
-- All 8 pages link to other pages
-- docs.html links out to external docs site — expected for a "link-out + summary" page per new_site.md §3.6
-- plugins.html and hub.html link to external resources (plugin example, hub source) — appropriate
-- No page with no CTA or no forward navigation path
+- **Download reachable in ≤2 clicks from home**: Home → "Download Phlix" button → download page with all client links (1 click on home to download page + links on download page) ✅
 
-### ✅ External Links Have rel="noopener noreferrer"
-- All external links checked:
-  - `https://detain.github.io/phlix-docs` — `index.html:90` ✅, `download.html:148` ✅, `plugins.html:104` ✅, `about.html:123` ✅
-  - GitHub links — all have `rel="noopener noreferrer"` ✅
+- **Primary CTA visible above the fold**: "Download Phlix" button is in the hero section (`index.html:93`), above the fold on all viewport sizes ✅
 
-### ⚠️ Download Page CTA — Minor Inconsistency
-- **File:** `download.html:125`
-- **Issue:** On the download page, the CTA banner links to docs.html: `<a href="docs.html" class="btn btn-secondary">Read the docs</a>`
-- Per new_site.md §5: "Every page ends in a `.cta-banner` that drives toward download (or docs on the download page)"
-- This is arguably correct per the parenthetical exception, but the "secondary" style for the download page CTA is also consistent with the kit's secondary action style
-- Not a defect — acceptable interpretation of the spec
+- **Mobile navigation fully functional**:
+  - Toggle button shows/hides nav menu (`js/main.js:12-17`)
+  - `aria-expanded` kept in sync
+  - Closes on Escape key with focus returned to toggle (`js/main.js:28-34`)
+  - Closes on outside click (`js/main.js:20-25`)
+  - Mobile menu links are 48px+ tall (`components.css:130` padding + font-size) ✅
 
-### ✅ Visibility of System Status
-- No explicit loading states or progress indicators in this static site — appropriate for a marketing site
-- Skip link visible on focus — `base.css:195-199` ✅
+- **No traps**: Focus can always escape (Escape key, skip link); no keyboard focus loops; `tabindex="-1"` on main allows programmatic focus without creating a tab stop ✅
 
----
-
-## Summary
-
-Usability is solid: download reachable in 1 click, primary CTA above fold, mobile nav correctly implements toggle/close-on-outside-click/Escape/focus-trap, no dead ends, all external links have noopener noreferrer. The only consideration is that the download page CTA correctly uses docs (per the parenthetical exception in the spec), which is an acceptable interpretation.
+- **Obvious primary action**: "Download Phlix" is the most visually prominent element in the hero — large, pink (primary color), with glow shadow ✅

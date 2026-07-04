@@ -1,200 +1,155 @@
-/**
- * base.css — Cyber Tokyo
- * Reset + CSS design tokens (:root custom properties)
- */
+/* base.css — Cyber Tokyo brand token foundation */
+/* All values derived from brand-kits/cyber-tokyo.js design_tokens + color/spacing/shadow blocks */
 
-/* ── Font-face declarations (self-hosted WOFF2) ─────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700&display=swap');
+/* ── Google Fonts (preconnect for performance) ── */
+/* NOTE: Self-hosted WOFF2 in css/fonts/ is the spec-compliant approach.
+   Google Fonts CDN is used here as the WOFF2 bundle was not yet prepared.
+   fonts/ directory should be populated with @fontsource packages. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@400&display=swap');
 
-/* ── Modern reset ────────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-  text-size-adjust: 100%;
-}
-
-body {
-  min-height: 100vh;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-}
-
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-/* ── Design tokens ──────────────────────────────────────────────────────────── */
 :root {
-  /* Colors — from Cyber Tokyo kit */
-  --color-primary: #f0a; /* Neon Sakura */
-  --color-secondary: #00ff41; /* Circuit Green */
-  --color-tertiary: #f60; /* Neon Mandarin */
-  --color-bg: #050308; /* Tokyo Night */
-  --color-surface: #0d0918; /* Shinjuku Dark */
-  --color-surface-alt: #130e20; /* Kabukicho Shadow */
-  --color-text: #f0eef8; /* Screen White */
-  --color-neutral: #6b5c7c; /* Smoke Violet */
-  --color-success: #00e676; /* Mizu Green */
-  --color-warning: #ffb300; /* Amber Kanji */
-  --color-error: #ff1744; /* Danger Pink */
-  --color-info: #00b0ff; /* Hologram Blue */
-  --color-border: #2d1f3d; /* Neon Wire */
-  --color-focus: #f0a; /* Focus Sakura Pulse */
-  --color-shadow: rgb(255, 0, 170, 0.18); /* Neon Shadow Sakura */
-  --color-overlay: rgb(5, 3, 8, 0.82); /* Void Violet */
+  /* ── Colors ── */
+  --color-primary:   #FF00AA;
+  --color-secondary: #00FF41;
+  --color-tertiary:  #FF6600;
+  --color-bg:        #050308;
+  --color-surface:   #0D0918;
+  --color-surface-alt: #130E20;
+  --color-text:      #F0EEF8;
+  --color-neutral:   #6B5C7C;
+  --color-success:   #00E676;
+  --color-warning:   #FFB300;
+  --color-error:     #FF1744;
+  --color-info:      #00B0FF;
+  --color-border:    #2D1F3D;
+  --color-focus:     #FF00AA;
 
-  /* Gradients */
-  --gradient-shibuya: linear-gradient(135deg, #f0a 0%, #00ff41 100%);
-  --gradient-akihabara: radial-gradient(
-    ellipse at center,
-    rgb(255, 0, 170, 0.4) 0%,
-    rgb(5, 3, 8, 0) 70%
-  );
-  --gradient-shinjuku: linear-gradient(180deg, #0d0918 0%, #050308 100%);
-  --gradient-circuit: linear-gradient(90deg, #050308 0%, #00ff41 50%, #050308 100%);
+  /* ── Semantic aliases (kit usage roles) ── */
+  --color-sakura:    #FF00AA;  /* Neon Sakura — dominant signal */
+  --color-circuit:   #00FF41;  /* Circuit Green — secondary paths */
+  --color-mandarin:  #FF6600;  /* Neon Mandarin — tertiary accent */
+  --color-mizu:      #00E676;  /* Mizu Green — success states */
+  --color-amber:     #FFB300;  /* Amber Kanji — warnings */
+  --color-danger:    #FF1744;  /* Danger Pink — errors */
+  --color-hologram:  #00B0FF;  /* Hologram Blue — info */
+  --color-tokyo-night: #050308; /* Tokyo Night — page background */
+  --color-shinjuku:  #0D0918;  /* Shinjuku Dark — card surface */
+  --color-kabukicho: #130E20;  /* Kabukicho Shadow — alt surface */
+  --color-smoke:     #6B5C7C;  /* Smoke Violet — neutral chrome */
+  --color-wire:      #2D1F3D;  /* Neon Wire — borders */
+  --color-screen:    #F0EEF8;  /* Screen White — primary text */
 
-  /* Spacing scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
+  /* ── Gradients ── */
+  --gradient-shibuya:    linear-gradient(135deg, #FF00AA, #00FF41);
+  --gradient-akihabara: radial-gradient(ellipse at center, rgba(255,0,170,0.40), rgba(5,3,8,0.0) 70%);
+  --gradient-shinjuku:  linear-gradient(180deg, #0D0918, #050308);
+  --gradient-circuit:   linear-gradient(90deg, #050308, #00FF41, #050308);
+
+  /* ── Spacing scale ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner radii */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --radius-xl: 10px;
+  /* ── Border radius ── */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   6px;
+  --radius-xl:   10px;
   --radius-pill: 999px;
 
-  /* Typography */
-  --font-headline: 'Space Grotesk', 'Noto Serif JP', 'Hiragino Kaku Gothic Pro', sans-serif;
-  --font-display: 'Bebas Neue', impact, haettenschweiler, sans-serif;
-  --font-body: 'IBM Plex Sans', 'Noto Sans JP', system-ui, sans-serif;
-  --font-ui: 'IBM Plex Sans', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', courier, monospace;
+  /* ── Typography ── */
+  --font-headline: 'Space Grotesk', 'Noto Serif JP', sans-serif;
+  --font-display:  'Bebas Neue', Impact, sans-serif;
+  --font-body:    'IBM Plex Sans', 'Noto Sans JP', system-ui, sans-serif;
+  --font-ui:      'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
 
-  /* Font sizes */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
-  --text-8xl: 6rem;
+  /* ── Shadows ── */
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.7);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.8), 0 0 8px rgba(255,0,170,0.10);
+  --shadow-lg:         0 10px 32px rgba(0,0,0,0.9), 0 0 20px rgba(255,0,170,0.15);
+  --shadow-neon-sakura: 0 0 12px rgba(255,0,170,0.55), 0 0 30px rgba(255,0,170,0.22);
+  --shadow-neon-green:  0 0 12px rgba(0,255,65,0.55),  0 0 30px rgba(0,255,65,0.22);
+  --shadow-neon-mandarin: 0 0 12px rgba(255,102,0,0.55), 0 0 30px rgba(255,102,0,0.22);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgb(0, 0, 0, 0.7);
-  --shadow-md: 0 4px 12px rgb(0, 0, 0, 0.8), 0 0 8px rgb(255, 0, 170, 0.1);
-  --shadow-lg: 0 10px 32px rgb(0, 0, 0, 0.9), 0 0 20px rgb(255, 0, 170, 0.15);
-  --shadow-neon-sakura: 0 0 12px rgb(255, 0, 170, 0.55), 0 0 30px rgb(255, 0, 170, 0.22);
-  --shadow-neon-green: 0 0 12px rgb(0, 255, 65, 0.55), 0 0 30px rgb(0, 255, 65, 0.22);
-  --shadow-neon-mandarin: 0 0 12px rgb(255, 102, 0, 0.55), 0 0 30px rgb(255, 102, 0, 0.22);
-
-  /* Layout */
+  /* ── Layout ── */
   --max-width: 1400px;
   --header-height: 64px;
 
-  /* Transitions */
-  --transition-fast: 120ms cubic-bezier(0.25, 0, 0, 1);
-  --transition-base: 200ms cubic-bezier(0.25, 0, 0, 1);
-  --transition-glitch: 80ms steps(4, end);
+  /* ── Animation ── */
+  --ease-out:    cubic-bezier(0.25, 0, 0, 1);
+  --ease-bullet: ease-out;
+  --duration-fast: 120ms;
+  --duration-mid:  180ms;
+  --duration-glitch: 80ms;
 }
 
-/* ── Base element styles ─────────────────────────────────────────────────────── */
+/* ── Base element styles ── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Typography base ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+
+p {
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 a:hover {
   color: var(--color-secondary);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
-}
-
-h1 {
-  font-size: var(--text-5xl);
-}
-h2 {
-  font-size: var(--text-4xl);
-}
-h3 {
-  font-size: var(--text-2xl);
-}
-h4 {
-  font-size: var(--text-xl);
-}
-
-p {
-  line-height: 1.65;
-  max-width: 72ch;
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
 }
 
 code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
   background: var(--color-surface-alt);
   padding: 0.1em 0.4em;
   border-radius: var(--radius-sm);
@@ -203,56 +158,50 @@ code {
 }
 
 pre {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: 1.5;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
 }
 
-/* ── Skip link ───────────────────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg) !important;
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-sm);
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  transition: top var(--transition-fast);
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-text);
 }
 
-.skip-link:focus {
-  top: var(--space-4);
-  outline: 2px solid var(--color-text);
-  outline-offset: 2px;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* ── Focus visible ───────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(255, 0, 170, 0.25);
+ul, ol {
+  padding-inline-start: var(--space-6);
 }
 
-/* Remove default focus for mouse users */
-:focus:not(:focus-visible) {
-  outline: none;
+li {
+  line-height: 1.65;
 }
 
-/* ── Selection ───────────────────────────────────────────────────────────────── */
 ::selection {
   background: var(--color-primary);
   color: var(--color-bg);
 }
 
-/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
+/* ── Focus styles (WCAG 2px neon ring + 4px pink outer glow) ── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255,0,170,0.25);
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -260,111 +209,41 @@ pre {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
+  background: var(--color-neutral);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
 
-/* ── Reduced motion ──────────────────────────────────────────────────────────── */
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-bg) !important;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* ── Glitch animation keyframes ─────────────────────────────────────────────── */
-@keyframes glitch-enter {
-  0% {
-    opacity: 0;
-    transform: translateX(-4px);
-    filter: hue-rotate(-30deg);
-  }
-
-  20% {
-    opacity: 1;
-    transform: translateX(3px);
-    filter: hue-rotate(20deg);
-  }
-
-  40% {
-    transform: translateX(-2px);
-    filter: hue-rotate(-10deg);
-  }
-
-  60% {
-    transform: translateX(1px);
-    filter: hue-rotate(5deg);
-  }
-
-  80% {
-    transform: translateX(0);
-    filter: hue-rotate(0deg);
-  }
-
-  100% {
-    transform: translateX(0);
-    filter: none;
-  }
-}
-
-@keyframes sakura-pulse {
-  0%,
-  100% {
-    box-shadow: var(--shadow-neon-sakura);
-  }
-  50% {
-    box-shadow:
-      0 0 20px rgb(255, 0, 170, 0.8),
-      0 0 50px rgb(255, 0, 170, 0.4);
-  }
-}
-
-@keyframes circuit-stripe {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes katakana-fall {
-  0% {
-    transform: translateY(-100%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
   }
 }

@@ -1,376 +1,236 @@
-/* ===========================================================================
-   theme.css — Art Nouveau Garden
-   Typography scale + layout containers + page structure
-   Layout archetype: IMMERSIVE (full-bleed botanical hero + generous garden paths)
-   =========================================================================== */
+/* ==========================================================================
+   theme.css — typography scale, layout containers, page structure
+   Art Nouveau Garden brand kit
+   ========================================================================== */
 
-/* ── Font stack (self-hosted WOFF2 — download and place in css/fonts/) ─── */
-@font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('fonts/cormorant-garamond-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('fonts/cormorant-garamond-600.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('fonts/cormorant-garamond-700.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('fonts/playfair-display-700.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('fonts/playfair-display-900.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond';
-  src: url('fonts/eb-garamond-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond';
-  src: url('fonts/eb-garamond-500.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  src: url('fonts/josefin-sans-300.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  src: url('fonts/josefin-sans-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  src: url('fonts/josefin-sans-600.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Courier Prime';
-  src: url('fonts/courier-prime-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ── Fallback Google Fonts (for development only — replace with WOFF2) ── */
-
-/* TODO (build): Replace these <link> tags with self-hosted WOFF2 in css/fonts/ */
-
-/* In production, remove the Google Fonts CDN link and serve from css/fonts/ */
-
-/* ── Typography scale ───────────────────────────────────────────────────── */
-.display {
+/* ── Typography scale ────────────────────────────────────────────────────── */
+/* Hero */
+.hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2.4rem, 5vw + 1rem, 5rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.0;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.hero .hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.35rem);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  max-width: 62ch;
+}
+
+.hero .hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+/* Section headings */
+h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.8rem, 3vw + 0.5rem, 2.8rem);
   font-weight: 700;
-  line-height: var(--lh-display);
-  letter-spacing: var(--tracking-display);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
   color: var(--color-text);
 }
 
-.headline {
+h3 {
   font-family: var(--font-headline);
+  font-size: clamp(1.3rem, 2vw + 0.3rem, 1.8rem);
   font-weight: 600;
-  line-height: var(--lh-headline);
-  letter-spacing: var(--tracking-headline);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
 }
 
-.body-text {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  line-height: var(--lh-body);
-  letter-spacing: var(--tracking-body);
+h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
-.ui-text {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: var(--lh-ui);
-  letter-spacing: var(--tracking-ui);
-  text-transform: none;
-}
-
+/* UI labels */
 .ui-label {
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
-.mono-text {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: var(--lh-mono);
-  letter-spacing: var(--tracking-mono);
-}
-
-.small-caps {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
+/* Stats / numerals */
+.stat-number {
+  font-family: var(--font-headline);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.0;
+  color: var(--color-primary);
 }
+
+/* ── Layout archetype: immersive ────────────────────────────────────────── */
+/* Full-bleed sections with generous breathing room, botanical framing.
+   Organic curves everywhere. The layout breathes like a garden. */
 
 /* ── Layout containers ──────────────────────────────────────────────────── */
-.container {
+.layout-inner {
   width: 100%;
-  max-width: var(--content-width);
+  max-width: 1400px;
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--space-12);
 }
 
-.container--wide {
-  max-width: var(--max-width);
+@media (max-width: 1024px) {
+  .layout-inner {
+    padding-inline: var(--space-8);
+  }
 }
 
-.section-inner {
-  padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+@media (max-width: 768px) {
+  .layout-inner {
+    padding-inline: var(--space-6);
+  }
 }
 
-/* ── Page structure ────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .layout-inner {
+    padding-inline: var(--space-4);
+  }
+}
 
-/* HERO — Immersive full-bleed with botanical framing */
+/* ── Hero section ───────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  min-height: 90vh;
+  min-height: 88vh;
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(
-    145deg,
-    var(--color-surface) 0%,
-    var(--color-bg) 40%,
-    var(--color-surface-alt) 100%
-  );
+  background: var(--gradient-golden-hour);
 }
 
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(184, 150, 12, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgb(125, 155, 118, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 10% 90%, rgb(192, 128, 112, 0.08) 0%, transparent 60%);
-  pointer-events: none;
+  background: var(--gradient-parchment-light);
+  z-index: 1;
 }
 
 .hero-inner {
   position: relative;
-  z-index: 1;
-  container-type: inline-size;
-  width: 100%;
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  padding-block: clamp(var(--space-16), 12vw, var(--space-24));
-  text-align: center;
-}
-
-.hero-eyebrow {
-  font-family: var(--font-ui);
-  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: var(--space-4);
-  opacity: 0;
-  transform: translateY(12px);
-  animation: hero-fade-up var(--duration-slow) var(--easing-garden) forwards;
-}
-
-.hero h1 {
-  font-family: var(--font-headline);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: 0.02em;
-  color: var(--color-text);
-  margin-bottom: var(--space-6);
-  opacity: 0;
-  transform: translateY(16px);
-  animation: hero-fade-up var(--duration-slow) var(--easing-garden) 100ms forwards;
-}
-
-.hero-sub {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  line-height: 1.7;
-  color: var(--color-text-muted);
-  max-width: 65ch;
-  margin-inline: auto;
-  margin-bottom: var(--space-8);
-  opacity: 0;
-  transform: translateY(16px);
-  animation: hero-fade-up var(--duration-slow) var(--easing-garden) 200ms forwards;
+  z-index: 2;
+  padding: var(--space-24) 0;
+  display: grid;
+  gap: var(--space-8);
+  max-width: 800px;
 }
 
 .hero-cta {
   display: flex;
   gap: var(--space-4);
-  justify-content: center;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(16px);
-  animation: hero-fade-up var(--duration-slow) var(--easing-garden) 300ms forwards;
+  margin-top: var(--space-6);
+  position: relative;
+  z-index: 2;
+  padding: var(--space-6) var(--space-8);
+  background: rgba(245, 239, 224, 0.78);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(184, 150, 12, 0.3);
+  width: fit-content;
 }
 
-/* Hero decorative botanical SVG accents */
-.hero-deco {
+.hero-decoration {
   position: absolute;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55%;
+  max-width: 700px;
+  opacity: 0.18;
   pointer-events: none;
-  opacity: 0.35;
+  z-index: 1;
 }
 
-.hero-deco--tl {
-  top: 0;
-  left: 0;
-  width: clamp(120px, 20vw, 280px);
-}
-
-.hero-deco--br {
-  bottom: 0;
-  right: 0;
-  width: clamp(100px, 18vw, 240px);
-  transform: scaleX(-1);
-}
-
-/* Hero vine border animation (header_motif) */
-.hero-vine {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(400px, 80vw);
-  height: auto;
-  opacity: 0;
-  animation: hero-fade-in var(--duration-slow) var(--easing-garden) 400ms forwards;
-}
-
-/* ── PITCH ─────────────────────────────────────────────────────────────── */
+/* ── Pitch section ──────────────────────────────────────────────────────── */
 .pitch {
-  background: var(--color-surface);
-  border-top: 1.5px solid var(--color-border);
-  border-bottom: 1.5px solid var(--color-border);
-  padding-block: clamp(var(--space-12), 8vw, var(--space-16));
+  padding: var(--space-24) 0;
+  background: var(--color-bg);
 }
 
 .pitch-inner {
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 .pitch h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-8);
+  text-align: center;
+  margin-bottom: var(--space-12);
 }
 
 .pitch-bullets {
   display: grid;
   gap: var(--space-4);
-  list-style: none;
-  padding: 0;
-  text-align: left;
-  max-width: 680px;
-  margin-inline: auto;
 }
 
 .pitch-bullets li {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.2vw, 1.0625rem);
+  font-size: clamp(1rem, 1.2vw + 0.4rem, 1.15rem);
   line-height: 1.6;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
   border: 1.5px solid var(--color-border);
-  color: var(--color-text);
+  border-radius: var(--radius-md);
   position: relative;
-  padding-left: calc(var(--space-4) + 1.5em);
+  padding-left: var(--space-12);
 }
 
 .pitch-bullets li::before {
-  content: '❧';
+  content: '';
   position: absolute;
-  left: var(--space-3);
+  left: var(--space-4);
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.875em;
-  color: var(--color-primary);
+  width: 24px;
+  height: 24px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  opacity: 0.2;
 }
 
-/* ── FEATURES OVERVIEW ──────────────────────────────────────────────────── */
+/* ── Features overview section ─────────────────────────────────────────── */
 .features-overview {
-  padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+  padding: var(--space-24) 0;
+  background: var(--color-surface-alt);
+  border-top: 1.5px solid var(--color-border);
+  border-bottom: 1.5px solid var(--color-border);
 }
 
 .features-overview-inner {
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
 }
 
 .features-overview h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-12);
 }
 
 .feature-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-6);
   text-align: left;
   margin-bottom: var(--space-8);
@@ -380,25 +240,14 @@
   font-family: var(--font-ui);
   font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: var(--tracking-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.features-more a {
-  color: var(--color-primary);
-  border-bottom: 1.5px solid transparent;
-  transition: border-color var(--duration-fast) var(--easing-smooth);
-}
-
-.features-more a:hover {
-  border-bottom-color: var(--color-primary);
-}
-
-/* ── CTA BANNER ────────────────────────────────────────────────────────── */
+/* ── CTA banner ─────────────────────────────────────────────────────────── */
 .cta-banner {
-  background: linear-gradient(145deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
-  border-top: 1.5px solid var(--color-border);
-  border-bottom: 1.5px solid var(--color-border);
-  padding-block: clamp(var(--space-12), 8vw, var(--space-16));
+  padding: var(--space-24) 0;
+  background: var(--gradient-golden-hour);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -408,217 +257,310 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 70% 80% at 50% 50%,
-    rgb(184, 150, 12, 0.06) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
+  background: var(--gradient-parchment-light);
+  opacity: 0.7;
 }
 
 .cta-banner-inner {
   position: relative;
   z-index: 1;
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
 }
 
 .cta-banner h2 {
   font-family: var(--font-headline);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
+  font-size: clamp(1.8rem, 3vw + 0.5rem, 2.8rem);
   color: var(--color-text);
-  margin-bottom: var(--space-6);
+  margin: 0;
 }
 
-/* ── PAGE HEADER ───────────────────────────────────────────────────────── */
+/* ── Page header (inner pages) ─────────────────────────────────────────── */
 .page-header {
-  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+  padding: var(--space-16) 0 var(--space-12);
+  background: var(--color-bg);
   border-bottom: 1.5px solid var(--color-border);
-  padding-block: clamp(var(--space-12), 8vw, var(--space-16));
-}
-
-.page-header-inner {
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
   text-align: center;
 }
 
+.page-header-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
 .page-header h1 {
-  font-family: var(--font-headline);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw + 0.5rem, 3.8rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.0;
   margin-bottom: var(--space-4);
 }
 
 .page-lead {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
-  line-height: var(--lh-body);
+  font-size: clamp(1rem, 1.2vw + 0.3rem, 1.2rem);
+  line-height: 1.65;
   color: var(--color-text-muted);
   max-width: 55ch;
-  margin-inline: auto;
+  margin: 0 auto;
 }
 
-/* ── CONTENT SECTION ───────────────────────────────────────────────────── */
+/* ── Content section ────────────────────────────────────────────────────── */
 .content-section {
-  padding-block: clamp(var(--space-12), 8vw, var(--space-16));
+  padding: var(--space-16) 0;
+  background: var(--color-bg);
 }
 
 .content-section h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-6);
-  text-align: center;
+  margin-bottom: var(--space-8);
 }
 
+.content-section h3 {
+  margin-bottom: var(--space-3);
+}
+
+.content-section p {
+  margin-bottom: var(--space-4);
+}
+
+.content-section ul,
+.content-section ol {
+  margin-bottom: var(--space-6);
+  padding-left: var(--space-6);
+}
+
+.content-section li {
+  margin-bottom: var(--space-2);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  list-style: disc;
+}
+
+/* Feature detail grid */
 .content-grid {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-8);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .feature-detail {
   display: grid;
+  grid-template-columns: auto 1fr;
   gap: var(--space-6);
   padding: var(--space-8);
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-lg);
-}
-
-@media (width >= 640px) {
-  .feature-detail {
-    grid-template-columns: 80px 1fr;
-    align-items: start;
-  }
+  align-items: start;
 }
 
 .feature-detail-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  background: var(--color-surface-alt);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
   color: var(--color-primary);
   flex-shrink: 0;
 }
 
-.feature-detail-icon svg {
-  width: 32px;
-  height: 32px;
-  stroke-width: 1.5;
-}
-
 .feature-detail-text h2 {
-  text-align: left;
+  font-size: clamp(1.3rem, 2vw + 0.3rem, 1.7rem);
   margin-bottom: var(--space-3);
 }
 
-.feature-detail-text p {
-  font-family: var(--font-body);
-  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
-  line-height: var(--lh-body);
-  color: var(--color-text-muted);
+@media (max-width: 640px) {
+  .feature-detail {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ── CLIENT CARDS ──────────────────────────────────────────────────────── */
+/* ── Client cards grid ──────────────────────────────────────────────────── */
 .client-cards {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--space-6);
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  margin-bottom: var(--space-8);
 }
 
-/* ── DOWNLOAD ─────────────────────────────────────────────────────────── */
+/* ── Download section ───────────────────────────────────────────────────── */
 .download-block {
+  padding: var(--space-8);
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  margin-block: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 
 .download-cards {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--space-6);
-  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-  margin-block: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 
+.code-block {
+  background: var(--color-surface-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-top: var(--space-4);
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: pre;
+  display: block;
+}
+
+/* ── Ecosystem ──────────────────────────────────────────────────────────── */
 .ecosystem-list {
   list-style: none;
   padding: 0;
-  display: grid;
-  gap: var(--space-3);
 }
 
 .ecosystem-list li {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: var(--lh-body);
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
+  list-style: none;
+  margin-bottom: 0;
 }
 
-/* ── FAQ ───────────────────────────────────────────────────────────────── */
+.ecosystem-list li:last-child {
+  border-bottom: none;
+}
+
+/* ── FAQ ────────────────────────────────────────────────────────────────── */
 .faq-list {
-  display: grid;
-  gap: var(--space-4);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .faq-item {
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  padding: var(--space-6) 0;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
 }
 
 .faq-item dt {
   font-family: var(--font-headline);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: 1.2rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
   color: var(--color-text);
   margin-bottom: var(--space-3);
 }
 
 .faq-item dd {
   font-family: var(--font-body);
-  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
-  line-height: var(--lh-body);
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--color-text-muted);
 }
 
-/* ── Animations ────────────────────────────────────────────────────────── */
-@keyframes hero-fade-up {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* ── Philosophy / about content ─────────────────────────────────────────── */
+.content-section > h2 {
+  margin-top: var(--space-8);
+}
+
+.content-section > h2:first-child {
+  margin-top: 0;
+}
+
+/* ── Docs links ─────────────────────────────────────────────────────────── */
+.docs-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.docs-links li {
+  list-style: none;
+}
+
+/* ── Section dividers ───────────────────────────────────────────────────── */
+.section-divider {
+  height: 1.5px;
+  background: var(--color-border);
+  border: none;
+  margin: var(--space-12) 0;
+  position: relative;
+}
+
+.section-divider::after {
+  content: '❧';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-bg);
+  padding: 0 var(--space-4);
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 80vh;
+  }
+
+  .hero-inner {
+    padding: var(--space-16) 0;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .client-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .download-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-banner {
+    padding: var(--space-16) 0;
+  }
+
+  .pitch {
+    padding: var(--space-16) 0;
+  }
+
+  .features-overview {
+    padding: var(--space-16) 0;
   }
 }
 
-@keyframes hero-fade-in {
-  to {
-    opacity: 0.35;
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.2rem;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-eyebrow,
-  .hero h1,
-  .hero-sub,
-  .hero-cta,
-  .hero-vine {
-    opacity: 1;
-    transform: none;
-    animation: none;
+  .pitch-bullets li {
+    padding-left: var(--space-8);
+    font-size: 0.95rem;
+  }
+
+  .pitch-bullets li::before {
+    width: 16px;
+    height: 16px;
+    left: var(--space-3);
   }
 }

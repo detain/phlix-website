@@ -1,135 +1,93 @@
-# SITE.md — Cyber Tokyo by Phlix
+# SITE.md — Cyber Tokyo brand-kit site
 
 ## Concept & Vision
 
-Cyber Tokyo is the sensory overload of a Tokyo midnight — hot pink kanji signs bleeding
-neon into rain-soaked asphalt, electric lime bullet-train streaks against a near-black
-violet sky. This site is not a docile marketing page; it is an electric transmission
-from the megacity. Every pixel should feel like stepping into Shibuya crossing at 2am
-with a media library that never dims.
+Cyber Tokyo is the sensory overload of a Tokyo midnight — hot pink kanji signs bleeding neon into rain-soaked asphalt, electric lime bullet-train streaks against a near-black violet sky. Every screen built in this identity should feel like stepping into Neo Tokyo at the hour the city never sleeps: fast, electric, overwhelming, alive. The product is Phlix; the vibe is Shibuya crossing at 2 a.m.
 
-The product (Phlix) is dressed in this identity: the same self-hostable PHP media server,
-the same SyncPlay and DLNA and Live TV, but rendered as if the interface grew from
-neon rain and vertical signage.
+**Brand DNA (condensed):**
+Cyber Tokyo is the intersection of near-pure darkness and maximum neon saturation. It is #050308 void broken by hot pink, electric lime, and neon mandarin — every element serves sensation before decoration. It is never muted, never Western, never sparse. Density is a feature, not a problem.
 
----
+## Design Language
 
-## Aesthetic Direction
+### Aesthetic Direction
+Tokyo cyberpunk cinematic — hyper-dense neon, J-aesthetic digital glitch, anime title-card geometry, high-contrast holographic. Full-bleed immersive hero with multi-source neon practical lighting.
 
-**Layout archetype:** `immersive`
+**Layout archetype:** `immersive` — full-bleed cinematic hero with neon bloom, dense information sections alternating Tokyo Night and Shinjuku Dark surfaces, Neon Sakura CTAs throughout.
 
-Hyper-dense layering with dramatic full-bleed hero sections. Dense card grids with
-sharp-cornered Shinjuku Dark surfaces. Racing-stripe dividers in Circuit Green.
-Vertical kanji decorative columns as visual texture. The layout never feels sparse —
-Tokyo is always full.
-
-**Visual style tags:** Tokyo cyberpunk cinematic · Hyper-dense neon · J-aesthetic
-digital glitch · Anime title-card geometry · High-contrast holographic
-
-**Art direction:** Near-black backgrounds erupting with hot pink and electric lime neon,
-dense vertical signage, rain-pooled streets reflecting every color at once. Multi-source
-practical neon lighting (pink from left, green from below, orange from above). Glitch
-displacement and scan-line artifacts at edges and transitions. Never warm, pastoral,
-or quiet.
-
----
-
-## Color Palette
+### Color Palette
 
 | Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| Primary | Neon Sakura | `#FF00AA` | CTAs, active states, dominant neon accent |
-| Secondary | Circuit Green | `#00FF41` | Links, secondary actions, data readouts |
-| Tertiary | Neon Mandarin | `#FF6600` | Badges, ratings, urgency highlights |
-| Background | Tokyo Night | `#050308` | Default page background, near-pure black |
-| Surface | Shinjuku Dark | `#0D0918` | Card and panel surfaces |
-| Surface Alt | Kabukicho Shadow | `#130E20` | Alternate panels, hover states |
-| Text | Screen White | `#F0EEF8` | Primary body and headline text |
-| Neutral | Smoke Violet | `#6B5C7C` | Muted chrome, dividers |
-| Success | Mizu Green | `#00E676` | Confirmations, success states |
-| Warning | Amber Kanji | `#FFB300` | Warnings, caution states |
-| Error | Danger Pink | `#FF1744` | Errors, destructive actions |
-| Info | Hologram Blue | `#00B0FF` | Informational banners |
-| Border | Neon Wire | `#2D1F3D` | Card borders, dividers |
+| Primary | Neon Sakura | #FF00AA | Dominant signal — CTAs, active states, halos |
+| Secondary | Circuit Green | #00FF41 | Secondary paths, links, data, racing stripes |
+| Tertiary | Neon Mandarin | #FF6600 | Badges, urgency, emotional emphasis |
+| Background | Tokyo Night | #050308 | Page base — near-pure black violet |
+| Surface | Shinjuku Dark | #0D0918 | Card/panel surfaces |
+| Surface Alt | Kabukicho Shadow | #130E20 | Alternate panels, hover states |
+| Text | Screen White | #F0EEF8 | Body and headline text |
+| Border | Neon Wire | #2D1F3D | Card borders, dividers |
+| Success | Mizu Green | #00E676 | Success toasts |
+| Warning | Amber Kanji | #FFB300 | Warnings |
+| Error | Danger Pink | #FF1744 | Errors, destructive |
+| Info | Hologram Blue | #00B0FF | Informational banners |
+| Focus | Focus Sakura Pulse | #FF00AA | Focus ring |
 
 **Gradients:**
-- **Shibuya Crossing** (135°): `#FF00AA` → `#00FF41` — hero backdrops, splash screens
-- **Akihabara Bloom** (radial): `rgba(255,0,170,0.40)` → transparent — hero subject bloom
-- **Shinjuku Depth** (180°): `#0D0918` → `#050308` — surface-to-background fade
-- **Circuit Stripe** (90°): `#050308` → `#00FF41` → `#050308` — racing-stripe dividers
+- `Shibuya Crossing`: linear 135deg, #FF00AA → #00FF41 — hero backdrop
+- `Akihabara Bloom`: radial, rgba(255,0,170,0.40) → transparent — ambient neon bloom
+- `Shinjuku Depth`: linear 180deg, #0D0918 → #050308 — surface depth
+- `Circuit Stripe`: linear 90deg, #050308 → #00FF41 → #050308 — racing-stripe divider
 
----
+### Typography
 
-## Typography
+| Role | Family | Weight | Notes |
+|------|--------|--------|-------|
+| Headline | Space Grotesk | 700, 900 | Page titles, hero headlines |
+| Display | Bebas Neue | 400 | Oversized stat numerals, cinematic titles |
+| Body | IBM Plex Sans | 400, 500 | Descriptions, long-form copy |
+| UI | IBM Plex Sans | 400, 500, 600 | Buttons, labels, nav |
+| Mono | IBM Plex Mono | 400, 600 | Code, data readouts, glitch moments |
+| Number | Bebas Neue | 400 | Stats, counters |
 
-| Role | Font | Weight | Usage |
-|------|------|--------|-------|
-| Headline | Space Grotesk | 700/900 | Page titles, hero headlines — Japanese-influenced geometric |
-| Display | Bebas Neue | 400 | Oversized cinematic titles, stat cards — always uppercase |
-| Body | IBM Plex Sans | 400/500 | Descriptions, long-form reading |
-| UI | IBM Plex Sans | 400/500/600 | Buttons, labels, navigation, chips |
-| Mono | IBM Plex Mono | 400/600 | Code, tokens, technical readouts, glitch displays |
-| Number | Bebas Neue | 400 | Stats, counters, runtimes |
+**Rules:** Space Grotesk headlines bold (700+); Bebas Neue always uppercase; IBM Plex Sans body never all-caps except micro-labels; Noto Serif JP for kanji/katakana decorative text.
 
-**Rules:**
-- Space Grotesk headlines: bold (700+) only
-- Bebas Neue: always uppercase with wide tracking (0.08em)
-- Body copy: never all-caps except micro-labels
-- Kanji/katakana decorative text: Noto Serif JP or Noto Sans JP (never faked)
+### Spacing Scale
 
----
+4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 px — only these steps are used.
+
+### Motion Philosophy
+
+Motion is a **bullet train: fast, precise, purposeful.** All transitions are 80–200ms with `cubic-bezier(0.25, 0, 0, 1)` (sharp ease-out) or `steps(4, end)` (brutalist). Never spring/bounce/elastic. Reduced motion: replace glitch cuts with cross-fades, disable strobe/scanline effects.
+
+**Signature transitions:** rapid glitch cut (3-frame chromatic aberration dissolve), horizontal scan-line wipe, neon-sakura flash frame, bullet-train speed blur.
+
+### Visual Assets
+
+- **Logo:** Space Grotesk bold wordmark on Tokyo Night, 1px Neon Sakura border rectangle, pink outer glow, katakana mark
+- **Icons:** Sharp 1.5–2px stroke, square corners, duotone (Neon Sakura active, Screen White default)
+- **Decorative elements:** scan-line overlays, vertical kanji/katakana text columns, circuit-stripe dividers, glitch displacement on hover
+- **OG image:** Full-bleed dark with neon accents, Space Grotesk wordmark, tagline in Neon Sakura glow
 
 ## Spatial System
 
-**Spacing scale (9 steps):** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 px
+Max content width: 1400px, centered. Hero: full-viewport height. Sections alternate Tokyo Night (background) and Shinjuku Dark (surface) to create visual rhythm through density. Padding is generous on hero, tighter on feature card grids (density is intentional).
 
-**Max content width:** 1400px, centered
+## Component Inventory
 
-**Corner radii:** 2 / 4 / 6 / 10 / 999px (pill)
+| Component | States |
+|-----------|--------|
+| `.btn-primary` | default (hot pink + pink glow), hover (stronger glow + lift 2px), active (scale 0.98), focus (2px sakura ring) |
+| `.btn-secondary` | default (circuit green ghost), hover (green glow + lift), active, focus |
+| `.feature-card` | default (shinjuku-dark + wire border), hover (1px sakura border + pink glow + 2px lift + glitch icon animation) |
+| `.client-card` | default, hover (sakura border + glow) |
+| `.client-status` | stable (mizu green), beta (amber), deprecated (smoke violet) |
+| `.nav-menu a` | default (screen white 75%), hover (sakura color + bg tint), aria-current (sakura underline + glow) |
+| `.site-header` | sticky, backdrop-filter blur, 1px wire bottom border |
 
-**Borders:** 1px solid, sharp corners (no rounded), Neon Wire color
+## Accessibility
 
----
-
-## Motion Philosophy
-
-**Motion style:** Fast · Electric · Glitchy · Precise · Energetic
-
-**Speed:** Fast (80–200ms transitions)
-
-**Easing:** `cubic-bezier(0.25, 0, 0, 1)` · `ease-out` · `steps(4, end)`
-
-**Transitions:** rapid glitch cut (3-frame chromatic aberration dissolve), horizontal
-scan-line wipe, vertical kanji-rain curtain reveal, neon-sakura flash frame,
-bullet-train speed blur
-
-**Hover:** Cards gain 1px Neon Sakura border glow + 2px lift with pink box-shadow
-over 120ms ease-out. 2-frame glitch displacement on enter.
-
-**Focus:** 2px Neon Sakura focus ring + 4px outer pink halo, 100ms fade-in.
-
-**Reduced motion:** `prefers-reduced-motion` — replaces glitch-cut with cross-fades,
-katakana-rain loaders with static shimmer, retains opacity-based entrance only.
-
----
-
-## Visual Assets
-
-| Asset | Type | Description |
-|-------|------|-------------|
-| `img/logo.svg` | SVG | Phlix wordmark + Neon Sakura border + circuit-trace accent |
-| `img/favicon.svg` | SVG | Neon Sakura square with white "P" lettermark |
-| `img/og.svg` | SVG | 1200×630 social share: dark cyberpunk scene with logo + tagline |
-| 7× inline SVG | icon | Library, SyncPlay, Transcode, Shield, Antenna, Broadcast/DLNA, Puzzle, Hub |
-
----
-
-## Signature Elements (used throughout)
-
-- Vertical kanji/katakana neon signage as visual texture
-- Hot pink neon halos bleeding across dark surfaces
-- Electric lime racing stripe dividers
-- Glitch displacement artifacts on hover states
-- Pixel-grid scan-line overlays at low opacity
-- Holographic iridescent sheen on primary surfaces
-- Vending-machine light rectangles as card motifs
+- WCAG 2.2 AA minimum contrast: Screen White on Tokyo Night = 19.2:1 (AAA), Neon Sakura on Tokyo Night = 5.8:1 (AA), Circuit Green on Tokyo Night = 8.9:1 (AAA).
+- Focus ring: 2px Neon Sakura + 4px pink outer glow.
+- Touch targets: minimum 48×48px on mobile/TV, 44×44px on desktop.
+- Reduced motion: all glitch animations replaced with simple fades.
+- 200% zoom survival required.

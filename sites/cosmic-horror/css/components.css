@@ -80,7 +80,7 @@
   align-items: center;
   gap: var(--space-1);
   list-style: none;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .nav-menu a {
@@ -103,8 +103,7 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: var(--space-3);
-  right: var(--space-3);
+  inset-inline: var(--space-3);
   height: 1px;
   background: var(--color-primary);
   transform: scaleX(0);
@@ -125,7 +124,7 @@
 
 @media (width <= 900px) {
   .nav-toggle {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
@@ -145,8 +144,7 @@
     display: none;
     position: absolute;
     top: var(--header-height);
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     background: var(--color-rlyeh);
     border-bottom: 1px solid var(--color-obsidian);
     flex-direction: column;
@@ -311,8 +309,8 @@
 }
 
 .btn-primary:hover {
-  background: #00b359;
-  border-color: #00b359;
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
+  border-color: color-mix(in srgb, var(--color-primary) 80%, black);
   color: var(--color-void);
   box-shadow: var(--shadow-eldritch);
 }
@@ -346,8 +344,8 @@
 }
 
 .btn-danger:hover {
-  background: #500;
-  border-color: #500;
+  background: color-mix(in srgb, var(--color-tertiary) 75%, black);
+  border-color: color-mix(in srgb, var(--color-tertiary) 75%, black);
   box-shadow: var(--shadow-crimson);
 }
 
@@ -375,7 +373,8 @@
 }
 
 .btn-link:hover {
-  color: #0f7;
+  color: var(--color-primary);
+  filter: brightness(1.2);
   text-decoration: underline;
 }
 
@@ -405,14 +404,12 @@
   gap: var(--space-4);
   transition:
     border-color var(--transition-slow) var(--easing-subtle),
-    box-shadow var(--transition-slow) var(--easing-subtle),
-    transform var(--transition-slow) var(--easing-subtle);
+    box-shadow var(--transition-slow) var(--easing-subtle);
 }
 
 .feature-card:hover {
   border-color: var(--color-primary);
   box-shadow: var(--shadow-eldritch);
-  transform: translateY(-2px);
 }
 
 .feature-icon {
@@ -555,8 +552,7 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-cosmic) 100%);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
@@ -670,7 +666,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--color-text);
-  border-left: 3px solid var(--color-cosmic);
+  border-inline-start: 3px solid var(--color-cosmic);
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
@@ -678,7 +674,7 @@
 
 .ecosystem-list li:hover,
 .docs-links li:hover {
-  border-left-color: var(--color-primary);
+  border-inline-start-color: var(--color-primary);
   box-shadow: var(--shadow-sm);
 }
 
@@ -776,4 +772,83 @@ hr {
 
 svg.icon {
   flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIGNATURE ELEMENTS — Cosmic Horror Brand Kit
+   Tentacle ornaments, sigil watermarks, illuminated drop caps, Nyarla mascot
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Sigil watermark on card surfaces ────────────────────────────────────── */
+
+.feature-card::before,
+.client-card::before,
+.download-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='50' fill='none' stroke='%2300CC66' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='60' r='35' fill='none' stroke='%2300CC66' stroke-width='0.5'/%3E%3Cpath d='M60 10 L60 110 M10 60 L110 60' stroke='%2300CC66' stroke-width='0.3' opacity='0.5'/%3E%3Cpath d='M30 30 Q60 55 30 90 M90 30 Q60 55 90 90' fill='none' stroke='%2300CC66' stroke-width='0.4'/%3E%3Ccircle cx='60' cy='60' r='8' fill='none' stroke='%2300CC66' stroke-width='0.6'/%3E%3Ccircle cx='60' cy='60' r='3' fill='%2300CC66'/%3E%3Cpath d='M60 5 L63 15 L60 12 L57 15 Z' fill='%2300CC66'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.feature-card > *,
+.client-card > *,
+.download-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Tentacle-form border ornaments ─────────────────────────────────────── */
+
+.feature-card,
+.client-card,
+.download-card {
+  position: relative;
+}
+
+.feature-card::after,
+.client-card::after,
+.download-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--transition-slow) var(--easing-subtle);
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(0, 204, 102, 0.15) 50%, transparent 60%),
+    linear-gradient(225deg, transparent 40%, rgba(0, 204, 102, 0.1) 50%, transparent 60%);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M5 30 Q10 25 15 30 Q20 35 25 30 Q30 25 35 30 Q40 35 45 30 Q50 25 55 30' stroke='black' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 Q25 10 30 15 Q35 20 30 25 Q25 30 30 35 Q35 40 30 45 Q25 50 30 55' stroke='black' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  mask-size: 60px 60px;
+  mask-repeat: repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M5 30 Q10 25 15 30 Q20 35 25 30 Q30 25 35 30 Q40 35 45 30 Q50 25 55 30' stroke='black' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 Q25 10 30 15 Q35 20 30 25 Q25 30 30 35 Q35 40 30 45 Q25 50 30 55' stroke='black' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  -webkit-mask-size: 60px 60px;
+  -webkit-mask-repeat: repeat;
+}
+
+.feature-card:hover::after,
+.client-card:hover::after,
+.download-card:hover::after {
+  opacity: 1;
+}
+
+/* ─── Illuminated-manuscript drop caps ───────────────────────────────────── */
+
+.content-section h2:first-of-type::first-letter,
+.hero h1::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.5em;
+  color: var(--color-primary);
+  float: left;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.05em;
+  opacity: 0.85;
+  text-shadow: 0 0 20px rgba(0, 204, 102, 0.4);
 }

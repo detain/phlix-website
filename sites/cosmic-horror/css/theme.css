@@ -171,6 +171,31 @@ small,
   pointer-events: none;
 }
 
+/* Non-Euclidean perspective lines — cyclopean architecture receding into void */
+.hero-perspective {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-conic-gradient(
+      from 0deg at 50% 40%,
+      rgba(0, 204, 102, 0.025) 0deg 2deg,
+      transparent 2deg 8deg
+    );
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 80%);
+}
+
+.hero-perspective::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(175deg, transparent 30%, rgba(0, 204, 102, 0.04) 50%, transparent 70%),
+    linear-gradient(185deg, transparent 35%, rgba(61, 0, 128, 0.08) 55%, transparent 75%);
+}
+
 .hero-inner {
   position: relative;
   z-index: 1;
@@ -244,7 +269,7 @@ small,
   padding: var(--space-4) var(--space-6);
   background: var(--color-surface-alt);
   border: 1px solid var(--color-obsidian);
-  border-left: 3px solid var(--color-primary);
+  border-inline-start: 3px solid var(--color-primary);
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--color-text);
@@ -255,7 +280,7 @@ small,
 }
 
 .pitch-bullets li:hover {
-  border-left-color: var(--color-primary);
+  border-inline-start-color: var(--color-primary);
   box-shadow: var(--shadow-md);
 }
 
@@ -435,7 +460,7 @@ small,
   background: var(--color-surface);
   border: 1px solid var(--color-obsidian);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-primary);
+  border-inline-start: 3px solid var(--color-primary);
 }
 
 .faq-item dt {
