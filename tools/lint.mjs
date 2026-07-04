@@ -6,6 +6,8 @@
 
 import { spawn } from 'node:child_process';
 import { globSync } from 'glob';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const [, , tool, ...rest] = process.argv;
 if (!tool) {
@@ -28,14 +30,20 @@ if (!t) {
   process.exit(64);
 }
 
-const files = t.patterns.flatMap((p) => globSync(p, { cwd: process.cwd() })).filter(Boolean);
+const thisFile = fileURLToPath(import.meta.url);
+const projectRoot = resolve(dirname(thisFile), '..');
+const configPath = resolve(projectRoot, '.stylelintrc.json');
+
+const files = t.patterns.flatMap((p) => globSync(p, { cwd: projectRoot })).filter(Boolean);
 
 if (files.length === 0) {
   console.log(`[lint:${tool}] no files match ${t.patterns.join(', ')} — skipping`);
   process.exit(0);
 }
 
-const args = [...(t.extraArgs ?? []), ...files, ...rest];
+const toolArgs = (tool === 'css')
+  ? ['--config', configPath, ...(t.extraArgs ?? []), ...files, ...rest]
+  : [...(t.extraArgs ?? []), ...files, ...rest];
 
-const child = spawn('npx', ['--no-install', t.bin, ...args], { stdio: 'inherit' });
+const child = spawn('npx', ['--no-install', t.bin, ...toolArgs], { stdio: 'inherit', cwd: projectRoot });
 child.on('exit', (code) => process.exit(code ?? 1));

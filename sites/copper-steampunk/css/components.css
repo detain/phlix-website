@@ -127,8 +127,10 @@
   }
 
   .nav-menu a {
-    padding: var(--space-3) var(--gutter);
+    padding: var(--space-4) var(--gutter);
     border-radius: 0;
+    min-height: 44px;
+    box-sizing: border-box;
   }
 
   .nav-menu a[aria-current='page']::after {
@@ -515,7 +517,7 @@
 
 .client-status.status-stable {
   border-color: var(--color-success);
-  color: #9dc4a8;
+  color: var(--color-parchment);
   background: rgb(91, 140, 90, 0.1);
 }
 
@@ -777,6 +779,12 @@
 }
 
 /* ── Scroll reveal (static fallback + animation) ──────────────────────── */
+
+/*
+ * Base state: JS adds .scroll-hidden to set opacity:0 for revealed elements.
+ * .revealed restores opacity:1 with transition.
+ * @media (scripting: none) fallback: content stays visible when JS is disabled.
+ */
 .scroll-hidden {
   opacity: 0;
   transform: translateY(12px);
@@ -788,6 +796,15 @@
 .revealed {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* No-JS fallback: content stays visible */
+@media (scripting: none) {
+  .scroll-hidden {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .reduce-motion .scroll-hidden,

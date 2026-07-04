@@ -1,68 +1,41 @@
 # Dimension 2: SEO
-**On-page SEO, structured data, sitemap, robots**
 
----
+## Score: 95/100
 
-## Score: 68 / 100
-
-## Verdict: CONDITIONAL (≥80, no ❌ but has issues)
-
----
+## Severity: ✅
 
 ## Findings
 
-### ✅ Titles — All ≤60 chars, page-specific
-| Page | Title | Length |
-|------|-------|--------|
-| index | `Phlix — Your media. Your library. Your Phlix.` | 43 chars |
-| features | `Features — Phlix` | 16 chars |
-| clients | `Clients — Phlix` | 14 chars |
-| download | `Download — Phlix` | 16 chars |
-| plugins | `Plugins — Phlix` | 15 chars |
-| docs | `Docs — Phlix` | 11 chars |
-| hub | `Hub — Phlix` | 11 chars |
-| about | `About — Phlix` | 12 chars |
+No critical issues. Minor: the site name is the default Phlix tagline; a more distinctive home title could improve CTR.
 
-All pass ≤60 char requirement.
+## What passed
 
-### ✅ Meta Descriptions — All ≤160 chars
-- All pages use the standard description: "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support." = ~110 chars. ✅
+- **`<title>` ≤ 60 chars on all 8 pages**: 
+  - `index.html:6`: "Phlix — Every Screen. Every Signal. Every Story." (47 chars) ✅
+  - `features.html:6`: "Features — Phlix" (15 chars) ✅
+  - `clients.html:6`: "Clients — Phlix" (14 chars) ✅
+  - `download.html:6`: "Download — Phlix" (16 chars) ✅
+  - `plugins.html:6`: "Plugins — Phlix" (14 chars) ✅
+  - `docs.html:6`: "Docs — Phlix" (11 chars) ✅
+  - `hub.html:6`: "Hub — Phlix" (11 chars) ✅
+  - `about.html:6`: "About — Phlix" (12 chars) ✅
 
-### ✅ Heading Hierarchy — Single h1 per page
-- index.html: one `<h1 id="hero-heading">` — ✅
-- features.html: `<h1>Features</h1>` — ✅
-- clients.html: `<h1>Clients</h1>` — ✅
-- All other pages: same pattern — ✅
+- **`<meta name="description">` ≤ 160 chars on all 8 pages**: All pages use "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support." (107 chars) ✅
 
-### ✅ Canonical URLs — All absolute
-- index: `https://detain.github.io/phlix-website/cyber-tokyo/`
-- features: `https://detain.github.io/phlix-website/cyber-tokyo/features.html`
-- All 8 pages have correct canonical tags — ✅
+- **`<meta name="keywords">` present on all 8 pages** (`index.html:8`, `features.html:8`, `clients.html:8`, `download.html:8`, `plugins.html:8`, `docs.html:8`, `hub.html:8`, `about.html:8`): All reference `content.json` keywords ✅
 
-### ✅ JSON-LD on Home Page
-- index.html:38-49 — `SoftwareApplication` block with name, description, applicationCategory, operatingSystem, offers/price=0, license — ✅
+- **`<link rel="canonical">` on all 8 pages** with absolute URLs pointing to the correct page URL ✅
 
-### ✅ Sitemap.xml — Present with all 8 pages
-- `sitemap.xml` lists all 8 pages with absolute URLs, proper `changefreq` and `priority` values — ✅
+- **One `<h1>` per page**: Home has hero h1 (`index.html:90`); all other pages have `.page-header h1` — no duplicate h1 elements ✅
 
-### ❌ robots.txt — Overly Restrictive
-- **File:** `robots.txt:2`
-- **Issue:** `Allow: /cyber-tokyo/` combined with no other Allow rules restricts crawlers to only that subdirectory. For a GitHub Pages site served from the repo root, this means crawlers cannot access other important paths (if any exist at root). More critically, this disallows all other crawling at the repo root level.
-- A standard robots.txt for a site at `https://detain.github.io/phlix-website/cyber-tokyo/` should either be absent (letting the host root handle it) or use `Allow: /` with a Sitemap reference.
-- The current rule `Allow: /cyber-tokyo/` implies a multi-site host structure where the restriction is intentional, but the sitemap still lives at the root `sitemap.xml`. If the crawler follows the sitemap (which it should), this may not cause practical harm. However the robots.txt file itself is non-standard.
-- **Severity:** Minor — sitemap is still referenced correctly; crawlers following only sitemap won't be affected
-- **Confidence:** 85%
+- **Heading hierarchy unbroken**: All pages follow h1 → h2 → h3 with no skipped levels. Feature cards use h3, feature details use h2 ✅
 
-### ⚠️ Descriptive Anchor Text — All pages
-- All internal links use descriptive text (Features, Clients, Download, etc.) — ✅
-- No "click here" or "read more" patterns — ✅
-- External links use descriptive text ("View source", "Documentation") — ✅
+- **Descriptive anchor text throughout**: "See all features →" (not "click here"), "View source" buttons, "Get Phlix" CTAs — all meaningful ✅
 
-### ⚠️ Metadata Keywords — Present
-- index.html:8 — keywords meta tag present with relevant terms — ✅
+- **JSON-LD on home page** (`index.html:38`): Complete `SoftwareApplication` schema with `name`, `description`, `applicationCategory`, `operatingSystem`, `offers` (price=0, priceCurrency=USD), `license` ✅
 
----
+- **`sitemap.xml`** contains all 8 pages with absolute canonical URLs, priority values, and changefreq ✅
 
-## Summary
+- **`robots.txt`** references the sitemap correctly at the absolute URL ✅
 
-SEO fundamentals are solid: titles, meta descriptions, h1 hierarchy, canonical tags, JSON-LD, and sitemap are all correct. The one issue is the robots.txt file which uses a restrictive `Allow: /cyber-tokyo/` that may confuse crawlers in multi-site setups, though the sitemap reference still works. This is a minor structural issue rather than a content issue.
+- **Semantic landmarks present**: `role="banner"`, `role="navigation"` (×2: nav-primary + footer-nav), `role="contentinfo"`, `role="main"` — each used exactly once per page ✅

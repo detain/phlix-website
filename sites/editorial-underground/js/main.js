@@ -1,87 +1,67 @@
-/* ===========================================================================
-   main.js — Editorial Underground
-   Mobile nav toggle, reduced-motion guard, scroll reveals
-   =========================================================================== */
-
+/**
+ * Editorial Underground — main.js
+ * Mobile nav toggle, reduced-motion, focus management.
+ * Hard cuts only. No easing. No exceptions.
+ */
 (function () {
   'use strict';
 
-  /* ── Mobile nav toggle ────────────────────────────────────────────────── */
-  var navToggle = document.querySelector('.nav-toggle');
-  var navMenu = document.querySelector('.nav-menu');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      var isOpen = navMenu.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-    });
+  if (!navToggle || !navMenu) return;
 
-    document.addEventListener('click', function (e) {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
+  // Mobile nav toggle
+  navToggle.addEventListener('click', function () {
+    const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!isOpen));
+    navMenu.classList.toggle('is-open', !isOpen);
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        navMenu.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.focus();
-      }
-    });
-  }
-
-  /* ── Reduced motion ───────────────────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  function handleReducedMotion() {
-    document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
-  }
-
-  handleReducedMotion();
-  prefersReducedMotion.addEventListener('change', handleReducedMotion);
-
-  /* ── Scroll reveals ───────────────────────────────────────────────────── */
-  var revealElements = document.querySelectorAll(
-    '.feature-card,.feature-detail,.client-card,.download-card,.ecosystem-list li,.faq-item',
-  );
-
-  if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
-    );
-
-    revealElements.forEach(function (el) {
-      el.classList.add('scroll-hidden');
-      revealObserver.observe(el);
-    });
-  }
-
-  /* ── Dynamic year (locale-safe) ──────────────────────────────────────── */
-  var yearEl = document.querySelector('.copyright-year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  /* ── Active nav link highlighting ─────────────────────────────────────── */
-  var currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  var navLinks = document.querySelectorAll('.nav-menu a');
-
-  navLinks.forEach(function (link) {
-    var href = link.getAttribute('href');
-    if (
-      href === currentPath ||
-      (currentPath === '' && href === 'index.html') ||
-      (currentPath === 'index.html' && href === './')
-    ) {
-      link.setAttribute('aria-current', 'page');
+    if (!isOpen) {
+      const firstLink = navMenu.querySelector('a');
+      if (firstLink) firstLink.focus();
     }
   });
+
+  // Close on outside click
+  document.addEventListener('click', function (e) {
+    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      navMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+      navMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.focus();
+    }
+  });
+
+  // Focus trap in open menu
+  navMenu.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    const links = Array.from(navMenu.querySelectorAll('a'));
+    const first = links[0];
+    const last = links[links.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Reduced motion
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  if (prefersReducedMotion) {
+    document.documentElement.classList.add('reduced-motion');
+  }
 })();

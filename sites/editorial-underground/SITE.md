@@ -1,118 +1,100 @@
-# SITE.md — Editorial Underground
+# SITE.md — Editorial Underground for Phlix
 
 ## Concept & Vision
 
-Editorial Underground is the visual language of the copy shop at midnight — black ink bleeding through cheap paper, electric yellow highlighter dragged across a headline that demands to be read. It is Factory Records sleeve art and CBGB bathroom walls, Jamie Reid ransom-note lettering and Guy Debord Situationist pamphlets run off on a dying photocopier. Anti-corporate, anti-aesthetic, anti-permission.
-
-The Phlix Editorial Underground site channels that energy directly: every element is a deliberate provocation against polished SaaS aesthetics. The site feels like it was assembled at speed with ink-stained hands — raw, confrontational, honest. Nothing is soft. Nothing apologizes.
-
----
+Editorial Underground is the visual language of punk zine culture applied to a media server product. It looks like it was assembled at midnight on a dying photocopier — cut-up type, xerox grain, safety-pin dividers, and electric yellow as the one signal that cuts through the black. This is not a dark-mode site; this is a darkroom. Every element is deliberate in its rawness: heavy condensed type, hard-cut borders, no rounded softening, no gradients except overprint noise. The aesthetic is the message.
 
 ## Aesthetic Direction
 
-**Layout archetype**: `showcase` — full-bleed Xerox Black backgrounds, electric yellow signal cut-through, high-density card grids, hard-cut offset shadows, zero rounded corners anywhere.
+**Archetype:** `editorial` — asymmetric/magazine, grid-breaking, typographically confrontational.
 
-**Mood**: Urgent. Confrontational. Authentic. Anti-corporate. The visual language of a photocopied manifesto slammed on a wall at 2 a.m.
+Punk zine cut-and-paste. Underground press editorial. DIY screen print. High contrast anti-design. The layout is intentionally dense and asymmetric — never centered, never balanced for comfort. Diagonal slash cuts and registration-mark corner accents reference print production. The mascot "Riot" (safety-pin-and-lightning-bolt figure) appears in brand assets.
 
-**Key references**: Sex Pistols Never Mind the Bollocks artwork (Jamie Reid), Factory Records sleeve designs (Peter Saville), CBGB sticker walls, Punk Magazine, Richard Hell Voidoids, Guy Debord Situationist pamphlets, DIY screen printing, risograph printing.
-
----
+**Layout decisions:**
+- Full-bleed Xerox Black sections with electric-yellow edge cuts
+- Zero corner radius on every element — hard corners are structural
+- Grid-breaking typography: type escapes the container on hero
+- Registration marks at all four corners of key sections
+- Halftone dot texture overlays on dark surfaces
 
 ## Color Palette
 
-| Role | Name | Hex | Notes |
+| Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| Primary | Electric Yellow | `#FFE500` | Sole warm cut-through signal |
-| Secondary | Punk Magenta | `#FF0066` | Alarm/error states only |
-| Tertiary | Newsprint White | `#FFFFFF` | Tertiary accents only |
-| Background | Xerox Black | `#0A0A08` | Default page background |
-| Surface | Bleed Black | `#111110` | Card/panel surfaces |
-| Surface Alt | Print Register | `#181816` | Alternate surfaces |
-| Text | Paper White | `#F5F5F0` | Body/headline text |
-| Neutral | Halftone Gray | `#555550` | Muted UI chrome |
-| Border | Ink Line | `#2A2A28` | Default borders |
-| Success | Safety Green | `#00CC44` | Success states |
+| Primary | Electric Yellow | `#FFE500` | CTAs, active states, signal cut-through |
+| Secondary | Punk Magenta | `#FF0066` | Error, alarm, destructive states only |
+| Tertiary | Newsprint White | `#FFFFFF` | Knock-out accents |
+| Background | Xerox Black | `#0A0A08` | Page canvas — never light |
+| Surface | Bleed Black | `#111110` | Cards, panels |
+| Surface Alt | Print Register | `#181816` | Hover states, striped rows |
+| Text | Paper White | `#F5F5F0` | Body and headline text |
+| Neutral | Halftone Gray | `#555550` | Dividers, muted UI |
+| Border | Ink Line | `#2A2A28` | Structural borders |
+| Success | Safety Green | `#00CC44` | Confirmations |
 | Info | Cold Static | `#AAAAAA` | Informational |
 
-**Gradients**: Only two approved — `Manifesto Burn` (linear 180deg, #FFE500→#0A0A08) and `Xerox Overexpose` (radial, yellow glow on dark). No other gradients permitted.
+**Approved gradients only:**
+- `Manifesto Burn`: `#FFE500` → `#0A0A08` (180deg) — hero divider
+- `Xerox Overexpose`: radial, `rgba(255,229,0,0.18)` → transparent — photocopier flash
 
----
+**Color rules enforced:** Backgrounds always dark. Electric yellow is the sole warm accent. Magenta is alarm-only. No warm amber/orange/gold anywhere.
 
 ## Typography
 
-| Role | Font | Weight | Notes |
+| Role | Font | Weight | Usage |
 |------|------|--------|-------|
-| Headline | Anton | 400 | Always uppercase, 0.92 lh, zero tracking |
-| Display | Oswald | 700 | Section headers, bold only |
-| Body | Space Mono | 400, 700 | 1.7 lh, -0.01em tracking |
-| UI | Space Mono | 400, 700 | Buttons, labels, nav |
-| Mono | Space Mono | 400, 700 | Code, tokens |
+| Headline | Anton | 400 | Hero headlines, page titles — uppercase, condensed |
+| Display | Oswald | 700 | Section headers, feature titles — bold only |
+| Body/UI/Mono | Space Mono | 400, 700 | All body copy, labels, navigation, code |
 
-**Key rules**: Anton headlines always uppercase. Space Mono body copy never set in all-caps. Left-align always — manifestos do not center. Electric yellow highlight bars applied BEHIND text, never as text color on dark.
-
----
+**Rules:**
+- Anton headlines always uppercase, tracking 0
+- Space Mono body line-height 1.7 (generous leading for mono)
+- All body copy left-aligned (manifestos flush left)
+- Never italic headlines
+- Electric yellow highlight bars applied BEHIND text, not as text color
 
 ## Spatial System
 
-Spacing scale (px): 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96
+**Spacing scale (px steps only):** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96
 
-Max content width: 1400px. Gutters: 24px. Zero rounded corners — all radii zero except `--radius-xl: 2px`.
+**Corner radius:** zero everywhere except `--radius-xl: 2px`
 
----
+**Borders:** 2px solid, Ink Line (#2A2A28) structural; Electric Yellow at full opacity for accent.
+
+**Content max-width:** 1400px
 
 ## Motion Philosophy
 
-**Hard cuts only.** No easing. No spring. No bounce. No transitions that imply softness.
+Hard cuts only. Zero easing. No `ease-in`, `ease-out`, or `cubic-bezier`. The animation vocabulary is:
+- `steps(1, end)` for state changes
+- Instant appear/disappear (0ms)
+- No entrance animations — content is present or absent
 
-- Hover states: instant border-color switch (0ms)
-- Button press: instant color inversion (0ms)
-- Focus rings: instant appear (0ms)
-- Page content: present or absent — no fade-in
+Microinteractions:
+- **Hover:** Cards gain 2px electric-yellow border instantly (0ms transition)
+- **Button press:** Invert colors instantly — electric-yellow bg, black text
+- **Focus:** 2px electric-yellow ring, direct contact, no offset, instant
+- **Loading:** Step-function bar (steps(10)) — jerky, counter-like progress
 
-Easing: `steps(1, end)` or `steps(1, start)`. No cubic-bezier, no ease-in-out.
-
-Reduced motion: already compliant — all animations are step-function or instant.
-
----
+`prefers-reduced-motion` is already satisfied by the step/instant system.
 
 ## Visual Assets
 
-- **Logo**: Anton uppercase wordmark, electric yellow on Xerox Black, 2px yellow rectangular border with zero radius, lightning bolt accent, registration-mark corners.
-- **Favicon**: Square, Xerox Black background, 2px yellow border, lightning bolt mark.
-- **OG card**: Xerox Black background, halftone dot texture, "YOUR MEDIA. YOUR LIBRARY. YOUR PHLIX." in Anton, diagonal slash accents, registration marks.
-- **Icons**: 2px stencil-cut outlined, square caps/joins, zero radius, 24x24 viewBox. Paper White default, electric yellow on hover/active.
-- **Dividers**: Diagonal slash separators (yellow), full-width horizontal rules with yellow glow gradient.
-- **Mascot**: Riot — safety-pin-and-lightning-bolt collage figure, electric yellow on black.
+**Logo:** Anton uppercase wordmark in Paper White on Xerox Black, 2px electric-yellow rectangular badge with zero radius, registration-mark corners. Film reel icon embedded as brand mark.
 
----
+**Favicon:** 32×32 electric-yellow square, zero radius, Xerox Black film-frame band across middle.
 
-## Signature Elements
+**OG image (1200×630):** Xerox Black bg, halftone texture overlay, registration marks, "PHLIX" in Anton at 160px, tagline "No Signal. No Permission. Just Play." in Oswald Bold, sub-copy in Space Mono.
 
-- Cut-and-paste ransom-letter typographic collage headlines
-- High-contrast halftone dot patterns on surface areas
-- Safety-pin graphic device as structural divider
-- Diagonal slash separators
-- Electric yellow highlight bars behind key text
-- Distressed overprint texture on dark backgrounds
-- Stencil-style icon rendering
-- Xerox bleed and registration-mark corner accents
+**Icons:** 7 feature icons + nav/utility icons — all inline SVG, 2px stroke, square caps/joins, stencil style, monochrome. No icon-font CDN.
 
----
+**Signature motifs:** Halftone dot patterns, safety-pin graphic divider, diagonal slash separators, registration-mark corner accents, distressed xerox grain overlay on hero sections.
 
-## Layout Patterns
+## Sound Identity (brand context only — no audio in static site)
 
-**Landing (home)**: Full-bleed Anton headline on Xerox Black, electric yellow → Space Mono body → hard-border feature sections → electric-yellow CTA. Hero minimum 90vh.
-
-**Features**: Page header → full-width feature detail grid with zero-radius cards, diagonal slash section dividers.
-
-**Clients**: Client card grid, each card gaining instant electric-yellow border on hover.
-
-**Download**: Full-width code block with Ink Line border, client cards, ecosystem list.
-
-**Plugins**: Numbered step list with Anton counter, zero-radius cards.
-
-**Docs**: Link-out page. Hub-style link cards.
-
-**Hub**: Stacked text sections with slash dividers.
-
-**About**: Philosophy → license → contributing → FAQ list with zero-radius items.
+- Startup: brief vinyl crackle resolving to single guitar power chord — cut short
+- Notification: dry single-cycle square-wave click — typewriter carriage return
+- UI click: hard mechanical click, no reverb — stapler impact
+- Success: two descending staccato notes on dry electric guitar — punk resolution
+- Error: flat buzzer tone, 100ms, 60Hz — low, blunt, final

@@ -1,139 +1,131 @@
-# img/PROMPTS.md — Psychedelic Groove
+# Image Generation Prompts — Psychedelic Groove
 
-All image generation prompts for the Psychedelic Groove brand kit.
+This file documents the prompts used to generate visual assets for the Psychedelic Groove brand kit site.
+All prompts follow the kit's `image_prompt_prefix`, `image_prompt_suffix`, and `negative_prompt` templates.
 
-## Brand DNA
+## Logo (`img/logo.svg`)
 
-Psychedelic Groove lives in the electric tension between a UV-dark background and colors so bright they seem to glow from within. Ultra-violet, acid lime, and cosmic orange are not accent colors — they are the whole story, blooming against blacklight indigo like day-glo paint under ultraviolet. Every shape curves, every border swirls, every transition breathes. It is never sterile, never corporate, never still.
-
----
-
-## Prompt Library
-
-### Logo
-
+**Prompt:**
 ```
 Design a Psychedelic Groove logo: Lobster wordmark in lysergic white (#F5F0FF) on
 blacklight indigo (#0A0018), optional 2px ultra-violet pill border with UV glow,
 no sharp corners, no warm or corporate tones.
 ```
 
-### Hero Background Illustration
-
-```
-1960s psychedelic poster art, day-glo blacklight colors, Peter Max style,
-swirling organic paisley, deep UV indigo background, ultra-violet and acid-lime
-and cosmic orange accents, hero background concept: a swirling paisley mandala
-pulsing with cosmic energy on a blacklight indigo void, kaleidoscopic radial
-symmetry, artist Ken Kesey Merry Pranksters bus energy, blacklight poster palette
-(UV indigo, ultra-violet, acid lime, cosmic orange), flat bold vector illustration,
-swirling composition, flower power aesthetic, kaleidoscopic, high saturation,
-high quality.
-```
-
-Negative prompt: `dark noir, monochrome, desaturated, muted, corporate, minimal, sharp angles, cold steel, geometric sans-serif, serious, gloomy, realistic photo, warm brown, beige, grey, flat white background, hard shadows, horror, dystopia`
+**Style notes:**
+- Wordmark in Lobster font with UV glow filter
+- Swirling paisley mandala as subtle background texture (18% opacity)
+- Cosmic rainbow accent line below wordmark
+- Blacklight indigo background (#0A0018)
+- Allowed symbols: paisley teardrop, peace sign, flower motifs, kaleidoscope
 
 ---
 
-### Logo (wordmark variant)
+## Open Graph Image (`img/og.svg` → `img/og.png`)
 
+**Prompt:**
 ```
-1960s psychedelic poster art, day-glo blacklight colors, Peter Max style,
-swirling organic paisley, deep UV indigo background, ultra-violet and acid-lime
-and cosmic orange accents, phlix wordmark in Lobster font in lysergic white on
-blacklight indigo with a 2px ultra-violet pill border and UV bloom glow shadow,
-no sharp corners, no warm or corporate tones, blacklight poster palette (UV indigo,
-ultra-violet, acid lime, cosmic orange), flat bold vector illustration, swirling
-composition, flower power aesthetic, kaleidoscopic, high saturation, high quality.
+A psychedelic media landing page hero graphic: full-bleed UV-dark background
+with Lobster headline in lysergic white, acid-lime pill CTA button, cosmic-rainbow
+gradient section breaks, deep purple haze card sections, UV glow halos on all
+featured elements.
 ```
 
-Negative prompt: `dark noir, monochrome, desaturated, muted, corporate, minimal, sharp angles, cold steel, geometric sans-serif, serious, gloomy, realistic photo, warm brown, beige, grey, flat white background, hard shadows, horror, dystopia`
+**Style notes:**
+- 1200×630px canvas
+- Full-bleed blacklight indigo background
+- Large paisley mandala (8% opacity) as background texture
+- "Phlix" wordmark in Lobster with UV text glow
+- "Expand Your Universe." tagline in Fredoka One, acid lime
+- Peace sign decorative elements (40% opacity)
+- Rainbow accent bar at bottom
+- Corner flower accents
 
 ---
 
-### Page Hero (index.html)
+## Favicon (`img/favicon.svg`)
 
+**Prompt:**
 ```
-A psychedelic media landing page hero: full-bleed UV-dark hero with Lobster headline
-in lysergic white, acid-lime pill CTA button, cosmic-rainbow gradient section
-breaks, deep purple haze card sections, UV glow halos on all featured elements,
-blacklight poster palette (UV indigo, ultra-violet, acid lime, cosmic orange),
-Peter Max style, swirling organic paisley, flat bold vector illustration,
-swirling composition, flower power aesthetic, kaleidoscopic, high saturation,
-high quality.
+Simple favicon for Psychedelic Groove: ultra-violet (#9B00FF) rounded square with
+"Lobster-style P" in lysergic white (#F5F0FF), no sharp corners.
 ```
-
-Negative prompt: `dark noir, monochrome, desaturated, muted, corporate, minimal, sharp angles, cold steel, geometric sans-serif, serious, gloomy, realistic photo, warm brown, beige, grey, flat white background, hard shadows, horror, dystopia`
 
 ---
 
-### Dashboard Mockup
+## Feature Icons (Inline SVG)
 
-```
-A dark psychedelic media dashboard on blacklight indigo (#0A0018) with Fredoka One stats
-in ultra-violet (#9B00FF), acid lime (#CCFF00), and cosmic orange (#FF5500);
-deep purple haze (#120825) rounded cards with UV bloom glow edges; Nunito for
-secondary data; Paisley mascot floating in the corner; blacklight poster palette,
-Peter Max style, swirling organic paisley, flat bold vector illustration,
-kaleidoscopic, high saturation, high quality.
-```
+All feature icons follow the kit's icon rules:
+- 2px stroke weight
+- Fully rounded caps and joins
+- Ultra-violet (#9B00FF) default color
+- Generous corner radius (8px+ minimum)
+- Filled variant preferred for active states
 
-Negative prompt: `light background, desaturated, corporate, minimal, sharp corners, serious`
-
----
-
-### Social / Marketing Graphic
-
-```
-A 1960s psychedelic concert poster-style social graphic for Phlix media server:
-Lobster headline in acid lime, deep UV indigo background, swirling organic
-paisley motifs, day-glo palette (ultra-violet/acid-lime/cosmic-orange),
-kaleidoscopic composition, peace sign and flower power elements, Peter Max style,
-blacklight poster palette, flat bold vector illustration, high saturation,
-high quality.
-```
-
-Negative prompt: `dark noir, monochrome, desaturated, muted, corporate, minimal, sharp angles, cold steel, geometric sans-serif, serious, gloomy, realistic photo, warm brown, beige, grey, flat white background, hard shadows, horror, dystopia`
+**Icon subjects:**
+- library: horizontal lines (M4 6h16M4 12h16M4 18h12)
+- syncplay: circle with clock hands
+- transcode: 3D box/hexagon shape
+- shield: security shield
+- antenna: broadcast/signal lines
+- broadcast: DLNA wave pattern
+- puzzle: interconnected puzzle piece
+- hub: central circle with radiating lines
 
 ---
 
-## Color Palette (reference)
+## Background Texture (CSS/SVG)
 
-| Role | Name | Hex |
-|------|------|-----|
-| primary | Ultra Violet | #9B00FF |
-| secondary | Cosmic Orange | #FF5500 |
-| tertiary | Acid Lime | #CCFF00 |
-| background | Blacklight Indigo | #0A0018 |
-| surface | Deep Purple Haze | #120825 |
-| surface_alt | Violet Dark | #1A1030 |
-| text | Lysergic White | #F5F0FF |
-| success | Groovy Green | #39FF14 |
-| warning | Solar Flare | #FF9900 |
-| error | Lava Red | #FF2244 |
-| info | Aquarius Blue | #00CFFF |
-| border | Dim Violet | #2D1A4A |
-| focus | Peace Glow | #CCFF00 |
+**Prompt:**
+```
+Blacklight indigo background (#0A0018) with subtle paisley pattern at 5% opacity
+and a soft UV radial glow (ultra-violet) in the center. No warm light. No text.
+```
 
-## Font Stack
+---
 
-- **Headlines:** Lobster, Pacifico, Righteous, cursive
-- **Display:** Fredoka One, Righteous, sans-serif
-- **Body/UI:** Nunito, Varela Round, system-ui, sans-serif
-- **Mono:** Space Mono, Courier New, monospace
+## Hero Texture Animation (`hero-bg-texture` in CSS)
 
-## Image Prompt Prefix (reusable)
+Paisley organic shapes created via CSS radial gradients:
+- Ellipse 600×400px at 20% 30% — ultra-violet (60% opacity) → transparent
+- Ellipse 400×600px at 80% 70% — cosmic orange (40% opacity) → transparent
+- Ellipse 300×300px at 60% 20% — acid lime (30% opacity) → transparent
 
+Animated with `hero-breath` keyframe: scale 1→1.06, rotate 0→2deg, opacity 0.04→0.07 over 12s ease-in-out infinite.
+
+---
+
+## Prompt Template Used
+
+```
+{image_prompt_prefix} {subject} {image_prompt_suffix}
+```
+
+**Prefix:**
 ```
 1960s psychedelic poster art, day-glo blacklight colors, Peter Max style,
 swirling organic paisley, deep UV indigo background, ultra-violet and acid-lime
 and cosmic orange accents,
 ```
 
-## Image Prompt Suffix (reusable)
-
+**Suffix:**
 ```
 , blacklight poster palette (UV indigo, ultra-violet, acid lime, cosmic orange),
 flat bold vector illustration, swirling composition, flower power aesthetic,
 kaleidoscopic, high saturation, high quality.
 ```
+
+**Negative prompt (avoid):**
+```
+dark noir, monochrome, desaturated, muted, corporate, minimal,
+sharp angles, cold steel, geometric sans-serif, serious, gloomy,
+realistic photo, warm brown, beige, grey, flat white background,
+hard shadows, horror, dystopia
+```
+
+---
+
+## Mascot Note
+
+The kit specifies `mascot: null` — no mascot should be invented.
+Paisley is expressed as a decorative SVG mandala texture, not as a character.
