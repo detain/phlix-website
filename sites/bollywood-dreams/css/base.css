@@ -1,0 +1,403 @@
+/* ==========================================================================
+   BASE.CSS — Bollywood Dreams
+   Modern reset + CSS token foundation from brand kit design_tokens
+   ========================================================================== */
+
+/* Modern CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES — Design Tokens from Bollywood Dreams Brand Kit
+   ========================================================================== */
+
+:root {
+  /* Color System */
+  --color-primary: #f5a800;
+  --color-secondary: #c06;
+  --color-tertiary: #00a8cc;
+  --color-bg: #0a0505;
+  --color-surface: #160808;
+  --color-surface-alt: #1e0c0c;
+  --color-text: #fff5e0;
+  --color-neutral: #7a5040;
+  --color-success: #d4a017;
+  --color-warning: #ff6b00;
+  --color-error: #c8001a;
+  --color-info: #3a5bcc;
+  --color-border: #3d1a0a;
+  --color-focus: #f5a800;
+
+  /* Semantic Aliases */
+  --color-marigold-gold: #f5a800;
+  --color-fuchsia-silk: #c06;
+  --color-peacock-teal: #00a8cc;
+  --color-midnight-mandir: #0a0505;
+  --color-dark-vermillion: #160808;
+  --color-temple-shadow: #1e0c0c;
+  --color-jasmine-white: #fff5e0;
+  --color-sandalwood: #7a5040;
+  --color-burnished-copper: #3d1a0a;
+  --color-turmeric-spark: #d4a017;
+  --color-saffron-flame: #ff6b00;
+  --color-sindoor-red: #c8001a;
+  --color-indigo-night: #3a5bcc;
+
+  /* Gradients */
+  --gradient-holi-burst: linear-gradient(145deg, #c06, #f5a800, #00a8cc);
+  --gradient-marigold-chandelier: radial-gradient(
+    ellipse at top center,
+    rgb(245, 168, 0, 0.4),
+    rgb(10, 5, 5, 0)
+  );
+  --gradient-temple-depth: linear-gradient(180deg, #1e0c0c, #0a0505);
+  --gradient-fuchsia-veil: linear-gradient(
+    135deg,
+    rgb(204, 0, 102, 0.3),
+    rgb(10, 5, 5, 0)
+  );
+
+  /* Spacing Scale (from brand kit spacing_scale) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner Radius Scale */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Font Families */
+  --font-headline: "Playfair Display", georgia, serif;
+  --font-display: "Cinzel Decorative", "Poiret One", georgia, serif;
+  --font-body: "Lora", palatino, georgia, serif;
+  --font-ui: "Hind", "Noto Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  /* Font Sizes — fluid scale */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.4rem + 2.5vw, 2.75rem);
+  --text-4xl: clamp(2.25rem, 1.6rem + 3.5vw, 3.5rem);
+  --text-5xl: clamp(2.75rem, 1.8rem + 5vw, 4.5rem);
+
+  /* Line Heights */
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+  --leading-loose: 2;
+
+  /* Font Weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.01em;
+  --tracking-wider: 0.02em;
+  --tracking-display: 0.08em;
+
+  /* Shadow System */
+  --shadow-sm: 0 1px 4px rgb(10, 5, 5, 0.7);
+  --shadow-md: 0 4px 16px rgb(10, 5, 5, 0.75), 0 0 8px rgb(245, 168, 0, 0.08);
+  --shadow-lg:
+    0 10px 40px rgb(10, 5, 5, 0.85), 0 0 24px rgb(245, 168, 0, 0.13);
+  --shadow-marigold:
+    0 0 14px rgb(245, 168, 0, 0.55), 0 0 36px rgb(245, 168, 0, 0.22);
+  --shadow-fuchsia:
+    0 0 14px rgb(204, 0, 102, 0.5), 0 0 36px rgb(204, 0, 102, 0.18);
+  --shadow-teal:
+    0 0 12px rgb(0, 168, 204, 0.45), 0 0 28px rgb(0, 168, 204, 0.16);
+
+  /* Layout */
+  --max-width: 1400px;
+  --max-width-prose: 720px;
+  --header-height: 72px;
+
+  /* Transitions */
+  --ease-slow: cubic-bezier(0.25, 0, 0, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-opulent: 600ms;
+}
+
+/* ==========================================================================
+   BASE ELEMENT DEFAULTS
+   ========================================================================== */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  background-image: var(--gradient-marigold-chandelier);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-jasmine-white);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+}
+
+h5 {
+  font-size: var(--text-xl);
+}
+
+h6 {
+  font-size: var(--text-lg);
+}
+
+p {
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-fuchsia-silk);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+a:hover {
+  color: var(--color-marigold-gold);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+strong,
+b {
+  font-weight: var(--weight-semibold);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--color-surface-alt);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  color: var(--color-marigold-gold);
+}
+
+pre {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: var(--text-sm);
+}
+
+ul,
+ol {
+  padding-inline-start: var(--space-6);
+}
+
+li {
+  line-height: var(--leading-relaxed);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-burnished-copper),
+    transparent
+  );
+  margin: var(--space-12) 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  color: var(--color-neutral);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-burnished-copper);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sandalwood);
+}
+
+::selection {
+  background: var(--color-marigold-gold);
+  color: var(--color-midnight-mandir);
+}
+
+/* ==========================================================================
+   SKIP LINK (Accessibility)
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-marigold-gold);
+  color: var(--color-midnight-mandir);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-standard);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-jasmine-white);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   FOCUS VISIBLE — Brand-compliant marigold focus ring
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(245, 168, 0, 0.22);
+}
+
+/* ==========================================================================
+   REDUCED MOTION — Honor prefers-reduced-motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

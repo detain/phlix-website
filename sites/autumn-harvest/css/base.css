@@ -1,0 +1,230 @@
+/* ==========================================================================
+   base.css — Autumn Harvest Design Tokens
+   Kit: autumn-harvest v1.0
+   ========================================================================== */
+
+/* ─── Modern Reset ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-primary:   #B5321A;
+  --color-secondary: #D4601A;
+  --color-tertiary:  #C8901A;
+  --color-accent:    #2D5016;
+  --color-bg:        #F7EDD8;
+  --color-surface:   #FAF2E2;
+  --color-surface-alt: #EDE0C4;
+  --color-text:      #1E140A;
+  --color-border:    #3D2510;
+  --color-success:   #7DAF6A;
+  --color-warning:   #D4860A;
+  --color-error:     #9B2215;
+  --color-info:      #3D6B2C;
+  --color-focus:     #D4601A;
+  --color-shadow:    #5C3D1E;
+  --color-overlay:   #1A0D05;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   18px;
+  --radius-xl:   28px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Playfair Display', Georgia, serif;
+  --font-display:  'Playfair Display', Georgia, serif;
+  --font-body:     'Lora', Georgia, serif;
+  --font-ui:       'Nunito', 'Open Sans', system-ui, sans-serif;
+  --font-mono:     'Inconsolata', 'Courier New', monospace;
+  --font-number:   'Playfair Display', Georgia, serif;
+
+  /* Font weights */
+  --font-weight-regular: 400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:    700;
+
+  /* Shadows — warm bark-brown tinted */
+  --shadow-sm: 0 1px 3px rgba(92,61,30,0.15);
+  --shadow-md: 0 4px 12px rgba(92,61,30,0.20);
+  --shadow-lg: 0 12px 28px rgba(92,61,30,0.26);
+  --shadow-xl: 0 24px 48px rgba(92,61,30,0.32);
+
+  /* Motion */
+  --duration-fast:   150ms;
+  --duration-base:   300ms;
+  --duration-slow:   500ms;
+  --duration-drift:  800ms;
+  --ease-settle:     cubic-bezier(0.22, 0.68, 0, 1.2);
+  --ease-out:        ease-out;
+  --ease-in-out:     ease-in-out;
+
+  /* Typography scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+
+  /* Line heights */
+  --leading-tight:  1.1;
+  --leading-snug:   1.25;
+  --leading-normal: 1.35;
+  --leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.01em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.01em;
+  --tracking-wider:   0.02em;
+
+  /* Layout */
+  --max-width: 1440px;
+  --content-width: 1200px;
+  --prose-width: 72ch;
+
+  /* Borders */
+  --border-width: 1.5px;
+  --border-color: var(--color-border);
+
+  /* Focus ring — burnt-orange with cream offset */
+  --focus-ring: 2px solid var(--color-focus);
+  --focus-offset: 2px;
+}
+
+/* ─── Base element defaults ──────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* Text selection — warm amber */
+::selection {
+  background-color: rgba(200, 144, 26, 0.3);
+  color: var(--color-text);
+}
+
+/* Focus visible — burnt orange ring */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Typography base ─────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+h1 { font-size: var(--text-5xl); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+p {
+  margin-bottom: var(--space-4);
+  max-width: var(--prose-width);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  padding-left: var(--space-6);
+}
+
+li {
+  margin-bottom: var(--space-2);
+}
+
+/* ─── Skip link ──────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-surface) !important;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

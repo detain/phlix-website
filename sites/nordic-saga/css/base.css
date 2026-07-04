@@ -1,0 +1,290 @@
+/* ==========================================================================
+   base.css — reset, tokens, and base element styles
+   Nordic Saga brand kit — phlix-website/sites/nordic-saga/
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Self-hosted Fonts via @font-face with font-display: swap
+   ========================================================================== */
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gt79mT7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gtR9mT7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gt79mT7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/cinzel/v23/8vIU7ww63mVu7gt79mT7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Uncial Antiqua';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/uncialantiqua/v13/J7acnppxBG0QE2nGWfVDBJSaBb8ghdTH.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/merriweather/v30/u-440qyriQwlOrhSvowK_dL852iZRHfH4.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/merriweather/v30/u-4nqyriQwlOrhSvowK_dLsuqWU_h9C7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/sourcecode/v22/7rqmF8p4xC2vQLob2VVSxfZ8ZCBKZg9D.v.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/sourcecode/v22/7rqmF8p4xC2vQLob2VVSxfZ8ZCkKZg9D.v.woff2') format('woff2');
+}
+
+/* ==========================================================================
+   2. CSS Custom Properties — Design Tokens from Nordic Saga kit
+   ========================================================================== */
+:root {
+  /* --- Color System --- */
+  --color-primary:    #C8700A;
+  --color-secondary:  #4A8FB5;
+  --color-tertiary:   #8B6DC8;
+  --color-neutral:    #5A6070;
+  --color-bg:         #060C12;
+  --color-surface:    #0A1320;
+  --color-surface-alt:#101C2C;
+  --color-text:       #E8E0D0;
+  --color-success:    #4A9B6F;
+  --color-warning:    #E08B20;
+  --color-error:      #C0392B;
+  --color-info:       #3A9EC8;
+  --color-focus:      #C8700A;
+  --color-border:     #1E2D3E;
+  --color-shadow:     rgb(200 112 10 / 0.18);
+  --color-overlay:    rgb(6 12 18 / 0.82);
+
+  /* --- Gradients --- */
+  --gradient-forge-horizon: linear-gradient(160deg, #C8700A 0%, #8B6DC8 100%);
+  --gradient-forge-halo: radial-gradient(ellipse at center, rgb(200 112 10 / 0.32) 0%, rgb(6 12 18 / 0) 70%);
+  --gradient-sea-depth: linear-gradient(180deg, #0A1320 0%, #060C12 100%);
+
+  /* --- Spacing Scale (9 steps) --- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* --- Corner Radius Scale --- */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   16px;
+  --radius-pill: 999px;
+
+  /* --- Typography --- */
+  --font-headline: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-display:  'Uncial Antiqua', MedievalSharp, Norse, palatino, serif;
+  --font-body:    Merriweather, Georgia, palatino, serif;
+  --font-ui:      'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-mono:    'Source Code Pro', 'Courier New', monospace;
+  --font-number:  'Cinzel', 'Trajan Pro', Georgia, serif;
+
+  /* --- Shadow System --- */
+  --shadow-sm:       0 1px 4px rgb(0 0 0 / 0.7);
+  --shadow-md:       0 4px 16px rgb(0 0 0 / 0.75), 0 0 8px rgb(200 112 10 / 0.06);
+  --shadow-lg:       0 12px 40px rgb(0 0 0 / 0.85), 0 0 24px rgb(200 112 10 / 0.10);
+  --shadow-forge:    0 0 14px rgb(200 112 10 / 0.55), 0 0 36px rgb(200 112 10 / 0.22);
+  --shadow-fjord:    0 0 12px rgb(74 143 181 / 0.45), 0 0 28px rgb(74 143 181 / 0.18);
+  --shadow-rune:     0 0 12px rgb(139 109 200 / 0.45), 0 0 28px rgb(139 109 200 / 0.18);
+
+  /* --- Layout --- */
+  --max-width: 1400px;
+  --nav-height: 72px;
+
+  /* --- Transition & Motion --- */
+  --transition-fast:   150ms ease-out;
+  --transition-medium: 250ms ease-out;
+  --transition-slow:   400ms ease-in-out;
+  --transition-weighty: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-stone-door:   cubic-bezier(0.7, 0, 0.3, 1);
+  --ease-forge:        cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   3. Modern Reset
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   4. Accessibility — Skip Link & Focus Ring
+   ========================================================================== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   5. Text Selection
+   ========================================================================== */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* ==========================================================================
+   6. Scrollbar (webkit)
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* ==========================================================================
+   7. Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
