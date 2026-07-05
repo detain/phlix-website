@@ -1,0 +1,199 @@
+/* ============================================================
+   base.css — Reset + CSS Design Tokens
+   Brand kit: Tropical Lagoon (tropical-lagoon)
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── CSS Design Tokens ─────────────────────────────────────── */
+:root {
+  /* Color — semantic roles */
+  --color-primary:   #00D4B8;
+  --color-secondary:  #FF6B35;
+  --color-tertiary:   #90E050;
+  --color-bg:         #011A20;
+  --color-surface:    #02242C;
+  --color-surface-alt:#03303C;
+  --color-text:       #F0FAF8;
+  --color-neutral:    #3A6060;
+  --color-success:    #00B87A;
+  --color-warning:    #FFC300;
+  --color-error:      #E53935;
+  --color-info:       #29B6D4;
+  --color-border:     #0A3D4A;
+  --color-focus:      #00D4B8;
+
+  /* Gradients */
+  --grad-lagoon-surface:   linear-gradient(160deg, #00D4B8 0%, #29B6D4 100%);
+  --grad-tropical-sunset:  linear-gradient(180deg, #FF6B35 0%, #FFC300 50%, #00D4B8 100%);
+  --grad-lagoon-depth:      linear-gradient(180deg, #02242C 0%, #011A20 100%);
+  --grad-canopy-light:     radial-gradient(ellipse at center, rgba(0,212,184,0.25) 0%, rgba(1,26,32,0.0) 70%);
+
+  /* Spacing scale (px) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   32px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Josefin Sans', 'Century Gothic', 'Futura', sans-serif;
+  --font-display:  'Pacifico', 'Righteous', 'Comfortaa', cursive;
+  --font-body:     'Nunito', 'Lato', 'Helvetica Neue', sans-serif;
+  --font-ui:       'Nunito', 'system-ui', 'Segoe UI', sans-serif;
+  --font-mono:     'Fira Code', 'Courier New', 'Courier', monospace;
+
+  /* Font tracking */
+  --tracking-tight:   0.01em;
+  --tracking-normal:  0.02em;
+  --tracking-open:    0.04em;
+  --tracking-widest:  0.06em;
+
+  /* Font weights */
+  --weight-regular: 400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Line heights */
+  --lh-tight:   1.1;
+  --lh-snug:    1.35;
+  --lh-normal:  1.65;
+  --lh-relaxed: 1.7;
+
+  /* Shadows */
+  --shadow-sm:         0 1px 4px rgba(0,0,0,0.4);
+  --shadow-md:         0 4px 16px rgba(0,0,0,0.5), 0 0 8px rgba(0,212,184,0.07);
+  --shadow-lg:         0 12px 40px rgba(0,0,0,0.6), 0 0 24px rgba(0,212,184,0.10);
+  --shadow-turquoise:  0 0 14px rgba(0,212,184,0.5), 0 0 36px rgba(0,212,184,0.18);
+  --shadow-coral:      0 0 14px rgba(255,107,53,0.5), 0 0 36px rgba(255,107,53,0.18);
+  --shadow-lime:       0 0 14px rgba(144,224,80,0.45), 0 0 32px rgba(144,224,80,0.16);
+
+  /* Layout */
+  --max-width:     1400px;
+  --page-padding:  var(--space-6);
+
+  /* Easing */
+  --ease-water:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:      ease-out;
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 160ms;
+  --duration-med:  220ms;
+  --duration-slow: 380ms;
+}
+
+/* ── Base element defaults ─────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: 1rem;
+  line-height: var(--lh-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-open);
+  color: var(--color-text);
+}
+
+p {
+  line-height: var(--lh-relaxed);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-water);
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ── Skip link ─────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg) !important;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  font-size: 0.875rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-water);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-turquoise);
+}
+
+/* ── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0,212,184,0.25);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
