@@ -1,0 +1,200 @@
+/* ============================================================================
+   BASE.CSS — Volcanic Forge
+   Token foundation: :root CSS custom properties from design_tokens + kit palette
+   ============================================================================ */
+
+/* ─── Modern CSS Reset ────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Design Tokens — Color ───────────────────────────────────────────────── */
+:root {
+  /* Primary palette */
+  --color-primary:   #E8611A;
+  --color-secondary: #C0241A;
+  --color-tertiary:  #D4820A;
+
+  /* Surfaces */
+  --color-bg:         #0E0C0A;
+  --color-surface:    #1C1916;
+  --color-surface-alt: #2A2520;
+
+  /* Text */
+  --color-text:       #F0EAE0;
+  --color-text-muted: #7A7268;
+
+  /* Utility */
+  --color-border:   #3D3530;
+  --color-success:  #4A8C5C;
+  --color-warning:  #C8A80E;
+  --color-error:    #A01810;
+  --color-info:     #2A6080;
+  --color-focus:    #E8611A;
+
+  /* Shadow */
+  --color-shadow:   rgb(26, 10, 0, 0.55);
+  --color-overlay:  rgb(10, 8, 6, 0.72);
+  --color-glow:     rgb(232, 97, 26, 0.30);
+
+  /* Gradients */
+  --gradient-magma:     linear-gradient(135deg, #E8611A, #C0241A, #6B0D08);
+  --gradient-eruption:  radial-gradient(ellipse at center, rgb(232,97,26,0.35), rgb(14,12,10,0.0) 70%);
+  --gradient-forge-horizon: linear-gradient(180deg, #D4820A, #E8611A, #0E0C0A);
+  --gradient-cinder-fade: linear-gradient(90deg, rgb(212,130,10,0.0), rgb(212,130,10,0.18));
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm:   0 1px 3px rgb(26,10,0,0.45);
+  --shadow-md:   0 4px 12px rgb(26,10,0,0.55), 0 0 0 1px rgb(232,97,26,0.04);
+  --shadow-lg:   0 12px 32px rgb(26,10,0,0.70), 0 0 0 1px rgb(232,97,26,0.06);
+  --shadow-glow: 0 0 20px rgb(232,97,26,0.30);
+
+  /* Font families */
+  --font-headline: 'Anton', 'Barlow Condensed', impact, sans-serif;
+  --font-display:  'Barlow Condensed', anton, oswald, sans-serif;
+  --font-body:     'Barlow', roboto, 'Helvetica Neue', arial, sans-serif;
+  --font-ui:       'Barlow Semi Condensed', barlow, system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+}
+
+/* ─── Base element defaults ───────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography base ──────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+p {
+  line-height: 1.55;
+  max-width: 70ch;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+a:hover {
+  color: var(--color-tertiary);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ─── Focus styles ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Skip link ────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top 150ms ease-out;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}

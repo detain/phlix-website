@@ -1,0 +1,352 @@
+/* ==========================================================================
+   theme.css — Typography scale, layout containers, page structure
+   Soundwave Studio brand kit — immersive dark studio aesthetic
+   ========================================================================== */
+
+/* ==========================================================================
+   Typography scale — from kit fonts
+   ========================================================================== */
+
+.font-headline { font-family: var(--font-headline); }
+.font-display  { font-family: var(--font-display); }
+.font-body     { font-family: var(--font-body); }
+.font-ui       { font-family: var(--font-ui); }
+.font-mono     { font-family: var(--font-mono); }
+
+/* Display — Share Tech Mono for oversized readouts */
+.text-display {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 0.06em;
+  line-height: 1.0;
+  color: var(--color-primary);
+}
+
+/* UI labels — Rajdhani, ALL CAPS with wide tracking */
+.text-ui {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Monospace readouts */
+.text-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Body text */
+.text-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+/* Eyebrow — small caps label above headlines */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+/* ==========================================================================
+   Layout containers — max-width 1600px (kit dashboard_style)
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container-narrow {
+  max-width: 900px;
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* Page sections with vertical rhythm */
+.section {
+  padding-block: var(--space-12);
+}
+
+.section + .section {
+  border-top: 1px solid var(--color-border);
+}
+
+/* ==========================================================================
+   Page structure — hero
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 230, 118, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(124, 77, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding-block: var(--space-16);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-6);
+  color: var(--color-text);
+}
+
+.hero-sub {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-neutral);
+  max-width: 640px;
+  margin-bottom: var(--space-8);
+}
+
+.hero-cta {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Page structure — pitch
+   ========================================================================== */
+
+.pitch {
+  background: var(--color-surface);
+  padding-block: var(--space-12);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pitch-inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.pitch h2 {
+  margin-bottom: var(--space-6);
+  color: var(--color-text);
+}
+
+.pitch-bullets {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 700px;
+}
+
+.pitch-bullets li {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  padding-left: var(--space-6);
+  position: relative;
+}
+
+.pitch-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: var(--space-3);
+  height: 2px;
+  background: var(--color-primary);
+}
+
+/* ==========================================================================
+   Page structure — features overview
+   ========================================================================== */
+
+.features-overview {
+  padding-block: var(--space-12);
+}
+
+.features-overview-inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.features-overview h2 {
+  margin-bottom: var(--space-8);
+  color: var(--color-text);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.features-more {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.features-more a {
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.features-more a:hover {
+  color: var(--color-secondary);
+}
+
+/* ==========================================================================
+   Page structure — CTA banner
+   ========================================================================== */
+
+.cta-banner {
+  background: var(--color-surface);
+  padding-block: var(--space-12);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.cta-banner-inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.cta-banner h2 {
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+}
+
+/* ==========================================================================
+   Page structure — page header (inner pages)
+   ========================================================================== */
+
+.page-header {
+  background: var(--color-bg);
+  padding-block: var(--space-12);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 230, 118, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-header-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.page-header h1 {
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.page-lead {
+  font-size: 1.125rem;
+  color: var(--color-neutral);
+  max-width: 640px;
+}
+
+/* ==========================================================================
+   Page structure — content sections
+   ========================================================================== */
+
+.content-section {
+  padding-block: var(--space-12);
+}
+
+.content-section h2 {
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: var(--space-4);
+  }
+
+  .hero {
+    min-height: auto;
+    padding-block: var(--space-12);
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}

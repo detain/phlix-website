@@ -1,0 +1,284 @@
+/* ==========================================================================
+   Stardust Observatory — base.css
+   CSS tokens, reset, and element defaults
+   Built from brand kit: stardust-observatory v1.0
+   ========================================================================== */
+
+/* ── Fonts: using system serif/sans fallback stack ────────────────────────── */
+
+/* Self-hosted WOFF2 in css/fonts/ (optional): add @font-face blocks here when ready */
+
+/* ── Design Tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --color-primary: #C9A84C;
+  --color-secondary: #B07D3A;
+  --color-tertiary: #7B5EA7;
+  --color-neutral: #A8B4C0;
+  --color-bg: #0D1B2A;
+  --color-surface: #162338;
+  --color-surface-alt: #1E2E45;
+  --color-text: #EDE4CC;
+  --color-success: #5B9E78;
+  --color-warning: #D4952A;
+  --color-error: #B03A2E;
+  --color-info: #3A7BD5;
+  --color-focus: #E8D48B;
+  --color-border: #7A5C2A;
+  --color-shadow: rgb(6, 14, 24, 0.45);
+  --color-overlay: rgb(6, 16, 26, 0.75);
+
+  /* Named swatches */
+  --color-constellation-gold: #C9A84C;
+  --color-telescope-brass: #B07D3A;
+  --color-nebula-violet: #7B5EA7;
+  --color-stardust-silver: #A8B4C0;
+  --color-midnight-navy: #0D1B2A;
+  --color-observatory-indigo: #162338;
+  --color-deep-meridian: #1E2E45;
+  --color-dome-parchment: #EDE4CC;
+  --color-brass-filigree: #7A5C2A;
+  --color-star-point-focus: #E8D48B;
+
+  /* Gradients */
+  --gradient-celestial-zenith: linear-gradient(180deg, #1A2744 0%, #0D1B2A 100%);
+  --gradient-nebula-bloom: radial-gradient(ellipse at center, rgb(123,94,167,0.35) 0%, rgb(13,27,42,0.0) 100%);
+  --gradient-brass-shimmer: linear-gradient(90deg, #B07D3A, #C9A84C, #B07D3A);
+  --gradient-star-atlas-horizon: linear-gradient(180deg, rgb(201,168,76,0.08) 0%, rgb(13,27,42,0.0) 100%);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Playfair Display', georgia, 'Times New Roman', serif;
+  --font-display: 'IM Fell English', 'Palatino Linotype', palatino, serif;
+  --font-body: 'Lora', palatino, georgia, serif;
+  --font-ui: 'Jost', futura, 'Gill Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', courier, monospace;
+
+  /* Font tracking */
+  --tracking-headline: 0.01em;
+  --tracking-display: 0.02em;
+  --tracking-ui: 0.04em;
+
+  /* Line heights */
+  --lh-headline: 1.15;
+  --lh-display: 1.2;
+  --lh-body: 1.7;
+  --lh-ui: 1.3;
+  --lh-mono: 1.6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgb(6, 14, 24, 0.40);
+  --shadow-md: 0 4px 12px rgb(6, 14, 24, 0.55);
+  --shadow-lg: 0 12px 32px rgb(6, 14, 24, 0.65);
+  --shadow-glow-gold: 0 0 18px rgb(201, 168, 76, 0.28);
+  --shadow-glow-violet: 0 0 24px rgb(123, 94, 167, 0.30);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 500ms;
+  --duration-celestial: 1200ms;
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  --ease-out: ease-out;
+}
+
+/* ── Modern Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-default);
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-text);
+}
+
+p {
+  margin-block-end: var(--space-4);
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
+
+/* ── Skip Link ─────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-ui);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-default);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Focus Ring ────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Reduced Motion ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Selection ─────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgb(201, 168, 76, 0.30);
+  color: var(--color-text);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ── Base element defaults ─────────────────────────────────────────────────── */
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+}
+
+pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text);
+}
+
+/* ── Layout container ─────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (width <= 768px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+}
+
+/* ── Reduced motion overrides ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dome-open-animation,
+  .star-fade-in,
+  .constellation-line {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

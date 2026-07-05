@@ -1,0 +1,368 @@
+/* ==========================================================================
+   BASE.CSS — Street Mural Brand Kit
+   Dark concrete first. Spray-can vivid. Hard edges, hard shadows.
+   ========================================================================== */
+
+/* Self-hosted fonts (WOFF2) — served from css/fonts/ */
+@font-face {
+  font-family: Anton;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/anton-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Boogaloo;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/boogaloo-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/barlow-condensed-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/barlow-condensed-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Barlow;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/barlow-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Barlow;
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/barlow-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Barlow;
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/barlow-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/share-tech-mono-400.woff2') format('woff2');
+}
+
+/* Modern Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ==========================================================================
+   DESIGN TOKENS — :root
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #E81F1F;
+  --color-secondary: #06F;
+  --color-tertiary: #FFD600;
+  --color-chrome: #C0C0C0;
+  --color-bg: #2B2B2B;
+  --color-surface: #383838;
+  --color-surface-alt: #1E1E1E;
+  --color-text: #F0F0F0;
+  --color-border: #0D0D0D;
+  --color-success: #39D353;
+  --color-warning: #FF8C00;
+  --color-error: #C00;
+  --color-info: #00BFFF;
+  --color-focus: #FFD600;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius Scale */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Anton', impact, haettenschweiler, 'Arial Narrow', sans-serif;
+  --font-display: 'Boogaloo', 'Permanent Marker', anton, sans-serif;
+  --font-body: 'Barlow Condensed', 'Roboto Condensed', 'Arial Narrow', helvetica, sans-serif;
+  --font-ui: 'Barlow', roboto, system-ui, sans-serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', courier, monospace;
+
+  /* Shadows — hard offset, no blur (graffiti drop-shadow) */
+  --shadow-sm: 2px 2px 0px #0D0D0D;
+  --shadow-md: 4px 4px 0px #0D0D0D;
+  --shadow-lg: 8px 8px 0px #0D0D0D;
+
+  /* Gradient definitions */
+  --grad-spray-blast: linear-gradient(120deg, #E81F1F, #FF8C00, #FFD600);
+  --grad-blue-fade: linear-gradient(180deg, #06F, #00BFFF);
+  --grad-chrome-shine: linear-gradient(90deg, #888, #F0F0F0, #888);
+  --grad-night-wall: linear-gradient(180deg, #1E1E1E, #2B2B2B);
+  --grad-halo-overspray: radial-gradient(circle, rgb(232, 31, 31, 0.6), rgb(232, 31, 31, 0));
+
+  /* Motion */
+  --ease-snap: cubic-bezier(0.77, 0, 0.18, 1);
+  --ease-in-out: ease-in-out;
+  --duration-fast: 120ms;
+  --duration-med: 200ms;
+}
+
+/* ==========================================================================
+   BASE ELEMENT DEFAULTS
+   ========================================================================== */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #2B2B2B 0%, #1E1E1E 100%);
+  background-repeat: repeat, repeat;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-in-out);
+}
+
+a:hover {
+  color: var(--color-info);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+code {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.4em;
+  color: var(--color-chrome);
+}
+
+pre {
+  background: var(--color-surface-alt);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  box-shadow: var(--shadow-md);
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   SKIP LINK
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: top var(--duration-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   FOCUS VISIBLE — vivid yellow, instant, no blur
+   ========================================================================== */
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   SCROLLBAR — dark, angular
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral, #7A7A7A);
+}
+
+/* ==========================================================================
+   PREFERS REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (width <= 768px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+}
