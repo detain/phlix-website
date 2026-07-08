@@ -16,6 +16,7 @@
  *      import brandKit from './brand-kits/festive-lantern.js'
  *      import { brandKit } from './brand-kits/festive-lantern.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

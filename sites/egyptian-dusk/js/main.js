@@ -2,6 +2,7 @@
  * Egyptian Dusk — main.js
  * Vanilla JS, no dependencies, defer-loaded.
  * Handles: mobile nav toggle, reduced-motion, scroll reveals.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

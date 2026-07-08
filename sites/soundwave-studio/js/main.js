@@ -5,6 +5,7 @@
  * - Mobile nav toggle (aria-expanded, Esc close, focus trap)
  * - Reduced motion: gate waveform animations behind prefers-reduced-motion
  * - Scroll reveals with IntersectionObserver
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

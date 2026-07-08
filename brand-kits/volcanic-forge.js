@@ -13,6 +13,7 @@
  *  Palette anchor: molten orange, lava red, obsidian black, ash gray, ember
  *  gold, sulfur yellow.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

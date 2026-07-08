@@ -15,6 +15,7 @@
  *      import brandKit from './brand-kits/editorial-underground.js'
  *      import { brandKit } from './brand-kits/editorial-underground.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

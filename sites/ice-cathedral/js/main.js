@@ -1,6 +1,7 @@
 /**
  * main.js — Ice Cathedral
  * Nav toggle, reduced motion, scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

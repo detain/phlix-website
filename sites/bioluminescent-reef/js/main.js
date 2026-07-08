@@ -2,6 +2,7 @@
  * main.js — Bioluminescent Reef
  * Vanilla JS, no dependencies, defer-loaded.
  * Responsibilities: mobile nav toggle, reduced-motion, scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

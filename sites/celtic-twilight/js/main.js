@@ -1,6 +1,7 @@
 /**
  * main.js — Celtic Twilight / Phlix
  * Vanilla JS: nav toggle, reduced-motion, scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

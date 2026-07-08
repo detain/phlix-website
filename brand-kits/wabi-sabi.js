@@ -17,6 +17,7 @@
  *      import brandKit from './brand-kits/wabi-sabi.js'
  *      import { brandKit } from './brand-kits/wabi-sabi.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

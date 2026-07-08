@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ============================================================================
    main.js — Reduced-motion, scroll reveals
    Renaissance Atelier brand kit — phlix-website/sites/renaissance-atelier/

@@ -2,6 +2,7 @@
  * Stardust Observatory — js/main.js
  * Navigation toggle, reduced motion, and scroll reveals
  * Celestially slow, purposeful, luminous
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

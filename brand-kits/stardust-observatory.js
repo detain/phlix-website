@@ -17,6 +17,7 @@
  *      import brandKit from './stardust-observatory.js'
  *      import { brandKit } from './stardust-observatory.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

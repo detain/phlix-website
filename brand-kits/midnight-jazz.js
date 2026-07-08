@@ -14,6 +14,7 @@
  *      import brandKit from './midnight-jazz.js'
  *      import { brandKit } from './midnight-jazz.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

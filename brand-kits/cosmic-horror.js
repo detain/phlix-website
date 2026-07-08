@@ -15,6 +15,7 @@
  *      import brandKit from './brand-kits/cosmic-horror.js'
  *      import { brandKit } from './brand-kits/cosmic-horror.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

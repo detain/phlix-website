@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ============================================================
    main.js — Venetian Masquerade site interactivity
    Kit: venetian-masquerade v1.0

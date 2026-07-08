@@ -1,6 +1,7 @@
 /**
  * js/main.js — nav toggle, reduced-motion, scroll reveals
  * Art Nouveau Garden brand kit
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

@@ -2,6 +2,7 @@
  * Editorial Underground — main.js
  * Mobile nav toggle, reduced-motion, focus management.
  * Hard cuts only. No easing. No exceptions.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

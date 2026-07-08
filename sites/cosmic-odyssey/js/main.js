@@ -1,6 +1,7 @@
 /**
  * main.js — Cosmic Odyssey
  * Mobile nav toggle + reduced-motion + scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

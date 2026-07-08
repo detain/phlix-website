@@ -16,6 +16,7 @@
  *      import brandKit from './brand-kits/mid-century-modern.js'
  *      import { brandKit } from './brand-kits/mid-century-modern.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

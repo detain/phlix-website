@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ============================================================
    main.js — Nav toggle, reduced-motion, scroll reveals
    Brand kit: Tropical Lagoon (tropical-lagoon)

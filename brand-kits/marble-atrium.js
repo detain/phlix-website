@@ -10,6 +10,7 @@
  *  Marble white, Carrara grey veining, champagne gold, jet black, blush rose,
  *  deep botanical green — refined, elevated, impeccable, serene luxury.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

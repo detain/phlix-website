@@ -1,6 +1,7 @@
 /**
  * main.js — Neon Blossom brand kit
  * Vanilla, dependency-free. defer-loaded.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

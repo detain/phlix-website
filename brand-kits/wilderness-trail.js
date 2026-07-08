@@ -12,6 +12,7 @@
  *  Pine green, granite gray, trail brown, campfire orange, sky blue,
  *  canvas tan. Rugged, adventurous, grounded, awe-struck, self-reliant.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

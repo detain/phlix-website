@@ -14,6 +14,7 @@
  *      import brandKit from './brand-kits/swiss-modernist.js'
  *      import { brandKit } from './brand-kits/swiss-modernist.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

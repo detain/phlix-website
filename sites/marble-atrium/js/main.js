@@ -5,6 +5,7 @@
  *   - Mobile nav toggle (aria-expanded, Esc close, outside click)
  *   - Reduced motion gate (prefers-reduced-motion)
  *   - Optional scroll reveal (IntersectionObserver)
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

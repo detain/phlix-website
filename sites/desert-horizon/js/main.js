@@ -2,6 +2,7 @@
  * main.js — Desert Horizon
  * Mobile nav toggle, reduced-motion, scroll reveals
  * Vanilla, dependency-free, defer-loaded
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

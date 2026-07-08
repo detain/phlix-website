@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
    MAIN.JS — Neon Noir brand kit
    Nav toggle, reduced-motion, scroll reveals

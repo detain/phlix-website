@@ -14,6 +14,7 @@
  *      import brandKit from './pastel-dreamscape.js'
  *      // or: const { brandKit } = require('./pastel-dreamscape.js')
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

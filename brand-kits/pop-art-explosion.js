@@ -13,6 +13,7 @@
  *
  *  BASE kit — not a variation.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

@@ -12,6 +12,7 @@
  *  gleam, and the mingled scent of old paper, leather, and oak. This is where
  *  culture lives — not on a stage, but in a room you never want to leave.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

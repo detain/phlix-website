@@ -10,6 +10,7 @@
  *  plus spray-can metallics, concrete gray, tag black. Expressive,
  *  community-powered, raw, democratic, loud.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {
