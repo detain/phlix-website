@@ -16,6 +16,7 @@
  *
  *  Fonts: geometric Art Deco display; elegant serif body.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

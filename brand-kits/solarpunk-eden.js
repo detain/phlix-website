@@ -13,6 +13,7 @@
  *      import brandKit from './solarpunk-eden.js'
  *      import { brandKit } from './solarpunk-eden.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

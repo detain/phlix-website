@@ -1,6 +1,7 @@
 /**
  * main.js — Wabi-Sabi Brand Kit
  * Vanilla JS, no dependencies, deferred loading
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

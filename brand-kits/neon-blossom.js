@@ -21,6 +21,7 @@
  *    import baseKit from './brand-kits/neon-blossom.js'
  *    import { brandKit } from './brand-kits/neon-blossom.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

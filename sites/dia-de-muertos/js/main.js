@@ -1,6 +1,7 @@
 /**
  * main.js — Día de Muertos brand kit
  * Mobile nav toggle, reduced-motion, scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

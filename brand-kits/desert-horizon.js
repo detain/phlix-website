@@ -13,6 +13,7 @@
  *
  *  Schema version: 2.0   Kit type: base
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

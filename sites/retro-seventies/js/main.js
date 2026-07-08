@@ -1,6 +1,7 @@
 /**
  * js/main.js — Retro Seventies Brand Kit
  * Mobile nav toggle, reduced-motion gate, scroll reveals.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

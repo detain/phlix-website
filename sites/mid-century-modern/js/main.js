@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ===========================================================================
    main.js — Mid-Century Modern Brand Kit
    Mobile nav toggle, reduced-motion guard, scroll reveals

@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
    MAIN.JS — Bollywood Dreams
    Mobile nav toggle, reduced-motion guard, scroll reveals

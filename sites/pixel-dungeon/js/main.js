@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
    main.js — Pixel Dungeon brand kit site
    Nav toggle, reduced-motion, scroll reveals

@@ -10,6 +10,7 @@
  *  gray, mossy earth, and mist white. Mystical, ancient, folk-rooted, lyrical,
  *  deeply connected to the land and its stories.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

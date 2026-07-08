@@ -1,6 +1,7 @@
 /**
  * main.js — Street Mural brand kit site
  * Vanilla JS, no dependencies, defer-loaded.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

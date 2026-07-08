@@ -15,6 +15,7 @@
  *      import brandKit from './brand-kits/chrome-velocity.js'
  *      import { brandKit } from './brand-kits/chrome-velocity.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

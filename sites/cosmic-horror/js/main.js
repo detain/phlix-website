@@ -1,6 +1,7 @@
 /**
  * js/main.js — Cosmic Horror Brand Kit
  * Mobile nav toggle, reduced-motion guard, scroll reveal animations.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

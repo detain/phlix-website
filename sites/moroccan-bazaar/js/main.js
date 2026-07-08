@@ -1,6 +1,7 @@
 /**
  * Moroccan Bazaar — main.js
  * Nav toggle, reduced-motion gate, scroll reveal
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 (function () {
   'use strict';

@@ -11,6 +11,7 @@
  *  punched through with spot red and impact yellow. Bold, expressive,
  *  passionate, and beautifully hand-crafted.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

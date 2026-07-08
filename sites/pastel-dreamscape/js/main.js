@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 (function(){
   'use strict';
   var navToggle=document.querySelector('.nav-toggle');

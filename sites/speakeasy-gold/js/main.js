@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
    main.js — Speakeasy Gold
    Kit: speakeasy-gold v1.0

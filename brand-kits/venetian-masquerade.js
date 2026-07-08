@@ -13,6 +13,7 @@
  *  Kit Type : base
  *  Version  : 1.0
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

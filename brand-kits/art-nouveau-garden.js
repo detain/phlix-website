@@ -11,6 +11,7 @@
  *  kit_type : "base"
  *  slug     : "art-nouveau-garden"
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

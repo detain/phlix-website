@@ -18,6 +18,7 @@
  *      import baseKit from './holographic-future.js'
  *      import { brandKit } from './holographic-future.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

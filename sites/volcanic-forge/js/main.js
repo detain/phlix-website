@@ -1,6 +1,7 @@
 /**
  * js/main.js — Volcanic Forge
  * Vanilla, dependency-free. Mobile nav, reduced-motion, optional scroll reveals.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

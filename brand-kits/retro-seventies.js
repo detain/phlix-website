@@ -13,6 +13,7 @@
  *      import brandKit from './brand-kits/retro-seventies.js'
  *      import { brandKit } from './brand-kits/retro-seventies.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

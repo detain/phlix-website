@@ -14,6 +14,7 @@
  *      import brandKit from './brand-kits/ice-cathedral.js'
  *      import { brandKit } from './brand-kits/ice-cathedral.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

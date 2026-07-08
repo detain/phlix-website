@@ -16,6 +16,7 @@
  *      import brandKit from './brand-kits/bollywood-dreams.js'
  *      import { brandKit } from './brand-kits/bollywood-dreams.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

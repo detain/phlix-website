@@ -13,6 +13,7 @@
  *  brilliant is being captured. Charcoal studio black, waveform green, VU
  *  meter amber, signal red, console gray, foam purple.
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

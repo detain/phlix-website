@@ -15,6 +15,7 @@
  *      import brandKit from './brand-kits/nordic-saga.js'
  *      import { brandKit } from './brand-kits/nordic-saga.js'
  * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

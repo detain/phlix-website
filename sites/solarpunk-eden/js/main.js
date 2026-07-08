@@ -1,3 +1,9 @@
+/**
+ * Phlix brand kit configuration.
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
    main.js — Solarpunk Eden
    Kit: solarpunk-eden v1.0

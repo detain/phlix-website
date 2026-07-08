@@ -1,6 +1,7 @@
 /**
  * js/main.js — Pop Art Explosion site
  * Vanilla JS: nav toggle, reduced-motion, scroll reveals
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {
