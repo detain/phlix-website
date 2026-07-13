@@ -16,8 +16,8 @@ you chose.
 ## STEP 0 — Read your inputs (do this first, do not skip)
 
 1. `phlix-website/brand-kits/<name>.js` — the brand kit you are building from.
-2. `brand_kit_schema.js` (repo root, one level above `phlix-website/`) — the full
-   field-by-field schema reference (what every field means + its allowed values).
+2. `phlix-website/brand_kit_schema.js` (repo root) — the full field-by-field
+   schema reference (what every field means + its allowed values).
 3. `phlix-website/new_site.md` — the **site scaffold rulebook**: file layout, the
    8 pages, the shared HTML shell, common nav/footer links, SEO/social/a11y/perf
    gates, and the Definition of Done. **The structure of the site is defined
