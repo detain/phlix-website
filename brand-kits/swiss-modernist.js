@@ -567,6 +567,8 @@ const brandKit = {
       "There is nothing to meet here — only something to use.",
     poses: [],
     expressions: [],
+
+    behavior: null,
   },
 
   /* ==========================================================================
@@ -1129,7 +1131,7 @@ const brandKit = {
       active_range: "12-01..12-24",
       overrides: {
         "--color-bg": "#F5F5F2",
-        "--color-surface": "#EBEBЕ7",
+        "--color-surface": "#EBEBE7",
       },
       motif:
         "Slightly cooler off-white. A geometric snowflake reduced to its Bauhaus " +
@@ -1146,6 +1148,12 @@ const brandKit = {
         "top, below the navigation. Applied once per year. Nothing else changes.",
     },
   ],
+
+  seasonal_activation: {
+    mode: "documented",
+    motif_assets: [],
+    banner: null,
+  },
 
   /* ==========================================================================
    * 21. ACCESSIBILITY
@@ -1347,6 +1355,221 @@ const brandKit = {
         "Performance is a form of clarity. A fast-loading, instant-responding " +
         "interface is the most Swiss thing this system can produce.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",     emphasis: "default" },
+      { id: "features", label: "Features", emphasis: "primary" },
+      { id: "clients",  label: "Clients",  emphasis: "default" },
+      { id: "download", label: "Download", emphasis: "primary" },
+      { id: "plugins",  label: "Plugins",  emphasis: "default" },
+      { id: "docs",     label: "Docs",     emphasis: "muted" },
+      { id: "hub",      label: "Hub",      emphasis: "default" },
+      { id: "about",    label: "About",    emphasis: "muted" },
+    ],
+    demoted_pages: [],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "manifesto-first",
+    logline: "The grid is the system. The system is the answer. Everything else is ornament.",
+    sections: [
+      { id: "manifesto",         source: "brand_dna",           treatment: "A single bold declaration set in Inter Black at large size, grid-aligned, as the page's structural hero. One sentence. No hedging.", weight: "hero" },
+      { id: "value-structure",   source: "copy_overlay.hero",   treatment: "Hero subheadline rendered as structured bullet points aligned to the grid, each on its own row, each a self-contained statement.", weight: "major" },
+      { id: "features-grid",     source: "feature_casting",     treatment: "Two hero features cast as dark cards on the grid; remaining six features in a 12-column grid below as Module Gray modules with Ink Black type.", weight: "major" },
+      { id: "proof-placard",     source: "proof_strategy",      treatment: "Real numbers in Barlow Condensed Black: repo stars, client count, feature count. One Basel Red bar beneath. No decoration.", weight: "minor" },
+      { id: "install-cta",       source: "conversion_funnel",   treatment: "Single Basel Red button: 'Get Phlix'. Grid White text. The entire call to action is one line.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "standard",
+      spec: "Page header → 12-column grid of 8 feature cards (one per id from content.json features[]); each card has Ink Black title, 24px Inter 500 body, inline icon. Module Gray backgrounds, 1px borders, 0px radius. One Basel Red accent rule above the primary feature (library).",
+    },
+    clients: {
+      template: "standard",
+      spec: "Page header → 4-column card grid (5 clients), each with name as h3, tagline, highlights as a left-aligned list, status badge in Ink Black/Grid White. Links to repo when available. No decoration.",
+    },
+    download: {
+      template: "standard",
+      spec: "Page header → three discrete sections: Server (code block with install one-liner), Client cards (same 4-column grid as clients.html), Ecosystem repos as a structured list (name → repo link → description). Each section separated by a 2px Ink Black rule.",
+    },
+    about: {
+      template: "standard",
+      spec: "Page header → three major sections (Philosophy, License, Contributing) as full-width blocks separated by 2px rules. FAQ rendered as a two-column <dl> on desktop, single column on mobile; each term in Inter 600, each definition in Inter 400, no accordion behavior.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — shared facts, weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Drop a file, see it organized. Structure builds itself." },
+      { id: "auth",     angle: "Multi-user, multi-profile, ratings locked down. Precision control." },
+    ],
+    support: ["syncplay", "transcode", "livetv", "dlna"],
+    footnote: ["plugins", "hub"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Structure. Precision. Control.",
+      headline: "Your media. Grid. Grid. Logic.",
+      subheadline: "An open-source media server built on Swiss precision: multi-user profiles, real-time SyncPlay, transcoding that knows your network, and hub access without the internet.",
+      primary_cta: { label: "Install" },
+      secondary_cta: { label: "Read the spec" },
+    },
+    section_headings: {
+      pitch: "Built on principle",
+      features: "The grid. Complete.",
+      cta_banner: "Start now.",
+    },
+    footer_tagline: "Structure is everything.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "spec-rows",
+    faq: "man-page",
+    clients: "spec-table",
+    ecosystem: "repo-list",
+  },
+
+  /* ==========================================================================
+   * 26. FAQ EXPERIENCE  — FAQ presentation and reordering
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "man-page",
+    persona: null,
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I run this on my own hardware?", maps_to: "expose-internet" },
+      { q: "Do you invent features I don't need?", maps_to: "like-plex" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 27. PERSONA VIGNETTES  — concrete usage scenes for this kit's audience
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The systems architect",
+      scene: "An architect audits every dependency, every permission, every data flow. Phlix's PHP core and explicit contract appeal to someone who needs to understand the whole machine.",
+      surfaces: ["library grid", "auth settings", "plugin interface"],
+      features_shown: ["library", "auth", "plugins"],
+    },
+    {
+      name: "The academic researcher",
+      scene: "A researcher runs Phlix on their university department's media collection. The grid structure, the rational metadata handling, and transparent rules matter more than flash.",
+      surfaces: ["library grid", "media detail", "docs"],
+      features_shown: ["library", "transcode"],
+    },
+    {
+      name: "The methodical collector",
+      scene: "Someone with thousands of films organized by release year, resolution, and source. Phlix's file-based scanning, multi-profile setup, and quality profiles match their precision.",
+      surfaces: ["profile switcher", "library filters", "transcode profiles"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 28. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static",
+    spec: "A single static hero: full-width Grid White, Inter Black headline at maximum grid-width size, 4px Basel Red rule below it, subheadline in Inter 400, two buttons (primary Basel Red, secondary Ink Black). No animation. The entire hero is one layout with no layering or parallax.",
+    suggested_inputs: [],
+    fallback: "Same as active mode — the hero is fully static. No JS required.",
+    js_budget_kb: 0,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A Grid White topbar with 2px bottom Ink Black border. Logo at left in Inter Black, 20px. Eight links right-aligned, left-aligned on mobile in a column behind a hamburger. Active link gets Ink Black weight 700. No decorative elements. Topbar snaps to fixed position on scroll.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> list of links, fully keyboard reachable (Tab), focus visible via 2px Basel Red ring, collapsing to a hamburger on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "Plain continuous scroll. Each section begins with a 2px Ink Black rule spanning full column width as a visual anchor. No animation, no parallax, no scroll-reveal effects. The page reads as a grid of stacked modules.",
+    reduced_motion: "Unchanged — the page is already static continuous scroll. No motion removed.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "A 2px Basel Red rule sweeps horizontally across the page from left to right at constant velocity, once. Resets to hidden immediately.",
+      reward_copy: "Grids on grids.",
+      exit: "The sweep completes automatically (≈1s), or press Esc to cancel.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 29. CONVERSION & PROOF  — download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a visitor to a working install one-liner and client download in one view.",
+    cta_ladder: [
+      { step: 1, cta: "Install",           target: "download" },
+      { step: 2, cta: "Pick your client",  target: "download#clients" },
+    ],
+    download_opening: "The download page opens with a single, clear code block: 'One line to server.' Below it: the 5 clients as downloadable links with status badges. No marketing. No steps. No friction.",
+    friction_notes: "Architects and researchers tolerate zero friction — the install one-liner and clear client links are the only path required.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "Real capability counts in Barlow Condensed Black: 5 native clients, 8 core features, plugin contract, FFmpeg transcoding profiles. No adjectives." },
+      { type: "github",           format: "A modest row linking the real phlix-server repo with live star count and issue count (never hard-coded). Also link phlix-hub for relay infrastructure." },
+      { type: "quotes-from-docs", format: "One short line of truth pulled from the docs about self-hosting transparency, set in a Rule Gray box. Verbatim, attributed to 'docs.phlix'." },
+    ],
+    placement: "A single calm band between the features grid and the closing download CTA, labeled 'By the numbers.'",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 30. EXPERIENCE PROFILE  — declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "grid",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "foreground",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 404 rendered as a 'Missing Grid Alignment' error: the headline and content sit deliberately off-grid with one 2px Basel Red guide line showing the correct alignment. 'This page stepped off the grid. Use the navigation to find your way back.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

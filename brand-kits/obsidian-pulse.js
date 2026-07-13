@@ -889,6 +889,15 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/ice-crystal-pattern.svg",
+      "img/seasonal/midnight-vignette.svg",
+    ],
+    banner: null,
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -902,7 +911,209 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",        emphasis: "primary" },
+      { id: "features", label: "Features",    emphasis: "primary" },
+      { id: "clients",  label: "Clients",     emphasis: "default" },
+      { id: "download", label: "Download",    emphasis: "primary" },
+      { id: "hub",      label: "Hub",         emphasis: "default" },
+      { id: "about",    label: "About",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugin system is an advanced topic for power users; link to it from the Features page and footer.", fold_into: "features" },
+      { id: "docs",    reason: "Documentation lives in an external VitePress site; linked in footer under Developers." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "proof-first",
+    logline: "A precision instrument for your media: silent, powerful, built to vanish into the experience.",
+    sections: [
+      { id: "hero-signal",       source: "copy_overlay.hero",  treatment: "Full-bleed obsidian hero with animated electric-blue pulse scan line; headline and CTAs emerge as the line traverses.", weight: "hero" },
+      { id: "core-features",     source: "feature_casting",     treatment: "Three hero features (library, syncplay, transcode) laid out as isolated technical diagrams on a precision grid.", weight: "major" },
+      { id: "precision-proof",   source: "proof_strategy",      treatment: "Trust signals rendered as a horizontal 'specification band': real client count, GitHub activity, technical spec excerpt.", weight: "minor" },
+      { id: "client-hardware",   source: "page_blueprints.clients", treatment: "Five native clients rendered as hardware device silhouettes, each showing its native playback capability.", weight: "major" },
+      { id: "download-station",  source: "conversion_funnel",   treatment: "Download page opening as a precision 'workbench': server install snippet centered, client selector below.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "spec-sheet",
+      spec: "Present each feature as a technical specification card: title, one-line technical description, icon, and a single key technical detail in monospaced font.",
+    },
+    clients: {
+      template: "device-rack",
+      spec: "Lay each client device as a precision hardware silhouette — Roku, Samsung Tizen, Windows, Mobile, DLNA — each showing its native codec/playback strengths in a technical detail band.",
+    },
+    download: {
+      template: "workbench",
+      spec: "Frame the download as a precision workbench: server install one-liner centered and copied to clipboard with one tap, then client device-picker below, then ecosystem repo links as a 'reference shelf'.",
+    },
+    about: {
+      template: "technical-brief",
+      spec: "Tell the project story in three sections (Philosophy, License, Contributing), then the FAQ as a precision Q&A section styled as technical documentation.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — feature weighting & voice
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",   angle: "Your library indexed once, streamed to every device without reinvention." },
+      { id: "syncplay",  angle: "Every device locked to the same frame — precision time-sync, no drift, no compromise." },
+      { id: "transcode", angle: "One file, infinite clients — quality picked by the device, bandwidth by the network." },
+    ],
+    support: ["auth", "livetv", "dlna"],
+    footnote: ["hub", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Precision engineering.",
+      headline: "Silent power.",
+      subheadline: "A self-hosted media server so controlled and precise that the technology vanishes. Only the content remains.",
+      primary_cta: { label: "Download Phlix" },
+      secondary_cta: { label: "Read the docs" },
+    },
+    section_headings: {
+      pitch: "Built not decorated.",
+      features: "Core Capabilities",
+      cta_banner: "One line. Full precision.",
+    },
+    footer_tagline: "Media server excellence.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "spec-rows",
+    faq: "man-page",
+    clients: "device-rack",
+    ecosystem: "repo-list",
+  },
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES & EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "man-page",
+    persona: "A precision technical reference voice — direct, accurate, no flourish.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I self-host the Hub, or do I need your server?", maps_to: "expose-internet" },
+      { q: "Does Phlix play EVERYTHING my clients support?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Home Lab Architect",
+      scene: "A power user with a dedicated server cabinet in the basement: running Phlix on bare metal, configuring per-device transcoding profiles, monitoring SyncPlay latency across five devices in real time.",
+      surfaces: ["admin dashboard", "SyncPlay lobby", "media player with overlay stats"],
+      features_shown: ["library", "transcode", "syncplay", "auth"],
+    },
+    {
+      name: "The Privacy Perfectionist",
+      scene: "A household that values data sovereignty: Phlix server on their own hardware, Hub self-hosted in their own colocation, every connection encrypted, no cloud dependency.",
+      surfaces: ["Hub admin panel", "media library", "network settings detail page"],
+      features_shown: ["hub", "auth", "library"],
+    },
+    {
+      name: "The Multi-Room Enthusiast",
+      scene: "Four rooms, five devices, SyncPlay enabled: movie starts in the living room, user walks to the kitchen mid-scene and continues seamlessly on the TV there, all devices locked to the same frame.",
+      surfaces: ["media player", "device selector", "SyncPlay status indicator"],
+      features_shown: ["syncplay", "transcode", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "static",
+    spec: "Obsidian hero: static full-bleed background with the Pulse Blue animated scan line that traverses left-to-right, revealing the headline and CTAs beneath as it passes. No parallax or complex interaction — restraint and precision.",
+    suggested_inputs: [],
+    fallback: "Static obsidian-black hero with the headline, subheadline, and both CTAs rendered in a single view — the scan-line animation is omitted and the full copy is immediately readable (no JS required).",
+    js_budget_kb: 3,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A minimal matte-black top navigation bar: Phlix logo/wordmark left (optical white, Space Grotesk 300), canonical nav links centered (Inter 400), utilities right. Active link underlined in Pulse Blue. Hairline silver bottom border.",
+    keyboard: null,
+    fallback: "Standard accessible HTML <nav> with the same link order, fully keyboard reachable via Tab. Collapses to a hamburger menu on mobile — the hamburger is always present and accessible, never hidden behind a breakpoint. <nav role='navigation' aria-label='Primary'> with full focus visibility.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "Plain continuous scroll with hairline silver dividers between sections. Each section begins instantly with no transition effect — the focus is on content density and precision, not flourish.",
+    reduced_motion: "Continuous scroll with instant section boundaries. No animations, no transitions — pure content hierarchy via layout and spacing. Under prefers-reduced-motion, even hairline dividers are already minimal (they remain, but no animation draws them).",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "The pulse scan line on the hero animates a three-pass full-width traverse, then the logo glows with a subtle Pulse Blue halo for 2 seconds before fading.",
+      reward_copy: "Signal acquired.",
+      exit: "The glow auto-fades after 2s, or press Esc to clear it immediately.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a power user to download the server, configure it, and open the web lobby in under 5 minutes.",
+    cta_ladder: [
+      { step: 1, cta: "Download Phlix",      target: "download" },
+      { step: 2, cta: "Choose Your Clients", target: "clients" },
+      { step: 3, cta: "Copy & Run",          target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a precision workbench aesthetic: 'One line. Full precision.' above the server install one-liner (copyable, highlighted in Pulse Blue), then the five client device silhouettes below, then the ecosystem repo shelf.",
+    friction_notes: "Power users and technical enthusiasts — expect no hand-holding. Show the install snippet verbatim, the Docker alternative, the Docker Compose option. Link to the full docs. Assume confidence in the command line. The faster we get out of the way, the better.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A horizontal 'spec band' in monospaced font: '5 native clients / SyncPlay precision time-sync / HLS + FFmpeg transcoding / DLNA ContentDirectory / Phlix Hub reverse-tunnel relay' — pure technical capabilities." },
+      { type: "github",           format: "A single line linking to the phlix-server GitHub repo with live star count and issue tracker — 'From the source code:' followed by the link." },
+      { type: "quotes-from-docs", format: "One short technical assertion from the official docs, set in a blockquote with a hairline left border, optical-white text: 'Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS otherwise.'" },
+    ],
+    placement: "A single compact 'Specifications' section between the hero features and the client hardware showcase, rendered as three horizontally-stacked detail bands (spec numbers, repo link, technical quote).",
+  },
+
+  visitor_paths: null,
+
+  experience_archetype: "minimal",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "foreground",
+    page_budget: { home_sections_max: 5, words_per_section_max: 80 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A dark 404: 'Signal not found' in Space Grotesk 300 at large scale, with the Phlix wordmark and a single hairline silver divider. Below: 'Return to home,' a link styled as a Pulse Blue underline.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 27. DO / DON'T
    * ========================================================================== */
 
   do_dont: {

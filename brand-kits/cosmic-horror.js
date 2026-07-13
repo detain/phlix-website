@@ -547,6 +547,31 @@ const brandKit = {
       "Present in the upper corner of a manuscript page whose text has been partially obscured",
     ],
     expressions: ["Unreadable", "Attentive (in the manner of something large)", "Slightly different than last time", "Waiting"],
+    behavior: {
+      placement:
+        "Bottom-right corner on desktop, top-right on mobile; appears on Home, Features, " +
+        "Download, and About — never on the FAQ reading pages where silence is the only companion. " +
+        "On loading states and empty results, Nyarla occupies the center void.",
+      idle:
+        "Subtle shifts in form — the silhouette appears to breathe, limbs elongate slightly and retract, " +
+        "the eldritch-green internal glow pulses (but NOT under prefers-reduced-motion). The animation " +
+        "is geological, never frantic. The Watcher never rests, but movement is not reassurance.",
+      tips: [
+        { where: "home:#hero",           say: "The archive awaits your descent." },
+        { where: "home:.catalog-of-things", say: "Each capability catalogued. Each is observed. Choose which will observe in return." },
+        { where: "features:#library",    say: "What you record in the ledger becomes known. What is known can be found." },
+        { where: "download:#server",     say: "The ritual requires but one line. The consequence requires a lifetime." },
+        { where: "about:.faq-list",      say: "Your questions arrive from the depths. Mine is to answer from further down." },
+      ],
+      easter_interactions: [
+        { trigger: "hover-hold:3s", react: "Nyarla briefly turns to face you directly. A single eldritch-green eye opens. It closes. The form recedes again." },
+        { trigger: "click:9",       react: "Nyarla expands to full viewport height, a towering silhouette of tentacular forms. The page inverts to void-black. A single line appears: 'Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn.' It fades." },
+      ],
+      dismiss:
+        "A small corner rune (SVG sigil) marked 'Nyarla, recede' tucks the mascot into the periphery. " +
+        "The dismissed state persists via localStorage; the Watcher returns when the archive is revisited, " +
+        "as if it never truly left — because it didn't.",
+    },
   },
 
   /* ==========================================================================
@@ -1097,6 +1122,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/stars-are-right.svg",
+      "img/seasonal/winter-void-enhanced.svg",
+      "img/seasonal/dagon-depths.svg",
+    ],
+    banner: "The stars have shifted. The archive has changed.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1298,6 +1333,241 @@ const brandKit = {
         "The experience of the abyss should feel instant — a slow load is a mundane interruption " +
         "that reminds the viewer they are using software, which is the one thing the kit must never allow them to feel.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Archive Opens",     emphasis: "default" },
+      { id: "features", label: "Catalog of Things",     emphasis: "primary" },
+      { id: "clients",  label: "The Watchers",          emphasis: "default" },
+      { id: "download", label: "Descend Below",         emphasis: "primary" },
+      { id: "hub",      label: "The Relay",             emphasis: "default" },
+      { id: "about",    label: "What We Know",          emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extensions to the practice — documented in the archive, not the main descent.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material; available directly in the archive beneath the surface." },
+    ],
+    extra_pages: [
+      {
+        id: "depths",
+        title: "Descending: A Phlix Installation Parable",
+        purpose: "The archive's own text on what it means to establish a self-hosted media presence in the deep places.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A vast, ancient archive reveals itself; what you are watching is watching in return.",
+    sections: [
+      { id: "threshold",    source: "copy_overlay.hero", treatment: "Full-bleed void-black with eldritch-green phosphorescent R'lyeh Rising gradient; the archive's threshold, Nyarla attending at the edge of the frame.", weight: "hero" },
+      { id: "the-catalog",  source: "feature_casting",   treatment: "The featured features as catalogued wonders — two prominent manuscript-page 'discoveries' with illuminated-initial icons, side by side.", weight: "major" },
+      { id: "why-descend",  source: "story",             treatment: "The kit's mission framed as a scholarly compulsion; text set as margin notes on an archive ledger.", weight: "major" },
+      { id: "the-witnesses", source: "proof_strategy",    treatment: "Trust signals as archival credentials — repository metadata, contributor counts, real performance specs — set as a cabinet of curiosities.", weight: "minor" },
+      { id: "the-summons",  source: "conversion_funnel", treatment: "Closing eldritch-green CTA banner: 'Establish your archive' — the final invitation to descend.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "catalog-pages",
+      spec: "Render features as a catalogued archive — each feature a 'specimen entry' with a monumental Cinzel title, its significance described in Crimson Text body, and archival metadata (repository details, technical specs) below. The page is a museum of capabilities.",
+    },
+    clients: {
+      template: "gallery-plaques",
+      spec: "Present each client as a 'known observer' — each platform rendered as an illuminated manuscript plaque with its name in Uncial Antiqua, its role and capabilities, and a reliquary-style 'shrine' for repository/source links. The heading asks: 'Which watchers commune with your archive?'",
+    },
+    download: {
+      template: "ritual-steps",
+      spec: "The Download page opens with 'The Ritual of First Contact' — server as the first invocation (the PHP incantation), clients as the manifestations. Each step is paced and grave, set in Courier Prime for the technical fragments, Crimson Text for the ritual framing.",
+    },
+    about: {
+      template: "chronicle-scroll",
+      spec: "Tell the Phlix founding as a chronicle of archival purpose — Philosophy as 'The Charter', License as 'The Covenant', Contributing as 'The Call to Scribes'. Conclude with FAQ styled as an 'Examination of Mysteries' — Nyarla as the unseen answerer.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Every file recorded in the ledger; the archive knows what it contains." },
+      { id: "auth",     angle: "Guarded access to forbidden chambers — JWT keys and Argon hashing hold the seals." },
+    ],
+    support: ["syncplay", "transcode", "hub", "dlna"],
+    footnote: ["livetv", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "An Archive Without End",
+      headline: "What Has Always Been Watching Now Has an Interface.",
+      subheadline: "Host your media in the depths where it belongs. Phlix is self-hosted, eternally yours, and observed from every angle — but by you alone.",
+      primary_cta: { label: "Descend Below" },
+      secondary_cta: { label: "Consult the Texts" },
+    },
+    section_headings: {
+      pitch: "What the Abyss Offers",
+      features: "Catalog of Things",
+      cta_banner: "The archive awaits. Establish your own.",
+    },
+    footer_tagline: "Knowledge preserved. Observation eternal.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "spec-rows",
+    faq: "oracle",
+    clients: "gallery-plaques",
+    ecosystem: "repository-constellation",
+  },
+
+  faq_experience: {
+    frame: "oracle",
+    persona: "Nyarla, the ever-shifting keeper, offering answers that arrive from the periphery of understanding.",
+    question_order: ["like-plex", "expose-internet", "formats", "plugins", "license", "mobile-app"],
+    extra_questions: [
+      { q: "Will my media always be in my hands alone?", maps_to: "expose-internet" },
+      { q: "What happens if the watchers disappear?", maps_to: "license" },
+      { q: "Can the archive speak to devices I've forgotten I own?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Archival Impulse",
+      scene: "A collector's media library, accumulated over decades, finally receives a home — indexed, catalogued, and available throughout the house as a unified presence.",
+      surfaces: ["home hero", "media library grid", "media player control bar"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "Synchronized Vigil",
+      scene: "Multiple households, each with their own archive, watch the same film simultaneously — NTP-locked to the frame — as if the ancient texts themselves are forcing a shared observation.",
+      surfaces: ["SyncPlay status", "media player", "hub enrollment screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Outside Channel",
+      scene: "From beyond the firewall, a remote watcher receives Live TV through a relay tunnel — the archive follows them, as if the void is never truly left.",
+      surfaces: ["hub connection", "live tv guide", "media player"],
+      features_shown: ["hub", "livetv", "dlna"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "The hero begins as void-black with a subtle Cosmic Rift radial gradient. As the user scrolls or hovers, sections of the headline sequentially materialize in eldritch-green — a phosphorescent unveiling — while Nyarla shifts position at the periphery, never quite fully visible.",
+    suggested_inputs: ["scroll offset", "pointer position", "time elapsed"],
+    fallback: "A single static composition: void-black background with the full headline in Corrupted White, eldritch-green accents on key words, and Nyarla suggested in a corner detail. All copy and CTAs baked into the static HTML.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "sidebar-academic",
+    spec: "A narrow vertical sidebar on desktop (Cosmic Void background, 1px right Obsidian Veil border) containing the nav items in Cinzel labels, each with a left-edge 3px eldritch-green indicator when active. The active indicator glows faintly. The sidebar collapses to an icon rail on tablet.",
+    keyboard: "Tab navigates; Enter or Space selects; Escape closes mobile menu.",
+    fallback: "A standard accessible topbar with a labeled hamburger menu on mobile, full links on desktop — plain <nav> element with semantic <ul> and <li>, all keyboard reachable, no JavaScript required for basic navigation.",
+  },
+
+  scroll_experience: {
+    mode: "panel-sequence",
+    spec: "Each homepage section arrives as a manuscript page turning — a slow phosphorescent fade-in from the eldritch-green R'lyeh Rising gradient, accompanied by a very subtle upward shimmer. The page feels like unfolding one layer of an impossible architecture.",
+    reduced_motion: "Under prefers-reduced-motion, pages cross-dissolve instantly with no shimmer or fade effects; the page becomes a plain continuous scroll with immediate visual section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "typed-word:colour",
+      effect: "For ~3 seconds, all eldritch-green accents pulse and the page's background shifts to a deeper, more sickly green. The screen returns to normal. Text appears: 'The Colour is remembered.'",
+      reward_copy: "A fragment of forbidden light.",
+      exit: "The effect fades automatically; press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "logo-clicks:7",
+      effect: "Nyarla briefly appears full-size (no longer at the periphery) in the hero background, suspended as if ascending from the depths. The hero text flickers green. Nyarla retreats to the corner.",
+      reward_copy: "The Watcher has been acknowledged.",
+      exit: "The effect settles automatically after 4 seconds, or press Esc to end it.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "ritual-steps",
+    primary_goal: "Guide a researcher from curiosity through the invocation (server install) to their first ascent into the archive.",
+    cta_ladder: [
+      { step: 1, cta: "Begin the Descent",       target: "download" },
+      { step: 2, cta: "Choose Your Manifestation", target: "clients" },
+      { step: 3, cta: "Speak the Incantation",   target: "download#server" },
+    ],
+    download_opening: "The Download page frames the journey as 'The Ritual of Establishment' — the server install is Cinzel-headlined as 'The First Invocation' (presented as a grave PHP snippet), and the clients are 'The Manifestations' — platforms through which the archive speaks.",
+    friction_notes: "An academic, deliberate audience that tolerates (even welcomes) the ceremonial pacing; no rushing, no cheerful reductionism. The journey should feel inevitable.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A 'Cabinet of Capacities' — archival placard listing real specs from content.json: 5 native client platforms, NTP-locked SyncPlay, full FFmpeg codec support, multi-protocol streaming (HLS, DLNA, direct)." },
+      { type: "github", format: "A 'Repository Reliquary' displaying the real phlix-server repo with live star count and issue tracker link — set as a modest carved-stone plaque in an academic style." },
+      { type: "technical-credibility", format: "One line verbatim from the hero copy affirming technical sovereignty: 'Your media. Your library. Your Phlix.' — set as an archival inscription." },
+    ],
+    placement: "A dignified 'Archival Credentials' band positioned between the feature catalog and the closing descent CTA, styled as a museum-quality placard.",
+  },
+
+  visitor_paths: {
+    prompt: "What draws you to the archive?",
+    paths: [
+      { id: "scholar",    label: "I seek knowledge and mastery",        target: "features#library", emphasis: ["library", "auth", "plugins"] },
+      { id: "collector",   label: "I have vast collections to preserve",  target: "features#transcode", emphasis: ["library", "transcode", "dlna"] },
+      { id: "ritualist",   label: "I want to share synchronously",       target: "features#syncplay", emphasis: ["syncplay", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Lights of the Archive (Reduced Intensity)",
+    affects: ["animation", "phosphorescent-glow", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer beside accessibility notes, labeled with Cinzel numerals.",
+  },
+
+  error_page_experience: {
+    concept: "Nyarla stands alone in a vast, empty archive chamber. The void fills the shelves. Text reads: 'This archive contains nothing (or never existed). The Watcher observes the emptiness.' Recovery links below in Cinzel point back to known chambers.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

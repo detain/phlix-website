@@ -538,6 +538,21 @@ const brandKit = {
       "Tiny cartouche badge form — Kheper reduced to a sigil on labels",
     ],
     expressions: ["Serene", "Luminous", "Watchful", "Triumphant at dawn"],
+    behavior: {
+      placement: "Bottom-right corner as a seated scarab with unfurled lapis wings; appears on home, download, and features pages — never on the documentation or FAQ reading pages.",
+      idle: "Kheper gently rolls his sun-disk in a slow arc (taking 8s per roll), and the disk emits a soft gold shimmer; idle motion is disabled under prefers-reduced-motion (Kheper sits serene with a static sun-disk between his wings).",
+      tips: [
+        { where: "home:#hero",           say: "Enter the eternal kingdom — your archive awaits." },
+        { where: "home:.features-grid",  say: "Each feature is a sacred scroll in your library's cartouche." },
+        { where: "features:#syncplay",   say: "Synchronized passage — every frame eternal across all rooms." },
+        { where: "download:#server",     say: "One inscription, and you become the keeper of your archive. I roll the sun-disk; you choose what it illuminates." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7",       react: "Kheper's wings shimmer gold and lapis in a blessing gesture; the sun-disk pulses once like a beating heart." },
+        { trigger: "hover-hold:3s", react: "Kheper performs his most sacred pose — wings fully spread in profile, sun-disk luminous at the apex." },
+      ],
+      dismiss: "A small 'Kheper, return to the Duat' close button tucks him into the tomb of the archive; the dismissed state persists via localStorage, restoring the tomb-sealed state on return visits.",
+    },
   },
 
   /* ==========================================================================
@@ -1064,6 +1079,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/opet-barque-procession.svg",
+      "img/seasonal/nile-water-ripple.svg",
+      "img/seasonal/osiris-anubis-silhouette.svg",
+      "img/seasonal/duat-stars.svg",
+      "img/seasonal/abu-simbel-solstice-rays.svg",
+    ],
+    banner: "The eternal calendar speaks — a festival of stories is now showing in the kingdom.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1261,13 +1288,253 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Kingdom",   emphasis: "default" },
+      { id: "features", label: "Sacred Scrolls", emphasis: "primary" },
+      { id: "clients",  label: "The Pantheon",  emphasis: "default" },
+      { id: "download", label: "Enter the Tomb", emphasis: "primary" },
+      { id: "hub",      label: "The Mirror",    emphasis: "default" },
+      { id: "about",    label: "The Cartouche", emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A specialized offering for the advanced keepers — not the main passage for those discovering the archive." },
+      { id: "docs",    reason: "The full scrolls rest in the tower; one carved link away in the footer, off the ceremonial main path." },
+    ],
+    extra_pages: [
+      {
+        id: "archive-journey",
+        title: "Build Your Archive",
+        purpose: "A ceremonial walkthrough that transforms product facts into a journey of stewardship — how to become keeper of your collection.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — the landing page's story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Ascend to your eternal archive — where every story carved in your collection endures forever, and Ra's light illuminates the frame you choose.",
+    sections: [
+      { id: "cartouche-entrance", source: "copy_overlay.hero", treatment: "Full-bleed hero cartouche: Ra's descent gradient, a heroic illustration of the kingdom's archive, and the headline carved into a golden stele in the centre.", weight: "hero" },
+      { id: "sacred-scrolls",     source: "feature_casting",   treatment: "The two hero features rendered as illuminated papyrus scroll cartouches side-by-side, each unrolled to reveal its purpose and sacred offer.",      weight: "major" },
+      { id: "why-ascend",         source: "story",             treatment: "Value props displayed as a register of hieroglyphic-band rows, each with a pictogram and a declarative truth about guardianship.",             weight: "major" },
+      { id: "keepers-testament",  source: "proof_strategy",    treatment: "Trust signals rendered as carved limestone tablets in the portico: real numbers, real repos, and wisdom from the archives' own documents.",         weight: "minor" },
+      { id: "passage-awaits",     source: "conversion_funnel", treatment: "Closing cartouche banner: 'Begin your passage' beside the install one-liner, framed as the final threshold before the kingdom reveals itself.",       weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — the structural template per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "cartouche-gallery",
+      spec: "Lay the features out as a register of illuminated papyrus cartouches — each a framed scroll revealing a feature's name and purpose, with Cinzel Decorative titles and Cormorant body text. Every feature is a sacred scroll in the archive's collection.",
+    },
+    clients: {
+      template: "stele-pantheon",
+      spec: "Present each client as a sacred stele tablet carved with its name and capabilities — arranged in a processional grid as the 'Pantheon of Devices'. Each stele is outlined in Pharaoh Gold and casts a warm gold aura on hover.",
+    },
+    download: {
+      template: "temple-entrance",
+      spec: "Frame the page as the threshold to the archive — the server install is the portal-opening incantation, client options are the sanctums you may enter, and ecosystem links are the corridors leading deeper into the kingdom.",
+    },
+    about: {
+      template: "book-of-the-dead",
+      spec: "Tell the founding vision as a scrolling reel of chapters (Our Philosophy, License, Contributing) ending in the FAQ styled as Kheper's answers from the archive — the keeper's testimony.",
+    },
+    hub: {
+      template: "mirror-chamber",
+      spec: "Describe the Hub as the Mirror — a sacred place where your archives reflect across the Nile to distant shores. The layout is symmetrical and processional.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your archive organizes itself — files carved into place, metadata illuminated by sacred scrolls." },
+      { id: "syncplay", angle: "Every device locked to the same eternal frame — passage and play remain one across all halls of the kingdom." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "The eternal archive awaits",
+      headline: "Your media. Your kingdom. Carved forever.",
+      subheadline: "Step into the sacred space where every film is a hieroglyph, every collection an offering to eternity. Phlix is the keeper — you are the pharaoh.",
+      primary_cta: { label: "Enter the Tomb" },
+      secondary_cta: { label: "Read the Scrolls" },
+    },
+    section_headings: {
+      pitch: "What the archive offers:",
+      features: "Sacred Scrolls",
+      cta_banner: "The threshold awaits — open the entrance to your kingdom.",
+    },
+    footer_tagline: "Stories carved in stone do not fade.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "hieroglyphic-register",  // each bullet rendered as a line in a hieroglyphic register band
+    faq: "archive-testimony",                // FAQ framed as Kheper's testimony from the archives
+    clients: "stele-pantheon",               // clients drawn as sacred steles in a processional arrangement
+    ecosystem: "cartouche-collection",       // ecosystem repos as a wall of cartouche badges
+  },
+
+  faq_experience: {
+    frame: "archive-testimony",
+    persona: "Kheper, the eternal archivist scarab, answering from the depths of the kingdom's archive — each answer a scroll unrolled from the Hall of Two Truths.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will my archive remain my own — never visible to the outside world?", maps_to: "expose-internet" },
+      { q: "Can I play old files on new devices, or do I need to re-encode everything?", maps_to: "formats" },
+      { q: "What if I want to build my own ceremonial additions to the archive?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Household Keeper",
+      scene: "A family gathers: grandparents on the worn den couch, children perched on cushions. One tap and the kingdom's library fills the screen — three rooms, one story, all locked to the same frame.",
+      surfaces: ["home hero", "media library grid", "media player with SyncPlay indicator"],
+      features_shown: ["library", "auth", "syncplay"],
+    },
+    {
+      name: "The Distant Archivist",
+      scene: "Across two cities and three time zones, a curator and a friend hit play on the same film. The Hub's mirror reflects each archive back to itself — no internet fortress, no third-party eyes, just the eternal tunnel of shared passage.",
+      surfaces: ["Hub connection screen", "media player", "download page"],
+      features_shown: ["hub", "syncplay", "transcode"],
+    },
+    {
+      name: "The Collector's Vigil",
+      scene: "A collector tends to their archive like a curator in a museum. Quality profiles auto-choose the perfect stream for each device; transcoding happens in the shadows. They watch, curate, and know their collection is eternal, safe, and theirs.",
+      surfaces: ["library grid", "quality selector", "dashboard stats"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "A layered diorama of the sacred archive: foreground, the cartouche-framed headline rises from shadow; middle, hieroglyphic-band dividers and floating feature scrolls; background, pyramids silhouetted at dusk with Ra's descent gradient. Each layer reveals on scroll or pointer movement, like a tomb entrance slowly opening.",
+    suggested_inputs: ["scroll offset", "pointer position"],
+    fallback: "A single, full-bleed painted cartouche illustration with the archive already fully revealed — the headline, subheadline, and both CTAs rendered as carved stone text within the golden frame, with pyramids at dusk and hieroglyphic-band dividers baked into the static markup.",
+    js_budget_kb: 7,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A cartouche-styled navigation bar anchored at the top with the brand wordmark (Cinzel Decorative) at the left in Pharaoh Gold, followed by the nav items with thin Lapis Lazuli vertical dividers. The active link glows with a 2px bottom-border in Pharaoh Gold.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible standard nav — a semantic <nav> <ul> of links in document order, fully keyboard reachable via Tab/Enter, collapsing to a labeled hamburger menu on mobile (aria-expanded and aria-label properly wired).",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a hieroglyphic chapter unrolls from a scroll — a soft horizontal wipe transition (traveling from left to right like Ra's chariot) paired with a brief shimmer of Pharaoh Gold at the section boundary, accompanied by a subtle sand-grain dust particle effect.",
+    reduced_motion: "Under prefers-reduced-motion, the wipe and shimmer transitions are removed entirely; the page becomes a plain continuous scroll with instant section visibility (opacity fades in only).",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Kheper's wings shimmer in a full spiral of gold and lapis, and the sun-disk between them emits a brilliant Ra-gold flash. A hieroglyphic blessing glyph briefly floats upward from the logo.",
+      reward_copy: "Ra has witnessed your devotion. The archives are pleased.",
+      exit: "The effect settles after ~3s, or press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "typed-word:cartouche",
+      effect: "The cursor becomes a tiny golden scarab (Kheper's sigil) for 2s, and the nearest five nav items gain a subtle 1px Pharaoh Gold glow outline.",
+      reward_copy: "You have invoked the keeper's sigil. The archive acknowledges you.",
+      exit: "Press Esc or type any other key to restore the normal cursor.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "At the very bottom of the page, beneath the footer, a tiny Kheper silhouette briefly appears rolling his sun-disk into the underworld (the Duat), accompanied by a soft fadeout.",
+      reward_copy: "The keeper descends to guard the deeper archives.",
+      exit: "Scroll back up or refresh to restore the normal state.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a first-time seeker to open their own archive — run the server and greet the kingdom.",
+    cta_ladder: [
+      { step: 1, cta: "Enter the Tomb",     target: "download" },
+      { step: 2, cta: "Choose Your Sanctum", target: "clients" },
+      { step: 3, cta: "Become the Keeper",  target: "download#server" },
+    ],
+    download_opening: "The Download page greets you at the threshold: 'Three inscriptions until the archive awakes' frames the server one-liner (the portal-opening spell), then the client selection below (choosing which sanctum to inhabit), then ecosystem links (deeper corridors).",
+    friction_notes: "An audience of history enthusiasts and collectors — they tolerate rich, ceremonial language and appreciate the weight of what they are building (a permanent archive, not a temporary stream). Keep the steps few but never casual; every word is carved for eternity.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A stone tablet of real capabilities pulled from content.json — '8 features, 5 native clients, NTP-synchronized playback across infinite rooms, HLS + FFmpeg on every frame'." },
+      { type: "github",           format: "A modest cartouche-framed link to the real phlix-server repository displaying its live star count, issue count, and last commit date — the repository's heartbeat, not a hard-coded number." },
+      { type: "quotes-from-docs", format: "One true, short line lifted directly from the codebase documentation about self-hosting and permanence, set as a framed scroll quote: e.g., '100% self-hostable — your library never leaves your hardware unless you say so.'" },
+    ],
+    placement: "A processional register band between the hero feature castings and the closing conversion cartouche — titled 'Testimony from the Archives'.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to the kingdom?",
+    paths: [
+      { id: "family-keeper",   label: "We gather to watch together",    target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "collection-heir",  label: "I am the keeper of a great archive",  target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "ritual-tinker",   label: "I seek to build ceremonies of my own", target: "plugins",           emphasis: ["plugins", "hub", "library"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 'The Tomb is Empty' scene: Kheper stands in a dark chamber beneath a broken cartouche, wings folded sadly, the sun-disk dim. Text reads 'This passage does not exist in our archive — or it has been sealed for eternity.' Navigation links (Home, Features, Download) are carved as exits from the chamber.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 29. METADATA
    * ========================================================================== */
 
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-12",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1280,7 +1547,10 @@ const brandKit = {
     notes:
       "Base/parent kit. Variations (e.g. 'Egyptian Dusk: Midnight Tomb', " +
       "'Egyptian Dusk: Solar Noon') should reference this via base_kit.slug = " +
-      "'egyptian-dusk' and override only diverging fields.",
+      "'egyptian-dusk' and override only diverging fields. Sections 22–28 define " +
+      "the kit's experience architecture, treating the Phlix library as a sacred, " +
+      "eternal archive and Kheper as its keeper — this manifests in the navigation " +
+      "paradigm, the FAQ persona, the page structure, and the conversion funnel.",
   },
 };
 

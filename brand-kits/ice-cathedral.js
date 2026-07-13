@@ -530,6 +530,34 @@ const brandKit = {
       "Facets catching and throwing light",
       "Perfectly silent presence",
     ],
+
+    // ── behavior ──────────────────────────────────────────────────────────────
+    // Interactive companion: Crystal as a silent witness offering guidance in the moment
+    behavior: {
+      placement:
+        "Bottom-right corner as a small geometric ice shard, slowly rotating; appears on " +
+        "Home, Features, Clients, Download, and Hub — never on dense reading pages (Docs, About FAQ sections) " +
+        "where silence must be unbroken.",
+      idle:
+        "Slow rotation revealing facets, each catching and throwing internal ice-blue light. " +
+        "A faint pulse every 8–10 seconds; idle motion is completely disabled under prefers-reduced-motion " +
+        "(Crystal simply rests, luminous and still).",
+      tips: [
+        { where: "home:#hero", say: "The ice holds still. You may enter." },
+        { where: "features:.feature-detail", say: "Each structure, ancient and eternal — chosen with the patience of geological time." },
+        { where: "clients:.client-card", say: "Five screens, one cold light — the architecture reaches anywhere." },
+        { where: "download:#server", say: "One line. The glacier never hurries." },
+        { where: "hub:.page-header", say: "The hub carries the cathedral's light across distance without dimming." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7", react: "Crystal's facets align into a perfect rose-window geometry; a faint chime echoes." },
+        { trigger: "hover-hold:3s", react: "Crystal refracts inward, revealing a tiny cathedral archway inside itself; then slowly opens back to normal." },
+      ],
+      dismiss:
+        "A subtle 'Crystal, rest a moment' close button (the Polar Night icon fades out); " +
+        "the dismissed state persists via localStorage so Crystal stays hidden on return visits. " +
+        "Dismissal is quiet — no notification, no animation — respecting the visitor's desire for silence.",
+    },
   },
 
   /* ==========================================================================
@@ -1054,6 +1082,23 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Declares whether seasonal_variants above are live-activated or documented-only.
+  //         "live-js" means a self-contained date-gate applies overrides while today
+  //         falls inside an active_range, with no rebuild needed. "documented" keeps
+  //         the data for reference but never applies it.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/midwinter-aurora-tracery.svg",
+      "img/seasonal/aurora-season-ribbon.svg",
+      "img/seasonal/ice-hotel-lattice.svg",
+    ],
+    banner: "The season has changed. The ice cathedral shifts.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1080,7 +1125,214 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Cathedral Entrance", emphasis: "default" },
+      { id: "features", label: "Vaulted Chambers",   emphasis: "primary" },
+      { id: "clients",  label: "Windows & Apertures", emphasis: "default" },
+      { id: "download", label: "Cross the Threshold", emphasis: "primary" },
+      { id: "hub",      label: "The Relay Chamber",   emphasis: "default" },
+      { id: "about",    label: "The Archive",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extensions to the structure — optional architectural enhancement.", fold_into: "features" },
+      { id: "docs",    reason: "Reference kept in the archive below — silence above, detail below." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  homepage_narrative: {
+    arc: "reverence-first",
+    logline: "Enter. The ice cathedral holds its silence. Listen to the structure.",
+    sections: [
+      { id: "the-void",   source: "copy_overlay.hero", treatment: "Full-bleed polar-night hero: a single beam of crystal ice-blue light reveals the headline, then slowly fades to darkness.", weight: "hero" },
+      { id: "chambers",   source: "feature_casting",   treatment: "Four featured chambers lit from within, each a soaring vault — the deepest architecture of the cathedral.", weight: "major" },
+      { id: "why-enter",  source: "story",             treatment: "A meditation on why one enters a cathedral — presented as carved stone tablets.", weight: "major" },
+      { id: "echoes",     source: "proof_strategy",    treatment: "Trust signals rendered as faint geometric echoes from the repos — no noise, only signals.",      weight: "minor" },
+      { id: "threshold",  source: "conversion_funnel", treatment: "A final chamber: the installation threshold, presented as stepping into the vault itself.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "vaulted-chambers",
+      spec: "Lay the 8 features as a progression of ascending vaults — each a Gothic lancet-arch architectural panel with an icon, title, and description carved as if in stone. Largest chambers first (hero features), smallest at the nave's end (footnotes).",
+    },
+    clients: {
+      template: "aperture-gallery",
+      spec: "Present each client as a single window or aperture through which Phlix's light shines — Roku (picture window), Samsung (wide archway), Windows (tall lancet), Mobile (narrow slit), DLNA (rose-window geometry). Each card shows what the client platform sees.",
+    },
+    download: {
+      template: "threshold-passage",
+      spec: "Frame as three ritual steps: 1) 'Light the Forge' (server install, single command), 2) 'Choose Your Window' (clients grid), 3) 'Enter the Library' (ecosystem overview). Atmospheric, not rushed.",
+    },
+    about: {
+      template: "stone-archive",
+      spec: "Scroll down carved stone chapters (Philosophy, License, Contributing) leading to a final chamber: the FAQ as solemn Q&A carved into the archive walls.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your library takes its place in the cathedral — organized by structure, forever." },
+      { id: "syncplay", angle: "Every frame, locked across every room — the silence remains unbroken." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Enter the ice cathedral",
+      headline: "Silence. Light. Story.",
+      subheadline: "An open-source media server built from the architecture of cold. Your library streams with the gravity of a cathedral — to every screen, with the silence of geological time.",
+      primary_cta: { label: "Cross the threshold" },
+      secondary_cta: { label: "Read the philosophy" },
+    },
+    section_headings: {
+      pitch: "Why enter this space?",
+      features: "The Cathedral's Vaults",
+      cta_banner: "The threshold awaits. The ice cathedral is open.",
+    },
+    footer_tagline: "Built from the architecture of cold.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "stone-tablets",
+    faq: "archive-ledger",
+    clients: "aperture-gallery",
+    ecosystem: "library-shelves",
+  },
+
+  faq_experience: {
+    frame: "stone-carving",
+    persona: "The cathedral's ancient knowledge, answered in carved stone and absolute stillness.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I run this from a closet or a basement?", maps_to: "expose-internet" },
+      { q: "Will old televisions work with this?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The solitary archive builder",
+      scene: "Late night, the house asleep — a single person adds thousands of files to their library and watches them organize themselves in the cathedral's silence.",
+      surfaces: ["library grid", "media player", "add-to-library prompt"],
+      features_shown: ["library", "auth"],
+    },
+    {
+      name: "The household that moves as one",
+      scene: "Every room, one television, one film — a family watches together and every device holds the same moment, the same frame, forever in sync.",
+      surfaces: ["SyncPlay indicator", "media player", "household device picker"],
+      features_shown: ["syncplay", "auth", "transcode"],
+    },
+    {
+      name: "The traveler with access",
+      scene: "A thousand miles away, a phone screen opens to the same library — the cathedral's light reaches across distance without dimming.",
+      surfaces: ["hub connect screen", "mobile player", "library on phone"],
+      features_shown: ["hub", "auth", "mobile-app"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "geometric-reveal",
+    spec: "The hero headline builds facet by facet like a snowflake forming on glass — each letter appears as a crystalline facet rotates into place, revealing the full title. Behind, a single beam of ice-blue light refracts through shifting ice layers. No sound; only the geometry of light and silence.",
+    suggested_inputs: ["time (animation progression)"],
+    fallback: "A static image of the full headline rendered with a subtle frost-crystal texture, a single vertical shaft of crystal-ice-blue light behind it, and both CTAs below. Full copy visible; no animation; identical layout to the interactive version.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A sharp-cornered header bar on Polar Night with the brand wordmark and 6 nav links. Active link gains a 1px crystal-ice-blue underline; hover states glow very subtly with the crystal-glow shadow.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a semantic <nav role='navigation'> with <a> elements, full keyboard traversal via Tab, visible :focus-visible ring (2px crystal-ice-blue), collapsing to a labeled hamburger <button aria-expanded='false' aria-label='Toggle menu'> on mobile (displays a vertical menu with role='list').",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section transitions as if a new chapter of ice is being revealed — a soft vertical frost-spread animation from top, a brief flicker (like an old film projector advancing reels), then the section settles into place. Motion is slow and inevitable, never jarring.",
+    reduced_motion: "Under prefers-reduced-motion, all frost-spread and flicker animations are disabled entirely; sections appear instantly and continuously without visual transition, like reading a book page-by-page.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:9",
+      effect: "The logo momentarily refracts into a perfect geometric rose-window pattern inside itself; a faint, pure bell tone sounds (sub-second, quiet).",
+      reward_copy: "The ice shifts. Perfection requires patience.",
+      exit: "The effect fades naturally after ~2s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:cathedral",
+      effect: "The page background briefly gains a subtle animated rose-window lattice pattern (very faint, 0.05 opacity overlay) that swells and fades over 3s.",
+      reward_copy: "You understand the architecture.",
+      exit: "Press Esc or any other key to dismiss the effect.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "reverent-threshold",
+    primary_goal: "Lower the psychological threshold for self-hosting a media server — make the installation feel inevitable and ancient, not technical.",
+    cta_ladder: [
+      { step: 1, cta: "Cross the threshold", target: "download" },
+      { step: 2, cta: "Choose your window", target: "clients" },
+      { step: 3, cta: "Light the forge", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a threshold passage: 'Three steps into the vault' — framed as a journey, not a checklist. Server install is step 1: a single line, presented with absolute calm, no urgency.",
+    friction_notes: "A meditative, unhurried audience — no hard-sell language, no artificial scarcity, no time pressure. The entire download path breathes like a cathedral. Zero exclamation marks.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "architecture", format: "A stone tablet engraved with core capabilities: 'Five native clients. SyncPlay locked to NTP-precise time. HLS streaming with FFmpeg. Hub for NAT traversal. Plugin contract versioned.' — verifiable from content.json." },
+      { type: "github", format: "A modest reference to the server repo (phlix-server) with real, live GitHub star/issue counts pulled from the API, never hard-coded. Sourced from content.json.ecosystem.phlix-server." },
+      { type: "license", format: "A single carved line: 'BSD-3-Clause across the board.' Linked to the actual license." },
+    ],
+    placement: "A single calm 'The Foundation' band between the featured chambers and the download threshold — proof whispered, not shouted.",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 404 error rendered as a crevasse — Crystal rests at the edge of a chasm that should not exist, perfectly still. The message: 'This passage does not exist.' Recovery links lead back to the cathedral's known chambers (Home, Features, Download).",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 27. DO / DON'T
    * ========================================================================== */
 
   do_dont: {
@@ -1251,7 +1503,7 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 28. METADATA
    * ========================================================================== */
 
   metadata: {

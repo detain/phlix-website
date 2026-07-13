@@ -520,6 +520,31 @@ const brandKit = {
       "Peering over spectacles with measured approval",
     ],
     expressions: ["Contemplative", "Welcoming", "Mildly amused", "Encouraging"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a small, dignified perch; appears on Home, Features, " +
+        "and Download — never on reading-intensive pages (About/FAQ/Docs). The Librarian " +
+        "sits in a tiny wing-back chair with a brass lamp beside.",
+      idle:
+        "Gently adjusts spectacles, turns a page, occasionally dips a quill; " +
+        "idle motion is completely disabled under prefers-reduced-motion (The Librarian " +
+        "simply sits in contemplation).",
+      tips: [
+        { where: "home:#hero",              say: "Every collection begins with a single volume. Start here." },
+        { where: "home:.features-overview", say: "SyncPlay keeps every seat on the same frame — no matter the distance." },
+        { where: "features:.feature-detail", say: "Each volume on this shelf serves a purpose. Browse freely." },
+        { where: "download:#server",        say: "This snippet builds the foundation. I'll wait while you prepare the space." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "The Librarian stands and offers a small bow, then tips spectacles with one talon." },
+        { trigger: "hover-hold:2s", react: "The Librarian gestures to the current section with a knowing nod and a faint smile." },
+      ],
+      dismiss:
+        "A small 'The Librarian returns to the stacks' close button behind The Librarian; " +
+        "the dismissed state persists via localStorage, so The Librarian remains out of sight " +
+        "until the visitor explicitly recalls them.",
+    },
   },
 
   /* ==========================================================================
@@ -1008,6 +1033,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-frosted-windows.svg",
+      "img/seasonal/autumn-fallen-leaves.svg",
+      "img/seasonal/spring-botanical.svg",
+    ],
+    banner: "The library shifts with the seasons — a new collection awaits.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1029,7 +1064,230 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",     emphasis: "default" },
+      { id: "features", label: "The Collection",  emphasis: "primary" },
+      { id: "clients",  label: "Devices",  emphasis: "default" },
+      { id: "download", label: "Install",  emphasis: "primary" },
+      { id: "hub",      label: "Hub",      emphasis: "default" },
+      { id: "about",    label: "About",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Rare-book collectors' footnote — available for the curious but not the main shelf.", fold_into: "features" },
+      { id: "docs",    reason: "Reference materials kept in the study; a click away but off the main reading path." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — the landing page's story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A distinguished private library opens its doors — your collection, curated and carefully tended, awaits.",
+    sections: [
+      { id: "the-library-opens",  source: "copy_overlay.hero", treatment: "Full-bleed mahogany-dark hero with an amber lamp-glow vignette and the headline 'Your Collection, Curated' — the library doors part to reveal the tagline.", weight: "hero" },
+      { id: "two-paths",           source: "feature_casting",   treatment: "Two 'hero' features rendered as illuminated book spines on a mahogany shelf: the Library scanner and SyncPlay across devices.",      weight: "major" },
+      { id: "why-this-library",    source: "story",             treatment: "The brand story rendered as an open volume with justified, measure-conscious body text in EB Garamond.",                          weight: "major" },
+      { id: "collectors-proof",    source: "proof_strategy",    treatment: "Trust rendered as a reading-room placard: real GitHub stars, capability count, and a one-line quote from the docs.",         weight: "minor" },
+      { id: "claim-your-shelf",    source: "conversion_funnel", treatment: "Closing brass-trimmed panel: 'Ready to build your collection? Install today.' with the primary CTA.",                          weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "gallery-plaques",
+      spec: "Lay out each feature as a richly typeset gallery plaque on the wall: a brass-framed detail card with the feature's icon as a small engraved medal, the EB Garamond title and body, a gentle border of mahogany, and subtle brass rule accents. The collection is arranged in a two-column grid on desktop, single column on mobile.",
+    },
+    clients: {
+      template: "device-shelf",
+      spec: "Render clients as a family of devices sitting on a mahogany shelf, each a distinct profile (Roku as a box, Tizen as a flat screen, Windows as a desktop tower, Mobile as a phone, DLNA as a broadcast icon). Each device gets a descriptive nameplate and list of capabilities.",
+    },
+    download: {
+      template: "reading-room-setup",
+      spec: "Frame the download page as a step-by-step reading-room setup guide: 'Prepare the space' (server install as a privileged first step), 'Furnish it' (choose devices from the shelf), 'Stock the shelves' (ecosystem links), and 'Settle in' (closing CTA to docs).",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell the philosophy as three chapters: 'Why a Library?' (the values and origin), 'Open as the Air' (the BSD-3-Clause license), 'All Are Welcome' (the contribution path). End with the FAQ styled as a docent's Q&A, each question posed as if overheard in the reading room.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library", angle: "The collection organizes itself — every volume gets its place on the shelf." },
+      { id: "syncplay", angle: "Movie night in every room, every device, locked to the same frame." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "A Library Unlike Any Other",
+      headline: "Your Collection, Curated.",
+      subheadline: "A distinguished private library for the media you own: beautifully ordered, instantly accessible, owned entirely by you. Pull up a leather chair and discover what's waiting on the shelves.",
+      primary_cta: { label: "Install Phlix" },
+      secondary_cta: { label: "Explore the Collection" },
+    },
+    section_headings: {
+      pitch: "Why This Library?",
+      features: "Every Shelf Tells a Story",
+      cta_banner: "Your library awaits — install today.",
+    },
+    footer_tagline: "A private library. Your collection, curated.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "spec-rows",          // value props laid out as library specs (like catalog index entries)
+    faq: "letters-column",               // FAQ as letters to The Librarian from curious patrons
+    clients: "family-of-devices",        // devices as a shelf arrangement around a cozy reading space
+    ecosystem: "bookshelf",              // repos as books on the shelf with spine labels and descriptions
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "The Librarian, answering patron inquiries from the reading-room suggestion box with measured grace and knowing precision.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Does the collection stay private on my network?", maps_to: "expose-internet" },
+      { q: "Will old devices work without a new app?", maps_to: "formats" },
+      { q: "Can I add my own functions to Phlix?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Evening Reader",
+      scene: "Settling into a leather armchair with a pour of amber whiskey, opening the library catalog and choosing a film for the night — Phlix is already running, the collection organized by taste, the room warm with amber lamplight.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Distributed Collectors",
+      scene: "Three friends in different cities press play at precisely the same moment. SyncPlay keeps them in the same frame across thousands of miles — synchronized as if they were sharing one leather sofa.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Curator on Every Screen",
+      scene: "The same curated collection appears on the Roku in the living room, the Tizen TV in the bedroom, and the Windows desktop in the study — each device pulling from one disciplined, beautifully ordered library.",
+      surfaces: ["device picker", "media library grid", "collection sync"],
+      features_shown: ["library", "transcode", "dlna"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models with required fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered diorama parallaxes gently on scroll and pointer movement: the mahogany-paneled library backdrop, the amber lamp glow blooming from the center, the reading chair in the foreground, and the headline emerging as if spotlit. The lamp glow brightens as the viewport approaches the hero, and fades as it scrolls away. All motion respects prefers-reduced-motion.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single static illustration of the library interior with the lamp glowing warmly, the headline 'Your Collection, Curated' and subheadline baked into the markup alongside both CTAs, fully readable without JavaScript.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A refined top navigation bar in antique cream with the Playfair Display wordmark in mahogany ink on the left. The nav links in Libre Baskerville use small-caps styling; the active link is underlined in amber gold. A brass rule divides the nav from the content below.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a semantic <nav> with a <ul> of links, fully keyboard-reachable via Tab, with aria-current='page' on the active link. On mobile, the nav collapses to a labeled hamburger menu that expands a full-screen panel in mahogany with amber-gold active states.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like turning a page in a leather-bound volume: a soft vignette fade and a gentle brass-rule separator as the next 'chapter' scrolls into frame. Lamp-glow intensity shifts subtly per section.",
+    reduced_motion: "Under prefers-reduced-motion, the vignette fades and rule animations are dropped entirely. The page becomes a plain, continuous scroll with instant section boundaries and no motion beyond the scroll itself.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "The Librarian owl appears in the bottom-right corner, peering over spectacles with a knowing smile, and offers a gentle tip about the collection.",
+      reward_copy: "The Librarian: 'Persistent curiosity is the mark of a true collector.'",
+      exit: "The Librarian settles back into the shadows after ~5s, or press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "typed-word:collection",
+      effect: "The word 'collection' in the page highlights in amber gold and a soft brass-bell chime plays once.",
+      reward_copy: "You found the key to the Library Amber identity.",
+      exit: "Press Esc or type another key to clear the highlight.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the installation journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a collector from understanding Phlix to installing the server and opening their first library.",
+    cta_ladder: [
+      { step: 1, cta: "Explore the Collection",   target: "features" },
+      { step: 2, cta: "Choose Your Devices",      target: "clients" },
+      { step: 3, cta: "Install the Library",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens with 'Bring the Library Home' as the primary heading. A single, elegant server-install snippet is framed as 'The Foundation' — the first step of building a lasting collection. Below: 'Furnish Your Rooms' (device downloads) and 'Stock the Shelves' (ecosystem links).",
+    friction_notes: "A quietly confident, discerning audience — keep the steps few and articulate, respect their intelligence, use measured language. The install snippet is the 'scholarly beginning,' not a barrier.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A polished reading-room placard listing real capabilities: 'Five native clients · Multi-source metadata · Adaptive streaming · Live TV with DVR · A versioned plugin contract.'" },
+      { type: "github",           format: "A modest 'From the Archive' section with the real phlix-server repo, live star count, and recent commit activity rendered as a library acquisition log." },
+      { type: "quotes-from-docs", format: "A verbatim line from this kit's mission statement, rendered as a framed reading-room quote on cream stock with a mahogany rule beneath: 'Give every media collection the dignity of a private library — beautifully ordered, instantly accessible, and worthy of the hours spent with it.'" },
+    ],
+    placement: "A single dignified 'Provenance & Trust' band between the feature showcase and the closing call to action — never cluttered, never pushy.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of collection are you building?",
+    paths: [
+      { id: "the-casual-reader",  label: "A cozy home library",     target: "features#library", emphasis: ["library", "transcode", "auth"] },
+      { id: "the-collector",      label: "A grand collection",      target: "features#library", emphasis: ["library", "hub", "syncplay"] },
+      { id: "the-tinkerer",       label: "I like to customize",     target: "plugins",         emphasis: ["plugins", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "The page you seek has slipped off the shelf — a tasteful 404 rendered as an empty reading nook with a fallen lamp, The Librarian gently returning a misfiled bookmark, and navigation back to the main stacks.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 29. DO / DON'T
    * ========================================================================== */
 
   do_dont: {

@@ -513,6 +513,34 @@ const brandKit = {
       "Crouching with magnifier, tracing a neon reflection",
     ],
     expressions: ["Stoic", "Knowing half-smile", "Eyebrow raised", "Deep in thought"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive companion)
+    // Type  : object | null   (optional)
+    // About : Lux transitions from static art to an on-page field agent, offering
+    //         cryptic tips keyed to page sections and Easter-egg reactions.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small silhouette leaning against a wall; appears on Home, " +
+        "Features, Download, and About — never on Clients or Hub (Lux knows the archive, not the network).",
+      idle:
+        "Lux shifts weight between feet, occasionally glances up at a flickering imaginary neon " +
+        "sign, and lets out a slow exhale (cigarette smoke wisps animate upward). " +
+        "Idle motion is disabled under prefers-reduced-motion (Lux simply stands still).",
+      tips: [
+        { where: "home:#opener",          say: "The case is yours now. Press play and see what you find." },
+        { where: "features:#evidence",    say: "Eight tools. One mission. Know them, and you know the archive." },
+        { where: "download:#server",      say: "One line and you're running the show. I'll be here when you get back." },
+        { where: "about:#faq",            say: "Questions? I've seen this case a hundred times. Ask away." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Lux tips his fedora slowly and nods. 'I see you're paying attention.'" },
+        { trigger: "hover-hold:3s", react: "Lux pulls a cigarette from nowhere, lights it against the neon, and exhales. 'Patience. Good trait.'" },
+      ],
+      dismiss:
+        "A small close button ('Lux, take five') tucks him back into the shadows; the dismissed " +
+        "state persists via localStorage so he stays out of sight.",
+    },
   },
 
   /* ==========================================================================
@@ -1028,6 +1056,21 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Controls whether seasonal_variants ship live on the site via a tiny
+  //         date-gate, or stay documentation-only.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/champagne-countdown.svg",
+      "img/seasonal/blood-moon-rooftops.svg",
+      "img/seasonal/valentine-neon-hearts.svg",
+    ],
+    banner: "A seasonal variant is now live — the case has changed color for the occasion.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1226,10 +1269,223 @@ const brandKit = {
    * 23. METADATA
    * ========================================================================== */
 
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Case",       emphasis: "default" },
+      { id: "features", label: "Evidence Files", emphasis: "primary" },
+      { id: "clients",  label: "The Network",    emphasis: "default" },
+      { id: "download", label: "Get Access",     emphasis: "primary" },
+      { id: "hub",      label: "Reach Anywhere", emphasis: "default" },
+      { id: "about",    label: "Closed Cases",   emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Deep specialty — advanced users find it in the docs link.", fold_into: "features" },
+      { id: "docs",    reason: "Technical reference lives in the footer for those who dig deeper." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE & CONTENT CASTING
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The city's libraries were always locked away — until now. Phlix is the key that brings them into the light.",
+    sections: [
+      { id: "opener",      source: "copy_overlay.hero", treatment: "Full-bleed noir hero: rain-slicked streets, a neon-lit marquee sign reading 'PHLIX', Lux silhouetted in a doorway watching.", weight: "hero" },
+      { id: "case-brief",  source: "story",             treatment: "The problem statement: your library exists only on the server. The solution: Phlix, the archivist's tool.", weight: "major" },
+      { id: "lead-cases",  source: "feature_casting",   treatment: "Two flagship features (syncplay, library) rendered as evidence cards pinned to a noir case board.", weight: "major" },
+      { id: "trust-play",  source: "proof_strategy",    treatment: "Trust signals: real GitHub stars, client count, and a one-line quote from the docs — rendered as a detective's case summary.", weight: "minor" },
+      { id: "closing-act", source: "conversion_funnel", treatment: "The download CTA as a final case briefing: 'You know what you came for. Get Phlix.'", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "evidence-board",
+      spec: "Eight features laid out like evidence photos on a noir detective's wall — each a neon-accented card with hard shadows, pinned corners, monospace serial numbers, and Lux's cryptic case notes.",
+    },
+    clients: {
+      template: "network-map",
+      spec: "Each client platform rendered as a neon-lit node in 'The Network' — connected by thin cyan lines, with icons and specs showing how each device taps into the archive.",
+    },
+    download: {
+      template: "interrogation",
+      spec: "Frame the server install as a 'briefing room' with the server snippet as the security-clearance token, client cards as 'field agents', and ecosystem links as the 'surveillance toolkit'.",
+    },
+    about: {
+      template: "case-closed",
+      spec: "Scroll through the founding philosophy as a noir noir novella in chapters (Philosophy, License, Contributing), ending with the FAQ styled as Lux answering evidence-room questions.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay",  angle: "Every device locked to the same frame — no lag, no drift, pure synchronization under the neon." },
+      { id: "library",   angle: "Your archive, organized by the machine, searchable from anywhere, always live." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "The archive is live",
+      headline: "Every File, Every Room, Every Night.",
+      subheadline: "Phlix is the detective's toolkit for a self-hosted library. Streams to Roku, TV, Windows, mobile. Synced. Transcoded. Always yours.",
+      primary_cta: { label: "Unlock the Archive" },
+      secondary_cta: { label: "Read the Case File" },
+    },
+    section_headings: {
+      pitch: "Why Phlix solves the case",
+      features: "Evidence Files",
+      cta_banner: "The pieces fit. Now get access.",
+    },
+    footer_tagline: "The city's media, yours to command.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "noir-scrolls",      // each bullet styled as a clue card on a pull-string case file
+    faq: "interrogation-transcript",   // FAQ as Lux's recorded field notes
+    clients: "network-nodes",          // clients as interconnected devices in the network
+    ecosystem: "toolkit-dossier",      // ecosystem repos as tools in Lux's surveillance toolkit
+  },
+
+  faq_experience: {
+    frame: "interrogation-transcript",
+    persona: "Lux, the night-owl archivist, answering your questions from behind the neon.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I watch on any device?", maps_to: "formats" },
+      { q: "Is my library really safe from the internet?", maps_to: "expose-internet" },
+      { q: "What if I move or travel?", maps_to: "expose-internet" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Midnight Collector",
+      scene: "One user, five devices across the house, 2 a.m. — they hit play on the Roku, pick up on the phone in the kitchen, resume on the TV in the bedroom. Every device knows exactly where they left off.",
+      surfaces: ["home hero", "media library grid", "media player with SyncPlay indicator"],
+      features_shown: ["syncplay", "library", "transcode"],
+    },
+    {
+      name: "Remote Access",
+      scene: "A user on the road, phone in hand, connects through Phlix Hub to their home server behind a restrictive NAT. No port forwarding. No exposed ports. Just a secure reverse tunnel.",
+      surfaces: ["hub connect screen", "media library remote", "media player"],
+      features_shown: ["hub", "auth", "transcode"],
+    },
+    {
+      name: "The Multi-Screen Night",
+      scene: "Living room TV running the Roku client, showing a noir thriller. A second household watching the same film in sync via SyncPlay across the internet. Both hit pause at the same moment.",
+      surfaces: ["media player", "SyncPlay overlay", "hub network status"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "playable-vignette",
+    spec: "An interactive noir diorama: Lux stands under a flickering neon sign in a rain-slicked alley. As you hover/click, the sign cycles through neon colors (cyan, magenta, amber), Lux shifts poses (leaning, looking over shoulder), and each pose reveals a different headline. The neon flicker fades when the final headline lands.",
+    suggested_inputs: ["pointer hover", "click to advance"],
+    fallback: "A static illustration of Lux under the fully-lit neon sign with the primary headline, subheadline, and both CTAs baked into the markup. Identical copy, no interaction required.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A dark topbar with the brand wordmark at left (Playfair Display in ghost-white) and a series of neon-cyan nav links. The active link glows with a subtle neon-cyan box-shadow (0 0 8px rgba(0,229,255,0.4)). On hover, links briefly brighten like a buzzing neon sign.",
+    keyboard: null,
+    fallback: "A standard accessible <nav> element with the same links in plain list order, fully keyboard reachable via Tab, collapsing to a labeled hamburger menu on mobile. The fallback nav is always rendered and always functional.",
+  },
+
+  scroll_experience: {
+    mode: "cinematic",
+    spec: "Each section 'cuts' into frame like a noir film reel change — a horizontal venetian-blind wipe at the section boundary, followed by a faint neon flicker as the new content settles. Slow, deliberate, tense.",
+    reduced_motion: "Under prefers-reduced-motion, all transition wipes and flickers are removed entirely. The page becomes a plain continuous scroll with no animation, but all content and copy remain fully accessible and in the correct order.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Lux tips his fedora and a single neon-cyan glow pulses outward from the logo. The word 'NOIR' briefly appears in monospace text below.",
+      reward_copy: "Case noted.",
+      exit: "The glow fades on its own after 3s, or press Esc.",
+    },
+    {
+      trigger: "typed-word:shadow",
+      effect: "The page background briefly gains a deep, dramatic shadow bar (like venetian-blind light) sweeping left-to-right. Lux, if on-page, glances up.",
+      reward_copy: "You've got the eye for details.",
+      exit: "Press Esc to clear and return to normal.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a technically-savvy user to download and install Phlix, then connect a client.",
+    cta_ladder: [
+      { step: 1, cta: "Unlock the Archive",  target: "download" },
+      { step: 2, cta: "Pick Your Client",    target: "clients" },
+      { step: 3, cta: "Run the Server",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a briefing room: 'You came for the archive. Here's the key.' The server install snippet is the single most prominent element — copy-paste, run, done.",
+    friction_notes: "Sophisticated users who understand neon noir and noir detective fiction appreciate directness and minimal handholding. Skip the friendly extra steps; assume competence. The one-liner install is the real prize.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "Real architecture placard: 5 native clients, SyncPlay over NTP sync, HLS + FFmpeg transcoding, multi-profile auth, Live TV + DVR." },
+      { type: "github",           format: "A modest 'from the archive' line linking the real phlix-server repo with live star count and issue tracker (never hard-coded)." },
+      { type: "quotes-from-docs", format: "One true short line pulled directly from the docs about self-hosting, styled as a case-file quote." },
+    ],
+    placement: "A calm trust band between the hero and the feature overview — styled as a detective's field summary, not a hype section.",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Case closed (calm mode)",
+    affects: ["animation", "neon_glow_intensity", "scroll_transitions", "easter_eggs"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, styled as a 'lights out' switch.",
+  },
+
+  error_page_experience: {
+    concept: "A 404 rendered as a dead-end alley: Lux stands under a burnt-out neon sign (the X flickers and dies), holding a file marked 'FILE NOT FOUND'. Text: 'The case is closed. This lead doesn't exist.' Recovery links point back home.",
+    recovery_links: ["home", "features", "download"],
+  },
+
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-13",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1237,7 +1493,7 @@ const brandKit = {
       "sdxl",
       "flux.1",
     ],
-    schema_version: "2.0",
+    schema_version: "2.1",
     kit_type: "base",
     notes:
       "Base/parent kit. Variations (e.g. 'Neon Noir: Deep Ocean', 'Neon Noir: Rust City') " +

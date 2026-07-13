@@ -532,6 +532,36 @@ const brandKit = {
       "Minimal, technical, and unmistakably Soundwave Studio.",
     poses: ["Monitoring levels", "Adjusting a fader", "Listening with eyes closed", "Pointing to a peak"],
     expressions: ["Focused", "Satisfied (needle in the green)", "Alert (needle in the red)", "Listening deep"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive companion)
+    // Type  : object | null   (optional — `behavior: null` = imagery-only mascot)
+    // About : Waveform from static art into a lightweight, on-page companion:
+    //         placement/idle/tips/easter interactions and dismissal. Respects
+    //         prefers-reduced-motion and persists dismissal via localStorage.
+    behavior: {
+      placement:
+        "Bottom-right corner of the screen as a small, floating waveform pulse; " +
+        "appears on Home, Features, and Download pages only (never on the " +
+        "About/FAQ reading pages where focused attention is required).",
+      idle:
+        "Waveform oscillates gently side-to-side, the VU needle drifts between " +
+        "yellow and green. Under prefers-reduced-motion, both cease entirely — " +
+        "Waveform sits still, attentive but unmoved.",
+      tips: [
+        { where: "home:#hero",            say: "Levels are set. Ready to press play?" },
+        { where: "features:.feature-card", say: "Each one of these features is tuned for precision." },
+        { where: "download:#server",      say: "One line, and you're the engineer. I'll monitor the levels." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Waveform pops a peak (full-scale green spike) and gives a satisfied nod." },
+        { trigger: "hover-hold:2s", react: "The VU needle swings into the red and settles back to green — a faux warning, then relief." },
+      ],
+      dismiss:
+        "A small 'Go silent' close button in the corner hides Waveform behind the " +
+        "console; the dismissed state persists via localStorage so they stay hidden " +
+        "on return visits until explicitly summoned again.",
+    },
   },
 
   /* ==========================================================================
@@ -932,6 +962,23 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Declares whether the seasonal_variants above are shipped live or
+  //         documented-only. "live-js" means a self-contained date-gate applies
+  //         the seasonal overrides and motif during active_range without rebuild.
+  // Shape : { mode, motif_assets, banner }
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/newyear-timecode.svg",
+      "img/seasonal/summer-cyan-spectrum.svg",
+      "img/seasonal/halloween-flatline.svg",
+    ],
+    banner: "New sessions are tuning in — a limited-time seasonal mix.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1087,6 +1134,248 @@ const brandKit = {
       ],
       reason: "A slow UI breaks immersion as badly as a latency spike in the studio.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Session",     emphasis: "default" },
+      { id: "features", label: "Signal Map",  emphasis: "primary" },
+      { id: "clients",  label: "Monitors",    emphasis: "default" },
+      { id: "download", label: "Roll Tape",   emphasis: "primary" },
+      { id: "hub",      label: "Relay",       emphasis: "default" },
+      { id: "about",    label: "Credits",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Technical extension — valuable to producers, secondary for the primary audience.", fold_into: "features" },
+      { id: "docs",    reason: "Engineering docs live linked in footer, not primary navigation path." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 22B. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The console is warm. Every title you press play on deserves the same focused attention as a late-night studio session.",
+    sections: [
+      { id: "console-rise",  source: "copy_overlay.hero",      treatment: "Full-bleed waveform hero with live VU meter sweep and the needle pushing into amber as the headline appears.", weight: "hero" },
+      { id: "the-takes",     source: "feature_casting",        treatment: "Two 'hero takes' cast as illuminated channel-strip cards: SyncPlay and Library, each with technical specs and precision messaging.", weight: "major" },
+      { id: "craft",         source: "story",                  treatment: "Value props rendered as a spec sheet — each bullet a technical specification with its own fader-UI visual.", weight: "major" },
+      { id: "real-sessions", source: "proof_strategy",         treatment: "Trust signals presented as a live-session snapshot: repo stars, client counts, real capabilities on a console readout.", weight: "minor" },
+      { id: "press-play",    source: "conversion_funnel",      treatment: "Closing CTA band: 'Roll tape' button beside a one-line install command on a dark technical surface.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 22C. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "channel-strip-grid",
+      spec: "Lay out each feature as a vertical channel strip with icon, title, body, and a peak-meter accent on the right — each can be toggled open to reveal full technical specs.",
+    },
+    clients: {
+      template: "monitor-wall",
+      spec: "Display each client as a monitor screen mockup: name, status badge, highlights as waveform-colored list, and a 'View source' button in the console-gray chrome.",
+    },
+    download: {
+      template: "mixing-console",
+      spec: "Frame the page as three console sections: server install (the main input channel), client downloads (output monitors), and ecosystem (patch bay connections).",
+    },
+    about: {
+      template: "session-notes",
+      spec: "Tell the story as timestamped session notes (Philosophy, License, Contributing) ending with the FAQ as a talkback channel.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every frame locked — weighted-mean NTP keeps every device in sync, across rooms or across the country." },
+      { id: "library",  angle: "Drop a file, see it appear on the console — metadata parsed, organized, ready to play." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 23B. COPY OVERLAY
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Professional precision",
+      headline: "Every Session. Perfectly Captured.",
+      subheadline: "An open-source media server with the technical depth of a world-class recording studio — SyncPlay, transcoding, Live TV, and a hub that reaches your servers from anywhere.",
+      primary_cta: { label: "Roll Tape" },
+      secondary_cta: { label: "See the Signal Map" },
+    },
+    section_headings: {
+      pitch: "Why precision matters",
+      features: "The console",
+      cta_banner: "Levels are set. Press play.",
+    },
+    footer_tagline: "Open-source media, on your terms — engineered for the long take.",
+  },
+
+  /* ==========================================================================
+   * 23C. COPY TREATMENTS
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "spec-list",
+    faq: "man-page",
+    clients: "monitor-gallery",
+    ecosystem: "patch-bay",
+  },
+
+  /* ==========================================================================
+   * 23D. FAQ EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "man-page",
+    persona: "Waveform, the engineer answering live questions about the session.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this play back on my old receiver?", maps_to: "formats" },
+      { q: "Do I need to dial up the internet to reach my library?", maps_to: "expose-internet" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 23E. PERSONA VIGNETTES
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Late-Night Session",
+      scene: "A producer and engineer, headphones on, both screens lit with waveforms — one device plays, the other monitors. SyncPlay keeps them locked across the LAN.",
+      surfaces: ["home hero", "SyncPlay lobby", "media player"],
+      features_shown: ["syncplay", "library", "auth"],
+    },
+    {
+      name: "The Traveling Mix",
+      scene: "On the road with the laptop, but the session archive stays at home behind the NAT. Hub relay brings the full library to a hotel room in real-time.",
+      surfaces: ["hub connect screen", "media player", "quality selector"],
+      features_shown: ["hub", "transcode", "auth"],
+    },
+    {
+      name: "The Broadcast Shift",
+      scene: "Live TV + DVR for a rotating household — each person tunes to a different channel, each recording picks up at the seek point where they left it.",
+      surfaces: ["Live TV guide", "media library", "DVR interface"],
+      features_shown: ["livetv", "auth", "library"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered waveform diorama: background console, mid-layer fader array, foreground VU needle and Waveform mascot — parallaxes on pointer move/scroll. Waveform blinks attentively; the needle settles into green as the headline fades in.",
+    suggested_inputs: ["pointer position", "scroll depth"],
+    fallback: "A single flat technical illustration of a lit console with the waveform headlined and both CTAs in stark green text on charcoal — fully static, identical copy.",
+    js_budget_kb: 7,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A dark studio-console topbar: brand lockup at left (waveform glyph + Soundwave Studio), nav links with a subtle green underline on active, a live activity pulse indicator (narrow VU bar) at right.",
+    keyboard: null,
+    fallback: "A standard semantic <nav> with the same links, fully keyboard-navigable, collapsing to a labeled hamburger menu below 768px.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section 'drops in' like a reel change — a thin waveform wipe sweeps from left, accompanied by a faint tape-transport flicker. The page rhythm mirrors a tracking edit.",
+    reduced_motion: "Under prefers-reduced-motion, the wipe and flicker are disabled; the page becomes a continuous scroll with instant section boundaries, no animation.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:3",
+      effect: "A brief waveform peak animates across the top edge of the screen; Waveform pops up momentarily with a satisfied 'level check'.",
+      reward_copy: "Peak locked in.",
+      exit: "The effect fades after ~3s, or press Esc to clear immediately.",
+    },
+    {
+      trigger: "typed-word:tape",
+      effect: "A spinning reel animation plays in the cursor position for 2s; a soft rewind 'chit-chit-chit' sound triggers (if audio is enabled).",
+      reward_copy: "Rolling it back.",
+      exit: "Press Esc or type another key to stop the reel and return cursor to normal.",
+    },
+    {
+      trigger: "typed-word:signal",
+      effect: "The primary waveform green color pulses twice at full saturation across the entire page; Waveform gives a thumbs-up.",
+      reward_copy: "Signal locked.",
+      exit: "Auto-clears after 2s.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time engineer to install the server and open the lobby.",
+    cta_ladder: [
+      { step: 1, cta: "Roll Tape",          target: "download" },
+      { step: 2, cta: "Pick Your Monitor",  target: "clients" },
+      { step: 3, cta: "Press Record",       target: "download#server" },
+    ],
+    download_opening: "Three channels to the network: a one-line server install (the master channel), then client options (output monitors), then ecosystem (technical utilities).",
+    friction_notes: "A technical, precision-focused audience — no hand-holding; every step assumes comfort with command lines and technical specification. Lead with the one-liner install.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A console readout card showing live capabilities from content.json: 5 native clients, NTP-synced SyncPlay, FFmpeg transcoding with CRF 23/28, Multi-user auth." },
+      { type: "github",           format: "A 'from the projection booth' band linking the real phlix-server repo with live star count and issue tracker — never hard-coded numbers." },
+      { type: "quotes-from-docs", format: "One authoritative line from the BSD-3 license or the official spec, set as a framed technical quote on a panel background." },
+    ],
+    placement: "A single dense 'the numbers speak' band between features and the closing CTA, laid out as a multi-column spec sheet.",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "dense",
+    reading_level: "technical",
+    jargon_policy: "foreground",
+    page_budget: { home_sections_max: 5, words_per_section_max: 110 },
+  },
+
+  intensity_toggle: {
+    label: "Quiet Session",
+    affects: ["animation", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "A flat-line waveform and a silent console — 'No signal on this channel (404)' — with Waveform pointing back to the home feed and a list of the main channels (Home, Signal Map, Roll Tape).",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

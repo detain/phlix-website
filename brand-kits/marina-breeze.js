@@ -516,6 +516,21 @@ const brandKit = {
       "Sleeping with beacon dimmed to a gentle glow",
     ],
     expressions: ["Welcoming", "Curious", "Sleepy", "Excited (beacon flashing)"],
+    behavior: {
+      placement: "Bottom-right corner as a small seated keeper; appears on home, download, and features pages — never on FAQ or docs reading sections, as those need uncluttered focus.",
+      idle: "Gently rocks side to side (like a boat on calm water), eyes blinking in a sleepy rhythm; the beacon pulses softly. Idle motion is disabled under prefers-reduced-motion (Binnacle simply sits still, beacon glowing steady).",
+      tips: [
+        { where: "home:#hero",              say: "Welcome back to the harbor. Ready to set sail?" },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps movie night in perfect time across every room in your house." },
+        { where: "features:#library",       say: "Every film and episode you add just appears on the shelf. No work — the scanner finds them." },
+        { where: "download:#server",        say: "One line and you're the harbormaster. I'll keep the beacon lit." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Binnacle's beacon flashes brightly three times in celebration and he waves both arms in a cheerful arc." },
+        { trigger: "hover-hold:2s", react: "Binnacle offers a tiny helping hand (pointing) and says 'Need a little light on this?'" },
+      ],
+      dismiss: "A small 'Binnacle, rest now' close button — when clicked, Binnacle steps into the lighthouse and dims. The dismissed state persists via localStorage so he stays tucked away until the visitor clears their localStorage or visits the next day.",
+    },
   },
 
   /* ==========================================================================
@@ -922,6 +937,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snow-particles.svg",
+      "img/seasonal/summer-regatta-pennants.svg",
+      "img/seasonal/autumn-leaf-drifts.svg",
+    ],
+    banner: "Winter Harbour is now open — Binnacle's beacon glows softly through the snow.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1073,6 +1098,273 @@ const brandKit = {
       ],
       reason: "A breeze doesn't drag — performance is part of the brand promise.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",       emphasis: "default" },
+      { id: "features", label: "Features",   emphasis: "primary" },
+      { id: "clients",  label: "Clients",    emphasis: "default" },
+      { id: "download", label: "Download",   emphasis: "primary" },
+      { id: "hub",      label: "Hub",        emphasis: "default" },
+      { id: "about",    label: "About",      emphasis: "default" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced tinkering — nice for builders, not the main harbor for casual explorers." },
+      { id: "docs",    reason: "Reference lives one click away in the footer, keeping the main navigation clean and breezy." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Cast off from the dock and set sail for your perfect viewing harbor — where your media library waits and adventure begins.",
+    sections: [
+      { id: "hero-beacon",      source: "copy_overlay.hero", treatment: "Full-bleed hero with a lighthouse beam sweep animation guiding the eye across the headline and CTAs.", weight: "hero" },
+      { id: "why-sail",         source: "story",             treatment: "Value props styled as weathered dock signs — each a small, hand-painted wooden marker on the harbor pier.", weight: "major" },
+      { id: "the-fleet",        source: "feature_casting",   treatment: "Two featured capabilities cast as sailing vessels in motion on open water, with a full feature fleet on the dedicated page.", weight: "major" },
+      { id: "trust-the-harbor", source: "proof_strategy",    treatment: "Trust signals as a harbor master's logbook entry — real stats and repo stars on aged paper.", weight: "minor" },
+      { id: "set-sail",         source: "conversion_funnel", treatment: "Closing CTA as a dock-to-shore journey — the server install is the first line cast off.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "chart-scroll",
+      spec: "Lay out features as navigational chart panels — each a distinct harbor/inlet on a scrolling coastline map with anchor points and depth markers for key capability calls.",
+    },
+    clients: {
+      template: "vessel-fleet",
+      spec: "Render each client platform as a ship in harbor — Roku as a sleek racing sloop, Tizen as a sturdy catamaran, Windows as a motor cruiser, Mobile as a nimble dinghy, DLNA as a classic schooner. Each ship's card lists its capabilities.",
+    },
+    download: {
+      template: "dockside-guide",
+      spec: "Open with a side-by-side 'dockside checklist' — left shows the server installation as the gangway to board, right shows the choice of client vessels. Below is the ecosystem tides reference.",
+    },
+    about: {
+      template: "logbook-chapters",
+      spec: "Structure the story as a ship's log — Philosophy as the captain's charter, License as the articles of sailing, Contributing as the crew roster, FAQ as standing questions sailors ask the harbormaster.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY — how facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library", angle: "Every film and episode you own, catalogued and ready to stream to any screen in your harbor." },
+      { id: "syncplay", angle: "Movie night across any distance — everyone locked to the same frame, perfectly in sync." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 26. COPY OVERLAY & TREATMENTS — presentation re-voicing
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Set Sail for Tonight",
+      headline: "Your Harbor. Your Library. Your Rules.",
+      subheadline: "A self-hosted media server that streams to every screen you own — with the unhurried calm of a perfect sailing day.",
+      primary_cta: { label: "Cast Off" },
+      secondary_cta: { label: "Chart the Course" },
+    },
+    section_headings: {
+      pitch: "Why Anchor Here?",
+      features: "Navigate the Waters",
+      cta_banner: "Ready to set sail? Begin here.",
+    },
+    footer_tagline: "Open waters. No clouds in sight.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "dock-signs",        // each value prop as a weathered wooden dock marker
+    faq: "harbormaster-logbook",        // FAQ as a patient harbor guide's handwritten notes
+    clients: "vessel-fleet",             // clients as ships in harbor, each with its own character
+    ecosystem: "mooring-posts",          // ecosystem repos as named navigation waypoints and buoys
+  },
+
+  /* ==========================================================================
+   * 27. FAQ EXPERIENCE — presentation frame for the FAQ
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "harbormaster-chat",
+    persona: "Binnacle, the lighthouse keeper, patiently answering the questions sailors ask as they settle into harbor.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will my old smart TV work with this?", maps_to: "formats" },
+      { q: "Do I have to open my harbor to the whole ocean?", maps_to: "expose-internet" },
+      { q: "Can I steer the ship myself — add my own features?", maps_to: "plugins" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. PERSONA VIGNETTES — concrete usage scenes
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "Sunday Harbor Gathering",
+      scene: "The whole family gathers on the dock as the sun sets; one tap dims the room and your entire media library unfurls on the big screen, ready to explore.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Sailing Solo Across the Ocean",
+      scene: "At a friend's house across the country, you want to watch something from home. The hub handles the journey — a reverse tunnel brings your server to you, no internet exposure, perfectly secure.",
+      surfaces: ["hub connect screen", "media library grid", "media player"],
+      features_shown: ["hub", "auth"],
+    },
+    {
+      name: "The Weekend Cruiser",
+      scene: "Kids watch their show on the old smart TV via DLNA while parents stream a film on Roku in the living room, both pulling from the same ship's library, no fuss.",
+      surfaces: ["media library grid", "dlna browser"],
+      features_shown: ["dlna", "library", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 29. INTERACTIVE SURFACES — interaction models with required fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "A calm, layered scene: the headline and CTAs rest below a gentle lighthouse beacon animation that slowly sweeps across the hero backdrop, revealing the subheadline and drawing the eye down the page as if a light is guiding a ship into harbor.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A static hero illustration with the lighthouse and beacon at rest, the headline and both CTAs visible and fully readable without any animation — identical copy and layout, simply still.",
+    js_budget_kb: 4,
+  },
+
+  /* ==========================================================================
+   * 30. NAVIGATION MODEL — site navigation paradigm
+   * ========================================================================== */
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A clean horizontal top bar in sailcloth white with the logo at left; nav links centered or right-aligned; active link gets a sea-glass teal underline (2px) and subtle compass-rose icon indicator.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain semantic <nav> list, fully keyboard-navigable with visible focus rings, collapsing to a labeled hamburger menu on mobile (no dependencies, vanilla JS only).",
+  },
+
+  /* ==========================================================================
+   * 31. SCROLL EXPERIENCE — page reading rhythm
+   * ========================================================================== */
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "A gentle, unhurried scroll where each section slides into view with a soft opacity fade-in as the visitor's eye travels down. No abrupt jumps — the whole page feels like slowly sailing past familiar landmarks on familiar water.",
+    reduced_motion: "Under prefers-reduced-motion, all fade-in effects are removed; the page becomes a plain continuous scroll with instant section boundaries visible, no animation.",
+  },
+
+  /* ==========================================================================
+   * 32. EASTER EGGS — hidden, harmless discoveries
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:3",
+      effect: "Binnacle (the lighthouse mascot) briefly lights up brightly and emits a cheerful beam sweep across the page.",
+      reward_copy: "Welcome home, sailor!",
+      exit: "The beacon dims back to normal after ~2s, or press Esc to dismiss it immediately.",
+    },
+    {
+      trigger: "typed-word:anchor",
+      effect: "A small anchor briefly appears next to the cursor and the page's teal color accents gently pulse once.",
+      reward_copy: "You've dropped anchor!",
+      exit: "Press Esc (or type any other key) to restore normal cursor behavior.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 33. CONVERSION FUNNEL — download journey & frictions
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time host to run the server and open their personal media harbor.",
+    cta_ladder: [
+      { step: 1, cta: "Cast Off",           target: "download" },
+      { step: 2, cta: "Choose Your Vessel", target: "clients" },
+      { step: 3, cta: "Unfurl the Sails",   target: "download#server" },
+    ],
+    download_opening: "The Download page opens with 'All hands on deck!' — a reassuring one-line server install, then a choice of client vessels below.",
+    friction_notes: "A relaxed, design-conscious audience who value elegance and clarity. Keep steps minimal, reassuring tone, no technical jargon. The install line is framed as the easy part — anyone can do this.",
+  },
+
+  /* ==========================================================================
+   * 34. PROOF STRATEGY — trust signals & verifiable claims
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A harbor-master's placard of real capabilities: 8 native features, SyncPlay over 5 NTP samples, adaptive HLS + FFmpeg transcoding, TMDB + TVDB metadata, 5 native clients + DLNA." },
+      { type: "github",           format: "A modest 'from the lighthouse' card linking the real phlix-server repo with live star counts and current issue count (never hard-coded)." },
+      { type: "quotes-from-docs", format: "One true, calm line from the official docs about running your own server, set in a weathered frame on dock wood texture." },
+    ],
+    placement: "A single calm 'steady harbor, honest waters' section between the features and closing CTA, rendered as aged parchment or driftwood aesthetic.",
+  },
+
+  /* ==========================================================================
+   * 35. VISITOR PATHS — optional audience self-select fork
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "What brings you to the harbor today?",
+    paths: [
+      { id: "family-nights",  label: "Weekend movie nights with the family",      target: "features#syncplay", emphasis: ["syncplay", "library", "auth"] },
+      { id: "collectors",     label: "I've collected years of media",            target: "features#library",  emphasis: ["library", "transcode", "hub"] },
+      { id: "tinkerers",      label: "I love building and customizing",          target: "plugins",           emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 36. EXPERIENCE ARCHETYPE — declared site experience model
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  /* ==========================================================================
+   * 37. COMPLEXITY PROFILE — information density contract
+   * ========================================================================== */
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 110 },
+  },
+
+  /* ==========================================================================
+   * 38. INTENSITY TOGGLE — optional calm-mode enhancement
+   * ========================================================================== */
+
+  intensity_toggle: null,  // Marina Breeze is already calm and breezy; no loud elements need taming.
+
+  /* ==========================================================================
+   * 39. ERROR PAGE EXPERIENCE — bespoke 404 concept (schema-only this pass)
+   * ========================================================================== */
+
+  error_page_experience: {
+    concept: "A 'missed the harbor' scene: Binnacle stands confused at a dark, empty dock with an upturned rowboat and a torn nautical chart, holding a lantern that reads '404 — you've drifted beyond the map.' A text overlay: 'This shore doesn't exist. Let's chart a course back home.' Clear recovery links (home, features, download) styled as compass directions.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

@@ -525,6 +525,30 @@ const brandKit = {
       "Weaving a knotwork pattern in the air with one finger",
     ],
     expressions: ["Serene", "Curious", "Welcoming", "Reverent"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small floating spirit; appears on Home, Features, Download, " +
+        "and About — she does not intrude on the reading pages (Docs, Hub details).",
+      idle:
+        "Her lantern pulses gently like a heartbeat, and she drifts in a slow spiral. " +
+        "Her hair sways as if moved by mist. Under prefers-reduced-motion, she simply " +
+        "stands still with a steady, glowing lantern.",
+      tips: [
+        { where: "home:#hero",              say: "Welcome, seeker. The fire is lit. What calls to you?" },
+        { where: "home:.features-overview", say: "Three treasures await: stories held, circles kept in sync, and vessels that reach anywhere." },
+        { where: "features:.feature-grid",  say: "Each of these is a thread in the great tapestry. Pull one, and the whole loom reveals itself." },
+        { where: "download:#server",        say: "Here begins the threshold. One command, and you become the keeper of your own archive." },
+        { where: "about:.faq-section",      say: "The elder questions, answered by firelight. Ask what troubles you." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7",       react: "Sídhe's lantern blazes with gold light, and she traces a perfect triskelion spiral in the air that glows briefly." },
+        { trigger: "hover-hold:3s", react: "She holds up her lantern toward you, and whispers 'You see the light.' A constellation of faint gold stars blooms around her." },
+      ],
+      dismiss:
+        "A small 'Sídhe, rest now' close button allows dismissal; she retreats gently " +
+        "into mist and the standing stone behind her fades. Dismissal persists via " +
+        "localStorage so she stays hidden until the user chooses to recall her.",
+    },
   },
 
   /* ==========================================================================
@@ -1005,6 +1029,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/samhain-bonfires.svg",
+      "img/seasonal/imbolc-snowdrops.svg",
+      "img/seasonal/bealtaine-hawthorn.svg",
+      "img/seasonal/solstice-holly.svg",
+    ],
+    banner:
+      "The veil grows thin — Samhain's ancient fire stirs in the darkness. The stories within burn brighter.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1164,6 +1200,229 @@ const brandKit = {
         "The atmosphere should feel ancient, not slow. Performance IS part of the " +
         "reverent experience.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Hearth",      emphasis: "primary" },
+      { id: "features", label: "The Library",     emphasis: "primary" },
+      { id: "clients",  label: "The Vessels",     emphasis: "default" },
+      { id: "download", label: "Begin the Quest", emphasis: "primary" },
+      { id: "hub",      label: "The Far Reach",   emphasis: "default" },
+      { id: "about",    label: "The Elders Speak",emphasis: "default" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "The craftsman's toolkit lives in the margins, for those who wish to weave their own spells.", fold_into: "features" },
+      { id: "docs",    reason: "The chronicles are ever-present, one breath away in the footer — no need to break the circle of story." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — the landing page's story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Come in from the mist and take your place by the fire — your stories await, illuminated and held in reverence.",
+    sections: [
+      { id: "the-threshold",   source: "copy_overlay.hero", treatment: "Full-bleed hero: Sídhe's lantern glows against the twilight veil, her light revealing the headline and subheadline like a manuscript being opened at dusk.", weight: "hero" },
+      { id: "why-gather",      source: "story",             treatment: "Value props rendered as knotwork-framed tiles, each one a reason to enter the circle — reverent, not urgent.", weight: "major" },
+      { id: "the-treasures",   source: "feature_casting",   treatment: "Three hero features cast as illuminated manuscript pages — emerald and gold on vellum, each a window into what awaits.", weight: "major" },
+      { id: "the-keepers",     source: "proof_strategy",    treatment: "Trust signals rendered as ancient library placard: real counts of servers running, genuine voices from the community, and a quote from the lore.", weight: "minor" },
+      { id: "enter-the-circle", source: "conversion_funnel", treatment: "Closing invitation card: 'Add your stories to the library' beside the install one-liner, framed as the threshold between seeking and gathering.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "illuminated-pages",
+      spec: "Lay the features out as a sequence of illuminated manuscript pages, each featuring a Cinzel title in ancient gold, an ink-drawn icon, and EB Garamond body text on vellum backgrounds with knotwork borders.",
+    },
+    clients: {
+      template: "vessel-shrine",
+      spec: "Present each client platform as a 'vessel' — a rounded, stone-like shrine illustration holding its highlights and capabilities, arranged in a reverent circle.",
+    },
+    download: {
+      template: "gathering-instructions",
+      spec: "Frame the Download page as 'How to Join the Circle' — the server install as the first threshold, client choices as different ways to gather, ecosystem links as extended lore.",
+    },
+    about: {
+      template: "elder-wisdom-scroll",
+      spec: "Tell the brand story as a scrolling illuminated manuscript with decorated section titles in Cinzel, then the FAQ styled as questions asked by the fire and answered by the ancient keeper.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "When many gather around the same fire, all eyes follow the same frame — SyncPlay keeps the circle in perfect rhythm." },
+      { id: "library",  angle: "Every story finds its place on the illuminated shelves, organized and waiting, as if written in the Book of Kells." },
+    ],
+    support: ["transcode", "livetv", "auth", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "An ancient door opens",
+      headline: "Every story deserves to be kept.",
+      subheadline: "Gather your library in reverence — a self-hosted sanctuary where each title rests illuminated and free, streamed to every hearth in your home.",
+      primary_cta: { label: "Light the Fire" },
+      secondary_cta: { label: "Hear the Lore" },
+    },
+    section_headings: {
+      pitch: "Why gather here?",
+      features: "The Treasures Within",
+      cta_banner: "The threshold awaits — step in and begin.",
+    },
+    footer_tagline: "Where stories are held sacred.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "knotwork-tiles",       // each value prop framed as a knotwork ornament tile with brief insight
+    faq: "elder-fireside",                // FAQ as an ancient keeper answering by the hearth fire
+    clients: "vessel-circle",             // clients arranged as ceremonial vessels in a sacred circle
+    ecosystem: "lore-archive",            // ecosystem repos as an archive of illuminated scrolls
+  },
+
+  faq_experience: {
+    frame: "elder-fireside",
+    persona: "The Sídhe, the ancient keeper of stories, answers your questions by the hearthfire — gently, with the wisdom of ages.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will my stories stream to every room?", maps_to: "formats" },
+      { q: "Do I truly keep my library in my own keep?", maps_to: "expose-internet" },
+      { q: "Can I shape Phlix to my own needs?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Keeper",
+      scene: "An archivist curates her collection in a quiet study — 500 films from a lifetime of discovery. She opens the Phlix library and watches each title appear, illuminated, in its proper shelf.",
+      surfaces: ["home hero", "library grid", "media player controls"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Circle",
+      scene: "Three friends in different cities open their streaming apps on the same evening. SyncPlay locks them to the same frame — each in their own hearth, yet watching as one.",
+      surfaces: ["SyncPlay interface", "media player timeline", "hub login"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Wanderer",
+      scene: "A traveler brings her Roku to a friend's house. The Phlix hub recognizes her, opens her library as if she were home, and streams her favorite films without a pause.",
+      surfaces: ["hub connection", "client launch", "library grid"],
+      features_shown: ["hub", "dlna", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered twilight scene — standing stones in the background, mist rising, and Sídhe's lantern in the foreground, glowing brighter as the user scrolls or moves the pointer. The lantern light parallaxes across a vellum page holding the headline, as if illuminating a manuscript being opened.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A static illuminated manuscript hero illustration showing Sídhe standing before standing stones at dusk, her lantern aglow, with the identical headline, subheadline, and both CTAs baked into the vellum-textured background.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A vellum-background topbar with a Cinzel wordmark in ancient gold at left. Navigation items are separated by small knotwork ornament dividers (Celtic spirals). The active link glows with a subtle gold underline and a pale mist background pill.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> <ul> with the same links, fully keyboard-reachable via Tab and Enter, collapsing to a labeled accessible hamburger menu on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "manuscript-unfurl",
+    spec: "As the user scrolls down the homepage, each major section arrives like a new page turning in an ancient book — a soft cross-dissolve with a faint ink-wash effect at the section boundary, as if the vellum itself is aging subtly between chapters.",
+    reduced_motion: "Under prefers-reduced-motion, the page-turn effects and ink-wash transitions are dropped entirely; the page becomes a plain continuous scroll with instant, unmarked section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "hover-hold:.mascot:3s",
+      effect: "Sídhe's lantern flares brightly, and a spiral of gold sparkles blooms outward, leaving faint knotwork patterns that fade after a moment.",
+      reward_copy: "The spirit's light burns brighter when you believe.",
+      exit: "The pattern fades on its own after ~5 seconds, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:knotwork",
+      effect: "An interlaced knotwork border animates around the viewport edge, spiraling inward gently, and the page background tints to heather wash briefly.",
+      reward_copy: "You've found the hidden pattern.",
+      exit: "Press Esc to restore the normal view.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a seeker from curiosity to joining the circle by running a server and opening the library.",
+    cta_ladder: [
+      { step: 1, cta: "Light the Fire",           target: "download" },
+      { step: 2, cta: "Choose Your Vessel",       target: "clients" },
+      { step: 3, cta: "Begin the Quest",          target: "download#server" },
+    ],
+    download_opening: "The Download page opens as 'How to Join the Circle' — a poetic but clear explanation of what's needed, the server install as the first threshold, then client choices as different ways to gather (Roku is the hearth-stone, mobile is the wanderer's path).",
+    friction_notes: "An audience of archivists, storytellers, and reverent collectors — people who value beauty and craft. Keep steps few and luminous; speak in terms of guardianship and stewardship, never features or specs.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A vellum-textured placard titled 'What the Library Holds': real native clients (Roku, Samsung Tizen, Windows, Mobile, DLNA), SyncPlay precision, FFmpeg transcoding capabilities, all pulled verbatim from content.json." },
+      { type: "github", format: "A modest 'from the archive' row with the real phlix-server repo link, showing live star count and issue count — framed as 'The Keepers' Record'." },
+      { type: "quotes-from-docs", format: "One short, true line from the Phlix docs about self-hosting and library stewardship, set in EB Garamond italic and framed by a gold ornament, positioned as 'The Lore Says'." },
+    ],
+    placement: "A single calm, reverent band positioned between the hero features and the closing conversion CTA — titled 'Why the Circle Holds Fast'.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of seeker are you?",
+    paths: [
+      { id: "the-collector",  label: "I keep a great collection",  target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "the-circle",     label: "I gather with others",       target: "features#syncplay", emphasis: ["syncplay", "hub", "auth"] },
+      { id: "the-gardener",   label: "I grow and tend systems",    target: "plugins",           emphasis: ["plugins", "livetv", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 110 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 'lost traveler' moment: Standing stones rise from mist in silence, and Sídhe appears with her lantern, gently pointing the way back. 'You have strayed from the path. Let me guide you home.' Then three gentle links back to the hearth.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

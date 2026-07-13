@@ -542,6 +542,28 @@ const brandKit = {
       "Peering around a stack of pumpkins",
     ],
     expressions: ["Warmly welcoming", "Cozy and content", "Gently excited", "Sleepy and soft", "Pleasantly surprised"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small settled figure in a cozy chair; appears on Home, Features, " +
+        "Download, and About — never on the documentation or library pages. Always holds her steaming cider mug.",
+      idle:
+        "Gently rocks in her chair and occasionally sips from her mug, blinking contentedly; " +
+        "idle motion is disabled under prefers-reduced-motion (Mabel simply sits, warm and still).",
+      tips: [
+        { where: "home:#hero",              say: "Settle in. The season is perfect." },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps the whole harvest table in step, no matter where folks are watching." },
+        { where: "features:.feature-detail", say: "Each one of these grows naturally from the soil — no shortcuts, no shortcuts." },
+        { where: "download:#server",        say: "Just one line, and you become the steward of your own orchard. I'll keep the cider warm." },
+        { where: "about:.faq-list",         say: "Questions from the table? I've got answers, just like I've got time." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Mabel stands and does a gentle leaf-spiral dance, then settles back with a warm smile." },
+        { trigger: "hover-hold:2s", react: "Mabel offers you a second mug of steaming cider and gestures to the empty chair beside her." },
+      ],
+      dismiss:
+        "A small 'Mabel, enjoy your evening' close button tuchs her away to rest by the hearth; " +
+        "the dismissed state persists via localStorage so she stays tucked away.",
+    },
   },
 
   /* ==========================================================================
@@ -977,6 +999,20 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ────────────────────────────────────────────────────────
+  // Declares whether the seasonal_variants array above ship live or stay documentation-only.
+  // mode: "live-js" = date-gate flips override tokens + motif while today falls inside active_range.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/deep-harvest-leaves.svg",
+      "img/seasonal/frost-eve-lanterns.svg",
+      "img/seasonal/harvest-feast-cornucopia.svg",
+      "img/seasonal/apple-blossom-branch.svg",
+    ],
+    banner: "The season has arrived — settle in for what's perfect right now.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1142,6 +1178,238 @@ const brandKit = {
       ],
       reason: "The warmth of the brand should never cost the user a slow evening.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",      emphasis: "default" },
+      { id: "features", label: "Features",  emphasis: "primary" },
+      { id: "clients",  label: "Clients",   emphasis: "default" },
+      { id: "download", label: "Download",  emphasis: "primary" },
+      { id: "about",    label: "About",     emphasis: "default" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "An extension for those who want to tinker — rich but not essential for the cozy core.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material lives one click away in the footer, off the relaxed main path." },
+      { id: "hub",     reason: "Advanced feature for those who reach beyond one home — documented but not spotlit." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Settle in. The season is perfect — your media, your library, your whole autumn evening waits.",
+    sections: [
+      { id: "welcome",  source: "copy_overlay.hero",  treatment: "Full-bleed autumn-orchard hero with Mabel's welcome gesture and warm invite.", weight: "hero" },
+      { id: "why",      source: "story",              treatment: "Hand-painted abundance: why Phlix belongs on your shelf, framed as a cozy harvest manifesto.", weight: "major" },
+      { id: "features", source: "feature_casting",    treatment: "Eight feature cards as harvested bounty — each one grows from the soil, each one ready.", weight: "major" },
+      { id: "proof",    source: "proof_strategy",     treatment: "A modest harvest placard of real capabilities and honest house-count trust signals.", weight: "minor" },
+      { id: "gather",   source: "conversion_funnel",  treatment: "Closing cozy-corner CTA: 'Settle in for the season' with the install one-liner in a warm embrace.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "harvest-display",
+      spec: "Lay the eight features as cards on a warm parchment shelf — each a hand-painted tile with its orchard-born name, icon, and description; a 'back to home' link tucks them away.",
+    },
+    clients: {
+      template: "family-of-screens",
+      spec: "Each client device drawn as part of one cozy household — a family gathered around the hearth and on every screen, with each device's highlights as a warm list of what it brings.",
+    },
+    download: {
+      template: "settle-in-steps",
+      spec: "Frame as a three-step journey: 'Gather your ingredients' (server install snippet), 'Pick your seat' (client cards), 'You're ready' (ecosystem + docs link).",
+    },
+    about: {
+      template: "fireside-chapters",
+      spec: "Tell the founding story as a scrolling hearth-side read (Philosophy, License, Contributing) ending in Mabel at the table answering community questions as an FAQ.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY  — how product facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every viewer on the same frame, no matter which room or which state they're in — that's the whole table staying in sync." },
+      { id: "library",  angle: "Add a file to the orchard; watch it ripen into metadata and appear, shelf-ready." },
+    ],
+    support: ["transcode", "auth", "livetv"],
+    footnote: ["dlna", "plugins", "hub"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted, your way",
+      headline: "Settle In. The Season Is Perfect.",
+      subheadline:
+        "Your library, your devices, your autumn evening. Phlix streams to every screen " +
+        "in the house — and follows you anywhere — all without leaving your home's harvest.",
+      primary_cta: { label: "Settle In" },
+      secondary_cta: { label: "Read the docs" },
+    },
+    section_headings: {
+      pitch: "Why gather here?",
+      features: "What grows in the orchard",
+      cta_banner: "The fire's already lit. Time to settle in.",
+    },
+    footer_tagline: "Your media, rooted at home.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "abundance-list",     // each value prop as a warm harvest claim
+    faq: "fireside-q&a",                 // FAQ as Mabel answering at the hearth
+    clients: "family-of-screens",        // clients as household devices around one cozy home
+    ecosystem: "orchard-shelf",          // repos as a tidy harvest shelf of tools
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — interaction models & conversion
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "fireside-q&a",
+    persona: "Mabel, answering questions by the fire as if you've pulled up a chair.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work with the old TV in my farmhouse?", maps_to: "formats" },
+      { q: "Do I have to let the whole internet into my house?", maps_to: "expose-internet" },
+      { q: "Can I grow my own extensions in the orchard?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Autumn Movie Night",
+      scene: "The family gathers on the couch with wool blankets and mugs of cider; one tap dims the room and the whole library fills the big screen — everyone settles in together.",
+      surfaces: ["home hero", "media library grid", "media player", "continue-watching rail"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Harvest Spread",
+      scene: "Three households, one cozy film — everyone hits play and stays locked to the same frame, no racing ahead, no falling behind. The whole table moves as one.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen", "playback info"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Collector's Shelf",
+      scene: "The user's massive archive — 500+ titles — organizes itself. Metadata blooms, the library breathes, and every device knows exactly which bitrate it needs right now.",
+      surfaces: ["library grid", "quality selector", "metadata detail view"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered autumn orchard diorama — harvest moon, branches, Mabel in her chair — parallaxes gently on scroll/pointer; as you scroll, Mabel's mug steams up with warmth and invitation.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single warm painted autumn-orchard illustration with Mabel seated in her chair, holding her cider, with the identical headline, subheadline, and both CTAs baked into the static markup.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm parchment top bar with the brand lockup at left, nav links in Lora at right, subtle plaid-rule divider at bottom; active link glows in maple red.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav role='navigation'> list with the same links, fully keyboard reachable via Tab, Enter activates; on mobile, collapses to a labeled hamburger menu (aria-label='Menu', aria-expanded).",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "The page scrolls at a relaxed, unhurried pace with gentle section boundaries marked by subtle leaf-shadow dividers and warm background color shifts between sections.",
+    reduced_motion: "Under prefers-reduced-motion the dividers and color shifts remain but without animation; the page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "A small shower of autumn leaves drifts down from the header and Mabel tips her cup as if to toast.",
+      reward_copy: "You found the harvest! Enjoy the warmth.",
+      exit: "The leaves settle on their own after ~3s, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:cider",
+      effect: "The cursor briefly becomes a steaming mug and a soft amber glow warms the page.",
+      reward_copy: "You found the cider! Help yourself.",
+      exit: "Press Esc (or any other key) to restore the cursor and clear the glow.",
+    },
+    {
+      trigger: "time-of-day:18:00..22:00",
+      effect: "The page gently shifts to a 'golden hour' filter, as if the sun is setting just outside the screen.",
+      reward_copy: "Perfect timing — it's the golden hour.",
+      exit: "The filter remains until you navigate away or the time window closes.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time host to run the server and open their first library.",
+    cta_ladder: [
+      { step: 1, cta: "Settle In",     target: "download" },
+      { step: 2, cta: "Pick Your Room", target: "clients" },
+      { step: 3, cta: "Light the Fire",  target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a warm welcome: 'Three steps to your autumn evening' framing the one-line server install as 'the easy part', then the client seat-picker below.",
+    friction_notes: "A warm, nostalgic audience who values coziness over speed — keep the steps few and inviting, no jargon walls; the install one-liner is framed as 'already simmering, just waiting for you'.",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format: "A harvest placard of real capabilities: 'Five native client families, real-time SyncPlay across every device, transcoding that knows which bitrate your screen needs, and the whole thing runs on your hardware, nowhere else.'",
+      },
+      {
+        type: "github",
+        format: "A modest 'from the orchard' row linking the real phlix-server repo with its live star count and issue count — honest house counts, never invented.",
+      },
+      {
+        type: "quotes-from-docs",
+        format: "One short, true line lifted verbatim from the docs: 'Your library never leaves your hardware unless you say so.' — set as a framed fireside-card quote.",
+      },
+    ],
+    placement: "A single warm 'honest orchard' band between the features and the closing 'settle in' CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of autumn evening are you here for?",
+    paths: [
+      { id: "family",     label: "Cozy family gathering",      target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "collector",  label: "I've got a big collection",  target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "everywhere", label: "I want to reach beyond home", target: "features#hub",     emphasis: ["hub", "auth", "transcode"] },
+    ],
+  },
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "Mabel stands under a rainy autumn sky holding an empty harvest basket, with a gentle note: 'This page got picked clean — or never grew here. Let me walk you back to the orchard.' Below are warm links back to the main harvest (home, features, download).",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

@@ -547,6 +547,35 @@ const brandKit = {
       "Dancing pose: one leg raised, tail spiralling upward in joy",
     ],
     expressions: ["Joyful", "Welcoming", "Curious", "Triumphant"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive on-page companion)
+    // Type  : object
+    // About : Turns Priya from static art into a lightweight on-page usher guide:
+    //         where she sits, how she idles, contextual tips keyed to page anchors,
+    //         playful easter interactions, and dismissal behavior with localStorage.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small seated peacock, tail furled gracefully. " +
+        "Priya appears on Home, Download, and About — never on the FAQ/docs reading pages.",
+      idle:
+        "Gently sways side-to-side like a chandelier in a breeze; occasionally fans " +
+        "her tail and blinks with satisfaction. Idle motion is disabled under " +
+        "prefers-reduced-motion (Priya simply sits still, looking peacefully content).",
+      tips: [
+        { where: "home:#hero",              say: "Welcome, dear guest — the show is about to begin. Have you chosen your seat?" },
+        { where: "home:.feature-cards",     say: "Psst… these are the grand features that make our cinema sing." },
+        { where: "download:#server",        say: "One command and you are the projectionist. I shall hold the marigolds." },
+        { where: "about:#faq",              say: "Curtain questions? I have seen them all in the suggestion box — let me share." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Priya's tail fans wide, she does a graceful bow, and releases a burst of marigold petals." },
+        { trigger: "hover-hold:2s", react: "Priya gestures with one wing toward you in delight, as if saying 'I was hoping you would stay!'" },
+      ],
+      dismiss:
+        "A small 'Priya, enjoy the show' close button tucks her behind the curtain; " +
+        "the dismissed state persists via localStorage so she stays tucked unless the visitor refreshes.",
+    },
   },
 
   /* ==========================================================================
@@ -1084,6 +1113,25 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Declares whether the seasonal_variants above SHIP live, or stay
+  //         documentation-only. "documented" = data exists but never applies.
+  //         "live-js" = a tiny, self-contained date-gate flips the override
+  //         tokens and enables the motif while today falls inside a variant's
+  //         active_range, with no rebuild needed.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/diwali-diya-lights.svg",
+      "img/seasonal/holi-powder-cloud.svg",
+      "img/seasonal/monsoon-rain-drops.svg",
+      "img/seasonal/new-year-confetti.svg",
+    ],
+    banner: "The festival season is upon us — pull up a seat and celebrate.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1282,6 +1330,233 @@ const brandKit = {
   },
 
   /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Lobby",       emphasis: "default" },
+      { id: "features", label: "Now Showing",     emphasis: "primary" },
+      { id: "clients",  label: "Box Seats",       emphasis: "default" },
+      { id: "download", label: "Buy Your Ticket", emphasis: "primary" },
+      { id: "hub",      label: "The Marquee",     emphasis: "default" },
+      { id: "about",    label: "The Story",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "The concession stand — a delightful extra, not the main show for cinema lovers.", fold_into: "features" },
+      { id: "docs",    reason: "The house guide — a single click away in the footer, off the grand front-of-lobby path." },
+    ],
+    extra_pages: [
+      {
+        id: "movie-night-guide",
+        title: "Host the Perfect Movie Night",
+        purpose: "A warm walkthrough that turns product facts into a step-by-step guide for setting up a home cinema.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The lights dim, the curtain parts, and your living room becomes the neighborhood cinema — Phlix is your grandest entrance.",
+    sections: [
+      { id: "curtain-rise", source: "copy_overlay.hero", treatment: "Full-bleed marquee hero: bulbs warming up, the curtain sweeping open to reveal the headline in marigold gold.", weight: "hero" },
+      { id: "now-showing",  source: "feature_casting",   treatment: "Two 'now showing' hero features painted as grand one-sheet posters on the lobby wall.",                             weight: "major" },
+      { id: "why-cinema",   source: "story",             treatment: "Phlix's value props styled as a torn strip of vintage matinee ticket stubs.",                                     weight: "major" },
+      { id: "house-proof",  source: "proof_strategy",    treatment: "Trust signals rendered as a placard in the lobby: open-source contributor count, star count, house manifesto.",  weight: "minor" },
+      { id: "get-tickets",  source: "conversion_funnel", treatment: "Closing box-office CTA: 'Buy Your Ticket' beside the one-line server install command.",                           weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "one-sheet-wall",
+      spec: "Lay the eight features out as framed hand-painted one-sheet Bollywood posters on a lobby wall — each a rich-colored tile with a Playfair Display title and a poetic one-line synopsis.",
+    },
+    clients: {
+      template: "marquee-board",
+      spec: "Present each client as a bulb-lit marquee title card with a 'Now Playing On…' header and its tech highlights as a torn-ticket list beneath.",
+    },
+    download: {
+      template: "ticket-counter",
+      spec: "Frame the page as a grandly decorated box-office counter: the server install snippet is the 'admit one' ticket, client cards are seat choices, ecosystem repos are the concessions menu.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell Phlix's story as a scrolling reel of chapters — Philosophy, License, Contributing — ending in Priya's Suggestion Box (FAQ styled as the peacock usher answering patrons' notes).",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Movie night stays locked in sync — every seat, every room, the same frame, the same moment." },
+      { id: "library",  angle: "Drop your films in and watch them take their place on the marquee, organized and ready." },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Now showing at your place",
+      headline: "Home Theater, Elevated.",
+      subheadline: "Dim the lights and press play — your whole library, streaming to every screen in the house like it's opening night at the palace. SyncPlay, transcoding, live TV, and more. Every story deserves a grand entrance.",
+      primary_cta: { label: "Buy Your Ticket" },
+      secondary_cta: { label: "See the House Guide" },
+    },
+    section_headings: {
+      pitch: "Why the cinema always wins",
+      features: "Now Showing",
+      cta_banner: "The curtain's rising. Grab the marigolds.",
+    },
+    footer_tagline: "Every night is opening night.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "marquee-lines",   // each value prop lit up as a line on the marquee board
+    faq: "letters-column",            // FAQ as Priya answering patrons' suggestion-box notes
+    clients: "family-of-devices",     // clients drawn as a cozy family circle around one living room
+    ecosystem: "shelf-of-reels",      // ecosystem repos as film reels on the projection-booth shelf
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Priya the peacock, the theater's all-welcoming usher, reading audience notes from the lobby suggestion box and answering with genuine delight.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this play on my old TV in the living room?", maps_to: "formats" },
+      { q: "Do I have to open my house to the internet?", maps_to: "expose-internet" },
+      { q: "Can I customize it with my own extras?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Sunday Matinee",
+      scene: "Grandpa and three grandkids pile onto the couch; one tap dims the room and the family library fills the big screen — instant access, instant joy.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Long-Distance Movie Night",
+      scene: "Two households, three time zones, one film — everyone hits play at their favorite timestamp and stays locked to the same frame, 1,000 miles apart.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "Saturday Morning Cartoons",
+      scene: "The kids' profile opens straight to their own shelf with ratings filtered, the old smart TV in the guest room picking it up over DLNA with zero setup.",
+      surfaces: ["profile picker", "media library grid", "DLNA device discovery"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered cinema diorama — marquee with lit bulbs, grand curtain, projector beam, and Priya the peacock — parallaxes gently on scroll and pointer position. As the visitor scrolls or hovers, the curtain parts and the bulbs warm up, revealing the headline in marigold gold.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single flat painted marquee illustration with the curtain already open, the identical headline and subheadline baked into the static markup, and both CTAs rendered as traditional buttons below.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A marquee-styled top bar with warm bulb-dot separators between the navigation links and the Phlix wordmark lockup at left; the active link glows like a lit marquee bulb. Priya's tail feather peeks in from the right edge.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible navigation — a plain <nav> element with a <ul> list of the same links, fully keyboard reachable via Tab, with an `aria-label='Main navigation'` and a 2px marigold-gold focus ring paired with a 2px midnight-mandir offset. On mobile, it collapses to a labeled hamburger menu button.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a reel change — a soft film-burn wipe at the top edge and a faint projector-flicker moment as the next 'chapter' scrolls into frame. The diya-flame particles drift upward gently behind the sections.",
+    reduced_motion: "Under prefers-reduced-motion, the film-burn wipes and projector flickers are removed entirely; the page becomes a plain continuous scroll with generous marigold-gold rule lines marking section boundaries instead.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Priya rises from the bottom corner, fans her peacock tail wide in celebration, and releases a burst of jasmine petals across the top of the screen.",
+      reward_copy: "Intermission! Priya loves an attentive audience.",
+      exit: "The petals settle on their own after ~5s, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:namaste",
+      effect: "The cursor briefly becomes a tiny marigold blossom and the marquee bulbs do one warm, celebratory chase from left to right.",
+      reward_copy: "You found the respectful heart of the house.",
+      exit: "Press Esc (or type any other key) to restore the normal cursor.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time cinema lover to run the server and open their personal movie palace.",
+    cta_ladder: [
+      { step: 1, cta: "Buy Your Ticket",         target: "download" },
+      { step: 2, cta: "Pick Your Screen",        target: "clients" },
+      { step: 3, cta: "Dim the Lights (Install)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens like the box-office window on opening night: a warm 'Three steps to showtime' header over the one-line server install (framed as 'your admission'), then the five client seat choices below, then the ecosystem links as concessions.",
+    friction_notes: "A warm, celebratory, non-technical audience — keep steps few and filled with joy, no jargon walls. Make the install one-liner feel like 'the easiest, most glamorous part'. This is a home cinema, not a machine room.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A lobby placard of real Phlix capabilities pulled from content.json — 5 native clients, SyncPlay with NTP time-sync, HLS adaptive bitrate + FFmpeg transcoding, Live TV with DVR." },
+      { type: "github",           format: "A modest 'from the projection booth' placard linking the real phlix-server repo with its live star count and active issue count (never a hard-coded number)." },
+      { type: "quotes-from-docs", format: "One true line lifted from the founding mission, set as a framed lobby-card quote: 'Built in PHP 8.3+ on Workerman.' Honest, technical, opulent." },
+    ],
+    placement: "A single warm 'good seats, honest house' band between the features and the closing box-office CTA — restful, not sales-y.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of showing are you here for?",
+    paths: [
+      { id: "family-night", label: "Family movie night",         target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "collector",    label: "I've got a grand collection", target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "tinkerer",     label: "I love to tinker",           target: "features#hub",      emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the house lights",
+    affects: ["animation", "parallax", "particle-effects", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note and accessibility statement.",
+  },
+
+  error_page_experience: {
+    concept: "A 'wrong theater, wrong showing' gag: Priya stands under an empty marquee reading 'This showing sold out (or never existed)' in Cinzel Decorative, holding a torn ticket stub and gesturing warmly toward the lobby. The marquee bulbs flicker with a sad, knowing charm.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
    * 23. METADATA
    * ========================================================================== */
 
@@ -1302,7 +1577,9 @@ const brandKit = {
       "Base/parent kit. The first South Asian aesthetic in the Phlix brand-kit collection. " +
       "Variations (e.g. 'Bollywood Dreams: Monsoon Edition', 'Bollywood Dreams: Diwali') " +
       "should reference this via base_kit.slug = 'bollywood-dreams' and override only diverging fields. " +
-      "Seasonal variants for Diwali, Holi, and Monsoon are pre-defined in seasonal_variants.",
+      "Seasonal variants for Diwali, Holi, and Monsoon are pre-defined in seasonal_variants. " +
+      "Experience overrides (§22–§26) frame the site as a grand Indian cinema lobby where Priya the peacock " +
+      "guides every visitor from ticket purchase to showtime.",
   },
 };
 

@@ -528,6 +528,37 @@ const brandKit = {
       "Glowing brighter when media is found (success state)",
     ],
     expressions: ["Curious tilt", "Radiant glow", "Gentle spin", "Surprised ring-flutter"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Turns Meridian from a static decorative illustration into an on-page
+    // companion guide: appearing in select pages, offering context-aware tips
+    // as the visitor explores, and playing hidden discovery moments.
+    behavior: {
+      placement:
+        "Bottom-right corner at 12% of viewport height; appears on Home, Features, " +
+        "and Download — never on dense reference pages (Docs, FAQ). Mobile: slides " +
+        "to bottom-left corner at smaller sizes.",
+      idle:
+        "Meridian slowly rotates through all rings at a stately pace (~6s per full " +
+        "rotation), its central amber glow brightening and fading gently; the " +
+        "eyepiece oscillates in and out. Idle motion is disabled under " +
+        "prefers-reduced-motion — Meridian becomes a static centered sphere.",
+      tips: [
+        { where: "home:#hero",           say: "The dome is open. Let me show you what's inside." },
+        { where: "home:.features-overview", say: "Aperture is our precision term for a telescope's opening; think of each feature as a different way to look at your library." },
+        { where: "features:#syncplay",   say: "SyncPlay is like keeping a shared transit line — every device stays locked to the same frame, no matter the distance." },
+        { where: "download:#server",     say: "One line and you're the astronomer. I'll help you chart the path." },
+        { where: "download:.clients",    say: "Native apps for every screen — as if you had a telescope pointed from every room in your house." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Meridian's rings spin into a complex weaving pattern, the eyepiece extends and retracts rapidly, and its glow pulses gold — like a star going nova." },
+        { trigger: "hover-hold:2s", react: "Meridian tilts its polar axis toward you and a soft 'atmospheric seeing' tooltip appears: 'You're curious. Good. That's how discovery works.'" },
+      ],
+      dismiss:
+        "A small 'Meridian, to the observatory' close button closes the companion; " +
+        "the dismissed state persists via localStorage so it stays put until the " +
+        "visitor explicitly recalls it.",
+    },
   },
 
   /* ==========================================================================
@@ -1068,6 +1099,20 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Declares whether the seasonal_variants above actually ship live on the site,
+  // or remain documentation-only. In "live-js" mode, a self-contained date-gate
+  // applies the overrides and motif automatically during the active_range.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/perseid-meteor-trail.svg",
+      "img/seasonal/winter-solstice-frost-dome.svg",
+      "img/seasonal/vernal-equinox-garden.svg",
+    ],
+    banner: "Stardust is celebrating: the Perseid meteor shower lights up the dome — perfect timing to browse.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1239,6 +1284,259 @@ const brandKit = {
       ],
       reason: "A dark, atmospheric UI should feel silky and instant — heavy assets are the enemy.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Observatory",      emphasis: "default" },
+      { id: "features", label: "Instruments",          emphasis: "primary" },
+      { id: "clients",  label: "Viewing Rooms",        emphasis: "default" },
+      { id: "download", label: "Chart Your Course",    emphasis: "primary" },
+      { id: "hub",      label: "Distant Observatories", emphasis: "default" },
+      { id: "about",    label: "Our Story",            emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced apertures for the curious — reference, not primary draw.", fold_into: "features" },
+      { id: "docs",    reason: "Scholarly reference, shelved in the library for consultation." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  // ── homepage_narrative ──────────────────────────────────────────────────────
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A Victorian astronomer opens the dome to show you a sky full of stories.",
+    sections: [
+      { id: "dome-rising",      source: "copy_overlay.hero", treatment: "Full-bleed dome-opening animation with the headline rising as the sky reveals itself.", weight: "hero" },
+      { id: "the-instruments",  source: "feature_casting",   treatment: "Hero instruments cast as hand-engraved atlas plates on a velvet display.", weight: "major" },
+      { id: "why-stardust",     source: "story",             treatment: "Value props rendered as notes in an astronomer's leather journal.", weight: "major" },
+      { id: "proven-path",      source: "proof_strategy",    treatment: "Trust signals as a brass observatory placard with real capabilities and citations.", weight: "minor" },
+      { id: "chart-course",     source: "conversion_funnel", treatment: "Closing banner: 'Open your own dome' beside the install command.", weight: "major" },
+    ],
+  },
+
+  // ── page_blueprints ─────────────────────────────────────────────────────────
+  page_blueprints: {
+    features: {
+      template: "atlas-gallery",
+      spec: "Lay the instruments out as hand-engraved atlas plates in a gallery grid — each a scientific illustration with Playfair Display title, engraved linework, and a poetic one-line caption.",
+    },
+    clients: {
+      template: "viewing-rooms",
+      spec: "Present each client as a 'viewing room' — a stylized chamber with the device and its capabilities as furnishings: Roku as the family room, Tizen as the den, Windows as the study, Mobile as the traveler's kit.",
+    },
+    download: {
+      template: "expedition-guide",
+      spec: "Frame the page as an expedition guide: the server install is the 'zenith protocol' (the main achievement), client selections are the companion instruments you'll carry, ecosystem links are the archive of references.",
+    },
+    about: {
+      template: "scholar-study",
+      spec: "Tell the founding story as a walk through a scholar's study (Philosophy, License, Contributing), ending in the hearth-side FAQ styled as Meridian's answering service.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  // ── feature_casting ─────────────────────────────────────────────────────────
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your entire collection, cataloged and ready in a single vast aperture." },
+      { id: "syncplay", angle: "Every device, locked to the same frame — as if they shared one eyepiece." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  // ── copy_overlay ────────────────────────────────────────────────────────────
+  copy_overlay: {
+    hero: {
+      eyebrow: "The dome is open",
+      headline: "Your library. Your sky.",
+      subheadline: "A Victorian astronomer's dream realized in code — self-hosted media that stays yours, streams to every room, and syncs every viewing device as if they were looking through the same telescope.",
+      primary_cta: { label: "Open Your Dome" },
+      secondary_cta: { label: "Read How" },
+    },
+    section_headings: {
+      pitch: "Why settle for the light we're given?",
+      features: "The Instruments",
+      cta_banner: "The stars are waiting — chart your course.",
+    },
+    footer_tagline: "Every sky deserves to be mapped.",
+  },
+
+  // ── copy_treatments ─────────────────────────────────────────────────────────
+  copy_treatments: {
+    pitch_bullets: "atlas-entries",        // value props as handwritten journal entries
+    faq: "meridian-letters",              // FAQ answered by Meridian the mascot
+    clients: "viewing-room-gallery",      // clients as illustrated chambers
+    ecosystem: "scholar-library",         // repos as books on a shelf
+  },
+
+  // ── faq_experience ──────────────────────────────────────────────────────────
+  faq_experience: {
+    frame: "meridian-letters",
+    persona: "Meridian the armillary sphere, answering visitor questions from the observatory's suggestion box with precise, quietly thrilled observations.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I run this on old hardware?", maps_to: "formats" },
+      { q: "Do I need to tinker constantly to keep it running?", maps_to: "expose-internet" },
+      { q: "If I host this myself, who's watching?", maps_to: "expose-internet" },
+    ],
+  },
+
+  // ── persona_vignettes ───────────────────────────────────────────────────────
+  persona_vignettes: [
+    {
+      name: "The Evening Observer",
+      scene: "After dinner, the astronomer settles into the observatory dome with a film queued on the main screen, secondary streams playing science docs on the study tablet.",
+      surfaces: ["home hero", "media library grid", "multi-room player control"],
+      features_shown: ["library", "transcode", "syncplay", "auth"],
+    },
+    {
+      name: "The Traveling Scholar",
+      scene: "On a research expedition, the scholar pulls out a phone to continue the same film from the observatory back home, SyncPlay keeping her locked to where she left off.",
+      surfaces: ["mobile app", "hub connect", "media player"],
+      features_shown: ["hub", "syncplay", "mobile", "auth"],
+    },
+    {
+      name: "The Collector's Dream",
+      scene: "Years of curated films and series, cataloged by hand, now stream effortlessly to the old TV in the den via DLNA, no setup required.",
+      surfaces: ["library organization", "DLNA device picker", "legacy player"],
+      features_shown: ["library", "dlna", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  // ── hero_experience ─────────────────────────────────────────────────────────
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "A layered observatory dome illustration; as the visitor scrolls into view, the dome motor whirrs (audio: subtle mechanical sound), the dome halves part to reveal the night sky, and Meridian's glow brightens at the center. Headline and both CTAs fade in as the dome opens.",
+    suggested_inputs: ["scroll offset", "DOM intersection"],
+    fallback: "A single flat dome-opened illustration with the identical headline, subheadline, and both CTAs pre-rendered in static markup, using aria-label for the dome mechanism.",
+    js_budget_kb: 4,
+  },
+
+  // ── navigation_model ────────────────────────────────────────────────────────
+  navigation_model: {
+    mode: "topbar",
+    spec: "A scholarly navigation topbar with the Playfair Display wordmark at left, a constellation-line divider, and linked navigation items in Jost UI. The active nav item is underlined in Constellation Gold and glows softly.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a semantic <nav> list of the same links, fully keyboard reachable (Jost labels remain), collapsing to a labeled hamburger menu on mobile.",
+  },
+
+  // ── scroll_experience ───────────────────────────────────────────────────────
+  scroll_experience: {
+    mode: "continuous-with-bookmarks",
+    spec: "Smooth continuous scroll; at each major section, a subtle 'page turn' (faint constellation-line flash and parchment wipe) marks the boundary — as if turning an atlas page.",
+    reduced_motion: "Under prefers-reduced-motion, the page-turn wipes are disabled entirely; the page becomes plain continuous scroll with zero visual punctuation.",
+  },
+
+  // ── easter_eggs ─────────────────────────────────────────────────────────────
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "The Stardust Observatory logo glows brilliantly and Meridian spins into a rapid precession, its amber glow pulsing in rhythm with constellation-line sparkles radiating outward.",
+      reward_copy: "The dome is aligned perfectly. You've found the zenith.",
+      exit: "The sparkles fade after ~5s, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:aperture",
+      effect: "The word 'aperture' briefly highlights in Constellation Gold and Meridian tilts its eyepiece toward the cursor with a satisfied rotation.",
+      reward_copy: "Precision words bring precision sight.",
+      exit: "Press Esc to restore normal cursor and focus.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "A faint text appears in the deep navy below the footer: 'You've mapped the entire observatory. Look up.'",
+      reward_copy: null,
+      exit: "Scrolling back up hides the message.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  // ── conversion_funnel ───────────────────────────────────────────────────────
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a curious astronomer to set up their own dome (run the server) and open the hub.",
+    cta_ladder: [
+      { step: 1, cta: "Open Your Dome",          target: "download" },
+      { step: 2, cta: "Choose Your Viewing Room", target: "clients" },
+      { step: 3, cta: "Chart the Zenith (setup)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as an 'Expedition Guide' header — 'Three steps to your own observatory' — with the server command as the primary 'zenith protocol', client selections as companion instruments, and ecosystem links as the archive of knowledge.",
+    friction_notes: "A thoughtful, scholarly audience — they expect rigor and precision, but also beauty. Brief, clear steps; no jargon walls; the install is framed as 'the quiet part where the magic happens'.",
+  },
+
+  // ── proof_strategy ──────────────────────────────────────────────────────────
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A brass observatory placard: '5 native client platforms. NTP-synced SyncPlay. HLS + FFmpeg transcoding. Live TV + DVR. Self-hosted on your hardware.'  — drawn from content.json facts." },
+      { type: "github",           format: "A modest 'from the observatory archive' row with the real phlix-server repo link, star count, and issue count (never hard-coded, always live)." },
+      { type: "quotes-from-docs", format: "One precise, true line from the philosophy section of the docs, framed as an engraved brass plate: a fundamental principle of the project." },
+    ],
+    placement: "A centered, calm 'trusted observations' band between the features and the closing 'chart your course' CTA.",
+  },
+
+  // ── visitor_paths ───────────────────────────────────────────────────────────
+  visitor_paths: {
+    prompt: "What brings you to the observatory tonight?",
+    paths: [
+      { id: "collector",    label: "I have a vast collection to share",        target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "gatherer",     label: "I want to gather friends and watch together", target: "features#syncplay", emphasis: ["syncplay", "hub", "auth"] },
+      { id: "tinkerer",     label: "I like to build and customize",            target: "plugins",           emphasis: ["plugins", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  // ── experience_archetype ────────────────────────────────────────────────────
+  // The Sage archetype (from personality §2) drives a "narrative-scroll"
+  // approach where the story unfolds methodically as you descend, each section
+  // revealing a new insight like turning a page in an atlas.
+  experience_archetype: "narrative-scroll",
+
+  // ── complexity_profile ──────────────────────────────────────────────────────
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 120 },
+  },
+
+  // ── intensity_toggle ────────────────────────────────────────────────────────
+  // The dome-opening hero and page-turn animations are subtle but present.
+  // This toggle offers a "steady gaze" mode for visitors who prefer minimal motion.
+  intensity_toggle: {
+    label: "Steady Gaze",
+    affects: ["hero_experience→static", "scroll_experience→continuous", "animation→fade-only"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, labeled 'Steady Gaze' to match the observatory metaphor, beside accessibility notes.",
+  },
+
+  // ── error_page_experience ───────────────────────────────────────────────────
+  // NOTE: Per new_site.md, error_page_experience is schema-only this pass.
+  // The 404 concept is documented here; shipping per-kit 404s requires future
+  // build-tooling (a root 404.html path-sniffing shim). This is intentionally
+  // OUT OF SCOPE.
+  error_page_experience: {
+    concept: "A 'Misaligned Telescope' gag: Meridian stands beside an empty, star-less midnight sky dome with a tilted brass telescope. The headline reads 'This coordinates don't exist' or 'The dome sees nothing here'. Recovery links (Home, Features, Download) appear as 'Recalibrate your bearings'.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

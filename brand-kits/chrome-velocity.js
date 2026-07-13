@@ -526,6 +526,21 @@ const brandKit = {
       "Reviewing telemetry on a pit board",
     ],
     expressions: ["Focused", "Victorious", "In-the-zone", "Analyzing"],
+    behavior: {
+      placement: "Bottom-right corner of the viewport as a slim, HUD-lined figure; appears on Home, Download, and About — visible on all major content pages.",
+      idle: "Vector's telemetry lines pulse and glow with a subtle racing-red heartbeat; posture shifts between 'pointing ahead' and 'reviewing data'. Idle motion disables under prefers-reduced-motion (Vector simply stands alert).",
+      tips: [
+        { where: "home:#hero",              say: "Five lights out. Box this lap — get on the grid." },
+        { where: "home:.features-overview", say: "SyncPlay locks every device to the same frame. Precision timing, precision racing." },
+        { where: "download:#server",        say: "One command. You're the pit engineer now. Full throttle." },
+        { where: "about:.faq-list",         say: "Questions? Data never lies. Answers are in the telemetry." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Vector does a burnout spin, visor glows bright, telemetry readout flashes 'POLE POSITION'." },
+        { trigger: "hover-hold:2s", react: "Vector throws up a checkered flag and tips the helmet toward you — data respects data." },
+      ],
+      dismiss: "A small 'Vector, pit stop' close button tucks him into the pit garage; dismissal persists via localStorage so he stays stowed until explicitly recalled.",
+    },
   },
 
   /* ==========================================================================
@@ -925,6 +940,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/night-floodlights.svg",
+      "img/seasonal/trophy-confetti.svg",
+      "img/seasonal/new-livery-shine.svg",
+    ],
+    banner: "Seasonal variant active — check the telemetry readout for this month's pit strategy.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1071,6 +1096,220 @@ const brandKit = {
       ],
       reason: "Chrome Velocity is a performance product — the UI must be as fast as the content it serves.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "GRID START",  emphasis: "default" },
+      { id: "features", label: "THE LINEUP", emphasis: "primary" },
+      { id: "clients",  label: "PIT WALL",   emphasis: "primary" },
+      { id: "download", label: "RACE KIT",   emphasis: "primary" },
+      { id: "hub",      label: "THE RELAY",  emphasis: "default" },
+      { id: "about",    label: "TELEMETRY",  emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Pit-crew specialist tool — essential but not the main race line.", fold_into: "features" },
+      { id: "docs",    reason: "Technical reference lives in the footer, off the fast path to play." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "feature-first",
+    logline: "Five red lights out — Phlix is the pit wall where your library goes from zero to play at race speed.",
+    sections: [
+      { id: "race-start",     source: "copy_overlay.hero",    treatment: "Full-bleed telemetry hero: stadium floodlights, pit-wall precision, racing red CTA that reads like the grid-start light.", weight: "hero" },
+      { id: "the-lineup",     source: "feature_casting",      treatment: "Hero features cast as pit-board telemetry readouts in monospace — SyncPlay and Library as live data feeds.", weight: "major" },
+      { id: "speed-formula",  source: "story",                treatment: "Value props rendered as a compact 'Race Strategy' grid: three sectors of precision, speed, and control.", weight: "major" },
+      { id: "pit-credentials", source: "proof_strategy",       treatment: "Trust signals as a pit-wall data placard: real contributors, GitHub star count, verbatim architecture quote.", weight: "minor" },
+      { id: "throttle-up",    source: "conversion_funnel",    treatment: "Closing CTA banner framed as a pit-radio callout: 'Box this lap — get Phlix.' The install one-liner follows.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "telemetry-dashboard",
+      spec: "Eight features laid out as a live-data pit board — each a monospace stat card with icon, label, and description. SyncPlay and Library float as 'lead vehicle' data at the top.",
+    },
+    clients: {
+      template: "pit-wall-team",
+      spec: "Each client rendered as a pit-crew member card: name, role (platform), and the crew's real highlights. Roku and Tizen get the primary spotlight; mobile, Windows, DLNA fill the specialist roles.",
+    },
+    download: {
+      template: "race-briefing",
+      spec: "The Download page opens like a pit briefing: 'One command gets you on the grid' (server install), then 'Pick your cockpit' (client selector), then ecosystem repos as the support crew.",
+    },
+    about: {
+      template: "telemetry-review",
+      spec: "Philosophy, License, Contributing, and FAQ rendered as sections of telemetry logs — formal, precise, data-focused.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Synchronized across the room and across the map — every device locked to the exact same frame." },
+      { id: "library",  angle: "Your collection appears instantly, organized and ready to play without delay." },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Zero to Play",
+      headline: "Pit Wall Precision. Flat Out.",
+      subheadline: "Five lights out. Your library on every screen. SyncPlay locked to a precision timebase. Phlix is a media server built at Formula 1 pit-wall speed — no lag, no compromise, no excuses.",
+      primary_cta: { label: "Box This Lap" },
+      secondary_cta: { label: "Review the Telemetry" },
+    },
+    section_headings: {
+      pitch: "Why Race Phlix?",
+      features: "The Pit Wall",
+      cta_banner: "Ready to take the apex?",
+    },
+    footer_tagline: "Every lap is a new record.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "telemetry-specs",   // each value prop rendered as a telemetry readout line
+    faq: "pit-radio-log",              // FAQ as pit-engineer Q&A log
+    clients: "pit-crew-roster",        // clients as pit crew members with roles
+    ecosystem: "garage-tools",         // ecosystem repos as a tool rack
+  },
+
+  faq_experience: {
+    frame: "pit-radio-log",
+    persona: "Vector, the precision guide — speaking in sector times and lap data, always one step ahead.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I reach my server from my car?", maps_to: "expose-internet" },
+      { q: "Will it transcode on the fly?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Solo Qualifier",
+      scene: "A streamer loading up 4K HDR films on a beefy rig, hitting play on multiple devices simultaneously with SyncPlay locked tight across the house.",
+      surfaces: ["home hero", "media library grid", "sync-status indicator"],
+      features_shown: ["library", "syncplay", "transcode"],
+    },
+    {
+      name: "Pit Crew (Family Night)",
+      scene: "Mom starts a movie on the living room TV; the kids' tablets and Dad's phone all sync to the same frame without a single pause or rebuffer.",
+      surfaces: ["hero", "client selector", "media player"],
+      features_shown: ["syncplay", "auth", "hub"],
+    },
+    {
+      name: "Relay Driver (Remote Access)",
+      scene: "On the road, on a phone running the React Native client, connecting through the Phlix Hub's reverse tunnel to the server at home — no NAT punching, no open ports.",
+      surfaces: ["hub connect screen", "media player", "auth"],
+      features_shown: ["hub", "auth", "mobile-client"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static",
+    spec: "Static, no-JS telemetry hero: the headline dominates; a subtle animated telemetry data stream graphic sits behind it under prefers-reduced-motion-compliant conditions.",
+    suggested_inputs: [],
+    fallback: "A dark carbon static hero with the headline, subheadline, and both CTAs rendered as-is. No animation dependency. Tab key navigates to each button in sequence; focus ring is 2px telemetry-cyan (#00E5FF) with a 2px carbon-black offset.",
+    js_budget_kb: 2,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A full-width carbon-black topbar with sharp corners; brand lockup at left, nav items in uppercase Barlow Condensed in the center, session timer in monospace on the right. Active link underline is racing red.",
+    keyboard: "Tab moves focus through nav items; Alt+H jumps to home, Alt+F jumps to Features.",
+    fallback: "A standard <nav> with a <ul> of links, fully keyboard-accessible. Label: 'Main navigation'. On mobile, collapses to a labeled hamburger button (aria-label='Open menu'). Focus ring: 2px telemetry-cyan (#00E5FF) with 2px carbon-black offset. The Tab key reaches every link and the hamburger button.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "Straight continuous scroll. On desktop, subtle speed-line motion-blur streaks fade in at the bottom of each major section as it enters the viewport — a telemetry sweep effect.",
+    reduced_motion: "Under prefers-reduced-motion, all motion-blur effects are disabled entirely. The page becomes a plain continuous scroll with hard section boundaries (no wipes, no fades).",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Vector spins on the page and throws a checkered flag across the viewport. A telemetry readout displays: 'Lap record unlocked.'",
+      reward_copy: "You found the pit signal. Vector approves.",
+      exit: "The flag settles and the readout fades after 3s; press Esc to clear instantly.",
+    },
+    {
+      trigger: "typed-word:vector",
+      effect: "The cursor transforms into a small helmet visor, and Vector's poses cycle through (pointing, podium, crouched) as a micro-loop.",
+      reward_copy: "Vector is watching. You're on pace.",
+      exit: "Press Esc or type any other key to restore the normal cursor and stop the pose cycle.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a developer or performance enthusiast to run the server install in under 60 seconds.",
+    cta_ladder: [
+      { step: 1, cta: "Box This Lap",         target: "download" },
+      { step: 2, cta: "Pick Your Cockpit",    target: "clients" },
+      { step: 3, cta: "Throttle Up (install)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a pit briefing: 'One command gets you on the grid' (server install as a single monospace line), then 'Pit wall crew' (client selector), then 'Support tools' (ecosystem).",
+    friction_notes: "Performance-focused, technical audience — they expect precision, no hand-holding. One-liner install is framed as the only friction. Clients are option buttons, not a journey.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A pit-wall data card: '8 features', '5 native clients', 'NTP-synced SyncPlay', 'FFmpeg transcoding', 'Self-hostable reverse tunnel'." },
+      { type: "github",           format: "A quiet repo-stats band: real phlix-server repository link with live GitHub stars and issue count (never a hard-coded number)." },
+      { type: "quotes-from-docs", format: "A single, verbatim line from content.json lifted as a telemetry quote on a monospace readout: 'Built in PHP 8.3+ on Workerman 5.x'." },
+    ],
+    placement: "A calm data band between the features grid and the closing CTA — rendered in monospace, styled like a pit telemetry log.",
+  },
+
+  visitor_paths: {
+    prompt: "What's your pit strategy?",
+    paths: [
+      { id: "racer",      label: "I want speed & SyncPlay locked tight",  target: "features#syncplay", emphasis: ["syncplay", "library"] },
+      { id: "collector",  label: "I've got a massive collection to organize", target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "garage",     label: "I like to tinker and extend",          target: "plugins",           emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "showcase",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 'DNF (Did Not Finish)' error page: Vector stands in a pit with a broken helmet, a split-time readout showing 'Page not found', and arrows pointing to home, features, or download.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

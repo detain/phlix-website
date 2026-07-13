@@ -487,6 +487,22 @@ const brandKit = {
       "and celadon — no bright colour.",
     poses: ["Standing still, eyes closed", "Bowing gently", "Pointing with one leaf-arm", "Seated on a stone"],
     expressions: ["Serene", "Curious", "Gently encouraging", "Contemplative"],
+    behavior: {
+      placement: "Lower-right corner, seated on a moss-covered stone; appears on home, download, about, and features pages — never on dedicated reading/docs pages.",
+      idle: "Sasa breathes slowly (subtle rise and fall), occasionally closes their eyes for a moment, or bows very gently. All idle animation is disabled under prefers-reduced-motion (Sasa simply sits, still and present).",
+      tips: [
+        { where: "home:#hero",              say: "Welcome to the sanctuary. Take a breath." },
+        { where: "home:.features-overview", say: "Your library awaits — curated, calm, all yours." },
+        { where: "features:.feature-card",  say: "Each feature is here to deepen your watching, never to distract." },
+        { where: "download:#server",        say: "You are about to become the gardener. That is a good thing." },
+        { where: "about:.faq-list",         say: "Questions find answers here. Take your time." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Sasa bows deeply in gratitude, as if you have offered a gift." },
+        { trigger: "hover-hold:3s", react: "Sasa opens their eyes and nods, as if to say: 'Yes, I see you are here.'" },
+      ],
+      dismiss: "A quiet 'Sasa, rest' close button tucks them behind the moss-covered stone; the dismissed state persists via localStorage so they remain at peace.",
+    },
   },
 
   /* ==========================================================================
@@ -873,6 +889,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/bamboo-snow-overlay.svg",
+      "img/seasonal/plum-blossom-branch.svg",
+      "img/seasonal/cicada-sound.mp3",
+      "img/seasonal/autumn-moon-backdrop.svg",
+      "img/seasonal/falling-leaves.svg",
+    ],
+    banner: null,
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1020,6 +1048,206 @@ const brandKit = {
       ],
       reason: "A sanctuary that loads slowly is not calm — it is frustrating.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Sanctuary",    emphasis: "default" },
+      { id: "features", label: "Collections",  emphasis: "primary" },
+      { id: "clients",  label: "Pathways",     emphasis: "default" },
+      { id: "download", label: "Begin",        emphasis: "primary" },
+      { id: "about",    label: "Philosophy",   emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A specialist's path — kept in footer for those who seek it.", fold_into: "features" },
+      { id: "docs",    reason: "Deep reference lives in the adjacent garden (external link)." },
+      { id: "hub",     reason: "An advanced companion to the server — accessible via footer." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A sanctuary for watching: calm, intentional, curated — where your library finds the silence to breathe.",
+    sections: [
+      { id: "sanctuary-truth", source: "copy_overlay.hero", treatment: "Full-bleed bamboo grove hero with filtered light and the headline floating in generous whitespace.", weight: "hero" },
+      { id: "why-quiet",       source: "story",             treatment: "The value proposition as quiet stone-lantern plaques: why this sanctuary exists.", weight: "major" },
+      { id: "what-you-gather", source: "feature_casting",   treatment: "Two hero features (library, syncplay) rendered as ink-wash vignettes showing intentional moments.", weight: "major" },
+      { id: "supporting-craft", source: "feature_casting",  treatment: "Four support features as a hushed grid: auth, transcode, livetv, dlna — each its own carefully composed frame.", weight: "minor" },
+      { id: "proof-of-trust",   source: "proof_strategy",   treatment: "A single calm placard: real repo stars, real user count, one honest quote from the docs.", weight: "minor" },
+      { id: "step-inside",      source: "conversion_funnel", treatment: "Closing CTA: 'Step inside' — simple, calm, inevitable.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "gallery-cards",
+      spec: "Arrange the 8 features as a contemplative gallery: each a tall vertical card with an ink-brush icon, a single short headline, and one line of body text. Whitespace between cards mirrors the garden's raked gravel. No CTAs — features speak for themselves.",
+    },
+    clients: {
+      template: "device-wall",
+      spec: "Present the five clients (roku, tizen, windows, mobile, and DLNA generic) as a peaceful family of screens arranged asymmetrically around a central living room. Each device shows its name and two key highlights. The composition echoes the asymmetric tokonoma principle.",
+    },
+    download: {
+      template: "two-columns",
+      spec: "Left column: server install snippet and setup guide framed as 'Becoming the Gardener' (you are the custodian of the sanctuary). Right column: client card tiles for each platform, each one a quiet 'Follow the path' link.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Three short scrolling chapters: Philosophy (the wabi-sabi and stillness principles), Contributing (how to tend the garden), and FAQ. End with Sasa offering a final thought in a footer vignette.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Curate your library in silence — add what you love, watch what calls to you." },
+      { id: "syncplay", angle: "Gather together across any distance; every seat sees the same frame, in perfect sync." },
+    ],
+    support: ["auth", "transcode", "livetv", "dlna"],
+    footnote: ["plugins", "hub"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "A sanctuary for your media",
+      headline: "Watch with intention.",
+      subheadline: "A calm, open-source server where your library occupies its own peaceful space. No rush, no noise — only what you choose, played when you choose it.",
+      primary_cta: { label: "Step inside" },
+      secondary_cta: { label: "Walk the grounds (read about it)" },
+    },
+    section_headings: {
+      pitch: "Why stillness?",
+      features: "Collections",
+      cta_banner: "The sanctuary awaits.",
+    },
+    footer_tagline: "Media, mindfully.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "contemplation-cards",
+    faq: "letters-column",
+    clients: "device-wall",
+    ecosystem: "shelf-of-scrolls",
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Sasa, writing from a moss-covered stone in the sanctuary, answering the thoughtful visitor's questions.",
+    question_order: [
+      "Is Phlix like Plex / Jellyfin / Emby?",
+      "Do I need to expose my server to the internet?",
+      "What formats are supported?",
+      "Is there a mobile app?",
+      "Can I write plugins?",
+      "What's the license?",
+    ],
+    extra_questions: [
+      { q: "Will this work on old hardware?", maps_to: "What formats are supported?" },
+      { q: "Can my whole family use one server?", maps_to: "Is Phlix like Plex / Jellyfin / Emby?" },
+      { q: "What if I want to host my own hub?", maps_to: "Do I need to expose my server to the internet?" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Evening Ritual",
+      scene: "A parent sits down after dinner, opens one app, finds the film they've been thinking about, and presses play. The whole interaction takes ten seconds. The sanctuary held it for them.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "auth"],
+    },
+    {
+      name: "Collectors in Conversation",
+      scene: "Two friends across the country start a movie at the exact same time. They message back and forth at key moments. The server never asks who they are — it just keeps every frame synchronized.",
+      surfaces: ["syncplay lobby", "media player"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "A House of Screens",
+      scene: "One server quietly streams to a Roku in the living room, a Tizen TV in the kitchen, a Windows computer in the office, and a phone upstairs. Each device finds the right quality, the right bandwidth. No configuration, no worry.",
+      surfaces: ["device picker", "media library grid"],
+      features_shown: ["transcode", "dlna", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "static",
+    spec: "A serene full-width still: tall bamboo stalks in soft brushwork, filtered green-gold light crossing the composition, a single stone visible in the lower third on raked gravel. The headline and subheadline float in generous negative space to the right.",
+    suggested_inputs: [],
+    fallback: "The same serene bamboo grove illustration with the headline and both CTAs baked into the static markup — no JavaScript required, full accessibility.",
+    js_budget_kb: 0,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A minimal topbar: 'Bamboo Sanctuary' wordmark in Cormorant Garamond light on the left; the nav links centered (Sanctuary, Collections, Pathways, Begin, Philosophy); small utility icons on the right (moon-for-theme-toggle, ARIA-labeled). Link to the active page glows softly in celadon.",
+    keyboard: null,
+    fallback: "The topbar IS the fully accessible navigation — a semantic <nav> element with a list of link items, keyboard-navigable, collapsing to a labeled hamburger button on mobile (menu items below fold as a standard nav overlay).",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "The page scrolls continuously with gentle fade-in transitions between sections (200ms ease-in-out). No scroll-jacking, no forced pauses. Each section arrives like a new panel in an ink-wash scroll painting.",
+    reduced_motion: "Under prefers-reduced-motion, all fade transitions are instant; the page becomes a plain continuous scroll with visible section boundaries only from typography and spacing.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "A single celadon leaf drifts slowly down from the top of the page and settles at the bottom. Sasa nods gently in acknowledgment from wherever they sit on the page.",
+      reward_copy: "The sanctuary appreciates your patience.",
+      exit: "The leaf fades away after 6 seconds, or press Esc to clear it instantly.",
+    },
+    {
+      trigger: "typed-word:breathe",
+      effect: "The entire interface fades very briefly to a slightly deeper washi-white. A sense of calm settles. The word 'breathe' is replaced with an invisible space.",
+      reward_copy: "Breathe. You are welcome here.",
+      exit: "Press Esc or type any other key to restore normal view.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a thoughtful curator to host their own sanctuary and invite others in.",
+    cta_ladder: [
+      { step: 1, cta: "Step inside",        target: "download" },
+      { step: 2, cta: "Choose your path",   target: "clients" },
+      { step: 3, cta: "Begin the setup",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a quiet breath: 'Becoming the Gardener' header, followed by the one-line server install, then the five client options below as calm tiles.",
+    friction_notes: "A thoughtful, patient audience who values curation. Minimal steps, no urgency, no jargon walls. This is for people who are willing to spend a moment to get something right.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A quiet stone placard: '8 features, 5 native clients, SyncPlay across any distance, live TV with DVR, and the whole thing fits on one quiet server.'" },
+      { type: "github",           format: "A modest line linking to the phlix-server repository with real live star counts and issue counts pulled from the real repository." },
+      { type: "quotes-from-docs", format: "One true line from the documentation: verbatim text set as a framed quote. Example: 'Your library never leaves your hardware unless you say so.'" },
+    ],
+    placement: "A single calm card between the features overview and the closing CTA, set against a light gravel-path background.",
+  },
+
+  visitor_paths: null,
+
+  experience_archetype: "minimal",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 80 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "Sasa stands alone in an empty grove under a bare arch gate, looking back toward the path. The headline reads: 'This path was not meant to be — may we show you the way back?'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

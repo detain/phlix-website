@@ -543,6 +543,70 @@ const brandKit = {
       "Morphing between a paisley, a flower, and a teardrop in a looping idle animation",
     ],
     expressions: ["Blissful", "Wide-eyed wonder", "Joyful grin", "Serene peace"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a gently hovering guide; appears on Home, Features, " +
+        "Download, and About — never on dense reference pages (Docs). Paisley floats " +
+        "just above the fold on desktop, tucked behind the fold on mobile.",
+      idle:
+        "Slowly morphs between paisley, flower, and teardrop shapes while kaleidoscope " +
+        "eyes spin lazily through acid lime → cosmic orange → ultra-violet cycles. A " +
+        "faint UV glow pulses in and out; the body gently rotates. Idle motion is " +
+        "completely disabled under prefers-reduced-motion (Paisley becomes a static " +
+        "serene pose).",
+      tips: [
+        {
+          where: "home:#hero",
+          say: "Welcome, cosmic traveler. Ready to expand your universe? Phlix waits " +
+            "to show you colors you've never seen before.",
+        },
+        {
+          where: "home:.features-overview",
+          say: "Psst… SyncPlay keeps the groove locked — every device, every room, " +
+            "same frame. That's how you trip together.",
+        },
+        {
+          where: "features:#library",
+          say: "Your library doesn't need organizing — it organizes itself. Drop a " +
+            "file in, watch it bloom on the marquee.",
+        },
+        {
+          where: "download:#server",
+          say: "One line and you're the guide. I'll hold the peace sign.",
+        },
+        {
+          where: "about:.faq-list",
+          say: "Questions from the audience? I've lived through every frame. Ask away.",
+        },
+      ],
+      easter_interactions: [
+        {
+          trigger: "click:7",
+          react:
+            "Paisley spins rapidly into a perfect mandala, kaleidoscope eyes explode " +
+            "into a burst of acid lime and ultra-violet particles, and the mandala " +
+            "slowly dissolves with a satisfied hum.",
+        },
+        {
+          trigger: "hover-hold:2.5s",
+          react:
+            "Paisley floats closer and morphs into a tiny peace sign, radiating a UV " +
+            "glow, then winks at you before returning to the idle float.",
+        },
+        {
+          trigger: "typed-word:expand",
+          react:
+            "Paisley suddenly expands outward in concentric circles of ultra-violet " +
+            "and acid lime, then contracts back to normal size, as if your intention " +
+            "rippled through space.",
+        },
+      ],
+      dismiss:
+        "A small 'Take five, Paisley' close button (marked with a tiny peace sign) " +
+        "tucks Paisley behind the cosmic veil; the dismissed state persists via " +
+        "localStorage, respecting the visitor's choice to explore solo.",
+    },
   },
 
   /* ==========================================================================
@@ -1093,6 +1157,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/summer-sunburst-mandala.svg",
+      "img/seasonal/flower-petal-cascade.svg",
+      "img/seasonal/harvest-moon.svg",
+      "img/seasonal/winter-snowflake.svg",
+    ],
+    banner:
+      "The trip shifts with the seasons — expand your senses to the current cosmos.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1304,6 +1380,423 @@ const brandKit = {
         "performance jank is more immersion-breaking here than in any minimal design " +
         "because the animation and glow effects are so central to the identity.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",        emphasis: "default" },
+      { id: "features", label: "Features",    emphasis: "primary" },
+      { id: "clients",  label: "Clients",     emphasis: "default" },
+      { id: "download", label: "Download",    emphasis: "primary" },
+      { id: "hub",      label: "Hub",         emphasis: "default" },
+      { id: "about",    label: "About",       emphasis: "default" },
+    ],
+    demoted_pages: [
+      {
+        id: "plugins",
+        reason:
+          "A groovy side quest, not the main trip — still accessible from the footer " +
+          "and Features page.",
+        fold_into: "features",
+      },
+      { id: "docs", reason: "Deep reference material lives in the footer, off the main path." },
+    ],
+    extra_pages: [
+      {
+        id: "trip-guide",
+        title: "Your Trip Awaits",
+        purpose:
+          "A warm, guided vignette showing how different minds experience Phlix — " +
+          "solo explorer, group trip, curious tinkerer — grounding the product in " +
+          "real human journeys.",
+        facts_from: ["pitch_bullets", "features", "clients", "persona_vignettes"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline:
+      "A cosmic invitation: ready to expand your universe? Phlix is the trip through " +
+      "media that changes how you see.",
+    sections: [
+      {
+        id: "cosmic-opener",
+        source: "copy_overlay.hero",
+        treatment:
+          "Full-bleed kaleidoscopic hero: Paisley floats at center, psychedelic " +
+          "mandala slowly rotates behind the headline, swirling gradients of " +
+          "ultra-violet and cosmic orange bloom outward, acid-lime accents pulse.",
+        weight: "hero",
+      },
+      {
+        id: "why-expand",
+        source: "story",
+        treatment:
+          "Value props as a series of cosmic revelations — each bullet a new layer " +
+          "of understanding, rendered as glowing cards that appear one by one on scroll.",
+        weight: "major",
+      },
+      {
+        id: "featured-trips",
+        source: "feature_casting",
+        treatment:
+          "Hero features cast as painted psychedelic posters on an imaginary gallery wall; " +
+          "each poster glows with its own UV aura and swirls with its own color story.",
+        weight: "major",
+      },
+      {
+        id: "proof-of-flow",
+        source: "proof_strategy",
+        treatment:
+          "Trust signals as a cosmic facts placard: real repo links, architecture " +
+          "specs, and a quote from the docs about freedom — all glowing in the blacklight.",
+        weight: "minor",
+      },
+      {
+        id: "start-the-journey",
+        source: "conversion_funnel",
+        treatment:
+          "Closing CTA band styled as a portal entrance: acid-lime button beckons " +
+          "the visitor deeper into the experience.",
+        weight: "major",
+      },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "gallery-plaques",
+      spec:
+        "Lay the eight features as a scrolling psychedelic gallery of painted " +
+        "one-sheets on a blacklight wall — each feature's card is a swirling poster " +
+        "with its title, body, and icon glowing in the brand palette.",
+    },
+    clients: {
+      template: "device-family",
+      spec:
+        "Render each client as a device in a living-room diorama scene — Roku hovering " +
+        "above the TV, Windows desktop in the corner, mobile and tablet on the couch, " +
+        "DLNA label floating ambient. Hover reveals highlights.",
+    },
+    download: {
+      template: "quest-steps",
+      spec:
+        "Frame the download journey as a quest: Server is step 1 (the grimoire), " +
+        "clients are step 2 (choose your vessel), docs/ecosystem are the magical " +
+        "references. Each step glows with its own cosmic card.",
+    },
+    hub: {
+      template: "constellation",
+      spec:
+        "Render Phlix Hub as a constellation diagram connecting remote servers across " +
+        "the blacklight void — link lines glow in ultra-violet, nodes pulse in cosmic orange.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec:
+        "Tell the Phlix story as scrolling chapters: Philosophy (freedom, self-host), " +
+        "License (BSD-3), Contributing (write plugins, join the trip). FAQ becomes an " +
+        "on-page Paisley Q&A.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      {
+        id: "syncplay",
+        angle:
+          "Every device locked to the same frame — the trip stays in sync, across " +
+          "rooms or across the world.",
+      },
+      {
+        id: "library",
+        angle:
+          "Your collection organizes itself. Add a file, watch it bloom on the screen.",
+      },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Expand Your Universe",
+      headline: "Every Frame Is a Trip.",
+      subheadline:
+        "Phlix is the media server built for the free-spirited viewer — full self-control, " +
+        "zero corporate friction. Stream to every screen, keep every device in sync, and " +
+        "watch your library bloom on the blacklight screen like never before.",
+      primary_cta: { label: "Take the Trip" },
+      secondary_cta: { label: "Read the Groove" },
+    },
+    section_headings: {
+      pitch:
+        "Why Expand Your Universe?",
+      features: "The Cosmic Features",
+      cta_banner: "Far out. Ready to turn it on?",
+    },
+    footer_tagline: "The groove is always on.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "quest-log",
+    faq: "oracle-wisdom",
+    clients: "family-of-vessels",
+    ecosystem: "constellation",
+  },
+
+  faq_experience: {
+    frame: "oracle-wisdom",
+    persona:
+      "Paisley the infinitely curious guide, answering audience questions from a " +
+      "place of serene, wonder-filled understanding.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      {
+        q: "Can I really keep it all private?",
+        maps_to: "expose-internet",
+      },
+      {
+        q: "Will my old devices work?",
+        maps_to: "formats",
+      },
+      {
+        q: "How do I make my own magic?",
+        maps_to: "plugins",
+      },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Solo Tripper",
+      scene:
+        "A quiet evening; one person, a full library, and a screen filled with " +
+        "possibility. Phlix makes every frame a personal universe.",
+      surfaces: ["home hero", "media library grid", "media player", "search"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Synchronized Circle",
+      scene:
+        "Movie night across the country: three households, one film, every device " +
+        "perfectly in sync. That's the SyncPlay trip.",
+      surfaces: ["syncplay lobby", "media player", "hub connection screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Free-Spirit Tinkerer",
+      scene:
+        "A developer who writes a plugin to add metadata from their favorite source. " +
+        "The system breathes; freedom flows.",
+      surfaces: ["plugins directory", "admin dashboard", "plugin install"],
+      features_shown: ["plugins", "hub", "library"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "playable-vignette",
+    spec:
+      "An interactive kaleidoscope at the hero center: the visitor rotates/clicks to " +
+      "shift the pattern, revealing the headline through layers of ultra-violet, acid " +
+      "lime, and cosmic-orange mandalas. Each click shifts the symmetry and hue, " +
+      "building anticipation. Paisley orbits slowly around the perimeter.",
+    suggested_inputs: ["click", "pointer position", "scroll offset"],
+    fallback:
+      "A single, fully-rendered psychedelic kaleidoscope illustration with the " +
+      "headline, subheadline, and both CTAs overlaid in lysergic white on a dark " +
+      "gradient overlay. The same copy, fully static.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "radial-glow",
+    spec:
+      "A mandala-inspired navigation hub: the site sections orbit around the Paisley " +
+      "logo at center. The active page's link glows in acid lime with a UV halo; " +
+      "inactive links pulse gently. On scroll, a small sticky topbar appears with a " +
+      "simplified horizontal version.",
+    keyboard:
+      "Arrow keys rotate through the nav orbit; Enter selects the highlighted link. " +
+      "Escape returns to default view.",
+    fallback:
+      "A standard accessible topbar navigation — a plain <nav> landmark containing an " +
+      "unordered list of links, fully keyboard-reachable via Tab, with ARIA labels. " +
+      "The topbar collapses to a labeled hamburger menu on mobile (role='button', " +
+      "aria-expanded, aria-label='Navigation menu'). This fallback renders on all " +
+      "devices; the radial-glow mode is a CSS-and-JS enhancement overlay only.",
+  },
+
+  scroll_experience: {
+    mode: "cosmic-vortex",
+    spec:
+      "Each homepage section scrolls into view as if through a swirling psychedelic " +
+      "vortex — the previous section's colors spiral inward while the new section " +
+      "blooms outward from the center. Text and cards fade in across 400ms on " +
+      "entrance; the vortex itself animates at 600ms duration. Paisley morphs " +
+      "slightly as each new section appears.",
+    reduced_motion:
+      "Under prefers-reduced-motion, all vortex animations are disabled entirely; " +
+      "the page becomes a plain continuous vertical scroll with instant, static section " +
+      "boundaries. Text and cards appear with a simple opacity fade (200ms) without " +
+      "motion. Paisley remains in a single idle pose.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "The entire page background briefly flashes through a rapid psychedelic color " +
+        "cycle (ultra-violet → cosmic-orange → acid-lime → aquarius-blue → back to " +
+        "indigo), and Paisley spins into a perfect mandala, kaleidoscope eyes exploding " +
+        "into concentric rings.",
+      reward_copy: "Far out! The cosmos listens to you.",
+      exit: "The color cycle settles back to normal after ~2s, or press Esc to reset immediately.",
+    },
+    {
+      trigger: "typed-word:groovy",
+      effect:
+        "The cursor becomes a tiny spinning mandala of acid lime and ultra-violet; " +
+        "all text on the page briefly gets a UV glow text-shadow, and the background " +
+        "pulses with a gentle UV bloom.",
+      reward_copy: "You found the frequency.",
+      exit: "Press Esc (or type any other key) to restore the normal cursor and return to default styling.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect:
+        "Paisley suddenly appears at the very bottom of the page, waving goodbye, and " +
+        "floats upward in a spiral, leaving a trail of tiny peace signs and flowers.",
+      reward_copy:
+        "Thanks for the trip. The groove never ends — come back anytime.",
+      exit: "The effect resolves on its own after ~3s.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal:
+      "Get a first-time visitor to run the server and open their own Phlix universe.",
+    cta_ladder: [
+      { step: 1, cta: "Take the Trip",           target: "download" },
+      { step: 2, cta: "Pick Your Vessel",        target: "clients" },
+      { step: 3, cta: "Expand Your Universe",    target: "download#server" },
+    ],
+    download_opening:
+      "The Download page opens as a quest: 'Three steps to your cosmic library.' " +
+      "Step 1 is the Server — the grimoire, one command that unlocks everything. " +
+      "Step 2 is choosing your client — your vessel. Step 3 is the plugins & ecosystem " +
+      "for those who want to dive deeper.",
+    friction_notes:
+      "A free-spirited, creative audience tolerates just enough friction to feel " +
+      "authentic. Keep language warm and poetic, never corporate. Emphasize freedom " +
+      "and self-control as reasons to choose Phlix, not as defensive rebuttals.",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A cosmic fact-stone on the page: '5 native clients, SyncPlay across NTP-sync, " +
+          "HLS + FFmpeg on every device, live TV + DVR, 100% self-hosted, zero corporate." +
+          "' Real numbers from content.json.",
+      },
+      {
+        type: "github",
+        format:
+          "A modest constellation row linking phlix-server (with live star/fork counts), " +
+          "phlix-hub, phlix-shared, and phlix-plugins-example. Real repo links, never " +
+          "hard-coded numbers.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "One short, true line lifted directly from the Phlix docs about freedom and " +
+          "self-hosting, rendered as a glowing quote card in the blacklight.",
+      },
+    ],
+    placement:
+      "A single calm 'Cosmic Truth' band between the features and the closing quest CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of trip are you here for?",
+    paths: [
+      {
+        id: "group-trip",
+        label: "Sync movie night with friends",
+        target: "features#syncplay",
+        emphasis: ["syncplay", "auth"],
+      },
+      {
+        id: "collector",
+        label: "I've got a big collection to free",
+        target: "features#library",
+        emphasis: ["library", "transcode"],
+      },
+      {
+        id: "tinkerer",
+        label: "I like to write my own magic",
+        target: "features#plugins",
+        emphasis: ["plugins", "hub"],
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Cosmic Calm",
+    affects: [
+      "scroll_experience→continuous",
+      "hero_experience→static",
+      "animation",
+      "particle-effects",
+    ],
+    default: "full",
+    placement:
+      "A small toggle in the footer utility row, beside the prefers-reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept:
+      "A 'lost in the cosmos' moment: Paisley floats alone in an endless blacklight " +
+      "void with a torn star map and a confused, wide-eyed expression. The headline " +
+      "reads 'You've wandered beyond the known universe (404).' Paisley holds out a " +
+      "glowing pointer and cheerfully offers three ways back: Home (the starting " +
+      "portal), Features (the main attraction), and Download (to build your own server).",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

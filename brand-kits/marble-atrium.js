@@ -1047,6 +1047,20 @@ const brandKit = {
   ],
 
   /* ==========================================================================
+   * 20a. SEASONAL ACTIVATION
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/atrium-winter-garland.svg",
+      "img/seasonal/marble-vein-spring.svg",
+      "img/seasonal/terrace-shade-summer.svg",
+    ],
+    banner: "The atrium is dressed for the season — enjoy the transformation.",
+  },
+
+  /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
 
@@ -1216,6 +1230,374 @@ const brandKit = {
       reason:
         "Luxury must also feel instantaneous — a slow load is the antithesis of concierge service.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Atrium",    emphasis: "default" },
+      { id: "features", label: "The Collection", emphasis: "primary" },
+      { id: "clients",  label: "Every Screen",  emphasis: "default" },
+      { id: "download", label: "Your Copy",    emphasis: "primary" },
+      { id: "hub",      label: "Everywhere",    emphasis: "default" },
+      { id: "about",    label: "Our Craft",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extensions for the discerning curator — referenced within the Collection, linked in footer.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material for architects and developers — footer reference only." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 22b. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Your media library deserves the quiet luxury of a grand atrium — every title considered, every detail in its place.",
+    sections: [
+      { id: "entrance",     source: "copy_overlay.hero", treatment: "Full-bleed hero: a marble-white atrium lobby with soft light and the headline floating in negative space.",        weight: "hero" },
+      { id: "why-curate",   source: "story",             treatment: "The Marble Atrium story: concierge elegance meets personal curation.",                                      weight: "major" },
+      { id: "the-library",  source: "feature_casting",   treatment: "Two hero features cast as polished marble panels: Library and SyncPlay.",                                   weight: "major" },
+      { id: "more-features", source: "features",         treatment: "Supporting features arranged in a tidy editorial grid on Carrara Surface cards.",                          weight: "minor" },
+      { id: "the-case",     source: "proof_strategy",    treatment: "Trust signals: a refined placard showing real capabilities, GitHub link, and a single true quote from docs.", weight: "minor" },
+      { id: "your-library", source: "conversion_funnel", treatment: "Closing band: 'Your Library, Elevated' with a single champagne-gold download CTA.",                        weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 22c. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "editorial-grid",
+      spec: "A grid of polished marble panels (Carrara Surface background, 1px borders), each featuring a feature card with title, body, and icon. Maintain the curatorial voice: each feature is a distinct offering, never rushed.",
+    },
+    clients: {
+      template: "device-family",
+      spec: "A refined layout showing each client platform (Roku, Tizen, Windows, Mobile, DLNA) as a distinct portrait card with its highlights, architecture notes, and status. Emphasize that Phlix meets the device where it is.",
+    },
+    download: {
+      template: "two-steps",
+      spec: "A two-step journey: 'One line to your library' (the server install snippet) and 'Pick your viewing room' (client platform cards below). No pressure, just clarity.",
+    },
+    about: {
+      template: "chapter-sections",
+      spec: "The About page unfolds as distinct chapters: Philosophy (why Marble Atrium exists), License (BSD-3-Clause), Contributing (how to join). End with FAQ styled as 'Ask the Concierge' letters.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  /* ==========================================================================
+   * 23a. FEATURE CASTING
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",   angle: "Every title arranged — your collection, perfectly curated and instantly discoverable." },
+      { id: "syncplay",  angle: "Stay in sync across the house — one play button, every screen, the same frame." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 23b. COPY OVERLAY
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Five-star media curation",
+      headline: "Your Library, Elevated.",
+      subheadline:
+        "A self-hosted media server built with the precision of a grand hotel concierge. " +
+        "Arrange your collection once, stream to every room, every device. Pure luxury, pure control.",
+      primary_cta: { label: "Arrange Your Library" },
+      secondary_cta: { label: "Tour the Atrium" },
+    },
+    section_headings: {
+      pitch: "Why does your media deserve this?",
+      features: "The Refined Collection",
+      cta_banner: "Your Library, Elevated — One Step Away.",
+    },
+    footer_tagline: "Curated. Considered. Yours.",
+  },
+
+  /* ==========================================================================
+   * 23c. COPY TREATMENTS
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "polished-checklist",  // each value prop as a single-line item on marble surface
+    faq: "letters-column",                // FAQ as 'Ask the Concierge' styled responses
+    clients: "device-showcase",           // clients as distinct device portraits
+    ecosystem: "architectural-repos",     // ecosystem repos as a clean list of building blocks
+  },
+
+  /* ==========================================================================
+   * 23d. FAQ EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "letters-column",
+    persona:
+      "The Atrium Concierge — a composed, knowledgeable voice answering the questions " +
+      "your guests leave in the suggestion box at the lobby desk.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      {
+        q: "Will my old TV work with this?",
+        maps_to: "formats",
+      },
+      {
+        q: "Can I use it without opening my house to the internet?",
+        maps_to: "expose-internet",
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 23e. PERSONA VIGNETTES
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Curator's Collection",
+      scene:
+        "A collector with 800 films, perfectly organized: metadata synced, posters " +
+        "framed on the library grid, transcoding profiles tuned for each device. " +
+        "One concierge gesture, and any device gets the right quality.",
+      surfaces: ["library grid", "media card", "quality selector"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Family Movie Night",
+      scene:
+        "Wednesday night: Grandpa, the parents, and three kids on the big living-room " +
+        "TV. Everyone's on the couch. One tap selects a film; SyncPlay keeps every " +
+        "pause, every rewind in perfect sync across two tablets and the main screen.",
+      surfaces: ["home hero", "library grid", "media player", "SyncPlay lobby"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "The Multi-Room Household",
+      scene:
+        "Roku in the living room, Tizen on the den TV, Windows desktop in the office, " +
+        "mobile in the kitchen. One login, five devices. Sign in once and every room " +
+        "shows the same library, the same profiles, the same progress.",
+      surfaces: ["profile picker", "library grid", "device picker"],
+      features_shown: ["auth", "hub", "dlna"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  /* ==========================================================================
+   * 24a. HERO EXPERIENCE
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static-luxury",
+    spec:
+      "A static, marble-white atrium hero with subtle layered imagery: a faint " +
+      "glass-ceiling gradient behind the headline, orchid silhouettes in the corner, " +
+      "and the two CTAs centered below in perfect symmetry. No animation, just calm elegance.",
+    suggested_inputs: [],
+    fallback:
+      "A single, perfect marble-white static hero: the headline 'Your Library, Elevated.' " +
+      "sits centered in a frame of pure white space, flanked by two CTAs " +
+      "(Arrange Your Library / Tour the Atrium). The fallback IS the design.",
+    js_budget_kb: 0,
+  },
+
+  /* ==========================================================================
+   * 24b. NAVIGATION MODEL
+   * ========================================================================== */
+
+  navigation_model: {
+    mode: "topbar",
+    spec:
+      "A marble-white topbar with the Atrium wordmark (Cormorant Garamond Light, wide tracking) " +
+      "at left, nav labels in Jost in the center, and a champagne-gold 'Arrange Your Library' " +
+      "CTA at right. Active nav item gets a 1px Champagne Gold underline. Hairline border below.",
+    keyboard: null,
+    fallback:
+      "The topbar IS a standard accessible <nav> list, fully keyboard reachable via Tab. " +
+      "On mobile, collapses to a labeled hamburger menu. No exotic mode — " +
+      "the primary nav always renders as a plain list.",
+  },
+
+  /* ==========================================================================
+   * 24c. SCROLL EXPERIENCE
+   * ========================================================================== */
+
+  scroll_experience: {
+    mode: "continuous",
+    spec:
+      "A gentle, unhurried continuous scroll. Each section arrives naturally; " +
+      "horizontal hairline dividers (1px Hairline Stone) mark the boundary between sections. " +
+      "No animation, no drama — just the rhythm of reading.",
+    reduced_motion: "Plain continuous scroll with instant section boundaries. No transitions.",
+  },
+
+  /* ==========================================================================
+   * 24d. EASTER EGGS
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "After 5 clicks on the Atrium wordmark, a small marble-vein pattern " +
+        "pulses across the page and a concierge-voiced toast appears: " +
+        "'Well noticed — welcome to the inner lobby.'",
+      reward_copy: "You found the concierge's quiet delight.",
+      exit: "The toast fades on its own after ~3s, or press Esc to dismiss it immediately.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF
+   * ========================================================================== */
+
+  /* ==========================================================================
+   * 25a. CONVERSION FUNNEL
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal:
+      "Invite a discerning user to install Phlix and open their library with no friction, " +
+      "no jargon, no urgency.",
+    cta_ladder: [
+      { step: 1, cta: "Arrange Your Library",  target: "download" },
+      { step: 2, cta: "Pick Your Viewing Room", target: "clients" },
+      { step: 3, cta: "Elevate Your Setup",    target: "download#server-install" },
+    ],
+    download_opening:
+      "The Download page opens with a serene heading: 'Two Steps to Your Library'. " +
+      "Step 1: Copy the server install snippet (one line, no explanation needed). " +
+      "Step 2: Choose your clients and platforms below.",
+    friction_notes:
+      "A refined, design-conscious audience who values control and clarity. " +
+      "No pressure, no countdown timers, no 'limited offer' language. " +
+      "Every step feels considered and easy.",
+  },
+
+  /* ==========================================================================
+   * 25b. PROOF STRATEGY
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A marble-paneled placard showing real Phlix capabilities: " +
+          "'5 native clients. SyncPlay time-sync. HLS + FFmpeg. " +
+          "Multi-profile auth. LiveTV + DVR.'",
+      },
+      {
+        type: "github",
+        format:
+          "A modest, elegant row linking to phlix-server on GitHub with its live star " +
+          "count and issue count — no hard-coded numbers, always live from GitHub.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "A single, verbatim line from content.json's pitch_bullets, displayed as a " +
+          "framed quote: '100% self-hostable — your library never leaves your hardware unless you say so'. " +
+          "This is the exact text, not paraphrased.",
+      },
+    ],
+    placement:
+      "Between the Features section and the closing CTA — a refined band that answers " +
+      "'Why should I trust this?' with facts, not emotion.",
+  },
+
+  /* ==========================================================================
+   * 25c. VISITOR PATHS
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "What draws you to your own library?",
+    paths: [
+      {
+        id: "curator",
+        label: "I have a collection I've spent years arranging",
+        target: "features#library",
+        emphasis: ["library", "transcode", "auth"],
+      },
+      {
+        id: "family",
+        label: "We watch together — across rooms and houses",
+        target: "features#syncplay",
+        emphasis: ["syncplay", "auth", "hub"],
+      },
+      {
+        id: "everywhere",
+        label: "I want my media on every device I own",
+        target: "clients",
+        emphasis: ["dlna", "hub", "transcode"],
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE — the site's declared experience contract
+   * ========================================================================== */
+
+  /* ==========================================================================
+   * 26a. EXPERIENCE ARCHETYPE
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  /* ==========================================================================
+   * 26b. COMPLEXITY PROFILE
+   * ========================================================================== */
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 85 },
+  },
+
+  /* ==========================================================================
+   * 26c. INTENSITY TOGGLE
+   * ========================================================================== */
+
+  intensity_toggle: {
+    label: "Dim the lights",
+    affects: ["animation", "hover-effects", "gradient-overlays"],
+    default: "full",
+    placement: "Footer utility row, beside accessibility notes.",
+  },
+
+  /* ==========================================================================
+   * 26d. ERROR PAGE EXPERIENCE
+   * ========================================================================== */
+
+  error_page_experience: {
+    concept:
+      "A 404 'Wrong Floor' gag: The atrium concierge stands in front of a brass " +
+      "elevator, gently pointing back toward the main lobby. 'This suite doesn't exist " +
+      "— but the entire residence is just below.' Recovery links to home, features, and download.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

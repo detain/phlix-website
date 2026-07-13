@@ -528,6 +528,28 @@ const brandKit = {
       "Cradled in two open hands — offered, not displayed",
     ],
     expressions: ["Still and accepting", "Quiet contentment", "Patient readiness", "Calm imperfection"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a quiet seated companion; appears on home, download, " +
+        "and about pages — never on feature or documentation pages where contemplation is the goal.",
+      idle:
+        "Tsugi gently rocks and breathes, occasionally a single ink drop falls nearby; " +
+        "idle motion is disabled under prefers-reduced-motion (Tsugi simply sits, still and present).",
+      tips: [
+        { where: "home:#hero",              say: "The library is ready to hold what you bring." },
+        { where: "home:.features-overview", say: "Every feature is built for slowness and presence." },
+        { where: "download:#server",        say: "One line to run. The rest is just opening your hands." },
+        { where: "about:.faq-list",         say: "Your questions are always welcome here." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Tsugi settles deeper into the stone, almost imperceptibly content." },
+        { trigger: "hover-hold:2s", react: "A single gold brushstroke appears and fades near Tsugi, like repair work happening." },
+      ],
+      dismiss:
+        "A small 'Tsugi, rest here' close button sets Tsugi to rest behind a washi " +
+        "screen; the dismissed state persists via localStorage so they stay put.",
+    },
   },
 
   /* ==========================================================================
@@ -1056,6 +1078,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/sakura-petals.svg",
+      "img/seasonal/maple-leaf.svg",
+      "img/seasonal/bare-branch.svg",
+    ],
+    banner: null,
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1252,6 +1284,205 @@ const brandKit = {
         "A contemplative, slow-feeling experience should load instantly — a slow " +
         "page is an interruption of the very presence the design is trying to cultivate.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Library",  emphasis: "default" },
+      { id: "features", label: "Craft",        emphasis: "primary" },
+      { id: "clients",  label: "Vessels",      emphasis: "default" },
+      { id: "download", label: "Begin",        emphasis: "primary" },
+      { id: "hub",      label: "The Gateway",  emphasis: "default" },
+      { id: "about",    label: "The Path",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extensions live one click away for those who seek them — not the main contemplative path." },
+      { id: "docs",    reason: "Reference stays in the footer, accessible without breaking the quiet." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "minimal-single-line",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A tea bowl breaks, is repaired with gold, and becomes more beautiful — so too your library, imperfect and whole.",
+    sections: [
+      { id: "kintsugi-crack",    source: "copy_overlay.hero", treatment: "Full-bleed rice-paper hero: a single visible kintsugi crack grows across the page as text settles into frame.", weight: "hero" },
+      { id: "the-craft",         source: "feature_casting",   treatment: "The two featured crafts appear as weathered-oak headings on worn-paper cards, unhurried.",            weight: "major" },
+      { id: "why-imperfection",  source: "story",             treatment: "The brand story told as a single, long paragraph — the way a thought unfolds.",                    weight: "major" },
+      { id: "proof-of-presence", source: "proof_strategy",    treatment: "Trust signals rendered as a quiet handwritten ledger: real numbers, real repos, real presence.",  weight: "minor" },
+      { id: "receive-the-gift",  source: "conversion_funnel", treatment: "Closing CTA: 'Begin' — a warm, low-pressure invitation.",                                        weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "gallery-plaques",
+      spec: "Each feature appears as a weathered-oak plaque on aged-parchment, hung asymmetrically on the rice-paper wall. The icon sits above the title, the description below, spacing generous.",
+    },
+    clients: {
+      template: "spec-table",
+      spec: "Each client rendered as its own honest row: icon, name, highlights as a simple list, repo link. No fancy frames — just presence and clarity.",
+    },
+    download: {
+      template: "chapter-scroll",
+      spec: "Unfold the download as chapters: the server one-liner as the first breath, then the client choices below, each with its own quiet card.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Philosophy, License, Contributing as unfolding chapters, each a long-form paragraph ending in the FAQ styled as a contemplative Q&A.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Gather what you love, and let it organize itself." },
+      { id: "syncplay", angle: "Every room, one frame — like ink spreading through water, perfectly in sync." },
+    ],
+    support: ["auth", "transcode", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "There is beauty in imperfection",
+      headline: "The Library Imperfect",
+      subheadline: "A tea bowl breaks. A craftsperson gathers the shards, rejoins them with gold, and returns it — more beautiful than before. Phlix is built on that idea. Your library is not a pristine catalog; it is a collection of things watched, half-watched, revisited, and abandoned. The gaps and the imperfections are the story.",
+      primary_cta: { label: "Begin" },
+      secondary_cta: { label: "Read the philosophy" },
+    },
+    section_headings: {
+      pitch: "Why this way of watching?",
+      features: "The Craft",
+      cta_banner: "The library is ready to hold what you bring.",
+    },
+    footer_tagline: "Nothing lasts. Nothing is lost. Nothing is finished.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "haiku-cards",
+    faq: "letters-column",
+    clients: "spec-table",
+    ecosystem: "bookshelf",
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Tsugi the tea bowl, offering patient answers to visitors' gentle questions.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Does this play everywhere I want to watch?", maps_to: "formats" },
+      { q: "Do I need to open my home to the whole internet?", maps_to: "expose-internet" },
+      { q: "Can I write my own pieces for this?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Evening Ritual",
+      scene: "A quiet evening. Tea steams. A film from the library fills the screen, paused mid-frame from last night. Play.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "The Far Distance",
+      scene: "An ocean away, two friends press play at the same moment. The frames stay locked. Neither is rushed; neither looks away.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Shared Shelf",
+      scene: "The household opens the library and each person's own quiet section appears — their profiles, their pace, their watching.",
+      surfaces: ["profile picker", "media library grid", "media player"],
+      features_shown: ["auth", "livetv", "dlna"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static",
+    spec: "A single full-bleed rice-paper field with a growing kintsugi gold crack line drawn across it as a subtle entrance animation — the crack settling into place over 2 seconds as the headline fades in.",
+    suggested_inputs: [],
+    fallback: "A static full-bleed rice-paper image with the kintsugi crack line already in place, the headline and subheadline overlaid in sumi ink, both CTAs below in weathered oak.",
+    js_budget_kb: 2,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm topbar with the 'Phlix' wordmark in Noto Serif JP 500 on the left, navigation links in Noto Sans JP centered, active link underlined in weathered oak.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible nav: a plain <nav> element with the wordmark link and a semantic list of navigation links, fully reachable via Tab. Mobile: hamburger menu with aria-expanded, aria-controls attributes, no JavaScript required.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "Plain, gentle scroll with soft fade entrances as sections arrive (300ms ease-in-out opacity fade). No parallax, no chapter breaks — just the quiet rhythm of reading.",
+    reduced_motion: "Under prefers-reduced-motion, all fades are removed; sections appear instantly at their natural scroll position.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "scroll-past-footer",
+      effect: "A single ink brushstroke appears in the far bottom corner, settles, and fades — like an artist signing their work.",
+      reward_copy: "You have seen all the way to the edge.",
+      exit: "The brushstroke fades on its own after 6 seconds.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "showcase-first",
+    primary_goal: "Guide a contemplative visitor from curiosity to running the server, step by unhurried step.",
+    cta_ladder: [
+      { step: 1, cta: "Read the philosophy",    target: "about" },
+      { step: 2, cta: "See the craft",          target: "features" },
+      { step: 3, cta: "Pick your vessel",       target: "clients" },
+      { step: 4, cta: "Begin",                  target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a single warm sentence: 'One line, and the library is yours.' Below: the server one-liner on aged-parchment, then the client options.",
+    friction_notes: "This audience has patience and wants to understand deeply — do not rush them. Every step should feel inevitable, not urgent. The one-liner is presented as an invitation, not a hurdle.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "Real capabilities: 5 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, Live TV + DVR, Multi-user with parental controls." },
+      { type: "github",           format: "A quiet line: 'From the archive' — linking the real phlix-server repo with live star and issue counts, plus the shared library and docs repos." },
+      { type: "quotes-from-docs", format: "One true line from the philosophy, set on aged-parchment: 'Your media. Your library. Your Phlix.' — grounded in real docs." },
+    ],
+    placement: "A single calm band between the features and the closing Begin CTA.",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 404 as a moment of acceptance: Tsugi sits on an empty shelf with a torn page beside them, the heading 'This page settled elsewhere.' A warm hand points back to the library.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

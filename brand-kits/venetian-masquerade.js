@@ -531,6 +531,58 @@ const brandKit = {
       "Bowing with theatrical ceremony",
     ],
     expressions: ["Delighted", "Conspiratorial", "Awestruck", "Imperiously amused"],
+
+    // ── behavior ──────────────────────────────────────────────────────────────
+    // Volto as an interactive on-page companion, guiding visitors through the palazzo.
+    behavior: {
+      placement:
+        "Right side of the viewport, gesturing toward key content; appears on home, features, " +
+        "and download — absent from the detailed docs/FAQ pages to let readers focus. Responsive: " +
+        "mobile shows Volto as a small fixed button; tablet/desktop shows him as a subtle hovering guide.",
+      idle:
+        "Volto adjusts his cape, gazes thoughtfully into the distance, and occasionally " +
+        "taps a golden fingertip on his mask — all gentle, unhurried motions. Under " +
+        "prefers-reduced-motion, Volto simply holds a neutral pose (cape still, eyes ahead).",
+      tips: [
+        {
+          where: "home:#hero",
+          say: "Put on your mask. The curtain rises at midnight.",
+        },
+        {
+          where: "home:.feature-gallery",
+          say: "Each revelation: one mask, one story. Choose which mystery calls to you.",
+        },
+        {
+          where: "features:#library",
+          say: "Your palazzo of treasures — every title a gilded frame waiting to be filled.",
+        },
+        {
+          where: "features:#syncplay",
+          say: "Even across the lagoon, every guest sees the same frame. Theater without borders.",
+        },
+        {
+          where: "download:#hero",
+          say: "Three lines and the masquerade begins in your home. I'll hold the lantern.",
+        },
+      ],
+      easter_interactions: [
+        {
+          trigger: "click:5",
+          react:
+            "Volto sweeps into a deep theatrical bow, his cape billowing, and whispers " +
+            "'A keen eye for spectacle — you belong here, truly.'",
+        },
+        {
+          trigger: "hover-hold:2s",
+          react:
+            "Volto tilts his mask slightly, as if sharing a conspiratorial secret, " +
+            "and the peacock feathers shimmer with candlelight.",
+        },
+      ],
+      dismiss:
+        "A small 'Volto, step into the shadows' close button tucks him behind " +
+        "the nearest arch; dismissed state persists via localStorage.",
+    },
   },
 
   /* ==========================================================================
@@ -1009,6 +1061,18 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────────
+  // Declares the behavior of the seasonal_variants above.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/carnevale-confetti.svg",
+      "img/seasonal/autumn-palazzo-archway.svg",
+      "img/seasonal/midsummer-lagoon-stars.svg",
+    ],
+    banner: "The masquerade begins — choose your season.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1197,6 +1261,401 @@ const brandKit = {
       reason:
         "Grandeur must not cost performance — a slow unveil feels like a broken curtain mechanism.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Palazzo",    emphasis: "default" },
+      { id: "features", label: "The Galleries",  emphasis: "primary" },
+      { id: "clients",  label: "The Chambers",   emphasis: "default" },
+      { id: "download", label: "The Invitation", emphasis: "primary" },
+      { id: "hub",      label: "The Lagoon",     emphasis: "default" },
+      { id: "about",    label: "Our Story",      emphasis: "muted" },
+    ],
+    demoted_pages: [
+      {
+        id: "plugins",
+        reason: "Adornments for the already-grand palazzo — offered from the gallery floor, not the main threshold.",
+        fold_into: "features",
+      },
+      { id: "docs", reason: "Detailed guides rest in a quiet study, accessible but not in the grand tour." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline:
+      "A masked herald guides you through an opulent palazzo where every title is " +
+      "a revelation, every sync is synchronized ceremony, and your library becomes " +
+      "the grandest stage of all.",
+    sections: [
+      {
+        id: "curtain-rise",
+        source: "copy_overlay.hero",
+        treatment:
+          "Full-bleed gilded palazzo doorway, slowly opening to reveal the " +
+          "candlelit interior and the headline. Volto gestures grandly from the threshold.",
+        weight: "hero",
+      },
+      {
+        id: "the-galleries",
+        source: "feature_casting",
+        treatment:
+          "Four hero features displayed as ornate gilt-framed paintings in the " +
+          "palazzo's main hall — each a painted tableau with Cinzel title and " +
+          "evocative theatrical synopsis.",
+        weight: "major",
+      },
+      {
+        id: "why-masquerade",
+        source: "story",
+        treatment:
+          "The brand story rendered as a gilded plaque on the palazzo's grand wall — " +
+          "measured prose about mystery, revelation, and theatrical immersion.",
+        weight: "major",
+      },
+      {
+        id: "good-seats",
+        source: "proof_strategy",
+        treatment:
+          "Trust signals as a brass placard in the palazzo lobby — real GitHub stars, " +
+          "5 native clients, the motto 'honest house, grand stage'.",
+        weight: "minor",
+      },
+      {
+        id: "the-invitation",
+        source: "conversion_funnel",
+        treatment:
+          "A gilded invitation card: 'Three candle-strokes to showtime.' The installation " +
+          "command and the client picker as the final ceremonial steps.",
+        weight: "major",
+      },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "gallery-exhibition",
+      spec:
+        "Each feature hangs as a framed portrait on the palazzo's gallery walls. " +
+        "Present as illustrated ornate gilt-bordered panels with Cinzel titles and " +
+        "a one-line theatrical synopsis, grouped by function (playback, organization, " +
+        "connectivity).",
+    },
+    clients: {
+      template: "chambers-of-screens",
+      spec:
+        "Each client is a separate palazzo chamber suited to its device — Roku as a " +
+        "grand hall with a massive screen, mobile as an intimate study, DLNA as a " +
+        "parlor with legacy furnishings. Each 'room' leads with 'Now playing on…' and " +
+        "highlights as velvet furnishings.",
+    },
+    download: {
+      template: "invitation-desk",
+      spec:
+        "The page opens as a formal reception desk: 'Acquire Your Invitation' header, " +
+        "the server install as an ornate card you may present, client choices as " +
+        "decorative seating options, ecosystem links as items in a porcelain cabinet.",
+    },
+    about: {
+      template: "palazzo-chronicle",
+      spec:
+        "The founding story as a scrolling chronicle: Philosophy and License as " +
+        "parchment chapters, Contributing as an invitation to the next masquerade, " +
+        "FAQ as 'The Usher's Answers' with Volto as the answering guide.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      {
+        id: "library",
+        angle:
+          "Your palazzo of treasures — every film and episode a gilded frame awaiting discovery.",
+      },
+      {
+        id: "syncplay",
+        angle:
+          "Even across the lagoon, every guest moves to the same theatrical rhythm. Synchronized, always.",
+      },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "The masquerade awaits",
+      headline: "Every frame a revelation.",
+      subheadline:
+        "Your media lives in a gilded palazzo, guarded by mystery and revealed at midnight. " +
+        "Self-hosted. Theatrical. Opulent. Phlix brings the carnival home.",
+      primary_cta: { label: "Claim Your Invitation" },
+      secondary_cta: { label: "Read the ancient texts" },
+    },
+    section_headings: {
+      pitch: "Why the masquerade enchants",
+      features: "The Galleries",
+      cta_banner: "The curtain rises. Take your seat.",
+    },
+    footer_tagline: "Behind every mask, a story.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "proclamation-scroll",
+    faq: "letters-column",
+    clients: "chambers-of-screens",
+    ecosystem: "palazzo-library",
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona:
+      "Volto the herald, reading aloud the guests' most earnest questions from " +
+      "the suggestion box beside the cloakroom, answering with theatrical grace.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      {
+        q: "Will this work with the old television gathering dust in the parlor?",
+        maps_to: "formats",
+      },
+      {
+        q: "Must I throw open the palazzo doors to the whole internet?",
+        maps_to: "expose-internet",
+      },
+      {
+        q: "Can I dress up the server with my own theatrical flourishes?",
+        maps_to: "plugins",
+      },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Midnight Masquerade",
+      scene:
+        "The household dims the lights, gathers on the velvet sofa, and presses play. " +
+        "Their Phlix library fills the grand screen — a collection curated over seasons, " +
+        "now revealed in all its opulent splendor. Every title carries a memory.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Distant Soirée",
+      scene:
+        "Three masqueraders, each in their own palazzo, each behind their own masks — " +
+        "yet when the curtain rises, they all see the same frame at the same moment. " +
+        "SyncPlay binds them: a theatrical communion across the lagoon.",
+      surfaces: ["home hero", "media player", "hub connection screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Collector's Private Gallery",
+      scene:
+        "A cinephile stands alone in their palazzo, methodically organizing a lifetime " +
+        "of collected cinema — foreign films, rare editions, directors' cuts. Each is " +
+        "cataloged, tagged, and displayed. Phlix is the curator's trusted assistant.",
+      surfaces: ["media library filters", "detail view", "search interface"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec:
+      "A layered palazzo diorama: the ornate doors begin closed against a candlelit " +
+      "midnight sky. On scroll or pointer hover, the doors gradually part to reveal " +
+      "the gilded interior, the lantern, and Volto gesturing from within. The headline " +
+      "fades in as the doors open, burning away like a theatrical scrim.",
+    suggested_inputs: ["scroll offset", "pointer position"],
+    fallback:
+      "A single static illustration of an open gilded palazzo doorway with warm " +
+      "candlelight spilling forth. The hero headline, subheadline, and both CTAs are " +
+      "rendered as text overlays within the static scene, fully readable without JS.",
+    js_budget_kb: 7,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec:
+      "A refined dark top bar styled as a gilded theater marquee: the brand wordmark " +
+      "in Cinzel Decorative at left, navigation links at center with ornamental " +
+      "filigree separators (fleur-de-lis or gondola-prow glyphs), the active link " +
+      "underlined in crimson with a faint gold glow.",
+    keyboard: null,
+    fallback:
+      "The navigation IS a standard accessible <nav> landmark containing a <ul> of " +
+      "links. Each link is keyboard-reachable (Tab, Enter to navigate). Mobile: " +
+      "collapses to a labeled 'Menu' button (aria-label='Navigation menu') that toggles " +
+      "a vertical link list. Focus visible with the kit's 3px burnished-gold focus ring.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec:
+      "Each homepage section arrives as a theatrical scene change — a soft candlelit " +
+      "dissolve and a faint flickering shadow at the section boundary suggest the " +
+      "'curtain' moving between acts. Content fades in gently as it scrolls into frame.",
+    reduced_motion:
+      "Under prefers-reduced-motion, the dissolves and flickers vanish entirely. " +
+      "The page becomes a plain, smooth continuous scroll with instant crisp section " +
+      "boundaries (no fade effects). Content remains fully readable and interactive.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "Volto appears center-screen in a grand theatrical pose, sweeps into an " +
+        "elaborate bow, and whispers 'A keen eye for the hidden masquerade — you " +
+        "belong here.' The peacock feathers shimmer with gold candlelight.",
+      reward_copy: "A moment of theatrical grace.",
+      exit:
+        "Volto takes a final bow and steps back into the shadows (fades out) " +
+        "after ~4s, or press Esc to dismiss him immediately.",
+    },
+    {
+      trigger: "typed-word:masquerade",
+      effect:
+        "The cursor becomes a tiny golden mask for a moment, and all headlines " +
+        "on the page pulse briefly with a warm gold border-glow, like lanterns " +
+        "being lit one by one.",
+      reward_copy: "The masquerade sees you.",
+      exit:
+        "Press Esc (or wait ~3s) to restore the normal cursor and end the effect.",
+    },
+    {
+      trigger: "typed-word:Venice",
+      effect:
+        "A single gondola silhouette glides gently across the bottom of the screen, " +
+        "reflected in still water below, accompanied by a soft harpsichord note.",
+      reward_copy: "The lagoon remembers.",
+      exit: "The gondola drifts off-screen after ~5s or press Esc to clear it.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal:
+      "Guide a curious visitor from the palazzo door through to running their own " +
+      "server and opening the lobby in under five minutes.",
+    cta_ladder: [
+      { step: 1, cta: "Claim Your Invitation",   target: "download" },
+      { step: 2, cta: "Choose Your Chamber",     target: "clients" },
+      { step: 3, cta: "Light the First Lantern", target: "download#server" },
+    ],
+    download_opening:
+      "The Download page opens as a formal reception desk: 'Three candle-strokes " +
+      "to showtime' header greets you. The server installation command is framed " +
+      "as a gilded card ('Your admission ticket'). Below: client choices as decorative " +
+      "seating arrangements in the palazzo.",
+    friction_notes:
+      "A design-conscious, late-night cinephile audience — appreciates elegance and " +
+      "ceremony, tolerates three steps if each is measured and feels worthwhile. No " +
+      "jargon dumps; every step is a threshold, not a wall. The install one-liner is " +
+      "presented as 'the easy part that launches the show.'",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A brass placard in the lobby: '5 native clients. Real-time SyncPlay. " +
+          "FFmpeg adaptive streaming. Self-hosted, always.' — facts drawn from content.json.",
+      },
+      {
+        type: "github",
+        format:
+          "A modest 'from the projection booth' link to the phlix-server repo with " +
+          "live star count and issue count (never hard-coded numbers), styled as a " +
+          "framed 'house reputation' card.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "A single true line from the documentation about privacy and self-hosting, " +
+          "set as an ornate framed lobby-wall quote: 'Your media. Your library. Your Phlix.'",
+      },
+    ],
+    placement:
+      "A single gilded 'good seats, honest house' band positioned between the " +
+      "feature galleries and the closing invitation CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "Which kind of masquerader are you?",
+    paths: [
+      {
+        id: "collector",
+        label: "The Cinematic Collector",
+        target: "features#library",
+        emphasis: ["library", "transcode", "auth"],
+      },
+      {
+        id: "reveler",
+        label: "The Social Reveler",
+        target: "features#syncplay",
+        emphasis: ["syncplay", "hub", "auth"],
+      },
+      {
+        id: "architect",
+        label: "The Palazzo Architect",
+        target: "plugins",
+        emphasis: ["plugins", "hub", "auth"],
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "exhibition",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Raise the house lights",
+    affects: ["animation", "parallax", "candleglow", "hover_effects"],
+    default: "full",
+    placement:
+      "A small toggle in the footer utility row, beside accessibility notes. " +
+      "Label reads: 'Raise the house lights' (calm mode) vs. 'Dim the lights' (full mode).",
+  },
+
+  error_page_experience: {
+    concept:
+      "A 'lost in the labyrinth' gag: Volto stands in a dimly lit palazzo corridor, " +
+      "holding an ornate lantern and looking thoughtfully at a blank wall. The headline " +
+      "reads 'This chamber was never painted' or 'The masquerade led you astray' (404). " +
+      "Volto points back toward the main palazzo with a reassuring gesture and a " +
+      "conspiratorial wink.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

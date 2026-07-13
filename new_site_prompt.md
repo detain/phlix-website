@@ -186,8 +186,12 @@ the site. Use them all; nothing in the kit is decorative.
 ### 15 · Copywriting → **drives all micro-copy** (not the factual body copy)
 - **voice[]** + **tone[]** + **writing_style** → rewrite **micro-copy** in the
   kit's voice: hero eyebrow, section eyebrows, button labels, CTA-banner
-  headings, captions, alt text, the 404/empty asides. Keep `content.json`'s
-  factual feature/FAQ bodies intact.
+  headings, captions, alt text, the 404/empty asides. Keep all `content.json`
+  **facts** intact (spec claims, numbers, licenses, links, FAQ answer
+  substance); **presentation** copy (hero/section headings, per-feature framing,
+  CTA labels, footer tagline) **may follow the kit's `copy_overlay` /
+  `feature_casting.angle` when present** (see new_site.md §2A) — never invent a
+  fact.
 - **vocabulary[]** → preferred words to weave into micro-copy.
 - **avoid_words[]** → **never** use these (corporate jargon etc.); flag in review.
 - **greetings[]**, **empty_state_messages[]** → use for any greeting/empty/aside
@@ -225,9 +229,13 @@ the site. Use them all; nothing in the kit is decorative.
   `SITE.md` as brand context only.
 
 ### 20 · Seasonal variants
-- **seasonal_variants[]** (`{name,active_range,overrides,motif}`) → **do not**
-  auto-apply. Document them in `SITE.md`; optionally emit commented-out
-  override token blocks in `theme.css` for future use.
+- **seasonal_variants[]** (`{name,active_range,overrides,motif}`) +
+  **seasonal_activation** (`{mode,motif_assets,banner}`) → gate on
+  `seasonal_activation.mode`. If `"documented"` (or the field is absent), **do
+  not** auto-apply — document the variants in `SITE.md` and optionally emit
+  commented-out override token blocks in `theme.css`. If `"live-js"`, ship a
+  tiny self-contained date-gate (per new_site.md §2A JS rules) that flips the
+  variant's override tokens + motif during its `active_range`, with no rebuild.
 
 ### 21 · Accessibility
 - **accessibility{minimum_contrast,focus_style,touch_target,motion_reduction,
@@ -245,7 +253,42 @@ the site. Use them all; nothing in the kit is decorative.
 - **metadata{}** → record `author/created/updated/license/schema_version` in
   `BUILD_LOG.md`. Respect `license` for any usage notes.
 
-**Derive the layout archetype** from the kit (don't pick at random): read
+### 24 · Experience & architecture (opt-in overrides — see new_site.md §2A)
+
+Newer kits may declare fields that change the **experience**, not just the look.
+Each is **optional**: when **present** it **OVERRIDES** the default for its
+concern; when **absent**, keep the default shared structure/copy (no defect).
+Facts always stay traceable to `content.json`, and `proof_strategy` signals must
+be **verifiable**. The full DO-table is in `new_site.md` §2A — summary:
+
+- **site_architecture** → nav labels/order/emphasis, footer-demoted pages, and fact-derived `extra_pages`.
+- **homepage_narrative** → the order + treatment + weight of the home page's sections (its `arc`/`logline`).
+- **page_blueprints** → per-page DOM template + literal build `spec` (what the page *is*, vs §13's *how it looks*).
+- **feature_casting** → which features hero (with voiced `angle`), grid, footnote, or stay off home — never deletes a feature.
+- **copy_overlay** → presentation-copy replacements (hero/headings/footer tagline); absent slots inherit `content.json`.
+- **copy_treatments** → the markup/component each shared block (pitch_bullets/faq/clients/ecosystem) renders as.
+- **faq_experience** → FAQ frame/persona, reordered questions, and `extra_questions` that map to canonical answers.
+- **persona_vignettes** → which surfaces + features to depict in imagery and `img/PROMPTS.md`.
+- **hero_experience** → hero interaction `mode`/`spec` within `js_budget_kb`; **always** ship the required `fallback` (same copy).
+- **navigation_model** → nav paradigm; **always** also render the required accessible standard-nav `fallback`.
+- **scroll_experience** → reading rhythm; resolves to plain continuous scroll under `prefers-reduced-motion`.
+- **easter_eggs** → hidden, inert `{trigger,effect,reward_copy,exit}` interactions; never shadow browser/AT keys.
+- **conversion_funnel** → download-journey `style`, `download_opening`, and the `cta_ladder`.
+- **proof_strategy** → ordered, **verifiable** trust signals and their placement.
+- **visitor_paths** → optional self-select hero fork (`prompt`+`paths`), or `null` for a single curated path.
+- **experience_archetype** → the declared layout archetype (use verbatim; see the derivation note below).
+- **complexity_profile** → density / reading-level / jargon-policy + `page_budget` caps.
+- **intensity_toggle** → optional visitor "calm mode" toggle, or `null`.
+- **mascot.behavior** → on-page mascot companion (placement/idle/tips/easter/dismiss), or `null` for imagery-only.
+- **seasonal_activation** → whether `seasonal_variants` stay documented or ship via a `"live-js"` date-gate.
+- **error_page_experience** → **document only** this pass (per-kit 404 needs a future `tools/build.mjs` shim — out of scope).
+
+Any JS these fields imply must be self-contained vanilla JS, no dependencies,
+≈≤15 KB total, `prefers-reduced-motion`-respecting, with a working no-JS
+fallback for `navigation_model` / `hero_experience` (new_site.md §2A).
+
+**Derive the layout archetype** from the kit (don't pick at random): if the kit
+declares **`experience_archetype`**, use that value verbatim; otherwise read
 `visual_style`, `layout_patterns.landing`, `composition`, `depth`, and
 `ui_style` and choose one of: `immersive` (full-bleed/cinematic/glow),
 `editorial` (asymmetric/magazine), `grid` (systematic/modular/brutalist),
@@ -265,7 +308,7 @@ Following `new_site.md` exactly:
    classes, complete `<head>` (SEO §10 + social §11), one `<h1>` each,
    `aria-current` nav, skip-link, landmarks.
 4. Write `js/main.js` (nav toggle, reduced-motion, optional scroll reveals).
-5. Produce `img/logo.svg`, `img/favicon.svg`, `img/og.(svg→)png`, the 7 inline
+5. Produce `img/logo.svg`, `img/favicon.svg`, `img/og.(svg→)png`, the 8 inline
    feature-icon SVGs, and `img/PROMPTS.md`.
 6. Emit `robots.txt`, `sitemap.xml` (absolute URLs), `SITE.md`, `BUILD_LOG.md`.
 7. Sanity-check: `npm run lint`, `npm run linkcheck`, `npm run a11y`. Fix
@@ -302,10 +345,17 @@ Review dimensions (run all; you may batch related ones per agent):
 8. **Performance** — budgets (§13 new_site.md): self-hosted fonts, no CDNs,
    deferred JS, image weight, CLS.
 9. **Content accuracy** — every claim matches the Phlix facts (§16 new_site.md);
-   nothing invented; `content.json` copy intact.
+   nothing invented; all **facts** traceable to `content.json`, and any re-voiced
+   **presentation** copy traceable to the kit's `copy_overlay` /
+   `feature_casting.angle` (§2A); `proof_strategy` signals verifiable.
 10. **CTA / funnel** — primary CTA above the fold, ≥3:1, secondary de-emphasized.
 11. **Social metadata** — OG + Twitter complete and **absolute** URLs.
 12. **Localization** — `lang`, strings centralized, logical properties.
+13. **Experience fidelity** — does the built site actually implement its kit's
+    declared `homepage_narrative`, `feature_casting`, and `site_architecture`,
+    and (if present) the required `hero_experience` / `navigation_model`
+    fallbacks and the `conversion_funnel`? (Absent fields → default behavior,
+    not a defect.)
 
 Then: **apply every ❌ and reasonable ⚠️**, and re-run the relevant reviewers.
 **Loop** until a full round produces **no ❌, no spelling/grammar errors, and no

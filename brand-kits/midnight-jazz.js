@@ -578,6 +578,29 @@ const brandKit = {
       "Post-set exhaustion",
       "Crowd appreciation",
     ],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small standing figure; appears on Home and Download pages — " +
+        "never on the FAQ/About reading pages. Occasionally glances toward the main action.",
+      idle:
+        "Stands at rest with the bell tilted slightly, occasionally adjusting his grip or shifting weight. " +
+        "No constant motion — mostly still, like a musician between sets. " +
+        "Idle animation is disabled under prefers-reduced-motion (Miles simply stands).",
+      tips: [
+        { where: "home:#hero",              say: "Press play. The session is yours." },
+        { where: "home:.features",          say: "Library organizes itself. Drop it in and let it sit." },
+        { where: "home:.proof-section",     say: "Real setup, honest numbers. Check the booth." },
+        { where: "download:#server",        say: "One line and you're the projectionist. I'll hold the popcorn." },
+        { where: "download:#clients",       say: "Pick your seat. Every screen in the house gets a ticket." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Miles tips his mute and snaps his fingers to an invisible beat." },
+        { trigger: "hover-hold:3s", react: "Miles leans back against the bar, gives a knowing nod." },
+      ],
+      dismiss:
+        "A small 'Miles, take five' close button (X) at the corner tucks him backstage; " +
+        "the dismissed state persists via localStorage so he stays out of sight until the session resets.",
+    },
   },
 
   /* ==========================================================================
@@ -1114,6 +1137,19 @@ const brandKit = {
   ],
 
   /* ==========================================================================
+   * 20b. SEASONAL ACTIVATION
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snow-particles.svg",
+      "img/seasonal/summer-dusk-gradient.svg",
+    ],
+    banner: "The season changes the mood — check back in {season} for a different late-night atmosphere.",
+  },
+
+  /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
 
@@ -1303,6 +1339,282 @@ const brandKit = {
         "A slow dark interface loses the atmosphere before it arrives. " +
         "Performance is part of the mood.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Lobby",       emphasis: "default" },
+      { id: "features", label: "Now Showing", emphasis: "primary" },
+      { id: "clients",  label: "Box Office",  emphasis: "default" },
+      { id: "download", label: "Get Tickets", emphasis: "primary" },
+      { id: "hub",      label: "The Marquee", emphasis: "default" },
+      { id: "about",    label: "Our Story",   emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Concessions-stand extra — nice to have, not the main stage for a serious music lover.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material lives one click away in the footer, off the main session." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 22b. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The lights dim, the marquee glows, and your living room becomes the listening room of a late-night jazz club.",
+    sections: [
+      { id: "curtain-rise",    source: "copy_overlay.hero", treatment: "Full-bleed marquee hero with warm bulbs warming up as the tagline glows in amber. The stage is set.", weight: "hero" },
+      { id: "the-set",         source: "feature_casting",   treatment: "Two 'now playing' headliner features rendered as album-cover tiles on a shelf.", weight: "major" },
+      { id: "why-this-session", source: "story",            treatment: "Value props rendered as the 'set list' — a marquee board with each line lit in sequence.", weight: "major" },
+      { id: "the-room",        source: "proof_strategy",    treatment: "Trust signals as a lobby placard: repo stars and real capabilities.", weight: "minor" },
+      { id: "get-in",          source: "conversion_funnel", treatment: "Closing ticket-counter CTA: 'Get Your Tickets' with the one-liner install command beside.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 22c. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "album-shelf",
+      spec: "Lay the features out as album-cover tiles on a listening-room shelf — each a high-contrast album design with bold title and a one-line description like liner notes.",
+    },
+    clients: {
+      template: "device-lineup",
+      spec: "Present each client as a device card with its own persona: Roku (living-room player), Samsung (smart home), Windows (desktop listener), Mobile (portable session), DLNA (the vintage record player).",
+    },
+    download: {
+      template: "ticket-counter",
+      spec: "Frame the page as a box-office counter: the server install snippet is the 'admission' ticket, client cards are the seat choices, ecosystem links are the 'where to go next'.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell the founding story as scrolling chapters (Philosophy, License, Contributing) ending in the FAQ styled as an usher's 'Ask the Booth' letters column.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Drop a record in and watch it take its place on the shelf — your whole collection organized, tagged, ready to play." },
+      { id: "syncplay", angle: "Every seat locked to the same groove — movie night stays in sync across the room or across the country." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 23b. COPY OVERLAY
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Press play. The night starts now.",
+      headline: "Your library. After dark.",
+      subheadline: "A late-night jazz club for your media — deep, intimate, and entirely yours. Phlix streams to your Roku, TV, phone, and any DLNA device, with real-time sync, transcoding, and a hub that follows you anywhere.",
+      primary_cta: { label: "Get Your Tickets" },
+      secondary_cta: { label: "Read the Liner Notes" },
+    },
+    section_headings: {
+      pitch: "Why pull up a seat?",
+      features: "Now Showing",
+      cta_banner: "The curtain's up — ready to open for business?",
+    },
+    footer_tagline: "Every night is showtime.",
+  },
+
+  /* ==========================================================================
+   * 23c. COPY TREATMENTS
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "marquee-lines",
+    faq: "letters-column",
+    clients: "device-lineup",
+    ecosystem: "repo-shelf",
+  },
+
+  /* ==========================================================================
+   * 23d. FAQ EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Miles, the house usher, answering audience notes left in the suggestion box by the door.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on my old TV?",            maps_to: "formats" },
+      { q: "Do I have to open my server to the net?", maps_to: "expose-internet" },
+      { q: "Can I build my own plugin?",              maps_to: "plugins" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 23e. PERSONA VIGNETTES
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "Crate Digging Session",
+      scene: "A collector sits down with a night free, pulling rare deep cuts from their library and playing them end-to-end on the big screen. Perfect audio, zero distraction.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode"],
+    },
+    {
+      name: "Synchronized Movie Night",
+      scene: "Two households, three time zones, one film — everyone hits play and the sync holds them locked to the same frame. No one asks 'did you pause?' again.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "Late Night Solo",
+      scene: "Midnight. A cold drink. The mobile app on the couch. A deep cut from the collection, transcoded on the fly, playing on a 2015 Roku via the Hub from a server running in the den.",
+      surfaces: ["mobile player", "hub relay", "roku playback"],
+      features_shown: ["hub", "transcode", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "marquee-warmup",
+    spec: "A layered diorama: marquee bulbs at top, warm amber light pooling into darkness, a silhouette at the piano keys, the tagline glowing in the spotlight. As the page loads, bulbs warm up one by one in sequence (100ms apart), then the tagline fades in. Parallax on scroll/pointer adds subtle depth.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single flat marquee illustration with bulbs already lit, the curtain open, the spotlight on the piano keys, and the identical headline, subheadline, and both CTAs baked into the static markup. No animation, full information hierarchy intact.",
+    js_budget_kb: 7,
+  },
+
+  /* ==========================================================================
+   * 24b. NAVIGATION MODEL
+   * ========================================================================== */
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A Stage Charcoal bar with the Midnight Jazz wordmark in Barlow Condensed 800, a set of nav links in Linen White, warm amber separator dots between them, and the active link rendered with an amber left-border accent and a faint glow — like a lit bulb on the marquee.",
+    keyboard: null,
+    fallback: "The topbar IS the standard <nav> list — a plain semantic HTML nav with links to each page, fully keyboard navigable (Tab/Shift+Tab through items, Enter to select), collapsing to a labeled hamburger menu icon on mobile with aria-label='Navigation menu' and aria-expanded state tracking.",
+  },
+
+  /* ==========================================================================
+   * 24c. SCROLL EXPERIENCE
+   * ========================================================================== */
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a reel change — a faint amber-tinted film-burn wipe from left or right as the section scrolls into frame, accompanied by a very subtle projector-flicker effect (one 50ms pulse on the bg opacity). The effect is fleeting and elegant, never jarring.",
+    reduced_motion: "Under prefers-reduced-motion the reel-change wipes and flicker effects are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries. No animation, no transitions — only the natural document flow and section spacing.",
+  },
+
+  /* ==========================================================================
+   * 24d. EASTER EGGS
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Miles tips his mute at the logo and snaps his fingers to an invisible beat. A soft upright bass note sounds (UI click sound). A single vinyl record spins briefly in the corner of the screen.",
+      reward_copy: "Miles approves. The session is strong.",
+      exit: "The record settles on its own after ~3s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:deepcut",
+      effect: "A faint amber spotlight sweeps across the page, and the word 'deep cut' is highlighted. Miles' silhouette appears briefly at the side, nodding.",
+      reward_copy: "You found the deep track.",
+      exit: "Press Esc to dismiss the spotlight and Miles.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time listener to run the server, open the lobby, and queue up a title.",
+    cta_ladder: [
+      { step: 1, cta: "Get Your Tickets",        target: "download" },
+      { step: 2, cta: "Pick Your Seat",          target: "clients" },
+      { step: 3, cta: "Open the Door (install)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens like a box-office window: a warm 'One line and you're the projectionist' header over the one-line server install, then the client seat-picker below.",
+    friction_notes: "Music and film enthusiasts appreciate precision and don't fear the terminal — keep the install honest and terse, no sugar-coating, no hand-holding. The steps are few but real.",
+  },
+
+  /* ==========================================================================
+   * 25b. PROOF STRATEGY
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A quiet lobby placard listing real capabilities: 5 native clients (Roku, Samsung, Windows, Mobile, DLNA), SyncPlay over NTP sync, HLS + FFmpeg transcoding, plugin system with manifest contract." },
+      { type: "github",           format: "A modest 'from the projection booth' row linking phlix-server (https://github.com/detain/phlix-server) with its real live star count and issue tracker." },
+      { type: "quotes-from-docs", format: "One true short line pulled directly from the docs about self-hosting, set as a framed jazz-club quote in Playfair Display italic." },
+    ],
+    placement: "A single calm 'honest house' section between the features and the closing CTA — nothing loud, nothing oversold.",
+  },
+
+  /* ==========================================================================
+   * 25c. VISITOR PATHS
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "What kind of listening session are you here for?",
+    paths: [
+      { id: "collector",  label: "I've got a big collection",      target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "sync-night", label: "Sync every screen in the house", target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "anywhere",   label: "I want to listen everywhere",    target: "features#hub",      emphasis: ["hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  /* ==========================================================================
+   * 26b. COMPLEXITY PROFILE
+   * ========================================================================== */
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 85 },
+  },
+
+  /* ==========================================================================
+   * 26c. INTENSITY TOGGLE
+   * ========================================================================== */
+
+  intensity_toggle: {
+    label: "House lights up",
+    affects: ["animation", "parallax", "scroll_wipes", "hero_experience→static"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note, with aria-label='Calm mode'.",
+  },
+
+  /* ==========================================================================
+   * 26d. ERROR PAGE EXPERIENCE (404)
+   * ========================================================================== */
+
+  error_page_experience: {
+    concept: "A 'wrong theater' gag: Miles stands under an empty marquee that reads 'This showing sold out (or never existed)', holding a torn ticket stub, pointing the way back to the lobby with his mute. Warm sympathetic copy: 'The set list doesn't include this one. Let's find your next favorite.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

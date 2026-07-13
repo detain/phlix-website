@@ -538,6 +538,28 @@ const brandKit = {
       "Spiraling around a Bebas Neue display numeral",
     ],
     expressions: ["Wide-eyed wonder", "Playful splash", "Alert and focused", "Joyful arc"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small floating koi; appears on Home, Download, Clients, " +
+        "and Features pages — never on docs or deep reference pages.",
+      idle:
+        "Pixel drifts in gentle circles and occasionally does a playful tail flip; " +
+        "idle motion is disabled under prefers-reduced-motion (Pixel simply rests).",
+      tips: [
+        { where: "home:#hero",              say: "Signal acquired. The city is live." },
+        { where: "home:.features-overview", say: "Every signal tells a story — scroll to see what Phlix can do." },
+        { where: "features:.feature-grid",  say: "These are the channels — pick one and dive deeper." },
+        { where: "download:#server",        say: "One command and you're the city's first network node. I'll show you the way." },
+        { where: "clients:.client-grid",    say: "Five screens, one library — Pixel swims across them all." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Pixel spins in a neon spiral and leaves a brief cyan trail." },
+        { trigger: "hover-hold:2s", react: "Pixel approaches the cursor with wide eyes, then offers a small glitch-flash wink." },
+      ],
+      dismiss:
+        "A small 'Pixel, rest' close button tucks it behind a neon sign; the dismissed state " +
+        "persists via localStorage so it stays hidden.",
+    },
   },
 
   /* ==========================================================================
@@ -1064,6 +1086,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/sakura-petals.svg",
+      "img/seasonal/obon-lanterns.svg",
+      "img/seasonal/ny-confetti.svg",
+    ],
+    banner:
+      "The city shifts with the season — Sakura Season, Obon Night, and New Year " +
+      "Countdown each illuminate the library differently.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1257,6 +1291,247 @@ const brandKit = {
         "A hyper-electric neon interface should feel instant — slow load is the only " +
         "thing that can break the megacity immersion.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Signal",    emphasis: "default" },
+      { id: "features", label: "Channels",  emphasis: "primary" },
+      { id: "clients",  label: "Screens",   emphasis: "default" },
+      { id: "download", label: "Install",   emphasis: "primary" },
+      { id: "hub",      label: "Relay",     emphasis: "default" },
+      { id: "about",    label: "Contact",   emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Accessory layer — not essential for the core signal discovery path." },
+      { id: "docs",    reason: "Deep reference material lives one click away in the footer." },
+    ],
+    extra_pages: [
+      {
+        id: "city-tour",
+        title: "A Tour Through Neo Tokyo",
+        purpose: "An interactive walkthrough of Phlix as a living city of data streams and screens.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Welcome to Neo Tokyo: every screen is a signal, every signal is a story.",
+    sections: [
+      { id: "neon-opening", source: "copy_overlay.hero", treatment: "Full-bleed neon-city hero: hot pink and circuit-green neons blazing as the headline electrifies the crossing.", weight: "hero" },
+      { id: "signal-strength",  source: "feature_casting",   treatment: "Two hero features cast as neon signage panels on a dark tokyo street.",      weight: "major" },
+      { id: "why-signal",    source: "story",             treatment: "Value props styled as a matrix readout of data streams.",                          weight: "major" },
+      { id: "proof-of-signal",   source: "proof_strategy",    treatment: "Trust signals rendered as a network-status dashboard with real repo stars and user count.",         weight: "minor" },
+      { id: "join-network",  source: "conversion_funnel", treatment: "Closing CTA banner: 'Plug in and start streaming' with the install one-liner.",      weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural template per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "signal-grid",
+      spec: "Lay the features out as glowing neon signage panels on a dark city facade — each a sharp-cornered tile with Bebas Neue title and a one-line circuit-board readout.",
+    },
+    clients: {
+      template: "screen-wall",
+      spec: "Present each client as a distinct screen in a multi-monitor wall setup — the device type visible, its highlights listed as matrix readouts.",
+    },
+    download: {
+      template: "station-terminal",
+      spec: "Frame the page as a subway-station terminal: the server install command is the 'line to ride', client cards are the destination choices, ecosystem links are the route map.",
+    },
+    about: {
+      template: "city-chronicle",
+      spec: "Tell the Phlix story as scrolling neon chapters (Philosophy, License, Contributing) ending in the FAQ styled as a signal-dispatch center Q&A.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY  — content weighting & voice
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every device locked to the same frame — play, pause, seek — everyone moves as one." },
+      { id: "library",  angle: "Add a file and watch it light up the network. The city catalogs itself." },
+    ],
+    support: ["transcode", "livetv", "hub", "auth"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "The city never dims",
+      headline: "Every Screen. Every Signal. Every Story.",
+      subheadline: "Phlix is a self-hosted media server that broadcasts your entire library to every device in every room — and follows you beyond the city walls through the Hub.",
+      primary_cta: { label: "Enter the Network" },
+      secondary_cta: { label: "See How It Works" },
+    },
+    section_headings: {
+      pitch: "Why plug into Phlix?",
+      features: "The Eight Channels",
+      cta_banner: "Signal locked. Time to broadcast.",
+    },
+    footer_tagline: "Your media. Your network. Your rules.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "matrix-lines",
+    faq: "dispatch-log",
+    clients: "screen-grid",
+    ecosystem: "signal-map",
+  },
+
+  faq_experience: {
+    frame: "dispatch-log",
+    persona: "The Network Operator, fielding questions from the floor.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I play this on my old smart TV?", maps_to: "formats" },
+      { q: "Do I have to open my server to the whole internet?", maps_to: "expose-internet" },
+      { q: "What about transcoding — does it slow everything down?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Network Pioneer",
+      scene: "A collector fires up Phlix on their home server and watches 50 years of films and series organize themselves into a living city on screen.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Synchronized Watchers",
+      scene: "Friends in different cities start Phlix on their phones, hit play on the same movie, and stay locked frame-to-frame via SyncPlay.",
+      surfaces: ["SyncPlay interface", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Multi-Screen Household",
+      scene: "Every TV and device in the house discovers and plays from the same Phlix library — Roku in the living room, DLNA on the old bedroom set, Windows desktop in the office.",
+      surfaces: ["profile picker", "device discovery screen", "media library grid"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models with fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A neon-soaked layered city diorama — Shibuya crossing, neon signs, rain reflections, and Pixel the koi — parallaxes gently on scroll/pointer, kanji signs glitching subtly as the headline electrifies.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single vivid cyberpunk Tokyo street illustration with the headline, subheadline, and both CTAs baked into the static markup and positioned over the neon cityscape.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A neon-outlined horizontal nav bar with Circuit Green accent underlines on each link, Neon Sakura glow on the active link, and the Phlix wordmark at left with a subtle pink text-shadow.",
+    keyboard: null,
+    fallback: "A semantic <nav role='navigation' aria-label='Main navigation'> wrapping a <ul> of the same links; fully keyboard-navigable (Tab through links, Enter to follow); collapsing to a labeled hamburger menu (<button aria-label='Toggle menu' aria-expanded='false'>) on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives with a glitch-cut wipe and a brief neon-flash frame transition — like data packets arriving on the network.",
+    reduced_motion: "Under prefers-reduced-motion the wipes and flashes are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Pixel leaps across the top of the screen and performs a spinning victory spiral, leaving a neon trail.",
+      reward_copy: "Signal overload! Pixel is impressed.",
+      exit: "The trail fades on its own after ~4s, or press Escape to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:neon",
+      effect: "The entire color scheme shifts to an enhanced Neon Sakura + Circuit Green palette for a few seconds; Pixel flashes with excitement.",
+      reward_copy: "You found the city's heart.",
+      exit: "Press Escape (or type any other key) to restore the normal palette.",
+    },
+    {
+      trigger: "konami-code",
+      effect: "The page background glitches through rapid neon color shifts and the UI scan-lines intensify briefly — a moment of pure cyberpunk overload.",
+      reward_copy: "Glitch acknowledged. System nominal.",
+      exit: "Automatic after the effect finishes, or press Escape to stop it immediately.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time user from discovery to a running Phlix server and open library.",
+    cta_ladder: [
+      { step: 1, cta: "Enter the Network",        target: "download" },
+      { step: 2, cta: "Pick Your Screen",         target: "clients" },
+      { step: 3, cta: "Broadcast It (install)",   target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a network-access panel: 'Three commands to go live' header over the server install one-liner, then the client screen choices below.",
+    friction_notes: "Tech-forward hobbyists and power users — accept more jargon and depth, but respect that 'one command' is the selling point; don't bury it.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A dashboard readout of real capabilities pulled from content.json — 8 native channels, NTP-synced SyncPlay, HLS + FFmpeg transcoding, 5 native clients + DLNA." },
+      { type: "github",           format: "A 'from the server logs' row linking the real phlix-server repo with its live star count and issue tracker (never a hard-coded number)." },
+      { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the phlix-docs about self-hosting, set as a framed signal-dispatch quote." },
+    ],
+    placement: "A single sharp 'proof of signal' band between the features and the closing CTA, styled as a neon-bordered network-status panel.",
+  },
+
+  visitor_paths: {
+    prompt: "Which city are you exploring?",
+    paths: [
+      { id: "watch-together", label: "I want to sync across rooms",      target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "my-collection",  label: "I've got a massive library",      target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "custom-network", label: "I want to build and extend",      target: "plugins",           emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the neon",
+    affects: ["animation", "glitch-effects", "hero_experience→static", "scroll_experience→continuous", "color-saturation"],
+    default: "full",
+    placement: "A small toggle in the top-right corner utility zone, marked with a neon-brightness icon.",
+  },
+
+  error_page_experience: {
+    concept: "A 'signal lost' moment: the page shows a glitching neon-city skyline with an offline Pixel and a '404: Signal Not Found' message, with big buttons to return to Home, Features, or Download.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

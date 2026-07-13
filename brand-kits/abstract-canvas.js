@@ -530,6 +530,30 @@ const brandKit = {
       "Tilted at an angle, studying the viewer the way a painter studies a subject",
     ],
     expressions: ["Curious and open", "Absorbed in the work", "Satisfied after a mark well made", "Inviting — come look at this"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Palette as an on-page companion: curious, generous, encouraging each visitor.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small tilted palette on all pages except the FAQ page itself " +
+        "(to let the content breathe). Appears playfully studying the viewer's activity.",
+      idle:
+        "Gently tilts left and right as if considering the work, occasionally twirling a sable " +
+        "brush behind itself; idle motion is disabled under prefers-reduced-motion (Palette simply holds still).",
+      tips: [
+        { where: "home:#hero",              say: "Every frame is a brushstroke — start painting with your collection." },
+        { where: "home:.features-overview", say: "Watch together in perfect sync with SyncPlay. No buffering, no 'are we at the same part?'" },
+        { where: "features:.feature-grid",  say: "Live TV + DVR? A dash of canvas white and a mark of cadmium red — Phlix paints on any surface." },
+        { where: "download:#server",        say: "One line to spin up the gallery. Palette knows the studio setup from memory." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Palette spins rapidly and sets itself down with satisfaction, then gives you an approving look." },
+        { trigger: "hover-hold:2s", react: "Palette offers you its sable brush — a gift for the artist who understands the work." },
+      ],
+      dismiss:
+        "A subtle 'Palette, rest for a moment' close button tucks it back into the studio corner; " +
+        "the dismissed state persists via localStorage so Palette stays tucked if you prefer solitude.",
+    },
   },
 
   /* ==========================================================================
@@ -1049,6 +1073,18 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Palette's seasonal mood swings live in the browser: no rebuild needed.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/autumn-leaf-marks.svg",
+      "img/seasonal/winter-frost-texture.svg",
+      "img/seasonal/spring-flower-forms.svg",
+    ],
+    banner: "The season shifts — Palette has prepared fresh grounds for the canvas.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1244,6 +1280,242 @@ const brandKit = {
         "A warm, contemplative experience should feel effortless — slow load breaks " +
         "the gallery atmosphere as effectively as the wrong color palette.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Studio",     emphasis: "primary" },
+      { id: "features", label: "The Canvas",    emphasis: "primary" },
+      { id: "clients",  label: "The Gallery",   emphasis: "default" },
+      { id: "download", label: "Get Started",   emphasis: "primary" },
+      { id: "hub",      label: "The Frame",     emphasis: "default" },
+      { id: "about",    label: "The Story",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A fine addition to the collection, but secondary to the main gallery walk.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material lives one keystroke away in the footer — the main path stays contemplative." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 22B. HOMEPAGE NARRATIVE  — story structure & arc
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Welcome to the studio — where every frame you paint becomes a work of art that follows you anywhere.",
+    sections: [
+      { id: "canvas-primed", source: "copy_overlay.hero", treatment: "Full-bleed gallery entrance with a gestural hero composition and Palette studying the viewer's intent.", weight: "hero" },
+      { id: "the-brushstrokes", source: "feature_casting", treatment: "Two hero features ('SyncPlay' and 'Library') painted as framed gallery studies, side by side on linen.", weight: "major" },
+      { id: "why-this-studio", source: "story", treatment: "The art statement — why Phlix, why this way — told as an artist's manifesto on the white gallery wall.", weight: "major" },
+      { id: "who-has-painted-here", source: "proof_strategy", treatment: "Trust signals as a modest gallery placard: real open-source contributors and honest numbers.", weight: "minor" },
+      { id: "hang-your-work", source: "conversion_funnel", treatment: "The CTA: a warm invitation to set up your own gallery, set against a canvas-cream panel.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 22C. PAGE BLUEPRINTS  — structural templates
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "gallery-wall",
+      spec: "Display each feature as a framed study on linen walls — 4 features as double-wide focal works (hero casting), 4 supporting features as smaller sketches in a grid. Use Palette's vocabulary: each title is a mark, each description a view of the artist's process.",
+    },
+    clients: {
+      template: "gallery-installations",
+      spec: "Present each client (Roku, Tizen, Windows, Mobile, DLNA) as a separate gallery room or 'station' — each with its own lighting, its own material (native app, direct play, etc.), and its own highlight wall. Summarize each as a brief artist talk.",
+    },
+    download: {
+      template: "studio-setup",
+      spec: "Frame download as 'Setting up your studio': one-liner server install as the foundational canvas, client cards as 'studio stations' (where you'll make your work), and ecosystem repos as 'reference materials on the shelf'.",
+    },
+    about: {
+      template: "artist-monograph",
+      spec: "Tell the founding story as chapters (Philosophy, License, Contributing), each section styled as a gallery wall text. FAQ appears as 'Artist Talks' — Palette answering visitor questions from the suggestion box.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — weighting & voice
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Synchronized watching — every device, every room, the same frame, the same moment." },
+      { id: "library",  angle: "A living collection that organizes itself the moment you add a file." },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted creativity",
+      headline: "Your collection. Your gallery. Your frame.",
+      subheadline: "A painter's studio for your media — Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device. Synchronized playback, fine-grain control, and a hub that reaches you anywhere.",
+      primary_cta: { label: "Set Up Your Studio" },
+      secondary_cta: { label: "Browse the Gallery" },
+    },
+    section_headings: {
+      pitch: "Why paint here?",
+      features: "The Canvas",
+      cta_banner: "Ready to prime your canvas?",
+    },
+    footer_tagline: "Every screen, a canvas. Every choice, a brushstroke.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "gallery-labels",    // each prop as a label on a gallery wall
+    faq: "artist-talks",                // FAQ as Palette answering from the suggestion box
+    clients: "installation-stations",   // each client as its own gallery station
+    ecosystem: "studio-reference",      // ecosystem repos as reference materials on a shelf
+  },
+
+  /* ==========================================================================
+   * 23B. FAQ EXPERIENCE  — question frame & persona
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "artist-talks",
+    persona: "Palette, the curious guide, answering visitor questions thoughtfully from its perch in the studio corner.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can my old TV join the gallery?", maps_to: "formats" },
+      { q: "Do I really need to open my house to the internet?", maps_to: "expose-internet" },
+      { q: "What can I add to this studio?", maps_to: "plugins" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 23C. PERSONA VIGNETTES  — usage scenes & surfaces
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Collector's Study",
+      scene: "A film enthusiast with 2,000 titles carefully organized — every addition auto-catalogued, every device showing the collection in perfect sync.",
+      surfaces: ["home hero", "library grid", "media detail view"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Family Studio",
+      scene: "Friday night, three rooms — living room, bedroom, kitchen — all watching the same film simultaneously, every pause and play locked together.",
+      surfaces: ["home hero", "SyncPlay lobby", "media player"],
+      features_shown: ["syncplay", "auth", "hub"],
+    },
+    {
+      name: "The Live Painter",
+      scene: "A creator managing their own media server: uploading new work, checking who's viewing it, adjusting quality for different devices, staying in control.",
+      surfaces: ["admin dashboard", "library upload", "quality profiles"],
+      features_shown: ["library", "transcode", "hub", "plugins"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction & experience models
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static",
+    spec: "A full-bleed gallery entrance: a warm linen ground, Palette tilted at the center studying the headline, gestural brushstroke marks framing the text, cadmium-red accent mark at the footer's edge pointing to the CTA.",
+    suggested_inputs: [],
+    fallback: "The static markup carries the full hero composition: headline, subheadline, and both CTA buttons in a vertical stack. No JS; keyboard Tab navigates to each button in order. All copy is baked in.",
+    js_budget_kb: 0,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm canvas-cream topbar with the brand wordmark at left, nav labels in Cormorant Garamond, active link underlined in cadmium red. A subtle gallery-linen glow behind the active link.",
+    keyboard: null,
+    fallback: "The topbar is a standard <nav> element with <ul><li><a> list. All links are keyboard-reachable via Tab, focus ring is 2px ultramarine with 2px gallery-linen offset. On mobile, collapses to a labeled hamburger menu button (aria-label='Open navigation menu').",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "A serene, continuous scroll through the gallery rooms — each page section a new wall. No dramatic wipes or transitions; the page unfolds gently like moving through a museum at a leisurely pace.",
+    reduced_motion: "The page is continuous scroll in all cases — prefers-reduced-motion adds nothing extra, just ensures there is no jarring motion. Sections arrive instantly, margins define the reading rhythm.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Palette spins in place, sets itself down with a satisfied gesture, and briefly glows with a cadmium-red aura.",
+      reward_copy: "The work is well-made — keep painting.",
+      exit: "The glow fades on its own after ~4s, or press Esc.",
+    },
+    {
+      trigger: "typed-word:palette",
+      effect: "The word 'palette' in your input turns cadmium red, and Palette briefly lifts off the page surface as if delighted by being named.",
+      reward_copy: "Palette recognizes its own name — you are a true artist.",
+      exit: "Press Esc to reset the text color and return Palette to the ground.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a self-hosting artist to run the server, open their gallery, and start streaming.",
+    cta_ladder: [
+      { step: 1, cta: "Set Up Your Studio",    target: "download" },
+      { step: 2, cta: "Choose Your Stations",  target: "clients" },
+      { step: 3, cta: "Prime the Canvas",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a studio setup: 'Canvas and brushes — one line to paint' with the one-liner server install, then client stations below, then ecosystem references.",
+    friction_notes: "A thoughtful, creative audience — respect the contemplative pace. The install is framed as the easiest first mark; client choice lets them pick their favorite surface.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A gallery placard of real capabilities: 5 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, plugin versioning contract." },
+      { type: "github",           format: "A modest 'from the studio' credits row linking the real phlix-server repo with its live star count and contributor list." },
+      { type: "quotes-from-docs", format: "One honest line from the docs (verbatim): 'Built in PHP 8.3+ on Workerman' — a technical marker that shows craft and intention." },
+    ],
+    placement: "A quiet gallery-wall band between the major features and the closing studio-setup CTA — respect the white space.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of work are you here to make?",
+    paths: [
+      { id: "collector",  label: "I have a vast collection",       target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "family",     label: "We watch together",              target: "features#syncplay", emphasis: ["syncplay", "auth", "hub"] },
+      { id: "creator",    label: "I want to host my own work",     target: "features",         emphasis: ["library", "hub", "plugins"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Gallery quiet",
+    affects: ["animation", "scroll_reveal", "hero_experience→static"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "Palette stands before a blank, stretched canvas with no paint on its surface, studying it thoughtfully. 'The frame exists, but this view has never been painted. Shall we look at something else?'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

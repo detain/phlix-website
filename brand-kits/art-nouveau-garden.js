@@ -518,6 +518,31 @@ const brandKit = {
       "Resting beneath a peacock-feather canopy (idle / welcome)",
     ],
     expressions: ["Serene", "Warmly welcoming", "Contemplative", "Gently delighted"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────
+    // How Lily becomes an interactive on-page companion, not just a static
+    // illustration. Turns the elegant guide into a living presence.
+    behavior: {
+      placement:
+        "Lily appears in the upper-right corner as a small, graceful icon on " +
+        "Home and Features pages, gently drifting on scroll; never intrusive.",
+      idle:
+        "Lily's hair vine tendrils slowly unfurl and settle, as if in a gentle breeze. " +
+        "Her lantern flickers softly (mimics candlelight). Motion is disabled under " +
+        "prefers-reduced-motion; she simply rests, composed.",
+      tips: [
+        { where: "home:#hero",    say: "Welcome to the garden. Step inside — the blooms are ready." },
+        { where: "home:.pitch",   say: "Your collection blooms here. Every film a petal in a greater garden." },
+        { where: "features:.",    say: "Each feature unfolds like a chapter in a Mucha panel. Linger and discover." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Lily's lantern brightens briefly; a petal icon floats upward and fades." },
+        { trigger: "hover-hold:2s", react: "Lily nods gracefully and gestures toward the nearest CTA as if inviting you onward." },
+      ],
+      dismiss:
+        "A small ornate 'X' closes Lily to a thin vine bookmark at the edge of the " +
+        "screen; dismissed state persists via localStorage so she respects the visitor's choice.",
+    },
   },
 
   /* ==========================================================================
@@ -1032,6 +1057,23 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Declares whether the seasonal_variants above are live or documentation-only.
+  // "live-js" means the date-gate applies the overrides + motif when today falls
+  // inside active_range, with no rebuild needed.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/midsummer-sunflowers.svg",
+      "img/seasonal/autumn-leaves.svg",
+      "img/seasonal/winter-frost.svg",
+      "img/seasonal/spring-blossoms.svg",
+    ],
+    banner:
+      "Lily says: 'The garden knows the season. Step into [Midsummer|Autumn|Winter|Spring] with her.'",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1190,6 +1232,232 @@ const brandKit = {
       ],
       reason: "A slow garden is a dead garden; visual richness must never cost the user their time.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Salon",    emphasis: "default" },
+      { id: "features", label: "The Gallery",  emphasis: "primary" },
+      { id: "clients",  label: "The Rooms",    emphasis: "default" },
+      { id: "download", label: "Step Inside",  emphasis: "primary" },
+      { id: "hub",      label: "The Relay",    emphasis: "default" },
+      { id: "about",    label: "The Story",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A fine detail — interesting to curators, but not the first bloom visitors seek.", fold_into: "features" },
+      { id: "docs",    reason: "Reference materials live gently in the footer, a step beyond the main garden path." },
+    ],
+    extra_pages: [
+      {
+        id: "curating-your-collection",
+        title: "How to Cultivate Your Film Garden",
+        purpose: "A guided meditation on collecting and organizing — turning the scanner, metadata, and library features into a curator's narrative.",
+        facts_from: ["pitch_bullets", "features", "ecosystem"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A visitor steps through a gilded gate into a salon where every film, beautifully curated, blooms on the wall.",
+    sections: [
+      { id: "garden-opens", source: "copy_overlay.hero", treatment: "Full-bleed Art Nouveau frame with Lily gesturing into the garden; the headline emerges as if hand-lettered on vellum.", weight: "hero" },
+      { id: "blooming-features", source: "feature_casting", treatment: "Three hand-painted botanical panels, each showcasing a core feature (SyncPlay, Library, Transcoding) as if they were pages in an illuminated manuscript.", weight: "major" },
+      { id: "why-tend", source: "story", treatment: "The brand story styled as a sepia-toned salon anecdote, set in an ornate frame with peacock-feather corner decorations.", weight: "major" },
+      { id: "who-trusts", source: "proof_strategy", treatment: "Gentle trust signals presented as a lobby placard: client silhouettes, GitHub stars count, and a single true quote from the docs.", weight: "minor" },
+      { id: "enter-now", source: "conversion_funnel", treatment: "Closing bronze-framed CTA: 'Step through the garden gate' beside a one-line install snippet, as if the visitor is finally ready to begin.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "illuminated-manuscript",
+      spec: "Lay each feature as a full-page Mucha-style panel with its icon as a large illuminated ornament, the body text flowing like calligraphy, surrounded by a botanical vine border frame.",
+    },
+    clients: {
+      template: "gallery-wall",
+      spec: "Each client is a framed painting on the wall: a simplified device silhouette in the kit's palette, the name in Cormorant Garamond, status as a small ribbon badge, and highlights as curled-parchment scroll text.",
+    },
+    download: {
+      template: "salon-entrance",
+      spec: "Frame the page as a salon front-desk: the server install is the 'admission ticket' (a brass-trimmed code card), clients are the 'lounge choices' (comfortable seating options), ecosystem is the 'reference library' shelf.",
+    },
+    about: {
+      template: "tea-room-chat",
+      spec: "Tell the story as if Lily and the visitor are in an intimate salon tea room: Philosophy and License as two separate framed artworks on the wall, Contributing as an invitation card, FAQ as a conversation-style Q&A in Lily's gracious voice.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your collection blooms into being — every film finds its place, beautifully organized, waiting for the evening's choice." },
+      { id: "syncplay", angle: "Movie night stays in perfect rhythm. Press play once; every room moves together as if they were one garden, one screen." },
+    ],
+    support: ["transcode", "auth", "dlna", "hub"],
+    footnote: ["livetv", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Your living room as a belle époque salon",
+      headline: "Where the Garden Blooms, the Story Begins.",
+      subheadline: "Curate your film collection in an ornate interface that feels like stepping into a Mucha painting. Every evening is an opening night.",
+      primary_cta: { label: "Step Through the Garden Gate" },
+      secondary_cta: { label: "Wander the Gallery" },
+    },
+    section_headings: {
+      pitch: "Why tend a garden at home?",
+      features: "The Gallery Unfolds",
+      cta_banner: "Your salon awaits. The lantern is lit.",
+    },
+    footer_tagline: "Cultivate beauty, frame by frame.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "botanical-frame-list",
+    faq: "salon-conversation",
+    clients: "gallery-wall",
+    ecosystem: "library-shelf",
+  },
+
+  faq_experience: {
+    frame: "salon-conversation",
+    persona: "Lily, the serene curator, answering a visitor's questions as if they were seated in her ornate salon.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this garden bloom on my old television?", maps_to: "formats" },
+      { q: "Do I have to open my walls to the whole outside world?", maps_to: "expose-internet" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Evening in the Salon",
+      scene: "A collector sits in a high-backed velvet chair, library open on the screen, wine in hand, choosing which film to frame the evening.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Synchronized Dusk",
+      scene: "Two households, two cities, one shared love of film—pressing play at the same moment, their viewing locked together as if Lily were conducting them both.",
+      surfaces: ["SyncPlay interface", "media player", "hub connection screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Children's Afternoon",
+      scene: "Young viewers open their own sheltered section, carefully curated, the ratings filter respecting parental boundaries, DLNA carrying the stream to the old TV in their room.",
+      surfaces: ["profile picker", "media library grid"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered salon diorama: Lily stands center in her garden, peacock feathers and vine tendrils flowing on parallax as the pointer/scroll shifts. The gilded frame edges bloom into view; aged-gold light from the lantern warms the background.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single static ornate Art Nouveau frame illustration with Lily in the center, the headline already displayed in the frame's banner, subheadline below, and both CTAs baked as static buttons — the full hero experience frozen in a painted moment.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A gilded topbar with aged-gold vine flourishes between the navigation links. The active link is underlined with a small blossom motif and glows softly in aged gold, as if Lily has just guided the visitor to this room.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain semantic <nav> list of the same labeled links, fully keyboard reachable via Tab, collapsing to a labeled hamburger on mobile (aria-expanded managed, close on Esc).",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives as if turning a page in an illuminated manuscript — a soft vellum-fade transition and a faint vine motif border that unfurls top-to-bottom as the section scrolls into frame.",
+    reduced_motion: "Under prefers-reduced-motion the vellum fades and vine unfurls are dropped entirely; the page becomes a plain instant scroll with visible section boundaries (thin sage dividers).",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:3",
+      effect: "The logo blooms: a Mucha-style vine unfurls around it, petals scatter briefly, and Lily appears in the corner with a knowing smile.",
+      reward_copy: "The garden remembers the curious visitor.",
+      exit: "The vines settle on their own after ~3s, or press Esc to restore.",
+    },
+    {
+      trigger: "typed-word:garden",
+      effect: "The word 'garden' triggers a gentle peacock-feather shimmer across the background and a soft harp glissando.",
+      reward_copy: "You speak the garden's language.",
+      exit: "Press any key or Esc to return to normal.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a visitor from admiration into the act of installing and opening their salon.",
+    cta_ladder: [
+      { step: 1, cta: "Step Through the Garden Gate",       target: "download" },
+      { step: 2, cta: "Choose Your Room",                   target: "clients" },
+      { step: 3, cta: "Light the Lantern (install server)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a salon entrance: 'Three small steps to your opening night' framing the server install (the brass-trimmed admission ticket), then the client lounge choices, then the reference ecosystem shelf.",
+    friction_notes: "A design-conscious, aesthetically-driven audience who value beauty and craftsmanship. They will invest time if the experience is refined; keep the steps minimal and lyrical, never technical or rushed.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A framed salon placard listing real capabilities: 5 native clients (Roku, Tizen, Windows, Mobile, DLNA), SyncPlay with NTP sync over any network, HLS + FFmpeg adaptive transcoding." },
+      { type: "github", format: "A modest 'from the workshop' line crediting phlix-server with live GitHub star count (no invented numbers — live data only)." },
+      { type: "quotes-from-docs", format: "One true, verbatim line from the official docs about self-hosting freedom, set in a small ornate frame as if Lily had handwritten it." },
+    ],
+    placement: "A gentle 'quietly trusted' section between the hero features and the closing salon entrance CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of evening are you here for?",
+    paths: [
+      { id: "film-curator",    label: "I love curating films",      target: "features#library", emphasis: ["library", "transcode"] },
+      { id: "sync-storyteller", label: "I want to sync with others", target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+      { id: "tinkerer",        label: "I like to tinker",           target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "literary",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 85 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the lights (calm mode)",
+    affects: ["animation", "parallax_depth", "scroll_transitions", "ornamental_detail"],
+    default: "full",
+    placement: "A small toggle in the footer, beside the reduced-motion note, as if Lily is offering to quiet the garden for a gentler visit.",
+  },
+
+  error_page_experience: {
+    concept: "Lily stands in an empty garden frame labeled 'This blossom has faded (or never bloomed)', holding a wilted petal and gesturing back toward the salon with an apologetic, gracious expression. 'Shall we return to the gallery?'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

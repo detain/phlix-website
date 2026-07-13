@@ -543,6 +543,53 @@ const brandKit = {
       "Looking down curiously at an empty library",
     ],
     expressions: ["Joyful glow", "Curious dim flicker", "Excited bright pulse", "Serene steady light"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Lumen as an interactive companion guide throughout the site — a warm presence
+    // that lights the way and shares wisdom about gathering together.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small floating lantern; appears on home, download, " +
+        "and about pages — never on content-heavy pages like features or FAQ to avoid " +
+        "distraction during reading.",
+      idle:
+        "Lumen gently bobs up and down (rising, then settling) with a soft pulsing glow " +
+        "that brightens and dims like a lantern breathing. Every 8 seconds, the tassel " +
+        "sways as if caught by a warm breeze. Idle animation is completely disabled under " +
+        "prefers-reduced-motion (Lumen simply floats, stable, with no motion at all).",
+      tips: [
+        {
+          where: "home:#hero",
+          say: "Light the lantern — your gathering is about to begin.",
+        },
+        {
+          where: "home:.features-overview",
+          say: "Every lantern burns brighter when shared — gather your friends and watch together with SyncPlay.",
+        },
+        {
+          where: "download:#server",
+          say: "One line and your lantern rises into the sky. I'll light the way from here.",
+        },
+        {
+          where: "about:.faq-list",
+          say: "Questions before the feast? I've kept the answers warm for you.",
+        },
+      ],
+      easter_interactions: [
+        {
+          trigger: "click:5",
+          react: "Lumen flares brilliantly and releases a small burst of golden particle fireworks, then settles with a satisfied glow.",
+        },
+        {
+          trigger: "hover-hold:2s",
+          react: "Lumen tilts gently and whispers 'You're invited to the festival whenever you're ready — press play anytime.'",
+        },
+      ],
+      dismiss:
+        "A small, warm 'Lumen, rest a moment' close button tucks Lumen behind a " +
+        "decorative cloud-scroll frame; the dismissed state persists via localStorage " +
+        "so Lumen stays out of the way until cleared.",
+    },
   },
 
   /* ==========================================================================
@@ -1093,6 +1140,21 @@ const brandKit = {
   ],
 
   /* ==========================================================================
+   * 20A. SEASONAL ACTIVATION
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/lunar-new-year-lanterns.svg",
+      "img/seasonal/mid-autumn-moon.svg",
+      "img/seasonal/spring-blossom-drift.svg",
+      "img/seasonal/dragon-boat-river.svg",
+    ],
+    banner: "The festival is here — gather together and let the lanterns glow.",
+  },
+
+  /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
 
@@ -1284,6 +1346,235 @@ const brandKit = {
         "A slow festival experience breaks the warmth as effectively as the wrong " +
         "palette. The glow must load as quickly as it burns.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Gathering Square",    emphasis: "default" },
+      { id: "features", label: "Festival Attractions", emphasis: "primary" },
+      { id: "clients",  label: "Viewing Pavilions",   emphasis: "default" },
+      { id: "download", label: "Light a Lantern",     emphasis: "primary" },
+      { id: "hub",      label: "Distant Glow",        emphasis: "default" },
+      { id: "about",    label: "Festival Story",      emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugins are artisan lantern-makers — a special interest, not the main gathering.", fold_into: "features" },
+      { id: "docs",    reason: "Reference lives in a quiet corner (the footer), honoring those deep in study." },
+    ],
+    extra_pages: [
+      {
+        id: "gathering-guide",
+        title: "How to Host a Watch Party",
+        purpose: "A warm walkthrough turning product facts into a gathering setup ritual — from lighting the lantern to syncing every screen.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  // ── homepage_narrative ──────────────────────────────────────────────────────
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A thousand lanterns rise into the night, casting warm light on shared moments — your home becomes the festival.",
+    sections: [
+      { id: "lantern-sky",     source: "copy_overlay.hero", treatment: "Full-bleed lantern-festival hero with rising lanterns and a glowing headline.", weight: "hero" },
+      { id: "attraction-stage", source: "feature_casting",   treatment: "Two featured attractions (syncplay + library) as painted one-sheet posters on a festival wall.", weight: "major" },
+      { id: "gathering-warmth", source: "story",             treatment: "Value props styled as a scroll unfurling — the warmth and togetherness of the lantern tradition.", weight: "major" },
+      { id: "trust-lanterns",   source: "proof_strategy",    treatment: "Real capabilities (native clients, SyncPlay reliability, GitHub stars) as glowing lantern placard.", weight: "minor" },
+      { id: "light-your-lantern", source: "conversion_funnel", treatment: "Closing CTA: 'Light your lantern tonight — one line to start the festival.'", weight: "major" },
+    ],
+  },
+
+  // ── page_blueprints ─────────────────────────────────────────────────────────
+  page_blueprints: {
+    features: {
+      template: "paper-cut-gallery",
+      spec: "Lay features as a gallery of paper-cut silhouette panels mounted on a festival wall — each feature is a lit display case with icon, title, body, and a glowing border.",
+    },
+    clients: {
+      template: "pavilion-lineup",
+      spec: "Each client platform is a viewing pavilion — a distinct station in the festival grounds. Roku is the grand stage pavilion, Samsung Tizen the garden pavilion, Windows the scholar's study pavilion, Mobile the night-market stall, DLNA the ancient temple. Bespoke persona per pavilion.",
+    },
+    download: {
+      template: "lantern-lighting",
+      spec: "The Download page is a 'lighting ceremony' — the server install is the core flame, client choices are the lanterns you light around it, ecosystem links are the craftspeople and materials.",
+    },
+    about: {
+      template: "festival-scroll",
+      spec: "Tell the founding story as an unfurling festival scroll — chapters (Philosophy, License, Contributing) as lit sections, ending with Lumen answering the FAQ as a 'lantern keeper's wisdom' section.",
+    },
+  },
+
+  // ── feature_casting ─────────────────────────────────────────────────────────
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every seat, the same frame — togetherness across rooms and across the world." },
+      { id: "library",  angle: "Your collection, your festival — add a file and watch it rise into the sky." },
+    ],
+    support: ["transcode", "livetv", "auth", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  // ── copy_overlay ────────────────────────────────────────────────────────────
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted, community gathered",
+      headline: "Every Night, a Celebration.",
+      subheadline: "Dim the lights and release the lanterns — your whole library streams to every screen, and everyone stays in perfect sync. No third-party gaze, no ads interrupting the festival. Just the warmth of watching together.",
+      primary_cta: { label: "Light a Lantern" },
+      secondary_cta: { label: "Explore the Festival" },
+    },
+    section_headings: {
+      pitch: "Why gather here?",
+      features: "Festival Attractions",
+      cta_banner: "The festival is calling — light your lantern and begin.",
+    },
+    footer_tagline: "Open-source media, shared in warmth.",
+  },
+
+  // ── copy_treatments ─────────────────────────────────────────────────────────
+  copy_treatments: {
+    pitch_bullets: "lantern-lights",      // each value prop glows as a lit lantern in the darkness
+    faq: "lantern-keeper-wisdom",         // FAQ framed as a wise keeper's accumulated knowledge
+    clients: "pavilion-lineup",           // each client platform as a distinct gathering pavilion
+    ecosystem: "craftspeople-guild",      // ecosystem repos as a guild of makers
+  },
+
+  // ── faq_experience ──────────────────────────────────────────────────────────
+  faq_experience: {
+    frame: "lantern-keeper-wisdom",
+    persona: "Lumen the Lantern Keeper — a wise, generous presence who has tended the festival for generations and answers each question with the warmth of lived tradition.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this glow on my old television?", maps_to: "formats" },
+      { q: "Do I have to open my home to strangers on the internet?", maps_to: "expose-internet" },
+      { q: "Can my friends watch from their own houses?", maps_to: "expose-internet" },
+    ],
+  },
+
+  // ── persona_vignettes ───────────────────────────────────────────────────────
+  persona_vignettes: [
+    {
+      name: "Multigenerational Movie Night",
+      scene: "Grandparents, parents, and grandchildren pile onto the couch; one tap dims the room and the family's collection fills the big screen, every device locked together in perfect sync.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "syncplay"],
+    },
+    {
+      name: "Long-Distance Festival",
+      scene: "Two households, three time zones, one film — at 7pm every household hits play and the same frame flows across three screens a thousand miles apart, everyone gathered despite the distance.",
+      surfaces: ["hub connect screen", "media player", "SyncPlay status"],
+      features_shown: ["hub", "syncplay", "auth"],
+    },
+    {
+      name: "Saturday Morning Cartoons",
+      scene: "The kids' profile opens to their own shelf with content ratings locked down; the old smart TV picks up the feed via DLNA without needing a new app, and the show starts mid-episode where they left off.",
+      surfaces: ["profile picker", "media library grid", "legacy TV display"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  // ── hero_experience ─────────────────────────────────────────────────────────
+  hero_experience: {
+    mode: "floating-lanterns",
+    spec: "The hero is a full-bleed East Asian lantern festival night scene. Hundreds of silk lanterns float upward from the bottom as the page loads, with subtle parallax on scroll/pointer movement. The headline and CTAs are overlaid on the glowing sky, and Lumen the mascot gently bobs to one side, casting a warm light on the calls-to-action.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single luminous painted festival illustration with lanterns already released into a starlit sky, the headline, subheadline, and both CTAs rendered as static text overlays on the glowing scene.",
+    js_budget_kb: 7,
+  },
+
+  // ── navigation_model ────────────────────────────────────────────────────────
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm topbar with the Phlix wordmark (Noto Serif SC in pearl white with a faint gold shadow) at the left, then the nav links separated by small golden lantern-tassel glyphs. The active link glows with a gold underline and a faint halo, as if lit from within.",
+    keyboard: null,
+    fallback: "The topbar IS the fully accessible nav — a plain semantic <nav> with an unordered list of the same links, collapsing to a labeled hamburger menu on mobile. All links keyboard reachable with visible gold focus ring (2px ring + 4px gold halo).",
+  },
+
+  // ── scroll_experience ───────────────────────────────────────────────────────
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a new act at the festival — as the section scrolls into view, a soft paper-cut wipe animation reveals it (like opening a lantern paper screen), with a faint 'lantern bloom' glow around the entering content.",
+    reduced_motion: "Under prefers-reduced-motion, the paper-cut wipes and glows are dropped entirely; the page becomes plain continuous scroll with no transition effects.",
+  },
+
+  // ── easter_eggs ─────────────────────────────────────────────────────────────
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Lumen flares brilliantly, releases a burst of golden particles (3–5 tiny sparks radiating outward), and a faint cheer echoes in the distance.",
+      reward_copy: "The lanterns approve! You've found the festival's heart.",
+      exit: "The particles settle on their own after 3s, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:lantern",
+      effect: "The screen's lantern-glow shadows briefly intensify, and a small paper-cut lantern silhouette drifts gently down from the top of the viewport.",
+      reward_copy: "You know the magic word — welcome, friend.",
+      exit: "Press Esc (or type any other sequence) to dismiss the lantern.",
+    },
+  ],
+
+  // ── conversion_funnel ───────────────────────────────────────────────────────
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Walk a first-time host from curiosity to running the server and opening the home library.",
+    cta_ladder: [
+      { step: 1, cta: "Light a Lantern",       target: "download" },
+      { step: 2, cta: "Choose Your Pavilion",  target: "clients" },
+      { step: 3, cta: "Start the Ceremony",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a 'lighting ceremony': a warm 'One flame to start the festival' header over the one-line server install (framed as the core lantern), then pavilion choices below (your client lanterns), and the craftspeople (ecosystem links) at the bottom.",
+    friction_notes: "A warm, multi-generational family audience — keep it joyful and communal, never technical or cold. The install one-liner is framed as 'the easiest part of the celebration.'",
+  },
+
+  // ── proof_strategy ──────────────────────────────────────────────────────────
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A glowing festival placard listing verifiable capabilities: 5 native pavilions (Roku, Samsung Tizen, Windows, Mobile, DLNA), SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding — real numbers from content.json." },
+      { type: "github",           format: "A modest 'from the projection booth' row linking the phlix-server repo with live star and issue counts (never hard-coded) — the real heartbeat of the project." },
+      { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the BSD-3-Clause license and docs about self-hosting: 'Your library never leaves your hardware unless you say so' — set as a framed lantern-keeper wisdom card." },
+    ],
+    placement: "A single calm 'lantern keeper's oath' band between the features and the closing CTA, rendered as glowing text on a dark decorative scroll.",
+  },
+
+  // ── visitor_paths ───────────────────────────────────────────────────────────
+  visitor_paths: {
+    prompt: "What kind of gathering brings you here?",
+    paths: [
+      { id: "family-night",    label: "Family movie nights",          target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "collector",       label: "I have a big collection",      target: "features#library",  emphasis: ["library", "transcode", "dlna"] },
+      { id: "tinkerer",        label: "I love to experiment",         target: "features#plugins", emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  // ── experience_archetype ────────────────────────────────────────────────────
+  experience_archetype: "narrative-scroll",
+
+  // ── complexity_profile ───────────────────────────────────────────────────────
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  // ── intensity_toggle ────────────────────────────────────────────────────────
+  intensity_toggle: {
+    label: "Soften the glow",
+    affects: ["animation", "particle-effects", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note; labeled 'Soften the glow' to invite families who prefer a calmer experience.",
+  },
+
+  // ── error_page_experience ───────────────────────────────────────────────────
+  error_page_experience: {
+    concept: "A 'lost in the festival' gag: Lumen stands under an empty pavilion sign reading 'This pavilion is empty (the lanterns haven't arrived yet)', gently pointing the way back to the gathering square, with a warm 'Let's head back to the festival' message.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

@@ -544,6 +544,32 @@ const brandKit = {
       "Darting through a school of smaller fish in a spiral",
     ],
     expressions: ["Delighted", "Curious", "Beckoning", "Serene in motion"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Turn Koa from static art into an on-page companion: placement, idle animation,
+    // contextual tips keyed to page anchors, playful interactions, and dismissal.
+    behavior: {
+      placement:
+        "Lower-right corner as a small swimming angelfish; appears on Home, Download, " +
+        "and Clients — never on docs/reference reading pages; scales 60% on mobile.",
+      idle:
+        "Koa drifts gently side-to-side in a slow figure-eight loop, fins trailing shimmer; " +
+        "occasionally rolls mid-swim as if catching sunlight. Idle motion is disabled under " +
+        "prefers-reduced-motion (Koa simply floats in place, fins still).",
+      tips: [
+        { where: "home:#hero",              say: "Follow me — paradise is just a dive away." },
+        { where: "home:.features-overview", say: "Watch how your whole library flows across every room — that's SyncPlay." },
+        { where: "clients:#section",        say: "Pick your screen; Koa follows everywhere you go." },
+        { where: "download:#server",        say: "One line opens the lagoon. I'll light the way home." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Koa does a delighted spiral, trailing turquoise shimmer in an arc." },
+        { trigger: "hover-hold:2s", react: "A small school of iridescent fish swims past; Koa gestures to follow them." },
+      ],
+      dismiss:
+        "A small coral 'x' button tucks Koa behind a reef; the dismissed state persists via " +
+        "localStorage so they stay out of the way.",
+    },
   },
 
   /* ==========================================================================
@@ -1083,6 +1109,21 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Declares whether the seasonal_variants above ship live or stay documentation-only.
+  // "live-js" means a lightweight date-gate flips the override tokens and enables the
+  // motif while the current date falls inside a variant's active_range.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/monsoon-rain-palm.svg",
+      "img/seasonal/coral-spawn-particles.svg",
+      "img/seasonal/beach-christmas-lights.svg",
+    ],
+    banner:
+      "Now showing: Tropical Lagoon shifts with the seasons. Monsoon rains, coral bloom, and beach-Christmas lights await.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1279,6 +1320,297 @@ const brandKit = {
         "The escape feeling requires instant arrival — slow load is the opposite " +
         "of paradise. Performance is a core part of the tropical delight.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  // The Tropical Lagoon site architecture emphasizes simplicity and escape — fewer
+  // navigation decisions, less jargon, more focus on the sensory joy of streaming.
+  // Technical pages (plugins, docs) move to the footer; the main path leads straight
+  // to features, download, and the hub. The audience is adventure travellers and
+  // families, not tinkerers — so the navigation reflects that.
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",           emphasis: "default" },
+      { id: "features", label: "Features",       emphasis: "primary" },
+      { id: "clients",  label: "Download",       emphasis: "primary" },
+      { id: "hub",      label: "Everywhere",     emphasis: "default" },
+      { id: "about",    label: "About",          emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced customization — nice to have, not the main draw for paradise-seekers.", fold_into: "features" },
+      { id: "docs",    reason: "Reference lives in the footer, one click away from the escape experience." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  // ── homepage_narrative ──────────────────────────────────────────────────────
+  // The Tropical Lagoon homepage tells a sensory-first story: arrival → discovery
+  // → proof → conversion. It pulls you in with the feeling first, *then* shows you
+  // what's possible. Arc: "story-first" — start with the paradise feeling.
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "You press play and the world becomes turquoise water, warm light, and endless escape.",
+    sections: [
+      { id: "arrival",      source: "copy_overlay.hero", treatment: "Full-bleed lagoon hero: caustic light animates gently as the headline fades in over turquoise water.", weight: "hero" },
+      { id: "discovery",    source: "feature_casting",   treatment: "Two featured elements — Library and SyncPlay — cast as tropical cards floating on the lagoon surface.", weight: "major" },
+      { id: "paradise-flow", source: "story",            treatment: "Why Phlix value props styled as lagoon ripples expanding outward — each prop a concentric ring of abundance.", weight: "major" },
+      { id: "reef-trust",   source: "proof_strategy",    treatment: "Proof signals rendered as reef markers — real stars, real adoption, real self-hosting power.", weight: "minor" },
+      { id: "dive-in",      source: "conversion_funnel", treatment: "Closing CTA banner: 'Dive in' beside the server one-liner, styled as a coral-framed entry into paradise.", weight: "major" },
+    ],
+  },
+
+  // ── page_blueprints ─────────────────────────────────────────────────────────
+  // Each blueprint defines the structural template for a page's DOM. These are the
+  // "what is this page" specs — layout, section order, composition rules. (Styling
+  // is governed by §13 layout_patterns and the CSS.) Tropical Lagoon uses organic,
+  // flowing templates: water-surface compositions, coral-card grids, lagoon-depth
+  // layering, and tropical imagery frames.
+  page_blueprints: {
+    features: {
+      template: "lagoon-surface-cards",
+      spec: "Lay the features out as luminous cards floating on a turquoise lagoon surface — each a tropical card with a rounded shape, an icon lit by turquoise glow, and a one-line summary. Include Support features in the main grid; push Footnote features (plugins, dlna) to a secondary 'Explore More' section below.",
+    },
+    clients: {
+      template: "coral-reef-display",
+      spec: "Present each client as a distinct coral-reef niche: Roku = 'The Great Room Reef' (family theatre niche), Tizen = 'The Smart TV Shelf' (ambient presence), Windows = 'The Home Office Lagoon' (personal immersion), Mobile = 'On the Go' (shallow water, beta label), DLNA = 'Any Device Zone' (legacy integration). Each gets a distinct colour accent and tropical emoji/icon motif reflecting its use-case.",
+    },
+    download: {
+      template: "beach-entrance",
+      spec: "Frame as a beach entry sequence: Server install snippet as the 'wade in' step (PHP 8.3+ in a warm-tinted code block), Client cards as distinct tropical-device families, Ecosystem links as 'bring your own adventure' (indie repos). Each section is a gently layered depth, like moving from shore into the lagoon.",
+    },
+    about: {
+      template: "wave-scroll-narrative",
+      spec: "Tell the founding philosophy as a scrolling wave of chapters (Philosophy = 'the colour we chose', License = 'freedom to use', Contributing = 'join the reef'). FAQ becomes a 'Koa's Q&A Lodge' where the mascot answers visitor questions. Each section breaks with a subtle lagoon-ripple divider.",
+    },
+  },
+
+  // ── feature_casting ─────────────────────────────────────────────────────────
+  // Tropical Lagoon casts features to emphasize the sense of freedom and discovery.
+  // Hero features are those that deliver the "escape" feeling (Library = your library
+  // taking its place; SyncPlay = freedom to sync across rooms). Support features show
+  // the depth (transcode, hub, auth). Footnote features are the advanced stuff.
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your whole library rises from the ocean floor, ready to be explored." },
+      { id: "syncplay", angle: "Every screen, every room, every heart beats to the same frame — no lag, no frustration." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  // ── copy_overlay ────────────────────────────────────────────────────────────
+  // Tropical Lagoon re-voices the presentation copy to feel like an invitation to
+  // paradise. The facts stay locked to content.json (features, specs, links, claims);
+  // only the presentation copy is overlaid with warmth, sensory detail, and water
+  // vocabulary.
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted freedom",
+      headline: "Your library. Your lagoon.",
+      subheadline: "Stream to every screen in your home without a cloud, without a camera, without compromise — and reach your library from anywhere, through Phlix Hub.",
+      primary_cta: { label: "Dive In" },
+      secondary_cta: { label: "Explore the Reef" },
+    },
+    section_headings: {
+      pitch: "Why Tropical Lagoon?",
+      features: "Discover the Ecosystem",
+      cta_banner: "The water's perfect. Let's dive in.",
+    },
+    footer_tagline: "Your media, your rules, forever free.",
+  },
+
+  // ── copy_treatments ─────────────────────────────────────────────────────────
+  // Tropical Lagoon renders shared content blocks in branded, organic containers.
+  // Same facts, warmer presentation. Each treatment keeps the voice and metaphor
+  // consistent with the lagoon aesthetic.
+  copy_treatments: {
+    pitch_bullets: "wave-expansion",      // each value prop expands like a lagoon ripple from center
+    faq: "reef-lodge-qa",                 // FAQ rendered as Koa answering questions in a tropical lodge setting
+    clients: "reef-niches",               // clients as distinct ecological niches within the reef
+    ecosystem: "driftwood-shelf",         // repos arranged like driftwood branches on a beach shelf
+  },
+
+  // ── faq_experience ──────────────────────────────────────────────────────────
+  // Tropical Lagoon frames the FAQ as Koa (the angelfish mascot) answering visitor
+  // questions. Koa is the curious guide — it has explored every reef, knows every
+  // hidden feature, and delights in sharing discoveries. The persona carries through:
+  // warm, inviting, specific, never corporate.
+  faq_experience: {
+    frame: "reef-lodge-qa",
+    persona: "Koa the angelfish, perched in the reef lodge, answering visitor notes with warmth and specific detail.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will Phlix work with the old TV in the living room?", maps_to: "formats" },
+      { q: "Do I have to give up my privacy to use this?", maps_to: "expose-internet" },
+      { q: "Can I make Phlix do weird things with plugins?", maps_to: "plugins" },
+    ],
+  },
+
+  // ── persona_vignettes ───────────────────────────────────────────────────────
+  // Tropical Lagoon's personas are vacation scenarios — moments of escape and
+  // freedom. These vignettes guide what surfaces and features get illustrated,
+  // so the mocked-up UI feels like real tropical life, not a corporate dashboard.
+  persona_vignettes: [
+    {
+      name: "The Island Escape",
+      scene: "You've rented a beach bungalow for two weeks; your whole film collection streams to the lanai at golden hour, no setup fuss, just press play.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Reef Exploration",
+      scene: "Family vacation, three households, one server back home — SyncPlay keeps everyone locked to the same frame across three different time zones and three different living rooms.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "Lagoon-Side Live TV",
+      scene: "Sunset, a cold drink, your old smart TV picks up the EPG guide over DLNA — no app needed, just Phlix reaching back home.",
+      surfaces: ["Live TV EPG", "media library", "client device list"],
+      features_shown: ["livetv", "dlna"],
+    },
+  ],
+
+  // ── hero_experience ─────────────────────────────────────────────────────────
+  // The hero section is an interactive lagoon surface. Caustic light (underwater
+  // sunlight patterns) animate gently over a turquoise depth; the headline fades in
+  // as the light reaches its brightest point. On scroll, the lagoon deepens slightly.
+  // Fallback (no-JS, reduced-motion) is a static painted lagoon with the same copy.
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered lagoon diorama — deep teal background + animated caustic-light shimmer overlay + headline fading in on top. On scroll/pointer move, the water depth and light intensity shift subtly, as if you're diving deeper. The whole thing feels like you're submerged and looking up at the surface.",
+    suggested_inputs: ["pointer y-position", "scroll offset"],
+    fallback: "A single painted lagoon scene (deep turquoise water, caustic light at the surface, turquoise sky above) with the identical headline, subheadline, and both CTAs baked into the static markup. Full information is present without any interactivity.",
+    js_budget_kb: 5,
+  },
+
+  // ── navigation_model ────────────────────────────────────────────────────────
+  // Tropical Lagoon uses a warm, accessible topbar nav with a subtle turquoise
+  // color underline on hover. The logo sits at left; nav links flow at right. On
+  // mobile, it collapses to a hamburger. The fallback is a standard, fully accessible
+  // `<nav>` list — same links, keyboard-reachable, screen-reader friendly.
+  navigation_model: {
+    mode: "topbar",
+    spec: "A clean, minimal topbar: brand logo at left, nav links at right. Active link underline in lagoon turquoise. Hover links warm up slightly. On mobile, a hamburger button expands to a full-width nav drawer.",
+    keyboard: "Tab through nav links; Enter/Space activates. Standard HTML nav, fully keyboard-navigable.",
+    fallback: "The topbar IS the standard accessible nav — a semantic `<nav>` with a `<ul>` of links, full keyboard reachability (Tab, Enter), `aria-current='page'` on the active link, and a labeled hamburger button that toggles `aria-expanded` on mobile. No fancy JS required; the fallback is the actual nav.",
+  },
+
+  // ── scroll_experience ───────────────────────────────────────────────────────
+  // Tropical Lagoon's page rhythm is a continuous flow, like moving through layers
+  // of water at different depths. Sections don't 'jump' or 'wipe' — they emerge
+  // gently from below. Under prefers-reduced-motion, all animation is dropped and
+  // the page becomes a plain, instant continuous scroll.
+  scroll_experience: {
+    mode: "continuous",
+    spec: "As you scroll, each section gently fades in from below (like rising from deeper water toward the surface). A subtle depth-of-field blur on out-of-viewport sections hints at the water around you. The whole page feels immersive, not just a list.",
+    reduced_motion: "Under prefers-reduced-motion, all fade-in and blur effects are removed. Sections appear instantly as they scroll into view. The page becomes a plain, linear, instant continuous scroll with no animation whatsoever.",
+  },
+
+  // ── easter_eggs ─────────────────────────────────────────────────────────────
+  // Tropical Lagoon hides delightful tropical surprises. Koa can be triggered,
+  // tropical sounds play on discovery, and hidden words unlock easter interactions.
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Koa does a joyful spiral, trailing a school of iridescent fish across the screen. A distant steel-drum note plays.",
+      reward_copy: "You've found Koa's secret dance!",
+      exit: "The fish school swims off after ~4s, or press Esc to dismiss them immediately.",
+    },
+    {
+      trigger: "typed-word:paradise",
+      effect: "The page background flashes briefly turquoise, and a faint tropical bird call plays. Koa nudges a word on screen and winks.",
+      reward_copy: "You're thinking like a Tropical Lagoon user already.",
+      exit: "Press Esc (or type any other key) to restore the normal page.",
+    },
+  ],
+
+  // ── conversion_funnel ───────────────────────────────────────────────────────
+  // Tropical Lagoon's download journey is framed as a gradual dive into the ocean.
+  // The steps are few and warm — this audience (families, adventure travellers)
+  // tolerates minimal friction. No jargon walls; just "the easy part" framing.
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time self-hoster to run the server and open their library.",
+    cta_ladder: [
+      { step: 1, cta: "Dive In",              target: "download" },
+      { step: 2, cta: "Pick Your Screen",     target: "clients" },
+      { step: 3, cta: "Run the Server",       target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a warm 'Three breaths to paradise' header. The server one-liner is framed as 'the easiest part' in a welcoming code block, then client cards below, then ecosystem links as 'bring your own adventure'.",
+    friction_notes: "Warm, non-technical family audience — keep steps few, minimal jargon, maximum encouragement. Emphasize how easy it is; frame the install snippet as 'one line and you're in control.'",
+  },
+
+  // ── proof_strategy ──────────────────────────────────────────────────────────
+  // Tropical Lagoon's proof signals are reef markers — real, verifiable evidence
+  // of depth and worth. Real feature counts, real stars/adoption from GitHub,
+  // real self-hosting independence. No invented testimonials.
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A reef-marker placard: '8 native features — library, syncplay, transcode, auth, livetv, dlna, plugins, hub — all yours, all hosted by you.'" },
+      { type: "github",           format: "A modest reef-stone with live GitHub stats: real phlix-server stars, real issues, real community — 'from the depths of a small reef, watched by wanderers everywhere.'" },
+      { type: "quotes-from-docs", format: "One true line from the docs: '100% self-hostable — your library never leaves your hardware unless you say so' — set in a coral-framed lodge-card quote." },
+    ],
+    placement: "A single warm 'reef of trust' band between the features and the closing dive-in CTA — just enough proof to feel real, not a wall of claims.",
+  },
+
+  // ── visitor_paths ───────────────────────────────────────────────────────────
+  // Tropical Lagoon offers a gentle fork — three ways to explore paradise based on
+  // what the visitor came for. Each path emphasizes different features. A true
+  // choice, but all paths lead to joy.
+  visitor_paths: {
+    prompt: "What kind of escape are you looking for?",
+    paths: [
+      { id: "family-night",   label: "Family movie nights at home",       target: "features#library", emphasis: ["library", "syncplay", "auth"] },
+      { id: "whole-house",    label: "Streaming to every room",           target: "features#syncplay", emphasis: ["syncplay", "transcode", "auth"] },
+      { id: "on-the-go",      label: "My library, everywhere I travel",   target: "hub", emphasis: ["hub", "transcode", "auth"] },
+    ],
+  },
+
+  // ── experience_archetype ────────────────────────────────────────────────────
+  // Tropical Lagoon's declared experience model is "immersive" — the whole site
+  // wraps you in a sensory environment. Not minimal (too spare), not grid-based
+  // (too functional) — immersive, like you're actually in a tropical lagoon.
+  // This aligns with the Innocent archetype (warmth, sensory detail, abundance).
+  experience_archetype: "immersive",
+
+  // ── complexity_profile ──────────────────────────────────────────────────────
+  // Tropical Lagoon's information density is minimal to standard — the audience
+  // (families, adventure travellers) wants simplicity. Plain language throughout;
+  // any jargon (FFmpeg, HLS, NTP) gets a gentle plain-language translation in a
+  // `<details>` expander. Word budget is generous but not excessive — room to breathe.
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  // ── intensity_toggle ────────────────────────────────────────────────────────
+  // Tropical Lagoon's default mode is already pretty gentle (no harsh animations,
+  // warm colours), but for visitors who want ultra-calm, this toggle tones down
+  // the caustic light animation and reduces scroll-triggered fades to instant
+  // visibility. A "Still Water" mode for meditation-mode browsing.
+  intensity_toggle: {
+    label: "Still Water",
+    affects: ["caustic-light-animation→static", "scroll-fade→instant", "hero-parallax→static"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, styled as a water-droplet icon with on/off text.",
+  },
+
+  // ── error_page_experience ───────────────────────────────────────────────────
+  // Tropical Lagoon's 404 concept is a gentle, warm gag: you've swum to a reef
+  // that doesn't exist yet — a beautiful, empty lagoon where Koa floats and points
+  // the way back home. The concept is documented here; actual per-kit 404 shipping
+  // requires future build-tooling work (GitHub Pages path-sniffing shim).
+  error_page_experience: {
+    concept: "A serene empty lagoon scene: Koa floats in impossibly clear turquoise water, looking at you with a curious tilt. Text: 'This reef is still being explored. Let's head back to the shore.' Koa gestures toward home.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

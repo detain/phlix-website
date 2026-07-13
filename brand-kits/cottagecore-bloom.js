@@ -522,6 +522,29 @@ const brandKit = {
       "Peering curiously at a pressed flower in an open book",
     ],
     expressions: ["Delighted", "Curious", "Quietly content", "Gently industrious"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small hovering figure with folded wings; appears on Home, " +
+        "Features, Download, and About — never on dense documentation pages where focus matters most.",
+      idle:
+        "Primrose slowly drifts up and down as if riding an air current, occasionally " +
+        "pivoting left to right as if scanning for flowers; idle motion is disabled under " +
+        "prefers-reduced-motion (Primrose simply hovers still).",
+      tips: [
+        { where: "home:#hero",              say: "Come in through the garden gate — there's always something wonderful blooming." },
+        { where: "home:.features-overview", say: "Each of these blooms does something special. Hover to see what makes it grow." },
+        { where: "features:.feature-grid",  say: "I've visited every corner of this garden — take your time, pick what speaks to you." },
+        { where: "download:#server",        say: "One line, and your own garden begins. I'll help it grow." },
+        { where: "about:.faq-list",         say: "Questions? Tend to them like I tend the flowers — one petal at a time." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Primrose performs a delighted loop-de-loop and does a little hovering curtsy." },
+        { trigger: "hover-hold:2s", react: "A tiny petal spiral drifts up from Primrose and fades gently away, like a blessing." },
+      ],
+      dismiss:
+        "A small 'Primrose, rest now' close button tucks her back into the garden for a moment; " +
+        "the dismissed state persists via localStorage so she stays tucked until the visitor returns.",
+    },
   },
 
   /* ==========================================================================
@@ -1050,6 +1073,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/harvest-berries-and-leaves.svg",
+      "img/seasonal/midwinter-holly-sprigs.svg",
+      "img/seasonal/spring-blossom-canopy.svg",
+    ],
+    banner: "The garden is blooming in its season — come see what's growing.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1242,6 +1275,224 @@ const brandKit = {
         "A warm, welcoming experience should feel instant — a slow garden gate that " +
         "sticks is still a barrier, however beautiful the garden beyond.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Garden",      emphasis: "primary" },
+      { id: "features", label: "What Grows Here", emphasis: "primary" },
+      { id: "clients",  label: "Guest Rooms",     emphasis: "default" },
+      { id: "download", label: "Start Your Own",  emphasis: "primary" },
+      { id: "hub",      label: "The Gatehouse",   emphasis: "default" },
+      { id: "about",    label: "Our Story",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A specialist's shelf — nice for tinkerers, but off the main garden path for most visitors.", fold_into: "features" },
+      { id: "docs",    reason: "The reference library lives in the footer, always within reach but not in the way of discovery." },
+    ],
+    extra_pages: [
+      {
+        id: "seasons",
+        title: "Blooming Through the Year",
+        purpose: "A warm guide showing how Cottagecore Bloom adapts through spring, summer, autumn, and winter — connecting the product lifecycle to the natural garden calendar.",
+        facts_from: ["seasonal_variants", "tagline_secondary"],
+      },
+    ],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Step through the garden gate and discover your own corner to cultivate — a place where watching feels like home.",
+    sections: [
+      { id: "gate-opens",       source: "copy_overlay.hero", treatment: "Full-bleed cottage garden watercolour hero: a garden gate framed by climbing roses opening to reveal the headline and two CTAs.", weight: "hero" },
+      { id: "why-this-garden",  source: "story",             treatment: "Value props rendered as hand-written garden signs along a winding path.", weight: "major" },
+      { id: "what-blooms",      source: "feature_casting",   treatment: "Feature cards arranged like a seed catalog — each a hand-painted botanical entry with illustrated icon.", weight: "major" },
+      { id: "guest-rooms",      source: "page_blueprints.clients", treatment: "Client devices shown as cozy guest rooms in a cottage — who can visit your garden.", weight: "minor" },
+      { id: "trust-the-keeper", source: "proof_strategy",    treatment: "A modest 'trusted gardeners' placard: real feature counts, community stats, and a genuine line from the docs.", weight: "minor" },
+      { id: "plant-your-seed",  source: "conversion_funnel", treatment: "Closing garden-bed CTA: 'Start your own garden' beside a one-liner install snippet.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "garden-room-tour",
+      spec: "Walk through each feature as a room or corner of the cottage garden — one feature per 'room', illustrated with botanical watercolours and enough breathing room to linger.",
+    },
+    clients: {
+      template: "guest-accommodations",
+      spec: "Present each client as a cozy guest room or cottage parlor where visitors can settle in — each with its own personality and comforts.",
+    },
+    download: {
+      template: "seed-planting",
+      spec: "Frame the page as a planting guide: 'Two simple steps to seed your own garden' — the server install is the soil preparation, client picks are the seed choices.",
+    },
+    about: {
+      template: "garden-journal",
+      spec: "Tell the founding story as pages from a beloved garden journal (Philosophy, License, Contributing) ending with 'Gardeners' Questions' styled as the FAQ.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Every book, film, and song gathers itself as you add it — no cataloging needed, just growth." },
+      { id: "syncplay", angle: "Movie night stays in perfect step across every room — like hearts beating as one." },
+    ],
+    support: ["auth", "transcode", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Your media library, tenderly kept",
+      headline: "Grow Your Garden.",
+      subheadline: "A gentle place for all your stories — books, films, music, and photographs — where everything finds its place and blooms at your pace.",
+      primary_cta: { label: "Start Your Garden" },
+      secondary_cta: { label: "Peek Inside" },
+    },
+    section_headings: {
+      pitch: "Why tend a garden here?",
+      features: "What Blooms in This Garden",
+      cta_banner: "Ready to plant? Come through the gate.",
+    },
+    footer_tagline: "Where Every Story Blooms.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "garden-guideposts",
+    faq: "gardeners-questions",
+    clients: "guest-rooms",
+    ecosystem: "bookshelf",
+  },
+
+  faq_experience: {
+    frame: "gardeners-questions",
+    persona: "The quiet wisdom of the garden itself — patient, grounded, and deeply familiar with what grows.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I grow this in the cloud, or does it need home soil?", maps_to: "expose-internet" },
+      { q: "Will my old TV in the den be happy here?", maps_to: "formats" },
+      { q: "What if I want to build a wall of my own?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Home Gardener",
+      scene: "A quiet evening — tea steaming, the library on the big screen, Primrose hovering peacefully in the corner. One tap, and a film from the personal collection blooms full-screen.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "The Gathering Host",
+      scene: "Saturday night — friends scattered in different rooms, one film chosen, SyncPlay ensuring everyone sees the same frame at the same moment. Togetherness without the same sofa.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub", "livetv"],
+    },
+    {
+      name: "The Seasonal Keeper",
+      scene: "Autumn arrives — the garden shifts its palette, Primrose wears an acorn crown, and the interface blooms in harvest golds. Seasonal content appears on schedule, like flowers returning each year.",
+      surfaces: ["home hero", "seasonal motifs", "media grid"],
+      features_shown: ["library", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered cottage garden diorama — gate frame, climbing roses, distant thatched cottage, foreground garden flowers, and Primrose hovering — parallaxes gently on scroll/pointer. The gate opens and the headline emerges as if stepping through.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single, hand-painted cottage garden watercolour with the gate already open, showing the identical headline, subheadline, and both CTAs baked into the static botanical illustration.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm topbar with garden-gate posts as subtle dividers between nav links; the brand wordmark in Playfair Display paired with a tiny Primrose silhouette; active link gains a soft rose underline and a faint petal glow.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> list of the same links, fully keyboard-reachable via Tab, with ARIA labels for the active state. Collapses to a labeled 'Menu' button (aria-expanded) on mobile, revealing a vertical list.",
+  },
+
+  scroll_experience: {
+    mode: "petal-unfold",
+    spec: "Each homepage section arrives like a flower opening — the previous section gently fades to soft sepia as the new section blooms into full color and visibility, carrying the eye naturally downward through the garden.",
+    reduced_motion: "Under prefers-reduced-motion, the petal-unfold effect is dropped entirely; sections become a plain continuous scroll with instant boundaries and full color from the start.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "click:5",
+      effect: "Primrose performs a delighted spiral loop and a tiny petal shower drifts down across the screen.",
+      reward_copy: "How lovely that you found me!",
+      exit: "The petals settle on their own after ~3s, or press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "typed-word:garden",
+      effect: "The background gains a faint animated honeybee flight path, and Primrose does a quick victory hover-dance.",
+      reward_copy: "This is where it all blooms.",
+      exit: "Press Esc (or type any other key) to return to normal.",
+    },
+    {
+      trigger: "hover-hold:2s",
+      effect: "Hovering on Primrose for 2 seconds reveals a tiny floating message: 'Keep tending.' — then a petal sparkle.",
+      reward_copy: "You found Primrose's secret encouragement.",
+      exit: "Move your cursor away to dismiss.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Walk a first-time visitor from curiosity to planting their own garden in three gentle steps.",
+    cta_ladder: [
+      { step: 1, cta: "Start Your Garden",    target: "download" },
+      { step: 2, cta: "Pick Your Guest Rooms", target: "clients" },
+      { step: 3, cta: "Plant the Seeds",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a warm 'Three steps to blooming' header — a cozy, illustrated preamble about planting, then the one-line server seed in a prominent box, followed by guest-room client pickers below.",
+    friction_notes: "A warm, home-focused audience who value beauty and slowness — keep steps few and illustrated, use garden metaphors throughout, no wall of technical jargon; frame the install as the easy, nurturing part.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A garden-keeper's placard: real numbers from content.json (5 native clients, SyncPlay with NTP sync, FFmpeg + HLS transcoding) in a warm serif face on garden cream." },
+      { type: "github",           format: "A modest 'Grown by the community' row with the real phlix-server repo, live star count, and issue tracker — honest and unhidden." },
+      { type: "quotes-from-docs", format: "One true, short line from the documentation about self-hosting warmth, rendered as a hand-lettered garden sign or framed quote." },
+    ],
+    placement: "A single calm band between 'What Blooms Here' and the closing 'Plant Your Seed' CTA — never overwhelming, always honest.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of gardener are you?",
+    paths: [
+      { id: "solitary",     label: "I love my quiet library",         target: "features#library",  emphasis: ["library", "auth", "transcode"] },
+      { id: "gatherer",     label: "I host movie nights",             target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+      { id: "tinkerer",     label: "I like to build my own paths",    target: "features#plugins",  emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 80 },
+  },
+
+  intensity_toggle: {
+    label: "Quiet the Garden",
+    affects: ["animation", "parallax", "petal_unfold", "easter_eggs"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the accessibility note, with a small leaf icon.",
+  },
+
+  error_page_experience: {
+    concept: "Primrose stands alone in an empty garden patch, looking gently puzzled, holding a wayward seed packet labeled '404'. A warm message: 'This bloom didn't take — let's find you something lovely instead.' with links back to the main garden.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

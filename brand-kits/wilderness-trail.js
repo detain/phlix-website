@@ -571,6 +571,31 @@ const brandKit = {
       "Looking through binoculars at the ridgeline",
     ],
     expressions: ["Quietly confident", "Wide-eyed wonder", "Warm grin", "Focused readiness"],
+
+    // ── behavior ─────────────────────────────────────────────────────
+    // Scout as an interactive on-page companion
+    behavior: {
+      placement:
+        "Bottom-right corner, seated by a small campfire; appears on Home, " +
+        "Download, and About pages. Never on the reference docs.",
+      idle:
+        "Scout tends the campfire, occasionally raising a tin mug as if making " +
+        "a toast. Idle motion is disabled under prefers-reduced-motion (Scout " +
+        "simply sits and gazes at the terrain).",
+      tips: [
+        { where: "home:#hero",              say: "Lace up, friend — the trail starts right here." },
+        { where: "home:.features-overview", say: "Your whole library is the terrain. Every blaze marks a new summit." },
+        { where: "download:#server",        say: "One line of code and you're the ranger. I'll tend the first fire." },
+        { where: "about:.faq-list",         say: "Questions from the trailhead? I've got answers by the fire." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Scout tips his ranger hat and grins — 'Sharper eyes than most.'" },
+        { trigger: "hover-hold:2s", react: "Scout pulls out the topographic map and points to a distant peak." },
+      ],
+      dismiss:
+        "A small 'Scout, take a break' close button lets Scout step back to the " +
+        "tree line; the dismissed state persists via localStorage.",
+    },
   },
 
   /* ==========================================================================
@@ -1153,6 +1178,18 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────
+  // Controls whether seasonal variants ship live or stay documentation-only
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snowfield-pine.svg",
+      "img/seasonal/wildflower-meadow-dusk.svg",
+      "img/seasonal/autumn-ridge-aspen.svg",
+    ],
+    banner: "Scout says: The seasons change the trail, but the summit's always worth it.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1338,13 +1375,239 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Trailhead",      emphasis: "default" },
+      { id: "features", label: "Waypoints",      emphasis: "primary" },
+      { id: "clients",  label: "Outposts",       emphasis: "default" },
+      { id: "download", label: "Set Camp",       emphasis: "primary" },
+      { id: "hub",      label: "Relay Station",  emphasis: "default" },
+      { id: "about",    label: "Field Notes",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Tools for the seasoned scout — nice extras, not the main trail.", fold_into: "features" },
+      { id: "docs",    reason: "Reference tucked one click away in the footer, like a ranger station bulletin board." },
+    ],
+    extra_pages: [
+      {
+        id: "expedition-guide",
+        title: "Your First Expedition",
+        purpose: "A grounded walkthrough that turns product facts into a first-time setup guide, like a ranger orientation.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE & CONTENT CASTING
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The trail opens at the trailhead. Lace up, and the wilderness is yours to explore.",
+    sections: [
+      { id: "trailhead-call", source: "copy_overlay.hero", treatment: "Full-bleed ranger station poster: Scout points toward distant peaks; the headline reads like a trail sign.", weight: "hero" },
+      { id: "key-waypoints", source: "feature_casting",   treatment: "Two 'best summits' features cast as trail waypoints on a map overlay.",        weight: "major" },
+      { id: "why-this-trail", source: "story",            treatment: "Value props styled as blazes on a trail marker post.",                      weight: "major" },
+      { id: "trail-proven",  source: "proof_strategy",    treatment: "Trust signals rendered as a ranger station placard (specs + repo stars).", weight: "minor" },
+      { id: "start-hiking",  source: "conversion_funnel", treatment: "Closing CTA: 'Lace Up and Begin' beside the one-line install command.",    weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "trail-map-points",
+      spec: "Lay the features out as waypoints on a hand-drawn topographic map — each a marked point with a peak icon and a one-line trail note.",
+    },
+    clients: {
+      template: "outpost-network",
+      spec: "Present each client as a ranger outpost on a wilderness map — 'Reaches via…' header and highlights as a ranger's field notes list.",
+    },
+    download: {
+      template: "ranger-station",
+      spec: "Frame the page as a ranger station: the server install is the 'sign in' desk, clients are 'choose your outpost', ecosystem links are the 'supplies shelf'.",
+    },
+    about: {
+      template: "expedition-log",
+      spec: "Tell the founding story as an expedition log, chapter by chapter (Philosophy, License, Contributing), ending in Scout's Q&A by the fire.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your entire collection becomes the wilderness — terrain worth exploring." },
+      { id: "syncplay", angle: "Expedition together — every device stays locked to the same frame, no matter the distance." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["plugins", "dlna"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Adventure begins here",
+      headline: "Find Your Trail.",
+      subheadline: "Press play and step into your library like a wilderness waiting to be explored. Scout's got the map, the fire's burning, and the summit's always worth it.",
+      primary_cta: { label: "Lace Up and Begin" },
+      secondary_cta: { label: "Scout's Field Notes" },
+    },
+    section_headings: {
+      pitch: "Why this trail?",
+      features: "Waypoints",
+      cta_banner: "The fire's ready — start your expedition.",
+    },
+    footer_tagline: "Adventure never closes.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "trail-blazes",        // each bullet as a trail blaze on a sign post
+    faq: "campfire-qa",                   // FAQ as Scout answering questions by the fire
+    clients: "outpost-map",               // clients drawn as ranger outposts on a network map
+    ecosystem: "supply-shelf",            // ecosystem repos as a shelf of supplies at the ranger station
+  },
+
+  faq_experience: {
+    frame: "campfire-qa",
+    persona: "Scout, the seasoned ranger, answering questions by the fire with the ease of someone who's seen every trail.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I reach my library from outside the house?", maps_to: "expose-internet" },
+      { q: "What if my old TV doesn't speak the same language as my files?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Backcountry Night",
+      scene: "A family settles into camp after a long hike; one tap opens their film library on the big screen, and the campfire flickering story plays under the stars.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Expedition Party",
+      scene: "Hikers at different trail camps, thousands of miles apart — everyone hits play on the same movie and stays locked to the same frame all night.",
+      surfaces: ["SyncPlay waypoint", "media player", "hub relay screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Scout's Route",
+      scene: "A young explorer opens their profile, finds the filtered trail just for them (ratings and content matched), streaming to an old ranger-station TV over the wireless.",
+      surfaces: ["profile picker", "media library grid"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "A layered ranger station diorama — weathered wood sign, Scout pointing to the peaks, smoke curling from a fire — parallaxes gently on scroll/pointer, the peaks lighting up as the headline appears.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single flat illustrated ranger station scene with Scout already pointing to distant peaks, the identical headline, subheadline, and both CTAs baked into the static markup.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A ranger-station styled top bar with trail-blaze diamond separators between the links and the Wilderness Trail wordmark at left; the active link glows like a campfire ember.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> list of the same links, fully keyboard reachable, collapsing to a labeled 'Menu' button on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like you've crested a ridge to a new vista — a soft fade-in with a topo-contour wipe and a faint 'blaze found' tick sound as the next 'waypoint' scrolls into frame.",
+    reduced_motion: "Under prefers-reduced-motion the wipes and sounds are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Scout tips his ranger hat, grins, and says 'Sharper eyes than most, friend.' A small campfire animation flares up.",
+      reward_copy: "Scout's got respect for those who notice.",
+      exit: "The grin fades and Scout returns to gazing at the horizon over ~2s, or press Esc to clear immediately.",
+    },
+    {
+      trigger: "typed-word:summit",
+      effect: "The cursor becomes a small peak icon and Scout points to a distant summit with his binoculars.",
+      reward_copy: "You found the high ground.",
+      exit: "Press Esc (or type another key) to restore the normal cursor and Scout's ease.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time hiker to run the server and open their library at camp.",
+    cta_ladder: [
+      { step: 1, cta: "Lace Up and Begin",     target: "download" },
+      { step: 2, cta: "Choose Your Outpost",   target: "clients" },
+      { step: 3, cta: "Set Camp (Install)",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens like a ranger station window: a warm 'Three steps to camp' header over the one-line server install, then the client outpost picker below.",
+    friction_notes: "Adventure seekers who want to get moving — keep the steps few and confident, no jargon walls; the install one-liner is framed as 'the easy part, the ranger's job'.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A ranger station placard of real capabilities pulled from content.json — 5 native outposts, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, Live TV + DVR." },
+      { type: "github",           format: "A modest 'from the ranger archives' row linking the real phlix-server repo with its live star / issue counts (never a hard-coded number)." },
+      { type: "quotes-from-docs", format: "One short, true line about the freedom of self-hosting, lifted from the docs and set as a framed field-notes quote." },
+    ],
+    placement: "A calm 'proven trails, honest ranger' band between the waypoints and the closing 'Set Camp' CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of expedition are you planning?",
+    paths: [
+      { id: "family-camp",  label: "A cozy night with family",        target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "vast-terrain",  label: "I've got a massive collection",  target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "tinker-scout",  label: "I like to tinker and build",     target: "plugins",           emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 90 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the Campfire",
+    affects: ["animation", "parallax", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion notice.",
+  },
+
+  error_page_experience: {
+    concept: "A 'wrong trail' gag: Scout stands at a weathered trail sign reading 'This route went cold (or never existed)', holding a torn map section and pointing back to the main trail with a wry grin.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 27. METADATA
    * ========================================================================== */
 
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-13",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1359,7 +1622,9 @@ const brandKit = {
       "(canvas tan) — variations must preserve the outdoor-poster light-surface " +
       "contract. Campfire orange is a single-use CTA signal; do not promote it " +
       "to a general accent in variations. Author variations via base_kit.slug = " +
-      "'wilderness-trail'.",
+      "'wilderness-trail'. Scout, the ranger mascot, serves as a guide through " +
+      "the site, with interactive tips and a warm, unflappable personality that " +
+      "mirrors the brand's core values of honesty and self-reliance.",
   },
 };
 

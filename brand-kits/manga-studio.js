@@ -552,6 +552,21 @@ const brandKit = {
       "Pointing forward with intense focus",
     ],
     expressions: ["Determined", "Intense", "Triumphant", "Exhausted", "Shocked"],
+    behavior: {
+      placement: "Bottom-right corner on Home, Features, Download, and About pages — never on detail views where the focus must remain on the media.",
+      idle: "Sen sketches at a drafting table, occasionally tapping their pen against the desk; the idle motion is disabled under prefers-reduced-motion (Sen simply sits still, pen in hand).",
+      tips: [
+        { where: "home:#hero",           say: "Every frame earns its place. Press play and see." },
+        { where: "features:.feature-detail", say: "Craft is precision. Craft is choice. Craft is yours to keep." },
+        { where: "download:#server",     say: "One line. Then your deadline to create begins." },
+        { where: "about:.faq-list",      say: "Questions? I've inked all the answers into the page." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Sen spins the desk around and holds up a finished manuscript triumphantly, speed lines bursting outward." },
+        { trigger: "hover-hold:2s", react: "Sen extends a screentone sheet toward you with a knowing nod — 'You know what this is.'" },
+      ],
+      dismiss: "A small 'Sen, take a break' close button tucks him behind the corner; the dismissed state persists via localStorage.",
+    },
   },
 
   /* ==========================================================================
@@ -1074,6 +1089,20 @@ const brandKit = {
   ],
 
   /* ==========================================================================
+   * 20.5 SEASONAL ACTIVATION  — live rendering of seasonal_variants
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/manga-new-year-sunrise.svg",
+      "img/seasonal/manga-summer-convention-energy.svg",
+      "img/seasonal/manga-deadline-ink-splatter.svg",
+    ],
+    banner: "A seasonal arc is serializing — check back on the next release date.",
+  },
+
+  /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
 
@@ -1246,6 +1275,281 @@ const brandKit = {
         "A slow page destroys the impact-panel opening experience that the brand " +
         "depends on.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Studio",      emphasis: "default" },
+      { id: "features", label: "Chapters",    emphasis: "primary" },
+      { id: "clients",  label: "Clients",     emphasis: "default" },
+      { id: "download", label: "Release",     emphasis: "primary" },
+      { id: "hub",      label: "Relay",       emphasis: "default" },
+      { id: "about",    label: "About",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugin ecosystem is an advanced feature, not the main draw for first-time builders." },
+      { id: "docs",    reason: "Detailed reference lives one level away in the footer." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — the landing page's story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A manga studio burns its midnight oil so your library can stream with the same unflinching craft.",
+    sections: [
+      { id: "hero-panel",       source: "copy_overlay.hero", treatment: "Full-bleed splash art: ink-wash gradient rising from the bottom, speed-line burst emanating from the central headline, Sen at the desk with brush raised triumphantly.", weight: "hero" },
+      { id: "craft-manifesto",  source: "story",             treatment: "Three value props framed as manifesto panels: 'Every panel earns its space', 'Streaming with craft', 'Your library, your rules' — high contrast block text on screentone backgrounds.", weight: "major" },
+      { id: "hero-features",    source: "feature_casting",   treatment: "Two signature features cast as large key-art panels: library and syncplay, each with a dramatic spotlight angle and manga-vocabulary framing.", weight: "major" },
+      { id: "craft-proof",      source: "proof_strategy",    treatment: "Trust signals as a 'studio credentials' placard: GitHub stars, native clients, feature matrix rendered as manga capability labels and badges.", weight: "minor" },
+      { id: "call-to-action",   source: "conversion_funnel", treatment: "Closing full-width Spot Red CTA banner: 'Press play. No compromise.' with the download link as the lead action.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — the structural template per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "chapter-grid",
+      spec: "Lay out the 8 features as manga chapters — each a titled panel (h2) with icon, body copy, and a Spot Red accent bar on the left edge. Grid flows as 2 columns on desktop, 1 on mobile.",
+    },
+    clients: {
+      template: "client-roster",
+      spec: "Present each client as a device card with its platform name, tagline, and three top highlights as bullet-panel rows. Stable clients get a Spot Red 'In Print' badge; beta clients get Impact Yellow 'Serializing'.",
+    },
+    download: {
+      template: "release-blueprint",
+      spec: "Three-act structure: Server (the 'manuscript' with install snippet in a black-bg code panel), Clients (five device-tier cards), Ecosystem (reels of repos as a bookshelf list). Each section opens with a high-contrast section header.",
+    },
+    about: {
+      template: "archive-scroll",
+      spec: "Vertical scroll through Philosophy, License, Contributing sections as readable prose blocks with ink-rule dividers. FAQ closes the archive as a Q&A list styled as 'Letters to Sen'.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Every title earns its panel — folder-watched, meticulously parsed, displayed with the craft it deserves." },
+      { id: "syncplay", angle: "Stay locked frame-to-frame across the room or across countries — synchronized with the precision of a manga storyboard." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 26. COPY OVERLAY  — kit-authored replacements for presentation copy
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted streaming, crafted with purpose",
+      headline: "Your Library. Your Craft. Your Phlix.",
+      subheadline: "No algorithms. No compromise. One artist's devotion to code translated into a media server that streams to every device with the same unflinching intensity you bring to your creative work.",
+      primary_cta: { label: "Release Now" },
+      secondary_cta: { label: "Read the Blueprint" },
+    },
+    section_headings: {
+      pitch: "The Mangaka's Studio Manifesto",
+      features: "Eight Chapters of Craft",
+      cta_banner: "Your deadline is now. Press play.",
+    },
+    footer_tagline: "Streamed with the urgency of a deadline, the precision of an ink stroke.",
+  },
+
+  /* ==========================================================================
+   * 27. COPY TREATMENTS  — how shared content blocks get rendered
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "manifesto-panels",     // each pitch rendered as a bold panel statement with Spot Red accent
+    faq: "letters-column",                 // FAQ framed as letters to Sen with manga-style Q&A layout
+    clients: "device-tier-cards",          // each client as a distinct card with platform-specific treatment
+    ecosystem: "repo-shelf",               // repos displayed as a tidy lineup on a studio bookshelf
+  },
+
+  /* ==========================================================================
+   * 28. FAQ EXPERIENCE  — the presentation frame for the FAQ
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Sen the artist, answering studio questions with fierce confidence and manga vocabulary.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this play on my old TV?", maps_to: "formats" },
+      { q: "Do I have to open my house to the internet?", maps_to: "expose-internet" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 29. PERSONA VIGNETTES  — concrete usage scenes for this kit's audience
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Manga Archivist",
+      scene: "A collector with 3,000 titles—manga, anime, films — curates their library with the same care a mangaka puts into panel layouts. Every file tagged, every poster perfect, streaming to their reading room's big screen.",
+      surfaces: ["home hero", "library grid", "media player full-screen"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "Worldwide SyncPlay",
+      scene: "Three friends, three continents, one release night — they hit play simultaneously and stay locked frame-to-frame, synced by the precision of an NTP clock.",
+      surfaces: ["syncplay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Creator's Studio",
+      scene: "An indie filmmaker self-hosts their own back-catalog and uses the plugin API to build custom integrations with their post-production pipeline.",
+      surfaces: ["plugins page", "admin dashboard", "settings"],
+      features_shown: ["plugins", "auth", "hub"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 30. HERO EXPERIENCE  — the landing hero's interaction model
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "canvas-animation",
+    spec: "A hand-drawn speed-line radial burst animates outward from the center point, revealing the headline and subheadline in sequence. Ink-wash gradient rises from the bottom. Sen's figure at the desk updates pose (pointing forward with intensity) as the animation completes.",
+    suggested_inputs: ["scroll offset (trigger animation on first scroll)", "animation completion"],
+    fallback: "A static full-bleed illustration showing the speed-line burst at full radiance, ink-wash gradient in place, headline and subheadline pre-rendered in the markup, and Sen in the 'pointing forward with intense focus' pose.",
+    js_budget_kb: 5,
+  },
+
+  /* ==========================================================================
+   * 31. NAVIGATION MODEL  — the site's navigation paradigm
+   * ========================================================================== */
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A crisp top bar with Ink Black background and Manga White labels. The brand logo is a Black Han Sans wordmark. Each nav link is separated by a subtle vertical Screentone Gray rule. Active link gets a Spot Red underline at 3px, no fade.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible standard nav — a semantic <nav> with role='navigation', an unordered list of links, fully keyboard-reachable via Tab, with ARIA labels, and a hamburger toggle to collapse to full-width mobile drawer on small screens.",
+  },
+
+  /* ==========================================================================
+   * 32. SCROLL EXPERIENCE  — the page's reading rhythm
+   * ========================================================================== */
+
+  scroll_experience: {
+    mode: "panel-sequence",
+    spec: "Each homepage section arrives as a discrete visual 'panel' — hard cuts between sections with a subtle 100ms ink-flash transition (a dark frame flicker simulating a manga page turn). The scroll is mechanically linear; the 'page turn' effect is purely visual.",
+    reduced_motion: "Under prefers-reduced-motion, section boundaries are rendered as simple hard cuts with no transition; the page becomes a plain continuous scroll with instant visual separation (Ink Black rule divider or whitespace).",
+  },
+
+  /* ==========================================================================
+   * 33. EASTER EGGS  — hidden, harmless, discoverable interactions
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Sen's desk spins in a blur and he holds up a finished manuscript triumphantly, then speed lines emanate outward.",
+      reward_copy: "Deadline met! The chapter is complete.",
+      exit: "The effect settles on its own after ~3s, or press Esc.",
+    },
+    {
+      trigger: "typed-word:ink",
+      effect: "A subtle screentone dot-pattern materializes across the screen (light 10% texture overlay) and fades after 2s.",
+      reward_copy: "The studio's screentone sheets are all that hold this together.",
+      exit: "Press Esc or type any other word to dismiss.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 34. CONVERSION FUNNEL  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a creator/collector to drop their media file and press play in the fewest steps.",
+    cta_ladder: [
+      { step: 1, cta: "Release Now",       target: "download" },
+      { step: 2, cta: "Pick Your Device",  target: "clients" },
+      { step: 3, cta: "Install Server",    target: "download#server" },
+    ],
+    download_opening: "Three panels, no scroll: 'Server Release' (PHP one-liner, black code block), 'Client Suite' (five device cards), 'Ecosystem' (reels of supporting repos). Everything above the fold.",
+    friction_notes: "Creative professionals and passionate collectors — they expect power and precision, not hand-holding. Jargon is welcome. Density is fine. Speed is critical.",
+  },
+
+  /* ==========================================================================
+   * 35. PROOF STRATEGY  — ordered trust signals and their format
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A 'Studio Capabilities' badge grid from content.json: 8 features, 5 native clients, NTP-synced SyncPlay, HLS + FFmpeg, DLNA support — each as a small Ink Black panel with Spot Red label." },
+      { type: "github",           format: "A modest 'Craft on GitHub' footer row linking the real phlix-server repo with its live star count (pulled from GitHub API), issue count, and contributors." },
+      { type: "quotes-from-docs", format: "One true line from the official docs (exact text verifiable in phlix-docs repo) framed as a high-contrast blockquote panel with Ink Black text on Manga White." },
+    ],
+    placement: "Between the features section and the closing CTA—a calm 'studio stamp of approval' band that feels earned, not desperate.",
+  },
+
+  /* ==========================================================================
+   * 36. VISITOR PATHS  — an optional self-select audience fork
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "What brings you to the studio?",
+    paths: [
+      { id: "creator",   label: "I'm building a creative project",    target: "features#plugins",  emphasis: ["plugins", "auth", "hub"] },
+      { id: "collector",  label: "I've got years of media to organize", target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "friend",     label: "I want to watch with people I care about", target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 37. EXPERIENCE ARCHETYPE  — the site's declared experience model
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  /* ==========================================================================
+   * 38. COMPLEXITY PROFILE  — the information-density contract
+   * ========================================================================== */
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  /* ==========================================================================
+   * 39. INTENSITY TOGGLE  — optional visitor-facing "calm mode"
+   * ========================================================================== */
+
+  intensity_toggle: {
+    label: "White Space (Calm Mode)",
+    affects: ["animation", "speed-line effects", "scroll transitions"],
+    default: "full",
+    placement: "Bottom-right corner as a small button, inline with accessibility controls.",
+  },
+
+  /* ==========================================================================
+   * 40. ERROR PAGE EXPERIENCE (404)  — the kit's bespoke 404 concept
+   * ========================================================================== */
+
+  error_page_experience: {
+    concept: "A 'Missed Deadline' gag: Sen stands in front of an empty page with a blank stare, holding a pen mid-stroke. The headline reads 'This page never shipped.' The nav and all recovery links are intact.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

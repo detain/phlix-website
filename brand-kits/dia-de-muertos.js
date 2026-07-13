@@ -535,6 +535,28 @@ const brandKit = {
       "Walking a marigold-petal path with lantern raised",
     ],
     expressions: ["Radiant joy", "Tender remembrance", "Warm welcome", "Serene pride"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small seated figure; appears on Home, Features, and " +
+        "Download pages — never on the FAQ, Docs, or other reading-dense pages.",
+      idle:
+        "Catrina gently sways side to side, hands folded tenderly, with floating " +
+        "marigold petals drifting slowly around her; idle motion is fully disabled under " +
+        "prefers-reduced-motion (she simply sits in quiet remembrance).",
+      tips: [
+        { where: "home:#hero",              say: "Welcome. Every story is an ofrenda waiting to be honored." },
+        { where: "home:.features-overview", say: "Share a film, sync a memory — you're building an altar of moments together." },
+        { where: "download:#server",        say: "Light the first candle. One line, and your library becomes the ofrenda." },
+        { where: "features:.feature-grid",  say: "Each feature is a marigold petal — together they light the path home." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Catrina rises and dances with swirling marigold petals, arms outstretched in celebration." },
+        { trigger: "hover-hold:3s", react: "Catrina places her hand over her heart and whispers, 'You remember them well.'" },
+      ],
+      dismiss:
+        "A small 'Catrina, rest now' close button tucks her into the shadows; the dismissed " +
+        "state persists via localStorage so she honors your choice.",
+    },
   },
 
   /* ==========================================================================
@@ -1065,6 +1087,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/marigold-petal-cascade.svg",
+      "img/seasonal/papel-picado-border.svg",
+      "img/seasonal/candle-flame.svg",
+      "img/seasonal/frida-floral-crown.svg",
+    ],
+    banner:
+      "The ofrenda glows tonight — remember and celebrate with us during Día de Muertos.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1261,6 +1295,228 @@ const brandKit = {
         "A warm, richly atmospheric experience should feel instant — slow load breaks " +
         "the celebratory mood as effectively as the wrong color palette.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & ceremonial flow
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Altar",       emphasis: "primary" },
+      { id: "features", label: "The Offerings",   emphasis: "primary" },
+      { id: "clients",  label: "The Paths",       emphasis: "default" },
+      { id: "download", label: "Light the Candle", emphasis: "primary" },
+      { id: "hub",      label: "The Distance",    emphasis: "default" },
+      { id: "about",    label: "Our Story",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugins are the sacred accents — tucked into the altar's side shelf for the initiated.", fold_into: "features" },
+      { id: "docs",    reason: "The scrolls of remembrance live one click away in the footer." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 22B. HOMEPAGE NARRATIVE  — the landing page's story arc
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Every story is a marigold path home — an ofrenda lit for those we love and remember.",
+    sections: [
+      { id: "hero",           source: "copy_overlay.hero", treatment: "Full-bleed candlelit ofrenda hero: the altar glows warmly as Catrina welcomes you.", weight: "hero" },
+      { id: "why-watch",      source: "story",             treatment: "The ofrenda's foundation: why we gather to watch, to remember, to honor.", weight: "major" },
+      { id: "the-offerings",  source: "feature_casting",   treatment: "Two hero features as glowing candles on the altar; supporting features as marigold petals.", weight: "major" },
+      { id: "gather-together",source: "proof_strategy",    treatment: "A warm placard showing real numbers: families connected, stories honored, code lives on.", weight: "minor" },
+      { id: "light-it",       source: "conversion_funnel", treatment: "The closing altar invitation: 'Light a candle and press play' with a single gold CTA.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 22C. PAGE BLUEPRINTS  — structural template per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "altar-shelves",
+      spec: "Arrange features as a tiered ofrenda altar: hero features on the top shelf lit by gold, support features arranged on middle shelves, footnotes on the bottom. Each a candle-lit card.",
+    },
+    clients: {
+      template: "guest-book",
+      spec: "Present each client as an honored guest in the ofrenda's guest book: a warm card showing how they see Phlix, their highlights as a list of their favorite rituals.",
+    },
+    download: {
+      template: "ritual-steps",
+      spec: "Frame the page as a three-step ritual: 'Prepare the Altar' (server install), 'Choose Your Seat' (clients), 'Open the Doors' (ecosystem + hub). Each step glows warmly.",
+    },
+    about: {
+      template: "ceremony-scroll",
+      spec: "Tell the founding story as a scrolling ceremony: Philosophy, License, Contributing as chapters of an ofrenda's becoming, ending with Catrina's FAQ warmth.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how facts are voiced & emphasized
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Watch together, anywhere — every screen stays in perfect rhythm, like synchronized candles on an ofrenda." },
+      { id: "library",  angle: "Your stories live here, organized and honored the way you always wanted them to be." },
+    ],
+    support: ["transcode", "auth", "livetv"],
+    footnote: ["dlna", "plugins", "hub"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "An ofrenda for your stories",
+      headline: "Remember. Celebrate. Live.",
+      subheadline: "Phlix is the altar where your media lives — organized, honored, and ready to stream to every room in your home and every person in your heart, with SyncPlay, Live TV, and a hub that reaches beyond distance.",
+      primary_cta: { label: "Light the First Candle" },
+      secondary_cta: { label: "Walk the Marigold Path" },
+    },
+    section_headings: {
+      pitch: "Why gather here?",
+      features: "The Offerings",
+      cta_banner: "Your altar awaits — press play.",
+    },
+    footer_tagline: "Every story is a marigold path home.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "altar-offerings",     // each value prop as a candle offering on the altar
+    faq: "catrina-warmth",                 // FAQ as Catrina answering with gentle wisdom
+    clients: "honored-guests",             // clients as welcomed devices in the ofrenda
+    ecosystem: "sacred-scrolls",           // ecosystem repos as scrolls in the library
+  },
+
+  faq_experience: {
+    frame: "catrina-warmth",
+    persona: "Catrina, the joyful keeper of memories, answering your questions with the warmth of a candlelit ceremony.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can my family watch from different rooms?", maps_to: "like-plex" },
+      { q: "Do I need to trust a company with my media?", maps_to: "expose-internet" },
+      { q: "Will this play on my parents' old TV?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Family Gathering",
+      scene: "Three generations settle into the living room; Grandpa presses play on a beloved classic and everyone stays in perfect sync — even Aunt Maria watching from across the country.",
+      surfaces: ["home hero", "media player", "syncplay lobby"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "Honoring the Story",
+      scene: "A parent carefully organizes their child's favorite films, sets up parental controls, and creates a shelf of memories — a ritual of care and curation.",
+      surfaces: ["library grid", "profile picker", "settings"],
+      features_shown: ["auth", "library", "transcode"],
+    },
+    {
+      name: "The Midnight Ritual",
+      scene: "Late night, alone with the stars, a film plays across the TV, phone, and tablet — all perfectly synced, all perfectly warm.",
+      surfaces: ["home hero", "media player", "multi-device hub"],
+      features_shown: ["library", "syncplay", "hub"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered ofrenda diorama: candles glow in the foreground, marigold petals drift gently, Catrina sways in welcome in the middle ground, and the altar's deep-purple background glows as the headline appears. Subtle parallax on scroll/pointer movement, candlelight blooming as the eye moves.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single beautiful static ofrenda illustration with candles lit, Catrina in the center, and the identical headline, subheadline, and both CTAs rendered in warm gold text over the altar.",
+    js_budget_kb: 7,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm dark topbar with the brand wordmark in Cinzel Decorative on the left; navigation links separated by small marigold-gold dots. The active link glows with a warm gold underline. Catrina's silhouette appears as a small icon in the top-right corner (clickable to reveal/dismiss her).",
+    keyboard: null,
+    fallback: "A standard accessible <nav> list of the same links, fully keyboard-reachable, with a labeled hamburger menu on mobile. The topbar IS the primary navigation.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a candle being lit — a soft warm glow blooms from the bottom and the section slides up into view. Marigold petals drift slowly down as section boundaries pass.",
+    reduced_motion: "Under prefers-reduced-motion, candle-glow transitions are replaced with instant opacity fades; marigold drifts are removed entirely. The page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "click:7",
+      effect: "Catrina stands, extends her arms wide, and dances — marigold petals swirl around her in a warm golden celebration; gentle guitar strings play.",
+      reward_copy: "Catrina dances for the joy of remembrance.",
+      exit: "The celebration settles after ~6s, or press Esc to return to stillness immediately.",
+    },
+    {
+      trigger: "typed-word:marigold",
+      effect: "The entire page is gently showered with falling marigold petals, and the background glows a deeper, richer gold for 5 seconds.",
+      reward_copy: "The marigolds bloom for you.",
+      exit: "Press Esc to stop the shower; the petals settle on their own.",
+    },
+    {
+      trigger: "time-of-day:20:00..23:59",
+      effect: "A small note appears in the footer: 'The ofrenda glows brighter at night.' All glow effects are slightly intensified; candlelight seems warmer.",
+      reward_copy: "The midnight cemetery comes alive.",
+      exit: "The note fades at sunrise; toggle with a small toggle in the footer.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide a first-time visitor to light their first candle (install the server) and see it glow (open the lobby).",
+    cta_ladder: [
+      { step: 1, cta: "Light the First Candle",   target: "download" },
+      { step: 2, cta: "Choose Your Screen",       target: "clients" },
+      { step: 3, cta: "Walk the Marigold Path",   target: "download#server" },
+    ],
+    download_opening: "The Download page opens like an ofrenda altar coming into focus: 'Three steps to the first glow' above the server install, then the client choices below, then the ecosystem links as the supporting rituals.",
+    friction_notes: "A warm, community-first audience — honor the beauty of the installation ritual, never rush it. The server install is framed as 'lighting the altar,' not a technical hurdle.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A warm altar placard: '8 native features. 5 client paths. Families watching together in real time.' — facts from content.json, displayed as an ofrenda of capabilities." },
+      { type: "github",           format: "A modest 'from the projection booth' link to phlix-server with live star count and issue tracker — the real heartbeat, never hard-coded." },
+      { type: "quotes-from-docs", format: "One true line lifted from the docs about self-hosting and trust, displayed as a framed altar card in Catrina's voice, no invention." },
+    ],
+    placement: "A warm, centered altar-card section between the Features and the closing CTA — the bridge of trust before invitation.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to the ofrenda tonight?",
+    paths: [
+      { id: "family",       label: "Watch together, anywhere",       target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "collector",    label: "I've got stories to honor",      target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "wanderer",     label: "I like to explore",              target: "features#hub",      emphasis: ["hub", "plugins"] },
+    ],
+  },
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Soften the Flame",
+    affects: ["animation", "glow-effects", "hero_experience→static", "scroll_experience→continuous", "marigold-petals"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the accessibility note, with a candle icon.",
+  },
+
+  error_page_experience: {
+    concept: "A 'wrong altar' scene: Catrina stands in an empty midnight cemetery, looking at a broken candle and a torn papel picado flag, holding out a marigold petal and pointing the way back to the ofrenda (home). The 404 headline reads 'This path has faded — the altar is waiting.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

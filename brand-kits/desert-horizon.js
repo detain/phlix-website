@@ -521,6 +521,36 @@ const brandKit = {
       "Holding a glazed clay bowl of popcorn",
     ],
     expressions: ["Serene", "Amused", "Thoughtful", "Delighted"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive companion)
+    // Type  : object
+    // About : Turns Dusty from a static illustration into an on-page companion who
+    //         offers quiet guidance and wisdom throughout the site.
+    behavior: {
+      placement:
+        "Bottom-right corner, seated on a mesa rock; appears on home, download, and " +
+        "about pages — never on dense reading pages like docs or FAQs where Dusty " +
+        "might distract from focus.",
+      idle:
+        "Dusty gently sways like a cactus in a warm breeze, occasionally tilting his " +
+        "hat and gazing toward the horizon; under prefers-reduced-motion, Dusty simply " +
+        "sits still, watching the sky.",
+      tips: [
+        { where: "home:#hero",              say: "Welcome to the trading post. Take a seat — there's a whole mesa of stories waiting." },
+        { where: "home:.pitch",             say: "Your library, rooted on your land. No horizon too far to reach." },
+        { where: "home:.features-overview", say: "Every feature here is a well-worn trail through the desert. SyncPlay? It keeps your whole posse in step." },
+        { where: "download:#server",        say: "One command. That's all it takes to light the fire at this trading post." },
+        { where: "about:.faq-list",         say: "Questions from the road? I've stood on enough ridges to have seen them all." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Dusty tips his weathered hat three times and grins, clearly pleased by the attention." },
+        { trigger: "hover-hold:2s", react: "Dusty raises one arm to point at the horizon and speaks: 'That's where the best sunsets happen.'" },
+      ],
+      dismiss:
+        "A small 'Dusty, rest a while' close button tucks him behind the mesa; the " +
+        "dismissed state persists via localStorage, so he stays put until you return.",
+    },
   },
 
   /* ==========================================================================
@@ -943,6 +973,23 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Controls whether the seasonal_variants above ship live or stay
+  //         documentation-only. "live-js" means a tiny date-gate flips the
+  //         override tokens during each variant's active_range.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/monsoon-clouds.svg",
+      "img/seasonal/harvest-ocotillo.svg",
+      "img/seasonal/solstice-constellations.svg",
+      "img/seasonal/spring-blooms.svg",
+    ],
+    banner: "The desert is changing — look how the light is shifting.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1092,6 +1139,305 @@ const brandKit = {
       ],
       reason: "Earthy warmth shouldn't cost a slow or stuttering experience.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & navigation
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Trading Post",  emphasis: "default" },
+      { id: "features", label: "What's Inside",     emphasis: "primary" },
+      { id: "clients",  label: "Gather 'Round",     emphasis: "default" },
+      { id: "download", label: "Stake Your Claim",  emphasis: "primary" },
+      { id: "hub",      label: "The Relay",         emphasis: "default" },
+      { id: "about",    label: "Our Story",         emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugins are a craftsperson's corner — valuable but not the main draw for someone looking to set roots.", fold_into: "features" },
+      { id: "docs",    reason: "Full documentation lives one click away in the footer, keeping the main path unhurried." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  // ── homepage_narrative ──────────────────────────────────────────────────────
+  // Label : Homepage Narrative
+  // Type  : object
+  // About : The landing page's story structure, told in the unhurried voice of
+  //         someone who's watched a thousand sunsets from this ridge.
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "An old trading post where every evening is golden hour, and your whole library waits on the horizon.",
+    sections: [
+      { id: "golden-hour",         source: "copy_overlay.hero",   treatment: "Wide sunset panorama hero with Dusty silhouetted against the horizon, the headline and subheadline overlaid on the warm gradient sky.",  weight: "hero" },
+      { id: "why-stay",            source: "story",               treatment: "The brand story rendered as a scroll of parchment-textured panels, each a vignette of the trading post's soul.",                         weight: "major" },
+      { id: "what-you-find",       source: "feature_casting",     treatment: "Two hero features cast as painted clay pots on a shelf — each with its own earthy illustration and one-line truth.",                       weight: "major" },
+      { id: "the-rest-of-the-kit", source: "pitch_bullets",       treatment: "Value props carved into wooden plaques hanging on the trading post wall, each reading like desert wisdom.",                              weight: "minor" },
+      { id: "gather",              source: "proof_strategy",      treatment: "A calm 'we've earned our place' band with real specs and GitHub stars, rendered as a worn placard.",                                       weight: "minor" },
+      { id: "stay-rooted",         source: "conversion_funnel",   treatment: "Closing banner framing the install as 'light the fire at your own trading post'.",                                                          weight: "major" },
+    ],
+  },
+
+  // ── page_blueprints ─────────────────────────────────────────────────────────
+  // Label : Page Blueprints
+  // Type  : object
+  // About : The structural template per sub-page, grounded in the trading-post metaphor.
+  page_blueprints: {
+    features: {
+      template: "shelf-display",
+      spec: "Lay the features out as objects on wooden shelves around the trading post's interior walls — each a feature card with its icon (clay pot, compass, sunrise, etc.) and full description. The page feels like touring a curated collection.",
+    },
+    clients: {
+      template: "gathering-circle",
+      spec: "Present each client as a place where the community gathers: 'On Roku', 'On Samsung Tizen', 'On Windows'. Each card shows what this gathering place offers and links to its source.",
+    },
+    download: {
+      template: "trading-counter",
+      spec: "Frame the download journey as a counter exchange: here's the server (your ticket to entry), here are the clients (your choice of gathering place), and here are the tools of the trade (ecosystem repos).",
+    },
+    about: {
+      template: "around-the-fire",
+      spec: "Tell the founding story as a circle of knowledge shared by the fire: Philosophy, License, Contributing, and FAQ styled as Dusty answering questions from travelers.",
+    },
+  },
+
+  // ── feature_casting ─────────────────────────────────────────────────────────
+  // Label : Feature Casting
+  // Type  : object
+  // About : Which features take the spotlight in the hero, and how each is voiced
+  //         for an audience that values rootedness and authenticity.
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Everything you own, organized the moment it arrives — no rushing, no busy hands." },
+      { id: "syncplay", angle: "Every device in every room stays in perfect step, as if you're all sitting on the same mesa watching the same horizon." },
+    ],
+    support: ["transcode", "auth", "livetv"],
+    footnote: ["dlna", "plugins", "hub"],
+    omit_from_home: [],
+  },
+
+  // ── copy_overlay ────────────────────────────────────────────────────────────
+  // Label : Copy Overlay
+  // Type  : object
+  // About : Kit-authored presentation copy for key sections, speaking in Dusty's
+  //         unhurried, rooted voice. Facts remain from content.json.
+  copy_overlay: {
+    hero: {
+      eyebrow: "The trading post has been waiting",
+      headline: "Your Stories, Wide Open.",
+      subheadline: "Press play and breathe deep. Your whole library, streaming to every screen, at the unhurried pace of a desert sunset. No clouds. No permission slips. Just you, the land, and the stories that have taken root.",
+      primary_cta: { label: "Stake Your Claim" },
+      secondary_cta: { label: "See What's Inside" },
+    },
+    section_headings: {
+      pitch: "Why the light settles here",
+      features: "What's inside the trading post",
+      cta_banner: "Ready to light your own fire?",
+    },
+    footer_tagline: "Open ground. Open stories. Rooted.",
+  },
+
+  // ── copy_treatments ─────────────────────────────────────────────────────────
+  // Label : Copy Treatments
+  // Type  : object
+  // About : How shared content blocks render within the brand's aesthetic.
+  copy_treatments: {
+    pitch_bullets: "wooden-plaques",       // each value prop as a hand-carved wooden sign on the trading post wall
+    faq: "dusty-wisdom",                   // FAQ as Dusty answering from his seat on the mesa
+    clients: "gathering-circles",          // each client as a different gathering place in the landscape
+    ecosystem: "toolkit-shelf",            // ecosystem repos as tools hanging on the shop wall
+  },
+
+  // ── faq_experience ──────────────────────────────────────────────────────────
+  // Label : FAQ Experience
+  // Type  : object
+  // About : The FAQ is Dusty, the deeply knowledgeable guide who's seen every
+  //         question come rolling in like dust storms. He has answers.
+  faq_experience: {
+    frame: "campfire-chat",
+    persona: "Dusty, the saguaro who's watched the horizon long enough to know the shape of every question.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on the old TV in my living room?", maps_to: "formats" },
+      { q: "Do I have to let the whole internet in?", maps_to: "expose-internet" },
+      { q: "Can I build something custom for this place?", maps_to: "plugins" },
+    ],
+  },
+
+  // ── persona_vignettes ───────────────────────────────────────────────────────
+  // Label : Persona Vignettes
+  // Type  : array<object>
+  // About : Concrete usage scenes that guide imagery and surface selection.
+  persona_vignettes: [
+    {
+      name: "Sunset movie night",
+      scene: "The family gathers as the sun drops behind the mesa; one tap on the remote and their whole library fills the big screen, everyone settling in to watch together.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Rooted but reaching",
+      scene: "Grandpa at home and the grandkids at college — everyone hits play the same moment and stays locked together through the whole film, miles apart but in perfect sync.",
+      surfaces: ["SyncPlay connection screen", "media player with sync status", "hub pairing screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The trail gets walked",
+      scene: "A traveler on the road connects to the home server through the hub relay, picks up where they left off, and watches on their phone as the sun sets their time zone over.",
+      surfaces: ["hub relay selector", "mobile media player", "profile/watchlist picker"],
+      features_shown: ["hub", "auth", "dlna"],
+    },
+  ],
+
+  // ── hero_experience ─────────────────────────────────────────────────────────
+  // Label : Hero Experience
+  // Type  : object
+  // About : The landing hero's interaction — a diorama of the trading post at
+  //         golden hour, with gentle parallax and Dusty's silhouette watching.
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered trading-post diorama with Dusty standing sentinel, the horizon line rising, and the sun slow-sinking. Parallax layers on scroll/pointer: earth, saguaros, mesa ridge, sky. The light warms from amber to deep orange as the curtain parts to reveal the headline.",
+    suggested_inputs: ["pointer position", "scroll offset", "time-of-day-based-shift"],
+    fallback: "A single flat painted trading-post illustration with Dusty silhouetted against the sunset, the identical headline and subheadline baked into the static markup, both CTAs rendered below.",
+    js_budget_kb: 7,
+  },
+
+  // ── navigation_model ────────────────────────────────────────────────────────
+  // Label : Navigation Model
+  // Type  : object
+  // About : The site's navigation paradigm — a trail map through the desert.
+  navigation_model: {
+    mode: "topbar",
+    spec: "A sandstone topbar with a subtle Navajo-pattern strip beneath the links. The brand lockup is left. Links are styled like trail markers, with the active link highlighted in terracotta. On mobile, collapsible to a Pueblo-arch icon.",
+    keyboard: null,
+    fallback: "The topbar itself is the standard accessible nav — a plain <nav> list of the same links, fully keyboard reachable with focus rings in turquoise, collapsing to a labeled hamburger menu on mobile.",
+  },
+
+  // ── scroll_experience ───────────────────────────────────────────────────────
+  // Label : Scroll Experience
+  // Type  : object
+  // About : The page's reading rhythm — slow and contemplative, like watching
+  //         the light move across the desert through the afternoon.
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each section arrives like a new vignette being revealed: a soft dusty fade and a subtle warm-light shift as the next 'chapter' scrolls into frame. Slow, unrushed. Between sections, a fine Navajo-pattern line appears momentarily.",
+    reduced_motion: "Under prefers-reduced-motion, the dust fades and warm-light shifts are dropped entirely. The page becomes a plain continuous scroll with instant section boundaries and no motion.",
+  },
+
+  // ── easter_eggs ─────────────────────────────────────────────────────────────
+  // Label : Easter Eggs
+  // Type  : array<object>
+  // About : Hidden, harmless treasures on the mesa. Each must be discoverable but
+  //         inert for those not looking. All keyboard triggers MUST NOT shadow browser
+  //         or assistive-tech shortcuts.
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Dusty tips his hat and a single saguaro flower blooms in the top-right corner of the screen, falling like dust.",
+      reward_copy: "The desert knows you're here.",
+      exit: "The flower drifts away on its own after ~4s, or press Esc to clear immediately.",
+    },
+    {
+      trigger: "typed-word:horizon",
+      effect: "The hero's sky deepens for a moment and a distant saguaro silhouette appears and fades, as if Dusty just noticed you.",
+      reward_copy: "Dusty saw you looking.",
+      exit: "Press Esc (or type any other key) to restore the normal view.",
+    },
+    {
+      trigger: "time-of-day:sunset-zone",
+      effect: "The entire site glows with an extra-warm golden-hour wash, and Dusty's tips glow faintly.",
+      reward_copy: "Golden hour hits different.",
+      exit: "The glow fades after a few seconds; press Esc to turn it off immediately.",
+    },
+  ],
+
+  // ── conversion_funnel ───────────────────────────────────────────────────────
+  // Label : Conversion Funnel
+  // Type  : object
+  // About : The journey from curious visitor to rooted host. This audience values
+  //         authenticity and calm over rushed steps.
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Guide someone from curiosity to lighting their own trading post (running the server).",
+    cta_ladder: [
+      { step: 1, cta: "See What's Inside",    target: "features" },
+      { step: 2, cta: "Choose Your Gathering", target: "clients" },
+      { step: 3, cta: "Stake Your Claim",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens like approaching the trading post at dusk: a warm 'One command to light the fire' headline over the server install snippet, then the client choices below as places to gather.",
+    friction_notes: "An unhurried audience that values authenticity and rootedness — keep the story clear and the steps few. The install is framed as 'the easy part'; the real journey is discovering what you'll do with it once it's running.",
+  },
+
+  // ── proof_strategy ──────────────────────────────────────────────────────────
+  // Label : Proof Strategy
+  // Type  : object
+  // About : Trust signals drawn from VERIFIABLE facts in content.json and the
+  //         actual phlix-server repo. Dusty speaks with the quiet authority of
+  //         someone who's truly seen everything.
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A weathered placard listing real capabilities from content.json: 8 native + DLNA clients, real-time SyncPlay over NTP-synced devices, FFmpeg transcoding with per-device quality profiles." },
+      { type: "github",        format: "A modest 'from the projection booth' row linking the real phlix-server repo with its live star and issue counts (never hard-coded), styled as old repository ledger." },
+      { type: "facts-from-docs", format: "A single true line lifted from content.json's hero: 'An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device.' Rendered as a framed quote card." },
+    ],
+    placement: "A single calm 'earned our place' band between the features and the closing CTA, styled like a weathered trading-post sign.",
+  },
+
+  // ── visitor_paths ───────────────────────────────────────────────────────────
+  // Label : Visitor Paths
+  // Type  : object
+  // About : A self-select fork where visitors choose their own trail through the
+  //         desert, based on why they've come.
+  visitor_paths: {
+    prompt: "What brings you to the trading post?",
+    paths: [
+      { id: "family",      label: "Family gatherings",       target: "features#syncplay", emphasis: ["syncplay", "library", "auth"] },
+      { id: "collector",   label: "I've built a collection", target: "features#library",  emphasis: ["library", "transcode", "dlna"] },
+      { id: "craftsperson", label: "I like to build things",  target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  // ── experience_archetype ────────────────────────────────────────────────────
+  // Label : Experience Archetype
+  // Type  : enum<string>
+  // About : The overall declared site experience. Desert Horizon is a narrative
+  //         scroll — a story unfolding as you descend, each section a new chapter.
+  experience_archetype: "narrative-scroll",
+
+  // ── complexity_profile ──────────────────────────────────────────────────────
+  // Label : Complexity Profile
+  // Type  : object
+  // About : Information-density contract. Keep it minimal and warm; let the story
+  //         breathe. This audience doesn't want walls of jargon.
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 100 },
+  },
+
+  // ── intensity_toggle ────────────────────────────────────────────────────────
+  // Label : Intensity Toggle
+  // Type  : object | null
+  // About : An optional visitor-facing calm mode. The diorama parallax is gentle,
+  //         but some visitors may want zero motion. This toggle tones it down.
+  intensity_toggle: {
+    label: "Turn off the parallax",
+    affects: ["hero_experience→static", "scroll_experience→continuous", "animation→none"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside accessibility notes.",
+  },
+
+  // ── error_page_experience ───────────────────────────────────────────────────
+  // Label : Error Page Experience (404)
+  // Type  : object
+  // About : The kit's bespoke lost-in-the-desert concept (schema-only; per-kit
+  //         404s require future build-tooling work per new_site.md §2A).
+  error_page_experience: {
+    concept: "Dusty stands in the middle of an empty desert plain, looking confused, holding a torn map. 'You've wandered off the trail' reads above. The way back is clear: links to home, features, and download.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

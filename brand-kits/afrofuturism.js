@@ -543,6 +543,32 @@ const brandKit = {
       "Mid-dispersal into a constellation of triangles",
     ],
     expressions: ["Radiant", "Wise half-smile", "Eyes wide with wonder", "Deep in cosmic thought"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a standing figure with one arm raised; appears on Home, " +
+        "Download, Features, and Hub pages — not on FAQ or docs reading pages. Scales " +
+        "responsively; on mobile, moves to bottom-center.",
+      idle:
+        "Orisha's kente-pattern cape gently flows upward (as if caught in cosmic wind), " +
+        "and the gold triangles that compose the figure pulse softly with Ancestral Glow. " +
+        "Every 8s, the entire figure briefly disperses into triangles before reconstituting. " +
+        "All motion is disabled under prefers-reduced-motion (Orisha remains still, fully visible).",
+      tips: [
+        { where: "home:#cosmic-rise",      say: "Welcome, starkeeper. Your cosmos awaits." },
+        { where: "home:.stellar-features", say: "These constellations—SyncPlay binds your collective; Library guards your heritage." },
+        { where: "features:#syncplay",     say: "Resonance across any distance. One frame. One heart. All of you." },
+        { where: "download:#server",       say: "Speak the first chant. The cosmos responds. Then choose your portal." },
+        { where: "hub:#bridge-home",       say: "The bridge home—access your starfield from anywhere, always." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7",       react: "Orisha raises both arms high and disperses into gold triangles that rain downward slowly, reconstituting with a joyful pose." },
+        { trigger: "hover-hold:3s", react: "Orisha's figure blooms with Ancestral Glow (radial gold burst) and performs a slow 360° rotation, then returns to standing pose with eyes bright with wonder." },
+      ],
+      dismiss:
+        "A small close button with a kente-chevron X in Tribal Red tucks Orisha behind " +
+        "a cosmic veil (Orisha fades to silhouette); dismissed state persists via localStorage " +
+        "across sessions so Orisha stays in the background.",
+    },
   },
 
   /* ==========================================================================
@@ -1078,6 +1104,19 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/cosmic-new-year-fireworks.svg",
+      "img/seasonal/juneteenth-chains-to-stars.svg",
+      "img/seasonal/kwanzaa-kinara-candles.svg",
+    ],
+    banner:
+      "The cosmos awakens anew. " +
+      "(Or during Juneteenth: 'Chains to stars — freedom radiates outward.') " +
+      "(Or during Kwanzaa: 'Seven principles, seven flames, one collective hearth.')",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1274,6 +1313,295 @@ const brandKit = {
         "A powerful, celebratory experience should feel immediate — slow load " +
         "breaks the sense of cosmic possibility the brand promises.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE — Information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Starfield",     emphasis: "default" },
+      { id: "features", label: "Constellations",    emphasis: "primary" },
+      { id: "clients",  label: "Your Portals",      emphasis: "default" },
+      { id: "download", label: "Begin the Journey", emphasis: "primary" },
+      { id: "hub",      label: "The Bridge Home",   emphasis: "default" },
+      { id: "about",    label: "Our Genesis",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extensions exist in constellation but sit aside the main quest.", fold_into: "features" },
+      { id: "docs",    reason: "Knowledge lives one tap away in the footer — off the revelatory path." },
+    ],
+    extra_pages: [
+      {
+        id: "collective-screening",
+        title: "Collective Screening — How We Watch Together",
+        purpose: "A cosmic walkthrough turning heritage (self-hosting) and future (SyncPlay) into a lived ritual for the community.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE — Landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The cosmos awakens. An ancestor stands at the threshold between past and infinite future, calling you to claim your stories, your library, your power.",
+    sections: [
+      { id: "cosmic-rise",      source: "copy_overlay.hero",      treatment: "Full-bleed Orisha hero ascending through starfield, arms raised toward constellations; Montserrat Black headline in Kente Gold emerges like a revelation.", weight: "hero" },
+      { id: "stellar-features",  source: "feature_casting",       treatment: "Two hero features rendered as painted cosmic one-sheets on a temple wall — SyncPlay as 'Collective Resonance', Library as 'Heritage Vault'.", weight: "major" },
+      { id: "ancestral-truth",   source: "story",                 treatment: "Value props as cosmic proclamations etched in kente geometric borders, each line a truth from the diaspora.", weight: "major" },
+      { id: "proof-of-cosmos",   source: "proof_strategy",        treatment: "Trust signals as a starfield placard: real repo stars, real feature counts, real self-hosting heritage.", weight: "minor" },
+      { id: "gateway-call",      source: "conversion_funnel",     treatment: "Closing kente-bordered altar with golden CTA: 'Join the exodus, become a starkeeper.'", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS — Structural templates for each page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "cosmic-temple",
+      spec: "Present features as a cosmic temple's inner sanctum — each feature a painted altar fresco with Montserrat Black title, ritual body copy, and a kente-triangle side-border motif emphasizing the sacred geometry.",
+    },
+    clients: {
+      template: "portal-array",
+      spec: "Each client as a glowing portal or gateway — a neon-outlined geometric frame with the device name, 'Now accessible via…' header, and its capabilities as star-marked constellation points inside the frame.",
+    },
+    download: {
+      template: "initiation-rite",
+      spec: "Frame the page as an initiation threshold: the server snippet is the 'first chant', client cards are the 'portals you choose', hub link is the 'way back home'. Kente borders mark each stage.",
+    },
+    about: {
+      template: "starfire-scroll",
+      spec: "Tell the story as a scrolling scroll of cosmic chapters (Philosophy, License, Contributing, FAQ) with gold-lit section breaks and Orisha appearing as a guide between major sections.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING — How established features get weighted
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Collective resonance across any distance — stay locked to the same frame, in the same moment, always." },
+      { id: "library",  angle: "Your heritage, your stories, your library — organized by you, kept by you, forever yours." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 26. COPY OVERLAY — Kit-authored presentation overrides
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "From ancient stars, welcome.",
+      headline: "Your stories. Your cosmos. Your power.",
+      subheadline: "A self-hosted media sanctuary where heritage meets galactic possibility. Every film, every series, every memory — kept by you, shared in collective resonance across every corner of your universe.",
+      primary_cta: { label: "Begin the exodus" },
+      secondary_cta: { label: "Witness the constellations" },
+    },
+    section_headings: {
+      pitch: "Why the ancestors built this for you.",
+      features: "The stellar offerings.",
+      cta_banner: "The threshold awaits — are you ready to be a starkeeper?",
+    },
+    footer_tagline: "Heritage is the most powerful kind of science fiction.",
+  },
+
+  /* ==========================================================================
+   * 27. COPY TREATMENTS — How shared content blocks render
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "kente-proclamations",   // each value prop as a cosmic truth in kente-bordered cards
+    faq: "orisha-counsel",                   // FAQ as Orisha answering from the cosmic fire
+    clients: "portal-constellation",         // clients as glowing gateways in a star-chart
+    ecosystem: "starfire-library",           // ecosystem repos as an illuminated scroll of sacred texts
+  },
+
+  /* ==========================================================================
+   * 28. FAQ EXPERIENCE — Presentation frame for the FAQ
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "oracle-fire",
+    persona: "Orisha, the cosmic ancestor-guide, speaking from the starfire at the threshold of all knowing.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this play on the oldest screen in my house?", maps_to: "formats" },
+      { q: "Do I have to invite the whole galaxy into my home?", maps_to: "expose-internet" },
+      { q: "Can I build my own stars for this cosmos?", maps_to: "plugins" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 29. PERSONA VIGNETTES — Usage scenes for this kit's audience
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Diaspora Family Gathering",
+      scene: "Three continents, one film — grandmother in Lagos, children in New York, cousin in Toronto all press play and stay locked to the same cosmic frame via SyncPlay, their own library, their own heritage.",
+      surfaces: ["home hero", "media library grid", "SyncPlay interface", "media player"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "The Heritage Curator",
+      scene: "A collector of Afrofuturist cinema — Sun Ra documentaries, Octavia Butler adaptations, N.K. Jemisin films — organizes them in their own vault and shares access with the community gathering remotely.",
+      surfaces: ["media library grid", "profile management", "sharing/hub interface"],
+      features_shown: ["library", "auth", "hub"],
+    },
+    {
+      name: "The Alchemist Architect",
+      scene: "A developer writes a metadata plugin that enriches every film with cultural context, ancestry lineages, and cosmic themes — extending Phlix's constellation with their own research and vision.",
+      surfaces: ["plugins interface", "admin console", "manifest schema docs"],
+      features_shown: ["plugins", "hub", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 30. HERO EXPERIENCE — Landing hero's interaction model
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "celestial-revelation",
+    spec: "Orisha stands at the threshold, silhouetted in kente-triangle geometry. On scroll or pointer movement, stars bloom outward from Orisha's chest (Kente Gold radial burst), the figure disperses briefly into constellation points, and reforms with arms raised toward the headline. Montserrat Black headline glows with Ancestral Glow radial gradient, revealing itself like a truth long hidden.",
+    suggested_inputs: ["pointer position", "scroll offset", "page focus"],
+    fallback: "A single flat, powerful Afrofuturist illustration: Orisha standing tall with both arms raised to the stars, full headline and subheadline baked into the composition over a starfield, both CTAs visible below. Static, immediate, no interaction required.",
+    js_budget_kb: 5,
+  },
+
+  /* ==========================================================================
+   * 31. NAVIGATION MODEL — Site navigation paradigm
+   * ========================================================================== */
+
+  navigation_model: {
+    mode: "celestial-beacon",
+    spec: "A topbar with the Afrofuturism wordmark in Warm Star White, followed by navigation items spaced with kente-chevron glyphs in Dusk Mauve. Active link gains a 2px bottom line in Kente Gold and a soft gold glow. On scroll, the topbar subtly darkens from Wakanda Night to Cosmic Earth, suggesting descent into the cosmos.",
+    keyboard: "Ctrl+K opens a command palette listing all pages; Tab cycles through links with gold focus rings visible.",
+    fallback: "A semantic <nav> with <ul> of page links, fully keyboard accessible. On mobile, collapses to a labeled hamburger menu (three kente-chevron lines) in Kente Gold, opening a vertical stack drawer on Wakanda Night background.",
+  },
+
+  /* ==========================================================================
+   * 32. SCROLL EXPERIENCE — Page reading rhythm and transitions
+   * ========================================================================== */
+
+  scroll_experience: {
+    mode: "cosmic-unfoldment",
+    spec: "Each homepage section arrives like a cosmic revelation — a brief Kente Gold flash at the section top (200ms), followed by a subtle upward push of the content. Between major sections, a kente-triangle geometric wipe in Tribal Red sweeps across the viewport (300ms), then the next section's Ancestral Glow radial blooms from center.",
+    reduced_motion: "Under prefers-reduced-motion, all wipes, flashes, and glows are disabled. Sections arrive instantly with zero animation; section boundaries are clear via kente-chevron SVG dividers only.",
+  },
+
+  /* ==========================================================================
+   * 33. EASTER EGGS — Hidden, harmless, discoverable interactions
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Orisha appears at the bottom-right corner and does a slow, elegant dispersal into gold triangles that orbit briefly around the page, then fade out. The kente-pattern border pulses gold once.",
+      reward_copy: "The ancestor approves. You have discovered cosmic resonance.",
+      exit: "The animation completes after ~5s, or press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "typed-word:heritage",
+      effect: "The page background briefly blooms with the Ancestral Glow radial (Kente Gold emanation from center), and the cursor becomes a tiny gold star for 2s.",
+      reward_copy: "Heritage is the boldest science fiction.",
+      exit: "The glow fades and cursor restores on its own after 2s, or press Esc to clear immediately.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "Orisha's figure appears in the bottom-right corner, tossing tiny gold triangles upward in a gentle spray (particles float and fade over 3s).",
+      reward_copy: "Even the cosmic ancestor celebrates reaching the end.",
+      exit: "The animation finishes on its own after 3s.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 34. CONVERSION FUNNEL — The download journey & friction tolerance
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "ritual-revelation",
+    primary_goal: "A first-time visitor becomes a starkeeper — they run the server and access their first library.",
+    cta_ladder: [
+      { step: 1, cta: "Begin the exodus",    target: "download" },
+      { step: 2, cta: "Choose your portal",  target: "clients" },
+      { step: 3, cta: "Claim your cosmos",   target: "download#server" },
+    ],
+    download_opening: "The Download page opens as an initiation: 'Three steps to stardom' over a gold-bordered kente panel containing the server snippet (the 'first chant'), then portal cards below showing the client options (the 'gateways you choose').",
+    friction_notes: "An audience of Afrofuturist visionaries — filmmakers, artists, diaspora families. They *embrace* cultural framing and bold aesthetic; they dislike corporate jargon. Keep the path short and inspiring; every step should feel like a revelation, not a checklist.",
+  },
+
+  /* ==========================================================================
+   * 35. PROOF STRATEGY — Ordered trust signals & formats
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A kente-bordered placard of real specifications: 8 native feature pillars (SyncPlay, Library, Transcode, Auth, Live TV, DLNA, Plugins, Hub), FFmpeg transcoding, HLS streaming, 5 client platforms." },
+      { type: "github",           format: "A modest 'from the projection booth' kente-chevron-divided row linking phlix-server repo with live star count and issue tracker — real numbers, no fabrication." },
+      { type: "quotes-from-docs", format: "One verbatim line from the actual docs (from content.json FAQ): 'No — run Phlix on your LAN and use the Hub's reverse-tunnel relay to reach it from your phone at a friend's house.' Set as a framed altar-card quote in Warm Star White." },
+    ],
+    placement: "A single calm 'heritage and power' kente-bordered section between the hero features and the closing gateway CTA.",
+  },
+
+  /* ==========================================================================
+   * 36. VISITOR PATHS — Optional self-select audience fork
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "Which cosmos calls to you?",
+    paths: [
+      { id: "heritage-keeper",  label: "I want to protect my family's stories",     target: "features#library", emphasis: ["library", "auth", "syncplay"] },
+      { id: "collector",        label: "I'm an Afrofuturist cinema archaeologist",  target: "features#transcode", emphasis: ["library", "transcode", "plugins"] },
+      { id: "architect",        label: "I want to build stars into this cosmos",    target: "plugins", emphasis: ["plugins", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 37. EXPERIENCE ARCHETYPE — Overall declared site experience model
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  /* ==========================================================================
+   * 38. COMPLEXITY PROFILE — Information-density contract
+   * ========================================================================== */
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 85 },
+  },
+
+  /* ==========================================================================
+   * 39. INTENSITY TOGGLE — Optional visitor-facing calm mode
+   * ========================================================================== */
+
+  intensity_toggle: {
+    label: "Dim the cosmic light",
+    affects: ["animation", "glow-effects", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "Footer utility row, beside accessibility and theme options, in Dusk Mauve.",
+  },
+
+  /* ==========================================================================
+   * 40. ERROR PAGE EXPERIENCE — Bespoke 404 concept
+   * ========================================================================== */
+
+  error_page_experience: {
+    concept: "A 'star went dark' moment: Orisha stands beneath a dimmed constellation of triangles with one missing, holding a torn star-map. Text: 'This stellar coordinate does not exist (yet).' Offers a warm path back to the Starfield.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

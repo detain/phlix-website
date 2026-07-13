@@ -588,6 +588,32 @@ const brandKit = {
       "Curled asleep inside a closed bloom",
     ],
     expressions: ["Curious", "Delighted", "Serene", "Surprised", "Mischievous"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a small hovering moth; appears on Home, Features, and " +
+        "Download pages — never on heavy reading pages (Docs, About). Sits gently among " +
+        "a cluster of glowing petals when idle.",
+      idle:
+        "Lumia flutters her wings softly, occasionally drifting in a lazy figure-eight. " +
+        "Pollen occasionally drifts from her wing dust. Under prefers-reduced-motion, " +
+        "Lumia simply hovers still with a faint inner glow pulse.",
+      tips: [
+        { where: "home:#hero",            say: "Welcome to the garden. Every bloom here glows with its own light." },
+        { where: "home:.features-hero",   say: "SyncPlay is the magic that keeps everyone watching the same frame, the same moment." },
+        { where: "features:.feature-detail#syncplay", say: "Imagine two friends watching together from different gardens — locked in perfect time." },
+        { where: "features:.feature-detail#library",  say: "The scanner watches your library folder. Add a film, and it blooms on the shelf within moments." },
+        { where: "download:#server",      say: "Plant the first seed here. One line of code, and your garden begins to grow." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Lumia does a delighted spiral and leaves a brief trail of golden pollen sparkles." },
+        { trigger: "hover-hold:2s", react: "Lumia lands on your cursor and offers a soft, wordless hum — as if telling a garden secret." },
+      ],
+      dismiss:
+        "A small 'Lumia, rest' close button tucks her away into a corner of the garden; " +
+        "the dismissed state persists via localStorage so she stays gone until the visitor " +
+        "explicitly calls her back.",
+    },
   },
 
   /* ==========================================================================
@@ -1158,6 +1184,17 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snowflake-drift.svg",
+      "img/seasonal/spring-bud-unfurl.svg",
+      "img/seasonal/midsummer-firefly-swarm.svg",
+      "img/seasonal/autumn-petal-fall.svg",
+    ],
+    banner: "The garden is in a new season — its blooms have shifted their glow.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1323,6 +1360,221 @@ const brandKit = {
       reason:
         "A beautiful garden that loads slowly or stutters loses its magic entirely.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",          emphasis: "default" },
+      { id: "features", label: "Features",      emphasis: "primary" },
+      { id: "clients",  label: "Clients",       emphasis: "default" },
+      { id: "download", label: "Download",      emphasis: "primary" },
+      { id: "hub",      label: "Hub",           emphasis: "default" },
+      { id: "about",    label: "About",         emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugin guide lives in the features deep dive, a quiet discovery off the main garden path." },
+      { id: "docs",    reason: "Documentation is one click away in the footer — stay in the garden first, reference later." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Deep in a night garden, every bloom glows with its own light. Phlix is the garden itself — beautiful, self-lit, forever blooming.",
+    sections: [
+      { id: "garden-gate", source: "copy_overlay.hero", treatment: "Full-bleed hero: a glowing orchid bloom unfurls as you hover/scroll, petals revealing the headline and CTAs. Fireflies drift lazily in the background.", weight: "hero" },
+      { id: "why-bloom",   source: "story",             treatment: "A poetic 2–3 sentence passage on why Phlix exists — the conviction that watching media should feel like stepping into a place that cannot exist in daylight.", weight: "major" },
+      { id: "features-hero", source: "feature_casting", treatment: "Two hero features ('SyncPlay' and 'Library') cast as glowing orchids on a dark trellis — each a visual hero with a poetic voiced angle.", weight: "major" },
+      { id: "pitch-garden", source: "pitch_bullets",   treatment: "Value props rendered as dew-drops catching neon light, each a small luminous card on the dark garden floor.", weight: "major" },
+      { id: "proof-glow",   source: "proof_strategy",   treatment: "Trust signals — GitHub link, real client count, a single true line from the docs — rendered as firefly sparks in the garden at dusk.", weight: "minor" },
+      { id: "get-in",       source: "conversion_funnel", treatment: "Closing CTA: 'Step into the garden' with a soft glow bloom effect; the download link is framed as opening a garden gate.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "bioluminescent-gallery",
+      spec: "Lay out each feature as a glowing bloom illustration paired with its title and prose — a gallery of self-lit specimens in the night garden.",
+    },
+    clients: {
+      template: "device-constellation",
+      spec: "Each client is a screen/device floating in the dark like a firefly or glowing leaf — its status, highlights, and link form a small constellation around it.",
+    },
+    download: {
+      template: "garden-entrance",
+      spec: "The page opens with 'Welcome to the garden' and guides the visitor through server setup as a natural progression — from planting seeds to watching blooms appear.",
+    },
+    hub: {
+      template: "bridge-of-light",
+      spec: "Present the Hub as a luminous tunnel connecting gardens — your home server is a bloom on one side, friends' servers on the other, the Hub's relay as a strand of light between them.",
+    },
+    about: {
+      template: "garden-scroll",
+      spec: "Tell the founding story as a slow scroll through the night garden's past — Philosophy blooms first, then License stones, then Contributing paths, ending in FAQ wisdom.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every device glows in perfect time — your whole household watches the same frame, the same moment, the same magic." },
+      { id: "library",  angle: "Add a file and watch it bloom on the shelf. Your entire collection, alphabetized by the garden itself." },
+    ],
+    support: ["transcode", "livetv", "auth", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Where the Night Blooms.",
+      headline: "Your media. Glowing in darkness.",
+      subheadline: "A self-hosted garden where every film, episode, and song is a luminous bloom. Beautiful, immersive, entirely yours — magic that comes alive after dark.",
+      primary_cta: { label: "Enter the garden" },
+      secondary_cta: { label: "See what blooms" },
+    },
+    section_headings: {
+      pitch: "What makes this garden bloom?",
+      features: "The flowers within",
+      cta_banner: "Your luminous library awaits.",
+    },
+    footer_tagline: "Self-hosted beauty. Self-lit wonder.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "luminous-dew-drops",
+    faq: "intimate-garden-wisdom",
+    clients: "device-constellation",
+    ecosystem: "root-system-list",
+  },
+
+  faq_experience: {
+    frame: "intimate-counsel",
+    persona: "Lumia, the garden's bioluminescent moth guide, speaking softly as if sharing garden secrets you might have wondered about.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I use this on an old TV without installing anything?", maps_to: "formats" },
+      { q: "Do I have to open my garden to the whole world?", maps_to: "expose-internet" },
+      { q: "What if I want to add my own glowing flowers to the garden?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Midnight movie night",
+      scene: "Two friends, living oceans apart, both tap play and watch the same film frame-locked, as if sitting side-by-side in the same moonlit garden.",
+      surfaces: ["home hero", "media player", "syncplay lobby"],
+      features_shown: ["syncplay", "library", "hub"],
+    },
+    {
+      name: "Personal cinema",
+      scene: "You drop a downloaded film into your library folder and within seconds it appears on every screen in the house — title, poster, ready to watch.",
+      surfaces: ["library grid", "media player", "profiles picker"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Garden of many devices",
+      scene: "An old smart TV in the bedroom, a Roku in the living room, your phone at a café overseas — one Phlix Hub, one library, everywhere.",
+      surfaces: ["device discovery", "media grid", "hub connect"],
+      features_shown: ["dlna", "hub", "transcode"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "guided-bloom",
+    spec: "An orchid bloom unfurls as the visitor interacts — hovering reveals the headline, scrolling makes petals fall gently, and the CTAs glow with a soft halo. Fireflies drift in the background, their paths responding to scroll or pointer position.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single, static illustration of the fully-bloomed orchid with the identical headline, subheadline, and both CTAs rendered as glowing text overlays. No motion, same information.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar-glow",
+    spec: "A minimal dark topbar with the brand wordmark and six navigation links, each with a subtle violet accent bar that brightens to neon pink on hover/active. A small firefly spark drifts between links as a playful separator.",
+    keyboard: null,
+    fallback: "A standard HTML <nav> list of the same six links, fully keyboard reachable, collapsing to a labeled hamburger menu on mobile. The firefly separator is purely decorative; the nav is fully accessible without it.",
+  },
+
+  scroll_experience: {
+    mode: "unfurling-petals",
+    spec: "Each homepage section blooms into view as the visitor scrolls — a gentle opacity fade paired with a very subtle vertical scale (0.95→1.0) so sections feel like petals opening. Section boundaries are marked by a faint firefly particle drift.",
+    reduced_motion: "Under prefers-reduced-motion, all petal-unfurling animations are disabled. The page becomes a plain continuous scroll with instant, static section boundaries and no particles.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "A shower of golden fireflies burst from the logo and circle the page, leaving faint trails before fading. Lumia appears briefly with a delighted expression.",
+      reward_copy: "The garden notices you. Welcome, friend.",
+      exit: "The fireflies settle on their own after ~5s, or press Esc to clear them instantly.",
+    },
+    {
+      trigger: "typed-word:lumia",
+      effect: "A tiny glowing moth cursor appears and the page petals gently sway as if Lumia has landed on your shoulder, humming a wordless song.",
+      reward_copy: "Lumia says hello.",
+      exit: "Press Esc (or type any other key) to restore the normal cursor and stillness.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "garden-walk",
+    primary_goal: "Guide a first-time visitor from wonder to installation — each step deeper into the garden.",
+    cta_ladder: [
+      { step: 1, cta: "Enter the garden",        target: "home" },
+      { step: 2, cta: "See what blooms",         target: "features" },
+      { step: 3, cta: "Pick your screen",        target: "clients" },
+      { step: 4, cta: "Plant the seeds",         target: "download#server" },
+    ],
+    download_opening: "The page opens with 'Plant your garden' — a gentle, non-technical header. The server install is framed as planting the first seed; client choices are picking which blooms to nurture.",
+    friction_notes: "A design-conscious, creative audience who love beauty and immersion. They expect poetic copy, atmospheric visuals, and zero corporate jargon. They are willing to explore deeply if the experience is gorgeous and makes sense.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "github-link", format: "A single line linking to phlix-server with live star + fork counts. Rendered as a 'straight from the gardener' note." },
+      { type: "client-count", format: "A small, glowing stat: '5 native clients. One library. Everywhere.' Pulled from the real content.json clients array." },
+      { type: "quote-from-story", format: "One exact sentence from the kit's own story field: 'A place where beauty is electric, darkness is velvet, and every press of play opens a garden gate into the extraordinary.' Rendered as a framed garden-wall quote." },
+    ],
+    placement: "A subtle 'whispers from visitors' band between the hero features and the mid-page proof, styled as faint text on dark surfaces — no aggressive selling.",
+  },
+
+  visitor_paths: {
+    prompt: "What draws you to the garden?",
+    paths: [
+      { id: "collector",       label: "I have a massive library",      target: "features#library",  emphasis: ["library", "auth", "transcode"] },
+      { id: "living-room",     label: "I want perfect movie nights",    target: "features#syncplay", emphasis: ["syncplay", "transcode", "auth"] },
+      { id: "everywhere",      label: "I want my media everywhere",     target: "hub",              emphasis: ["hub", "dlna", "livetv"] },
+      { id: "tinkerer",        label: "I love building & customizing",  target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 75 },
+  },
+
+  intensity_toggle: {
+    label: "Calm the glow",
+    affects: ["animation", "particles", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the header beside the primary nav, labeled 'Calm the glow' — tones down all motion and particle effects for visitors who prefer serenity.",
+  },
+
+  error_page_experience: {
+    concept: "A 404 page styled as a 'bloom that never opened' — Lumia stands beside a closed bud with a gentle message: 'This flower didn't bloom the way we hoped. Let me guide you back to the garden.' Offers soft links to home, features, and download.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

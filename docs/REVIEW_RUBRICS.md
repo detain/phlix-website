@@ -66,6 +66,7 @@ A dimension may not exit the loop with score <90 **or** any ❌ remaining.
 | Performance          | 1.2    |
 | Responsive           | 1.2    |
 | Branding Consistency | 1.2    |
+| Experience Fidelity  | 1.2    |
 | Usability            | 1.0    |
 | Content Quality      | 1.0    |
 | CTA / Funnel         | 1.0    |
@@ -120,7 +121,7 @@ Primary CTA visible above the fold on home, with ≥3:1 contrast against backgro
 
 ### Content Quality
 
-Tone matches the variant's voice from `brand-kits.json`. Every technical claim cross-checked against `phlix-server` reality (e.g., "Workerman 5.x", "Argon2ID", "TMDB / TVDB / Fanart / NFO", "JWT 1h access / 7d refresh"). No invented features. No mention of unsupported clients. Grammar + spelling clean.
+Tone matches the variant's voice from its brand kit. Every technical claim cross-checked against `phlix-server` reality (e.g., "Workerman 5.x", "Argon2ID", "TMDB / TVDB / Fanart / NFO", "JWT 1h access / 7d refresh"). All **facts** (spec claims, numbers, licenses, links, FAQ answer substance) stay **traceable to `content.json`**; any re-voiced **presentation** copy is **traceable to the kit's `copy_overlay` / `feature_casting.angle`**; `proof_strategy` signals are **verifiable** against `content.json` or the real repos. No invented features, claims, testimonials, or counts. No mention of unsupported clients. Grammar + spelling clean.
 
 ### Social Metadata
 
@@ -139,3 +140,14 @@ Diff against `phlix-server/docs/brand/brand_identity.md` for this concept:
 - Voice phrases align with the kit's tone descriptors.
 - Iconography style matches (thin-line vs thick outlines vs pixel, etc.).
 - "Do" list followed; "Don't" list avoided.
+
+### Experience Fidelity
+
+Does the built site actually implement the **experience** its brand kit declares (§2A of `new_site.md`)? Only kits that opt into a given field are graded on it; an **absent** field means today's default shared behavior, which is **not** a defect.
+
+- **Information architecture** — nav labels/order/emphasis, footer-demoted pages, and any `extra_pages` match `site_architecture`; `extra_pages` content derives only from the declared `facts_from` paths.
+- **Homepage narrative** — the home page's section order, treatment, and weighting follow `homepage_narrative`.
+- **Feature casting** — the `feature_casting` hero/support/footnote/omit weighting is honored, and **every** feature still appears somewhere on the site.
+- **Interaction fallbacks** — where `hero_experience` / `navigation_model` are present, the **required** no-JS / reduced-motion `fallback` renders and carries the same copy; any opt-in JS is dependency-free, within budget, and reduced-motion-safe.
+- **Conversion funnel** — the download journey (`conversion_funnel` `style` / `download_opening` / `cta_ladder`) is built as declared, and download stays ≤2 clicks from home.
+- A kit that declares none of these still passes on today's shared structure/copy.

@@ -535,6 +535,33 @@ const brandKit = {
       "Folded on Odin's shoulder, watching the screen with the viewer",
     ],
     expressions: ["Patient", "Knowing", "Alert", "Ancient-calm", "Vigilant"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Interactive companion: where Huginn sits, how he idles, contextual tips,
+    // easter interactions, and dismissal. Disable idle under prefers-reduced-motion.
+    behavior: {
+      placement:
+        "Top-right corner as a small perched raven; appears on Home, Features, " +
+        "and Download pages. Never on docs or FAQ (reading pages stay quiet).",
+      idle:
+        "Huginn's wings ruffle gently as if testing the wind, and his head turns " +
+        "to watch the viewer; idle motion is disabled under prefers-reduced-motion " +
+        "(Huginn simply perches, watching).",
+      tips: [
+        { where: "home:#hero",              say: "The saga begins. Listen well." },
+        { where: "home:.pitch",             say: "Your library is a saga yet to be told." },
+        { where: "features:#syncplay",      say: "Huginn and Muninn carry the same message — all must hear it at once." },
+        { where: "features:#library",       say: "In memory, every tale finds its place." },
+        { where: "download:#server",        say: "Forge your hall. Then we return to the feast." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Huginn caws sharply and spreads wings wide, then settles with a knowing nod." },
+        { trigger: "hover-hold:3s", react: "Huginn leans toward you and whispers (silently): 'I remember your saga.'" },
+      ],
+      dismiss:
+        "A small 'Huginn, rest' button tucks him atop the rafters; the dismissed " +
+        "state persists via localStorage so he remains perched out of sight until recalled.",
+    },
   },
 
   /* ==========================================================================
@@ -1067,6 +1094,19 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Declares whether seasonal_variants ship live or stay documentation-only.
+  // "live-js" mode flips override tokens and enables the motif during active_range.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/yule-torchlight.svg",
+      "img/seasonal/midsummer-bonfire.svg",
+      "img/seasonal/ragnarok-ash.svg",
+    ],
+    banner: null,  // Nordic Saga relies on seasonal color shifts, not seasonal messages
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1093,7 +1133,312 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Hall",       emphasis: "default" },
+      { id: "features", label: "The Arsenal",    emphasis: "primary" },
+      { id: "clients",  label: "The Realms",     emphasis: "default" },
+      { id: "download", label: "The Forge",      emphasis: "primary" },
+      { id: "hub",      label: "The Relay",      emphasis: "default" },
+      { id: "about",    label: "The Lore",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Secondary craft tool — part of the lore, not the primary quest.", fold_into: "features" },
+      { id: "docs",    reason: "Reference scrolls live in the archive, one rune-marker away." },
+    ],
+    extra_pages: [
+      {
+        id: "traditions",
+        title: "Ways of the Phlix",
+        purpose: "A guide to the philosophy and traditions that shape the Phlix journey.",
+        facts_from: ["pitch_bullets", "story", "values"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Step into the hall. The saga of your library awaits, carved in iron and fire.",
+    sections: [
+      { id: "opening-rune",    source: "copy_overlay.hero", treatment: "Full-bleed hero with torchlit wordmark glow and carved-stone headline reveal.",                            weight: "hero" },
+      { id: "the-saga",        source: "story",             treatment: "The brand story told as ancient wisdom — what Phlix was forged to become.",                              weight: "major" },
+      { id: "featured-halls",  source: "feature_casting",   treatment: "The two hero features cast as glowing forge-fire accents on a dark background.",                         weight: "major" },
+      { id: "full-arsenal",    source: "features",          treatment: "Six supporting features as carved stone plaques arranged in a Norse hall grid.",                         weight: "major" },
+      { id: "proof-and-honor", source: "proof_strategy",    treatment: "Trust signals as a skald's roster: real capabilities, GitHub stars, and a line from the lore.",         weight: "minor" },
+      { id: "the-summons",     source: "conversion_funnel", treatment: "Closing forge-fire CTA: 'Forge Your Hall'.",                                                         weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural template per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "saga-halls",
+      spec: "Lay the features out as six carved stone plaques in a great hall grid — each a Norse-styled artifact with bold icon, Cinzel title, and body copy carved like rune wisdom.",
+    },
+    clients: {
+      template: "realm-map",
+      spec: "Present each client as a distinct realm or kingdom within the Phlix world — Roku realm, Tizen realm, Windows hold, Mobile wanderers, DLNA everywhere — with highlights as conquered treasures.",
+    },
+    download: {
+      template: "forge-station",
+      spec: "Frame the page as stepping into a Norse forge: Server as the anvil and hammer (the forge fire), Clients as the quenching buckets (the cooling step), Ecosystem as the complete toolset ready to hand.",
+    },
+    about: {
+      template: "elder-testimony",
+      spec: "Tell the philosophy, license, and contributing paths as an elder's testimony of what the project is for — then the FAQ as questions answered by the community skald.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your entire saga, catalogued in memory and ready to tell." },
+      { id: "syncplay", angle: "Every hall, every room, every device hears the same frame — the wyrd bound together." },
+    ],
+    support: ["auth", "transcode", "livetv", "dlna"],
+    footnote: ["hub", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Before the feast begins",
+      headline: "The saga starts now. On your terms.",
+      subheadline:
+        "Phlix is a self-hosted media server carved in the old ways — built on honor, " +
+        "craft, and the belief that your stories belong to you. Stream every screen in " +
+        "your hall. No cloud. No gatekeepers. Just iron, fire, and the tales you choose.",
+      primary_cta: { label: "Forge Your Hall" },
+      secondary_cta: { label: "Read the Scrolls" },
+    },
+    section_headings: {
+      pitch: "Why step into the Phlix hall?",
+      features: "The Arsenal",
+      cta_banner: "The forge is hot. The anvil waits.",
+    },
+    footer_tagline: "The story is yours. The hall is yours. The saga is not over.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "saga-verses",       // each value prop as a line of ancient wisdom
+    faq: "elder-counsel",               // FAQ as an experienced voice answering from the lore
+    clients: "realm-roster",            // clients as distinct kingdoms/platforms
+    ecosystem: "craftsperson-shelf",    // ecosystem repos as the complete set of tools
+  },
+
+  faq_experience: {
+    frame: "elder-counsel",
+    persona: "A Phlix craftsperson and lore-keeper, answering questions as if at a feast-hall fire.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this forge with my old devices?", maps_to: "formats" },
+      { q: "Must I open my hall to the whole internet?", maps_to: "expose-internet" },
+      { q: "Can I add my own tools to the arsenal?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Feast Watcher",
+      scene: "A family gathers in the great hall; with one tap, the library fills the screen and everyone settles in for an evening of tales.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "The Wanderer",
+      scene: "A traveler far from home, sitting by a fire in a distant land, reaches back through the Phlix Hub to access the entire saga collection they forged at the ancestral hall.",
+      surfaces: ["hub connect screen", "media player", "home hero"],
+      features_shown: ["hub", "library", "syncplay"],
+    },
+    {
+      name: "The Collector",
+      scene: "An archivist with thousands of items, every film and show organized into saga seasons, searches and filters their vast collection and watches on any device without transcoding overhead.",
+      surfaces: ["media library search", "quality selector", "SyncPlay lobby"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models with fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec:
+      "The hero wordmark glows softly like an ember as the page loads; the headline " +
+      "appears carved-letter by carved-letter as if by a glowing rune-tool, revealing " +
+      "the subheadline and CTAs in staggered waves. The Forge Halo radial glow pulses " +
+      "once in the background.",
+    suggested_inputs: ["load-time", "scroll-trigger"],
+    fallback:
+      "A static hero with the wordmark already glowing (no animation), the full headline, " +
+      "subheadline, and both CTAs instantly visible, with a faint forge-glow shadow behind them.",
+    js_budget_kb: 4,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec:
+      "A storm-sea topbar with the Phlix wordmark in Cinzel on the left, anchored by " +
+      "a slow ember-glow pulse. Navigation links are in small caps, Bone White, with " +
+      "sharp 2px Forge Fire underline on active. Rune markers (vertical rules in Iron Dust) " +
+      "separate the primary links. The active link glows like a lit rune.",
+    keyboard: null,
+    fallback:
+      "The topbar IS the standard accessible nav — a plain <nav> landmark with a " +
+      "semantic list of links, fully keyboard reachable (Tab / Shift+Tab), collapsing " +
+      "to a labeled hamburger menu on mobile. No JavaScript required.",
+  },
+
+  scroll_experience: {
+    mode: "chapter-reveal",
+    spec:
+      "Each major section scrolls into view as a new chapter — a subtle stone-door fade " +
+      "with a 200ms delay between elements, as if pages are turning in an ancient saga. " +
+      "Knotwork dividers appear with a light carving-burn reveal.",
+    reduced_motion:
+      "Under prefers-reduced-motion, all reveals become instant opacity transitions with " +
+      "no stagger or burn effects; the page becomes a plain continuous scroll with instant " +
+      "section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "Huginn descends from the top of the screen carrying a glowing rune in his beak, " +
+        "drops it near the cursor, and ascends with a satisfied caw.",
+      reward_copy: "Huginn has brought you a rune of remembrance.",
+      exit: "The rune settles after ~3s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:odin",
+      effect:
+        "The Forge Fire color briefly flares to full brightness across all elements, " +
+        "and Huginn's eye glows brighter than ever.",
+      reward_copy: "The All-Father watches.",
+      exit: "Press Esc (or any other key) to restore normal forge-fire glow.",
+    },
+    {
+      trigger: "typed-word:rune",
+      effect:
+        "A rune-trace animation plays in the top-left corner, drawing a simple Elder Futhark " +
+        "rune (ᚠ, fehu — wealth and blessing) in Forge Fire color.",
+      reward_copy: "You have traced a rune of blessing.",
+      exit: "Press Esc to dismiss the rune.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "forge-first",
+    primary_goal: "Guide a visitor through the complete journey: understand Phlix, then forge their own instance on their hardware.",
+    cta_ladder: [
+      { step: 1, cta: "Forge Your Hall",      target: "download" },
+      { step: 2, cta: "Choose Your Realms",   target: "clients" },
+      { step: 3, cta: "Light the Forge",      target: "download#server" },
+    ],
+    download_opening:
+      "The Download page opens as a forge entrance: bold 'Ready to forge?' header over the server install snippet " +
+      "(the anvil and hammer), then the client realm-pickers below (the quenching stations), and the ecosystem toolset at the end.",
+    friction_notes:
+      "An audience of Phlix enthusiasts and myth-lovers — respect technical depth, deliver it without jargon walls; " +
+      "every step should feel like mastering a craft tool, not passing a test. The one-liner install is framed as 'the easy part'; " +
+      "the real craft is what happens after.",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A carved placard of real Phlix capabilities: 5 native client realms (Roku, Tizen, Windows, Mobile, DLNA), " +
+          "SyncPlay with NTP-style frame synchronization, HLS adaptive streaming with FFmpeg transcoding per-device.",
+      },
+      {
+        type: "github",
+        format:
+          "A modest 'from the projection booth' row — a single rune-carved link to the real phlix-server repo " +
+          "with its live GitHub star count and open-issue count, never hard-coded.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "One short, verifiable line lifted from the official Phlix docs philosophy: " +
+          "'your library never leaves your hardware unless you say so.' " +
+          "Set in a carved stone plaque, styled as a rune inscription.",
+      },
+    ],
+    placement:
+      "A single 'the skald's testimony' band between the featured halls (hero features) and the closing forge CTA, " +
+      "designed to build trust without interrupting the saga's flow.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to the hall?",
+    paths: [
+      {
+        id: "storyteller",
+        label: "I want to share my collection",
+        target: "features#library",
+        emphasis: ["library", "transcode", "auth"],
+      },
+      {
+        id: "wanderer",
+        label: "I watch everywhere",
+        target: "features#syncplay",
+        emphasis: ["syncplay", "hub", "auth"],
+      },
+      {
+        id: "craftsperson",
+        label: "I like to build and extend",
+        target: "features#plugins",
+        emphasis: ["plugins", "hub"],
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,  // The Nordic aesthetic is already steady and weighty; nothing needs taming.
+
+  error_page_experience: {
+    concept:
+      "Huginn perches atop a broken runestone under a storm sky, one eye closed as if mourning the lost page. " +
+      "A carved 404 rune sits in the snow nearby. The message: 'This chapter has not been written. Return to the hall.'",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 29. DO / DON'T  — categorized guardrails
    * ========================================================================== */
 
   do_dont: {
@@ -1262,13 +1607,13 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 30. METADATA
    * ========================================================================== */
 
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-13",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1276,14 +1621,19 @@ const brandKit = {
       "sdxl",
       "flux.1",
     ],
-    schema_version: "2.0",
+    schema_version: "2.1",
     kit_type: "base",
     notes:
       "Base/parent kit for Norse and Viking Age themes. Distinct from celtic-twilight " +
       "(Irish/Scottish mystical palette) — different culture, different color palette, " +
-      "different time period and aesthetic tradition. Variations (e.g. 'Nordic Saga: " +
-      "Valhalla Gold', 'Nordic Saga: Niflheim Frost') should reference this via " +
-      "base_kit.slug = 'nordic-saga' and override only diverging fields.",
+      "different time period and aesthetic tradition. Sections 22–28 added for experience " +
+      "overrides (site_architecture, homepage_narrative, page_blueprints, feature_casting, " +
+      "copy_overlay, copy_treatments, faq_experience, persona_vignettes, hero_experience, " +
+      "navigation_model, scroll_experience, easter_eggs, conversion_funnel, proof_strategy, " +
+      "visitor_paths, experience_archetype, complexity_profile, intensity_toggle, " +
+      "error_page_experience). Variations (e.g. 'Nordic Saga: Valhalla Gold', 'Nordic Saga: " +
+      "Niflheim Frost') should reference this via base_kit.slug = 'nordic-saga' and override " +
+      "only diverging fields.",
   },
 };
 

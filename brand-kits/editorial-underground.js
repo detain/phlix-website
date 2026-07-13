@@ -532,6 +532,23 @@ const brandKit = {
       "Collapsed X: used for error states, crossed safety pins",
     ],
     expressions: ["Confrontational", "Static and unwavering", "Alarm", "Victory"],
+    behavior: {
+      placement: "Bottom-left corner as a stencil-cut static figure on all pages except docs. On Download, Riot stands beside the install command. On Features, Riot points at the hero features.",
+      idle:
+        "Riot stands motionless — no animation under any condition. On hover (desktop), the figure rotates 5 degrees left-to-right in a single hard step (steps(1, end), 200ms). Disabled entirely under prefers-reduced-motion.",
+      tips: [
+        { where: "home:#manifesto-hero",    say: "No apologies. No permission. Just take it." },
+        { where: "features:#what-we-built", say: "Eight tools. One principle: you own your transmission." },
+        { where: "download:#server",        say: "One line. Paste. Run. Done. No account, no signup." },
+        { where: "clients:#device-lineup",  say: "Five ways to watch. Five ways to refuse the middleman." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",        react: "Riot throws fist-raised pose and emits a single stencil slash across the screen (diagonal, electric yellow, 2px). Slash fades after 500ms." },
+        { trigger: "typed-word:riot", react: "Riot's lightning-bolt head flashes pure Electric Yellow for 100ms (steps(1, end)), then back to normal." },
+      ],
+      dismiss:
+        "A stencil-cut close button (2px box with X) sits above Riot; clicking it tucks Riot off-screen (translate -100%, left). The dismissed state persists via localStorage across page reloads — Riot stays tucked until the storage is cleared or the user re-enables.",
+    },
   },
 
   /* ==========================================================================
@@ -1258,7 +1275,221 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Broadcast",  emphasis: "primary" },
+      { id: "features", label: "The Signal",     emphasis: "primary" },
+      { id: "clients",  label: "The Receivers",  emphasis: "default" },
+      { id: "download", label: "Take It",        emphasis: "primary" },
+      { id: "hub",      label: "Everywhere",     emphasis: "default" },
+      { id: "about",    label: "Why We Made It", emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extension to the core transmission — valuable, but secondary.", fold_into: "features" },
+      { id: "docs",    reason: "Reference lives one link away; keep the nav stark." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "minimal-single-line",
+  },
+
+  homepage_narrative: {
+    arc: "manifesto-first",
+    logline: "The official channels had nothing to say. We turned up the signal. No permission, no apology, just play.",
+    sections: [
+      { id: "manifesto-hero",   source: "copy_overlay.hero",   treatment: "Static xerox-cut ransom-letter headline with electric-yellow strike-through and both CTAs left-aligned, high-contrast black and white.", weight: "hero" },
+      { id: "why-now",          source: "story",               treatment: "The mission as a torn-paper manifesto: paragraph breaks like sheet tears, justified flush-left, Space Mono monospace voice.", weight: "major" },
+      { id: "what-we-built",    source: "feature_casting",     treatment: "The hero features rendered as bold Anton headlines with slash separators, each followed by a one-line declarative fact from the feature body.", weight: "major" },
+      { id: "who-runs-it",      source: "proof_strategy",      treatment: "A single dry stat placard: real GitHub star count + real repo link, displayed as unadorned monospace on black.", weight: "minor" },
+      { id: "take-it",          source: "conversion_funnel",   treatment: "Closing electric-yellow box with stencil border: one line of copy + the install command + the primary CTA.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "poster-wall",
+      spec: "Render each feature as a xeroxed one-sheet poster: halftone image (if any), bold Anton title, Space Mono body copy, a stencil icon. Arrange on a high-contrast grid with 2px borders.",
+    },
+    clients: {
+      template: "device-lineup",
+      spec: "Each client as a stencil-cut receiver silhouette on black (Roku TV, Samsung smart screen, Windows desktop, mobile stack, DLNA symbol) with its tagline and highlights as a bulleted list in Space Mono.",
+    },
+    download: {
+      template: "terminal-command",
+      spec: "The server install as the primary action (one-liner, monospace, copy button). Below: client cards arranged in a 2×3 grid. Treat the page as a transmission script — direct, no decoration.",
+    },
+    about: {
+      template: "essay-scroll",
+      spec: "Tell the 'why we made it' story in essay form: raw, no subsections, flush left, Space Mono with Anton drop-caps. The FAQ sits as a secondary manifesto at the bottom.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",   angle: "Your collection. Not theirs. Direct access, no throttle." },
+      { id: "syncplay",  angle: "Synchronized playback across every device. The signal stays locked." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["dlna", "livetv", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "No Signal. No Permission.",
+      headline: "Just Play.",
+      subheadline: "The official channels buried the broadcast. We cut it out of the noise. Open your library. Press play. No apologies, no corporate filters, no permission required.",
+      primary_cta: { label: "Take It." },
+      secondary_cta: { label: "Read the manifesto" },
+    },
+    section_headings: {
+      pitch: "What We Rejected",
+      features: "The Signal Carries",
+      cta_banner: "One line. That's all.",
+    },
+    footer_tagline: "The signal refuses to be silenced.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "manifest-stanzas",
+    faq: "manifesto-qa",
+    clients: "device-lineup",
+    ecosystem: "repository-list",
+  },
+
+  faq_experience: {
+    frame: "manifesto-qa",
+    persona: "Riot, the voice of the system — cuts through the noise and refuses to hedge.",
+    question_order: ["like-plex", "expose-internet", "formats", "plugins", "license", "mobile-app"],
+    extra_questions: [
+      { q: "Do I have to play by their rules?", maps_to: "like-plex" },
+      { q: "Can they spy on what I watch?", maps_to: "expose-internet" },
+      { q: "Will my old junk play?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Collector Who Said No",
+      scene: "10,000 films ripped, sorted, indexed. She refuses to rent them every time she wants to watch. One server, total control.",
+      surfaces: ["home hero", "library grid with sort/filter", "media player full-screen"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Underground Streamer",
+      scene: "Hosting a premiere of a found documentary in his apartment. Synced across three screens. No middleman between him and his audience.",
+      surfaces: ["SyncPlay lobby", "media player", "live view stats"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Artist With Old Gear",
+      scene: "Her smart TV from 2016 still works. Phlix speaks to it via DLNA without requiring an app, a login, a proprietary client.",
+      surfaces: ["profile picker", "library grid", "DLNA device discovery UI"],
+      features_shown: ["dlna", "auth", "library"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "static",
+    spec: "A static halftone-torn xerox collage of the headline in Anton uppercase with electric-yellow strike-through bars and hand-drawn cut marks at the frame edges. No animation. The manifesto is already here.",
+    suggested_inputs: [],
+    fallback: "The same static collage image baked as an SVG with the identical headline, subheadline, and both CTAs rendered as hard-bordered boxes below.",
+    js_budget_kb: 0,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A stencil-cut horizontal bar on Xerox Black with a 2px Electric Yellow bottom border. Brand wordmark in Anton left-aligned. Nav links in Space Mono, flush right. Active link gets a vertical yellow bar behind it (2px, full height). No hover effects — the yellow bar is present or absent.",
+    keyboard: null,
+    fallback: "A semantic <nav> element with the same list of links, keyboard-reachable via Tab, collapsing to a labeled <button>hamburger menu on mobile with arrow-key/Enter navigation.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "A hard-cut page — each major section arrives as a full-frame transition with no fade or ease. Section boundaries are marked by a stencil-cut diagonal slash divider in Electric Yellow across the full bleed.",
+    reduced_motion: "Under prefers-reduced-motion, the slash dividers remain static (no animation); the page becomes plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "konami-code",
+      effect: "A stencil-cut Riot figure flickers into the bottom-right corner and throws a fist-raised pose; the page background flashes to pure Electric Yellow (#FFE500) for 200ms, then snaps back to Xerox Black.",
+      reward_copy: "RIOT SAYS: THEY CAN'T STOP THE SIGNAL.",
+      exit: "Riot vanishes on its own after ~3s, or press Esc to dismiss immediately.",
+    },
+    {
+      trigger: "typed-word:phlix",
+      effect: "Every instance of the word 'Phlix' on the current view highlights with a 2px Electric Yellow border and pulses once (steps(1, end) to white background, then back).",
+      reward_copy: "You said the name.",
+      exit: "The highlights fade after ~2s, or press Esc to clear them immediately.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a viewer to run the server and open their library — no sales pitch, no friction.",
+    cta_ladder: [
+      { step: 1, cta: "Take It.",       target: "download" },
+      { step: 2, cta: "Pick a client.", target: "clients" },
+      { step: 3, cta: "Paste and run.", target: "download#server" },
+    ],
+    download_opening: "The Download page opens stark: 'Here's what you need' → the one-line server install command in monospace with a copy button → 'Now pick how you watch' → client cards below.",
+    friction_notes: "Anti-corporate, tech-savvy audience — jargon is welcome. Skip the handholding; they know why they're here. The one-liner install is non-negotiable.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "Real capability stats: '8 features. 5 native clients. One command line.' — plain Anton numerals in Electric Yellow on black, no marketing copy." },
+      { type: "github", format: "The live phlix-server GitHub repo link with its real current star count and issue tracker link (pulled via API, never hard-coded)." },
+      { type: "quotes-from-docs", format: "One true line lifted verbatim from the site copy: '100% self-hostable — your library never leaves your hardware unless you say so' — rendered as a Space Mono monospace quote." },
+    ],
+    placement: "A single spare 'The Facts' band between the closing manifesto and the final CTA — no design flourish, just truth.",
+  },
+
+  visitor_paths: null,
+
+  experience_archetype: "zine",
+
+  complexity_profile: {
+    density: "dense",
+    reading_level: "technical",
+    jargon_policy: "foreground",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "Riot stands on a broken marquee reading '404: Transmission Lost'. Slashed-out navigation path, with a stencil-cut arrow pointing back to the home broadcast.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 23. MASCOT BEHAVIOR
+   * ========================================================================== */
+
+  // Adding behavior to the existing mascot object (Riot) below.
+  // Note: The mascot object ends with the poses array; behavior is inserted after it.
+
+  /* ==========================================================================
+   * 24. SEASONAL ACTIVATION
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/countdown-numerals.svg",
+      "img/seasonal/torn-newsprint-confetti.svg",
+      "img/seasonal/skull-halftone-stencil.svg",
+      "img/seasonal/crossed-heart.svg",
+    ],
+    banner: "The broadcast changes shape with the season — limited time, then back to the transmission.",
+  },
+
+  /* ==========================================================================
+   * 25. METADATA
    * ========================================================================== */
 
   metadata: {

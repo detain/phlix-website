@@ -549,6 +549,29 @@ const brandKit = {
       "Winding its own key in a loop (idle animation)",
     ],
     expressions: ["Alert and attentive", "Pleased (gears spinning rapidly)", "Puzzled (head rotating 180°)", "Processing (steam from earhole vents)"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a perched brass automaton on a mahogany shelf; " +
+        "appears on Home, Download, and Features — never on the docs or FAQ reference pages where reading focus dominates.",
+      idle:
+        "Slowly winds a key protruding from its chest side (one full rotation every 8s), " +
+        "occasionally tilts its head 45° to the left, and blinks its copper gear eyes with " +
+        "a soft mechanical tick. Under prefers-reduced-motion, Cogsworth simply sits motionless.",
+      tips: [
+        { where: "home:#hero",              say: "Boiler at pressure. Ready to proceed?" },
+        { where: "home:.instruments",       say: "Each mechanism serves a purpose — precision engineering at every turn." },
+        { where: "features:#syncplay",      say: "The weighted mean keeps every household locked to the same frame — timekeeping is everything." },
+        { where: "download:#server",        say: "One command, and the engine awakens. I'll catalog the rest." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Cogsworth's head rotates 360° with a satisfying mechanical tick, and steam briefly vents from his earhole." },
+        { trigger: "hover-hold:2s", react: "Cogsworth adjusts his monocle and taps his parchment scroll with his talon approvingly." },
+      ],
+      dismiss:
+        "A small 'Cogsworth, stand by' close button tucked into the shelf tucks him away " +
+        "for the session; localStorage remembers the preference so he stays hidden until reset.",
+    },
   },
 
   /* ==========================================================================
@@ -1068,6 +1091,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/midwinter-porthole-frost.svg",
+      "img/seasonal/grand-exhibition-halls.svg",
+      "img/seasonal/hallows-pumpkin-gauge.svg",
+    ],
+    banner: "The workshop transforms with the season — scroll down to see what's in the air.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1244,6 +1277,284 @@ const brandKit = {
         "A slow UI undermines the brand's precision-engineering promise; " +
         "visual richness must not cost responsiveness.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Workshop",        emphasis: "default" },
+      { id: "features", label: "Instruments",         emphasis: "primary" },
+      { id: "clients",  label: "Engineering Gallery", emphasis: "default" },
+      { id: "download", label: "Commission an Engine", emphasis: "primary" },
+      { id: "hub",      label: "The Relay Station",   emphasis: "default" },
+      { id: "about",    label: "The Logbook",         emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A specialized craftsperson's concern — valuable for tinkerers, secondary for general discovery." },
+      { id: "docs",    reason: "Technical reference lives in the library, one shelf away from the main workshop tour." },
+    ],
+    extra_pages: [
+      {
+        id: "expedition-guide",
+        title: "Expedition into Your Collection",
+        purpose: "A guided walkthrough that treats the first setup as an explorer's expedition into the archive of moving pictures.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "An inventor opens the workshop doors and reveals the precision engine that has catalogued and curated every reel in your collection.",
+    sections: [
+      { id: "boiler-rise",      source: "copy_overlay.hero",  treatment: "Full-bleed hero: a copper-pipe portal opening to reveal the workshop interior, steam wisps rising, tagline engraved on a brass plate.",                    weight: "hero" },
+      { id: "the-apparatus",    source: "feature_casting",    treatment: "Six key instruments displayed as riveted mahogany panels with cross-sectioned gauge illustrations, each labeled with Josefin Slab capitals.",         weight: "major" },
+      { id: "why-this-workshop",source: "story",              treatment: "The founding myth styled as an aged parchment expedition logbook entry, copper-toned paper grain, Crimson Text in narrow columns.",                   weight: "major" },
+      { id: "proof-of-craft",   source: "proof_strategy",     treatment: "Trust signals rendered as a brass placard row: repo stars badge, real-world deployment count, a testimonial quote from the engineering docs.",      weight: "minor" },
+      { id: "commission-now",   source: "conversion_funnel",  treatment: "Closing boiler-house CTA band: 'Fire up the engine' button over a single-line install command engraved on a brass gauge background.",            weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "instrument-panel",
+      spec: "Display the six hero features as mahogany-framed instrument panels arranged in a 2-up grid, each with a cross-hatched gauge illustration, Cinzel-Decorative title, Crimson-Text description, and a small copper detail-badge.",
+    },
+    clients: {
+      template: "engineering-gallery",
+      spec: "Present each client as an engineering schematic on riveted iron: platform name in Cinzel, capabilities as a bulleted spec list in Josefin Slab, with a porthole-window showcase of the UI in the center.",
+    },
+    download: {
+      template: "workshop-counter",
+      spec: "Frame the page as a master engineer's workshop counter: the server one-liner is the 'commission order', client cards are the 'finished works' on a riveted shelf, ecosystem links are the 'tools & references'.",
+    },
+    about: {
+      template: "logbook-chapters",
+      spec: "Tell the workshop story as a scrolling logbook of chapters (Philosophy, License, Contributing) ending with an FAQ styled as 'Questions from the Catalogue' — Cogsworth as the answering librarian.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",   angle: "Every reel catalogued in one mechanical ledger — folder-watcher, parser, schema, precision." },
+      { id: "syncplay",  angle: "Time-locked across the room or across the globe — NTP-weighted precision keeps every frame in step." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  /* ==========================================================================
+   * 26. COPY OVERLAY  — kit-authored presentation copy only
+   * ========================================================================== */
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Precision engineering meets collection mastery",
+      headline: "Your Collection, Masterfully Engineered.",
+      subheadline: "An Edwardian inventor's workshop brought to the streaming age — a media engine built with the precision of a master watchmaker, the ambition of an airship engineer, and the soul of an eternal explorer.",
+      primary_cta: { label: "Commission Your Engine" },
+      secondary_cta: { label: "Tour the Workshop" },
+    },
+    section_headings: {
+      pitch: "What sets this apparatus apart?",
+      features: "The Instruments",
+      cta_banner: "Ready to calibrate? Fire up the boiler.",
+    },
+    footer_tagline: "Crafted for collectors, engineers, and explorers.",
+  },
+
+  /* ==========================================================================
+   * 27. COPY TREATMENTS  — how content blocks are rendered
+   * ========================================================================== */
+
+  copy_treatments: {
+    pitch_bullets: "workshop-readout",          // each bullet as a line on a brass gauge card
+    faq: "logbook-entries",                     // FAQ as Cogsworth's cataloguing notes
+    clients: "engineering-specifications",     // clients as technical spec sheets on riveted panels
+    ecosystem: "tools-on-a-workbench",         // repos as a neatly-arranged set of tools
+  },
+
+  /* ==========================================================================
+   * 28. FAQ EXPERIENCE  — presentation frame & persona
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "logbook-entries",
+    persona: "Cogsworth the mechanical librarian, consulting his parchment scroll and annotating answers directly into the workshop logbook with brass fountain-pen precision.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on my ten-year-old television?", maps_to: "formats" },
+      { q: "Must I connect my workshop to the entire internet?", maps_to: "expose-internet" },
+      { q: "Can I build a plugin for my own inventory?", maps_to: "plugins" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 29. PERSONA VIGNETTES  — concrete usage scenes
+   * ========================================================================== */
+
+  persona_vignettes: [
+    {
+      name: "The Serious Collector's Evening",
+      scene: "A film enthusiast descends into the workshop, cracks open the iron door, and finds their entire catalogued collection ready to project onto the mahogany screen with a single authoritative tap.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Expedition Across Households",
+      scene: "An explorer hits play on a film at home; ten miles away, a friend at another address joins the same expedition — time-locked, frame-synchronized, through the relay tunnel.",
+      surfaces: ["SyncPlay dashboard", "media player", "hub enrollment"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Airship Navigator",
+      scene: "An engineer with equipment scattered across rooms (living room projector, bedroom TV, workshop monitor) dispatches the same film to all three — each receives its optimal quality, each stays in perfect sync.",
+      surfaces: ["device profile selector", "media library grid", "active playback indicator"],
+      features_shown: ["auth", "dlna", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 30. INTERACTIVE SURFACES  — interaction models with fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered workshop diorama — riveted iron walls, a slowly rotating brass gear cluster in the center, steam wisps rising, Cogsworth perched on a pipe — parallaxes gently on scroll and pointer drift. Gauges around the edges show 'loading pressure' and climb toward the headline reveal.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single static engraving of the workshop interior with the brass-gear cluster at center, the headline and both CTAs engraved on a mahogany plaque overlaid on the scene. Full legibility and information without animation.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A mahogany-beam header with the Cinzel 'PHLIX' wordmark in antique brass at left, flanked by a small rotating gear animation. Navigation links separated by small copper pipe dividers; active link glows with copper underline and a subtle gear-tick animation.",
+    keyboard: null,
+    fallback: "The topbar is the standard semantic <nav> — a plain list of links in Josefin Slab, fully keyboard-reachable via Tab, collapsing to a labeled hamburger menu on mobile with aria-label='Navigation'.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like opening a new chamber in the workshop — a subtle iris-wipe (porthole-circle reveal) and a faint mechanical tick-tock as the next chapter scrolls into frame. Steam wisps briefly animate from the top edge.",
+    reduced_motion: "Under prefers-reduced-motion all iris-wipes and tick animations are suppressed; the page becomes a plain continuous scroll with instant visual section boundaries (copper pipe horizontal rule).",
+  },
+
+  /* ==========================================================================
+   * 31. EASTER EGGS  — hidden, harmless, discoverable interactions
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Cogsworth's head rotates 180° with a satisfying mechanical tick, and a wisp of steam briefly rises from his head with a soft whistle sound.",
+      reward_copy: "Cogsworth approves. You've found the Engineer's Secret.",
+      exit: "The animation settles automatically after 3 seconds, or press Esc to reset immediately.",
+    },
+    {
+      trigger: "typed-word:catalogue",
+      effect: "The page briefly tints warm amber, and the Cinzel 'PHLIX' wordmark gains a copper glow as if lit by gas lamp. All gauges on the page briefly spin.",
+      reward_copy: "The workshop recognizes you.",
+      exit: "Press Esc or type any other key to restore the normal state.",
+    },
+    {
+      trigger: "hover-hold:2s",
+      effect: "Hover over any gauge illustration for 2 seconds and it springs to life — the needle sweeps across the dial and returns with a crisp mechanical tick.",
+      reward_copy: "",
+      exit: "Move the pointer away to stop; the gauge settles.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 32. CONVERSION & PROOF  — download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time engineer to run the server and open the lobby — no intimidation, precision framed as pride.",
+    cta_ladder: [
+      { step: 1, cta: "Commission Your Engine",          target: "download" },
+      { step: 2, cta: "Choose Your Gallery Wall",        target: "clients" },
+      { step: 3, cta: "Fire Up the Boiler (install)",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens as an engineer's workbench: a bold 'Three Turns of the Key' header, the one-line server command engraved on a brass gauge-background card, then the client selector below labeled 'pick your screens'.",
+    friction_notes: "A technically-curious, precision-appreciating audience — keep it exact, no hand-holding softness, but reward their precision with craft. The install command is the proudest accomplishment, not a burden.",
+  },
+
+  /* ==========================================================================
+   * 33. PROOF STRATEGY  — verifiable trust signals
+   * ========================================================================== */
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format: "A brass workshop placard listing real capabilities: 5 native client platforms (Roku, Tizen, Windows, Mobile, DLNA), NTP-precise SyncPlay, HLS + FFmpeg transcoding, plugin versioned contract.",
+      },
+      {
+        type: "github",
+        format: "A modest brass-bordered 'from the Engineering Workshop' panel linking phlix-server with live star count and open-issue badge (no invented numbers).",
+      },
+      {
+        type: "quotes-from-docs",
+        format: "One precise line lifted verbatim from the docs about the design philosophy, set in Crimson Text on aged parchment and framed by a riveted-iron border.",
+      },
+    ],
+    placement: "A single dignified brass gauge band between the features and the closing commission CTA — labeled 'Proof of Craft'.",
+  },
+
+  /* ==========================================================================
+   * 34. VISITOR PATHS  — optional audience fork
+   * ========================================================================== */
+
+  visitor_paths: {
+    prompt: "What drew you to the workshop?",
+    paths: [
+      { id: "collector",    label: "I've a library to catalogue",    target: "features#library",  emphasis: ["library", "auth", "transcode"] },
+      { id: "synchronizer", label: "Sync across my household",       target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+      { id: "engineer",     label: "I build bespoke things",         target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 35. EXPERIENCE PROFILE  — overall site experience contract
+   * ========================================================================== */
+
+  experience_archetype: "interactive-demo",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 6, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Workshop lights down",
+    affects: ["animation", "texture", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, labeled in Josefin Slab beside the reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "A 404 'Apparatus Miscalibrated' scene: Cogsworth stands before a broken gear assembly, head tilted curiously, with a Cinzel 'Error 404' banner and 'Page Not In The Catalogue' caption. A rope-line points back to the Workshop.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

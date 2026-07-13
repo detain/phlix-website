@@ -540,6 +540,34 @@ const brandKit = {
       "Victorious (one arm raised, eyes crescent-curved)",
       "Defeated (Xs for eyes, arms limp)",
     ],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Blip as an on-page interactive companion: placement, idle motion, contextual
+    // tips keyed to page sections, easter interactions, and dismissal.
+    behavior: {
+      placement:
+        "Bottom-right corner, small seated pose; appears on Home, Features, and Download " +
+        "pages — never on the About/FAQ reading pages where Blip serves as the NPC speaker.",
+      idle:
+        "Blip rocks side-to-side (2-frame loop, steps(1), 800ms per frame) and blinks " +
+        "(3-frame eyes cycle, 100ms per frame). Every 8 seconds, Blip looks up (raises " +
+        "eyebrows as a single pixel-row shift) as if hearing something. All idle motion " +
+        "is disabled entirely under prefers-reduced-motion (Blip becomes a static statue).",
+      tips: [
+        { where: "home:#hero",           say: "Welcome, adventurer. The dungeon awaits." },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps your crew locked to the same frame, no matter where they are." },
+        { where: "features:.feature-card[data-feature-id='transcode']", say: "Transcoding = every device gets the quality it deserves. No buffering, no drama." },
+        { where: "download:#server",     say: "One shell command, and you're the dungeon master. I'll wait." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",           react: "Blip jumps straight up (8px, steps(1), 200ms total) and lands with a *thud* — the shadow shrinks and grows." },
+        { trigger: "hover-hold:2s",     react: "Blip waves hello (walk cycle running left-right-left, 4 frames at 150ms each) and gives a thumbs-up pose." },
+      ],
+      dismiss:
+        "A small pixel 'X' button (8×8, Mario Red border) appears in the top-right of Blip's container. " +
+        "Clicking it fades Blip out (3 steps over 200ms) and stores 'blip_dismissed=true' in localStorage " +
+        "with a 30-day TTL. Blip stays dismissed across visits until the user clears the flag or 30 days pass.",
+    },
   },
 
   /* ==========================================================================
@@ -1293,6 +1321,248 @@ const brandKit = {
         "game convention is zero loading time (everything fit on one cartridge). " +
         "The experience should feel as fast as pressing Start.",
     },
+  },
+
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Declares whether seasonal_variants ship live or stay documented-only.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snowflake-sprite.png",
+      "img/seasonal/halloween-skull-sprite.png",
+      "img/seasonal/spring-flower-sprite.png",
+    ],
+    banner: "A new dungeon awaits — gear up for the season.",
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Lobby",          emphasis: "default" },
+      { id: "features", label: "Armory",         emphasis: "primary" },
+      { id: "clients",  label: "Device Roster",  emphasis: "primary" },
+      { id: "download", label: "Insert Coin",    emphasis: "primary" },
+      { id: "hub",      label: "Remote Tunnel",  emphasis: "default" },
+      { id: "about",    label: "Adventurer's Log", emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced modding for hardcore players — link to it in Armory, not main nav.", fold_into: "features" },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — how the landing page's story unfolds
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "quest",
+    logline: "Your media dungeon awaits — discover, conquer, and replay.",
+    sections: [
+      { id: "level-start",      source: "copy_overlay.hero",   treatment: "Full-bleed pixel-art hero scene: Blip stands at the dungeon entrance, level-up fanfare plays, the headline appears one word at a time in Press Start 2P.", weight: "hero" },
+      { id: "why-quest",        source: "story",               treatment: "The core adventure promise as a torn scroll.",                                                                      weight: "major" },
+      { id: "key-weapons",      source: "feature_casting",     treatment: "Two hero features cast as power-up chests glowing with yellow light.",                                                weight: "major" },
+      { id: "winning-tactics",  source: "proof_strategy",      treatment: "Trust signals as a trophy case: GitHub stars, active players, and a direct quote about dungeon depth.",              weight: "minor" },
+      { id: "begin-adventure",  source: "conversion_funnel",   treatment: "Closing CTA as a marquee banner: 'Ready to loot? Insert coin to begin.'",                                           weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates for each page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "boss-arena-roster",
+      spec: "Frame each feature as a named boss/level in a scrollable dungeon — each gets its own pixel-art sprite, attack patterns (benefits), and a '✓ Defeated' badge if active.",
+    },
+    clients: {
+      template: "device-roster",
+      spec: "Present clients as playable character classes / device roles: each is a pixel-art silhouette with its highlights as stat modifiers and platform badges.",
+    },
+    download: {
+      template: "level-select-screen",
+      spec: "The download page mirrors a classic level-select grid: Server is the 'Campaign', clients are difficulty/device options, ecosystem is the 'Secrets Unlocked' section below.",
+    },
+    about: {
+      template: "high-score-hall",
+      spec: "Tell the founding story as a series of game-over and victory moments leading to today's high score; FAQ is the 'Arcade Tips' section—Blip in an usher's hat dispensing advice.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how features and facts are weighted
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your dungeon, auto-catalogued — add a file, watch it join the map." },
+      { id: "syncplay", angle: "Co-op mode for movie night — every room, every device, one shared frame." },
+    ],
+    support: ["transcode", "auth", "hub"],
+    footnote: ["livetv", "dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "8-bit Home Cinema",
+      headline: "Insert Coin. Begin Story.",
+      subheadline: "Your media library lives in a dungeon. Blip is your guide. Stream to any device, sync with friends across the world, and collect coins for every level you clear.",
+      primary_cta: { label: "Insert Coin" },
+      secondary_cta: { label: "Explore the Armory" },
+    },
+    section_headings: {
+      pitch: "Why venture into Pixel Dungeon?",
+      features: "Weapons & Power-ups",
+      cta_banner: "Ready to start? The dungeon entrance awaits.",
+    },
+    footer_tagline: "Press Start to Continue.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "quest-log",
+    faq: "npc-dialogue",
+    clients: "device-roster",
+    ecosystem: "loot-inventory",
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE FRAMING  — interactive surfaces & personality
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "npc-dialogue",
+    persona: "Blip, your adventuring companion, answering dungeon-crawler questions from the lobby bulletin board.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I sync playback across my house?", maps_to: "like-plex" },
+      { q: "What's the easiest way to set this up?", maps_to: "expose-internet" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Solo Speedrun",
+      scene: "You've got 8 hours and a massive backlog. Drop into your library, fire up a movie in seconds flat, let the server's quality selector handle the heavy lifting. Solo dungeon run.",
+      surfaces: ["home hero", "media library grid", "media player", "quality selector"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Co-op Movie Night",
+      scene: "Three friends, three time zones, one film. Everyone hits play from their own device — SyncPlay locks you to the same second. No more 'who's paused?' arguments.",
+      surfaces: ["media player", "syncplay lobby", "hub connect screen"],
+      features_shown: ["syncplay", "hub", "transcode"],
+    },
+    {
+      name: "Family Multiplayer",
+      scene: "The kids' profile opens straight to their curated shelf with parental ratings enforced; the old living-room smart TV picks it up over DLNA without a new app.",
+      surfaces: ["profile picker", "media library grid", "live tv grid"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. INTERACTIVE SURFACES  — interaction models with required fallbacks
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "Blip runs from left to right across the hero section in a 2-frame walk cycle, coin sparkles trailing behind. A chiptune level-up fanfare plays (100ms each: C-E-G chord). The headline fades in word-by-word as Blip reaches the right edge. On mobile or prefers-reduced-motion, Blip is static and the headline appears instantly.",
+    suggested_inputs: ["scroll offset", "pointer position"],
+    fallback: "A single flat 8-bit pixel-art scene: Blip stands triumphant at the dungeon entrance, coins at his feet, the identical headline and both CTAs baked into the static markup beneath him.",
+    js_budget_kb: 4,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A Cartridge Black bar with a 2px Screen White border at the bottom (NES HUD style). Brand wordmark in Press Start 2P on the left. Nav links in Silkscreen. Active nav link glows with Mario Red 2px bottom border. A small Coin Yellow-Green counter shows library item count on the right (like a game score). Blinking cursor (steps(1), 500ms) precedes the active link.",
+    keyboard: null,
+    fallback: "A standard accessible topbar <nav> with the same links, full keyboard navigation (Tab → Enter to activate), collapsing to a labeled hamburger menu (<button aria-label='Navigation menu'>) on mobile that expands a <ul> in an overlay.",
+  },
+
+  scroll_experience: {
+    mode: "panel-sequence",
+    spec: "Each homepage section arrives in discrete 8px steps (not smooth scroll). A brief 2-frame 'wipe' transition (hard pixel columns) separates sections when scrolling past them. Optional pixel 'ding' sound on each transition. Under prefers-reduced-motion, the wipes are instant hard cuts and the sound is muted.",
+    reduced_motion: "Sections appear with instant hard cuts (no wipes or transitions); scroll is normal continuous; no audio. The page remains fully readable with no motion penalty.",
+  },
+
+  /* ==========================================================================
+   * 28. EASTER EGGS & CONVERSION  — hidden rewards & the download journey
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Blip performs a victory spin (4-frame walk cycle loop) in the middle of the screen. A shower of 8 coin sprites (each a 2×2 pixel yellow square) falls from top and collects in a pile at Blip's feet. The classic NES coin-collect sound (C-E-G-C arpeggio, 40ms per note) plays.",
+      reward_copy: "1UP! You've found the secret stash!",
+      exit: "The coins and Blip settle after 5 seconds, or press Esc to clear immediately.",
+    },
+    {
+      trigger: "typed-word:continue",
+      effect: "The word 'CONTINUE?' appears in the center of the screen in Press Start 2P (8px, Coin Yellow-Green), flickering at 300ms intervals (steps(1)). A blinking cursor blinks beside it. All other page interactions pause until dismissed.",
+      reward_copy: "You found the Arcade Cheat Code!",
+      exit: "Press Esc to dismiss, or any other key to resume normal browsing.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "quest",
+    primary_goal: "Turn a first-time visitor into someone running the server and discovering their library on the big screen.",
+    cta_ladder: [
+      { step: 1, cta: "Insert Coin",          target: "download" },
+      { step: 2, cta: "Choose Your Device",   target: "clients" },
+      { step: 3, cta: "Launch the Server",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a boss arena: 'Level 1: Install the Server' at the top with a one-line shell command in a pixel-bordered code block. Below: 'Level 2: Pick Your Device' with native client cards. At the bottom: 'Secret: Ecosystem' with ecosystem repos as bonus loot.",
+    friction_notes: "Retro gamers and media-enthusiast audience — they *love* the dungeon metaphor and jargon. Zero-jargon is wrong here; every technical detail is a treasure map. They'll go deep. Keep the install snippet visible at all times (sticky header), but let features breathe.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A placard styled like a trophy case: '8 native features. 5 device platforms. Real-time sync across your whole house. Verbatim from content.json.' No invented numbers." },
+      { type: "github", format: "A modest link to the phlix-server GitHub repo with its real, live star count fetched via the GitHub API (never hard-coded). Label: 'Forged in open source.'" },
+      { type: "quotes-from-docs", format: "One true sentence lifted verbatim from the README or docs about why Phlix exists, set in a pixelated speech bubble: 'Your media never leaves your hardware unless you say so.'" },
+    ],
+    placement: "A single calm pixel-bordered band between the features section and the closing CTA, styled as an in-game trophy case or lobby placard.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of adventurer are you?",
+    paths: [
+      { id: "solo",       label: "Solo Speedrunner",        target: "features#transcode", emphasis: ["transcode", "library", "auth"] },
+      { id: "coop",       label: "Co-op Movie Night",       target: "features#syncplay",  emphasis: ["syncplay", "hub"] },
+      { id: "collector",  label: "Collector with a Big Map", target: "features#library",   emphasis: ["library", "livetv", "dlna"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 29. EXPERIENCE PROFILE  — declared architecture & complexity
+   * ========================================================================== */
+
+  experience_archetype: "interactive-demo",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Calm Dungeon (reduce CRT)",
+    affects: ["crt-overlay", "coin-particles", "chiptune-sfx", "stepped-scroll"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, next to the prefers-reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "A 404 'Game Over' screen: Blip sits defeated with Xs for eyes beneath an empty Shop sign. Text reads 'GAME OVER — This Quest Does Not Exist' in Press Start 2P. A '✓ Restart' button (Mario Red, 2px drop shadow) links back to home.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

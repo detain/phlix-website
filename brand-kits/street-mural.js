@@ -526,6 +526,33 @@ const brandKit = {
       "Can has a chrome body, spray-red cap, and electric-blue nozzle tip.",
     poses: ["Mid-spray arc", "Fist raised (crew salute)", "Holding a dripping piece tag", "Running with a full can"],
     expressions: ["Hyped", "Focused", "Laughing", "Side-eyeing"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Cap as an interactive on-page companion — always ready with a tip, a joke,
+    // or a spray-can shake for the crew that finds him.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small Can mid-spray; appears on home, download, " +
+        "features, and about — never on the FAQ reading pages so Cap doesn't steal the crew's Q&A.",
+      idle:
+        "Cap does a slow spray-shake (left-right), occasionally releases a tiny overspray " +
+        "puff, and rotates his expression every 3–4s. Idle motion is disabled under " +
+        "prefers-reduced-motion (Cap simply holds a static pose).",
+      tips: [
+        { where: "home:#hero",              say: "Yo, crew. Fresh wall — time to paint it." },
+        { where: "home:.feature-grid",      say: "See that? Library + SyncPlay = your wall, in sync." },
+        { where: "features:#support",       say: "Transcode, auth, live TV—the spray-cans in your kit." },
+        { where: "download:#server",        say: "Three lines and it's yours. We run quiet." },
+        { where: "about:.crew-story",       say: "BSD license means you own every pixel." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Cap does a rapid spray-can rattle, shakes, and spins his cap backward—crew approved." },
+        { trigger: "hover-hold:2s", react: "Cap offers you an imaginary fresh can and gives a fist bump." },
+      ],
+      dismiss:
+        "A small 'Cap, step back' close button sends Cap to the corner; the dismissed state " +
+        "persists via localStorage so Cap stays benched if you asked him to.",
+    },
   },
 
   /* ==========================================================================
@@ -935,6 +962,22 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────────
+  // Street Mural's seasonal variants are LIVE — date-gated switches flip during
+  // the active ranges (Winter Block 12/1–1/15, Summer Jam 6/21–9/1, Culture Month
+  // 2/1–2/28, Pride Wall 6/1–6/20) with no rebuild needed. Motif assets load
+  // on-demand per variant.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-frost-overlay.svg",
+      "img/seasonal/summer-heat-shimmer.svg",
+      "img/seasonal/culture-month-portraits.svg",
+      "img/seasonal/pride-rainbow-arc.svg",
+    ],
+    banner: null,  // no global seasonal banner overlay; let the motif speak
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1089,13 +1132,255 @@ const brandKit = {
   },
 
   /* ==========================================================================
+   * 22. SITE ARCHITECTURE
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Wall",        emphasis: "default" },
+      { id: "features", label: "New Pieces",      emphasis: "primary" },
+      { id: "clients",  label: "Spray Cans",      emphasis: "default" },
+      { id: "download", label: "Claim Your Space", emphasis: "primary" },
+      { id: "hub",      label: "Crew Hub",        emphasis: "default" },
+      { id: "about",    label: "The Crew",        emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced paint — for the crew that likes to tinker, not the first-time tagger.", fold_into: "features" },
+      { id: "docs",    reason: "Reference spray-can manual lives in the footer for the hard-core heads." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Your media library deserves a wall that commands attention—painted loud, owned by you, seen on your terms.",
+    sections: [
+      { id: "the-wall",      source: "copy_overlay.hero", treatment: "Full-bleed concrete wall hero with spray-can arc animation and a stencil headline that hits hard.",                                                                 weight: "hero" },
+      { id: "tagged-pieces", source: "feature_casting",   treatment: "Hero features styled as fresh throw-ups on the wall—bold, asymmetric, kinetic; support features as a grid of tagged sections below.",                              weight: "major" },
+      { id: "why-paint",     source: "story",             treatment: "The crew's story: value props rendered as a manifesto spray-painted on concrete—short, direct, unapologetic.",                                                    weight: "major" },
+      { id: "proof-tag",     source: "proof_strategy",    treatment: "Real proof (GitHub stars, device count, crew size) as a wall placard: 'Painted by thousands of crews worldwide.'",                                               weight: "minor" },
+      { id: "claim-yours",   source: "conversion_funnel", treatment: "Closing CTA: 'Claim your section' banner—one tap to the Download page, no friction, no corporate hedging.",                                                        weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "gallery-wall",
+      spec: "Lay the features out as if they were tagged sections on a concrete wall—each feature is a stencil panel with bold title, body copy, and a spray-halo icon. Asymmetric grid (some tall, some wide) to read like a living mural.",
+    },
+    clients: {
+      template: "spray-can-family",
+      spec: "Each client device is drawn as a stylized spray can or stencil shape (Roku as a rounded can, Windows as a squared industrial can, etc.). Headline is the device name; sub-copy lists highlights. Arranged in a 'crew lineup' across the page.",
+    },
+    download: {
+      template: "tag-your-wall",
+      spec: "Frame the page as 'Three steps to paint': (1) the server install snippet in a monotype 'spray-stencil' code block, (2) the client seat-picker below, (3) ecosystem links as a 'crew resources' footer section.",
+    },
+    about: {
+      template: "crew-stories",
+      spec: "The origin story as a scrolling mural: each section is a stencil chapter (Philosophy, License, Contributing) rendered as bold headings + body, ending in a 'Questions from the Crew?' FAQ section styled as crew member Q&A.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your collection, finally on your wall—tagged, owned, visible to the crew you choose." },
+      { id: "syncplay", angle: "Every device in the room locked to the same frame—the wall moves as one." },
+    ],
+    support: ["auth", "transcode", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Reclaim your media",
+      headline: "Paint your wall. Play it loud.",
+      subheadline: "Phlix is self-hosted media on your terms—no algorithm, no corporate wall between you and your library. Native apps on Roku, Windows, your phone, and any screen. SyncPlay keeps every room in step. Your wall. Your rules.",
+      primary_cta: { label: "Claim Your Space" },
+      secondary_cta: { label: "Read the Manifesto" },
+    },
+    section_headings: {
+      pitch: "Why paint your own wall?",
+      features: "What's on the wall",
+      cta_banner: "Your wall is ready. Paint it.",
+    },
+    footer_tagline: "Your wall. Your rules. Your crew.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "banner-spray",           // each value prop lit up on a stencil banner line
+    faq: "crew-testimonials",                // FAQ styled as street-crew member voices
+    clients: "spray-can-lineup",             // clients as stylized spray cans in a crew lineup
+    ecosystem: "block-library",              // ecosystem repos as a shelf of tagged blocks
+  },
+
+  /* ==========================================================================
+   * 26. FAQ & PERSONAS
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "crew-voices",
+    persona: "Cap the can, hyperactive and ready—answering crew questions straight from the wall.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I use old, busted hardware?",                     maps_to: "formats" },
+      { q: "What if I don't want to open my door to the internet?", maps_to: "expose-internet" },
+      { q: "Can I write my own tools to paint with?",             maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Neighborhood Block Party",
+      scene: "Three houses on the block, each hosting their own Phlix server; during movie night the kids' crew syncs playback across all three screens over the block's WiFi, seamless and local.",
+      surfaces: ["home hero", "media library grid", "media player", "SyncPlay indicator"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "The Urban Collector",
+      scene: "A hip-hop producer with 8TB of bootleg DVDs, 1970s concert films, and underground documentaries—all organized and tagged by hand, never uploaded, playable on the bedroom TV or their phone at a café.",
+      surfaces: ["home hero", "media library grid with custom tags", "mobile player"],
+      features_shown: ["library", "auth", "transcode"],
+    },
+    {
+      name: "The Cross-City Crew",
+      scene: "Two friends in different cities stay locked together for the 10pm movie start via the Phlix Hub—one connects via Roku, the other via Windows; SyncPlay keeps them frame-locked despite the 80ms latency.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connection screen"],
+      features_shown: ["syncplay", "hub", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "spray-reveal",
+    spec: "A layered concrete wall that 'paints' on scroll: the headline and subheadline spray into view as if Cap is tagging the wall in real-time, with spray-halo glows and drip animations revealing the CTAs.",
+    suggested_inputs: ["scroll position", "viewport height"],
+    fallback: "A static painted wall illustration with the headline, subheadline, both CTAs, and Cap mid-spray already baked into the image, same copy, same punch.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar-tags",
+    spec: "A dark concrete topbar with the Phlix wordmark at left, stencil-tag navigation links in the center, and a three-dot crew menu at right. The active link glows spray-red with a hard left-edge bar, like a freshly painted tag.",
+    keyboard: null,
+    fallback: "A fully accessible <nav> list of the same links, standard topbar, keyboard-reachable via Tab, collapsing to a labeled hamburger menu with aria-expanded and role='button' on mobile (the topbar-tags mode is a visual enhancement layer only; the accessible fallback always renders and is the primary navigation).",
+  },
+
+  scroll_experience: {
+    mode: "kinetic-drip",
+    spec: "As each section scrolls into frame, a spray-paint drip wipe enters from the top-left, and the section 'stamps' in with a stencil-impact feel—bold, kinetic, fast (200–300ms per section).",
+    reduced_motion: "Under prefers-reduced-motion, no drip wipes or stamp effects; sections fade in smoothly over 150ms as the page scrolls continuously.",
+  },
+
+  /* ==========================================================================
+   * 28. EASTER EGGS
+   * ========================================================================== */
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Cap does a rapid spray-can shake, a quick overspray burst covers half the hero, and the page gains a temporary 'paint splatter' filter overlay.",
+      reward_copy: "Nice tag! Cap approved.",
+      exit: "The paint splatter fades after 4s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:crew",
+      effect: "The cursor becomes a tiny spray-can icon and the nearest tagline glows spray-red; a chuckle sound effect plays.",
+      reward_copy: "You're speaking Cap's language.",
+      exit: "Press Esc (or type any other key) to restore the normal cursor.",
+    },
+    {
+      trigger: "scroll-past-footer:3x",
+      effect: "A hidden 'Thank you for painting' message appears in the footer, signed by Cap and the crew.",
+      reward_copy: "The wall sees you, crew. Welcome home.",
+      exit: "The message persists for the session; reload to reset.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 29. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "tag-your-wall",
+    primary_goal: "Get a first-time tagger to claim their section and drop the server install.",
+    cta_ladder: [
+      { step: 1, cta: "See the Wall",           target: "features" },
+      { step: 2, cta: "Pick Your Spray Can",    target: "clients" },
+      { step: 3, cta: "Claim Your Space",       target: "download#server" },
+    ],
+    download_opening: "The Download page opens like claiming your tag on the wall: 'Three lines of code and it's yours' (the server install), then 'Now choose your spray can' (the client picker), then 'Paint with your crew' (ecosystem links).",
+    friction_notes: "An urban, independent, technical-but-street-savvy audience—keep copy punchy and direct, no flowery onboarding, no hand-holding; the install is the easiest part and should feel like it.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A 'Wall Stats' placard: real numbers pulled from content.json—5 native clients (Roku, Tizen, Windows, Mobile, DLNA), SyncPlay over device sync, HLS + FFmpeg transcode." },
+      { type: "github",           format: "A modest 'From the Spray Can' row: the real phlix-server repo with live star and issue counts (never hard-coded), plus a link to the hub repo." },
+      { type: "quotes-from-docs", format: "One short, true line from the BSD license or docs about staying in control of your media, rendered as a painted quote on concrete." },
+    ],
+    placement: "A single 'The Crew Approves' band between the feature showcase and the final CTA—concrete bg, spray-red text.",
+  },
+
+  visitor_paths: {
+    prompt: "What's your role in the crew?",
+    paths: [
+      { id: "collector",    label: "I'm a collector",         target: "features#library", emphasis: ["library", "auth", "transcode"] },
+      { id: "sync-crew",    label: "We sync watches",         target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "tinkerer",     label: "I like to tinker",        target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 30. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "asymmetric",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Volume",
+    affects: ["scroll_experience→kinetic-drip", "animation", "spray-halo effects"],
+    default: "full",
+    placement: "A small rocker toggle in the footer utility row, next to the reduced-motion note—'Volume: LOUD/chill'.",
+  },
+
+  error_page_experience: {
+    concept: "A 'wrong wall' gag: Cap stands in front of a blank concrete wall with an empty spray can, shrugging; a tagline reads 'This wall is blank—or doesn't exist yet.' The recovery links back to the main wall.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
    * 23. METADATA
    * ========================================================================== */
 
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-13",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1109,7 +1394,9 @@ const brandKit = {
       "Base/parent kit for the Street Mural identity. " +
       "Author variations (e.g. seasonal or regional sub-themes) against this via base_kit.slug = 'street-mural'. " +
       "Key distinctions: dark-first concrete palette, hard-offset shadows (no blur), " +
-      "Anton/Barlow Condensed type stack, angular non-rounded UI language.",
+      "Anton/Barlow Condensed type stack, angular non-rounded UI language. " +
+      "Experience overrides (§22–§30) reshape the site's IA, content emphasis, and interaction model " +
+      "around street culture and community ownership — not just visual reskin.",
   },
 };
 

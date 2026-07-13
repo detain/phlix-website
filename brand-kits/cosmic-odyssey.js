@@ -548,6 +548,29 @@ const brandKit = {
       "Sitting on a crater rim, watching the stars",
     ],
     expressions: ["Wonder", "Focus", "Serenity", "Triumphant"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a small floating figure; appears on Home, Download, " +
+        "and About pages — never on the docs or technical reference pages.",
+      idle:
+        "Vela floats gently in zero-g orbit, helmet tilt alternating side-to-side " +
+        "as if scanning the stars. The visor's star-map briefly pulses violet. " +
+        "Idle motion is disabled under prefers-reduced-motion (Vela simply drifts).",
+      tips: [
+        { where: "home:#hero",              say: "Signal acquired. Set course for your next discovery." },
+        { where: "home:.features-overview", say: "Every orbit holds a different treasure — SyncPlay keeps everyone on the same trajectory." },
+        { where: "download:#server",        say: "Launch sequence initiated. One line and you're the mission commander." },
+        { where: "about:.faq-list",         say: "Transmission log: answers to the questions we receive from the void." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7",       react: "Vela extends an arm and traces a constellation in the air, then salutes." },
+        { trigger: "hover-hold:3s", react: "Vela's visor flares with a brilliant star-map glow and a soft chime resonates." },
+      ],
+      dismiss:
+        "A small 'Vela, return to base' close button tuchs Vela back into the star map; " +
+        "the dismissed state persists via localStorage so Vela stays docked.",
+    },
   },
 
   /* ==========================================================================
@@ -1066,6 +1089,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/meteor-shower-trails.svg",
+      "img/seasonal/aurora-borealis-curtain.svg",
+      "img/seasonal/milky-way-river.svg",
+    ],
+    banner: "Perseid Meteor Shower — watch the cosmos blaze overhead. Every orbit tells a story.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1241,7 +1274,214 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Launch Pad",     emphasis: "default" },
+      { id: "features", label: "Star Catalog",   emphasis: "primary" },
+      { id: "clients",  label: "Fleet Status",   emphasis: "default" },
+      { id: "download", label: "Set Coordinates", emphasis: "primary" },
+      { id: "hub",      label: "Signal Relay",   emphasis: "default" },
+      { id: "about",    label: "Mission Log",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Auxiliary systems — valuable to engineers, not the primary trajectory for explorers new to Phlix." },
+      { id: "docs",    reason: "Technical reference lives one transmission away in the footer, for crews who need deep specs." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "You are an explorer. Your library is the cosmos. Every film, a star system waiting to be visited.",
+    sections: [
+      { id: "void-opens",     source: "copy_overlay.hero", treatment: "Full-bleed star-field hero: the void parts to reveal Vela's silhouette and the mission headline.", weight: "hero" },
+      { id: "stellar-catalog", source: "feature_casting",   treatment: "Four 'charted systems' (hero features) rendered as mission briefing cards with technical specs.",          weight: "major" },
+      { id: "why-launch",     source: "story",             treatment: "Value props framed as a captain's log entry — why this expedition matters.",                       weight: "major" },
+      { id: "past-missions",  source: "proof_strategy",    treatment: "Real star-counts and repo telemetry displayed as a mission-control readout.",                      weight: "minor" },
+      { id: "ignition",       source: "conversion_funnel", treatment: "Closing launch-sequence CTA: 'Fire Main Engines' beside the download one-liner.",               weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "star-catalog",
+      spec: "Lay the features out as a scrolling star catalog — each entry a mission briefing card with a technical icon, headline, and discovery claim.",
+    },
+    clients: {
+      template: "fleet-manifest",
+      spec: "Present each client device as a vessel in the fleet, with native platform details and the systems it can reach (direct play, HLS, transcoding).",
+    },
+    download: {
+      template: "mission-control",
+      spec: "Frame the page as a mission-control center: the server install is the 'launch sequence', client cards are the 'available vessels', ecosystem links are the 'support systems'.",
+    },
+    about: {
+      template: "captain-log",
+      spec: "Tell the founding story as a scrolling mission log (Philosophy, License, Contributing) ending in the FAQ framed as 'Transmission Log — Common Queries'.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "NTP time-sync keeps every explorer on the same trajectory — play, pause, seek — everyone moves together across the void." },
+      { id: "library",  angle: "Drop a file and watch it take its place in your star catalog — metadata surfaces instantly from the void." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Set Course",
+      headline: "Every Story, An Infinite Horizon.",
+      subheadline: "Your library awaits in the void. Stream to every screen, sync every viewer, explore without limits — Phlix is your vessel.",
+      primary_cta: { label: "Fire Main Engines" },
+      secondary_cta: { label: "Read Transmission" },
+    },
+    section_headings: {
+      pitch: "Why launch with Phlix?",
+      features: "Systems in the Catalog",
+      cta_banner: "Ready for launch. Ignition sequence begins.",
+    },
+    footer_tagline: "The odyssey never ends.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "mission-briefing",
+    faq: "transmission-log",
+    clients: "fleet-manifest",
+    ecosystem: "star-chart",
+  },
+
+  faq_experience: {
+    frame: "transmission-log",
+    persona: "Vela, the cosmic navigator, answering queries from explorers in transmission form.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this run on my old server?", maps_to: "formats" },
+      { q: "Do I have to open my world to the void?", maps_to: "expose-internet" },
+      { q: "Can I steer the ship myself — write my own systems?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Solo Expedition",
+      scene: "One explorer, countless worlds — dimming the room, launching their library, and disappearing into the infinite.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Synchronized Voyage",
+      scene: "Two crews, three time zones, one film — everyone hits play and stays locked to the same frame as if they were on the same bridge.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "Fleet Coordination",
+      scene: "The captain's profile opens to a curated channel manifest, the old DLNA vessel receiving the signal over its native protocol.",
+      surfaces: ["profile picker", "media library grid", "device selector"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered void diorama — star field, nebula backdrop, Vela floating mid-frame, orbital ring accent — parallaxes gently on scroll/pointer motion. The star map in Vela's visor pulses violet in sync.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single flat illustration of Vela against a starfield nebula with the identical headline, subheadline, and both CTAs baked into the static markup. No motion required.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A deep-space topbar with constellation dots between the links and the Phlix wordmark in Orbitron; the active link glows violet like a pulsar.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> list with the same link structure, fully keyboard navigable via Tab and Enter, aria-current='page' on active link, collapsing to a labeled hamburger menu on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a new sector entering the scope — a slow warp-speed zoom and a faint star-trail sweep as content enters frame.",
+    reduced_motion: "Under prefers-reduced-motion the warp effects are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Vela executes a perfect barrel-roll and traces a constellation in the air with one arm, then salutes.",
+      reward_copy: "Course correction approved. You've got an explorer's touch.",
+      exit: "The animation settles after ~5s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:void",
+      effect: "The background nebula briefly pulses from violet to gold, and Vela's visor flares with a brilliant star-map glow.",
+      reward_copy: "You've found the heart of the void.",
+      exit: "Press Esc (or type any other key) to restore normal visuals.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "A distant spacecraft drifts across the lower-right corner, leaving a faint stardust trail, then disappears into the horizon.",
+      reward_copy: "Safe travels, explorer.",
+      exit: "The sprite fades after reaching the edge.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get an explorer to launch the server and enter their first library sector.",
+    cta_ladder: [
+      { step: 1, cta: "Fire Main Engines",           target: "download" },
+      { step: 2, cta: "Choose Your Vessel",          target: "clients" },
+      { step: 3, cta: "Ignite (install server)",     target: "download#server" },
+    ],
+    download_opening: "The Download page opens like a mission-control briefing: 'Two transmissions to orbit' header over the one-line server ignition command, then the client fleet roster below.",
+    friction_notes: "Technical explorers — keep the path direct and precise, no handholding; respect that they're building infrastructure, not just pressing play.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A mission-control readout of real capabilities: 8 core features, 5 native clients, NTP time-sync across devices, HLS + FFmpeg transcoding." },
+      { type: "github",           format: "A 'from the bridge' row linking the real phlix-server repo with live star and issue counts (never a hard-coded number)." },
+      { type: "quotes-from-docs", format: "One precise line from the docs (verbatim: 'BSD-3-Clause across the board') set as a mission-brief quote in a constellation-line frame." },
+    ],
+    placement: "A single calm 'telemetry verified' band between the features and the closing ignition CTA.",
+  },
+
+  visitor_paths: null,
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Reduce cosmic effects",
+    affects: ["parallax", "animation", "particle-effects", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, below prefers-reduced-motion context.",
+  },
+
+  error_page_experience: {
+    concept: "A 'signal lost' gag: Vela stands at the edge of a cliff on an alien moon, staring at a empty sector marked '404 — this coordinate does not exist', holding a star chart and looking contemplative.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 24. METADATA
    * ========================================================================== */
 
   metadata: {

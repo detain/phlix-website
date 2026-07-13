@@ -510,6 +510,35 @@ const brandKit = {
       "Holding a clapperboard",
     ],
     expressions: ["SHOCKED", "THRILLED", "BORED (ironically)", "TRIUMPHANT"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive companion)
+    // Type  : object | null
+    // About : Turns Dotty from static art into a lightweight on-page companion
+    //         with contextual tips and playful easter interactions.
+    behavior: {
+      placement:
+        "Bottom-right corner as a permanent hype-person fixture; appears on home, " +
+        "features, clients, and download pages — never on docs or about (reading pages).",
+      idle:
+        "Dotty bounces gently side-to-side with her arms pumping, occasionally " +
+        "shouting a tiny KAPOW! thought bubble; idle animation is disabled under " +
+        "prefers-reduced-motion (Dotty simply stands still, arms ready).",
+      tips: [
+        { where: "home:#hero",              say: "Press play and the dots start pulsing. WHAM!" },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps every seat in sync — same frame, same moment." },
+        { where: "features:#syncplay",      say: "Movie night stops for nobody — NTP time-sync is the secret sauce." },
+        { where: "clients",                 say: "Five clients, zero compromises. Pick your screen and BOOM!" },
+        { where: "download:#server",        say: "One line and you're screaming. Copy, paste, POW!" },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Dotty throws confetti (red/yellow dots) and shouts 'SUPERSTAR!'" },
+        { trigger: "hover-hold:2s", react: "Dotty winks and a speech bubble appears: 'You've got good taste.'" },
+      ],
+      dismiss:
+        "A small 'Dotty, take five' button tucks her behind an off-screen speech " +
+        "bubble; the dismissed state persists via localStorage.",
+    },
   },
 
   /* ==========================================================================
@@ -969,6 +998,23 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Controls whether seasonal_variants above ship live or stay
+  //         documentation-only. "documented" = data exists but never applied.
+  //         "live-js" = a self-contained date-gate flips tokens when active_range
+  //         matches, enabling the motif at runtime (no rebuild needed).
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/summer-sunglasses.svg",
+      "img/seasonal/winter-snowflake-pattern.svg",
+      "img/seasonal/winter-foil-stripe.svg",
+    ],
+    banner: null,
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1139,13 +1185,239 @@ const brandKit = {
   },
 
   /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "KAPOW!",         emphasis: "default" },
+      { id: "features", label: "The Panel Grid", emphasis: "primary" },
+      { id: "clients",  label: "Every Screen",   emphasis: "default" },
+      { id: "download", label: "BAM! Install",   emphasis: "primary" },
+      { id: "hub",      label: "The Scene",      emphasis: "default" },
+      { id: "about",    label: "Dotty Digs In",  emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Plugins are a treat — nice for the techies, not the first conversation with a new visitor.", fold_into: "features" },
+      { id: "docs",    reason: "Docs are in the speech bubble — a thought-bubble away via the footer." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "manifesto-first",
+    logline: "Every media collection screams. Phlix makes sure it screams loud, bold, and in primary colors.",
+    sections: [
+      { id: "starburst-intro", source: "copy_overlay.hero", treatment: "Full-bleed starburst hero: KAPOW! headline erupts in Bangers ALL CAPS white-on-red, with a thought-bubble subheadline and two explosive CTAs.", weight: "hero" },
+      { id: "dotty-scene",     source: "persona_vignettes",  treatment: "Two quick vignettes cast as comic-panel dioramas: Dotty introducing two killer features (library + syncplay) in 60-character punchy frames.", weight: "major" },
+      { id: "the-grid",        source: "feature_casting",    treatment: "Six secondary features rendered as a 2×3 Warhol-style silkscreen grid on white, each with its own Ben-Day dot fill and thick black label.", weight: "major" },
+      { id: "proof-burst",     source: "proof_strategy",     treatment: "A starburst badge: 'Real counts from the projection booth' — star count + capability matrix + one verbatim quote.", weight: "minor" },
+      { id: "cta-pop",         source: "conversion_funnel",  treatment: "Closing POW! banner: 'One line and you're screaming — BAM! Install →' with the one-liner snippet and red button.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "comic-panels",
+      spec: "Layout the six features as a 2×3 comic-panel grid with thick black 4px gutters and chunky Bangers titles; each panel has its own primary-color full-bleed background and white text.",
+    },
+    clients: {
+      template: "spec-sheet",
+      spec: "Render each client as a device silhouette with its name, spec-row highlights (HLS, Hub mode, SyncPlay, etc.), and a 'View Source' button; use duotone halftone art per device.",
+    },
+    download: {
+      template: "spec-sheet",
+      spec: "Frame the download as 'Installation Panel One' (the PHP one-liner in a starburst attention-getter) → 'Installation Panel Two' (client choice grid) → 'The Full Toolkit' (ecosystem list).",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell the founding-artist story as scrolling chapters; end with 'Ask Dotty' FAQ as a speech-bubble Q&A with Dotty as the persona.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Drop a file and watch it EXPLODE onto your screen." },
+      { id: "syncplay", angle: "Movie night in sync — every seat the same frame, every remote a paintbrush." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "POW!",
+      headline: "WHAM! Your media, amplified.",
+      subheadline: "A self-hosted media server so bold and bright it belongs on a gallery wall. Drop a file. Press play. The dots start pulsing.",
+      primary_cta: { label: "BAM! Install" },
+      secondary_cta: { label: "ZAP! See the features" },
+    },
+    section_headings: {
+      pitch: "Why the dots are screaming:",
+      features: "The Full Panel",
+      cta_banner: "Ready to make a scene?",
+    },
+    footer_tagline: "Your library. Four-color glory.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "banner-pennants",   // each bullet as a thick-outlined pennant banner
+    faq: "letters-column",              // FAQ as Dotty answering fan mail in thought bubbles
+    clients: "family-of-devices",       // devices in a duotone pop-art silhouette lineup
+    ecosystem: "repo-list",             // repos as a library shelf of reels
+  },
+
+  faq_experience: {
+    frame: "letters-column",
+    persona: "Dotty, answering the audience's burning questions in thought bubbles and speech bubbles, in character — irreverent, shout-y, always making a scene.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I run this without screaming?", maps_to: "like-plex" },
+      { q: "Will my ISP notice?", maps_to: "expose-internet" },
+      { q: "Does it play weird formats?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Gallery Opening Night",
+      scene: "A design student loads their criterion collection into Phlix and hosts a watch party in the dorm lounge — the big screen glows, everyone hits play at once, and it STAYS in sync.",
+      surfaces: ["hero with starburst", "media library grid (Ben-Day-dotted)", "syncplay indicator", "media player (bold play button)"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "The Friday-Night Pop",
+      scene: "Four friends across three time zones jump into a Phlix room via Hub, one remote queues the film, SyncPlay locks them all to the same frame, and the credits roll in unison.",
+      surfaces: ["home hero", "hub connect screen", "media player", "SyncPlay status bar"],
+      features_shown: ["syncplay", "hub", "transcode"],
+    },
+    {
+      name: "Retro Arcade Night",
+      scene: "A collector with 200 old sci-fi films runs Phlix on a Raspberry Pi; their library auto-organizes by decade; the DLNA TV in the den picks it up; everyone grabs a remote.",
+      surfaces: ["media library filter rail", "media library grid", "DLNA device indicator"],
+      features_shown: ["library", "dlna", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "playable-vignette",
+    spec: "An animated starburst hero where a series of KAPOW! shapes burst from the center; click or tap to trigger a sequence: red KAPOW → yellow ZAP → blue POW, each rotating around a central motif illustration. The headline animates in on the last burst.",
+    suggested_inputs: ["click", "tap"],
+    fallback: "A static starburst composition with all three color bursts visible, the headline fully rendered in white Bangers ALL CAPS on red, and both CTAs below.",
+    js_budget_kb: 4,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A clean topbar nav with the PHLIX wordmark on red at left, nav items in Barlow 700 centered, and a thick black 3px bottom border. Active link highlights in yellow with black text. Mobile: collapses to a hamburger menu icon (red, with a black border).",
+    keyboard: "Alt+M focuses the nav menu; arrow keys move between links.",
+    fallback: "The topbar IS the standard accessible nav — a standard <nav> with semantic <ul>, full keyboard navigation, hamburger on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "panel-sequence",
+    spec: "Each homepage section arrives like a comic-page turn: a hard-cut wipe from left to right with a 120ms cubic-bezier snap, plus a faint dust-cloud Ben-Day dot pattern that trails across as a transition effect.",
+    reduced_motion: "Under prefers-reduced-motion, the wipes and dot-pattern trails are dropped; sections appear instant with no animation, plain continuous scroll.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Dotty erupts from the top-right corner shouting 'KAPOW!' in a starburst, does a little celebratory dance, then slides back off-screen.",
+      reward_copy: "POW! You found Dotty's secret stash!",
+      exit: "Dotty exits automatically after 3s, or press Esc to make her scram immediately.",
+    },
+    {
+      trigger: "typed-word:dots",
+      effect: "The page background briefly fills with animated Ben-Day dots floating up from the bottom; the word 'BOOM' appears in the center in giant Bangers before fading.",
+      reward_copy: "The dots approve of you.",
+      exit: "Press Esc to clear the dots immediately.",
+    },
+    {
+      trigger: "typed-word:kapow",
+      effect: "A giant red KAPOW! starburst follows the mouse cursor for 2 seconds, then snaps back to the hero.",
+      reward_copy: "You said the magic word.",
+      exit: "Press Esc (or move to a new page) to dismiss.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "instant-command",
+    primary_goal: "Get a design-curious developer from 'huh?' to 'BAM! running in two minutes' — no friction, just bold confidence.",
+    cta_ladder: [
+      { step: 1, cta: "BAM! Install",     target: "download" },
+      { step: 2, cta: "Pick Your Client", target: "clients" },
+      { step: 3, cta: "ZAP! Go",          target: "download#clients" },
+    ],
+    download_opening: "The Download page opens with a massive starburst: 'One line. One button. BOOM.' The server install snippet is front and center in a thick-bordered code panel, framed as 'Your stage is ready.' Client choice cards follow.",
+    friction_notes: "Design-curious and impatient — no hand-holding, no walls of text. One eyebrow, one headline, one line of code. The CTAs are blazing red and huge.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A starburst badge: '5 native clients. SyncPlay locked to NTP. FFmpeg transcoding. Yours to host.' Real specs pulled from content.json." },
+      { type: "github", format: "A modest code-style row: 'From the projection booth: phlix-server on GitHub' with live star/issue counts (never hard-coded)." },
+      { type: "quotes-from-docs", format: "One short true line from the docs (verbatim): 'Your library never leaves your hardware unless you say so' — set in a framed speech bubble with Dotty pointing at it." },
+    ],
+    placement: "A single punchy band between the 'now showing' feature grid and the final 'BAM! Install' CTA, using the warning color (soup-can orange) for maximum attention.",
+  },
+
+  visitor_paths: {
+    prompt: "What's your scene?",
+    paths: [
+      { id: "artist",     label: "I curate a collection",        target: "features#library",  emphasis: ["library", "auth", "transcode"] },
+      { id: "watcher",    label: "I want movie night in sync",   target: "features#syncplay", emphasis: ["syncplay", "hub", "auth"] },
+      { id: "tinkerer",   label: "I like to build and hack",    target: "plugins",           emphasis: ["plugins", "hub", "livetv"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the lights",
+    affects: ["starburst-animation", "burst-transitions", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "Footer utility row, next to reduced-motion indicator.",
+  },
+
+  error_page_experience: {
+    concept: "A 'Wrong Theater' gag: Dotty stands under a dark marquee reading 'This panel never existed (or the showing sold out)', holding a torn ticket and pointing back to the lobby. A speech bubble says 'That's not on the marquee, friend — let's get you back to the show.'",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
    * 23. METADATA
    * ========================================================================== */
 
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-12",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1153,12 +1425,14 @@ const brandKit = {
       "sdxl",
       "flux.1",
     ],
-    schema_version: "2.0",
+    schema_version: "2.1",
     kit_type: "base",
     notes:
       "Base/parent kit for the Pop Art Explosion identity. " +
       "Variations may branch into single-primary-dominant sub-themes " +
-      "(e.g., 'Red Edition', 'Blue Factory') via the variation schema.",
+      "(e.g., 'Red Edition', 'Blue Factory') via the variation schema. " +
+      "§22–§26 experience overrides drive an immersive, manifesto-first journey " +
+      "for design-curious audiences.",
   },
 };
 

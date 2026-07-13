@@ -535,6 +535,28 @@ const brandKit = {
       "Pointing at the horizon with excitement",
     ],
     expressions: ["Delighted", "Curious", "Sleepy", "Surprised", "Proud"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small seated seedling tending to a tiny garden; " +
+        "appears on Home, Features, and Download — never on the FAQ/docs reading pages.",
+      idle:
+        "Gently rocks back and forth, occasionally unfurls a tiny leaf or waters its " +
+        "potted plant; idle motion is disabled under prefers-reduced-motion (Frond " +
+        "simply sits and glows softly).",
+      tips: [
+        { where: "home:#hero",              say: "Welcome to your media garden — let's grow something beautiful together!" },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps movie night in step across every room — everyone's at the same frame." },
+        { where: "features:.feature-card",  say: "Each feature is a seed you plant to tend your growing library." },
+        { where: "download:#server",        say: "One command and you're the gardener. I'll help things flourish from here." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Frond unfurls three new leaves in quick succession and glows bright golden with joy." },
+        { trigger: "hover-hold:2s", react: "Frond holds up its watering can and sprinkles tiny water droplets with a proud gesture." },
+      ],
+      dismiss:
+        "A small 'Frond, take a rest' close button tucks it behind a leaf; the dismissed " +
+        "state persists via localStorage so it stays tucked until you invite it back.",
+    },
   },
 
   /* ==========================================================================
@@ -1015,6 +1037,17 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/harvest-pumpkin-vines.svg",
+      "img/seasonal/winter-evergreen-border.svg",
+      "img/seasonal/bloom-petal-scatter.svg",
+      "img/seasonal/midsummer-sunflower-sky.svg",
+    ],
+    banner: null,
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1184,6 +1217,217 @@ const brandKit = {
       reason:
         "A flourishing garden shouldn't cost the earth — performance is a sustainability value.",
     },
+  },
+
+  /* ==========================================================================
+   * 22–26. EXPERIENCE OVERRIDES  — site structure, narrative, & interaction
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Garden",    emphasis: "primary" },
+      { id: "features", label: "Seeds to Sow",  emphasis: "primary" },
+      { id: "clients",  label: "Garden Rooms",  emphasis: "default" },
+      { id: "download", label: "Get Started",   emphasis: "primary" },
+      { id: "hub",      label: "The Commons",   emphasis: "default" },
+      { id: "about",    label: "Our Story",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced gardening tools — nice for tinkerers, not the main path for first-time growers.", fold_into: "features" },
+      { id: "docs",    reason: "Reference grows in the footer — one sprout away when you need it." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Build a media garden where your family watches together, grows their collection, and the sun never sets on a good story.",
+    sections: [
+      { id: "eden-welcome", source: "copy_overlay.hero", treatment: "A lush hand-painted hero showing a glass-roofed pavilion with Frond welcoming you by name — overhead sunlight filtering through vine leaves.", weight: "hero" },
+      { id: "why-grow",     source: "story",             treatment: "Why a solarpunk garden: self-hosted, handcrafted, community. Rendered as a seed packet header with three key benefits.", weight: "major" },
+      { id: "core-seeds",   source: "feature_casting",   treatment: "The three hero features (library, syncplay, auth) as seed packets you plant to grow your garden.", weight: "major" },
+      { id: "gather-proof", source: "proof_strategy",    treatment: "Trust in community: real repo stars, real users, real devices supported — placard-styled.", weight: "minor" },
+      { id: "grow-together",source: "conversion_funnel", treatment: "Closing garden-gate CTA: 'Plant your server today' with the one-liner install command.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "seed-catalog",
+      spec: "Arrange the 8 features as a hand-illustrated seed catalog — each feature is a seed packet with a botanical illustration, the feature name, and a one-line benefit. Clicking opens the full description and related uses. Includes an 'Advanced Gardening' section for plugins and hub.",
+    },
+    clients: {
+      template: "garden-rooms",
+      spec: "Present each client platform as a different room in the media pavilion — each with its own 'view' into the garden (Roku = living-room-TV view, mobile = phone-in-pocket view, Windows = desktop-garden view, etc.). Show what each platform 'sees' and its highlights.",
+    },
+    download: {
+      template: "planting-guide",
+      spec: "Frame installation as a two-step 'planting guide': Step 1 is the server one-liner (the seed goes in the soil), Step 2 is picking your client (choose your garden room). Include warm reassurance that the garden grows automatically from there.",
+    },
+    about: {
+      template: "garden-story",
+      spec: "Tell the founding story as chapters in a garden journal: Philosophy (why solarpunk), License (BSD-3 transparency), Contributing (how neighbors tend the garden together), then the FAQ styled as a 'Garden Questions' section with Frond answering.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your entire collection in one place — organized, searchable, always growing." },
+      { id: "syncplay", angle: "Movie night in sync — every seat, every screen, the same frame, from the couch to across the country." },
+      { id: "auth",     angle: "Multi-user profiles with ratings and parental controls — a family-safe garden for everyone." },
+    ],
+    support: ["transcode", "livetv", "dlna", "hub"],
+    footnote: ["plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Welcome to your media pavilion",
+      headline: "Stream in the Sunshine.",
+      subheadline: "Your garden of infinite media, rooted in community, powered by your own hardware. A media server that feels as nourishing as a thriving garden.",
+      primary_cta: { label: "Plant Your Server" },
+      secondary_cta: { label: "Explore the Garden" },
+    },
+    section_headings: {
+      pitch: "Why grow a Phlix garden?",
+      features: "Seeds to Sow",
+      cta_banner: "Ready to start growing? Plant your server now.",
+    },
+    footer_tagline: "Your garden. Your stories. Your community.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "garden-beds",     // each benefit as a raised garden bed illustration
+    faq: "garden-questions",          // FAQ as Frond answering from a cozy reading nook
+    clients: "garden-rooms",          // clients as different rooms in the pavilion
+    ecosystem: "garden-compost",      // repos as interconnected compost layers / growing mediums
+  },
+
+  faq_experience: {
+    frame: "garden-questions",
+    persona: "Frond, tending to your questions from the garden gate with gentle enthusiasm and a watering can.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I trust my media library to stay private on my own server?", maps_to: "expose-internet" },
+      { q: "Will my old TV work with this, or do I need new hardware?", maps_to: "formats" },
+      { q: "What if I want to add my own features — can I write plugins?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Family Movie Night",
+      scene: "Parents and kids settle onto the couch; one tap dims the room and the family's entire library fills the big screen. Everyone plays, pauses, seeks — locked in sync without anyone thinking about it.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "syncplay", "auth"],
+    },
+    {
+      name: "The Long-Distance Garden Party",
+      scene: "Grandparents in one timezone, grandkids in another — both hit play on the same film and watch locked frame-for-frame, text messages beside the player. Same story, together.",
+      surfaces: ["library grid", "SyncPlay player", "hub connect screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "The Collector's Curated Shelf",
+      scene: "An archivist has 8,000 films organized by folder patterns the server understands instantly. Each show up with full metadata, ratings, and posters — the server keeps up with every addition.",
+      surfaces: ["media library grid", "detail view", "profile settings"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "A layered botanical scene where Frond is tending a small media garden — as the visitor scrolls, the garden grows: first a seedling (headline), then leaves unfurl (subheadline), then vines climb and flowers bloom around the two CTAs. Each layer appears with a soft 'grow' animation.",
+    suggested_inputs: ["scroll offset"],
+    fallback: "A single hand-painted illustration of a fully bloomed media garden with Frond at the center, tending it. The identical headline, subheadline, and both CTAs are overlaid as text on a parchment label.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm parchment nav bar with the Playfair Display 'Solarpunk Eden' lockup at left, followed by rounded-pill nav links in DM Sans. Active link glows canopy-green with a tiny leaf bullet underneath.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> list of the same links, fully keyboard-reachable (arrow keys navigate, Enter selects), collapsing to a labeled hamburger menu on mobile with ARIA labels.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a new chapter in a garden journal — a soft vine-border fade-in and a subtle leaf-rustle sound (optional) as the next section scrolls into frame.",
+    reduced_motion: "Under prefers-reduced-motion, the vine-border fade and leaf-rustle effects are dropped; the page becomes a plain continuous scroll with instant section boundaries and no animation.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "click:5",
+      effect: "Frond does a happy dance (spins and unfurls three new leaves in sequence) and a shower of tiny flower petals falls from the top of the screen.",
+      reward_copy: "Frond is so excited! You found the joy in the garden!",
+      exit: "The petals settle naturally, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:solarpunk",
+      effect: "The background briefly tints to peak solar-bloom colors, the header vines glow golden, and Frond looks toward the sky with arms raised in celebration.",
+      reward_copy: "You know the secret name of the garden!",
+      exit: "Press Esc (or type any other key) to restore the normal view.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "A tiny line of ants marches across the bottom of the screen carrying leaf fragments, and Frond waves goodbye with a watering can held high.",
+      reward_copy: "Even gardens have hidden corners.",
+      exit: "Scroll back up (or press Esc) to bring Frond back.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time gardener to plant their server and invite their first guest.",
+    cta_ladder: [
+      { step: 1, cta: "Plant Your Server",      target: "download" },
+      { step: 2, cta: "Pick Your Garden Room",  target: "clients" },
+      { step: 3, cta: "Grow Together (invite)", target: "download#multi-user" },
+    ],
+    download_opening: "The Download page opens like a garden gate: a warm 'Let's grow together' header over the one-line server command (labeled 'The Seed'), then client choices below (labeled 'Your Garden Rooms'), then a friendly 'Invite a Neighbor' section for multi-user setup.",
+    friction_notes: "A warm, community-focused, nature-loving audience — keep jargon minimal, emphasize safety and simplicity over features, celebrate small wins (server started = big deal, first watch-together = celebration).",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A garden placard listing real facts from content.json: 5 native clients (Roku, Tizen, Windows, Mobile, DLNA), SyncPlay with NTP time-sync, HLS + FFmpeg transcoding, Live TV with DVR." },
+      { type: "github",           format: "A modest repository shelf showing the real phlix-server, phlix-hub, and phlix-docs repos with their actual live GitHub stars and issue counts — never hard-coded, always current." },
+      { type: "quotes-from-docs", format: "One short, true line from content.json: 'BSD-3-Clause across the board' — set as a framed garden-journal quote about open trust." },
+    ],
+    placement: "A single calm 'Rooted in Community' band between the core features and the closing 'Grow Together' CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of garden are you growing?",
+    paths: [
+      { id: "family-gatherer", label: "Family watching together",  target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "collector",       label: "I have a huge collection",  target: "features#library",  emphasis: ["library", "transcode", "dlna"] },
+      { id: "remote-gardener", label: "I want access from anywhere", target: "features#hub",    emphasis: ["hub", "auth", "syncplay"] },
+    ],
+  },
+
+  experience_archetype: "exhibition",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 85 },
+  },
+
+  intensity_toggle: {
+    label: "Garden lights",
+    affects: ["animation", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, labeled 'Dim the lights' — when on, animations gentle to invisible, scrolls are instant.",
+  },
+
+  error_page_experience: {
+    concept: "Frond stands beside a wilted, empty garden bed holding a sad face. The headline reads 'This corner of the garden has dried up (404)' with a gentle 'Let's go back and grow something' button pointing home.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

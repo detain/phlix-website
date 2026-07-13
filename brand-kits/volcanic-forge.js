@@ -518,6 +518,29 @@ const brandKit = {
       "fists. Stands 3/4 view, always facing the heat source.",
     poses: ["Arms crossed, radiating heat", "Raising hammer overhead", "Pointing into the screen", "Sitting on cooled lava, watching"],
     expressions: ["Resolute", "Awe at the eruption", "Satisfied after a forge", "Alert"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as a seated obsidian figure on cooled lava, hammer resting across its lap; appears on Home, Download, " +
+        "and Features pages — absent on docs/reference reading pages.",
+      idle:
+        "Scoria sits motionless, occasionally the magma cracks glow brighter as if the forge fire pulses (1.5s glow cycle); " +
+        "under prefers-reduced-motion Scoria simply sits without any glow pulse.",
+      tips: [
+        { where: "home:#hero",              say: "The forge is ready. Strike the anvil and forge your collection." },
+        { where: "home:.features-overview", say: "Precision, raw power, transformation — everything a master smith needs." },
+        { where: "features:.forge-wall",    say: "Each tool hangs waiting. Pick the fire that suits your need." },
+        { where: "download:#server",        say: "One line. Heat the forge. The anvils follow." },
+        { where: "download:#clients",       say: "Five hammers. Five anvils. Choose the one that fits your hand." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5",       react: "Scoria raises their hammer high, sparks shower down, and they nod once — a forgemaster's approval." },
+        { trigger: "hover-hold:3s", react: "Scoria taps their hammer on the anvil once, calmly: 'Patience shapes steel.'" },
+      ],
+      dismiss:
+        "A small 'Scoria returns to the forge' close button tucks them away in the lower corner; the dismissed state persists via " +
+        "localStorage so they stay hidden until the visitor chooses to call them back.",
+    },
   },
 
   /* ==========================================================================
@@ -919,6 +942,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/midnight-eruption.svg",
+      "img/seasonal/solstice-ember.svg",
+      "img/seasonal/dry-caldera.svg",
+    ],
+    banner: "The forge changes with the season — new heat, new shape, same eternal power.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1078,10 +1111,241 @@ const brandKit = {
    * 23. METADATA
    * ========================================================================== */
 
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Forge",        emphasis: "default" },
+      { id: "features", label: "Tempering",    emphasis: "primary" },
+      { id: "clients",  label: "Anvils",       emphasis: "default" },
+      { id: "download", label: "Ignition",     emphasis: "primary" },
+      { id: "hub",      label: "Relay",        emphasis: "default" },
+      { id: "about",    label: "Tradition",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced smithcraft — pushed below the fold for core users focused on streaming." },
+      { id: "docs",    reason: "Reference material accessible from the footer, not the main heat." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "From raw ore to forged steel: Volcanic Forge transforms your media into a collection worth wields.",
+    sections: [
+      { id: "eruption",      source: "copy_overlay.hero",    treatment: "Full-bleed forge-horizon hero: magma channels flow as the headline ignites, Scoria stands silhouette-dark at the forge's center.",                weight: "hero" },
+      { id: "the-tempering", source: "feature_casting",      treatment: "Three 'now-forging' feature cards glowing with ember-gold, showing the hottest capabilities — SyncPlay's precision, Library's raw power, Transcode's transformation.", weight: "major" },
+      { id: "the-story",     source: "story",                treatment: "The forge's narrative: raw heat shapes raw media into something that endures, told in Scoria's declarative voice.",                                                weight: "major" },
+      { id: "proof-of-heat", source: "proof_strategy",       treatment: "Real repo stats and a forged-steel quote about self-hosting painted on a basalt placard.",                                                                    weight: "minor" },
+      { id: "strike-anvil",  source: "conversion_funnel",    treatment: "Final hammer-strike CTA: 'Begin the Forge' beside a copy of the one-line server install.",                                                                 weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "forge-wall",
+      spec: "Arrange the 8 features as tools hung on a blacksmith's workshop wall — each a tool with its icon, name, and purpose glowing faintly with ember light; the wall itself is dark basalt with lava-channel negative space dividing quadrants.",
+    },
+    clients: {
+      template: "anvil-array",
+      spec: "Present each client device as a forge anvil that has been shaped — Roku anvil, Samsung anvil, Windows anvil, etc. — each showing what it can endure (the highlights) with a 'View the forge' button.",
+    },
+    download: {
+      template: "ignition-sequence",
+      spec: "Frame installation as a ritual: 'Step 1 — Heat the forge' (server install snippet on dark card), 'Step 2 — Choose your anvil' (client cards), 'Step 3 — Begin striking' (final CTA); each step glows brighter as the user moves through.",
+    },
+    about: {
+      template: "forge-archive",
+      spec: "Tell the founding forge-smithcraft story as a scrolling sequence of chapters (Philosophy, License, Contributing), then the FAQ as 'Questions from the workshop floor' answered by the forge-keeper Scoria.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay",  angle: "Precision forging — every device stays locked to the same frame across the room or across the world." },
+      { id: "library",   angle: "Raw ore into steel — drop a file and watch it take its place, meticulously organized." },
+      { id: "transcode", angle: "The transformative force — FFmpeg reshaping media into the exact quality each anvil demands." },
+    ],
+    support: ["auth", "livetv", "dlna", "hub"],
+    footnote: ["plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Raw elemental power",
+      headline: "Forge Your Collection.",
+      subheadline: "The heat and pressure of a volcano meet the precision of an ancient forge. Phlix transforms your media library into something unyielding, personal, and ready to be wielded on any screen.",
+      primary_cta: { label: "Begin the Forge" },
+      secondary_cta: { label: "See the Blueprint" },
+    },
+    section_headings: {
+      pitch: "What the forge demands",
+      features: "Tools for the mastersmith",
+      cta_banner: "Strike the anvil. Begin forging.",
+    },
+    footer_tagline: "Built to last. Forged for the screen.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "anvil-marks",
+    faq: "forge-keeper-log",
+    clients: "anvil-array",
+    ecosystem: "forge-repository",
+  },
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES & EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "forge-keeper-log",
+    persona: "Scoria, the obsidian forge-keeper — ancient, powerful, answering from the heat of the forge.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on the old TV in the corner?", maps_to: "formats" },
+      { q: "Do I have to let the whole internet see my library?", maps_to: "expose-internet" },
+      { q: "Can I add my own tools to the forge?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Dark-Mode Collector",
+      scene: "A curator of action and thriller media calibrates Phlix on their own dark setup; they add a 10TB library and watch it organize itself while SyncPlay keeps the fire-lit bar in sync.",
+      surfaces: ["home hero", "library grid", "media player", "settings"],
+      features_shown: ["library", "syncplay", "transcode", "auth"],
+    },
+    {
+      name: "The Master Forge Tender",
+      scene: "A power user configures multi-user access, profiles, parental controls, and selects quality profiles per device — each step feels like a tool being hung on the forge wall exactly right.",
+      surfaces: ["admin panel", "download page", "hub connect", "server install"],
+      features_shown: ["auth", "hub", "transcode"],
+    },
+    {
+      name: "The Remote Guardian",
+      scene: "A user on the road connects via Phlix Hub to the server back home, plays a file directly, then switches to a low-bitrate transcode as their connection weakens — the hub tunnel never wavers.",
+      surfaces: ["hub connect screen", "media player", "quality selector"],
+      features_shown: ["hub", "transcode", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "eruption-reveal",
+    spec: "A full-bleed volcanic hero: obsidian darkness dominates; lava channels flow horizontally across the viewport, revealing the headline and Scoria silhouette as they flow. On scroll, the eruption glow intensifies; CTAs pulse with molten orange. Parallax layers of ash, magma, and foreground on pointer/scroll.",
+    suggested_inputs: ["pointer position", "scroll offset", "time-based glow pulse"],
+    fallback: "A single painted eruption scene with the headline already revealed, Scoria centered, and both CTAs rendered as static molten-orange pills beneath the main image — same information, no motion.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A topbar with the Phlix logo (Anton wordmark) at left, nav links in the center with faint anvil-shaped dividers between them, and an active link glows with a 2px molten-orange top border. On scroll, the topbar surface darkens one step deeper.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible nav — a standard <nav> list with all links fully keyboard-reachable via Tab, mobile-friendly hamburger icon at ≤768px, no exotic mode here.",
+  },
+
+  scroll_experience: {
+    mode: "eruption-flow",
+    spec: "As each section scrolls into view, it arrives with a brief pyroclastic 'wipe' — obsidian edges compress and expand as if a new lava flow is revealed. The eruption-glow behind section headers pulses as the user crosses section thresholds.",
+    reduced_motion: "Under prefers-reduced-motion, the wipes and pulsing glows are removed entirely; sections appear instantly at their target positions, and the page becomes a plain continuous scroll.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "The Phlix logo briefly flares with incandescent white light, and a single molten-orange spark trails upward and fades. Scoria, if visible, tips their hammer.",
+      reward_copy: "The forge approves.",
+      exit: "The glow and spark settle automatically after 2s, or press Esc to clear.",
+    },
+    {
+      trigger: "typed-word:scoria",
+      effect: "The page background briefly flares warm, and all lava-channel SVG accents glow bright for 1s. The cursor becomes a tiny hammer icon.",
+      reward_copy: "You've summoned the forge spirit.",
+      exit: "Press Esc or type any other key to restore normal mode.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "A small animated obsidian shard tumbles up from the bottom of the viewport and fades at the footer's top.",
+      reward_copy: "The forge remembers.",
+      exit: "Automatic; scroll back up to dismiss.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "tempering-sequence",
+    primary_goal: "Get a power user from 'I want this' to 'I'm running the server' in three decisive steps.",
+    cta_ladder: [
+      { step: 1, cta: "Begin the Forge",           target: "download" },
+      { step: 2, cta: "Shape Your Anvil",          target: "clients" },
+      { step: 3, cta: "Strike — Install Now",      target: "download#server" },
+    ],
+    download_opening: "The Download page opens with 'Ignition Sequence' framing: three sequential sections, each glowing a little brighter — server install (heat), client anvils (shape), ecosystem (precision).",
+    friction_notes: "Volcanic Forge appeals to power users and collectors comfortable with the command line — minimal handholding, direct technical speech, assume comfort with concepts like 'transcoding', 'FFmpeg', and 'self-host'.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A forge-wall placard of real capabilities: native clients on 5 platforms, SyncPlay with ±50ms device lock, HLS + FFmpeg transcoding, Live TV + DVR support." },
+      { type: "github",           format: "A 'From the projection booth' row showing the live phlix-server GitHub repo card with stars and open-issues counts (real, never hard-coded)." },
+      { type: "quotes-from-docs", format: "A single declarative true line from the docs about self-hosting framed in an obsidian card: 'Your media. Your library. Your Phlix.'" },
+    ],
+    placement: "A single bold band between the hero features and the final forge-strike CTA, rendered as a basalt-dark section with lava-channel dividers.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to the forge?",
+    paths: [
+      { id: "action-collector",    label: "I love action and dark cinema",         target: "features#library",   emphasis: ["library", "transcode", "auth"] },
+      { id: "power-user",          label: "I want total control",                  target: "features#hub",      emphasis: ["hub", "plugins", "auth"] },
+      { id: "family-night",        label: "I want everyone in sync",               target: "features#syncplay", emphasis: ["syncplay", "auth", "dlna"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 27. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 6, words_per_section_max: 110 },
+  },
+
+  intensity_toggle: {
+    label: "Ember Glow (Intense Mode)",
+    affects: ["hero_experience→eruption", "scroll_experience→eruption-flow", "lava-channels", "glow-shadows"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note; when toggled to calm, glow effects soften and animations stabilize.",
+  },
+
+  error_page_experience: {
+    concept: "A 404 'Cold Forge' moment: Scoria stands at an extinct forge, the magma channels dark and lifeless, a broken hammer at their feet. 'This forge never existed — or the fire went out.' Recovery links invite the visitor back to the working forges (Home, Features, Download).",
+    recovery_links: ["home", "features", "download"],
+  },
+
   metadata: {
     author: "Phlix Design",
     created: "2026-06-30",
-    updated: "2026-06-30",
+    updated: "2026-07-12",
     license: "Proprietary — Phlix internal use.",
     compatible_models: [
       "claude-opus-4-8",
@@ -1089,10 +1353,10 @@ const brandKit = {
       "sdxl",
       "flux.1",
     ],
-    schema_version: "2.0",
+    schema_version: "2.1",
     kit_type: "base",
     notes:
-      "Base/parent kit. Volcano-meets-forge dark theme. Author variations (e.g. " +
+      "Base/parent kit. Volcano-meets-forge dark theme with experience overrides for immersive site building. Author variations (e.g. " +
       "seasonal eruption overlays, regional palette shifts) against this via " +
       "base_kit.slug = 'volcanic-forge'. All variation overrides must preserve " +
       "the dark obsidian background and the angular shape language.",

@@ -530,6 +530,33 @@ const brandKit = {
       "Tiny — silhouetted against a distant amber point of anglerfish light",
     ],
     expressions: ["Serene open bell", "Contracted with bright pulse", "Tilted curious angle", "Tendrils extended in greeting"],
+
+    // ── behavior ─────────────────────────────────────────────────────────────
+    // Turns Abyss into an interactive on-page companion: where it sits, how it
+    // idles, contextual tips, and dismissal. Null = imagery-only mascot.
+    behavior: {
+      placement:
+        "Bottom-right corner as a small drifting jellyfish; appears on Home, " +
+        "Features, and Download — never on technical pages like Docs or FAQ.",
+      idle:
+        "Abyss drifts slowly in a gentle sine-wave path, bell pulsing aqua and " +
+        "violet on a 3s cycle, tendrils trailing behind; idle motion is disabled " +
+        "under prefers-reduced-motion (Abyss simply floats still, glowing steady).",
+      tips: [
+        { where: "home:#hero",                    say: "You have entered the midnight zone. The deep awaits." },
+        { where: "home:.features-overview",       say: "Each creature here glows with its own purpose — watch them pulse." },
+        { where: "features:#syncplay",            say: "SyncPlay is an organism tuned to pressure and time — it keeps every screen in the same current." },
+        { where: "download:#server",              say: "The hull is your gateway. Install it, and the abyss opens to every screen in your home." },
+      ],
+      easter_interactions: [
+        { trigger: "click:7",       react: "Abyss spirals upward in a slow helix, then settles back down with a contented pulse." },
+        { trigger: "hover-hold:3s", react: "Abyss drifts closer to the viewport edge and extends a tendril as if reaching out to touch you." },
+      ],
+      dismiss:
+        "A small 'Abyss, return to the deep' close button tucks the jellyfish " +
+        "back into the hadal darkness; the dismissed state persists via " +
+        "localStorage so it stays hidden until the visitor chooses to summon it again.",
+    },
   },
 
   /* ==========================================================================
@@ -1053,6 +1080,21 @@ const brandKit = {
   ],
 
   /* ==========================================================================
+   * 20A. SEASONAL ACTIVATION
+   * ========================================================================== */
+
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/new-years-biolume-bloom.svg",
+      "img/seasonal/halloween-red-tide.svg",
+      "img/seasonal/valentines-phosphor.svg",
+    ],
+    banner:
+      "The deep shifts with the season. A rare bioluminescent event is occurring.",
+  },
+
+  /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
 
@@ -1253,7 +1295,400 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Descent",        emphasis: "default" },
+      { id: "features", label: "The Creatures",  emphasis: "primary" },
+      { id: "clients",  label: "Portals",        emphasis: "default" },
+      { id: "download", label: "Dive Gear",      emphasis: "primary" },
+      { id: "hub",      label: "The Relay",      emphasis: "default" },
+      { id: "about",    label: "Pressure Log",   emphasis: "muted" },
+    ],
+    demoted_pages: [
+      {
+        id: "plugins",
+        reason:
+          "Specialized bioluminescent extension — tools for the advanced explorer, " +
+          "not the initial descent.",
+        fold_into: "features",
+      },
+      {
+        id: "docs",
+        reason:
+          "Technical reference lives one click away in the footer, off the " +
+          "narrative descent path.",
+      },
+    ],
+    extra_pages: [
+      {
+        id: "nocturnal-library",
+        title: "Building Your Nocturnal Library",
+        purpose:
+          "A gentle walkthrough that turns the product facts into a guide for " +
+          "curating a collection lit by cold bioluminescence — where to start, " +
+          "what to organize, how to share the abyss.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "You descend into total darkness. A glow catches your eye. The abyss is alive.",
+    sections: [
+      {
+        id: "the-descent",
+        source: "copy_overlay.hero",
+        treatment:
+          "Full-bleed abyssal hero: Abyss jellyfish drifts into view, pulsing aqua " +
+          "rings expand outward as the headline emerges from hadal darkness.",
+        weight: "hero",
+      },
+      {
+        id: "the-creatures",
+        source: "feature_casting",
+        treatment:
+          "Two featured creatures (Syncplay and Library) cast as bioluminescent " +
+          "organism cards, each glowing with its own color.",
+        weight: "major",
+      },
+      {
+        id: "why-phlix",
+        source: "story",
+        treatment:
+          "Value props styled as a series of depth readings on a submersible console " +
+          "— pressure mounting, wonder deepening.",
+        weight: "major",
+      },
+      {
+        id: "good-seats",
+        source: "proof_strategy",
+        treatment:
+          "Trust signals rendered as sonar ping data: real stats, repo signals, and " +
+          "a naturalist's field note from the docs.",
+        weight: "minor",
+      },
+      {
+        id: "dive-deeper",
+        source: "conversion_funnel",
+        treatment:
+          "Closing call — the descending prompt: 'Ready to enter the deep?' with the " +
+          "download one-liner glowing in amber.",
+        weight: "major",
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "organism-gallery",
+      spec:
+        "Lay each feature as a bioluminescent organism profile — a visual organism " +
+        "form (jellyfish, siphonophore, sea angel, etc.) paired with its name/description " +
+        "and how it glows in the Phlix ecosystem.",
+    },
+    clients: {
+      template: "portal-collection",
+      spec:
+        "Present each client platform as a distinct portal lens into the deep — " +
+        "Roku glows aqua (living light discovery), Samsung Tizen glows violet " +
+        "(alien tech harmony), Windows desktop glows amber (the lure beckons precision), " +
+        "Mobile glows aqua (liquid responsiveness), DLNA glows deep-current " +
+        "(legacy tech finds its place).",
+    },
+    download: {
+      template: "dive-equipment",
+      spec:
+        "Frame as a submersible prep checklist: the server install is your hull, " +
+        "clients are your viewports (each portal a different window into the deep), " +
+        "ecosystem repos are your instrument panel.",
+    },
+    about: {
+      template: "pressure-log",
+      spec:
+        "Tell the origin-in-the-abyss story as a scrolling log entry sequence " +
+        "(Philosophy, License, Contributing) ending with Abyss answering visitor " +
+        "questions as an ancient guide who has drifted these waters forever.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      {
+        id: "syncplay",
+        angle:
+          "Time-locked across the abyss — every device drifts in the same current, " +
+          "every frame in sync.",
+      },
+      {
+        id: "library",
+        angle:
+          "Your collection glows in the darkness — organizes itself, then awakens " +
+          "on every screen.",
+      },
+    ],
+    support: ["transcode", "livetv", "hub", "auth"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Press play. Descend.",
+      headline: "In the dark, life finds a way.",
+      subheadline:
+        "Your media library glows in the midnight zone. Phlix streams every title " +
+        "to every screen — SyncPlay locks you in sync, transcoding finds the right " +
+        "quality, and the Hub reaches you anywhere behind NAT. The abyss is alive.",
+      primary_cta: { label: "Dive Deeper" },
+      secondary_cta: { label: "See the Specs" },
+    },
+    section_headings: {
+      pitch: "What lives in these waters?",
+      features: "The Creatures",
+      cta_banner: "The abyss is waiting. Get your dive gear.",
+    },
+    footer_tagline: "Something glows in the dark.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "depth-readings",
+    faq: "pressure-log-q-and-a",
+    clients: "portal-collection",
+    ecosystem: "sonar-constellation",
+  },
+
+  faq_experience: {
+    frame: "pressure-log-q-and-a",
+    persona:
+      "Abyss, the ancient jellyfish guide — drifting through the midnight zone, " +
+      "answering questions with the quiet precision of a creature that has seen it all.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will my old TV pick up the signal down here?", maps_to: "formats" },
+      {
+        q: "Does the hub expose my server to the whole internet?",
+        maps_to: "expose-internet",
+      },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Solo Descent",
+      scene:
+        "A night-shift coder alone with their media — the library glows aqua in " +
+        "the dark, one title at a time, a quiet companion drifting through the abyss " +
+        "of a late evening.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Synchronized Drift",
+      scene:
+        "Three screens in three rooms, all watching the same film at exactly the " +
+        "same moment — SyncPlay holds them in the same current, every frame locked, " +
+        "every pulse synchronized.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Collector's Archive",
+      scene:
+        "A library so vast it could only live in darkness — 10,000 titles tagged " +
+        "and categorized, each one glowing when its turn comes, profiles holding the " +
+        "boundaries of who may venture into which depths.",
+      surfaces: ["profile picker", "media library grid", "library management"],
+      features_shown: ["auth", "dlna", "library"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec:
+      "A layered deep-sea diorama — the hadal backdrop, Abyss jellyfish drifting " +
+      "in the center with slow pulsing aqua rings, bioluminescent particles in slow " +
+      "suspension, parallaxing gently on scroll/pointer — the jellyfish bell " +
+      "brightens and dims as if breathing in the cold ocean.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback:
+      "A single luminous illustration of Abyss jellyfish centered on the " +
+      "hadal-darkness background, tendrils glowing with tiny amber points, surrounded " +
+      "by the identical headline, subheadline, and both CTAs rendered as " +
+      "bioluminescent text and buttons.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec:
+      "A minimal topbar in abyssal-trench with soft glowing separator dots between " +
+      "the links, the brand wordmark in Cormorant Garamond italic on the left with a " +
+      "faint aqua text-shadow, the active link highlighted with a 2px biolume-aqua " +
+      "underline glow.",
+    keyboard: null,
+    fallback:
+      "The topbar IS the standard accessible nav — a plain <nav> list of the same " +
+      "links, fully keyboard reachable, collapsing to a labeled hamburger menu on " +
+      "mobile; active link marked with aria-current='page'.",
+  },
+
+  scroll_experience: {
+    mode: "depth-reveal",
+    spec:
+      "Each homepage section arrives like a creature materializing from the dark — " +
+      "a soft fade-in from hadal-black as the section scrolls into frame, preceded by " +
+      "a brief bioluminescent shimmer at the boundary.",
+    reduced_motion:
+      "Under prefers-reduced-motion, the shimmer and fade effects are dropped " +
+      "entirely; the page becomes a plain continuous scroll with visible section " +
+      "boundaries but no motion.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "Abyss pulses brightly and spirals once across the screen, leaving a trail " +
+        "of bioluminescent particles that settle like dinoflagellates.",
+      reward_copy: "A creature stirs in the deep.",
+      exit: "The particles fade naturally after ~3s, or press Esc to dismiss.",
+    },
+    {
+      trigger: "typed-word:abyss",
+      effect:
+        "The entire page briefly dims further, then the bioluminescent colors " +
+        "(aqua, violet, amber) intensify by 20% for 2 seconds, as if a nearby " +
+        "organism just pulsed.",
+      reward_copy: "You have spoken its name.",
+      exit: "Press Esc to return to normal luminescence.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-descent",
+    primary_goal:
+      "Get a first-time host to deploy the server and open their first portal " +
+      "to the abyss.",
+    cta_ladder: [
+      { step: 1, cta: "Dive Deeper", target: "download" },
+      { step: 2, cta: "Choose a Portal", target: "clients" },
+      { step: 3, cta: "Deploy the Hull", target: "download#server" },
+    ],
+    download_opening:
+      "The Download page opens like a submersible airlock: 'Three steps to the " +
+      "abyss' over the one-line server install, then the client portal choices " +
+      "below — each a different window into the deep.",
+    friction_notes:
+      "An audience drawn to mystery and alien beauty — keep the steps few and " +
+      "poetic, no jargon clutter; the submersible metaphor guides the journey.",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A sonar contact readout of real capabilities: native portals to 5 client " +
+          "platforms, NTP-synced SyncPlay, FFmpeg transcoding, HLS streaming, Hub " +
+          "relay NAT traversal.",
+      },
+      {
+        type: "github",
+        format:
+          "A field-station data panel linking the real phlix-server repo with live " +
+          "star and issue counts — the instruments of a working deep-sea research station.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "One precise line lifted directly from the docs about self-hosting control, " +
+          "set as Abyss's field note quote on a dark card.",
+      },
+    ],
+    placement:
+      "A single calm 'pressure gauge' band between the features and the closing " +
+      "descent CTA — proof that these waters are charted and safe.",
+  },
+
+  visitor_paths: {
+    prompt: "Which descent calls to you?",
+    paths: [
+      {
+        id: "sync-watcher",
+        label: "I want perfect sync across screens",
+        target: "features#syncplay",
+        emphasis: ["syncplay", "auth"],
+      },
+      {
+        id: "collector",
+        label: "I'm building a vast library",
+        target: "features#library",
+        emphasis: ["library", "transcode"],
+      },
+      {
+        id: "deep-explorer",
+        label: "I want to venture into the abyss",
+        target: "plugins",
+        emphasis: ["plugins", "hub"],
+      },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 110 },
+  },
+
+  intensity_toggle: {
+    label: "Surface (calm mode)",
+    affects: ["animation", "glow-effects", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept:
+      "Abyss floats in a void, with a torn ticket stub labeled '404 — this depth " +
+      "has no portal', pointing the way back to the descent. The concept emphasizes " +
+      "that even in the abyss, navigation finds you.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 29. METADATA
    * ========================================================================== */
 
   metadata: {

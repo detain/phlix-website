@@ -531,6 +531,29 @@ const brandKit = {
       "Nose-down with a gentle wave, greeting the user",
     ],
     expressions: ["Bright-eyed and eager", "Thinking with antenna tip lit", "Celebrating with starburst burst", "Gently disappointed with drooped fin"],
+    behavior: {
+      placement:
+        "Bottom-right corner as a small hovering rocket; appears on Home, Download, " +
+        "and About pages — never on the reference/docs reading pages (to keep reading uncluttered).",
+      idle:
+        "Gentle bobbing motion like floating in zero-gravity, occasional subtle " +
+        "starburst twinkle from the exhaust trail; all idle motion disabled under " +
+        "prefers-reduced-motion (Orbit simply hovers).",
+      tips: [
+        { where: "home:#hero",                 say: "Launch into your collection — the future is ready to stream." },
+        { where: "home:.features-overview",    say: "SyncPlay keeps every screen locked to the same frame across the house." },
+        { where: "download:#server",           say: "One line to ignite the server — you're the mission control now." },
+        { where: "about:.faq-section",         say: "Questions about the flight? I've plotted the course to every answer." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Orbit launches skyward with a brilliant starburst trail, then settles back down." },
+        { trigger: "hover-hold:2s", react: "Orbit spins with a 'ready for launch' thumbs-up motion and a cheerful glow." },
+      ],
+      dismiss:
+        "A small 'Orbit, return to dock' close button sends Orbit back to the launch " +
+        "pad; the dismissed state persists via localStorage so Orbit stays docked until " +
+        "you summon it again.",
+    },
   },
 
   /* ==========================================================================
@@ -1059,6 +1082,16 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/space-race-star.svg",
+      "img/seasonal/harvest-sunflower.svg",
+      "img/seasonal/valentine-heart.svg",
+    ],
+    banner: "The future celebrates with you — a seasonal greeting awaits.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1259,7 +1292,211 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 22. SITE ARCHITECTURE — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",     emphasis: "primary" },
+      { id: "features", label: "Features", emphasis: "primary" },
+      { id: "clients",  label: "Clients",  emphasis: "default" },
+      { id: "download", label: "Download", emphasis: "primary" },
+      { id: "hub",      label: "Hub",      emphasis: "default" },
+      { id: "plugins",  label: "Plugins",  emphasis: "default" },
+      { id: "docs",     label: "Docs",     emphasis: "muted" },
+      { id: "about",    label: "About",    emphasis: "default" },
+    ],
+    demoted_pages: [],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The future was always now — a warm, confident journey through a self-hosted media collection that works exactly how you want it.",
+    sections: [
+      { id: "sunburst-rise", source: "copy_overlay.hero", treatment: "Full-bleed atomic-teal hero: Orbit's rocket ascending with a starburst trail, the headline confident and forward-looking.", weight: "hero" },
+      { id: "what-flies",    source: "feature_casting",   treatment: "Two 'in flight' hero features (library, syncplay) rendered as shimmering atomic posters on a dark marquee.",      weight: "major" },
+      { id: "why-launch",    source: "story",             treatment: "The brand story told as a manifesto scroll: optimism, self-hosting, ownership, precision design.",                  weight: "major" },
+      { id: "compass-true",  source: "proof_strategy",    treatment: "Real GitHub links and capability counts presented as a navigator's compass rose with atomic-teal lines.",         weight: "minor" },
+      { id: "ignition",      source: "conversion_funnel", treatment: "Closing CTA banner framed as a launch sequence: 'Ready for takeoff?'.",                                           weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "atomic-gallery",
+      spec: "Lay the eight features out as a 2×4 gallery of atomic-age illustrated cards — each with a sunburst corner accent, the title in Josefin Sans, and the body in warm serif prose.",
+    },
+    clients: {
+      template: "device-fleet",
+      spec: "Present each of the five clients as a sleek 'spacecraft' profile: Roku as a living-room commander, Samsung Tizen as a smart-home agent, Windows as a desktop explorer, Mobile as a pocket co-pilot, DLNA as the legacy bridge. Each with bespoke persona and highlights.",
+    },
+    download: {
+      template: "launch-sequence",
+      spec: "Frame the Download page as a step-by-step launch sequence: (1) Server ignition (the one-liner), (2) Client selection (five spacecraft to choose), (3) Lift-off (ecosystem + support links as mission control resources).",
+    },
+    about: {
+      template: "mission-log",
+      spec: "Tell the origin and values story as a scrolling mission-log: Philosophy as 'Why we built this', Ownership as 'For you, not them', Contributing as 'You can launch too', then Orbit's Q&A oracle (FAQ) as 'Common questions from the cockpit'.",
+    },
+  },
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your entire collection, perfectly organized, ready to stream from anywhere." },
+      { id: "syncplay", angle: "Movie night stays in frame-perfect sync — every screen, every room, one experience." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted. Always forward.",
+      headline: "The Future Was Always Now.",
+      subheadline: "Stream your library to every room, in perfect sync, with no third-party gatekeepers. Phlix runs on your hardware, sounds like tomorrow.",
+      primary_cta: { label: "Start the Launch Sequence" },
+      secondary_cta: { label: "Explore the Blueprint" },
+    },
+    section_headings: {
+      pitch: "Why take the helm?",
+      features: "What's in Flight",
+      cta_banner: "Ready to launch? The control room awaits.",
+    },
+    footer_tagline: "The future is owned, not rented.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "marquee-lines",
+    faq: "oracle-advice",
+    clients: "device-fleet",
+    ecosystem: "repo-constellation",
+  },
+
+  faq_experience: {
+    frame: "oracle-advice",
+    persona: "Orbit, the eager rocket-guide, answering traveler questions from the mission-control window.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Can I run this on my Raspberry Pi or NAS?", maps_to: "formats" },
+      { q: "Will my Roku or Samsung TV work without the app store?", maps_to: "formats" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Launch Day",
+      scene: "A family hands off the remote to Phlix — one tap, and their entire movie library fills the living-room screen in 4K, synced across every device.",
+      surfaces: ["home hero", "media library grid", "media player", "device selector"],
+      features_shown: ["library", "transcode", "auth", "syncplay"],
+    },
+    {
+      name: "Solo Explorer",
+      scene: "A collector travels with a phone, tethered to the home server via Hub — opening Phlix on the plane and picking up exactly where they left off, no streaming service required.",
+      surfaces: ["hub connect", "media library grid", "media player", "offline cache"],
+      features_shown: ["hub", "library", "auth", "mobile"],
+    },
+    {
+      name: "Tinkerer's Cockpit",
+      scene: "A developer writes a metadata plugin, drops it into the server folder, and watches it spring to life — no restart needed, the collection refreshes itself.",
+      surfaces: ["admin dashboard", "plugin manager", "library grid", "metadata card"],
+      features_shown: ["plugins", "library", "auth"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered atomic-age diorama — Orbit's rocket ascending on a starburst trail parallaxes gently on scroll/pointer, starfield drifts behind, the headline and subheadline fade in as the rocket climbs.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single static, hand-painted illustration of Orbit rocketing skyward with a brilliant starburst trail, the identical headline, subheadline, and both CTAs baked into the markup below.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A clean topbar in ebony-wood with atomic-teal accent underlines for the active link; the Phlix wordmark sits at left with a subtle sunburst companion mark; nav items in Josefin Sans.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a semantic <nav> with a list of the same links, fully keyboard-reachable (Tab to focus, Enter to activate), collapsing to a labeled hamburger menu on mobile (<button aria-label='Menu'>).",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a new chapter in a geometric story — a soft, subtle iris-wipe reveals the next section as the reader scrolls past the midpoint, with a faint mechanical 'click' sound.",
+    reduced_motion: "Under prefers-reduced-motion, the iris-wipes and sound are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries and no transition effects.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Orbit flies across the top of the screen, trailing a starburst, and docks in the corner with a cheerful 'mission accomplished' spin.",
+      reward_copy: "A new course plotted! You've unlocked Orbit's secret launch.",
+      exit: "The animation settles after ~4s, or press Esc to dismiss it immediately.",
+    },
+    {
+      trigger: "typed-word:orbit",
+      effect: "The word 'orbit' glows in atomic-teal as Orbit briefly takes flight in the viewport with a playful thumbs-up.",
+      reward_copy: "Welcome, mission control — you've found the navigator.",
+      exit: "Press Esc (or type any other key) to return to normal mode.",
+    },
+    {
+      trigger: "scroll-past-footer",
+      effect: "A tiny rocket silhouette zooms off the bottom of the screen, trailing starburst light.",
+      reward_copy: "Safe travels — the horizon awaits.",
+      exit: "The effect completes on its own; scroll back up to dismiss.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a new host from curiosity to 'the server is running' with confident, friction-minimal steps.",
+    cta_ladder: [
+      { step: 1, cta: "Start the Launch Sequence",       target: "download" },
+      { step: 2, cta: "Choose Your Spacecraft",          target: "clients" },
+      { step: 3, cta: "Engage Ignition (Install)",       target: "download#server" },
+    ],
+    download_opening: "The Download page opens as Mission Control: a 'Three stages to liftoff' header in Josefin Sans over a confident one-liner server install command, then a gallery of five client-spacecraft below.",
+    friction_notes: "Design-conscious, forward-looking audience — keep the steps visual and poetic, not corporate; celebrate the act of self-hosting as an optimistic choice, not a technical chore.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A navigation-compass rose card displaying real capabilities: 5 native clients, NTP-synced SyncPlay, FFmpeg HLS transcoding, multi-profile auth." },
+      { type: "github",           format: "A modest 'from mission control' row linking the real phlix-server, phlix-hub, and phlix-docs repos with live star counts and issue tracking (never hard-coded numbers)." },
+      { type: "quotes-from-docs", format: "One true, short line lifted verbatim from the docs describing self-hosting freedom, set in a framed atomic-style card with Orbit's thumbs-up." },
+    ],
+    placement: "A single calm 'navigation chart' band between the feature showcase and the closing launch-sequence CTA — visually integrated into the story, not a jarring trust widget.",
+  },
+
+  visitor_paths: null,
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 110 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 'navigation error' gag: Orbit stands confused in an empty marquee reading '404 — Off the Flight Plan', holding a torn star chart, with navigation arrows pointing back to Home, Features, and Download.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 27. METADATA
    * ========================================================================== */
 
   metadata: {

@@ -604,6 +604,29 @@ const brandKit = {
       "At the phonograph, placing a record on the spindle",
     ],
     expressions: ["Knowing", "Delighted", "Amused", "Conspiratorial"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner as Gilda leaning against the bar; appears on Home, Download, " +
+        "and About pages only — never on the reading pages (Features, Clients, Docs).",
+      idle:
+        "Gilda sways slightly (as if to distant jazz), occasionally raising her flute for a toast " +
+        "and settling back down; the glow around her champagne glass pulses gently at ~2s intervals. " +
+        "Idle motion is disabled under prefers-reduced-motion (Gilda simply stands still).",
+      tips: [
+        { where: "home:#curtain-rise", say: "Welcome back. The password still opens every door." },
+        { where: "home:#the-vault", say: "That library organizes itself. Drop a file, watch it settle on the marquee." },
+        { where: "download:#server", say: "One line and you're the new projectionist. I'll hold the flute." },
+        { where: "about:.faq-list", say: "Questions from the lobby? I've got the answers, dear." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3", react: "Gilda does a quick Charleston step and winks at you." },
+        { trigger: "hover-hold:2s", react: "Gilda raises her flute higher and toasts you silently, a knowing smile." },
+      ],
+      dismiss:
+        "A small 'Gilda, take five' close button; she steps back into the shadows behind the bar. " +
+        "The dismissed state persists via localStorage so she stays out of sight until manually recalled.",
+    },
   },
 
   /* ==========================================================================
@@ -1178,6 +1201,19 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/nye-champagne-bubbles.svg",
+      "img/seasonal/nye-confetti-gold.svg",
+      "img/seasonal/valentine-roses-geometric.svg",
+      "img/seasonal/midsummer-fireflies-vines.svg",
+      "img/seasonal/halloween-candelabra-glow.svg",
+      "img/seasonal/halloween-cobweb-pattern.svg",
+    ],
+    banner: "Speakeasy Gold shifts with the season. Tonight, the house is dressed for the occasion.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1199,6 +1235,226 @@ const brandKit = {
     font_scaling:
       "Cormorant Garamond at 200% zoom must not clip or overlap. Line-height 1.72 " +
       "provides natural buffer. Layouts tested at 200% browser zoom.",
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Lobby",       emphasis: "default" },
+      { id: "features", label: "The Vault",       emphasis: "primary" },
+      { id: "clients",  label: "Every Room",      emphasis: "default" },
+      { id: "download", label: "Get the Password", emphasis: "primary" },
+      { id: "hub",      label: "The Tunnel",      emphasis: "default" },
+      { id: "about",    label: "Our Story",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A specialist's corner — nice for tinkerers, but not the main draw for someone pouring a first drink.", fold_into: "features" },
+      { id: "docs",    reason: "All the answers live one click away in the footer — on the main path, we keep the mood." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The door is there if you know where to look. Step inside; everything is ready.",
+    sections: [
+      { id: "curtain-rise",   source: "copy_overlay.hero", treatment: "Full-bleed hero with a stepped-arch silhouette: gold sunburst rising behind the headline, champagne bubbles cascading. Gilda raises her flute as the curtain parts.", weight: "hero" },
+      { id: "the-vault",      source: "feature_casting",   treatment: "Two hero features cast as ornate vault doors (library and syncplay) on either side of a central champagne-gold Art Deco rule line; support features grid below on lacquered ebony cards.", weight: "major" },
+      { id: "why-belong",     source: "story",             treatment: "The brand story styled as a torn page from a speakeasy ledger: 'Your Private Vault, Always Open.'", weight: "major" },
+      { id: "good-seats",     source: "proof_strategy",    treatment: "Trust signals as a house ledger card: 5 native clients, SyncPlay over NTP, GitHub stars, and a single honest line from the docs.", weight: "minor" },
+      { id: "knock-on-door",  source: "conversion_funnel", treatment: "Closing CTA card: 'You have the password. Step inside.' with the install one-liner set as a wax-sealed envelope.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "vault-gallery",
+      spec: "Lay the features out as golden-framed vault compartments on a dark wall. Each compartment door has a Cinzel numerals header (I–VIII), an Art Deco geometric icon, and a description as if reading a catalog in candlelight.",
+    },
+    clients: {
+      template: "speakeasy-devices",
+      spec: "Present each client as a 'room' in the establishment — Roku as the Main Hall, Samsung Tizen as the Library, Windows as the Study, Mobile as the Lounge, DLNA as the Parlor. Each room card shows what happens there.",
+    },
+    download: {
+      template: "box-office-window",
+      spec: "Frame as a box-office counter scene: the server install snippet is the 'admission ticket' in a wax-seal border, client cards are the 'seat choices', ecosystem links are the 'concessions on the shelf'.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell the speakeasy story as scrolling parchment pages: Philosophy (the spirit), License (the contract), Contributing (join the house). FAQ ends as Gilda's 'Notes from the door'.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Movie night locked in step across every room, every device, every mile — the house pianist keeps perfect time." },
+      { id: "library",  angle: "Your media arrives and finds its place on the marquee. The room organizes itself." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Step inside. You have the password.",
+      headline: "Your Private Vault. Always Open.",
+      subheadline: "A hidden speakeasy for your media — self-hosted, glamorous, yours alone. SyncPlay, transcoding, Live TV, and a hub that reaches you anywhere. Press play when you're ready.",
+      primary_cta: { label: "You Know the Password" },
+      secondary_cta: { label: "The Story" },
+    },
+    section_headings: {
+      pitch: "Why step inside?",
+      features: "The Vault",
+      cta_banner: "The door is right there.",
+    },
+    footer_tagline: "Your media, your rules.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "speakeasy-ledger",
+    faq: "bartender-chat",
+    clients: "speakeasy-rooms",
+    ecosystem: "back-room-shelves",
+  },
+
+  faq_experience: {
+    frame: "bartender-chat",
+    persona: "Gilda, the bartender, answering questions from patrons over a quiet nightcap.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on my old TV—the one in the back room?", maps_to: "formats" },
+      { q: "Do I really have to invite the whole internet inside?", maps_to: "expose-internet" },
+      { q: "If I run my own hub, who's holding the keys?", maps_to: "expose-internet" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Speakeasy Regular",
+      scene: "Gilda greets you by name as you step through the door. Your favorite film is already queued on the big screen, SyncPlay ready to go live to your study two rooms over.",
+      surfaces: ["home hero", "media library", "syncplay lobby", "media player"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "The Collector",
+      scene: "Thousands of titles fill the vault. The scanner runs once a week and all your metadata updates in the ledger. You transcode once for the mobile version; the rest stream perfectly.",
+      surfaces: ["admin library settings", "media grid", "quality profile selector"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Distant Guest",
+      scene: "Your friend's house across the country. You tap the Phlix Hub on your phone, see your server (always online), and press play. Everything stays in sync with Gilda's invisible timing.",
+      surfaces: ["hub connection screen", "media player", "room selector"],
+      features_shown: ["hub", "syncplay", "auth"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "The hero unfolds like a speakeasy entrance: the stepped-arch doorway silhouette fades in first (dark), then the champagne-gold sunburst glows behind it, then the headline appears letter by letter in Poiret One, and finally Gilda's silhouette (raising her flute) appears on the right as the curtain parts to the side. Timing is stately — ~3.5s total, no jitter, one cue per motion.",
+    suggested_inputs: ["page load", "scroll approach"],
+    fallback: "A single flat, full-bleed illustration: stepped-arch doorway with the sunburst, Gilda mid-toast on the right, headline and both CTAs baked into the static image. Identical copy; no animation code required.",
+    js_budget_kb: 4,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A marquee-inspired top bar with the Phlix wordmark in Poiret One champagne gold at left, the nav links center (The Lobby, The Vault, Every Room, Get the Password, The Tunnel, Our Story), and gold Art Deco dot separators between each link. Active nav item gains a gold underline and a subtle glow.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible nav — a plain <nav role='navigation'> with a list of links (same labels), fully keyboard-reachable with Tab, Enter to activate. On mobile it collapses to a labeled hamburger menu (hamburger icon, 'Menu', aria-expanded). The fallback is always rendered alongside the fancy topbar — never replaced.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives as a new 'act': a subtle film-burn wipe (a thin line of amber light sweeping from left to right) and the faintest champagne-bubble sound as the next chapter scrolls into frame. The wipe is smooth, ~300ms, and triggers only once per section.",
+    reduced_motion: "Under prefers-reduced-motion, the film-burn wipe and sound cue are dropped entirely. The page becomes a plain continuous scroll with instant section boundaries — no motion code runs, full stop.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Gilda appears in the bottom-right corner, raises her flute, and says 'You found the password!' A champagne-bubble burst floats up from the flute (5 bubbles, ~2s lifespan each).",
+      reward_copy: "Well, well. You know how to knock.",
+      exit: "The bubbles settle and Gilda winks, then fades after ~4s. Press Esc to dismiss immediately; the Easter egg state resets on page reload.",
+    },
+    {
+      trigger: "typed-word:speakeasy",
+      effect: "The page background briefly pulses with a warm amber glow (like a candelabra flaring). The cursor becomes a small champagne-flute icon for ~2s.",
+      reward_copy: "You spoke the password.",
+      exit: "The glow fades naturally over 1s, or press Esc to stop it immediately.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time host to run the server and invite it into the speakeasy.",
+    cta_ladder: [
+      { step: 1, cta: "You Know the Password",    target: "download" },
+      { step: 2, cta: "Pick Your Room",           target: "clients" },
+      { step: 3, cta: "Unlock the Vault (run it)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a speakeasy box-office scene: 'One line. That's all we need.' Above the install snippet (styled as a wax-sealed admission ticket), then the client seat-picker below.",
+    friction_notes: "An audience of enthusiasts and collectors — people who understand private infrastructure. Respect their sophistication; no hand-holding, but make every step feel ritually elegant. The install is framed as the ceremonial key-turning, not a technical hurdle.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A lacquered-ebony placard: '5 native clients. SyncPlay over NTP. HLS + FFmpeg transcoding. Your vault, your terms.' Real capabilities from content.json." },
+      { type: "github", format: "A framed 'From the projection booth' card with the live phlix-server GitHub repo link, real star count, and recent-commit timestamp (never hard-coded)." },
+      { type: "quotes-from-docs", format: "A single honest, short quote lifted verbatim from the docs (e.g., about self-hosting) set in Cormorant Garamond italic on a gold-bordered card." },
+    ],
+    placement: "A calm, elegant band between the vault features and the closing CTA — 'The house always deals in truth.' Never pushy, never dense.",
+  },
+
+  visitor_paths: {
+    prompt: "Who are you stepping in as tonight?",
+    paths: [
+      { id: "family-night",   label: "We're gathering for movie night",   target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "collection-lord", label: "I've got a lifetime of media",       target: "features#library",  emphasis: ["library", "transcode", "auth"] },
+      { id: "tinkerer",        label: "I like to build and customize",     target: "plugins",           emphasis: ["plugins", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 6, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the House Lights",
+    affects: ["animation", "hero_experience→static", "scroll_experience→continuous", "bubble_effects"],
+    default: "full",
+    placement: "A small toggle at the bottom-left footer, next to the reduced-motion note, styled as a small gold switch.",
+  },
+
+  error_page_experience: {
+    concept: "A 'No Show' card: Gilda stands under an empty marquee with a torn ticket stub, speaking to the visitor: 'This showing doesn't exist — or maybe it sold out. Let me show you what's playing.' Recovery links lead back to the lobby, the vault, and the download page.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

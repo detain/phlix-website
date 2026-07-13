@@ -99,7 +99,7 @@ claims. It provides these blocks — wire each into the pages as noted:
 | `site` | name, url, repo_org, locales, `social.{github,docs}` | shell, footer, meta |
 | `hero` | eyebrow, headline, subheadline, `primary_cta`, `secondary_cta` | home hero |
 | `pitch_bullets[]` | 7 one-line value props | home "Why Phlix?" |
-| `features[]` | 7 × `{id,title,body,icon}` | home overview + features page |
+| `features[]` | 8 × `{id,title,body,icon}` | home overview + features page |
 | `clients[]` | 5 × `{id,name,tagline,repo,highlights[],store_url,status}` | clients + download |
 | `ecosystem[]` | 5 × `{name,repo,what}` | download + docs |
 | `faq[]` | 6 × `{q,a}` | about |
@@ -108,9 +108,101 @@ claims. It provides these blocks — wire each into the pages as noted:
 
 You **may** restyle, reorder visually, and add brand-flavored **micro-copy**
 (section eyebrows, button labels, empty/aside lines, alt text) drawn from the
-kit's voice — but the **substantive product claims and feature bodies come
-verbatim from `content.json`**. If the kit's voice wants a different headline,
+kit's voice. The rule is now about **facts vs. presentation**, not "copy must
+stay byte-for-byte":
+
+- All **FACTS** — spec claims, numbers, licenses, repo links, and FAQ **answer
+  substance** — must remain **traceable to `content.json`**. Never invent,
+  inflate, or drop a fact.
+- **Presentation copy** — hero eyebrow/headline/subheadline, CTA labels, section
+  headings, per-feature framing, footer tagline — **may follow a kit's
+  `copy_overlay` and `feature_casting.angle` fields when those are present**
+  (see §2A). A kit **re-voices** facts; it never changes them.
+- Where a kit declares **no** overlay for a given slot, that copy stays
+  **verbatim** from `content.json`. Absence of an override = today's behavior.
+
+If the kit's voice wants a different headline and provides no `copy_overlay`,
 treat it as a _visual headline overlay_, not a replacement of the factual copy.
+
+---
+
+## 2A. Kit-declared experience overrides (opt-in)
+
+Historically every brand-kit site shared one fixed skeleton, one nav, and one set
+of marketing copy — kits only changed CSS/colors/fonts. A kit **may now declare**
+any of the following fields to drive a genuinely different **user experience**
+(information architecture, content emphasis, interaction model, navigation
+paradigm, conversion funnel), not just a visual reskin:
+
+`site_architecture`, `homepage_narrative`, `page_blueprints`, `copy_overlay`,
+`feature_casting`, `copy_treatments`, `faq_experience`, `hero_experience`,
+`navigation_model`, `scroll_experience`, `easter_eggs`, `conversion_funnel`,
+`proof_strategy`, `visitor_paths`, `experience_archetype`, `complexity_profile`,
+`intensity_toggle`, `mascot.behavior`, `seasonal_activation`, and
+`persona_vignettes`.
+
+**Override rule:** when a field is **present**, it **OVERRIDES** the previous
+default fixed structure/copy **for that concern only**. When a field is
+**absent**, keep **today's default behavior** (the shared nav, page structure,
+and `content.json` copy) — nothing breaks for a kit that doesn't opt in. Fields
+compose: a kit can override its nav without touching its copy, or restyle the FAQ
+without changing its funnel.
+
+**Facts stay locked.** Every override re-weights emphasis or re-voices
+presentation; none of them may invent, drop, or alter a **fact**. All facts stay
+traceable to `content.json` (§2), and any `proof_strategy` signal must be
+**verifiable** against `content.json` or the real repos — never a fabricated
+testimonial or count.
+
+### Field-by-field: what to DO with each
+
+| Field | What the authoring agent does with it |
+|-------|----------------------------------------|
+| `site_architecture` | Build the primary nav from `nav[]` (label/order/emphasis; ids stay canonical). Move `demoted_pages` into the footer (respect `fold_into`). Author any `extra_pages`, drawing content **only** from the listed `facts_from` content.json paths. Arrange the footer per `footer_arrangement`. |
+| `homepage_narrative` | Order and render the home page's sections per `sections[]` (each `source`/`treatment`/`weight`); frame the page with `logline` and the chosen `arc`. |
+| `page_blueprints` | For each listed page id, compose the DOM per its `template` + literal `spec` (this is *what the page is*; §3/§13 still govern *how it looks*). |
+| `feature_casting` | Hero the `hero[]` features (use each `angle` as its voiced, factual headline), grid the `support[]`, push `footnote[]` to the Features page only, keep `omit_from_home[]` off the home page. Every feature must still appear **somewhere**. |
+| `copy_overlay` | Replace **presentation** copy (hero, section headings, footer tagline) with the overlay values; anything absent inherits `content.json` verbatim. Facts unchanged. |
+| `copy_treatments` | Render the named shared block (pitch_bullets/faq/clients/ecosystem) in the specified container/component — same facts, brand-native markup. |
+| `faq_experience` | Frame the FAQ per `frame`/`persona`; reorder answers per `question_order`; add `extra_questions` as re-phrasings that **map to** existing canonical answers (`maps_to`) — no new facts. |
+| `persona_vignettes` | Use each vignette to decide which product `surfaces` to mock up in imagery and which `features_shown` to depict; seed `img/PROMPTS.md`. |
+| `hero_experience` | Build the hero interaction per `mode`/`spec` within `js_budget_kb`; **always** ship the `fallback` (static/no-JS/reduced-motion) carrying the **same copy**. |
+| `navigation_model` | Build the nav paradigm per `mode`/`spec`/`keyboard`; **always** also render the `fallback` standard accessible topbar/menu — the exotic mode is an enhancement layer only. |
+| `scroll_experience` | Apply the reading rhythm per `mode`/`spec`; under `prefers-reduced-motion` resolve to the `reduced_motion` description (plain continuous scroll). |
+| `easter_eggs` | Wire each `{trigger, effect, reward_copy, exit}`; keep them inert for non-discoverers, never shadow browser/AT shortcuts, and honor the explicit `exit`. |
+| `conversion_funnel` | Shape the download journey per `style`; open the Download page with `download_opening`; wire the `cta_ladder` steps; respect `friction_notes`. |
+| `proof_strategy` | Render the ordered `signals` at `placement` using only **verifiable** proof (real numbers/links/quotes). |
+| `visitor_paths` | If present, render the self-select fork (`prompt` + `paths[]`) near the hero, emphasizing each path's `emphasis` feature ids. `null` = single curated path, no fork. |
+| `experience_archetype` | Adopt this as the declared layout archetype (replaces the derived guess in `new_site_prompt.md` STEP 1). |
+| `complexity_profile` | Enforce `density`/`reading_level`/`jargon_policy` and the `page_budget` caps (max home sections, max words/section). For `jargon_policy: "translate"`, surface the plain term and preserve the precise one in a `<details>`. |
+| `intensity_toggle` | If present, add the visitor-facing calm-mode toggle (`label`/`affects`/`default`/`placement`) as a self-contained enhancement. `null` = nothing loud enough to tame. |
+| `mascot.behavior` | If non-`null`, build the on-page companion (`placement`/`idle`/`tips`/`easter_interactions`/`dismiss`); disable `idle` under reduced-motion; persist dismissal via localStorage. `null` = imagery-only mascot. |
+| `seasonal_activation` | `"documented"` = record seasonal data only (no live behavior). `"live-js"` = ship a tiny date-gate that flips the `seasonal_variants` override tokens + motif during `active_range`. |
+| `error_page_experience` | **Schema-only for now** — document the 404 concept; do **not** attempt to ship a per-kit 404 this pass (see the note below). |
+
+### Performance & safety rule for opt-in JS
+
+Any per-site JS added for `hero_experience`, `navigation_model`, `mascot.behavior`,
+`easter_eggs`, or `seasonal_activation` must be:
+
+- **Self-contained, hand-written vanilla JS** with **no external dependencies**
+  (no libraries, no CDNs) — consistent with §7.
+- **Budgeted at roughly ≤15 KB total** across all of them (each field may carry a
+  tighter per-feature budget, e.g. `hero_experience.js_budget_kb`).
+- **`prefers-reduced-motion`-respecting** — motion is gated/dropped under reduced
+  motion.
+- For `navigation_model` and `hero_experience`, it must **always render a working
+  no-JS fallback** that carries the **same information/copy** (the `fallback`
+  field is mandatory, not optional).
+
+### `error_page_experience` is schema-only this pass
+
+GitHub Pages serves exactly **one root `404.html` per Pages site**, so genuinely
+shipping a per-kit 404 needs a future `tools/build.mjs` change — a root
+`404.html` **path-sniffing shim** that inspects the requested `sites/<slug>/…`
+path and renders that kit's 404 concept. That build-tooling work is **out of
+scope** for this pass. For now, only **document** the concept from
+`error_page_experience`; do not add a per-kit 404 page.
 
 ---
 
@@ -128,7 +220,7 @@ so styling and reviews stay portable.
    fold** with ≥3:1 contrast.
 2. **Pitch** (`.pitch`) — `<h2>Why Phlix?</h2>` + `pitch_bullets` as a list.
 3. **Features overview** (`.features-overview`) — `<h2>`, then a card grid of all
-   7 `features` (`.feature-card` with inline SVG icon, `h3` title, `p` body) and
+   8 `features` (`.feature-card` with inline SVG icon, `h3` title, `p` body) and
    a "See all features →" link to `features.html`.
 4. **CTA banner** (`.cta-banner`) — closing `<h2>` + a prominent download button.
 
@@ -295,7 +387,7 @@ Vanilla, dependency-free, `defer`-loaded. Responsibilities:
 - **`og.png` (1200×630)** — social share card: brand background, logo/wordmark,
   `hero.headline` or `tagline_primary`. Ship `og.svg` as the editable source if
   used, but reference a rasterized **`og.png`** in meta.
-- **Inline SVG icons** for the 7 feature icons (library, syncplay, transcode,
+- **Inline SVG icons** for the 8 feature icons (library, syncplay, transcode,
   shield, antenna, broadcast/dlna, puzzle, hub) — single-color, stroke-based,
   matching the kit's icon style. No icon-font CDNs.
 - **`img/PROMPTS.md`** — record the exact generation prompt for every image asset
@@ -443,8 +535,10 @@ A brand-kit site is **done** only when **all** are true:
 4. **Brand fidelity:** every color/font/shape/motion/voice choice traces to the
    kit; nothing off-palette or off-voice; the kit's Do list followed and Don't
    list avoided.
-5. **Content accuracy:** all claims match §16; spelling/grammar clean;
-   `content.json` copy intact.
+5. **Content accuracy:** all claims match §16; spelling/grammar clean; every
+   **fact** traceable to `content.json`, and any re-voiced **presentation** copy
+   traceable to the kit's `copy_overlay` / `feature_casting.angle` (§2A);
+   `proof_strategy` signals verifiable; nothing invented.
 6. **Responsive** clean at all breakpoints (§14); **performance** within budget
    (§13).
 7. The review loop (see `new_site_prompt.md`) reports **no remaining ❌ and no

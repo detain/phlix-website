@@ -534,6 +534,28 @@ const brandKit = {
       "Splitting into two smaller blobs, both waving — celebration/success",
     ],
     expressions: ["Big grin", "Sleepy wink", "Wide-eyed wonder", "Knowing nod"],
+    behavior: {
+      placement:
+        "Bottom-right corner, floating gently; appears on home, download, " +
+        "and features pages — never on the FAQ/docs dense reading pages.",
+      idle:
+        "Groove gently pulses and wobbles in place, occasionally letting a small " +
+        "blob split off and float around — the lava lamp's unhurried life. Idle motion " +
+        "is disabled under prefers-reduced-motion (Groove simply bobs).",
+      tips: [
+        { where: "home:#hero",              say: "Far out — drop the needle and let's spin something groovy." },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps movie night locked in groove across every room." },
+        { where: "download:#server",        say: "One line and you're the DJ. The rest is just spinning records." },
+        { where: "features:.content-section", say: "Eight solid features — each one spins a different tune." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Groove splits into two blobs and dances back together, grinning wide." },
+        { trigger: "hover-hold:2s", react: "Groove pulses and offers a friendly thumbs-up — 'You've got great taste.'" },
+      ],
+      dismiss:
+        "A small 'Let Groove settle' close button tucks him behind a warm " +
+        "orange curtain; the dismissed state persists via localStorage.",
+    },
   },
 
   /* ==========================================================================
@@ -1063,6 +1085,15 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/disco-ball-spin.svg",
+      "img/seasonal/vinyl-confetti.svg",
+    ],
+    banner: "Funky season is here — crank up the Phlix and groove.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1087,6 +1118,226 @@ const brandKit = {
       "All layouts must survive 200% browser text zoom without clipping or " +
       "horizontal scroll. Fredoka One display text degrades gracefully to Trebuchet MS " +
       "if the web font is unavailable; Lato degrades to system-ui.",
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Lobby",     emphasis: "default" },
+      { id: "features", label: "Now Spinning",  emphasis: "primary" },
+      { id: "clients",  label: "The Equipment", emphasis: "default" },
+      { id: "download", label: "Get Groovy",    emphasis: "primary" },
+      { id: "hub",      label: "The Relay",     emphasis: "default" },
+      { id: "about",    label: "The Story",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Extra for the adventurous — nice to have, but not the main listening session.", fold_into: "features" },
+      { id: "docs",    reason: "Reference material lives one click away in the footer, off the warm main groove." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Drop the needle, the record spins, and your entire library is right here — warm, unhurried, and absolutely groovy.",
+    sections: [
+      { id: "needle-drop",     source: "copy_overlay.hero", treatment: "Full-bleed vinyl-groove hero: the needle descends, the groove radiates outward, and the headline emerges in warm orange.", weight: "hero" },
+      { id: "the-features",    source: "feature_casting",   treatment: "Two featured records (syncplay & library) as painted album one-sheets on the wall; six supporting features as smaller vinyl labels below.", weight: "major" },
+      { id: "why-retro",       source: "story",             treatment: "Value props styled as warm liner notes on a record sleeve — genuine, informed, written by someone who loves this stuff.", weight: "major" },
+      { id: "proof-placard",   source: "proof_strategy",    treatment: "Trust signals rendered as a warm lobby placard — real feature count, real repo stars, a genuine quote from the docs.", weight: "minor" },
+      { id: "spin-it-up",      source: "conversion_funnel", treatment: "Closing CTA band: 'Spin it up' beside the install one-liner in warm orange.", weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "vinyl-shelf",
+      spec: "Lay the 8 features out as a warm shelf of album spines and full covers — each feature is a record with a bold Playfair title, a one-line synopsis, and a warm-orange play-alike icon.",
+    },
+    clients: {
+      template: "family-of-devices",
+      spec: "Present each client (Roku, Tizen, Windows, Mobile, DLNA) as a lived-in device sketched into a cozy living-room scene — the Roku on the wall, the phone on the coffee table, the old TV in the corner. Each with its tagline and a warm label.",
+    },
+    download: {
+      template: "record-store-counter",
+      spec: "Frame the page as a record-store counter: the server install snippet is the 'one-line special', client cards are the 'you'll also need…' suggestions, ecosystem links are the 'vinyl-care kit'.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Tell the brand story as a scrolling reel of chapters (Philosophy, License, Contributing) styled like warm album sleeve liner notes, ending in a FAQ styled as Groove's friendly 'Questions from the queue'.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Movie night stays locked in step — every seat, every room, the same beat." },
+      { id: "library",  angle: "Your collection organizes itself as you add it — drop a record, watch it land on the shelf." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Self-hosted and warm",
+      headline: "Drop the needle. Enjoy the groove.",
+      subheadline: "Your whole library, streaming to every screen in the house like the good old days when you chose what you watched and you watched it all the way through — warm, groovy, and entirely yours.",
+      primary_cta: { label: "Get Groovy" },
+      secondary_cta: { label: "Peek at the Liner Notes" },
+    },
+    section_headings: {
+      pitch: "Why settle in?",
+      features: "Now Spinning",
+      cta_banner: "Spin it up — the best stuff is waiting.",
+    },
+    footer_tagline: "Rewind. Replay. Relive.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "vinyl-signage",
+    faq: "liner-notes-column",
+    clients: "family-of-devices",
+    ecosystem: "vinyl-shelf",
+  },
+
+  faq_experience: {
+    frame: "warm-chat",
+    persona: "Groove the lava-lamp, floating nearby with friendly answers — laid-back, warm, genuinely glad to help.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this run on old hardware?", maps_to: "formats" },
+      { q: "Do I really need the hub?", maps_to: "expose-internet" },
+      { q: "Can my family see my whole library?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Vinyl Collector's Movie Night",
+      scene: "The record crate is organized, the TV is warm and ready, and Groove floats nearby — a family settles onto the couch to watch something together, in sync, in their own space.",
+      surfaces: ["home hero", "SyncPlay lobby", "media player"],
+      features_shown: ["library", "syncplay", "auth"],
+    },
+    {
+      name: "Late-Night Groovy Session",
+      scene: "One person, one record, one perfect night — scrolling through the collection on a phone or tablet, pulling up an old favorite, and letting it play without thinking.",
+      surfaces: ["media library grid", "media player", "profile picker"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Tinkerer's Lab",
+      scene: "Someone who likes to dig into the details: plugin options, quality profiles, hub relay behavior — the kind of person who reads liner notes and wants to know how it all works.",
+      surfaces: ["hub connect screen", "quality selector", "settings dashboard"],
+      features_shown: ["hub", "plugins", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "guided-reveal",
+    spec: "As the page loads, Groove floats up into the hero area, the vinyl groove radiates outward from the center, the needle descends and lands on the record, and the headline emerges in warm orange over a gentle lava-lamp glow background. Each element staggered, warm, unhurried.",
+    suggested_inputs: ["load event", "scroll offset"],
+    fallback: "A single warm illustration showing Groove floating contentedly beside a spinning vinyl record, the needle in place, with the identical headline, subheadline, and both CTAs rendered as text and buttons below.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm topbar nav with the Phlix wordmark at left (Playfair Display in harvest gold), then nav links separated by small warm-orange vinyl dot indicators; active link glows with a subtle warm pulse.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible nav — a plain <nav> with a list of the same links in semantic order, fully keyboard reachable via Tab and Enter, collapsing to a hamburger menu icon on mobile with an aria-label.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a reel change — a warm dissolve with a faint vinyl-spin flourish and a brief amber glow pulse as the next section scrolls into frame.",
+    reduced_motion: "Under prefers-reduced-motion the spin flourish and glow pulse are dropped entirely; the page becomes a plain continuous scroll with instant section boundaries.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:3",
+      effect: "Groove does a little spin-around dance, splits into two blobs briefly, then reforms — with a knowing grin.",
+      reward_copy: "You found Groove's happy place!",
+      exit: "The effect settles on its own after ~3s, or press Esc to clear it immediately.",
+    },
+    {
+      trigger: "typed-word:groove",
+      effect: "A vinyl record briefly appears spinning beneath the cursor, and the marquee bulbs (if any) do one warm chase.",
+      reward_copy: "Now that's the groove!",
+      exit: "Press Esc (or type any other character) to restore the normal cursor.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time host to run the server and open the lobby.",
+    cta_ladder: [
+      { step: 1, cta: "Get Groovy",              target: "download" },
+      { step: 2, cta: "Pick Your Equipment",     target: "clients" },
+      { step: 3, cta: "Spin It Up (install)",    target: "download#server" },
+    ],
+    download_opening: "The Download page opens with a warm greeting: 'Ready for warm, groovy streaming? One line to install.' The server install snippet is the star; client cards and the ecosystem list follow as supporting cast.",
+    friction_notes: "A nostalgic, warm audience who values ritual and genuine connection — keep the steps few, the language friendly, and never talk down to them. The install one-liner is not scary; it's the key to a groovy evening.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A warm lobby placard: 8 solid features, 5 native clients, SyncPlay over real NTP time sync, HLS + FFmpeg transcoding. All real, all verifiable from the site and the docs." },
+      { type: "github",           format: "A modest 'from the equipment room' row linking phlix-server with its live star count and issue tracker — no hard-coded numbers, always live." },
+      { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the docs on self-hosting, set as a framed warm-glow quote card." },
+    ],
+    placement: "A single calm 'honest listening experience' band between the features section and the closing 'spin it up' CTA.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of listening session are you here for?",
+    paths: [
+      { id: "family",    label: "Family movie night",              target: "features#syncplay", emphasis: ["syncplay", "auth"] },
+      { id: "collector", label: "I've got a whole record collection", target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "tinkerer",  label: "I like to tweak the dial",        target: "features#hub",      emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 85 },
+  },
+
+  intensity_toggle: {
+    label: "Slow it down",
+    affects: ["animation", "texture", "hero_experience→reveal", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the prefers-reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "A warm '404 — wrong theater' scene: Groove sits in an empty auditorium under a dark marquee, holding a torn ticket stub and pointing the way back toward the lobby. 'The show you're looking for isn't playing here — but come on back to the lobby and let's find something groovy.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

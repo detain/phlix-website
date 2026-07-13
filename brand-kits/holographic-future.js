@@ -529,6 +529,32 @@ const brandKit = {
       "on the context and emotional state of the interaction.",
     poses: ["Pointing at a floating holographic panel", "Arms extended, spectrum radiating outward", "Kneeling to inspect a data crystal", "Standing with one shard-hand raised, projecting a beam"],
     expressions: ["Luminous calm", "Electric curiosity", "Spectral wonder", "Focused analysis"],
+
+    behavior: {
+      placement:
+        "Floating in the bottom-right quadrant of the hero section and on the download page, " +
+        "about 80px from edges. Lux is a navigational companion, not intrusive — appears on " +
+        "pages where decision-making or calibration matters (home, features, download, about). " +
+        "Absent from API docs or heavily scrollable reference pages.",
+      idle:
+        "Lux gently rotates their geometric form, prismatic facets catching light. Every 4 seconds, " +
+        "they briefly raise one shard-hand as if projecting a holographic thought. Motion is disabled " +
+        "under prefers-reduced-motion (Lux simply stands, expressing their current state as a color shift).",
+      tips: [
+        { where: "home:#hero",              say: "I'm Lux. Let me guide you through the dimensions of Phlix." },
+        { where: "home:.feature-cards",     say: "Each of these dimensions can render independently or in perfect sync." },
+        { where: "features:#syncplay",      say: "Synchronization at the speed of light — every device, every frame." },
+        { where: "download:#server",        say: "The calibration ritual: one line, and you've built your portal." },
+        { where: "about:.faq-list",         say: "Your questions bring clarity. I answer with precision." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Lux projects a brief holographic spectrum arc from their raised hand, then settles to 'luminous calm'." },
+        { trigger: "hover-hold:2s", react: "Lux shifts to 'electric curiosity', tilts their head, and whispers: 'You're paying attention to detail.'" },
+      ],
+      dismiss:
+        "A subtle 'Lux, stand by' icon in the corner lets you collapse Lux into a dormant state. " +
+        "Dismissed state persists via localStorage — Lux waits off-canvas until you call them back or reload the page.",
+    },
   },
 
   /* ==========================================================================
@@ -927,6 +953,20 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ─────────────────────────────────────────────────
+  // Declares whether seasonal_variants above ship live or stay documentation-only.
+  // "live-js" enables a date-gate that automatically applies Aurora Solstice,
+  // Solar Maximum, and Void Protocol based on the user's current date.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/aurora-borealis-ribbon.svg",
+      "img/seasonal/solar-corona-wireframe.svg",
+      "img/seasonal/void-scanline-overlay.svg",
+    ],
+    banner: "You've entered a seasonal dimension. The spectrum has shifted.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -941,7 +981,235 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Signal",      emphasis: "primary" },
+      { id: "features", label: "Calibrate",   emphasis: "primary" },
+      { id: "clients",  label: "Dimensions",  emphasis: "default" },
+      { id: "download", label: "Interface",   emphasis: "primary" },
+      { id: "hub",      label: "Relay",       emphasis: "default" },
+      { id: "about",    label: "Spectrum",    emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Advanced layer — discoverable for the curious, not primary navigation for first-time visitors." },
+      { id: "docs",    reason: "Reference material surfaces via links, not top nav." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "mirror-nav",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "feature-first",
+    logline: "A precision media server that renders your library across every dimension you inhabit — at light speed.",
+    sections: [
+      { id: "hero-reveal",     source: "copy_overlay.hero",     treatment: "Full-viewport animated prism wipe revealing the headline as Lux projects a holographic library into space.",                       weight: "hero" },
+      { id: "core-dimensions", source: "feature_casting",        treatment: "The four hero features rendered as floating AR panels at distinct Z-depths, each revealing on scroll.",                              weight: "major" },
+      { id: "proof-band",      source: "proof_strategy",         treatment: "A calm precision band: real GitHub stars, real feature counts, one true quote lifted from the docs.",                                weight: "minor" },
+      { id: "visit-paths",     source: "visitor_paths",          treatment: "A self-select fork: 'What dimension are you streaming from?' — three paths emphasize different feature groups.",                    weight: "major" },
+      { id: "cta-portal",      source: "conversion_funnel",      treatment: "Portal-styled final CTA: 'Enter the interface' button glows with chrome aurora gradient; secondary path is the docs link.",       weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "spec-sheet",
+      spec: "Render features as technical spec cards in a geometric grid: each feature is a precision spec panel with electric-blue accent border, Orbitron title, and a technical one-liner. Emphasis on what it does, not marketing hype.",
+    },
+    clients: {
+      template: "device-rack",
+      spec: "Present each client as a dimensional device in a precise rack — Roku, Tizen, Windows, Mobile, DLNA each shown as a sleek hardware silhouette with native capabilities listed as crisp bullet points.",
+    },
+    download: {
+      template: "portal-entry",
+      spec: "Frame as a 'portal entry interface': the server install is the primary ritual (step into the dimension), client picks are dimension-specific gear, ecosystem repos are linked as advanced navigation.",
+    },
+    about: {
+      template: "chapter-scroll",
+      spec: "Philosophy, License, Contributing as scrolling chapters, each opening with a prismatic divider. FAQ styled as 'Lux's Calibration Guide' — Lux answering questions with luminous calm.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay",  angle: "Every device, every room, perfectly synchronized — NTP-locked playback across any distance." },
+      { id: "transcode", angle: "Adaptive quality that renders itself — per-device profiles pick the right bitrate before you press play." },
+      { id: "hub",       angle: "Reach your server from anywhere, through any wall, without exposing it to the open internet." },
+    ],
+    support: ["library", "auth", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Precision media infrastructure",
+      headline: "Your library, calibrated across dimensions.",
+      subheadline: "A self-hosted media server that renders to Roku, Samsung TV, Windows, mobile, and any DLNA device — with adaptive transcoding, synchronized playback, and a relay that keeps you private.",
+      primary_cta: { label: "Enter the interface" },
+      secondary_cta: { label: "Read the calibration docs" },
+    },
+    section_headings: {
+      pitch: "What precision unlocks",
+      features: "Core dimensions",
+      cta_banner: "Ready to refract your reality?",
+    },
+    footer_tagline: "Media rendered with light-speed precision.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "spec-rows",
+    faq: "man-page",
+    clients: "device-rack",
+    ecosystem: "constellation",
+  },
+
+  /* ==========================================================================
+   * 26. FAQ EXPERIENCE
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "man-page",
+    persona: "Lux, the holographic navigator, calibrating your understanding with luminous precision.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Does it transcode in real-time if my network is slow?", maps_to: "formats" },
+      { q: "Can the hub run on my own server instead of the cloud?", maps_to: "expose-internet" },
+      { q: "Do all my devices need to be on the same Wi-Fi?", maps_to: "expose-internet" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Home Theater Architect",
+      scene: "A premium installation: living room projector, bedroom Roku, kitchen Samsung TV, and an old garage DLNA speaker — all fed from one calibrated Phlix server, one profile, one library.",
+      surfaces: ["Library grid with quality badges", "SyncPlay lobby state", "Multi-device player control"],
+      features_shown: ["library", "transcode", "syncplay", "dlna"],
+    },
+    {
+      name: "The Traveling Enthusiast",
+      scene: "At a hotel in another city, one phone tap connects via Phlix Hub to the home server; the same movie picks up right where they left it off across time zones.",
+      surfaces: ["Hub connection modal", "Remote media player", "Resume-from-position detail"],
+      features_shown: ["hub", "auth", "syncplay"],
+    },
+    {
+      name: "The DVR Precisionist",
+      scene: "Tuesday night — the TV automatically tunes to the cable guide, records an episode to the Phlix schedule, and a notification pings: your episode awaits in the library grid.",
+      surfaces: ["Live TV guide overlay", "DVR recording list", "EPG integration"],
+      features_shown: ["livetv", "library"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "playable-vignette",
+    spec: "A small, interactive Lux hologram stands in the hero, gesturing toward a floating translucent AR panel that reveals the headline. On click/tap, the panel opens to show a scrollable library preview. Light and dimensionality are the interactive affordances — no heavy animation, just responsive state.",
+    suggested_inputs: ["click on Lux", "click on the AR panel", "hover to preview"],
+    fallback: "A single, static illustration of Lux beside an AR panel with the headline and subheadline already visible, plus both CTAs rendered as buttons below.",
+    js_budget_kb: 8,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A precision topbar with the Phlix wordmark at left, navigation links in Orbitron with electric-blue underline on active state, and a faint horizontal prismatic glow beneath to echo the logo.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible standard nav — a plain semantic <nav> with a list of links, fully keyboard-reachable, collapsing to a labeled hamburger menu (<button aria-label='Menu' aria-expanded='false'>) on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "A smooth continuous scroll with subtle parallax on hero and feature cards — translucent panels shift at different rates, creating depth as you read. Electric-blue accent lines pulse softly in view. Animations are precise and minimal, not narrative.",
+    reduced_motion: "Under prefers-reduced-motion, parallax and pulse animations are disabled entirely; the page becomes plain continuous scroll with no animation. Parallax depth is replaced by static, carefully composed layering.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:7",
+      effect: "Lux projects a brief holographic spectrum animation from the logo — a prismatic light-spray in rainbow across the viewport.",
+      reward_copy: "You've unlocked Lux's light show.",
+      exit: "The spectrum fades on its own after 3 seconds, or press Esc to dismiss it immediately.",
+    },
+    {
+      trigger: "typed-word:refract",
+      effect: "The background briefly shifts to show a subtle diffraction-grating pattern, and Lux tips their head with a brief 'luminous calm' expression.",
+      reward_copy: "You understand the language of light.",
+      exit: "Press Esc or type any other character to return to normal.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 28. CONVERSION & PROOF
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "showcase-first",
+    primary_goal: "Show the capabilities in action, then invite the technically confident to install.",
+    cta_ladder: [
+      { step: 1, cta: "Explore dimensions",           target: "features" },
+      { step: 2, cta: "See your devices lit up",      target: "clients" },
+      { step: 3, cta: "Calibrate your setup (install)", target: "download#server" },
+    ],
+    download_opening: "A small header: 'Calibration Protocol' above the one-line server install. Below: client picker. At the bottom: advanced links to the ecosystem and docs.",
+    friction_notes: "A precision-focused, technically advanced audience. Minimal friction — assume comfort with CLIs and self-hosting. Technical confidence is expected; reassure only on security (private, no NAT exposure) and compatibility.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A precision spec card: 5 native clients, real-time NTP SyncPlay, HLS + FFmpeg adaptive streaming, per-device quality profiles. Facts only, no inflation." },
+      { type: "github",           format: "The phlix-server GitHub badge with live star count and issue tracker link — a simple, honest measure of activity and traction." },
+      { type: "quotes-from-docs", format: "One exact line from the Phlix documentation: verbatim, framed as a design principle. E.g., a quote about precision or self-hosting." },
+    ],
+    placement: "A calm, single-row 'Precision Metrics' band between the features and the final CTA. No marketing fluff, pure signal.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to this dimension?",
+    paths: [
+      { id: "sync-seeker",     label: "I want movie night in sync across rooms", target: "features#syncplay", emphasis: ["syncplay", "auth", "dlna"] },
+      { id: "collect-curator", label: "I've got a large media collection",       target: "features#library", emphasis: ["library", "transcode", "auth"] },
+      { id: "freedom-builder", label: "I want total control of my media stack",  target: "features#hub",    emphasis: ["hub", "plugins", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 29. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "interactive-demo",
+
+  complexity_profile: {
+    density: "standard",
+    reading_level: "technical",
+    jargon_policy: "allow",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A '404: Signal Lost' vignette where Lux stands in a dark, unfamiliar dimension, looking for the portal back. A softly glowing breadcrumb trail appears, leading back to the home signal.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 30. DO / DON'T
    * ========================================================================== */
 
   do_dont: {

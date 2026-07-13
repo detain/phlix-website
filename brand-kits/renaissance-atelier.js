@@ -564,6 +564,27 @@ const brandKit = {
       "Pointing reverently toward a large canvas on an easel",
     ],
     expressions: ["Attentive", "Delighted by discovery", "Quietly proud", "Thoughtfully studying"],
+    behavior: {
+      placement:
+        "Bottom-right corner of gallery pages (Home, Features, Download, About); " +
+        "Piero stands with lantern aloft near the footer, never on dense reading pages.",
+      idle:
+        "Gently shifts weight, lantern flickers softly as if candlelight dances; " +
+        "Under prefers-reduced-motion, he simply stands still and observant.",
+      tips: [
+        { where: "home:#hero",              say: "Welcome to the atelier. Every work here is a masterpiece." },
+        { where: "features:.features-grid", say: "Each tool is a pigment on the palette — used with care and intention." },
+        { where: "download:#server",        say: "One command, and you are the master of your own studio. I'll hold the light." },
+        { where: "about:.faq-section",      say: "Questions, like paintings, deserve patient, measured answers." },
+      ],
+      easter_interactions: [
+        { trigger: "click:5", react: "Piero raises his lantern high, casting a brilliant sfumato glow across the wall, and bows with quiet pride." },
+        { trigger: "hover-hold:3s", react: "He carefully offers a small palette of gold leaf pigment, as if welcoming you to the craft." },
+      ],
+      dismiss:
+        "A gentle 'Piero, rest now' close button tucks him into the corner with " +
+        "the lamp dimmed; dismissal persists in localStorage so he respects your choice.",
+    },
   },
 
   /* ==========================================================================
@@ -1159,6 +1180,18 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/advent-holly-border.svg",
+      "img/seasonal/carnivale-masks.svg",
+      "img/seasonal/summer-light-frame.svg",
+      "img/seasonal/autumn-leaves-folio.svg",
+    ],
+    banner:
+      "The atelier shifts with the season — your collection, illuminated anew.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1339,6 +1372,291 @@ const brandKit = {
         "A masterwork unveiled too slowly loses its impact — performance is " +
         "part of the experience, not an afterthought.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "The Studio",      emphasis: "default" },
+      { id: "features", label: "The Palette",     emphasis: "primary" },
+      { id: "clients",  label: "The Gallery",     emphasis: "default" },
+      { id: "download", label: "Begin Your Work", emphasis: "primary" },
+      { id: "hub",      label: "The Relay",       emphasis: "default" },
+      { id: "about",    label: "Our Craft",       emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "An advanced toolset — better discovered on the Palette page for practitioners.", fold_into: "features" },
+      { id: "docs",    reason: "Scholarly reference sits in the footer, not on the main path of discovery." },
+    ],
+    extra_pages: [
+      {
+        id: "curation-guide",
+        title: "How to Curate Your Collection",
+        purpose: "A folio-style walkthrough: organizing your library with intention, the way a master organizes a studio.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "mirror-nav",
+  },
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Step into the atelier — a studio of light, craft, and carefully arranged masterworks.",
+    sections: [
+      { id: "studio-light",  source: "copy_overlay.hero",  treatment: "Full-bleed candlelit hero with Piero holding aloft a lantern; sfumato glow behind the title.", weight: "hero" },
+      { id: "the-palette",   source: "feature_casting",    treatment: "Eight tools cast as gilded manuscript illuminations on the wall, each a careful glaze.",                  weight: "major" },
+      { id: "why-we-craft",  source: "story",              treatment: "Value props as a careful, unhurried manifesto of craft; one per vellum card.",                           weight: "major" },
+      { id: "voices-heard",  source: "proof_strategy",     treatment: "Trust signals as modest plaques on the studio wall: real numbers, real repos, one true quote.",         weight: "minor" },
+      { id: "take-the-brush",source: "conversion_funnel",  treatment: "The closing CTA: 'Take up the brush' banner styled like a master's signature on a finished work.",      weight: "major" },
+    ],
+  },
+
+  page_blueprints: {
+    features: {
+      template: "illuminated-folio",
+      spec: "Display each feature as a full-page illuminated manuscript entry: a large rubric title in Cormorant SC, the feature body in EB Garamond, and an inline icon study in burnt sienna.",
+    },
+    clients: {
+      template: "gallery-salon",
+      spec: "Each client is displayed as a framed portrait on the gallery wall — the platform name as a gilt cartouche, highlights as careful descriptive notes below.",
+    },
+    download: {
+      template: "workshop-manual",
+      spec: "Frame the download as a workshop setup guide: the server install as the master's initial stroke, client choices as palette selections, ecosystem as tools on the bench.",
+    },
+    about: {
+      template: "scholar-study",
+      spec: "Tell the founding story in chapters (Philosophy, License, Contributing) as if reading from a well-worn codex, ending in the FAQ as a docent's patient dialogue.",
+    },
+  },
+
+  /* ==========================================================================
+   * 23. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Your collection, catalogued with the reverence of a Florentine archive." },
+      { id: "syncplay", angle: "Watch together, perfectly in step — the discipline of an ensemble." },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "A Florentine Studio for Your Media",
+      headline: "Your Library. Illuminated.",
+      subheadline:
+        "Every film a masterwork, every evening an unveiling. Phlix is a painter's " +
+        "atelier for your private collection — curated, controlled, and rendered " +
+        "in the finest light.",
+      primary_cta: { label: "Begin Your Work" },
+      secondary_cta: { label: "Study the Craft" },
+    },
+    section_headings: {
+      pitch: "Why craft your own studio?",
+      features: "The Palette: Every Tool a Pigment",
+      cta_banner: "The canvas awaits — take up the brush.",
+    },
+    footer_tagline: "Illuminate what is yours.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "manifesto-cards",   // each value prop as a statement on vellum with underdrawing border
+    faq: "docent-dialogue",             // FAQ as a learned docent answering questions in the gallery
+    clients: "portrait-gallery",        // clients as framed platform portraits on the wall
+    ecosystem: "studio-toolkit",        // ecosystem repos as carefully arranged tools on a workshop shelf
+  },
+
+  faq_experience: {
+    frame: "docent-dialogue",
+    persona:
+      "The studio's learned docent — Piero or a wise elder of the craft — answering " +
+      "a patron's thoughtful questions with measured, erudite replies.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this stream to the devices already in my home?", maps_to: "formats" },
+      { q: "How do I keep my collection private?", maps_to: "expose-internet" },
+      { q: "Can I extend Phlix to do something new?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Collector's Study",
+      scene:
+        "A quiet evening: a cinephile opens Phlix on the main wall, browsing their " +
+        "meticulously curated library of world cinema, each poster a carefully preserved acquisition.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Studio at Night",
+      scene:
+        "Three friends, three cities — they gather in a SyncPlay room and press play " +
+        "together. Every device stays locked to the same frame, as if they were all " +
+        "seated in the same atelier.",
+      surfaces: ["SyncPlay orchestration", "media player", "hub pairing screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Household Archive",
+      scene:
+        "A family's shelf unfolds across every screen — the living room TV, a tablet, " +
+        "an old smart display in the kitchen. Each device knows what to play, when to " +
+        "play it, and in what quality.",
+      surfaces: ["profile picker", "media library grid", "DLNA device integration"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 24. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "static",
+    spec:
+      "A serene, layered illustration: the atelier in candlelight, Piero with lantern, " +
+      "a canvas on an easel, and the headline emerging from sfumato shadow. No animation " +
+      "needed — the composition IS the moment.",
+    suggested_inputs: [],
+    fallback:
+      "A single painted atelier scene with the identical headline, subheadline, and both " +
+      "CTAs baked into the static markup. The headline is set in Cormorant Garamond at 56px.",
+    js_budget_kb: 0,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec:
+      "A warm parchment-and-lapis topbar: the Phlix wordmark in Cormorant Garamond at " +
+      "left, nav links in Libre Baskerville with gold leaf accent underlines on hover, " +
+      "active link glows in ochre gold.",
+    keyboard: null,
+    fallback:
+      "A semantic <nav> with a list of links in the same order. On mobile, a labeled " +
+      "hamburger menu (aria-label='Navigation') that toggles a <ul> of the same links. " +
+      "Tab navigates through each link with a 2px gold focus ring.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec:
+      "A gentle, unbounded scroll. Each section arrives with soft opacity changes (sfumato " +
+      "dissolve), and margin rhythm (48px sections with 32px internal padding) gives a " +
+      "measured cadence — like turning the pages of a folio.",
+    reduced_motion:
+      "Under prefers-reduced-motion, dissolves are instant opacity changes; sections " +
+      "maintain their margins and arrive in pure continuous scroll with no added effects.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect:
+        "Piero's lantern flares brilliant gold, casting a sfumato glow across the page " +
+        "and briefly illuminating a hidden phrase: 'Every masterwork begins with a single mark.'",
+      reward_copy: "The atelier's secret is revealed.",
+      exit: "The glow fades naturally after 5 seconds, or press Esc to dismiss it immediately.",
+    },
+    {
+      trigger: "typed-word:pigment",
+      effect:
+        "The cursor becomes a tiny paintbrush, and a palette of the kit's colors appears " +
+        "briefly in the corner as if Piero is mixing.",
+      reward_copy: "You have discovered the palette.",
+      exit: "Press Esc or type any other key to restore the normal cursor.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 25. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Walk the visitor from curiosity to their first brush stroke — the server install.",
+    cta_ladder: [
+      { step: 1, cta: "Begin Your Work",     target: "download" },
+      { step: 2, cta: "Choose Your Canvas",  target: "clients" },
+      { step: 3, cta: "Light the Lamp",      target: "download#server" },
+    ],
+    download_opening:
+      "The Download page opens like a workshop invitation: 'Three brush strokes to " +
+      "the studio' (a warm, measured headline), then the server install as the master's " +
+      "first stroke, followed by client options and the ecosystem below.",
+    friction_notes:
+      "A cultured, intentional audience — they value clarity and craft over speed. " +
+      "Keep jargon translated; frame each step as a deliberate, meaningful gesture. " +
+      "The install command is framed as 'the most important mark you will make.'",
+  },
+
+  proof_strategy: {
+    signals: [
+      {
+        type: "spec-numbers",
+        format:
+          "A modest parchment placard citing real capabilities: 8 native features, " +
+          "5 client platforms, SyncPlay with NTP-synced time locks, FFmpeg transcoding.",
+      },
+      {
+        type: "github",
+        format:
+          "A quiet 'from the workshop' line linking the real phlix-server repo with " +
+          "its live star and issue counts, set as a footnote in burnt sienna.",
+      },
+      {
+        type: "quotes-from-docs",
+        format:
+          "One true line lifted verbatim from content.json: 'Built in PHP 8.3+ on " +
+          "Workerman' — set as a framed gallery card quote, attributed.",
+      },
+    ],
+    placement:
+      "A single calm 'honest craft' band between the features and the closing CTA — " +
+      "vellum with underdrawing border, never shouting, always reverent.",
+  },
+
+  visitor_paths: {
+    prompt: "Which atelier calls to you?",
+    paths: [
+      { id: "curator",    label: "I curate my collection",     target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "ensemble",   label: "I watch with others",        target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+      { id: "tinkerer",   label: "I like to extend and build", target: "features#plugins",  emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 26. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "editorial",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 100 },
+  },
+
+  intensity_toggle: {
+    label: "Studio Calm",
+    affects: ["animation", "scroll_effects", "hero_glow"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, labeled 'Studio Calm Mode'.",
+  },
+
+  error_page_experience: {
+    concept:
+      "A 'wrong atelier' concept: Piero stands before an empty canvas, lamp dimmed, " +
+      "with a note: 'This work does not yet hang in our collection. Let me show you to the studio.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

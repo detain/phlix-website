@@ -519,6 +519,37 @@ const brandKit = {
       "Pointing at a quilt pattern",
     ],
     expressions: ["Beaming", "Curious", "Sleepy at sunset", "Surprised-delighted", "Proud"],
+
+    // ── mascot.behavior ──────────────────────────────────────────────────────
+    // Label : Mascot Behavior (interactive companion)
+    // Type  : object  (optional — behavior: null = imagery-only)
+    // About : Turns Sunny into a lightweight on-page porch companion — where it
+    //         sits, how it idles, contextual tips keyed to page/section anchors,
+    //         playful easter interactions, and dismissal behavior.
+    behavior: {
+      placement:
+        "Bottom-right corner on a wicker rocking chair; appears on Home, Download, " +
+        "and Features pages — never on the FAQ/docs reading pages.",
+      idle:
+        "Gently rocks and sways (as if a summer breeze), occasionally turning to look " +
+        "at the visitor and tipping its straw hat; idle motion is disabled under " +
+        "prefers-reduced-motion (Sunny simply sits still on the chair).",
+      tips: [
+        { where: "home:#hero",                    say: "Pull up a chair — the meadow's ready for you." },
+        { where: "home:.features-overview",       say: "Watch together with SyncPlay — everyone stays in step, room to room." },
+        { where: "features:#syncplay",            say: "That's the one for family movie night — lock every screen to one frame." },
+        { where: "features:#library",             say: "Drop a show in and watch it bloom on your shelf. The meadow grows itself." },
+        { where: "download:#server",              say: "One line of soil, and you're the gardener. I'll help tend the harvest." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Sunny tips its straw hat three times and does a little happy hop, petals trembling." },
+        { trigger: "hover-hold:2s", react: "Sunny holds out its basket of wildflowers and hums a little country tune (no sound, just animation)." },
+      ],
+      dismiss:
+        "A small 'Sunny, take a rest' close button sends Sunny for a nap; the dismissed " +
+        "state persists via localStorage so Sunny stays resting until the visitor clears " +
+        "their browser cache or re-enables the companion.",
+    },
   },
 
   /* ==========================================================================
@@ -930,6 +961,22 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────────
+  // Label : Seasonal Activation
+  // Type  : object
+  // About : Declares whether the `seasonal_variants` above ship live or stay
+  //         documentation-only. "live-js" = a tiny date-gate flips the override
+  //         tokens during active_range with no rebuild needed.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/harvest-pumpkins-corn.svg",
+      "img/seasonal/winter-snowflakes-lantern.svg",
+      "img/seasonal/spring-seedlings-lilac.svg",
+    ],
+    banner: "The season has arrived in the meadow — gather around.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -950,7 +997,237 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 22. DO / DON'T
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Home",           emphasis: "default" },
+      { id: "features", label: "Features",       emphasis: "primary" },
+      { id: "clients",  label: "Devices",        emphasis: "default" },
+      { id: "download", label: "Get Started",    emphasis: "primary" },
+      { id: "hub",      label: "Phlix Hub",      emphasis: "default" },
+      { id: "about",    label: "About",          emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A nice-to-have side crop; core features take the porch edge.", fold_into: "features" },
+      { id: "docs",    reason: "Reference stays one click away in the footer for curious neighbors." },
+    ],
+    extra_pages: [
+      {
+        id: "gathering-guide",
+        title: "Host a Perfect Gathering",
+        purpose: "A warm walkthrough that frames Phlix features as the hosting essentials for family movie night.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — landing page story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "A neighbor invites you to the meadow where media streaming feels like a warm porch gathering.",
+    sections: [
+      { id: "porch-welcome",    source: "copy_overlay.hero",     treatment: "Full-bleed meadow hero: sunflowers sway in, Sunny waves from the edge, the headline blooms into view.", weight: "hero" },
+      { id: "why-gather",       source: "story",                 treatment: "Value props styled as hand-written notes on barn-wood porch boards — 'Watch Together', 'Grow Your Harvest', 'Tend Your Library'.", weight: "major" },
+      { id: "signature-moments", source: "feature_casting",      treatment: "Two hero features cast as framed seed-packet one-sheets: SyncPlay and Library, each with its own painted folk-art key art.", weight: "major" },
+      { id: "good-neighbors",    source: "proof_strategy",       treatment: "Trust signals as a cozy 'Trusted by the Phlix Community' band with real repo counts and a quote on self-hosting.", weight: "minor" },
+      { id: "join-the-harvest",  source: "conversion_funnel",    treatment: "Closing CTA banner styled like a county-fair ticket window: 'Ready to host? Here's how.'", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — structural templates per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "seed-packet-wall",
+      spec: "Lay the 8 features out as framed seed-packet one-sheets pinned to a clothesline — each with folk-art key-art, hand-drawn botanical border, and a two-line description.",
+    },
+    clients: {
+      template: "device-family",
+      spec: "Present each client as a family member around one cozy living room — Roku on the big screen, Tizen on the side table, Windows at the desk, Mobile on the armchair, DLNA as the vintage radio in the corner.",
+    },
+    download: {
+      template: "farmer-setup",
+      spec: "Frame the page as a farmer's setup walkthrough: 'Turn the soil' (server one-liner), 'Pick your tools' (client suite), 'Tend the garden' (ecosystem links and docs).",
+    },
+    about: {
+      template: "story-chapters",
+      spec: "Tell the founding story as scrolling chapters (Philosophy, License, Contributing) ending in a 'Sunny's Porch Q&A' section where FAQ answers are posed as Sunny's neighborly advice.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay",  angle: "Watch together — the meadow doesn't split when you're in different rooms." },
+      { id: "library",   angle: "Your media grows like wildflowers; add a file and watch it bloom on the shelf." },
+    ],
+    support: ["transcode", "auth", "livetv", "hub"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Open your doors",
+      headline: "Media streaming that feels like family.",
+      subheadline: "Self-host your library, stream to every device in the house, and gather round the same show — no subscription walls, no phoning home. Just good media and neighbors who get it.",
+      primary_cta: { label: "Grow Your Meadow" },
+      secondary_cta: { label: "See How It Works" },
+    },
+    section_headings: {
+      pitch: "Why gather around Phlix?",
+      features: "The Fields We've Planted",
+      cta_banner: "Ready for your own meadow? We'll walk you through it.",
+    },
+    footer_tagline: "Open-source media, rooted in community.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "barn-board-lines",     // each value prop as hand-painted text on a barn board
+    faq: "porch-advice-column",            // FAQ as Sunny's neighborly wisdom from the porch
+    clients: "device-family-scene",        // clients as a family gathering around media
+    ecosystem: "garden-toolkit",           // ecosystem repos as tools hanging in the garden shed
+  },
+
+  faq_experience: {
+    frame: "porch-advice-column",
+    persona: "Sunny, your sunflower neighbor from the meadow, answering questions folks ask from the porch railing.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this work on the old TV out back?", maps_to: "formats" },
+      { q: "Do I have to open my barn door to the whole internet?", maps_to: "expose-internet" },
+      { q: "What if I want to grow my own features?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Sunday Afternoon Movie",
+      scene: "Grandpa and three grandkids pile onto the couch with lemonade; one tap on the remote, the living room dims, and the family library blooms across the big screen — no ads, no waits.",
+      surfaces: ["home hero", "media library grid", "media player controls"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Long-Distance Gathering",
+      scene: "Two households in three different towns, one film — everyone hits play and stays locked to the same second, thousands of miles apart.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub", "auth"],
+    },
+    {
+      name: "Cozy Evening Music",
+      scene: "A partner is out of town; they open Phlix on their phone while you're home, and you both listen to the same album, the player showing you're on track 3 together.",
+      surfaces: ["mobile player", "home playback state", "hub status"],
+      features_shown: ["auth", "hub", "transcode"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered meadow diorama — sunflowers, grass, sky, Sunny on the porch — parallaxes gently on scroll/pointer as the hero headline blooms into focus; barn wood borders warm as the hero reveals.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single painted meadow illustration with Sunny on the porch, the headline, subheadline, and both CTAs baked into static markup — no motion, fully readable and accessible.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm hay-cream topbar with wildflower-violet links and sunflower-gold underline on the active page; a sunflower bloom rotates gently as the brand lockup at left; small quilt-pattern dividers between sections.",
+    keyboard: null,
+    fallback: "The topbar IS the fully accessible standard nav — a plain semantic <nav> list with the same links, full keyboard reachability (Tab to focus, Enter to navigate), and a labeled hamburger menu (aria-label='Menu') collapsing to a vertical stack on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section arrives like a new chapter in a story — a soft hayfield fade-in and a gentle wisp of pollen particles as the section scrolls into frame. No abrupt transitions; everything unfolds.",
+    reduced_motion: "Under prefers-reduced-motion, the chapter transitions and pollen wisp are dropped entirely; the page becomes a plain continuous scroll with solid section boundaries and no animations.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:3",
+      effect: "Sunny does a happy dance and petals fall like snow. A small 'Sunny's ready to celebrate!' message pops up, then fades after 3 seconds.",
+      reward_copy: "You've made Sunny's day!",
+      exit: "Press Esc to dismiss immediately, or the message fades on its own.",
+    },
+    {
+      trigger: "typed-word:sunflower",
+      effect: "The screen briefly tints golden-yellow, a sunflower blooms and shrinks in the center, and Sunny tips its hat off-page and back on.",
+      reward_copy: "You spoke the magic word!",
+      exit: "Press Esc or type any other key to return to normal.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Get a first-time host to run the one-line server command and open their first library.",
+    cta_ladder: [
+      { step: 1, cta: "Grow Your Meadow",         target: "download" },
+      { step: 2, cta: "Pick Your Devices",        target: "clients" },
+      { step: 3, cta: "Plant the Seeds (install)", target: "download#server" },
+    ],
+    download_opening: "The Download page opens as a farmer's three-step setup: 'Turn the soil' (server install one-liner in a warm linen box), 'Pick your tools' (client picker below), 'tend the garden' (ecosystem + docs links).",
+    friction_notes: "A warm, community-oriented audience — keep steps few and reassuring, use garden/farming metaphors naturally, never jargon-wall them. The install one-liner is the 'easy part'; emphasize self-hosting pride.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A cozy 'Our Harvest' placard listing real capabilities from content.json: 5 native clients (Roku, Tizen, Windows, Mobile, DLNA), SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, multi-user auth, Live TV + DVR." },
+      { type: "github",        format: "A modest 'From the Garden Bench' row linking the real phlix-server repo with its live star count and current issue count (never hard-coded)." },
+      { type: "quotes-from-docs", format: "One genuine line from the docs about self-hosting freedom, set as a framed porch sign: 'Your library never leaves your hardware unless you say so.'" },
+    ],
+    placement: "A calm 'Community & Trust' band between the hero feature showcase and the closing CTA — feels like Sunny vouching for you.",
+  },
+
+  visitor_paths: {
+    prompt: "What brings you to the meadow?",
+    paths: [
+      { id: "family-night",    label: "I want family movie night synchronized",  target: "features#syncplay", emphasis: ["syncplay", "auth", "library"] },
+      { id: "big-collection",  label: "I have a big media collection",           target: "features#library",  emphasis: ["library", "transcode", "dlna"] },
+      { id: "tinkerer",        label: "I love building and extending",           target: "plugins",          emphasis: ["plugins", "hub", "auth"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "narrative-scroll",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 90 },
+  },
+
+  intensity_toggle: null,
+
+  error_page_experience: {
+    concept: "A 'Lost in the Meadow' scene: Sunny stands among overgrown wildflowers looking confused, holding a torn seed packet (the 404 code). A warm 'Let's get you back to the porch' message directs the visitor home.",
+    recovery_links: ["home", "features", "download"],
+  },
+
+  /* ==========================================================================
+   * 29. DO / DON'T
    * ========================================================================== */
 
   do_dont: {
@@ -1085,7 +1362,7 @@ const brandKit = {
   },
 
   /* ==========================================================================
-   * 23. METADATA
+   * 30. METADATA
    * ========================================================================== */
 
   metadata: {

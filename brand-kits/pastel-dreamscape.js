@@ -533,6 +533,32 @@ const brandKit = {
       "Sitting on top of a giant pastel macaron",
     ],
     expressions: ["Overjoyed", "Dreamily sleepy", "Heart-eyed", "Surprised delight", "Gently encouraging"],
+
+    behavior: {
+      placement:
+        "Bottom-right corner, floating gently above the footer; appears on Home, Features, " +
+        "Clients, and Download — never on reading pages like Docs or FAQ so she doesn't distract.",
+      idle:
+        "Dreamy drifts up and down 12px like floating on an invisible breeze, occasionally " +
+        "spinning her wand with a soft sparkle burst. Idle motion is disabled under " +
+        "prefers-reduced-motion (she simply hovers still).",
+      tips: [
+        { where: "home:#hero",            say: "Welcome to the dreamscape! Ready to float in?" },
+        { where: "home:.features-overview", say: "Psst… SyncPlay keeps everyone drifting together, no matter where they are." },
+        { where: "features:#library",     say: "Drop a file in and watch it bloom onto your shelf — so dreamy!" },
+        { where: "features:#syncplay",    say: "One click and movie night stays in perfect step across every screen." },
+        { where: "clients:#roku",         say: "Your big screen just became a cloud — float a movie up there anytime." },
+        { where: "download:#server",      say: "One line and you're the dreamer. Your library, your wonder, all yours." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Dreamy spins in a circle, leaving a trail of iridescent bubbles that pop gently." },
+        { trigger: "hover-hold:2s", react: "Dreamy giggles and offers you a tiny heart sparkle with a wink." },
+      ],
+      dismiss:
+        "A small 'Let Dreamy sleep' close button tucks her into a cloud; the dismissed state " +
+        "persists via localStorage (one localStorage key per site:slug) so she stays asleep until " +
+        "the visitor manually brings her back.",
+    },
   },
 
   /* ==========================================================================
@@ -956,6 +982,17 @@ const brandKit = {
     },
   ],
 
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/winter-snowflakes.svg",
+      "img/seasonal/spring-petals.svg",
+      "img/seasonal/summer-rainbows.svg",
+      "img/seasonal/autumn-leaves.svg",
+    ],
+    banner: "Welcome to the dreamscape's seasonal flavor — float along to wherever the season takes you.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1115,6 +1152,234 @@ const brandKit = {
       ],
       reason: "A dreamy experience must also feel instant — latency breaks the spell.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Dreamscape",    emphasis: "default" },
+      { id: "features", label: "Wonders",       emphasis: "primary" },
+      { id: "clients",  label: "Floating On",   emphasis: "default" },
+      { id: "download", label: "Float In",      emphasis: "primary" },
+      { id: "hub",      label: "Cloud Connect", emphasis: "default" },
+      { id: "about",    label: "Our Dream",     emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "Sparkly extras — delightful but not the main dream for casual watchers.", fold_into: "features" },
+      { id: "docs",    reason: "Gentle reference available in the footer, one soft click away." },
+    ],
+    extra_pages: [],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE  — the landing page's story structure
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "Step into a soft cloud world and float through Phlix — where watching your favorite media feels like drifting through a dreamscape.",
+    sections: [
+      { id: "sky-opens",   source: "copy_overlay.hero", treatment: "Full-bleed watercolor sky hero: dreamy gradient sky, Dreamy floating with her wand, soft sparkle shimmer in the backdrop.", weight: "hero" },
+      { id: "the-wonders", source: "feature_casting",   treatment: "Two hero features cast as floating sticker-art cards drifting across a pastel sky, each with a playful icon and encouraging one-liner.", weight: "major" },
+      { id: "why-drift",   source: "story",             treatment: "The brand story presented as a lyrical scroll section — 'the belief that finding something magical to watch should itself feel magical'.", weight: "major" },
+      { id: "trust-glow",  source: "proof_strategy",    treatment: "Trust signals rendered as a soft 'cloud collection' — real client count, GitHub stars, and one quoted truth from the docs.", weight: "minor" },
+      { id: "float-in",    source: "conversion_funnel", treatment: "Closing CTA hero: 'Ready to float in?' beside the install snippet on a cotton-candy sky gradient.", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS  — the structural template per sub-page
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "gallery-plaques",
+      spec: "Lay the 8 features as float-in plaques on a pastel cloud backdrop — each appears as Dreamy presents it with her wand, with the icon, title, and one-line body in rounded card style.",
+    },
+    clients: {
+      template: "family-of-devices",
+      spec: "Present each client as a member of a cozy family around one living room — each device drawn as a member drifting around a central play button, with its status, name, and highlights.",
+    },
+    download: {
+      template: "bubble-unfold",
+      spec: "Frame the install journey as a gentle bubble that unfolds: Server install at the center, Clients as bubble tiers around it, Ecosystem as soft floating extras.",
+    },
+    about: {
+      template: "dream-scroll",
+      spec: "Tell the Phlix story as a dreamy scroll — Philosophy, License, Contributing as gentle cloud sections, then the FAQ styled as Dreamy's friend answering common wonderings.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. CONTENT CASTING & COPY  — how shared facts are weighted & voiced
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "library",  angle: "Drop a file and watch it bloom onto the shelf — your whole dreamscape, organized by Phlix." },
+      { id: "syncplay", angle: "Movie night floats in perfect step — every room, every device, one shared frame." },
+    ],
+    support: ["transcode", "auth", "hub", "livetv"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "Welcome to your dreamscape",
+      headline: "Press play and drift away.",
+      subheadline: "A soft, joyful media server that streams your whole library to every screen — where finding something magical to watch feels just as magical.",
+      primary_cta: { label: "Float In" },
+      secondary_cta: { label: "Peek Into the Dream" },
+    },
+    section_headings: {
+      pitch: "What makes it dreamy?",
+      features: "Floating Wonders",
+      cta_banner: "The dream awaits — float in.",
+    },
+    footer_tagline: "Your media, your wonder, your softly glowing world.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "banner-pennants",
+    faq: "docent-tour",
+    clients: "family-of-devices",
+    ecosystem: "constellation",
+  },
+
+  faq_experience: {
+    frame: "docent-tour",
+    persona: "Dreamy, your gentle cloud guide, answering the dreamers' sweetest questions.",
+    question_order: ["like-plex", "expose-internet", "formats", "mobile-app", "plugins", "license"],
+    extra_questions: [
+      { q: "Will this float on my old TV?", maps_to: "formats" },
+      { q: "Does the dream reach outside my home?", maps_to: "expose-internet" },
+      { q: "Can I make my own floating pieces?", maps_to: "plugins" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "Cozy Family Afternoon",
+      scene: "Grandparents and the kids snuggle into the couch; one tap dims the room and their whole library floats onto the big screen in soft pastels.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "Dreamy Movie Night Across Time Zones",
+      scene: "Three friends in three cities, one film, one synchronized moment — SyncPlay keeps everyone drifting through the same frame no matter the distance.",
+      surfaces: ["SyncPlay lobby", "media player", "hub connect screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "Children's Discovery Hour",
+      scene: "The kids' profile opens straight to their gentle shelf with ratings already filtered, watched badges soft and glowing, and a DLNA device picks it up over the living room network.",
+      surfaces: ["profile picker", "media library grid", "media player"],
+      features_shown: ["auth", "dlna", "livetv"],
+    },
+  ],
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES  — interaction models (with required fallbacks)
+   * ========================================================================== */
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered watercolor dreamscape — cotton-candy sky, fluffy clouds, Dreamy floating with her wand, iridescent bubbles drifting — parallaxes gently on scroll/pointer movement, the whole scene blooming softly into view.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single, flat, beautiful watercolor illustration of the full dreamscape (sky, clouds, Dreamy, bubbles, title, subheadline, and both CTAs) — no interactivity, all information baked in.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A dreamy topbar with the Phlix logo at left, nav links floating across, and tiny iridescent sparkle accents between each link. The active link glows softly in candy pink.",
+    keyboard: null,
+    fallback: "The topbar IS the standard accessible navigation — a plain semantic <nav> with the same list of links, fully keyboard reachable (Tab/Enter), collapsing to a labeled hamburger toggle on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "chaptered",
+    spec: "Each homepage section drifts in like a cloud floating across the sky — a gentle petal-fall transition and soft shimmer shimmer as the next chapter blooms into frame.",
+    reduced_motion: "Under prefers-reduced-motion, the petal-fall and shimmer effects are dropped entirely; the page becomes a plain, smooth continuous scroll with instant section visibility.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "Dreamy spins her wand and giggles; a shower of iridescent bubbles floats up from the logo and pops softly with a cheerful shimmer.",
+      reward_copy: "Dreamy loves the joy in clicking!",
+      exit: "The bubbles settle on their own after 3 seconds, or press Esc to clear them now.",
+    },
+    {
+      trigger: "typed-word:sparkle",
+      effect: "The page blooms with soft sparkle animations for 2 seconds — stars and shimmer dots float across the screen.",
+      reward_copy: "You found the magic word!",
+      exit: "The sparkles fade naturally, or press Esc to dismiss.",
+    },
+  ],
+
+  /* ==========================================================================
+   * 27. CONVERSION & PROOF  — the download journey & trust signals
+   * ========================================================================== */
+
+  conversion_funnel: {
+    style: "showcase-first",
+    primary_goal: "Let visitors see the dreamy experience first, then float them toward install with zero friction.",
+    cta_ladder: [
+      { step: 1, cta: "Peek Into the Dream",     target: "features" },
+      { step: 2, cta: "See the Floating Friends", target: "clients" },
+      { step: 3, cta: "Float In (Install)",      target: "download" },
+    ],
+    download_opening: "The Download page opens like stepping into a soft dream: 'One gentle step to your dreamscape' over the server install snippet, then the client cards blooming below.",
+    friction_notes: "Families and casual viewers — keep it playful and reassuring, never technical or pushy. Frame the install as the easy, joyful part of the dream.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers",     format: "A soft cloud-styled card listing real, verifiable capabilities from the product: 5 native clients, NTP-synced SyncPlay, HLS adaptive streaming + FFmpeg transcoding." },
+      { type: "github",           format: "A gentle 'woven into the dream' small row linking the real phlix-server repo with live GitHub star count and open issues — no invented numbers." },
+      { type: "quotes-from-docs", format: "One true, short line lifted verbatim from the docs about self-hosting, set as a soft lavender quote card: 'Open-source media, on your terms.'" },
+    ],
+    placement: "A single calm 'trusted by dreamers' section between the features and the closing CTA, styled as a soft cloud cluster.",
+  },
+
+  visitor_paths: {
+    prompt: "What kind of dreamer are you?",
+    paths: [
+      { id: "family",    label: "Family cozy time",       target: "features#library", emphasis: ["library", "auth", "transcode"] },
+      { id: "collector", label: "I collect beautiful things", target: "features#library", emphasis: ["library", "hub"] },
+      { id: "tinkerer",  label: "I like to tinker and create", target: "features#plugins", emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 28. EXPERIENCE PROFILE  — the site's declared experience contract
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "plain-language",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 80 },
+  },
+
+  intensity_toggle: {
+    label: "Sparkle mode",
+    affects: ["animation", "parallax", "hero_experience→static", "scroll_experience→continuous"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, next to the reduced-motion notice.",
+  },
+
+  error_page_experience: {
+    concept: "A dreamy 404 moment: Dreamy sits on a cloud looking lost, holding a torn dream-scroll, with a gentle message 'Oh, we drifted somewhere soft and empty — let's float back home.'",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================

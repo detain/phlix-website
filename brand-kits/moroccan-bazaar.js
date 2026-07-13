@@ -530,6 +530,32 @@ const brandKit = {
       "Resting on a shelf of hand-thrown ceramics in the souk",
     ],
     expressions: ["Warm welcome", "Gentle curiosity", "Patient knowing", "Delighted discovery"],
+
+    // ── behavior ─────────────────────────────────────────────────────────────────
+    // Amir as an interactive on-page companion: guides visitors, offers tips,
+    // and shares the medina's warmth through gentle motion and contextual whispers.
+    behavior: {
+      placement:
+        "Bottom-right corner as a gently hovering lantern; appears on Home, Features, " +
+        "and Download — never intrusive, always available to dismiss.",
+      idle:
+        "Amir sways gently left-right as if hanging from an unseen hook, casting " +
+        "shifting zellige shadow patterns on the surface below; idle motion disabled " +
+        "under prefers-reduced-motion (Amir simply glows steady).",
+      tips: [
+        { where: "home:#hero",           say: "Welcome to the bazaar. Every film here is a masterwork waiting to be discovered." },
+        { where: "home:.features-overview", say: "SyncPlay means your family's movie night stays perfectly locked, no matter the room." },
+        { where: "features:#library",    say: "The library watches your passages and learns. Add a film and it finds its own place on the shelf." },
+        { where: "download:#server",     say: "One passage, one line to enter the bazaar. Patience rewards the wise builder." },
+      ],
+      easter_interactions: [
+        { trigger: "click:3",       react: "Amir's copper face brightens; a cascade of tiny geometric zellige stars radiates outward." },
+        { trigger: "hover-hold:2s", react: "Amir offers a warm whisper: 'Rest here as long as you wish — the bazaar is patient.'" },
+      ],
+      dismiss:
+        "A small 'Amir, tend the lamp' close button tucks him behind an ornamental screen; " +
+        "the dismissed state persists via localStorage so he stays tucked away until you call him back.",
+    },
   },
 
   /* ==========================================================================
@@ -1062,6 +1088,20 @@ const brandKit = {
     },
   ],
 
+  // ── seasonal_activation ──────────────────────────────────────────────────────
+  // Controls whether the seasonal_variants above ship live or remain documented only.
+  // Live mode: a self-contained date-gate JS flips the seasonal overrides when today
+  // falls inside an active_range, with no rebuild needed.
+  seasonal_activation: {
+    mode: "live-js",
+    motif_assets: [
+      "img/seasonal/ramadan-fanous-lanterns.svg",
+      "img/seasonal/harvest-spice-texture.svg",
+      "img/seasonal/rose-water-petals.svg",
+    ],
+    banner: "The bazaar transforms with the seasons. Enter and discover.",
+  },
+
   /* ==========================================================================
    * 21. ACCESSIBILITY
    * ========================================================================== */
@@ -1258,6 +1298,236 @@ const brandKit = {
         "A warm, immersive bazaar experience should feel instant and inviting — " +
         "slow load breaks the welcome as effectively as the wrong colour palette.",
     },
+  },
+
+  /* ==========================================================================
+   * 22. SITE ARCHITECTURE  — information architecture & page composition
+   * ========================================================================== */
+
+  site_architecture: {
+    nav: [
+      { id: "home",     label: "Enter the Bazaar",  emphasis: "primary" },
+      { id: "features", label: "The Masterworks",   emphasis: "primary" },
+      { id: "clients",  label: "Every Screen",      emphasis: "default" },
+      { id: "download", label: "Your Passage In",   emphasis: "primary" },
+      { id: "hub",      label: "Reach from Afar",   emphasis: "default" },
+      { id: "about",    label: "The Story",         emphasis: "muted" },
+    ],
+    demoted_pages: [
+      { id: "plugins", reason: "A craftsperson's detail — lives as a footnote rather than the main draw.", fold_into: "features" },
+      { id: "docs",    reason: "The library's scrolls reside one passage away, in the footer alcove." },
+    ],
+    extra_pages: [
+      {
+        id: "craftsman-guide",
+        title: "The Craftsman's Guide to Phlix",
+        purpose: "Walks a self-builder through the entire journey — from understanding each feature's purpose to living with the server day-to-day.",
+        facts_from: ["pitch_bullets", "features", "clients"],
+      },
+    ],
+    footer_arrangement: "full-directory",
+  },
+
+  /* ==========================================================================
+   * 23. HOMEPAGE NARRATIVE
+   * ========================================================================== */
+
+  homepage_narrative: {
+    arc: "story-first",
+    logline: "The bazaar opens at dusk. Lanterns are lit. Every film waits inside, handcrafted and ready.",
+    sections: [
+      { id: "archway-opens",    source: "copy_overlay.hero", treatment: "Full-bleed medina dusk hero: the archway reveals itself, lantern glow cascading across zellige tile, headline and CTAs emerge from shadow.", weight: "hero" },
+      { id: "the-treasures",    source: "feature_casting",   treatment: "Hero features rendered as painted one-sheet posters hanging on the souk wall, each telling its own craft story.", weight: "major" },
+      { id: "why-handcraft",    source: "story",             treatment: "Value props styled as worn parchment scrolls, each one a passage leading deeper into the bazaar's intelligence.", weight: "major" },
+      { id: "trusted-artisans", source: "proof_strategy",    treatment: "Trust signals rendered as merchant seals and real counts — the house's credentials hanging in the entry alcove.", weight: "minor" },
+      { id: "step-inside",      source: "conversion_funnel", treatment: "Closing invitation banner: 'The passage is open. Step inside and light the lanterns.'", weight: "major" },
+    ],
+  },
+
+  /* ==========================================================================
+   * 24. PAGE BLUEPRINTS
+   * ========================================================================== */
+
+  page_blueprints: {
+    features: {
+      template: "souk-workshop-gallery",
+      spec: "Layout the features as a series of intimate artisan workshop scenes — each feature a 'stall' with its own copper-lit detail shot and a story of how a craftsperson built it.",
+    },
+    clients: {
+      template: "device-shrine",
+      spec: "Treat each client platform as a 'screen shrine' in the bazaar — a warm alcove where that device's strengths are displayed alongside its role in the home theater.",
+    },
+    download: {
+      template: "entry-passage",
+      spec: "Frame the Download page as the threshold: the server install is the 'key to entry', client cards are the 'seats you may choose', ecosystem links are the 'passages deeper inside'.",
+    },
+    about: {
+      template: "riad-courtyard-scroll",
+      spec: "Tell the Phlix story as a journey through a riad courtyard — Philosophy at the entry, License carved into the fountain base, Contributing as the open door, FAQ as a merchant's counsel.",
+    },
+  },
+
+  /* ==========================================================================
+   * 25. FEATURE CASTING & COPY
+   * ========================================================================== */
+
+  feature_casting: {
+    hero: [
+      { id: "syncplay", angle: "Every device, every room, locked to the same frame — the film stays alive across the night." },
+      { id: "library",  angle: "Add a film and it knows exactly where it belongs — the library organizes itself with patient intelligence." },
+    ],
+    support: ["transcode", "livetv", "hub", "auth"],
+    footnote: ["dlna", "plugins"],
+    omit_from_home: [],
+  },
+
+  copy_overlay: {
+    hero: {
+      eyebrow: "A self-hosted media bazaar",
+      headline: "Every film, a masterwork waiting.",
+      subheadline: "Phlix is the medina of media — your library lives in the warmth of your own hands, streams to every screen, and stays in sync across the night. Handcrafted for those who watch with intention.",
+      primary_cta: { label: "Enter the Bazaar" },
+      secondary_cta: { label: "See the Craftsmanship" },
+    },
+    section_headings: {
+      pitch: "Why Phlix lives in the bazaar.",
+      features: "The Masterworks",
+      cta_banner: "The archway is open. The lanterns are lit.",
+    },
+    footer_tagline: "Cinema as old as the medina, fresh as saffron.",
+  },
+
+  copy_treatments: {
+    pitch_bullets: "parchment-scroll",   // each value prop as a line on hand-written parchment
+    faq: "merchant-counsel",             // FAQ as Amir offering wisdom from the souk
+    clients: "screen-alcoves",           // each client as a warm alcove in the bazaar
+    ecosystem: "library-scrolls",        // ecosystem repos as scrolls on a scholar's shelf
+  },
+
+  /* ==========================================================================
+   * 26. INTERACTIVE SURFACES
+   * ========================================================================== */
+
+  faq_experience: {
+    frame: "merchant-counsel",
+    persona: "Amir, the lantern who has guided every visitor through the medina passages, offering patient answers to the questions that linger.",
+    question_order: ["Is Phlix like Plex / Jellyfin / Emby?", "Do I need to expose my server to the internet?", "What formats are supported?", "Is there a mobile app?", "Can I write plugins?", "What's the license?"],
+    extra_questions: [
+      { q: "Will this work on my old devices?", maps_to: "What formats are supported?" },
+      { q: "Is my data truly mine?", maps_to: "Do I need to expose my server to the internet?" },
+    ],
+  },
+
+  persona_vignettes: [
+    {
+      name: "The Evening Cinephile",
+      scene: "At dusk, a lover of world cinema settles into their chair — Phlix streams a Moroccan art film from their own server, in perfect 4K, to the living room. No cloud watching.",
+      surfaces: ["home hero", "media library grid", "media player"],
+      features_shown: ["library", "transcode", "auth"],
+    },
+    {
+      name: "The Distributed Household",
+      scene: "A family scattered across two cities sits down to watch the same film together via SyncPlay — every pause, every seek, perfectly locked across time zones through the Phlix Hub.",
+      surfaces: ["SyncPlay entry", "media player", "hub connection screen"],
+      features_shown: ["syncplay", "hub"],
+    },
+    {
+      name: "The Collector's Archive",
+      scene: "A librarian-keeper organizes thousands of films into a personal archive, with perfect metadata, ratings, and custom collections — everything organized by hand, nothing sold to an algorithm.",
+      surfaces: ["library administration", "media library grid", "detail view"],
+      features_shown: ["library", "auth", "plugins"],
+    },
+  ],
+
+  hero_experience: {
+    mode: "diorama-parallax",
+    spec: "A layered medina-dusk diorama: foreground mashrabiya lattice, mid-ground archway framing Amir and the hero copy, background lantern light and zellige shadows — parallax gently on scroll/pointer, copy reveals as the arch opens.",
+    suggested_inputs: ["pointer position", "scroll offset"],
+    fallback: "A single, richly detailed medina-dusk illustration with the archway already open, Amir visible in warm lantern glow, and the identical headline, subheadline, and both CTAs baked into static HTML.",
+    js_budget_kb: 5,
+  },
+
+  navigation_model: {
+    mode: "topbar",
+    spec: "A warm-dark-surface topbar with the nav links arranged like passages through the medina — subtle zellige divider dots between links, brand wordmark in Cormorant Garamond at left, active link glows in terracotta like a lit lantern.",
+    keyboard: null,
+    fallback: "The topbar IS the accessible nav — a plain semantic <nav> list of the same links, fully keyboard reachable via Tab, collapsing to a labeled hamburger on mobile.",
+  },
+
+  scroll_experience: {
+    mode: "continuous",
+    spec: "A steady, unhurried scroll through the bazaar passages — each section fades gently into view as if Amir is leading you deeper into the medina, one passage at a time. No jarring boundaries.",
+    reduced_motion: "Under prefers-reduced-motion, the page becomes plain continuous scroll with instant section boundaries — no fade or reveal effects.",
+  },
+
+  easter_eggs: [
+    {
+      trigger: "logo-clicks:5",
+      effect: "The medina marketplace erupts with tiny geometric zellige stars radiating from the center; Amir's lantern brightens and sways excitedly.",
+      reward_copy: "The bazaar celebrates your curiosity!",
+      exit: "The stars settle after ~5s, or press Esc to clear them immediately.",
+    },
+    {
+      trigger: "typed-word:bazaar",
+      effect: "A warm saffron glow blooms across the screen; the air shimmers with the scent of spice markets (visual cue: glowing particle effect).",
+      reward_copy: "Ah, you speak the language of the medina.",
+      exit: "Press Esc to restore normal view.",
+    },
+  ],
+
+  conversion_funnel: {
+    style: "guided-steps",
+    primary_goal: "Walk a curious visitor from 'I've heard of Phlix' to 'I'm running the server and opening the lobby.'",
+    cta_ladder: [
+      { step: 1, cta: "Enter the Bazaar",        target: "home" },
+      { step: 2, cta: "See the Masterworks",     target: "features" },
+      { step: 3, cta: "Find Your Passage In",    target: "download" },
+    ],
+    download_opening: "The Download page opens as a threshold: 'Two breaths to open the medina' — the one-line server install is the key, client cards are the screens waiting behind the archway.",
+    friction_notes: "A thoughtful audience who values craft — they'll tolerate prose and story, but keep the install path clear. Let them understand the beauty before asking them to build.",
+  },
+
+  proof_strategy: {
+    signals: [
+      { type: "spec-numbers", format: "A merchant's seal: real capabilities from the archive — native clients on Roku, Samsung, Windows, Mobile, plus any DLNA device. SyncPlay keeps devices locked across rooms. FFmpeg transcoding with per-device profiles." },
+      { type: "github",        format: "A modest shelf placard: the real phlix-server repo with live star and issue counts, never hard-coded." },
+      { type: "quotes-from-docs", format: "One true line from the documentation about self-hosting, set as a framed parchment scroll on the entry alcove wall." },
+    ],
+    placement: "A warm alcove between the features and the closing invitation — 'These are the hands that built this.'",
+  },
+
+  visitor_paths: {
+    prompt: "Who visits the bazaar today?",
+    paths: [
+      { id: "the-cinephile",  label: "I want to stream my collection",  target: "features#library",  emphasis: ["library", "transcode"] },
+      { id: "the-gatherer",   label: "My family watches everywhere",    target: "features#syncplay", emphasis: ["syncplay", "hub"] },
+      { id: "the-tinkerer",   label: "I like to build and customize",   target: "plugins",          emphasis: ["plugins", "hub"] },
+    ],
+  },
+
+  /* ==========================================================================
+   * 27. EXPERIENCE PROFILE
+   * ========================================================================== */
+
+  experience_archetype: "immersive",
+
+  complexity_profile: {
+    density: "minimal",
+    reading_level: "general",
+    jargon_policy: "translate",
+    page_budget: { home_sections_max: 5, words_per_section_max: 120 },
+  },
+
+  intensity_toggle: {
+    label: "Dim the lamps",
+    affects: ["parallax", "animation", "texture", "hero_experience→static"],
+    default: "full",
+    placement: "A small toggle in the footer utility row, beside the reduced-motion note.",
+  },
+
+  error_page_experience: {
+    concept: "A lost-in-the-medina gag: Amir stands in an empty passage reading a torn parchment ('This passage leads nowhere — or perhaps everywhere'), gesturing warmly toward the way back to the bazaar entrance.",
+    recovery_links: ["home", "features", "download"],
   },
 
   /* ==========================================================================
