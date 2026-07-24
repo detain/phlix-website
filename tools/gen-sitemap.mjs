@@ -28,6 +28,9 @@ export function sitemapUrls() {
   const urls = new Set();
   for (const rel of globSync('*/*.html', { cwd: SITES })) {
     const [slug, file] = rel.split('/');
+    // Per-kit 404 pages are reached only through the root 404 shim and carry
+    // noindex — they are not canonical destinations, so keep them out.
+    if (file === '404.html') continue;
     urls.add(file === 'index.html' ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${slug}/${file}`);
   }
   return [...urls].sort();

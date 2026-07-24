@@ -23,7 +23,7 @@ import {
 } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mjs';
+import { SITE_URL, buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mjs';
 
 /**
  * Simple CSS minifier - removes comments, collapses whitespace, optimizes.
@@ -56,7 +56,13 @@ const kitFiles = readdirSync(SRC_KITS)
   .filter((name) => name.endsWith('.js') && !name.endsWith('.worklog.js'))
   .sort();
 
+// Base path the Pages site is published under ('/phlix-website' for a project
+// site, '' for a user/org site). The 404 shim needs it to strip the prefix off
+// location.pathname before reading the kit slug.
+const BASE_PATH = new URL(SITE_URL).pathname.replace(/\/+$/, '');
+
 const kitSummaries = [];
+const errorKits = {};
 for (const file of kitFiles) {
   let kit;
   try {
@@ -82,6 +88,16 @@ for (const file of kitFiles) {
     minifyCssDir(dst);
   }
 
+  // Per-kit data for the root 404 shim: which kits own a themed 404 page, and
+  // the recovery links / accent its generic fallback should use.
+  const err = kit.error_page_experience || {};
+  errorKits[slug] = {
+    name: kit.name || slug,
+    accent: kitAccent(kit),
+    has404: built && existsSync(join(siteSrc, '404.html')),
+    recovery_links: Array.isArray(err.recovery_links) ? err.recovery_links : [],
+  };
+
   kitSummaries.push({
     slug,
     built,
@@ -105,6 +121,10 @@ if (existsSync(resolve(SRC_SHARED, 'assets'))) {
 
 writeFileSync(join(DIST, 'index.html'), indexPage(kitSummaries), 'utf8');
 
+// The single GitHub Pages 404 handler, plus the manifest its path-sniffing shim
+// uses to hand off to each kit's own themed 404 page.
+writeFileSync(join(DIST, '404.html'), errorPage(errorKits), 'utf8');
+
 // Sitemap of every built site's canonical URLs + robots.txt that references it.
 const urls = sitemapUrls();
 writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
@@ -116,8 +136,10 @@ if (existsSync(resolve(ROOT, '_headers'))) {
 }
 
 const builtCount = kitSummaries.filter((k) => k.built).length;
+const themed404Count = Object.values(errorKits).filter((k) => k.has404).length;
 console.log(
-  `[build] ${kitSummaries.length} brand kit(s), ${builtCount} built site(s) + index + sitemap (${urls.length} URLs) → ${DIST}`,
+  `[build] ${kitSummaries.length} brand kit(s), ${builtCount} built site(s) + index + 404 shim ` +
+    `(${themed404Count} themed) + sitemap (${urls.length} URLs) → ${DIST}`,
 );
 for (const k of kitSummaries) {
   console.log(`  ${k.built ? '✓' : '·'} ${k.slug}${k.built ? '' : ' (no site yet)'}`);
@@ -175,6 +197,34 @@ function indexPage(kits) {
   if (!template.includes('</head>')) {
     throw new Error('build: root index.html is missing a </head> to inject site data');
   }
+  return template.replace('</head>', `  ${inject}\n</head>`);
+}
+
+/**
+ * The root 404.html — GitHub Pages serves exactly one per Pages site, so this
+ * is the only error document the host will ever hand back. Its inline shim
+ * reads the injected manifest, works out which kit the requested path belongs
+ * to, and swaps in that kit's own sites/<slug>/404.html (URL preserved) or
+ * renders a kit-tinted generic 404.
+ */
+function errorPage(kits) {
+  const template = readFileSync(resolve(ROOT, '404.html'), 'utf8');
+  if (!template.includes('</head>')) {
+    throw new Error('build: root 404.html is missing a </head> to inject site data');
+  }
+  // The no-JS fallback link is hard-coded in 404.html; if site.url ever moves,
+  // that link silently rots — fail the build instead.
+  const fallbackHref = `href="${BASE_PATH}/"`;
+  if (!template.includes(fallbackHref)) {
+    throw new Error(
+      `build: root 404.html no-JS gallery link does not match site.url base path ` +
+        `(expected ${fallbackHref} for ${SITE_URL})`,
+    );
+  }
+  const inject =
+    `<script>` +
+    `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};` +
+    `</script>`;
   return template.replace('</head>', `  ${inject}\n</head>`);
 }
 

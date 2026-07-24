@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found &mdash; Phlix</title>
+    <meta name="robots" content="noindex">
+    <style>
+        :root {
+            --bg-deep: #0c0c0f;
+            --bg-card: #1a1a1f;
+            --border: #2a2a32;
+            --text: #f4f4f6;
+            --text-dim: #9a9aa5;
+            --accent: #6f6fff;
+            /* Text colour laid over --accent; the shim flips it to --text when a
+               kit's accent is dark enough to need light text. */
+            --accent-on: #0c0c0f;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--bg-deep);
+            color: var(--text);
+            font-family: 'Syne', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+        }
+        .shell {
+            width: 100%;
+            max-width: 34rem;
+            text-align: center;
+        }
+        .code {
+            font-family: 'Space Mono', ui-monospace, monospace;
+            font-size: clamp(4rem, 18vw, 8rem);
+            font-weight: 700;
+            line-height: 1;
+            margin: 0;
+            color: var(--accent);
+            letter-spacing: -0.04em;
+        }
+        h1 {
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
+        }
+        p { color: var(--text-dim); margin: 0 0 1.5rem; }
+        .kit {
+            display: inline-block;
+            font-family: 'Space Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.7rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            /* Neutral text, accent only on the border: at 0.75rem this is small
+               text (needs 4.5:1), while the border is a UI component (3:1). */
+            color: var(--text);
+        }
+        .path {
+            display: block;
+            font-family: 'Space Mono', ui-monospace, monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+            color: var(--text-dim);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.4rem;
+            padding: 0.6rem 0.8rem;
+            margin: 0 0 1.5rem;
+        }
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .links a {
+            display: inline-block;
+            padding: 0.6rem 1.1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.4rem;
+            background: var(--bg-card);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        /* Hover moves the border, not the label colour — a 0.9rem label recoloured
+           to the accent would fall under the 4.5:1 small-text floor. */
+        .links a:hover, .links a:focus-visible { border-color: var(--accent); }
+        .links a.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-on); font-weight: 600; }
+        .links a.primary:hover, .links a.primary:focus-visible { filter: brightness(1.15); color: var(--accent-on); }
+        /* Mid-tone accents carry neither a dark nor a light label at 4.5:1, so the
+           primary CTA drops the fill and wears the accent as an outline instead —
+           the kit still tints, no normal-size text ever sits on the accent. */
+        .accent-outline .links a.primary {
+            background: var(--bg-card);
+            color: var(--text);
+            border-color: var(--accent);
+            box-shadow: inset 0 0 0 1px var(--accent);
+        }
+        .accent-outline .links a.primary:hover,
+        .accent-outline .links a.primary:focus-visible { filter: none; background: var(--bg-deep); }
+    </style>
+</head>
+<body>
+    <main class="shell" id="shell">
+        <p class="code">404</p>
+        <h1>This page doesn&rsquo;t exist</h1>
+        <p>The address may be mistyped, or the page may have moved.</p>
+        <ul class="links">
+            <li><a class="primary" href="/phlix-website/">Brand kit gallery</a></li>
+        </ul>
+    </main>
+
+    <script>
+        // GitHub Pages serves exactly ONE 404.html per Pages site — this one, at
+        // the publish root. Each brand kit, however, authors its own themed 404
+        // at sites/<slug>/404.html (driven by its `error_page_experience`).
+        //
+        // This is the path-sniffing shim that bridges the two: it works out which
+        // brand kit the visitor was inside from the requested path, then swaps in
+        // that kit's own 404 document — keeping the requested URL intact, so the
+        // address bar still shows what the visitor actually asked for.
+        //
+        // tools/build.mjs injects window.__PHLIX_404__ = { base, kits: {...} }.
+        // Opened directly from the repo (no build) the manifest is absent and the
+        // generic 404 above stands as-is.
+        (function () {
+            var data = typeof window !== 'undefined' ? window.__PHLIX_404__ : null;
+            if (!data || !data.kits) return;
+
+            var base = String(data.base || '').replace(/\/+$/, '');
+            var path = location.pathname;
+
+            // Strip the Pages base path (project sites live under /<repo>/), then
+            // take the first remaining segment — that's the candidate kit slug.
+            if (base && path.indexOf(base + '/') === 0) path = path.slice(base.length);
+            else if (base && path === base) path = '/';
+            var slug = path.replace(/^\/+/, '').split('/')[0];
+            var kit = Object.prototype.hasOwnProperty.call(data.kits, slug) ? data.kits[slug] : null;
+
+            if (!kit) {
+                showGeneric(null, slug);
+                return;
+            }
+
+            // The kit ships its own 404 → fetch it and take over the document. A
+            // <base> is injected so the kit's relative css/img/js keep resolving
+            // against its own directory, no matter how deep the missing path was.
+            if (kit.has404) {
+                fetch(base + '/' + slug + '/404.html', { credentials: 'omit' })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return res.text();
+                    })
+                    .then(function (html) {
+                        var withBase = injectBase(html, base + '/' + slug + '/');
+                        document.open();
+                        document.write(withBase);
+                        document.close();
+                    })
+                    .catch(function () {
+                        // Network/asset failure — fall back rather than show nothing.
+                        showGeneric(kit, slug);
+                    });
+                return;
+            }
+
+            showGeneric(kit, slug);
+
+            /** Put a <base> right after <head> so relative URLs resolve to the kit dir. */
+            function injectBase(html, href) {
+                var tag = '<base href="' + href + '">';
+                if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, function (m) { return m + tag; });
+                return tag + html;
+            }
+
+            /**
+             * Generic 404, tinted with the kit's accent and offering that kit's
+             * own recovery links. Used for kits without an authored 404 page and
+             * when the fetch above fails.
+             */
+            function showGeneric(k, requested) {
+                var shell = document.getElementById('shell');
+                if (!shell) return;
+                // Many kits' primaries are near-black or dark navy/green, which
+                // would vanish against this dark shell — only tint when the accent
+                // is genuinely legible, and pick the button label colour to match.
+                if (k && k.accent && isLegible(k.accent)) {
+                    document.documentElement.style.setProperty('--accent', k.accent);
+                    var on = accentTextColor(k.accent);
+                    if (on) document.documentElement.style.setProperty('--accent-on', on);
+                    // No label colour clears 4.5:1 on this accent → outline the CTA.
+                    else document.documentElement.classList.add('accent-outline');
+                }
+
+                var LABELS = { home: 'Home', features: 'Features', download: 'Download' };
+                var HREFS = { home: '', features: 'features.html', download: 'download.html' };
+                var items = [];
+
+                if (k) {
+                    var wanted = Array.isArray(k.recovery_links) && k.recovery_links.length
+                        ? k.recovery_links : ['home'];
+                    for (var i = 0; i < wanted.length; i++) {
+                        var key = wanted[i];
+                        if (!Object.prototype.hasOwnProperty.call(HREFS, key)) continue;
+                        items.push('<li><a' + (i === 0 ? ' class="primary"' : '') + ' href="' +
+                            esc(base + '/' + requested + '/' + HREFS[key]) + '">' + esc(LABELS[key]) + '</a></li>');
+                    }
+                }
+                items.push('<li><a' + (items.length ? '' : ' class="primary"') + ' href="' +
+                    esc(base + '/') + '">Brand kit gallery</a></li>');
+
+                shell.innerHTML =
+                    '<p class="code">404</p>' +
+                    (k ? '<p class="kit">' + esc(k.name || requested) + '</p>' : '') +
+                    '<h1>This page doesn’t exist</h1>' +
+                    '<p>' + (k
+                        ? 'That page isn’t part of this brand kit’s site.'
+                        : 'The address may be mistyped, or the page may have moved.') + '</p>' +
+                    '<span class="path">' + esc(location.pathname) + '</span>' +
+                    '<ul class="links">' + items.join('') + '</ul>';
+            }
+
+            /**
+             * WCAG contrast of #rrggbb against the shell background, gated at 3:1
+             * (the large-text / UI-component floor). A ratio — not raw luminance —
+             * because saturated reds read fine on near-black despite scoring low on
+             * luminance alone, while dark navies do not.
+             */
+            function isLegible(hex) {
+                var fg = wcagLuminance(hex);
+                var bg = wcagLuminance('#0c0c0f'); // must track --bg-deep
+                if (fg === null || bg === null) return false;
+                var lo = Math.min(fg, bg);
+                var hi = Math.max(fg, bg);
+                return (hi + 0.05) / (lo + 0.05) >= 3;
+            }
+
+            /**
+             * Label colour for text sitting ON the accent (the primary button):
+             * whichever of the shell's dark/light tones contrasts better, but only
+             * if it clears 4.5:1 — the button label is normal-size text. Returns
+             * null when neither works, which vetoes tinting altogether.
+             */
+            function accentTextColor(hex) {
+                var a = wcagLuminance(hex);
+                if (a === null) return null;
+                var candidates = [ '#0c0c0f', '#f4f4f6' ]; // --bg-deep, --text
+                var best = null;
+                var bestRatio = 0;
+                for (var i = 0; i < candidates.length; i++) {
+                    var t = wcagLuminance(candidates[i]);
+                    var ratio = (Math.max(a, t) + 0.05) / (Math.min(a, t) + 0.05);
+                    if (ratio > bestRatio) { bestRatio = ratio; best = candidates[i]; }
+                }
+                return bestRatio >= 4.5 ? best : null;
+            }
+
+            /** Relative luminance per WCAG 2.x (sRGB linearised), or null if unparseable. */
+            function wcagLuminance(hex) {
+                var m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+                if (!m) return null;
+                var n = parseInt(m[1], 16);
+                var chan = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) {
+                    var s = v / 255;
+                    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+                });
+                return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2];
+            }
+
+            function esc(s) {
+                return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                });
+            }
+        }());
+    </script>
+</body>
+</html>
