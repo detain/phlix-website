@@ -281,7 +281,7 @@ be **verifiable**. The full DO-table is in `new_site.md` §2A — summary:
 - **intensity_toggle** → optional visitor "calm mode" toggle, or `null`.
 - **mascot.behavior** → on-page mascot companion (placement/idle/tips/easter/dismiss), or `null` for imagery-only.
 - **seasonal_activation** → whether `seasonal_variants` stay documented or ship via a `"live-js"` date-gate.
-- **error_page_experience** → **document only** this pass (per-kit 404 needs a future `tools/build.mjs` shim — out of scope).
+- **error_page_experience** → **ship `sites/<slug>/404.html`** as a ninth page realising its `concept` (the root-`404.html` path-sniffing shim now exists — see new_site.md §2A). `noindex`, relative asset paths, offer every `recovery_links` entry.
 
 Any JS these fields imply must be self-contained vanilla JS, no dependencies,
 ≈≤15 KB total, `prefers-reduced-motion`-respecting, with a working no-JS
@@ -304,9 +304,9 @@ Following `new_site.md` exactly:
 2. Author `base.css` (token `:root` from §6/§13/§17), `theme.css` (type + layout
    + archetype), `components.css` (shell/buttons/cards/badges/etc.).
 3. Pre-render all **8 standalone HTML pages** (index, features, clients,
-   download, plugins, docs, hub, about) with the shared shell, canonical section
-   classes, complete `<head>` (SEO §10 + social §11), one `<h1>` each,
-   `aria-current` nav, skip-link, landmarks.
+   download, plugins, docs, hub, about) **plus `404.html`** (§2A) with the shared
+   shell, canonical section classes, complete `<head>` (SEO §10 + social §11),
+   one `<h1>` each, `aria-current` nav, skip-link, landmarks.
 4. Write `js/main.js` (nav toggle, reduced-motion, optional scroll reveals).
 5. Produce `img/logo.svg`, `img/favicon.svg`, `img/og.(svg→)png`, the 8 inline
    feature-icon SVGs, and `img/PROMPTS.md`.
