@@ -195,14 +195,37 @@ Any per-site JS added for `hero_experience`, `navigation_model`, `mascot.behavio
   no-JS fallback** that carries the **same information/copy** (the `fallback`
   field is mandatory, not optional).
 
-### `error_page_experience` is schema-only this pass
+### `error_page_experience` → ship a real `404.html`
 
-GitHub Pages serves exactly **one root `404.html` per Pages site**, so genuinely
-shipping a per-kit 404 needs a future `tools/build.mjs` change — a root
-`404.html` **path-sniffing shim** that inspects the requested `sites/<slug>/…`
-path and renders that kit's 404 concept. That build-tooling work is **out of
-scope** for this pass. For now, only **document** the concept from
-`error_page_experience`; do not add a per-kit 404 page.
+GitHub Pages serves exactly **one root `404.html` per Pages site**, so a per-kit
+404 needed build tooling. **That shim now exists**, so a per-kit 404 is
+**required**, not schema-only.
+
+How it works: the repo-root `404.html` is the only error document Pages will ever
+hand back. Its inline shim reads a manifest injected by `tools/build.mjs`, works
+out which kit the requested path belongs to, `fetch`es that kit's
+`sites/<slug>/404.html`, injects a `<base href="/<base>/<slug>/">`, and replaces
+the document — so **the requested URL and the 404 status are both preserved**
+while the visitor sees the kit's own themed page. Kits without a `404.html` get a
+generic fallback tinted with the kit's accent and offering its
+`error_page_experience.recovery_links`.
+
+Author `sites/<slug>/404.html` as an **ordinary ninth page**:
+
+- Realise `error_page_experience.concept` as the page's actual content — that
+  field is a design brief, not display copy; do not print it verbatim.
+- Use the **same shared shell** (§4) as every other page, and **relative** asset
+  paths (`css/…`, `img/…`) exactly like the other pages. The injected `<base>`
+  makes them resolve against the kit directory no matter how deep the missing
+  path was, so **no `../` walking and no absolute paths**.
+- Offer every link in `error_page_experience.recovery_links` (`home` → `./`,
+  `features` → `features.html`, `download` → `download.html`).
+- Add `<meta name="robots" content="noindex">`. The page is reached only through
+  the shim, and `tools/gen-sitemap.mjs` deliberately excludes `404.html`.
+- Canonical/og:url still follow the normal rule (`<site.url>/<slug>/404.html`).
+
+The page must stand on its own with **JS disabled** — the shim needs JS, but once
+the document is swapped in, its content must not depend on script.
 
 ---
 
@@ -417,8 +440,8 @@ Vanilla, dependency-free, `defer`-loaded. Responsibilities:
 - Descriptive anchor text (no "click here").
 - **JSON-LD** `SoftwareApplication` block on the home page (name, description,
   applicationCategory, operatingSystem, offers/price=0, license).
-- Each site ships its own **`sitemap.xml`** (all 8 pages, absolute URLs) and
-  **`robots.txt`** referencing it.
+- Each site ships its own **`sitemap.xml`** (all 8 canonical pages, absolute URLs
+  — **not** `404.html`, which is `noindex`) and **`robots.txt`** referencing it.
 
 ---
 
@@ -527,8 +550,8 @@ config; prefix deliberately-unused params with `_`). Do not mix stylelint majors
 
 A brand-kit site is **done** only when **all** are true:
 
-1. All 8 pages + css/js/img + robots.txt + sitemap.xml + SITE.md + BUILD_LOG.md
-   exist and validate.
+1. All 8 pages + `404.html` (§2A) + css/js/img + robots.txt + sitemap.xml +
+   SITE.md + BUILD_LOG.md exist and validate.
 2. `npm run lint`, `npm run linkcheck`, and `npm run a11y` pass clean.
 3. **Accessibility** WCAG 2.2 AA met (§12); **SEO** complete (§10); **social
    meta** complete & absolute (§11).
