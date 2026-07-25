@@ -54,6 +54,16 @@ where you should spend nearly all your effort:
   **structure**: nav labels/order, home section order, page inventory, CTA
   ladder. **Cosmetic-only difference is a ❌** — that is the failure this whole
   program exists to fix.
+  **Compare against a site with the _same_ `experience_archetype`**, and prefer
+  one already regenerated. Diffing a `narrative-scroll` kit against a `grid` or
+  `interactive-demo` kit passes trivially and proves nothing. This matters more
+  than it sounds: `narrative-scroll` is **21 of the 50 kits** and `immersive` is
+  another **11**, so 32 sites are drawn from two archetypes. Shared archetype is
+  not a licence to share structure — the section ids in
+  `homepage_narrative.sections[]` differ per kit and must drive a visibly
+  different page shape. `node tools/kit-brief.mjs --site <slug>` prints the
+  archetype; if no same-archetype sibling has been regenerated yet, say so in
+  your report rather than substituting a different-archetype comparison.
 - **Manifest compliance.** A `REGEN_PLAN.md` row claimed-but-not-done is a ❌.
   So is one silently dropped.
 - **Content honesty (§16, §19.7).** Invented facts, fabricated counts or

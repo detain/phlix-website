@@ -68,8 +68,17 @@ Read `shared/content.json` when you need exact copy.
 
 **Do not read:** `plan_site_regen.md` (orchestrator doc), `docs/REVIEW_RUBRICS.md`
 (the reviewer's), the predecessor's HTML (the brief summarises it), or the other
-49 sites beyond one quick structural comparison for the anti-convergence check.
-That is pure context cost with no payoff.
+49 sites beyond **one** structural comparison (below). That is pure context cost
+with no payoff.
+
+**That one comparison must be a site with the same `experience_archetype`** —
+`kit-brief` prints yours, and lists any already-regenerated sibling. Your
+reviewer will diff you against such a sibling, because diffing across archetypes
+passes trivially. This is the program's central risk: `narrative-scroll` covers
+**21 of the 50 kits** and `immersive` another **11**. Sharing an archetype is not
+licence to share structure — your `homepage_narrative.sections[]` ids are
+specific to your kit and must produce a visibly different page shape (different
+section count, order, and layout rhythm), not the sibling's shape recoloured.
 
 ---
 

@@ -249,6 +249,61 @@ if (kit.experience_archetype)
   p(`**Declared archetype:** \`${kit.experience_archetype}\` — adopt this; do not guess one.`);
 p();
 
+// Same-archetype siblings. The anti-convergence check is only meaningful against
+// a kit that shares this archetype: `narrative-scroll` alone covers 21 of the 50
+// kits, so a cross-archetype diff passes trivially and proves nothing.
+if (kit.experience_archetype) {
+  const arch = kit.experience_archetype;
+  const siblings = [];
+  for (const f of readdirSync(join(ROOT, 'brand-kits'))) {
+    if (!f.endsWith('.js') || f === 'index.js') continue;
+    const other = f.slice(0, -3);
+    if (other === slug) continue;
+    const m = readFileSync(join(ROOT, 'brand-kits', f), 'utf8').match(
+      /experience_archetype:\s*["']([\w-]+)["']/,
+    );
+    if (m && m[1] === arch) siblings.push(other);
+  }
+  const done = siblings.filter((s) => existsSync(join(SITES, s, 'REGEN_PLAN.md')));
+  p(`## Anti-convergence — your same-archetype siblings`);
+  p();
+  p(
+    `\`${arch}\` covers **${siblings.length + 1} of the 50 kits**.` +
+      (done.length
+        ? ` Your reviewer will diff your structure against one of the regenerated siblings` +
+          ` below, not against an arbitrary site, because a cross-archetype diff passes` +
+          ` trivially.`
+        : ` A cross-archetype diff passes trivially and proves nothing, so there is no` +
+          ` useful comparison for you to make.`),
+  );
+  p();
+  if (!siblings.length) {
+    p(`_No other kit declares \`${arch}\` — you are setting the precedent for it._`);
+  } else if (done.length) {
+    p(`**Already regenerated — compare against one of these (pick one, read it once):**`);
+    p();
+    for (const s of done) p(`- \`sites/${s}/\``);
+    p();
+    p(
+      `Sharing an archetype is not licence to share structure. Your` +
+        ` \`homepage_narrative.sections[]\` ids are specific to your kit and must produce a` +
+        ` visibly different page shape — different section count, order and layout rhythm —` +
+        ` not a sibling's shape recoloured.`,
+    );
+  } else {
+    p(
+      `No \`${arch}\` sibling has been regenerated yet, so there is nothing worth` +
+        ` comparing against — **skip the comparison and say so in your report.** Do not` +
+        ` read a different-archetype site instead; you would only import its shape.`,
+    );
+  }
+  if (siblings.length) {
+    p();
+    p(`_Not yet regenerated: ${siblings.filter((s) => !done.includes(s)).join(', ') || 'none'}._`);
+  }
+  p();
+}
+
 p(`## Fonts — exact pool filenames (reference as \`../../assets/fonts/<file>\`)`);
 p();
 if (!fontRoles.length) p(`_No \`fonts.*.family\` declared._`);
