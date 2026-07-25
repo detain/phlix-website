@@ -314,7 +314,21 @@ for (const f of fontRoles) {
   if (f.missing) {
     p(`  - ⚠️ **NOT IN POOL — escalate, do not substitute and do not add a CDN link.**`);
   } else {
-    for (const file of f.files) p(`  - \`${file}\``);
+    // Mark files whose weight this kit does NOT declare. The pool is shared and
+    // was backfilled with 700 for every prose family, so it routinely contains
+    // faces a given kit must not use. Two wave-1 kits hand-vendored an
+    // `@font-face` for exactly these lines because the list did not distinguish
+    // them — presence in the pool is not permission.
+    const want = (Array.isArray(f.weights) ? f.weights : f.weights != null ? [f.weights] : [])
+      .map(Number)
+      .filter(Number.isFinite);
+    for (const file of f.files) {
+      const w = Number(file.match(/-(\d+)-latin\.woff2$/)?.[1]);
+      const undeclared = want.length && Number.isFinite(w) && !want.includes(w);
+      p(
+        `  - \`${file}\`${undeclared ? ` — ⚠️ **weight ${w} NOT declared by this kit; do not vendor it**` : ''}`,
+      );
+    }
     if (f.missingWeights.length) {
       p(
         `  - ⚠️ **no file for weight ${f.missingWeights.join(', ')}** — do not write \`font-weight: ${f.missingWeights[0]}\` against this family; the browser will synthesise or snap to ${f.have.join('/')}. Use an available weight and note it in \`REGEN_PLAN.md\`.`,

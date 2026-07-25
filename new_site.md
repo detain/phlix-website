@@ -754,24 +754,60 @@ grid-template-columns: repeat(2, 1fr);
 grid-template-columns: repeat(2, minmax(0, 1fr));
 ```
 
-**2. Long tokens still need a wrapping rule.** `minmax(0, …)` lets the track
-shrink, but the word itself still overflows its box. `overflow-wrap: break-word`
-is **not** enough — only `anywhere` reduces the min-content contribution, which
-is what a grid/flex track measures. Scope it where long strings actually occur
-(code, `<pre>`, URLs, identifier-heavy prose) rather than site-wide if you can,
-but site-wide is defensible: one kit needed it because identifiers were setting
-track minimums that overflowed at 200% zoom on **7 of 9 pages**.
+**2. Long tokens still need a wrapping rule, and the scope is wider than you
+think.** `minmax(0, …)` lets the track shrink, but the word itself still overflows
+its box. `overflow-wrap: break-word` is **not** enough — only `anywhere` reduces
+the min-content contribution, which is what a grid/flex track measures.
+
+The intuition "long strings only live in code and URLs" is **wrong, and was
+measured to be wrong.** One kit narrowed its wrapping rule to exactly
+`code`/`<dd>`/bare-URL anchors and `render-check` then failed **9 of 9 pages**, at
+343–389px against a 320px viewport. The actual offenders were **ordinary body
+words in narrow grid tracks**: `transcoding,` in a 164px spec column, `Features`
+in a 132px footer column, link-list titles, feature paragraphs. At 200% zoom a
+three-column footer gives each column ~130px, and plenty of everyday words exceed
+that.
+
+So split by role rather than by "does this look like code":
 
 ```css
+/* body-weight text: `anywhere`, because these sit in narrow tracks */
+p,
+li,
+dt,
+dd,
+a,
+span,
 code,
-pre,
-.repo-list a {
+kbd,
+samp,
+pre {
   overflow-wrap: anywhere;
+}
+
+/* headings: NOT `anywhere` — unmarked mid-word breaks in a large display face
+   look like a rendering error. `break-word` leaves min-content intact, so a real
+   overflow still surfaces in render-check instead of being silently absorbed. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 ```
 
+Also worth doing: wrap genuine identifiers in prose (`LifecycleInterface`) in
+`<code>`. That is more honest markup _and_ it moves them into the `anywhere` set.
+
 Then confirm with `node tools/render-check.mjs --site <slug>`, which tests every
-page at 320/700-tall/375 and at 200% text zoom.
+page at 320×640, 320×700, 375×667, 768×1024, 860×720 and 1280×900, plus 200% text
+zoom per page. Do not narrow a wrapping rule without re-running it — this is the
+one rule where a reasonable-sounding restriction has already produced a
+whole-site failure.
 
 ### 19.13 `overflow: hidden` hides overflow from the naive test — and from your visitor
 
