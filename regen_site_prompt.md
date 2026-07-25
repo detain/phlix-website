@@ -1,122 +1,194 @@
 You are a senior front-end designer + build engineer for **Phlix**, a
-self-hostable PHP media server. Your job: **regenerate one existing brand-kit
-site** so that it actually implements its kit's *experience* schema, then drive it
-through the adversarial review loop until it has zero defects.
+self-hostable PHP media server. **Regenerate one existing brand-kit site** so it
+implements its kit's _experience_ schema instead of the generic template.
 
-The **kit slug is on the last line of this message**. Resolve it to
-`phlix-website/brand-kits/<slug>.js`.
+**Your kit slug is on the last line of this message.**
 
-This prompt is the **regeneration** variant of `new_site_prompt.md`. Everything in
-that prompt — the full field-by-field mapping in its STEP 1, the build order in its
-STEP 2, and the 13 review dimensions in its STEP 3 — **still applies verbatim**.
-Read it. This file only states what is *different* when a site already exists.
+**What "good" means here, in priority order** (owner ruling, 2026-07-25):
 
----
+1. The site is **detailed and unmistakably its own** — a distinct experience, not
+   a recoloured template. This outranks everything below it.
+2. It is correct: facts traceable, accessible, responsive, gates green.
+3. It is small and fast.
 
-## The situation
+So: **take the extra time and the extra kilobytes to make the layout specific to
+this kit.** Do not simplify a layout, drop a declared experience field, or thin
+out interaction detail to sit under a size target — the JS figure in §2A is
+guidance and `selfcheck` only warns at 40 KB as a runaway signal. Real
+performance lives in fonts, images and blocking requests, not in hand-written
+vanilla JS.
 
-`sites/<slug>/` already exists and was authored on 2026-07-04. Its kit gained 21
-**experience** fields on 2026-07-13 that the existing site knows nothing about. The
-existing site is therefore a **generic-template rendering** of the kit: correct
-colours and fonts, but the same nav, same section order, and same copy skeleton as
-the other 49 sites.
+Budget guidance for _your own effort_: the first run took ~410k tokens with ~40%
+spent reading; the second, with the tooling below, took ~300k. The mechanical
+reading is now done for you by `tools/kit-brief.mjs`, so spend what you save on
+**design depth** — not on rediscovering known problems, re-deriving contrast
+tokens, or hand-rolling verification scripts.
 
-**You are replacing it, not editing it.** Read `plan_site_regen.md` §1 for the full
-drift measurement.
-
----
-
-## STEP 0 — Read your inputs
-
-Everything in `new_site_prompt.md` STEP 0, plus:
-
-6. **`new_site.md` §2A** — the experience-override DO-table. This is the heart of
-   this pass. For each field the kit declares, §2A states exactly what to change.
-7. **The existing `sites/<slug>/`** — read `index.html`, `SITE.md`, and
-   `BUILD_LOG.md`. Treat this as **prior art to beat**: inventory what it already
-   gets right (palette, tokens, icon set, logo, imagery, working `@font-face`) so
-   you carry that forward rather than regressing it, and note where it defaulted to
-   the shared template so you know what must change.
-8. **`reviews/<slug>/FINAL-REVIEW.md`** if present — the defects a previous
-   reviewer already caught. Do not reintroduce them.
+**Start with the CSS rules in `new_site.md` §19.12 already applied**
+(`minmax(0, 1fr)` on grid tracks, `overflow-wrap: anywhere` where long
+identifiers appear, no `overflow: hidden` on containers whose text must reflow).
+Two independent kits hit those same three defects, and between them they caused
+almost every responsive and text-zoom finding so far. Building with them from the
+start is far cheaper than a fix round.
 
 ---
 
-## STEP 1 — Build the change manifest FIRST (do this before writing any code)
+## STEP 0 — One command first, then two documents
 
-Before touching a file, write `sites/<slug>/REGEN_PLAN.md` containing:
+**Run this before anything else:**
 
-1. **Every experience field the kit declares**, and for each: what the current site
-   does, what the field requires, and the concrete change. Fields the kit does
-   **not** declare: state "absent → keep default" (absence is never a defect).
-2. **The nav diff** — current labels/order versus `site_architecture.nav`, plus any
-   pages demoted to the footer and every `extra_pages` entry to create.
-3. **The home-page section order diff** — current versus `homepage_narrative.sections[]`.
-4. **The carry-forward list** — what you are deliberately keeping from the existing
-   site, and why.
+```bash
+node tools/kit-brief.mjs --site <slug>
+```
 
-This manifest is the thing a reviewer checks your output against, so make it
-specific and honest. If a field is ambiguous, say so here rather than guessing
-silently.
+It resolves, in one call, what previous runs each spent 15–25 tool calls
+rediscovering: your declared vs absent experience fields, the exact nav labels
+and order, the narrative section ids, **the real font filenames in the pool and
+which requested weights have no file**, a **measured** contrast table with
+accessible substitutes already derived, your budgets and `avoid_words`, the
+`content.json` fact counts and the exact licence wording, and what the
+predecessor site already has versus needs. Trust it for facts — it is generated
+from the kit module, the real font pool and the site on disk.
+
+Then read, in this order:
+
+1. **`new_site.md` §19 "Known traps"** — 23 traps, each a defect that actually
+   shipped, including the **field-precedence table (§19.6)** for when a kit
+   contradicts itself and the **two CSS rules (§19.12)** that caused nearly every
+   responsive failure so far. Highest-value page in the repo; skipping it costs a
+   review round per item.
+
+   **§19.16–§19.23 are new, and each was hit by two or three of the first five
+   kits independently.** Read them as a pre-flight checklist, not as background:
+   heading levels inside a titled section (§19.16 — 3 of 5 kits), the
+   `strong { font-weight: 500 }` trap and its _kit-specific_ fix (§19.17 — 3 of
+   5), a scaffold comment that silently swallows token declarations (§19.18 — 2
+   of 5, same region of `base.css`), per-variant contrast for seasonal palettes
+   (§19.19), reduced motion removing content (§19.20), an undismissable-forever
+   companion (§19.21), the install command being wrong or inconsistent (§19.22),
+   and verifying your own manifest last (§19.23). Between them these were ~40% of
+   all wave-1 findings, and every one is cheaper to avoid than to fix.
+
+2. **`brand-kits/<slug>.js`** — your design spec, ~1,500 lines. Read it fully for
+   **design intent** — voice, motion, imagery, the feel of the thing. The brief
+   above already gave you its facts, so you are reading for judgement, not
+   extraction.
+
+Then **skim only as needed**: `new_site.md` §2A (the override DO-table), §3
+(per-page structure), §4 (shared shell), §12 (a11y), §16 (facts), §18 (DoD).
+Read `shared/content.json` when you need exact copy.
+
+**Do not read:** `plan_site_regen.md` (orchestrator doc), `docs/REVIEW_RUBRICS.md`
+(the reviewer's), the predecessor's HTML (the brief summarises it), or the other
+49 sites beyond **one** structural comparison (below). That is pure context cost
+with no payoff.
+
+**That one comparison must be a site with the same `experience_archetype`** —
+`kit-brief` prints yours, and lists any already-regenerated sibling. Your
+reviewer will diff you against such a sibling, because diffing across archetypes
+passes trivially. This is the program's central risk: `narrative-scroll` covers
+**21 of the 50 kits** and `immersive` another **11**. Sharing an archetype is not
+licence to share structure — your `homepage_narrative.sections[]` ids are
+specific to your kit and must produce a visibly different page shape (different
+section count, order, and layout rhythm), not the sibling's shape recoloured.
+
+---
+
+## STEP 1 — Write a COMPACT change manifest first
+
+Before touching a file, write `sites/<slug>/REGEN_PLAN.md`. **Keep it under
+~400 lines** — the pilot wrote 48 KB of prose and that was mostly wasted output.
+Use terse tables:
+
+1. **Experience fields** — one row per field the kit declares: field | what the
+   old site does | what you will do. Group every undeclared field into a single
+   line: "absent → default: a, b, c…". Absence is never a defect.
+2. **Nav diff** — old labels → new labels/order, demotions, `extra_pages`.
+3. **Home section order** — old → `homepage_narrative.sections[]`.
+4. **Carry-forward** — a bullet list, one line each.
+5. **Ambiguities** — only genuine contradictions, resolved per §19.6, one or two
+   sentences each. If §19.6 already covers it, cite the rule and move on rather
+   than re-arguing it.
+
+This manifest is what the reviewer checks you against, so it must be accurate.
+Accurate and short beats exhaustive.
 
 ---
 
 ## STEP 2 — Rebuild
 
-Follow `new_site_prompt.md` STEP 2 and the `new_site.md` rulebook, with these
-regeneration-specific rules:
+Follow `new_site_prompt.md` STEP 2 and the `new_site.md` rulebook.
 
-- **Nine pages now**, not eight: the 8 canonical pages + **`404.html`** (new_site.md
-  §2A). Plus every `site_architecture.extra_pages` entry the kit declares.
-- **`404.html`** realises `error_page_experience.concept` as real content — the
-  field is a design brief, do not print it verbatim. Same shared shell, **relative**
-  asset paths, `<meta name="robots" content="noindex">`, and every
-  `error_page_experience.recovery_links` entry offered. The root `404.html` shim
-  injects a `<base>`, so relative paths resolve from any depth — no `../` walking,
-  no absolute asset paths.
-- **Fonts must resolve.** Every `@font-face` `src` must point at a WOFF2 that
-  exists in the repo, and there must be **zero external font requests** (no
-  `fonts.googleapis.com`, no CDN — new_site.md §7 and the CSP both forbid it).
-  Follow the font policy in `new_site.md` §7. If the kit's named families are not
-  available as local files, **stop and escalate to the orchestrator** — do not
-  silently fall back to system fonts and do not add a CDN link. 45 of 50 sites got
-  this wrong on the first pass; see `plan_site_regen.md` §0.4.
-- **Do not edit shared files.** `shared/content.json`, `new_site.md`, the root
-  `index.html` / `404.html`, `package.json`, and `tools/**` are **read-only** to
-  you. Other agents are regenerating other kits concurrently. If your kit needs a
-  shared change, write it in `REGEN_PLAN.md` and escalate.
-- **Stay in your directory.** Write only inside `sites/<slug>/` and
-  `reviews/<slug>/`.
-- **Do not run `git` or `gh`.** The orchestrator handles branches, commits, and
-  pushes. Do not commit; leave your work in the tree.
+- **Nine pages**: the 8 canonical + **`404.html`**, plus any `extra_pages`.
+  `404.html` realises `error_page_experience.concept` as real content (not the
+  field printed verbatim), carries `<meta name="robots" content="noindex">`, and
+  uses **relative** asset paths only — the root shim injects a `<base>`.
+- **Fonts**: self-hosted only, from the shared pool at
+  `shared/assets/fonts/` (referenced `../../assets/fonts/…`).
+  `shared/data/font-sources.json` lists the 70 available families. If your kit
+  names one that is missing, **escalate — do not substitute and do not add a
+  CDN link.**
+- **Read-only to you**: `shared/**`, `new_site.md`, the root `index.html` /
+  `404.html`, `package.json`, `tools/**`. Other kits are being regenerated
+  concurrently, so a shared edit would collide. Needs a shared change? Write it
+  in `REGEN_PLAN.md` §Escalations and carry on.
+- **Write only** inside `sites/<slug>/`.
+- **No `git`, no `gh`, no `npm run <repo-wide gate>`.** The orchestrator owns
+  those. Leave your work uncommitted.
 
 ---
 
-## STEP 3 — Adversarial review loop
+## STEP 3 — Verify with the tools, not by hand
 
-Exactly as `new_site_prompt.md` STEP 3 (all 13 dimensions, fresh reviewer that has
-not seen your build reasoning, cite `file:line`, score 0–100, ✅/⚠️/❌, loop until
-no ❌ and nothing below 90).
+Three commands, all scoped to your kit. **Run them; do not reimplement them.**
+Between them they cover every mechanical check a reviewer will run.
 
-Add two regeneration-specific checks the reviewer must run:
+```bash
+node tools/gen-og.mjs --site <slug>        # og.svg → og.png (og:image must be PNG)
+node tools/gen-sitemap.mjs --site <slug>   # sitemap.xml + robots.txt
+node tools/selfcheck.mjs --site <slug>     # 14 static checks — must PASS
+node tools/render-check.mjs --site <slug>  # real browser at 320px + 1280px
+```
 
-14. **Manifest compliance** — does the built site do what `REGEN_PLAN.md` said it
-    would? Every row of the change manifest verified against the output. A row
-    claimed-but-not-done is a ❌.
-15. **Anti-convergence** — put the regenerated site next to *any other* kit's site.
-    Is the difference structural (nav, section order, page inventory, funnel), or
-    only cosmetic (colours and fonts)? **Cosmetic-only is a ❌** — that is the exact
-    failure this whole program exists to fix.
+`selfcheck` covers: page inventory, the `@copyright`-outside-a-comment bug, CDN
+references, font resolution, internal-link resolution, 404 requirements, one-`h1`,
+nav-vs-`site_architecture`, section-order-vs-`homepage_narrative`, the palette
+contrast matrix, `avoid_words`, `og:image`, required docs, and a runaway JS size
+signal (40 KB — not a target to sit under, see the priority order above).
+
+`render-check` catches what source review cannot, across **every page in your kit**
+(including `extra_pages`) at 320×640, 320×700, 375×667 and desktop, plus a
+200%-text-zoom pass per page: elements that render 0×0, horizontal overflow,
+content **clipped** by an `overflow:hidden` ancestor, anything painted over an
+interactive control (re-checked after timers fire, so a mascot tip that appears
+seconds later is caught), text invisible against its composited background,
+console errors and failed asset requests. **Four defects so far were invisible in
+source and only appeared here** — a hero rendering 0×0, a mascot bubble over the
+CTA, a toggle underneath the mascot, and an `<h1>` clipped at 200% zoom while
+`scrollWidth` reported fine. Add `--shots` for screenshots.
+
+Both must be clean before you report. Fix what they find; if you believe a
+finding is a false positive, say which and why in your report.
+
+Also, briefly: `npx prettier --write "sites/<slug>/**"` keeps you off the
+format gate.
 
 ---
 
-## Done when
+## STEP 4 — Report and stop. You do not run the review loop.
 
-`new_site.md` §18 is green, `plan_site_regen.md` §5 is satisfied, the review loop is
-clean, and `npm run lint && npm run linkcheck && npm run a11y` pass for your site.
+**You cannot spawn agents**, so do not attempt a self-review and do not score
+yourself against the rubric — a fresh reviewer who has not seen your reasoning
+does that next, and duplicating it wastes a large amount of context for no gain.
 
-Report back: the site path, the layout archetype used, which experience fields were
-declared versus implemented, what you carried forward from the old site, anything
-you escalated, and each review dimension's final score.
+Your report is the handoff. Include:
+
+- the archetype used, and which declared experience fields you implemented;
+- what you carried forward from the old site;
+- **actual output** of `selfcheck` and `render-check` (the final clean runs);
+- every ambiguity you resolved and the rule you resolved it under;
+- anything you escalated;
+- **anything you are unsure about.** Flagging a doubt costs one sentence; having
+  the reviewer find it costs a whole round.
 
 The kit to regenerate is named on the next line:

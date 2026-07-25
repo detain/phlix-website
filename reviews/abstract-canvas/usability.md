@@ -1,115 +1,69 @@
-# DIMENSION 5: Usability — Nielsen Heuristics
+# Usability Review — Abstract Canvas
 
-**Score: 93 / 100**
+> Supersedes the 2026-06-30 review of the **predecessor** site (recoverable from git history).
 
----
+**Variant**: abstract-canvas
+**Round**: 1 (regen pass, `regen/wave-1`)
+**Reviewer**: adversarial reviewer (independent)
+**Date**: 2026-07-24
 
-## Findings
+## Score
 
-### ✅ Heuristic 1: Visibility of System Status
-**Download reachable in ≤2 clicks from home**
+- **Usability**: 74 / 100
 
-- **Home (`index.html`)**: Primary CTA "Get Phlix" is a `.btn.btn-primary.btn-lg` at `index.html:105`, directly above the fold. Clicking it navigates to `download.html` (1 click from any page via nav). No modal, no intermediate page, no confirmation step.
-- **Nav link**: Download is the 4th item in the 8-link nav at `index.html:86` / `components.css:70`. Clicking "Download" goes directly to `download.html` (1 click).
-- **CTA banners on every inner page**: Each page ends with a `.cta-banner` driving toward download (`index.html:243`, `features.html:149`, `clients.html:148`, `download.html` itself has docs link as fallback).
-- **Verdict**: Download is reachable in 1 click from any page. Requirement: ≤2 clicks. ✅
+## ✅ Passed
 
-### ✅ Heuristic 2: Match Between System and Real World
-**Brand vocabulary used; no confusing jargon in navigation**
+- **Download is 1 click from home** (nav "Get Started", hero CTA, and rung 01) — well inside the
+  ≤2-click rule.
+- Recognition over recall: the renamed nav carries a hidden gloss for every label
+  (`index.html:112-140` — "The Studio — home", "The Canvas — features"), so the poetic label never
+  hides the destination from a screen-reader user, and `aria-current="page"` plus a cadmium underline
+  marks position. The two footer-demoted pages get breadcrumbs precisely because no nav item can be
+  current (`plugins.html`, `docs.html`).
+- User control: the "Gallery quiet" toggle is a real `aria-pressed` control persisted in
+  `localStorage`; Palette can be dismissed permanently ("Palette, rest for a moment"); `Esc` closes
+  the menu and both eggs. No modals, no gates, no autoplay.
+- Consistency: identical shell, identical closing CTA ladder vocabulary, and the same three step
+  names ("Set Up Your Studio" → "Choose Your Stations" → "Prime the Canvas") everywhere they appear.
+- Match to the real world: `jargon_policy: "translate"` is genuinely built — a plain line first, the
+  verbatim engineering wording one disclosure away, on all 8 features.
+- Help/docs: `docs.html` gives four labelled routes into the real docs; the secondary CTA is honestly
+  labelled "Browse the Gallery (the docs)" so the click is never a surprise.
 
-The site uses the kit vocabulary (gallery, canvas, frame) in micro-copy rather than product internals. Navigation labels are standard:
-- "Home", "Features", "Clients", "Download", "Plugins", "Docs", "Hub", "About" — all self-explanatory.
-- No internal implementation terms (e.g., "ItemRepository", "ChannelManager") appear in navigation or primary copy. They only appear in feature bodies (which are verbatim from `content.json`).
-- The "Phlix Hub" concept is clearly explained on `hub.html:68–76` before any technical detail.
+## ⚠️ Concerns (non-blocking)
 
-### ⚠️ Heuristic 3: User Control and Freedom
-**Mobile nav closes on Escape and outside click — mostly complete**
+- **No-JS at phone widths has no header navigation at all** — the menu is `display:none` and the
+  toggle does nothing. Only the footer directory keeps the site usable. — ROUND-1 #9.
+- `.code-block` scrolls horizontally but cannot be scrolled by keyboard. — ROUND-1 #10.
+- The snippet uses `<div><code>` + `<br>` rather than `<pre><code>`, so shell whitespace is not
+  semantic. — ROUND-1 #12.
+- Palette's tips fire from scroll position and auto-clear after 9s (`js/main.js:168-177`) — good
+  restraint, but on desktop the bubble can appear over the last card of a grid before it clears.
+- 22px `summary` and 32px dismiss/footer targets are fiddly with a thumb. — ROUND-1 #5, #11, #13.
 
-- `main.js:45–50` — Nav closes on `Escape` key press and returns focus to `.nav-toggle` ✅
-- `main.js:40–42` — Nav closes on backdrop click ✅
-- `main.js:53–61` — Nav closes on outside click (any click not inside `.nav-menu` or `.nav-toggle`) ✅
-- **Issue**: The mobile nav slides in but does **not** trap focus — a keyboard user can Tab through the entire nav menu, then Tab past it to the next focusable element (skip link is already before it). For a side-nav this is acceptable, but the spec does not call out focus trapping as a requirement, so this is acceptable behavior.
-- **Issue**: After closing nav via backdrop or outside-click, focus is **not** returned to `.nav-toggle`. `main.js:48` only returns focus on `Escape`. This means tap-to-dismiss via backdrop leaves focus in an inconsistent state. **Severity: ⚠️ minor** — not flagged as a spec requirement but worth noting.
+## ❌ Failures (must fix this round)
 
-### ✅ Heuristic 4: Consistency and Standards
-**Internal consistency and brand consistency throughout**
+- **`js/main.js:277`** — on the home page every click (and `Enter`) on the wordmark is
+  `preventDefault()`ed, so the "Phlix home" link does nothing. Verified in a browser: URL unchanged
+  after both a click and a keyboard activation. A visible, named affordance that never responds is a
+  usability failure regardless of the egg it serves. → ROUND-1 #4.
+- **Palette covers the primary CTA on phones** — a visitor tapping the bottom-right of "Set Up Your
+  Studio" hits the companion instead. → ROUND-1 #3.
+- **"One line" is asserted on 7 pages for a 3-command install** — the visitor is told the setup is a
+  single line and then handed three. → ROUND-1 #8.
 
-- CSS custom properties used exclusively (no raw hex values in component CSS) — `base.css:23–98` defines all tokens, `theme.css` and `components.css` reference only `var(--...)`. ✅
-- Brand colors applied consistently: Carbon Black `#1A1A1A` for primary CTAs and headings; Cadmium Red `#CC2200` for accent/borders/active states; Gallery Linen `#F0EDE4` for all backgrounds; Canvas Cream `#E8E4D8` for cards/surfaces. ✅
-- Typography: Cormorant Garamond for all headlines, Lora for body, Inter for UI — consistent across all 8 pages. ✅
-- Button hierarchy: `.btn-primary` (carbon black, filled) for primary CTAs; `.btn-secondary` (cadmium red, outlined) for secondary CTAs — consistent on every page. ✅
+## Recommendations (ranked by impact)
 
-### ✅ Heuristic 5: Error Prevention
-**No forms with error states on this static marketing site**
+1. Restore the logo link (impact: high, effort: low).
+2. Get the companion out of the CTA band on small screens (impact: high, effort: low).
+3. Make the install literally one line, or stop claiming it is (impact: medium, effort: trivial).
+4. Ship a no-JS-navigable menu (open by default, hidden under a `js` guard) (impact: medium,
+   effort: low).
+5. `tabindex="0"` + `<pre>` for the snippet (impact: low, effort: trivial).
 
-The site is a static marketing site with no user input forms. The only form-adjacent element is the `code-block` on `download.html:75–85` showing install commands — no user entry possible. The search bar mentioned in the brand kit as a component style note is not present on this marketing site (it's a player component, per the kit's `component_styles.media_player` entry). ✅
+## Evidence
 
-### ✅ Heuristic 6: Recognition Rather Than Recall
-**All navigation choices visible; no hidden functionality**
-
-- Nav menu items are all visible labels — no icon-only navigation that requires memory.
-- Feature cards have visible icons (inline SVG, `aria-hidden="true"`) + title + body — three layers of recognition.
-- Feature detail cards on `features.html` have clear `id` anchors matching the `features[]` array from `content.json`.
-- CTA buttons are labeled ("Get Phlix", "Read the docs") rather than icon-only. ✅
-
-### ⚠️ Heuristic 7: Flexibility and Efficiency of Use
-**No shortcuts for repeat users on a marketing-only static site**
-
-This is a marketing site, not an application. There are no user accounts, no saved preferences, no repeat workflows that would benefit from shortcuts. The heuristic as applied to marketing sites means: can a power user navigate efficiently? Answer: Yes — the 8-link nav is accessible, direct, and complete. The sitemap.xml and robots.txt exist for crawlers. ✅
-
-The **mobile nav performance** is worth noting: on mobile, the nav menu animates in with `transform: translateX(0)` from its off-screen position over 250ms (`components.css:520`). The transition is smooth and does not block interaction.
-
-### ✅ Heuristic 8: Aesthetic and Design — Brand Consistency
-**Abstract Canvas brand executed faithfully**
-
-The site fully embodies the Abstract Canvas brand:
-- Gallery-linen `#F0EDE4` backgrounds throughout — warm, not clinical white ✅
-- Carbon black `#1A1A1A` primary type and CTAs — bold, painterly weight ✅
-- Cadmium red `#CC2200` accents used sparingly: hover borders, active nav, accent blocks ✅
-- Ultramarine `#0055AA` used for focus rings and depth accents ✅
-- Rothko-inspired hero accent block (`theme.css:209–237`, `index.html:109–110`) ✅
-- Paint-streak divider `.divider-brushstroke` (`components.css:608–622`) ✅
-- Gestural brushstroke color-field gradients in hero (`theme.css:153–161`) ✅
-- Typography: Cormorant Garamond for dramatic headlines, Lora for warm body reading, Inter for clean UI ✅
-- Animations: `fade-up` and `color-field-sweep` (`theme.css:711–756`) — organic, painterly, not mechanical ✅
-- No avoid_words, no cold/sterile/digital language ✅
-
-### ✅ Heuristic 9: Help Users Recognize and Recover from Errors
-**No error-prone features on this static marketing site**
-
-The site has no user input that could produce errors. The only interactive elements are links, buttons, and the mobile nav toggle — all of which have clear affordances. Dead links would be caught by a linkcheck step (not run as part of this review). The `sitemap.xml` and `robots.txt` are present. ✅
-
-### ✅ Heuristic 10: Help and Documentation
-**Documentation link prominent on every page**
-
-- "Read the docs" / "Open the docs" / "Developer docs" / "Read the docs" appears as a secondary CTA on every page.
-- `docs.html` links to all four doc sections at `docs.html:69–87`.
-- External docs link `https://detain.github.io/phlix-docs` is consistently used throughout nav and CTAs.
-- Each page's `.cta-banner` offers a clear next action. ✅
-
----
-
-## Key Nielsen Issues Summary
-
-| # | Heuristic | Finding | Severity |
-|---|-----------|---------|----------|
-| 1 | Visibility of system status | Download in 1 click from home | ✅ Pass |
-| 2 | Match real world | Consistent brand vocabulary | ✅ Pass |
-| 3 | User control | Focus not returned to toggle on backdrop/outside-click dismiss | ⚠️ Minor |
-| 4 | Consistency | Brand tokens used exclusively; no raw hex in component CSS | ✅ Pass |
-| 5 | Error prevention | No forms on marketing site | ✅ Pass |
-| 6 | Recognition not recall | All nav visible; feature cards have icon+title+body | ✅ Pass |
-| 7 | Flexibility | Marketing site — nav efficiency appropriate | ✅ Pass |
-| 8 | Aesthetic | Abstract Canvas brand fully realized | ✅ Pass |
-| 9 | Error recovery | No error-prone features | ✅ Pass |
-| 10 | Help and docs | Docs linked prominently on every page | ✅ Pass |
-
----
-
-## Summary
-
-The site scores 93/100 on Nielsen Usability Heuristics. The primary CTA ("Get Phlix") is above the fold on every page and reachable in 1 click from any page. Mobile nav opens/closes on click, closes on `Escape` and outside click (though focus-return on backdrop/outside-click dismiss is a minor omission). The Abstract Canvas brand is executed with exceptional fidelity — warm linen ground, cadmium red accents, Rothko-inspired hero, painterly motion, literary typography. No navigation traps exist; every link navigates away cleanly. The primary action is obvious on every page.
-
-**Critical issues: none.** The minor focus-return omission on backdrop/outside-click nav dismiss is the only deduction.
-
-**Score: 93/100**
+- Browser-driven checks: logo click + `Enter` navigation test; mobile menu open/close/`Esc`/
+  outside-click; JS-disabled render of `index.html`, `features.html`, `404.html`; palette overlap
+  measurements; target-size sweep.
+- Manual read of all 9 pages against `new_site.md` §3 and the kit's `do_dont.ux`.

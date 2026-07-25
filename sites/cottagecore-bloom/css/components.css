@@ -1,650 +1,1365 @@
 /* ==========================================================================
    components.css — Cottagecore Bloom
-   Header/nav, footer, buttons, cards, forms, badges
+   Topbar nav · mirror-nav footer · buttons · seed-catalog cards · guideposts
+   · guest rooms · garden rooms · journal pages · Primrose the companion ·
+   easter eggs · the "Quiet the Garden" intensity toggle.
+
+   HARD RULE throughout: no text ever sits on a semi-transparent background.
+   Every surface behind text is an opaque palette colour, and every coloured
+   small text uses a derived --color-*-ink token (all ≥ 4.5:1). Alpha is used
+   only for shadows, glows and decorative washes.
    ========================================================================== */
 
-/* ── Site header ─────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   Icon system — kit icon_style: outlined, rounded, botanical-accented, soft.
+   1.75px stroke, round caps and joins, sized in px so a 200% text zoom cannot
+   turn a decorative glyph into a source of horizontal overflow.
+   Delivered as one inline <symbol> sprite per page: same-document <use> works
+   under file:// (an external sprite reference does not) and costs no request.
+   ========================================================================== */
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-lg {
+  width: 34px;
+  height: 34px;
+}
+
+.icon-sm {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+   navigation_model.mode = "topbar"
+   Garden-gate posts divide the links; the wordmark carries a small Primrose
+   silhouette; the active link gains a rose underline and a petal dot.
+   The plain <nav><ul> IS the declared fallback — it is what ships, and the
+   JS only adds the mobile disclosure. Deliberately NOT sticky: a sticky bar
+   is one more thing that can cover the primary CTA at 320px.
+   ========================================================================== */
 .site-header {
-  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow-sm);
+  background-color: var(--color-surface);
 }
 
 .nav-primary {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-  height: 68px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-3);
+  padding-block: var(--space-3);
 }
 
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  flex-shrink: 0;
+  gap: var(--space-2);
+  min-height: 48px;
   text-decoration: none;
-  transition: opacity 200ms ease;
-}
-
-.nav-logo:hover {
-  opacity: 0.85;
 }
 
 .nav-logo img {
-  height: 36px;
-  width: auto;
+  width: 132px;
+  height: auto;
 }
 
-.nav-logo-brand {
-  font-family: var(--font-headline);
-  font-size: 1.15rem;
-  font-weight: 700;
+/* The Primrose silhouette that finishes the wordmark. Deliberately outside the
+   logo anchor so the click:5 egg has a target that does not navigate. */
+.nav-sigil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+  transition: transform var(--dur-quick) var(--ease-bloom);
+}
+
+.nav-sigil:hover {
+  transform: translateY(-2px) rotate(-6deg);
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 48px;
+  min-height: 48px;
+  margin-inline-start: auto;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
   color: var(--color-text);
-  letter-spacing: -0.01em;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
 }
 
-.nav-logo-motif {
-  width: 24px;
-  height: 24px;
-  color: var(--color-primary);
-}
-
-/* Nav menu */
 .nav-menu {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
-  list-style: none;
-  padding: 0;
-  margin: 0;
   margin-inline-start: auto;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.nav-menu li {
+  margin-top: 0;
+}
+
+/* Garden-gate post between links */
+.nav-menu li + li {
+  border-inline-start: 1px solid var(--color-border);
 }
 
 .nav-menu a {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-text);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  transition:
-    background 200ms ease,
-    color 200ms ease;
   display: block;
+  position: relative;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-ui);
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  transition: color var(--dur-quick) var(--ease-garden);
 }
 
-.nav-menu a:hover {
-  background: var(--color-surface-alt);
-  color: var(--color-primary);
-}
-
-.nav-menu a[aria-current='page'] {
-  background: rgb(200, 85, 106, 0.1);
-  color: var(--color-primary);
+/* site_architecture.nav emphasis tiers.
+   Three tiers need three visibly different treatments, and a 100-unit Nunito
+   step at 15px is not one — `primary` and `default` used to differ by weight
+   alone, which vanishes entirely on a fallback stack. Each tier now carries two
+   channels: `primary` = 600 + a warm butter panel (an inset ring, so revealing
+   it costs no layout shift); `default` = 500 on bare ivory; `muted` = 400 in
+   Taupe Ink (4.93:1). */
+.nav-menu a[data-emphasis='primary'] {
+  background-color: var(--color-surface-alt);
+  box-shadow: inset 0 0 0 1px var(--color-border);
   font-weight: 600;
 }
 
-/* Nav toggle (mobile) */
-.nav-toggle {
-  display: none;
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-2);
-  cursor: pointer;
-  color: var(--color-text);
-  transition:
-    border-color 200ms ease,
-    background 200ms ease;
-  margin-inline-start: auto;
+.nav-menu a[data-emphasis='muted'] {
+  color: var(--color-taupe-ink);
+  font-weight: 400;
 }
 
-.nav-toggle:hover {
-  border-color: var(--color-primary);
-  background: var(--color-surface-alt);
+.nav-menu a:hover {
+  color: var(--color-rose-ink);
 }
 
-.nav-toggle svg {
-  display: block;
-  width: 22px;
-  height: 22px;
+.nav-menu a[aria-current='page'] {
+  color: var(--color-rose-ink);
+  font-weight: 600;
 }
 
-/* Mobile nav */
-@media (width <= 900px) {
+/* Rose underline + petal dot on the active link. Drawn with borders, not a
+   translucent background fill, so the label's measured contrast is the real
+   one (see REGEN_PLAN §5.5). */
+.nav-menu a[aria-current='page']::after {
+  position: absolute;
+  inset-inline: var(--space-4);
+  inset-block-end: var(--space-1);
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  content: '';
+}
+
+.nav-menu a[aria-current='page']::before {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: -3px;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (width < 56.25rem) {
   .nav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex;
   }
 
+  /* display:none (not a zero-height clipper) so a collapsed menu is
+     unambiguously "deliberately hidden" to layout probes and to AT. */
   .nav-menu {
     display: none;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    right: 0;
+    flex-basis: 100%;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--space-1);
-    padding: var(--space-4);
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: var(--shadow-md);
     margin-inline-start: 0;
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--color-border);
   }
 
-  .nav-menu.is-open {
+  .nav-menu[data-open='true'] {
     display: flex;
   }
 
-  .nav-menu a {
-    padding: var(--space-3) var(--space-4);
-    font-size: 0.95rem;
+  .nav-menu li + li {
+    border-inline-start: 0;
+    border-top: 1px solid var(--color-border);
   }
 
-  .nav-primary {
-    position: relative;
-    flex-wrap: wrap;
+  .nav-menu a[aria-current='page']::before,
+  .nav-menu a[aria-current='page']::after {
+    display: none;
+  }
+
+  .nav-menu a[aria-current='page'] {
+    border-inline-start: 3px solid var(--color-primary);
   }
 }
 
-/* ── Buttons ─────────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   Buttons — kit buttons{}
+   Primary uses --color-rose-ink (Garden Rose ⊕ 30% Bark). Pure Garden Rose
+   with Warm Ivory text measures 4.02:1, which fails AA for a button label
+   however emphatically the kit asserts 4.8:1 (§19.1). The deeper mix reads as
+   the same welcome and measures 6.10:1.
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  font-family: var(--font-ui);
-  font-size: 0.92rem;
-  font-weight: 600;
+  min-height: 48px;
   padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-md);
   border: 1px solid transparent;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
+  line-height: var(--lh-ui);
+  text-align: center;
   text-decoration: none;
   transition:
-    background 200ms ease-out,
-    color 200ms ease-out,
-    border-color 200ms ease-out,
-    box-shadow 200ms ease-out,
-    transform 150ms ease-out;
-  white-space: nowrap;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
+    background-color var(--dur-quick) var(--ease-garden),
+    color var(--dur-quick) var(--ease-garden),
+    box-shadow var(--dur-quick) var(--ease-garden),
+    transform 160ms var(--ease-garden);
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.btn-primary {
+  border-color: var(--color-rose-ink);
+  background-color: var(--color-rose-ink);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-md);
 }
 
+.btn-primary:hover {
+  background-color: #7f3742; /* Garden Rose ⊕ 45% Bark — 7.6:1 on ivory */
+  color: var(--color-bg);
+  box-shadow: var(--shadow-rose-glow);
+}
+
+/* microinteractions.button_press: softly depresses, like pressing a petal */
 .btn:active {
   transform: scale(0.97);
 }
 
-.btn:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
-  box-shadow: var(--focus-halo);
-}
-
-.btn-primary {
-  background: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
-}
-
-.btn-primary:hover {
-  background: #b8445a;
-  border-color: #b8445a;
-  box-shadow: var(--shadow-rose-glow);
-  color: var(--color-bg);
-}
-
 .btn-secondary {
-  background: transparent;
-  color: var(--color-secondary);
-  border: 1px solid var(--color-secondary);
+  border-color: var(--color-sage-ink);
+  background-color: transparent;
+  color: var(--color-sage-ink);
 }
 
 .btn-secondary:hover {
-  background: rgb(122, 158, 107, 0.08);
-  box-shadow: var(--shadow-sage-glow);
-  color: var(--color-secondary);
+  background-color: var(--color-surface-alt);
+  color: var(--color-sage-ink);
 }
 
 .btn-ghost {
-  background: transparent;
+  border-color: var(--color-border);
+  background-color: transparent;
   color: var(--color-text);
-  border: 1px solid var(--color-border);
 }
 
 .btn-ghost:hover {
-  background: var(--color-surface-alt);
-  border-color: var(--color-neutral);
-}
-
-.btn-link {
-  background: transparent;
-  color: var(--color-primary);
-  border: none;
-  padding-inline: var(--space-2);
-  border-radius: 0;
-}
-
-.btn-link:hover {
-  text-decoration: underline;
-  transform: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
 }
 
 .btn-small {
-  font-size: 0.82rem;
+  min-height: 44px;
   padding: var(--space-2) var(--space-4);
+  font-size: 0.9375rem;
 }
 
-.btn-large {
-  font-size: 1.05rem;
-  padding: var(--space-4) var(--space-8);
-}
-
-.btn-icon {
-  background: var(--color-surface-alt);
-  color: var(--color-text);
+/* ── Path buttons (visitor_paths fork) ────────────────────────────────────
+   Outlined, not filled. The three cards sit inside the one `.paths` parchment
+   panel now, so they inherit its surface instead of each punching their own
+   opaque rectangle through the diorama. */
+.path-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  height: 100%;
+  padding: var(--space-4);
   border: 1px solid var(--color-border);
-  padding: var(--space-2);
-  border-radius: var(--radius-md);
-  width: 40px;
-  height: 40px;
+  border-radius: var(--radius-lg);
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-quick) var(--ease-garden),
+    box-shadow var(--dur-quick) var(--ease-garden),
+    transform var(--dur-quick) var(--ease-garden);
 }
 
-.btn-icon:hover {
-  color: var(--color-primary);
+.path-card:hover {
+  transform: translateY(-2px);
   border-color: var(--color-primary);
-  background: rgb(200, 85, 106, 0.06);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
 }
 
-/* ── Status badges ───────────────────────────────────────────────────────── */
+.path-card svg {
+  flex: 0 0 auto;
+  color: var(--color-sage-ink);
+}
+
+/* ==========================================================================
+   Cards — kit cards{}: garden-cream, 12px radius, Petal Blush border, and on
+   hover a 1px Garden Rose border with a 2px lift and a warm rose shadow.
+   ========================================================================== */
+.card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  transition:
+    border-color var(--dur-quick) var(--ease-garden),
+    box-shadow var(--dur-quick) var(--ease-garden),
+    transform var(--dur-quick) var(--ease-garden);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-rose-glow);
+}
+
+/* ── Seed-catalog plate (feature_casting.hero) ──────────────────────────── */
+/* Petal-blush border with a sage spine, not a rose outline: `color_rules`
+   reserves Garden Rose for the one most important CTA per screen, and two
+   rose-bordered plates on the home page out-shouted the CTA ladder. */
+.plate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-block-start: 3px solid var(--color-sage-ink);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.plate-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.plate-mark svg {
+  flex: 0 0 auto;
+  color: var(--color-rose-ink);
+}
+
+.plate-mark .plate-latin {
+  color: var(--color-taupe-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+}
+
+.plate h3 {
+  font-size: clamp(1.25rem, 2.6vw, 1.65rem);
+}
+
+.plate-angle {
+  font-size: 1.0625rem;
+}
+
+.plant-name {
+  display: block;
+  color: var(--color-sage-ink);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: var(--lh-ui);
+}
+
+/* ── Seed-catalog row (feature_casting.support) ─────────────────────────── */
+.catalog-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-surface-alt);
+  transition:
+    border-color var(--dur-quick) var(--ease-garden),
+    box-shadow var(--dur-quick) var(--ease-garden);
+}
+
+.catalog-row:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.catalog-row h3 {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 1.0625rem;
+}
+
+.catalog-row h3 svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--color-sage-ink);
+}
+
+/* ==========================================================================
+   jargon_policy: "translate" — the plain sentence is visible, the precise
+   content.json wording lives one disclosure away. The fact is never dropped,
+   only folded.
+   ========================================================================== */
+.plant-label {
+  margin-top: auto;
+  border-top: 1px dashed var(--color-border);
+  padding-top: var(--space-3);
+}
+
+.plant-label > summary {
+  min-height: 44px;
+  padding-block: var(--space-2);
+  color: var(--color-sage-ink);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
+  list-style-position: inside;
+}
+
+.plant-label > summary:hover {
+  color: var(--color-rose-ink);
+}
+
+.plant-label > p {
+  margin-top: var(--space-2);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+}
+
+/* ==========================================================================
+   Guideposts (copy_treatments.pitch_bullets = "garden-guideposts")
+   Each value prop is a little painted sign on a post beside the path.
+   ========================================================================== */
+.guidepost {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 62ch;
+}
+
+.guidepost-post {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-sage-ink);
+}
+
+.guidepost > * {
+  min-width: 0;
+}
+
+.guidepost-sign {
+  min-width: 0;
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: var(--lh-body);
+}
+
+/* ==========================================================================
+   Guest rooms (copy_treatments.clients = "guest-rooms")
+   ========================================================================== */
+.room-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.room-card h3 {
+  font-size: 1.0625rem;
+}
+
+.room-number {
+  color: var(--color-taupe-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+}
+
+/* ── clients.html full guest-room cards ─────────────────────────────────── */
+.client-cards {
+  display: grid;
+  gap: var(--space-8);
+  padding-inline-start: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
+  list-style: none;
+}
+
+.client-cards > li {
+  margin-top: 0;
+}
+
+.client-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  transition:
+    border-color var(--dur-quick) var(--ease-garden),
+    box-shadow var(--dur-quick) var(--ease-garden);
+}
+
+.client-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-rose-glow);
+}
+
+.client-card h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1.35rem;
+}
+
+.client-card .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.client-highlights {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.client-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.9375rem;
+}
+
+.client-highlights li::before {
+  flex: 0 0 auto;
+  margin-top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary);
+  content: '';
+}
+
+/* ── Status badges — kit badges{}: rounded pill, sentence case, Nunito 600 ─ */
 .client-status {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 2px 10px;
+  gap: var(--space-1);
+  padding: 3px var(--space-3);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  border: 1px solid;
-  text-transform: capitalize;
+  background-color: var(--color-surface-alt);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .status-stable {
-  background: rgb(74, 124, 89, 0.1);
-  color: var(--color-success);
-  border-color: rgb(74, 124, 89, 0.3);
+  border-color: var(--color-herb-ink);
+  color: var(--color-herb-ink);
 }
 
 .status-beta {
-  background: rgb(196, 123, 43, 0.1);
-  color: var(--color-warning);
-  border-color: rgb(196, 123, 43, 0.3);
+  border-color: var(--color-honey-ink);
+  color: var(--color-honey-ink);
 }
 
-.status-deprecated {
-  background: rgb(176, 160, 144, 0.15);
-  color: var(--color-neutral);
-  border-color: rgb(176, 160, 144, 0.3);
-}
-
-/* ── Feature badges ──────────────────────────────────────────────────────── */
-.badge {
+/* ── Chips (kit component_styles.chip) ─────────────────────────────────── */
+.chip {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 8px;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  border: 1px solid;
-  letter-spacing: 0.02em;
+  background-color: var(--color-surface-alt);
+  color: var(--color-lav-ink);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 
-.badge-quality {
-  background: rgb(200, 85, 106, 0.1);
-  color: var(--color-primary);
-  border-color: rgb(200, 85, 106, 0.3);
+/* ==========================================================================
+   features.html — garden rooms (page_blueprints.features = garden-room-tour)
+   ========================================================================== */
+.feature-detail {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: var(--space-8);
 }
 
-.badge-status-new {
-  background: rgb(122, 158, 107, 0.1);
-  color: var(--color-secondary);
-  border-color: rgb(122, 158, 107, 0.3);
+@media (width >= 48rem) {
+  .feature-detail {
+    grid-template-columns: 4.5rem 1fr;
+    align-items: start;
+  }
 }
 
-.badge-status-continue {
-  background: rgb(122, 158, 107, 0.1);
-  color: var(--color-secondary);
-  border-color: rgb(122, 158, 107, 0.3);
+/* Grid and flex items default to min-width:auto, which is what lets a long
+   technical token widen a track past the viewport at 200% zoom. */
+.feature-detail > *,
+.catalog-row > *,
+.plate > *,
+.client-card > *,
+.download-card > *,
+.book > *,
+.room-card > * {
+  min-width: 0;
 }
 
-.badge-favorite {
-  background: rgb(139, 122, 181, 0.1);
-  color: var(--color-tertiary);
-  border-color: rgb(139, 122, 181, 0.3);
+.feature-detail:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
 }
 
-.badge-seasonal {
-  background: rgb(196, 123, 43, 0.1);
-  color: var(--color-warning);
-  border-color: rgb(196, 123, 43, 0.3);
+.room-plaque {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
 }
 
-/* ── Site footer ─────────────────────────────────────────────────────────── */
+.room-plaque .numeral {
+  font-size: 2.25rem;
+}
+
+.room-plaque svg {
+  color: var(--color-sage-ink);
+}
+
+.feature-detail h3 {
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+}
+
+.feature-detail .feature-body {
+  margin-top: var(--space-4);
+}
+
+.feature-detail .plate-angle {
+  margin-top: var(--space-3);
+  color: var(--color-text);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   download.html — download cards + the ecosystem bookshelf
+   ========================================================================== */
+.download-cards {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  padding-inline-start: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  list-style: none;
+}
+
+.download-cards > li {
+  margin-top: 0;
+}
+
+.download-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.download-card :is(h3, h4) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.download-card .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* ── The bookshelf (copy_treatments.ecosystem = "bookshelf") ────────────── */
+.bookshelf {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  border-bottom: 6px solid var(--color-neutral);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  list-style: none;
+  padding-inline-start: var(--space-4);
+}
+
+.bookshelf > li {
+  margin-top: 0;
+}
+
+.book {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-inline-start: 6px solid var(--color-sage-ink);
+  border-radius: var(--radius-sm) var(--radius-md) var(--radius-md) var(--radius-sm);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.book :is(h3, h4) {
+  margin-top: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-mono);
+}
+
+.book p {
+  font-size: 0.9375rem;
+}
+
+.book .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* Alternate spine colours so the shelf reads as mismatched, hand-collected
+   volumes rather than a matched set. Sage + lavender is one of the kit's own two
+   permitted accent pairs, and it keeps Garden Rose off the shelf entirely. */
+.bookshelf > li:nth-child(even) .book {
+  border-inline-start-color: var(--color-lav-ink);
+}
+
+/* ── Code blocks ────────────────────────────────────────────────────────── */
+.code-block {
+  min-width: 0;
+  margin-top: var(--space-4);
+  font-size: 0.9375rem;
+}
+
+/* ==========================================================================
+   about.html — Gardeners' Questions (faq_experience.frame)
+   Each canonical answer may carry two <dt>: the plain question from
+   content.json and the gardener's rephrasing from faq_experience
+   .extra_questions. Same answer, no new facts.
+   ========================================================================== */
+.faq-list {
+  margin-top: var(--space-8);
+}
+
+.faq-item {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item + .faq-item {
+  margin-top: var(--space-6);
+}
+
+.faq-list dt {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--color-text);
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: var(--lh-headline);
+}
+
+.faq-list dt + dt {
+  margin-top: var(--space-2);
+}
+
+.faq-list dt svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--color-sage-ink);
+}
+
+/* The gardener's rephrasing, in the script face. These are QUESTIONS a reader
+   has to parse, not a flourish, and a cursive face's effective x-height at
+   22.4px reads like an 11–12px roman — so 1.4rem in the site's lowest-contrast
+   ink was legal (4.93:1) and still the hardest text on the site to read. Now
+   1.7rem in Rose Ink: 27.2px, and 6.10:1 on the `.faq-item` ivory surface. */
+.faq-list dt.faq-rephrase {
+  color: var(--color-rose-ink);
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: var(--lh-display);
+}
+
+.faq-list dd {
+  margin-top: var(--space-4);
+  margin-inline-start: 0;
+}
+
+/* ==========================================================================
+   seasons.html
+   ========================================================================== */
+.season-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.season-card h3 {
+  font-size: 1.35rem;
+}
+
+.season-card .journal-date {
+  display: block;
+}
+
+.season-card img {
+  width: 56px;
+  height: 56px;
+}
+
+/* ==========================================================================
+   Footer — site_architecture.footer_arrangement = "mirror-nav"
+   Row 1 mirrors the primary nav (plus the two demoted pages and the seasons
+   page); rows 2-4 are the three content.json columns with verbatim labels.
+   ========================================================================== */
 .site-footer {
-  background: var(--color-surface);
+  padding-block: var(--space-16) var(--space-8);
   border-top: 1px solid var(--color-border);
-  padding: var(--space-12) 0 var(--space-8);
-}
-
-.footer-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
+  background-color: var(--color-surface-alt);
 }
 
 .footer-tagline {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--color-primary);
-  text-align: center;
-  margin-bottom: var(--space-8);
   max-width: none;
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--lh-display);
+}
+
+.footer-mirror {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-8);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-border);
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.footer-mirror li {
+  margin-top: 0;
+}
+
+.footer-mirror a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-1);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-mirror a:hover {
+  color: var(--color-rose-ink);
+  text-decoration: underline;
 }
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-8);
-  margin-bottom: var(--space-8);
-  padding-bottom: var(--space-8);
-  border-bottom: 1px solid var(--color-border);
+  margin-top: var(--space-8);
+  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
 }
 
-.footer-col h3 {
+.footer-col h2 {
+  color: var(--color-text);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-neutral);
-  margin-bottom: var(--space-4);
 }
 
 .footer-col ul {
+  margin-top: var(--space-3);
+  padding-inline-start: 0;
   list-style: none;
-  padding: 0;
 }
 
 .footer-col li {
-  margin-bottom: var(--space-2);
+  margin-top: 0;
 }
 
 .footer-col a {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-text);
-  opacity: 0.75;
-  transition:
-    opacity 200ms ease,
-    color 200ms ease;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  text-decoration: none;
 }
 
 .footer-col a:hover {
-  opacity: 1;
-  color: var(--color-primary);
+  color: var(--color-rose-ink);
+  text-decoration: underline;
+}
+
+/* ── Footer utility row — intensity_toggle.placement ────────────────────── */
+.footer-utility {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-note {
+  flex: 1 1 18rem;
+  color: var(--color-taupe-ink);
+  font-size: 0.875rem;
 }
 
 .footer-copy {
-  text-align: center;
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  color: var(--color-neutral);
   max-width: none;
+  margin-top: var(--space-6);
+  color: var(--color-taupe-ink);
+  font-size: 0.875rem;
 }
 
-@media (width <= 640px) {
-  .footer-nav {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
-}
-
-/* ── Forms ───────────────────────────────────────────────────────────────── */
-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-}
-
-input[type='text'],
-input[type='email'],
-input[type='search'],
-input[type='password'],
-textarea,
-select {
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-family: var(--font-ui);
-  font-size: 0.95rem;
-  color: var(--color-text);
-  transition:
-    border-color 200ms ease,
-    box-shadow 200ms ease;
-  appearance: none;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: var(--focus-halo);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--color-neutral);
-  opacity: 0.7;
-}
-
-input:invalid:not(:placeholder-shown) {
-  border-color: var(--color-error);
-}
-
-/* ── Toast / notification ─────────────────────────────────────────────────── */
-.toast {
-  position: fixed;
-  bottom: var(--space-6);
-  right: var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-6);
-  box-shadow: var(--shadow-lg);
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  max-width: 320px;
-  z-index: 1000;
-  border-left: 3px solid var(--color-secondary);
-  animation: toast-rise 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.toast--success {
-  border-left-color: var(--color-success);
-}
-
-.toast--error {
-  border-left-color: var(--color-error);
-}
-
-.toast--warning {
-  border-left-color: var(--color-warning);
-}
-
-@keyframes toast-rise {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ── Botanical divider ───────────────────────────────────────────────────── */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-border) 20%,
-    var(--color-border) 80%,
-    transparent 100%
-  );
-  margin: var(--space-12) 0;
-  position: relative;
-}
-
-.section-divider::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-}
-
-/* ── Linen texture overlay (decorative) ──────────────────────────────────── */
-.linen-texture {
-  position: relative;
-}
-
-.linen-texture::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  border-radius: inherit;
-  z-index: 0;
-}
-
-/* ── Chip ────────────────────────────────────────────────────────────────── */
-.chip {
+/* intensity_toggle "Quiet the Garden" — a static footer control, deliberately
+   NOT position:fixed, so it can never sit under Primrose or over a CTA. */
+.calm-toggle {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-surface-alt);
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
+  background-color: var(--color-bg);
   color: var(--color-text);
-  opacity: 0.8;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
-.chip.active {
-  background: rgb(200, 85, 106, 0.08);
-  border-color: rgb(200, 85, 106, 0.4);
-  color: var(--color-primary);
-  opacity: 1;
+.calm-toggle svg {
+  color: var(--color-sage-ink);
 }
 
-/* ── Scroll reveal (JS-powered, optional) ───────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 500ms ease-out,
-    transform 500ms ease-out;
+.calm-toggle[aria-pressed='true'] {
+  border-color: var(--color-sage-ink);
+  background-color: var(--color-surface);
+  color: var(--color-sage-ink);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.calm-toggle[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   mascot.behavior — Primrose the bumble bee
+   Fixed bottom-right on Home / Features / Download / About only.
+
+   Rendered at >= 56.25rem (900px) only, which is the SAME breakpoint the nav
+   uses. It used to be 45rem (720px), and that 180px disagreement was the worst
+   defect on the site: between 720 and 899px the "Primrose, rest now" pill lay
+   across a `visitor_paths` card and swallowed 7 of 18 clicks aimed at it, and
+   because dismissal persists to localStorage the visitor could never undo it.
+   A component breakpoint that disagrees with the nav breakpoint always opens a
+   band nobody tested (§19.11, §19.21, REGEN_PLAN §5.6).
+   ========================================================================== */
+.mascot {
+  display: none;
+}
+
+.mascot[hidden] {
+  display: none;
+}
+
+@media (width >= 56.25rem) {
+  .mascot:not([hidden]) {
+    display: flex;
+    position: fixed;
+    z-index: 60;
+    inset-block-end: var(--space-6);
+    inset-inline-end: var(--space-6);
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+    width: min(19rem, 34vw);
+    pointer-events: none;
+  }
+}
+
+.mascot > * {
+  pointer-events: auto;
+}
+
+.mascot-bee {
+  display: block;
+  width: 64px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* idle: drifts up and down as if riding an air current, pivoting gently */
+.mascot-bee svg {
+  width: 64px;
+  height: auto;
+  animation: primrose-drift 5.5s var(--ease-garden) infinite;
+  filter: drop-shadow(0 4px 10px rgb(42 26 16 / 18%));
+}
+
+@keyframes primrose-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-9px) rotate(2deg);
+  }
+}
+
+/* Kit: "idle motion is disabled under prefers-reduced-motion (Primrose simply
+   hovers still)". Also stilled by the intensity toggle. */
+@media (prefers-reduced-motion: reduce) {
+  .mascot-bee svg {
+    animation: none;
+  }
+}
+
+html[data-calm='true'] .mascot-bee svg {
+  animation: none;
+}
+
+.mascot-bubble {
+  max-width: 100%;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.mascot-bubble[hidden] {
+  display: none;
+}
+
+/* The dismiss pill only exists once Primrose has been engaged — pointed at,
+   focused, or tapped. A permanently-clickable pill hovering over the page is
+   what made the 720–899px mis-hit possible, and `display: none` (rather than
+   opacity or visibility) is deliberate: those two leave a real hit box and a
+   real bounding rect, so a probe would still find a control with the page
+   painted over it. Absolutely positioned, so revealing it never reflows the
+   companion. `:focus-within` fires when the bee itself takes focus, which is
+   what makes the pill Tab-reachable from the keyboard. */
+.mascot-dismiss {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  inset-block-end: calc(100% + var(--space-2));
+  inset-inline-end: 0;
+  min-height: 44px;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-taupe-ink);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mascot:hover .mascot-dismiss,
+.mascot:focus-within .mascot-dismiss,
+.mascot[data-engaged='true'] .mascot-dismiss {
+  display: inline-flex;
+}
+
+.mascot-dismiss:hover {
+  border-color: var(--color-primary);
+  color: var(--color-rose-ink);
+}
+
+/* §19.21 — the way back. Dismissal persists via localStorage because the kit
+   asks for exactly that ("she stays tucked until the visitor returns"), so the
+   restore control has to be somewhere stable: the footer utility row, beside
+   the intensity toggle. JS reveals it only when Primrose is actually resting. */
+.primrose-restore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.primrose-restore svg {
+  color: var(--color-honey-ink);
+}
+
+.primrose-restore:hover {
+  border-color: var(--color-primary);
+  color: var(--color-rose-ink);
+}
+
+.primrose-restore[hidden] {
+  display: none;
+}
+
+/* easter_interactions[0] — "a delighted loop-de-loop and a little curtsy" */
+.mascot-bee.is-curtsy svg {
+  animation: primrose-curtsy 1.6s var(--ease-bloom) 1;
+}
+
+@keyframes primrose-curtsy {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  45% {
+    transform: rotate(360deg) translateY(-22px);
+  }
+
+  70% {
+    transform: rotate(360deg) translateY(6px) scale(0.9);
+  }
+
+  100% {
+    transform: rotate(360deg) translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   easter_eggs — petal shower, bee flight path, reward toast
+   The overlays are CREATED BY JS on discovery and removed on exit, so nothing
+   fixed exists on a page the visitor has not played with.
+   ========================================================================== */
+.petal-fall {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petal-fall i {
+  display: block;
+  position: absolute;
+  inset-block-start: -6vh;
+  width: 12px;
+  height: 12px;
+  border-radius: 60% 10%;
+  background: var(--color-primary);
+  animation: petal-drift 3s linear 1 forwards;
+}
+
+@keyframes petal-drift {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateY(112vh) rotate(320deg);
+    opacity: 0;
+  }
+}
+
+.reward-note {
+  position: fixed;
+  z-index: 95;
+  /* never able to block a click, whatever is behind it */
+  pointer-events: none;
+  inset-block-end: var(--space-6);
+  inset-inline-start: var(--space-6);
+  max-width: min(22rem, calc(100vw - 2 * var(--space-6)));
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: var(--lh-display);
+}
+
+/* typed-word:garden — a faint honeybee flight path across the page */
+html[data-egg='garden'] body::after {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    118deg,
+    rgb(196 123 43 / 14%) 0 3px,
+    transparent 3px 26px
+  );
+  content: '';
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .petal-fall i {
+    animation-duration: 0.01ms;
   }
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Table ───────────────────────────────────────────────────────────────── */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-}
-
-thead {
-  background: var(--color-surface-alt);
-}
-
-th {
-  padding: var(--space-3) var(--space-4);
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-neutral);
-  border-bottom: 1px solid var(--color-border);
-}
-
-td {
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-
-tbody tr:hover {
-  background: var(--color-surface);
-}
-
-tbody tr {
-  transition: background 150ms ease;
-}
-
-tbody tr:nth-child(even) {
-  background: rgb(253, 238, 222, 0.4);
-}
-
-tbody tr:nth-child(even):hover {
-  background: var(--color-surface);
-}
+/* @copyright 2026 Joe Huss <detain@interserver.net> */

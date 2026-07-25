@@ -1,185 +1,106 @@
 /**
- * Phlix brand kit configuration.
+ * main.js — Neon Noir shell behaviour.
+ *
+ * Mobile nav toggle, the cinematic section "cut" (scroll_experience), and the
+ * reduced-motion gate. Vanilla, dependency-free, defer-loaded.
+ *
+ * The nav works with this file absent: the <nav> is a plain list and every
+ * link is a real href, so JS only adds the small-screen disclosure.
  *
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
-/* ==========================================================================
-   MAIN.JS — Neon Noir brand kit
-   Nav toggle, reduced-motion, scroll reveals
-   Vanilla, dependency-free, defer-loaded
-   ========================================================================== */
-
 (function () {
   'use strict';
 
-  /* ==========================================================================
-     Mobile Navigation Toggle
-     ========================================================================== */
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
-  const navOverlay = document.querySelector('.nav-overlay');
+  // Belt-and-braces: every page also sets this from an inline <head> script, so
+  // the CSS knows before first paint whether the nav disclosure is available.
+  // Without JS the attribute never appears and the nav renders as a plain
+  // always-visible list at every width (navigation_model.fallback).
+  root.setAttribute('data-js', 'on');
 
-  function openNav() {
-    navMenu.classList.add('is-open');
-    navOverlay.classList.add('is-visible');
-    navToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  }
+  /* ── Mobile nav disclosure ─────────────────────────────────────────────── */
 
-  function closeNav() {
-    navMenu.classList.remove('is-open');
-    navOverlay.classList.remove('is-visible');
-    navToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    navToggle.focus();
-  }
+  var toggle = document.querySelector('.nav-toggle');
+  var menu = document.getElementById('nav-menu');
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      const isOpen = navMenu.classList.contains('is-open');
-      if (isOpen) {
-        closeNav();
-      } else {
-        openNav();
-      }
+  if (toggle && menu) {
+    var setOpen = function (open) {
+      menu.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    toggle.addEventListener('click', function () {
+      setOpen(!menu.classList.contains('is-open'));
     });
-
-    if (navOverlay) {
-      navOverlay.addEventListener('click', closeNav);
-    }
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        closeNav();
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
       }
     });
 
-    const navLinks = navMenu.querySelectorAll('.nav-menu__link');
-    navLinks.forEach(function (link) {
-      link.addEventListener('click', function () {
-        if (navMenu.classList.contains('is-open')) {
-          closeNav();
-        }
-      });
+    document.addEventListener('click', function (e) {
+      if (!menu.classList.contains('is-open')) return;
+      if (menu.contains(e.target) || toggle.contains(e.target)) return;
+      setOpen(false);
     });
   }
 
-  /* ==========================================================================
-     Reduced Motion
-     ========================================================================== */
+  /* ── scroll_experience: cinematic cut ──────────────────────────────────── */
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function armCuts() {
+    var groups = document.querySelectorAll('.cut, [data-wipe]');
+    if (!groups.length) return;
 
-  function handleReducedMotion() {
-    if (prefersReducedMotion.matches) {
-      document.documentElement.classList.add('reduced-motion');
-    } else {
-      document.documentElement.classList.remove('reduced-motion');
-    }
-  }
+    var quiet = reduce.matches || root.getAttribute('data-intensity') === 'calm';
+    if (quiet || !('IntersectionObserver' in window)) return;
 
-  handleReducedMotion();
-  prefersReducedMotion.addEventListener('change', handleReducedMotion);
-
-  /* ==========================================================================
-     Scroll Reveal — IntersectionObserver fade-ins
-     ========================================================================== */
-
-  function initScrollReveal() {
-    if (prefersReducedMotion.matches) {
-      const revealElements = document.querySelectorAll('.reveal');
-      revealElements.forEach(function (el) {
-        el.classList.add('is-visible');
-      });
-      return;
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      const revealElements = document.querySelectorAll('.reveal');
-      revealElements.forEach(function (el) {
-        el.classList.add('is-visible');
-      });
-      return;
-    }
-
-    const revealObserver = new IntersectionObserver(
+    var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          var wipe = entry.target.hasAttribute('data-wipe');
+          entry.target.classList.remove(wipe ? 'will-wipe' : 'will-cut');
+          entry.target.classList.add(wipe ? 'is-wiped' : 'is-cut');
+          observer.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
-      },
+      { threshold: 0.08, rootMargin: '0px 0px -6% 0px' },
     );
 
-    const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach(function (el) {
-      revealObserver.observe(el);
+    var fold = window.innerHeight * 0.92;
+    groups.forEach(function (el) {
+      // Anything already on screen stays exactly as the browser painted it.
+      if (el.getBoundingClientRect().top < fold) return;
+      el.classList.add(el.hasAttribute('data-wipe') ? 'will-wipe' : 'will-cut');
+      observer.observe(el);
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollReveal);
-  } else {
-    initScrollReveal();
-  }
-
-  /* ==========================================================================
-     Smooth Scroll for Anchor Links
-     ========================================================================== */
-
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#' || targetId === '#main-content') return;
-
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({
-          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start',
-        });
-      }
-    });
-  });
-
-  /* ==========================================================================
-     Focus Trap for Mobile Nav
-     ========================================================================== */
-
-  function trapFocus(element) {
-    const focusableElements = element.querySelectorAll(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    );
-    const firstFocusable = focusableElements[0];
-    const lastFocusable = focusableElements[focusableElements.length - 1];
-
-    element.addEventListener('keydown', function (e) {
-      if (e.key !== 'Tab') return;
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstFocusable) {
-          e.preventDefault();
-          lastFocusable.focus();
-        }
-      } else {
-        if (document.activeElement === lastFocusable) {
-          e.preventDefault();
-          firstFocusable.focus();
-        }
-      }
+  function release() {
+    document.querySelectorAll('.will-cut, .will-wipe').forEach(function (el) {
+      el.classList.remove('will-cut');
+      el.classList.remove('will-wipe');
     });
   }
 
-  if (navMenu && navMenu.classList.contains('is-open')) {
-    trapFocus(navMenu);
+  // Calm mode can be switched on later; release anything still armed.
+  window.addEventListener('phlix:calm', release);
+
+  // A media query read once at load never sees the visitor turn reduced motion
+  // ON mid-visit (new_site.md §19.20). If they do, un-arm everything still
+  // waiting so nothing stays displaced with the motion removed.
+  if (typeof reduce.addEventListener === 'function') {
+    reduce.addEventListener('change', function (e) {
+      if (e.matches) release();
+      else armCuts();
+    });
   }
+
+  armCuts();
 })();

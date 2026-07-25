@@ -3,37 +3,43 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Download — Phlix</title>
+    <title>Start Your Own — Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
     />
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/cottagecore-bloom/download.html"
     />
 
-    <meta property="og:title" content="Download — Phlix" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/cottagecore-bloom/download.html"
+    />
+    <meta property="og:title" content="Start Your Own — Phlix" />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/cottagecore-bloom/img/og.png"
     />
-    <meta
-      property="og:url"
-      content="https://detain.github.io/phlix-website/cottagecore-bloom/download.html"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Download — Phlix" />
+    <meta name="twitter:title" content="Start Your Own — Phlix" />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
     />
     <meta
       name="twitter:image"
@@ -51,178 +57,551 @@
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" />
-        </a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
+    <!-- seasonal_activation: live-js date gate replaces this with the banner -->
+    <div id="season-slot" hidden></div>
+
+    <!-- Botanical icon sprite (kit icon_style: outlined, rounded, soft) -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-library" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
+          <rect x="3" y="6" width="5" height="14" rx="1.5" />
+          <rect x="9.5" y="4" width="5" height="16" rx="1.5" />
+          <path d="M16.6 7.4l3.7 1-2.8 11.1-3.7-1" />
+          <path d="M4.2 22c1.5-1.4 3.3-1.7 5-1.3" opacity=".6" />
+        </g>
+      </symbol>
+      <symbol id="i-syncplay" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="2.5" y="5" width="8" height="7" rx="2" />
+          <rect x="13.5" y="12" width="8" height="7" rx="2" />
+          <path d="M10.5 8.5c4 0 4 7 7.5 7" opacity=".7" />
+          <path d="M6.5 16.5c0 1.5-1 2.5-2.5 2.5" opacity=".5" />
+          <circle cx="17.5" cy="8.5" r="1.1" />
+        </g>
+      </symbol>
+      <symbol id="i-transcode" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="2.5" y="5.5" width="9" height="8" rx="2" />
+          <path d="M14.5 9.5h6" />
+          <path d="M18 7l2.5 2.5L18 12" />
+          <path d="M14 16.5h7M14 20h4.5" opacity=".8" />
+        </g>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3l7.5 2.8v5.6c0 4.4-3 7.7-7.5 9.6-4.5-1.9-7.5-5.2-7.5-9.6V5.8Z" />
+          <path d="M12 8.5c1.8 1.2 1.8 4 0 5.2-1.8-1.2-1.8-4 0-5.2Z" opacity=".8" />
+        </g>
+      </symbol>
+      <symbol id="i-antenna" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 11v10" />
+          <path d="M8 21h8" />
+          <path d="M12 4.5v3" />
+          <path d="M8.3 7.2a5.2 5.2 0 0 1 7.4 0" />
+          <path d="M5.6 4.4a9 9 0 0 1 12.8 0" opacity=".65" />
+          <circle cx="12" cy="9.4" r="1.4" />
+        </g>
+      </symbol>
+      <symbol id="i-broadcast" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="2.5" y="8" width="12" height="9" rx="2" />
+          <path d="M9 20h5" opacity=".8" />
+          <path d="M17.5 6.5a8 8 0 0 1 0 11" />
+          <path d="M20.4 3.6a12 12 0 0 1 0 16.8" opacity=".6" />
+        </g>
+      </symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M10 4.2a2 2 0 0 1 4 0c0 1.1-.7 1.3-.7 1.8h4.5c.7 0 1.2.5 1.2 1.2v3.6c-.5 0-1.4-.7-2.4.3a2 2 0 0 0 0 2.8c1 1 1.9.3 2.4.3v3.6c0 .7-.5 1.2-1.2 1.2H6.2c-.7 0-1.2-.5-1.2-1.2V13c.5 0 1.4.7 2.4-.3a2 2 0 0 0 0-2.8c-1-1-1.9-.3-2.4-.3V7.2c0-.7.5-1.2 1.2-1.2h4.5c0-.5-.7-.7-.7-1.8Z"
+          />
+        </g>
+      </symbol>
+      <symbol id="i-hub" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="3.2" />
+          <circle cx="12" cy="4" r="1.8" />
+          <circle cx="20" cy="16" r="1.8" />
+          <circle cx="4" cy="16" r="1.8" />
+          <path d="M12 8.8V5.8M14.6 13.6l3.8 1.8M9.4 13.6l-3.8 1.8" opacity=".8" />
+        </g>
+      </symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4.5 19.5c-1-7 3.5-13 15-14.5.5 11-5.5 15.5-15 14.5Z" />
+          <path d="M8 16c2.5-3.5 5.5-6 10-7.5" opacity=".7" />
+        </g>
+      </symbol>
+      <symbol id="i-sprig" viewBox="0 0 44 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 20c6-2 10-6 12-12" />
+          <path d="M40 20c-6-2-10-6-12-12" />
+          <path d="M10 17c-2-2-2-4-1.5-5.5 1.5.5 3 2 3.5 4" opacity=".8" />
+          <path d="M34 17c2-2 2-4 1.5-5.5-1.5.5-3 2-3.5 4" opacity=".8" />
+        </g>
+        <circle cx="22" cy="7" r="3.2" fill="currentColor" opacity=".85" />
+        <circle cx="16.5" cy="10.5" r="2" fill="currentColor" opacity=".5" />
+        <circle cx="27.5" cy="10.5" r="2" fill="currentColor" opacity=".5" />
+      </symbol>
+      <symbol id="i-gate" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 20V9.5M20 20V9.5" />
+          <path d="M4 9.5a8 8 0 0 1 16 0" />
+          <path d="M8 20v-7M12 20v-7M16 20v-7" opacity=".7" />
+          <path d="M4 15h16" opacity=".7" />
+        </g>
+      </symbol>
+      <symbol id="i-ask" viewBox="0 0 24 24">
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M8.5 8.8a3.5 3.5 0 1 1 5.2 3c-1.2.8-1.7 1.6-1.7 3" />
+          <path d="M12 19.2h0" />
+          <path d="M3.5 20.5c1.6-2 3.4-2.6 5.2-2.4" opacity=".55" />
+        </g>
+      </symbol>
+      <!-- Primrose the bumble bee — kit mascot -->
+      <symbol id="i-bee" viewBox="0 0 64 64">
+        <ellipse
+          cx="20"
+          cy="24"
+          rx="9"
+          ry="5.5"
+          fill="#8B7AB5"
+          opacity=".4"
+          transform="rotate(-22 20 24)"
+        />
+        <ellipse
+          cx="44"
+          cy="24"
+          rx="9"
+          ry="5.5"
+          fill="#8B7AB5"
+          opacity=".4"
+          transform="rotate(22 44 24)"
+        />
+        <ellipse cx="32" cy="38" rx="14" ry="11" fill="#C47B2B" />
+        <path
+          d="M20 34h24M19 41h26"
+          stroke="#2A1A10"
+          stroke-width="3.4"
+          stroke-linecap="round"
+          opacity=".38"
+        />
+        <circle cx="32" cy="23" r="7" fill="#C47B2B" />
+        <circle cx="29.4" cy="22.2" r="1.5" fill="#2A1A10" opacity=".7" />
+        <circle cx="34.6" cy="22.2" r="1.5" fill="#2A1A10" opacity=".7" />
+        <path
+          d="M28 24.5c1.4 1.4 6.6 1.4 8 0"
+          fill="none"
+          stroke="#2A1A10"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          opacity=".45"
+        />
+        <path
+          d="M25.5 16.5c1.5-1.5 4-2.5 6.5-2.5s5 1 6.5 2.5"
+          fill="none"
+          stroke="#7A9E6B"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+        <circle cx="25" cy="15.5" r="2.6" fill="#C8556A" opacity=".85" />
+        <circle cx="32" cy="13.2" r="2.8" fill="#8B7AB5" opacity=".8" />
+        <circle cx="39" cy="15.5" r="2.6" fill="#7A9E6B" opacity=".85" />
+        <path
+          d="M29 17.2c-1.6-3-3.4-4.4-5.2-5M35 17.2c1.6-3 3.4-4.4 5.2-5"
+          fill="none"
+          stroke="#2A1A10"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          opacity=".5"
+        />
+      </symbol>
+    </svg>
+
+    <header class="site-header" role="banner">
+      <nav class="nav-primary container" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home — the garden gate">
+          <img src="img/logo.svg" alt="Phlix logo" width="132" height="42" />
+        </a>
+        <!-- The Primrose silhouette beside the wordmark (kit navigation.topbar).
+             A real button, not part of the logo link: the click:5 egg has to
+             live somewhere that does not navigate away between clicks. -->
+        <button class="nav-sigil" type="button" aria-label="Primrose the bumble bee — say hello">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+            <use href="#i-bee" />
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
           <svg
-            width="22"
-            height="22"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="1.75"
             stroke-linecap="round"
-            stroke-linejoin="round"
             aria-hidden="true"
+            focusable="false"
           >
             <path d="M3 12h18M3 6h18M3 18h18" />
           </svg>
+          Menu
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html" aria-current="page">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./" data-emphasis="primary">The Garden</a></li>
+          <li><a href="features.html" data-emphasis="primary">What Grows Here</a></li>
+          <li><a href="clients.html" data-emphasis="default">Guest Rooms</a></li>
+          <li>
+            <a href="download.html" data-emphasis="primary" aria-current="page">Start Your Own</a>
+          </li>
+          <li><a href="hub.html" data-emphasis="default">The Gatehouse</a></li>
+          <li><a href="about.html" data-emphasis="muted">Our Story</a></li>
         </ul>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
-        <div class="page-header-inner">
-          <h1>Download</h1>
-          <p class="page-lead">Install the server, grab a client, start streaming.</p>
+      <section class="page-header">
+        <div class="container">
+          <p class="eyebrow">A planting guide</p>
+          <h1>Start Your Own</h1>
+          <p class="page-lead">
+            Three steps to blooming. Prepare the soil, choose your seeds, then let the wider bed
+            fill in around them. Nothing here needs a specialist.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div class="content-section">
-        <div class="content-section-inner">
-          <h2>Server</h2>
-          <div class="download-block">
-            <p>
-              Requires PHP 8.3+ and
-              <a href="https://github.com/detain/phlix-server">phlix-server</a>.
+      <section class="content-section" aria-labelledby="steps-heading">
+        <div class="container">
+          <h2 class="visually-hidden" id="steps-heading">The three planting steps</h2>
+
+          <article class="step" id="server">
+            <div class="step-index">
+              <span class="numeral" aria-hidden="true">1</span>
+              <h3>Prepare the soil</h3>
+            </div>
+            <p class="section-lead">
+              The server is the ground everything grows in. It needs a fresh Ubuntu or Debian host —
+              that is the whole list.
             </p>
-            <pre class="code-block"><code>composer require detain/phlix-server
-# or clone from https://github.com/detain/phlix-server</code></pre>
-          </div>
+            <!-- Copied from shared/content.json `install.primary.command`, not
+                 retyped, and identical to the home page's seed box. One line on
+                 every page that mentions it (§19.22). -->
+            <pre
+              class="code-block"
+            ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
+            <p class="mt-4">
+              That one line plants PHP 8.3+, MySQL and FFmpeg, digs the database, writes the env
+              file, runs the migrations and registers the service behind HAProxy with a certificate
+              that renews itself. Add <code>--domain</code> and <code>--admin-email</code> to raise
+              HTTPS in the same breath.
+            </p>
+            <p class="mt-4">
+              Point it at the folders you already keep your media in. The folder-watcher does the
+              rest — add a file, see it appear.
+            </p>
+          </article>
 
-          <h2>Clients</h2>
-          <div class="download-cards">
-            <div class="download-card" id="download-roku">
-              <h3>Roku</h3>
-              <p>Native Roku channel</p>
-              <a
-                href="https://github.com/detain/phlix-roku-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Roku</a
-              >
+          <article class="step" id="seeds">
+            <div class="step-index">
+              <span class="numeral" aria-hidden="true">2</span>
+              <h3>Choose your seeds</h3>
             </div>
-            <div class="download-card" id="download-tizen">
-              <h3>Samsung Tizen</h3>
-              <p>Smart TV app</p>
-              <a
-                href="https://github.com/detain/phlix-tizen-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Tizen</a
-              >
-            </div>
-            <div class="download-card" id="download-windows">
-              <h3>Windows</h3>
-              <p>Native desktop</p>
-              <a
-                href="https://github.com/detain/phlix-windows-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Windows</a
-              >
-            </div>
-            <div class="download-card" id="download-mobile">
-              <h3>Mobile (iOS + Android)</h3>
-              <p>React Native app (beta)</p>
-              <a
-                href="https://github.com/detain/phlix-mobile-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Mobile</a
-              >
-            </div>
-            <div class="download-card" id="download-dlna">
-              <h3>Any DLNA device</h3>
-              <p>No install required</p>
-              <a
-                href="https://github.com/detain/phlix-server"
-                class="btn btn-secondary"
-                rel="noopener noreferrer"
-                >Learn more</a
-              >
-            </div>
-          </div>
+            <p class="section-lead">
+              One client per screen you want to watch on. Take one, take all five.
+            </p>
+            <ul class="download-cards" role="list">
+              <li>
+                <article class="download-card">
+                  <h4>
+                    Roku
+                    <span class="client-status status-stable">Stable</span>
+                  </h4>
+                  <p class="muted">Native Roku channel</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-roku-client"
+                    rel="noopener noreferrer"
+                    >Get the source</a
+                  >
+                </article>
+              </li>
+              <li>
+                <article class="download-card">
+                  <h4>
+                    Samsung Tizen
+                    <span class="client-status status-stable">Stable</span>
+                  </h4>
+                  <p class="muted">Smart TV app</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-tizen-client"
+                    rel="noopener noreferrer"
+                    >Get the source</a
+                  >
+                </article>
+              </li>
+              <li>
+                <article class="download-card">
+                  <h4>
+                    Windows
+                    <span class="client-status status-stable">Stable</span>
+                  </h4>
+                  <p class="muted">Native desktop</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-windows-client"
+                    rel="noopener noreferrer"
+                    >Get the source</a
+                  >
+                </article>
+              </li>
+              <li>
+                <article class="download-card">
+                  <h4>
+                    Mobile (iOS + Android)
+                    <span class="client-status status-beta">Beta</span>
+                  </h4>
+                  <p class="muted">React Native app</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-mobile-client"
+                    rel="noopener noreferrer"
+                    >Get the source</a
+                  >
+                </article>
+              </li>
+              <li>
+                <article class="download-card">
+                  <h4>
+                    Any DLNA device
+                    <span class="client-status status-stable">Stable</span>
+                  </h4>
+                  <p class="muted">No install required — discovery happens over SSDP.</p>
+                </article>
+              </li>
+            </ul>
+          </article>
 
-          <h2>Ecosystem</h2>
-          <ul class="ecosystem-list">
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >phlix-server</a
-                ></strong
-              >
-              — The media server itself — PHP 8.3+, Workerman 5.x
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer"
-                  >phlix-hub</a
-                ></strong
-              >
-              — Cloud directory + reverse-tunnel relay
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-shared" rel="noopener noreferrer"
-                  >phlix-shared</a
-                ></strong
-              >
-              — Shared interfaces, DTOs, event types — Composer package
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-docs" rel="noopener noreferrer"
-                  >phlix-docs</a
-                ></strong
-              >
-              — End-user, developer, and hub-admin docs (VitePress)
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >phlix-plugin-example</a
-                ></strong
-              >
-              — Reference metadata-provider plugin
-            </li>
-          </ul>
+          <article class="step" id="bed">
+            <div class="step-index">
+              <span class="numeral" aria-hidden="true">3</span>
+              <h3>Let the bed fill in</h3>
+            </div>
+            <p class="section-lead">
+              Five open volumes sit on the shelf beside the server. Read them when you are curious;
+              ignore them happily until then.
+            </p>
+            <ul class="bookshelf" role="list">
+              <li>
+                <article class="book">
+                  <h4>phlix-server</h4>
+                  <p>The media server itself — PHP 8.3+, Workerman 5.x</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-server"
+                    rel="noopener noreferrer"
+                  >
+                    Open the volume
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="book">
+                  <h4>phlix-hub</h4>
+                  <p>Cloud directory + reverse-tunnel relay</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-hub"
+                    rel="noopener noreferrer"
+                  >
+                    Open the volume
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="book">
+                  <h4>phlix-shared</h4>
+                  <p>Shared interfaces, DTOs, event types — Composer package</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-shared"
+                    rel="noopener noreferrer"
+                  >
+                    Open the volume
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="book">
+                  <h4>phlix-docs</h4>
+                  <p>End-user, developer, and hub-admin docs (VitePress)</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-docs"
+                    rel="noopener noreferrer"
+                  >
+                    Open the volume
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="book">
+                  <h4>phlix-plugin-example</h4>
+                  <p>Reference metadata-provider plugin</p>
+                  <a
+                    class="btn btn-secondary btn-small"
+                    href="https://github.com/detain/phlix-plugin-example"
+                    rel="noopener noreferrer"
+                  >
+                    Open the volume
+                  </a>
+                </article>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <div class="container" aria-hidden="true">
+        <div class="botanical-rule">
+          <svg width="44" height="24" viewBox="0 0 44 24" focusable="false">
+            <use href="#i-sprig" />
+          </svg>
         </div>
       </div>
 
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">Need help getting started?</h2>
-          <a href="docs.html" class="btn btn-primary btn-large">Read the docs</a>
+      <section class="beat cta-banner" aria-labelledby="cta-heading">
+        <div class="container">
+          <p class="eyebrow">Come through the gate</p>
+          <h2 id="cta-heading">Take the notes with you.</h2>
+          <p class="section-lead">
+            The documentation lives on its own site, and it is written to be read slowly.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="btn btn-primary"
+              href="https://detain.github.io/phlix-docs"
+              rel="noopener noreferrer"
+              >Read the docs</a
+            >
+            <a class="btn btn-secondary" href="clients.html">Pick Your Guest Rooms</a>
+          </div>
         </div>
       </section>
     </main>
 
+    <!-- mascot.behavior — Primrose appears on Home, Features, Download and
+         About only; never on the dense reference pages. -->
+    <div class="mascot" hidden>
+      <template data-tip-for="#server">
+        One line, and your own garden begins. I'll help it grow.
+      </template>
+      <p class="mascot-bubble" id="primrose-bubble" role="status" hidden></p>
+      <button class="mascot-bee" type="button" aria-describedby="primrose-bubble">
+        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false">
+          <use href="#i-bee" />
+        </svg>
+        <span class="visually-hidden">Primrose the bumble bee — your guide around the garden</span>
+      </button>
+      <button class="mascot-dismiss" type="button">Primrose, rest now</button>
+    </div>
+
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+      <div class="container">
+        <p class="footer-tagline">Where Every Story Blooms.</p>
+
+        <!-- footer_arrangement: mirror-nav — the primary nav in its own order,
+             then the two demoted pages and the seasonal guide. -->
+        <ul class="footer-mirror" role="list" aria-label="Garden paths">
+          <li><a href="./">The Garden</a></li>
+          <li><a href="features.html">What Grows Here</a></li>
+          <li><a href="clients.html">Guest Rooms</a></li>
+          <li><a href="download.html">Start Your Own</a></li>
+          <li><a href="hub.html">The Gatehouse</a></li>
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="plugins.html">The Specialist's Shelf</a></li>
+          <li><a href="docs.html">The Reference Library</a></li>
+          <li><a href="seasons.html">Blooming Through the Year</a></li>
+        </ul>
+
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
-            <h3>Product</h3>
+            <h2>Product</h2>
             <ul role="list">
               <li><a href="features.html">Features</a></li>
               <li><a href="clients.html">Clients</a></li>
@@ -231,55 +610,83 @@
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Developers</h3>
+            <h2>Developers</h2>
             <ul role="list">
               <li>
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
-                  >Documentation</a
-                >
+                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">
+                  Documentation
+                </a>
               </li>
               <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >Server source</a
-                >
+                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer">
+                  Server source
+                </a>
               </li>
               <li>
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >Plugin example</a
-                >
+                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">
+                  Plugin example
+                </a>
               </li>
               <li>
                 <a
-                  href="https://detain.github.io/phlix-docs/reference.html"
+                  href="https://detain.github.io/phlix-docs/reference/api.html"
                   rel="noopener noreferrer"
-                  >API reference</a
                 >
+                  API reference
+                </a>
               </li>
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Project</h3>
+            <h2>Project</h2>
             <ul role="list">
-              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
               <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
-                  >Issues</a
-                >
+                <a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a>
+              </li>
+              <li>
+                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer">
+                  Issues
+                </a>
               </li>
               <li>
                 <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
               </li>
               <li>
                 <a
-                  href="https://github.com/detain/phlix-website/blob/master/LICENSE"
+                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   rel="noopener noreferrer"
-                  >License (BSD-3)</a
                 >
+                  License (MPL-2.0)
+                </a>
               </li>
             </ul>
           </div>
         </nav>
-        <p class="footer-copy">&copy; 2026 Phlix — BSD-3-Clause</p>
+
+        <!-- intensity_toggle placement: the footer utility row, beside the
+             accessibility note, with a small leaf icon. -->
+        <div class="footer-utility">
+          <button class="calm-toggle" type="button" aria-pressed="false" hidden>
+            <svg class="icon-sm" aria-hidden="true" focusable="false"><use href="#i-leaf" /></svg>
+            <span class="calm-label">Quiet the Garden</span>
+          </button>
+          <!-- §19.21 — the way back. Dismissal persists (the kit asks for
+               localStorage), so JS un-hides this the moment Primrose is resting
+               and hides it again once she is back. -->
+          <button class="primrose-restore" type="button" hidden>
+            <svg class="icon-sm" aria-hidden="true" focusable="false"><use href="#i-bee" /></svg>
+            <span>Wake Primrose</span>
+          </button>
+          <p class="footer-note">
+            Motion here is gentle by choice. It also follows your system's reduced-motion setting,
+            and the toggle stills the drifting petals, the parallax, and Primrose entirely.
+          </p>
+        </div>
+
+        <p class="footer-copy">
+          © 2026 Phlix — Open-source media, on your terms. Phlix Server and the Hub are MPL-2.0; the
+          shared libraries, plugins, and clients are MIT.
+        </p>
       </div>
     </footer>
 

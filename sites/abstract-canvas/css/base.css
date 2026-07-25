@@ -1,9 +1,11 @@
 /* ==========================================================================
    BASE.CSS — Abstract Canvas
-   Reset, design tokens (:root), base element defaults
+   Reset, design tokens (:root), base element defaults, focus + motion policy.
+   Tokens are transcribed from brand-kits/abstract-canvas.js `design_tokens`.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Modern CSS Reset */
+/* Modern reset */
 *,
 *::before,
 *::after {
@@ -13,49 +15,74 @@
 }
 
 html {
+  /* scroll_experience.mode = "continuous": no scroll-jacking, no snap points.
+     Smooth scrolling is opt-in per anchor jump only and is dropped under
+     reduced motion / gallery-quiet (see the media query at the end). */
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 /* ==========================================================================
    DESIGN TOKENS — :root
-   Mapped directly from abstract-canvas.js design_tokens and color/spacing blocks
    ========================================================================== */
 
 :root {
-  /* ── Colors ── */
-  --color-primary: #1a1a1a;
-  --color-secondary: #c20;
-  --color-tertiary: #05a;
-  --color-bg: #f0ede4;
-  --color-surface: #e8e4d8;
-  --color-surface-alt: #ddd8c8;
-  --color-text: #141210;
-  --color-neutral: #8a8070;
-  --color-success: #1a7a4a;
-  --color-warning: #c8900a;
-  --color-error: #b8001c;
-  --color-info: #1a6ba8;
-  --color-border: #c8c2b0;
-  --color-focus: #05a;
-  --color-shadow: rgb(138, 128, 112, 0.18);
-  --color-overlay: rgb(240, 237, 228, 0.88);
+  /* ── Colours (design_tokens.color) ── */
+  --color-primary: #1a1a1a; /* Carbon Black */
+  --color-secondary: #c20; /* Cadmium Red */
+  --color-tertiary: #05a; /* Ultramarine */
+  --color-bg: #f0ede4; /* Gallery Linen */
+  --color-surface: #e8e4d8; /* Canvas Cream */
+  --color-surface-alt: #ddd8c8; /* Aged Ground */
+  --color-text: #141210; /* Paint Ink */
+  --color-neutral: #8a8070; /* Raw Umber */
+  --color-success: #1a7a4a; /* Viridian */
+  --color-warning: #c8900a; /* Yellow Ochre */
+  --color-error: #b8001c; /* Alizarin */
+  --color-info: #1a6ba8; /* Cerulean */
+  --color-border: #c8c2b0; /* Sizing Ground */
+  --color-focus: #05a; /* Focus Ultramarine */
+  --color-shadow: rgb(138 128 112 / 0.18); /* Umber Shadow */
+  --color-overlay: rgb(240 237 228 / 0.88); /* Gesso Scrim */
 
-  /* Semantic aliases */
-  --color-cobalt: #05a;
-  --color-cadmium: #c20;
+  /* ── Text-safe pigments ──
+     Darkened mixes of the kit's own pigments, used wherever a colour carries
+     small text. Measured against Gallery Linen / Canvas Cream / Aged Ground:
+       cadmium-text #B31E00 → 5.78 / 5.32 / 4.75
+       neutral-ink  #5F594C → 5.94 / 5.47 / 4.88
+       success-text #146B40 → 5.59 / 5.15 / 4.59
+       warning-text #7A5600 → 5.68 / 5.23 / 4.66
+     The raw pigments are 4.35 (cadmium on cream), 3.06 (umber on cream) and
+     2.22 (ochre on cream) — below the AA floor `accessibility
+     .minimum_contrast` commits to, so they are reserved for marks and rules. */
+  --color-cadmium-text: #b31e00;
+  --color-neutral-ink: #5f594c;
+  --color-success-text: #146b40;
+  --color-warning-text: #7a5600;
+
+  /* Umber Ink — Carbon Black warmed towards Raw Umber. The middle rung of the
+     three-step `site_architecture.nav[].emphasis` ladder: it has to be visibly
+     lighter than Carbon Black (14.87 on linen) and visibly darker than
+     Raw-Umber Ink (5.94), which it is —
+       umber-ink #3F3A30 → 9.65 / 8.89 / 7.92 (linen / cream / aged ground) */
+  --color-umber-ink: #3f3a30;
+
+  /* Carbon Black lifted 8% towards Gallery Linen — the pressed/hover state of
+     the primary button, where `buttons.primary` needs a lighter mark without
+     leaving carbon. #2A2A2A → 12.26 / 11.29 / 10.07 */
+  --color-primary-hover: #2a2a2a;
+
+  /* Named pigment aliases, for readable component CSS */
   --color-gallery-linen: #f0ede4;
   --color-canvas-cream: #e8e4d8;
   --color-aged-ground: #ddd8c8;
   --color-paint-ink: #141210;
-  --color-viridian: #1a7a4a;
-  --color-ochre: #c8900a;
-  --color-alizarin: #b8001c;
-  --color-cerulean: #1a6ba8;
+  --color-cadmium: #c20;
+  --color-ultramarine: #05a;
   --color-umber: #8a8070;
   --color-sizing: #c8c2b0;
 
-  /* ── Spacing Scale ── */
+  /* ── Spacing scale (design_tokens.spacing) ── */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -66,65 +93,102 @@ html {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* ── Border Radius ── */
+  /* ── Radii (design_tokens.radius) ── */
   --radius-sm: 3px;
   --radius-md: 6px;
   --radius-lg: 12px;
   --radius-xl: 18px;
   --radius-pill: 999px;
 
-  /* ── Typography ── */
-  --font-headline: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
-  --font-display: 'Bebas Neue', 'Impact', 'Haettenschweiler', sans-serif;
-  --font-body: 'Lora', 'Palatino', 'Georgia', serif;
+  /* ── Typography (design_tokens.typography) ── */
+  --font-headline: 'Cormorant Garamond', garamond, georgia, 'Times New Roman', serif;
+  --font-display: 'Bebas Neue', impact, haettenschweiler, sans-serif;
+  --font-body: 'Lora', palatino, georgia, serif;
   --font-ui: 'Inter', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', 'Courier', monospace;
+  --font-mono: 'JetBrains Mono', 'Courier New', courier, monospace;
+  --font-number: 'Cormorant Garamond', garamond, georgia, serif;
 
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 4px rgb(138, 128, 112, 0.15);
-  --shadow-md: 0 4px 16px rgb(138, 128, 112, 0.18), 0 1px 4px rgb(20, 18, 16, 0.06);
-  --shadow-lg: 0 10px 36px rgb(138, 128, 112, 0.22), 0 2px 8px rgb(20, 18, 16, 0.08);
-  --shadow-cadmium: 0 0 0 2px rgb(204, 34, 0, 0.25), 0 4px 16px rgb(204, 34, 0, 0.1);
-  --shadow-ultramarine: 0 0 0 2px rgb(0, 85, 170, 0.2), 0 4px 16px rgb(0, 85, 170, 0.08);
-  --shadow-gallery: 0 2px 12px rgb(138, 128, 112, 0.12), 0 1px 2px rgb(20, 18, 16, 0.05);
-
-  /* ── Layout ── */
-  --max-width: 1400px;
-  --content-width: 1200px;
-  --gutter: 24px;
-
-  /* ── Transitions ── */
-  --transition-base: 250ms ease-in-out;
-  --transition-slow: 400ms ease-in-out;
-  --transition-fast: 150ms ease-in-out;
-  --ease-gallery: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Tracking / leading, exactly as the kit's fonts{} block specifies */
   --tracking-headline: -0.01em;
   --lh-headline: 1.08;
   --tracking-display: 0.05em;
   --lh-display: 0.9;
-  --tracking-body: 0em;
+  --tracking-body: 0;
   --lh-body: 1.7;
   --tracking-ui: 0.01em;
   --lh-ui: 1.35;
   --tracking-mono: 0.02em;
   --lh-mono: 1.5;
-  --font-number: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
-  --tracking-number: 0.01em;
-  --lh-number: 1;
+
+  /* ── Shadows (design_tokens.shadow) — warm earth-tone only ── */
+  --shadow-sm: 0 1px 4px rgb(138 128 112 / 0.15);
+  --shadow-md: 0 4px 16px rgb(138 128 112 / 0.18), 0 1px 4px rgb(20 18 16 / 0.06);
+  --shadow-lg: 0 10px 36px rgb(138 128 112 / 0.22), 0 2px 8px rgb(20 18 16 / 0.08);
+  --shadow-cadmium: 0 0 0 2px rgb(204 34 0 / 0.25), 0 4px 16px rgb(204 34 0 / 0.1);
+  --shadow-ultramarine: 0 0 0 2px rgb(0 85 170 / 0.2), 0 4px 16px rgb(0 85 170 / 0.08);
+  --shadow-gallery: 0 2px 12px rgb(138 128 112 / 0.12), 0 1px 2px rgb(20 18 16 / 0.05);
+
+  /* ── Layout (ui_generation_rules: max content width 1400px) ── */
+  --max-width: 1400px;
+  --wall-width: 1080px;
+  --measure: 68ch;
+  --gutter: var(--space-6);
+
+  /* ── Motion (animation_speed: medium; easing[] from the kit) ── */
+  --ease-gallery: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-spread: cubic-bezier(0.4, 0, 0.6, 1);
+  --transition-fast: 150ms;
+  --transition-base: 250ms;
+  --transition-slow: 420ms;
 }
 
 /* ==========================================================================
-   BASE ELEMENT STYLES
+   BASE ELEMENTS
    ========================================================================== */
 
 body {
+  position: relative;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* accessibility.font_scaling: "long-form descriptions need reflow room".
+     `overflow-wrap` inherits, so declaring it once here gives every text role
+     — .wall-text, .plain-line, .section-intro, .talk dt/dd, .marginalia-item h3,
+     .plugin-model prose, the headlines — permission to break a word that cannot
+     fit its column rather than inflate the column past the viewport. At 200%
+     text zoom on a 320px screen that is the difference between reflow and a
+     clipped headline. `white-space: pre` regions (the install snippet) are
+     unaffected by design: they scroll instead. */
+  overflow-wrap: break-word;
+}
+
+/* Linen canvas grain — signature_elements: "Linen canvas grain texture on
+   backgrounds". Two hairline gradients cross-hatched at low opacity: no image
+   request, no repaint cost, and it disappears at print. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(90deg, rgb(138 128 112 / 0.05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgb(138 128 112 / 0.04) 0 1px, transparent 1px 3px);
+}
+
+/* Lift every top-level block above the fixed linen grain. Palette is a top-level
+   `<aside>` (see components.css) and keeps its own `z-index: 90`, which is why it
+   paints over `<main>` and the footer but stays under the sticky header's 100 —
+   no per-landmark z-index juggling is needed. */
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 img,
@@ -136,13 +200,17 @@ video {
 }
 
 a {
-  color: var(--color-secondary);
+  color: var(--color-cadmium-text);
   text-decoration: none;
   transition: color var(--transition-fast) var(--ease-gallery);
 }
 
 a:hover {
   color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-cadmium);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 ul,
@@ -151,10 +219,10 @@ ol {
 }
 
 button {
-  font-family: inherit;
-  cursor: pointer;
   border: none;
   background: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 input,
@@ -164,97 +232,154 @@ select {
   font-size: inherit;
 }
 
+/* typography_rules: Cormorant headlines at 600+, tracking -0.01em, never light */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+  color: var(--color-primary);
   font-family: var(--font-headline);
   font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  color: var(--color-primary);
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-headline);
+  text-wrap: balance;
 }
 
+/* accessibility.font_scaling — "All layouts must survive 200% browser text zoom
+   without clipping or horizontal scroll." Display sizes are therefore capped
+   against the viewport as well as the root font size: the `min(…, Nvw)` ceiling
+   lets a headline keep growing with zoom but never past a share of the screen it
+   cannot fit in.
+
+   The ceilings are set so that at 320px — the tightest case — every heading role
+   still reaches at (or very near) 200% of its normal-zoom rendered size:
+
+     h1              36px → 64px (20vw)  = 178%   ← physics: 64px Cormorant in a
+                                                    288px column is already
+                                                    breaking words mid-word
+     h2              26px → 52px (17vw)  = 200%
+     .section-title  26px → 52px (17vw)  = 200%
+     h3              20px → 40px (14vw)  = 200%
+
+   Every ceiling still sits above every value the fluid clamp produces between
+   320px and 1400px at normal zoom, so the rendered type scale is unchanged —
+   the caps only engage under text-only zoom. Body copy is never capped.
+
+   The ordering matters as much as the ceilings: `.section-title` (theme.css) is
+   the class that paints every section `h2`, so it carries the same ceiling as
+   the `h2` element rule. Cap one and not the other and the hierarchy inverts —
+   an uncapped 52px `h2` beside a capped 51.2px `h1`. */
 h1 {
-  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
-}
-h2 {
-  font-size: clamp(1.75rem, 3vw + 0.75rem, 3rem);
-}
-h3 {
-  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
-}
-h4 {
-  font-size: 1.25rem;
+  font-size: min(clamp(2.25rem, 4vw + 1rem, 4rem), 20vw);
+  font-weight: 700;
 }
 
-p {
+h2 {
+  font-size: min(clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem), 17vw);
+}
+
+h3 {
+  font-size: min(clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem), 14vw);
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+p,
+li,
+dd {
   font-family: var(--font-body);
-  line-height: 1.7;
+  line-height: var(--lh-body);
   color: var(--color-text);
+}
+
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  letter-spacing: var(--tracking-mono);
+}
+
+/* Cormorant italic for captions and asides, per typography_rules */
+figcaption,
+.caption {
+  color: var(--color-neutral-ink);
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+hr {
+  border: none;
+}
+
+details > summary {
+  cursor: pointer;
 }
 
 /* ==========================================================================
    SKIP LINK
    ========================================================================== */
 
+/* The 44px floor applies here too: this is the first control on every page.
+   Inter 600 rather than 500 — it is the only rule on the site that asked for
+   Inter 500, and dropping it takes a 48 KB face out of the first paint. */
 .skip-link {
   position: absolute;
   top: -100%;
-  left: var(--space-4);
   z-index: 9999;
+  inset-inline-start: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
   background: var(--color-primary);
   color: var(--color-bg);
   font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: top var(--transition-fast);
 }
 
 .skip-link:focus {
   top: var(--space-4);
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+  color: var(--color-bg);
+  text-decoration: none;
 }
 
 /* ==========================================================================
-   FOCUS STYLES
-   2px ultramarine focus ring with 2px gallery-linen offset + outer umber halo
-   per accessibility.focus_style
+   FOCUS — accessibility.focus_style, implemented literally:
+   2px ultramarine ring, 2px gallery-linen offset, 4px ultramarine outer glow.
    ========================================================================== */
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(0, 85, 170, 0.15);
+  box-shadow: 0 0 0 4px rgb(0 85 170 / 0.15);
 }
 
 :focus:not(:focus-visible) {
   outline: none;
 }
 
-/* ==========================================================================
-   TEXT SELECTION
-   ========================================================================== */
-
 ::selection {
-  background: var(--color-secondary);
+  background: var(--color-cadmium);
   color: var(--color-bg);
 }
 
 /* ==========================================================================
-   SCROLLBAR (webkit)
-   Warm gallery styling
+   SCROLLBAR — warm gallery chrome
    ========================================================================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -262,8 +387,8 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-sizing);
   border-radius: var(--radius-pill);
+  background: var(--color-sizing);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -271,24 +396,40 @@ p {
 }
 
 /* ==========================================================================
-   CANVAS TEXTURE OVERLAY
-   Subtle linen grain via SVG noise filter — applied to body::before
-   ========================================================================== */
-
-/* ==========================================================================
-   REDUCED MOTION
-   Honor prefers-reduced-motion unconditionally
- * @copyright 2026 Joe Huss <detain@interserver.net>
+   MOTION POLICY
+   accessibility.motion_reduction + intensity_toggle "Gallery quiet".
+   Both resolve to the same end state: opacity-only, or nothing at all.
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  }
+}
+
+/* Visitor-chosen calm mode (js/main.js sets data-intensity on <html>) */
+html[data-intensity='quiet'] {
+  scroll-behavior: auto;
+}
+
+html[data-intensity='quiet'] *,
+html[data-intensity='quiet'] *::before,
+html[data-intensity='quiet'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media print {
+  body::before {
+    display: none;
   }
 }
 

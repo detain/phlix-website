@@ -29,17 +29,19 @@ import { SITE_URL, buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mj
  * Simple CSS minifier - removes comments, collapses whitespace, optimizes.
  */
 function minifyCss(css) {
-  return css
-    // Remove CSS comments (/* ... */)
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    // Remove newlines and multiple spaces
-    .replace(/\s+/g, ' ')
-    // Remove space around { } : ; , >
-    .replace(/\s*([{}:;,>])\s*/g, '$1')
-    // Remove trailing semicolon before }
-    .replace(/;}/g, '}')
-    // Remove leading/trailing whitespace
-    .trim();
+  return (
+    css
+      // Remove CSS comments (/* ... */)
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      // Remove newlines and multiple spaces
+      .replace(/\s+/g, ' ')
+      // Remove space around { } : ; , >
+      .replace(/\s*([{}:;,>])\s*/g, '$1')
+      // Remove trailing semicolon before }
+      .replace(/;}/g, '}')
+      // Remove leading/trailing whitespace
+      .trim()
+  );
 }
 
 const ROOT = process.cwd();
@@ -111,9 +113,7 @@ for (const file of kitFiles) {
 }
 
 // Sort: built sites first (alphabetical), then unbuilt (alphabetical).
-kitSummaries.sort(
-  (a, b) => Number(b.built) - Number(a.built) || a.slug.localeCompare(b.slug),
-);
+kitSummaries.sort((a, b) => Number(b.built) - Number(a.built) || a.slug.localeCompare(b.slug));
 
 if (existsSync(resolve(SRC_SHARED, 'assets'))) {
   cpSync(resolve(SRC_SHARED, 'assets'), join(DIST, 'assets'), { recursive: true });
@@ -153,9 +153,19 @@ function kitColors(kit) {
   const c = kit && kit.colors;
   if (!c || typeof c !== 'object') return [];
   const order = [
-    'primary', 'secondary', 'tertiary', 'accent', 'neutral',
-    'background', 'surface', 'surface_alt', 'text',
-    'success', 'warning', 'error', 'info',
+    'primary',
+    'secondary',
+    'tertiary',
+    'accent',
+    'neutral',
+    'background',
+    'surface',
+    'surface_alt',
+    'text',
+    'success',
+    'warning',
+    'error',
+    'info',
   ];
   const seen = new Set();
   const out = [];
@@ -178,21 +188,27 @@ function kitAccent(kit) {
 }
 
 // cpSync filter: keep the deployable site, drop authoring artifacts
-// (BUILD_LOG.md / SITE.md / PROMPTS.md, any *.worklog.md, and reviews/ dirs).
+// (BUILD_LOG.md / SITE.md / PROMPTS.md / REGEN_PLAN.md, any *.worklog.md, any
+// review file, and reviews/ dirs). These are internal working notes — a change
+// manifest that names unresolved ambiguities and a kit's wrong contrast claims
+// has no business on the public site.
+// Kept inside the function on purpose: `keepInSite` is called from top-level
+// code far above this point, and a module-level `const` would still be in its
+// temporal dead zone at that moment (function declarations hoist, `const` does
+// not).
 function keepInSite(src) {
   const base = basename(src);
   if (base === 'reviews') return false;
   if (/\.worklog\.md$/i.test(base)) return false;
-  if (base === 'BUILD_LOG.md' || base === 'SITE.md' || base === 'PROMPTS.md') return false;
-  return true;
+  if (/^ROUND-\d+\.md$/i.test(base)) return false;
+  return !['BUILD_LOG.md', 'SITE.md', 'PROMPTS.md', 'REGEN_PLAN.md', 'FINAL-REVIEW.md'].includes(
+    base,
+  );
 }
 
 function indexPage(kits) {
   const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
-  const inject =
-    `<script>` +
-    `window.__PHLIX_KITS__=${JSON.stringify(kits)};` +
-    `</script>`;
+  const inject = `<script>` + `window.__PHLIX_KITS__=${JSON.stringify(kits)};` + `</script>`;
   // Inject in <head> so it runs before the page's main inline script reads it.
   if (!template.includes('</head>')) {
     throw new Error('build: root index.html is missing a </head> to inject site data');
@@ -222,9 +238,7 @@ function errorPage(kits) {
     );
   }
   const inject =
-    `<script>` +
-    `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};` +
-    `</script>`;
+    `<script>` + `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};` + `</script>`;
   return template.replace('</head>', `  ${inject}\n</head>`);
 }
 

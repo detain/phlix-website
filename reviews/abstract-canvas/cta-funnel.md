@@ -1,54 +1,69 @@
-# Review: CTA / Funnel — abstract-canvas
+# CTA / Funnel Review — Abstract Canvas
 
-## Score: 85 / 100
+> Supersedes the 2026-06-30 review of the **predecessor** site (recoverable from git history).
 
----
+**Variant**: abstract-canvas
+**Round**: 1 (regen pass, `regen/wave-1`)
+**Reviewer**: adversarial reviewer (independent)
+**Date**: 2026-07-24
 
-## Findings
+## Score
 
-### ✅ Primary CTA above the fold — index.html:105
-- `<a href="download.html" class="btn btn-primary btn-lg">Get Phlix</a>`
-- `.btn-primary` = carbon black `#1A1A1A` bg + gallery linen `#F0EDE4` text
-- Contrast: `#1A1A1A` on `#F0EDE4` ≈ **16.8:1** (exceeds 3:1 AAA)
-- `href="/download"` — correct download target
+- **CTA / Funnel**: 86 / 100
 
-### ✅ Secondary CTA de-emphasized — index.html:106
-- `<a href="https://detain.github.io/phlix-docs" class="btn btn-secondary btn-lg" rel="noopener noreferrer">Read the docs</a>`
-- `.btn-secondary` = transparent bg + 1px `#CC2200` border + `#CC2200` text
-- Correctly de-emphasized vs primary; links to external docs per content.json hero.secondary_cta
+## ✅ Passed
 
-### ✅ Download reachable in ≤2 clicks from home
-- index.html:105 → `href="download.html"` (direct) — 1 click
-- Download page itself: download.html:182 CTA → docs (appropriate secondary target)
+- **Primary CTA above the fold** on home (`index.html:165`, "Set Up Your Studio" → `download.html`),
+  measured at `t=612` in a 320×640 viewport and higher on every larger phone; contrast is carbon on
+  linen = **14.87:1**, far past the 3:1 requirement.
+- **Download is 1 click from home** — nav "Get Started", the hero CTA, and rung 01 all land on
+  `download.html`. Inside the ≤2-click rule with room to spare.
+- **The declared `cta_ladder` is actually built** as three ordered rungs (`index.html:526-542`):
+  "Set Up Your Studio" → `download.html`, "Choose Your Stations" → `clients.html`, "Prime the Canvas"
+  → `download.html#server`, with the numerals and a cadmium rule on rung 01 only. The step names then
+  recur consistently as the closing CTAs on the other pages.
+- **Secondary CTA is de-emphasised and honest**: cadmium *outline* (not a fill) and the visible text
+  discloses the destination — "Browse the Gallery **(the docs)**" — so the accessible name matches
+  what happens on click (§19.7 / WCAG 2.5.3). Its contrast at `opacity:.85` measures 4.68:1, still AA.
+- Every page ends in a `.cta-banner` that drives to download (the download page's own banner drives to
+  the docs, per §5).
+- **No dark patterns**: no modal, no email gate, no autoplay, no interstitial, no countdown. The
+  `visitor_paths` fork under the hero is three plain links to feature anchors, all of which resolve.
+- `conversion_funnel.style: "guided-steps"` is legible as a journey rather than a repeated button, and
+  `friction_notes` ("respect the contemplative pace") is honoured — the page never nags.
 
-### ✅ Every page ends in `.cta-banner` driving toward download (or docs on download page)
-| Page | CTA banner | Target |
-|------|-----------|--------|
-| index.html:239 | "Ready to build your gallery?" | download.html ✅ |
-| features.html:145 | "Start building your gallery today." | download.html ✅ |
-| clients.html:144 | "Ready to download?" | download.html ✅ |
-| download.html:182 | "Need help getting started?" | docs (secondary, per spec) ✅ |
-| plugins.html:112 | "Ready to dive in?" | docs ✅ |
-| hub.html:132 | "Need more detail?" | docs ✅ |
-| docs.html:119 | "Ready to get started?" | docs ✅ |
-| about.html:144 | "Ready to try it?" | download ✅ |
+## ⚠️ Concerns (non-blocking)
 
-### ❌ Multiple `.btn-secondary` (cadmium-red) elements visible on home screen — index.html:106 + index.html:233
-- index.html:106: `.btn.btn-secondary.btn-lg` "Read the docs"
-- index.html:233: `.btn.btn-secondary` "See all features →"
-- Both visible simultaneously in the hero/features-overview area
-- Brand kit rule: "Cadmium red is precious — reserve it for the single most important action." and "only ONE cadmium-red accent per screen"
-- **Severity: ❌** — two simultaneous cadmium-red (`#CC2200`) button elements violate color_rules
+- The hero exposes **five** competing links below the CTAs (two CTAs + three fork paths) before the
+  first scroll. Kit-declared (`visitor_paths`), and `do_dont.ux.dont` warns against "multiple equally
+  prominent CTAs" — the fork is visually quieter, so this is within tolerance, but it is the one place
+  the funnel widens rather than narrows.
+- On `clients.html` the closing banner promotes rung 3 ("Prime the Canvas") as the *primary* and rung 1
+  as the ghost, inverting the ladder for a visitor who arrived there first (`clients.html:306-309`).
+  Minor.
+- "The install itself is one line" appears in three closing banners; see the content ❌.
 
-### ⚠️ `meta.keywords` missing on 6 of 8 pages
-- Present: index.html:8 ✅
-- Absent: features.html:8, clients.html:8, plugins.html:8, docs.html:8, hub.html:8, about.html:8
-- Per new_site.md §10: `<meta name="keywords">` required on every page
-- Impact: Low (keywords are low-SEO-value these days, and the tag is present on home)
-- **Severity: ⚠️**
+## ❌ Failures (must fix this round)
 
----
+- **The primary CTA is physically obstructed on phones.** `.palette-companion` overlaps
+  `.hero-actions .btn-primary` at 320×640, 320×700, 320×720, 360×640 and 375×667 — a 41×12px bite out
+  of the bottom-right corner of the one button the whole funnel depends on, plus the `×` dismiss
+  sitting on it. §19.11. Note that `tools/render-check.mjs:176-179` never tested it, because its CTA
+  regex (`/get |download|start|install/`) does not match this kit's renamed label. → ROUND-1 #3.
+- **At 200% text zoom the same button is clipped** — it renders `w=319 right=343` in a 320px viewport
+  and is sliced by `.hero{overflow:hidden}`. A zoomed visitor sees a cut-off primary action.
+  → ROUND-1 #2.
 
-## Summary
+## Recommendations (ranked by impact)
 
-Primary CTA is excellent (16.8:1 contrast, carbon black on gallery linen, above fold). Download reachable in 1 click. Every page has a closing CTA banner. The critical issue is **two simultaneous `.btn-secondary` cadmium-red buttons visible on the home page** (hero secondary CTA + "See all features" link), violating the "only ONE cadmium-red accent per screen" brand rule. Secondary CTAs are correctly de-emphasized as bordered ghosts everywhere else.
+1. Guarantee no fixed element ever intersects `.hero-actions` (impact: high, effort: low).
+2. Make the primary CTA fit its column at 200% zoom (impact: high, effort: low).
+3. Consider deferring the `visitor_paths` fork until after the first fold on phones, so the hero has
+   exactly two actions (impact: low, effort: low).
+
+## Evidence
+
+- Measured CTA and companion rects across 10 viewports; `reviews/abstract-canvas/shots/rev-palette-cta-320x700.png`
+  and `…/rev-zoom200-home-320.png`.
+- Click-path walk: home → download (1 click) via nav, hero and ladder; every `cta_ladder` target and
+  every `visitor_paths` anchor verified to resolve.

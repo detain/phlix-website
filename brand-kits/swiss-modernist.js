@@ -1433,7 +1433,7 @@ const brandKit = {
   copy_overlay: {
     hero: {
       eyebrow: "Structure. Precision. Control.",
-      headline: "Your media. Grid. Grid. Logic.",
+      headline: "Your media. Grid. Logic.",
       subheadline: "An open-source media server built on Swiss precision: multi-user profiles, real-time SyncPlay, transcoding that knows your network, and hub access without the internet.",
       primary_cta: { label: "Install" },
       secondary_cta: { label: "Read the spec" },

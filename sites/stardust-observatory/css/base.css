@@ -4,9 +4,10 @@
    Built from brand kit: stardust-observatory v1.0
    ========================================================================== */
 
-/* ── Fonts: using system serif/sans fallback stack ────────────────────────── */
-
-/* Self-hosted WOFF2 in css/fonts/ (optional): add @font-face blocks here when ready */
+/* ── Fonts ────────────────────────────────────────────────────────────────── *
+ * All five families are self-hosted WOFF2 from the shared latin-subset pool.
+ * The face declarations are generated at the end of this file by
+ * tools/vendor-fonts.mjs — do not add faces here. */
 
 /* ── Design Tokens ───────────────────────────────────────────────────────── */
 :root {
@@ -27,6 +28,28 @@
   --color-border: #7a5c2a;
   --color-shadow: rgb(6, 14, 24, 0.45);
   --color-overlay: rgb(6, 16, 26, 0.75);
+
+  /* Derived small-text mixes of the kit's OWN pigments.
+   * The kit's accessibility.minimum_contrast prose is only partly right, so
+   * every pair below was measured (see SITE.md → "Measured contrast").
+   * Pure violet/brass/#7A5C2A stay in use for glows, rules and borders. */
+  --color-violet-text: #a38db4; /* 35% Nebula Violet → Dome Parchment  5.28:1 on indigo */
+  /* Brass-for-text is NOT a private derivation: #B2803E is the canonical
+   * substitute tools/kit-brief.mjs publishes for --color-secondary #B07D3A on
+   * --color-surface #162338 (new_site.md §19.14 row 1 — use it verbatim so all
+   * 50 sites share one derivation). Measured 4.54:1 on indigo, 5.03:1 on navy.
+   * It must not be used on --color-surface-alt #1E2E45, where it is only
+   * 3.95:1; kit-brief's substitute for that surface is #B98D52 (4.57:1), and
+   * nothing on this site puts brass text on Deep Meridian. */
+  --color-brass-text: #b2803e;
+  --color-info-text: #79a0d2; /* 35% Refractor Blue → Dome Parchment  5.84:1 */
+  --color-silver-faint: #919daa; /* 85% Stardust Silver → Midnight Navy  6.30:1 on navy */
+  --color-success-text: #8eb795; /* 35% Meridian Green → Dome Parchment  7.03:1 */
+  --color-border-interactive: #b07d3a; /* Telescope Brass — 4.84:1 on navy, ≥3:1 for UI edges */
+
+  /* Layout */
+  --content-max: 1360px;
+  --measure: 68ch;
 
   /* Named swatches */
   --color-constellation-gold: #c9a84c;
@@ -122,7 +145,9 @@
 }
 
 html {
-  font-size: 16px;
+  /* 100%, not a fixed 16px: the whole site is sized in rem, so a visitor who
+   * has raised their browser's default text size must get a bigger site. */
+  font-size: 100%;
   scroll-behavior: smooth;
   text-size-adjust: 100%;
 }
@@ -134,6 +159,10 @@ body {
   font-size: 1rem;
   line-height: var(--lh-body);
   min-height: 100vh;
+  /* At 200% text zoom on a 320px screen, single long words (ContentDirectory,
+   * LifecycleInterface, "Instruments" at display size) are wider than the
+   * viewport. Break them rather than let the page scroll sideways (§12/§14). */
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -178,6 +207,15 @@ h6 {
   line-height: var(--lh-headline);
   letter-spacing: var(--tracking-headline);
   color: var(--color-text);
+  overflow-wrap: break-word;
+}
+
+/* Emphasis inside body copy: Lora 600, the heaviest weight this kit declares for
+ * the body role, and a 200-unit step up from the 400 running weight. Never 700 —
+ * `lora-700-latin.woff2` is in the shared pool but the kit does not declare it. */
+strong,
+b {
+  font-weight: 600;
 }
 
 p {
@@ -231,6 +269,22 @@ p:last-child {
   }
 }
 
+/* ── "Steady Gaze" — the kit's intensity_toggle, visitor-controlled ────────── *
+ * Same result as prefers-reduced-motion, but chosen in the footer utility row
+ * and remembered in localStorage. affects: hero → static, scroll → continuous,
+ * animation → fade-only.                                                      */
+html[data-intensity='steady'] *,
+html[data-intensity='steady'] *::before,
+html[data-intensity='steady'] *::after {
+  animation: none !important;
+  transition-duration: var(--duration-fast) !important;
+  transition-property: opacity, color, background-color, border-color !important;
+}
+
+html[data-intensity='steady'] {
+  scroll-behavior: auto;
+}
+
 /* ── Selection ─────────────────────────────────────────────────────────────── */
 ::selection {
   background: rgb(201, 168, 76, 0.3);
@@ -270,6 +324,9 @@ code {
   padding: 0.1em 0.4em;
   border-radius: var(--radius-sm);
   color: var(--color-primary);
+  /* class names such as LifecycleInterface must break rather than push the
+   * layout sideways at 200% text zoom on a 320px screen */
+  overflow-wrap: anywhere;
 }
 
 pre {
@@ -318,7 +375,19 @@ pre code {
 /* Brand typography for this kit — families, weights and fallback stacks come
  * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
  * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
+ * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`.
+ *
+ * ⚠ DIVERGES FROM THE GENERATOR ON PURPOSE — re-apply after any regeneration.
+ * The generator emitted three faces this kit does not declare, because the
+ * shared pool was backfilled with a 700 for every prose role and it took file
+ * existence as permission:
+ *   - Lora 700 and Jost 700 — the kit declares Lora [400,500,600] and Jost
+ *     [300,400,500,600]. Removed. `<strong>` uses Lora 600 (see `strong` below).
+ *   - DM Mono 700 → `dm-mono-500-latin.woff2` — a 700 declaration pointing at
+ *     the 500 file lies to the font matcher, so any `font-weight: 700` on DM
+ *     Mono silently rendered the 500 face. The kit declares DM Mono [400,500];
+ *     both are already declared below, so the 700 block was removed outright.
+ * 12 faces ship. The generator itself needs the fix (see REGEN_PLAN.md §6). */
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;

@@ -94,17 +94,18 @@ sites/<slug>/
 for every brand-kit site. Read it; do **not** invent product copy, features, or
 claims. It provides these blocks — wire each into the pages as noted:
 
-| Key | Shape | Used on |
-|-----|-------|---------|
-| `site` | name, url, repo_org, locales, `social.{github,docs}` | shell, footer, meta |
-| `hero` | eyebrow, headline, subheadline, `primary_cta`, `secondary_cta` | home hero |
-| `pitch_bullets[]` | 7 one-line value props | home "Why Phlix?" |
-| `features[]` | 8 × `{id,title,body,icon}` | home overview + features page |
-| `clients[]` | 5 × `{id,name,tagline,repo,highlights[],store_url,status}` | clients + download |
-| `ecosystem[]` | 5 × `{name,repo,what}` | download + docs |
-| `faq[]` | 6 × `{q,a}` | about |
-| `footer` | tagline + 3 `columns[]` of `{heading,links[]}` | footer (all pages) |
-| `meta` | description, keywords[], og_image, twitter_card | `<head>` of every page |
+| Key               | Shape                                                                                                                       | Used on                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `site`            | name, url, repo_org, locales, `social.{github,docs}`                                                                        | shell, footer, meta                                  |
+| `hero`            | eyebrow, headline, subheadline, `primary_cta`, `secondary_cta`                                                              | home hero                                            |
+| `pitch_bullets[]` | 7 one-line value props                                                                                                      | home "Why Phlix?"                                    |
+| `features[]`      | 8 × `{id,title,body,icon}`                                                                                                  | home overview + features page                        |
+| `clients[]`       | 5 × `{id,name,tagline,repo,highlights[],store_url,status}`                                                                  | clients + download                                   |
+| `ecosystem[]`     | 5 × `{name,repo,what}`                                                                                                      | download + docs                                      |
+| `faq[]`           | 6 × `{q,a}`                                                                                                                 | about                                                |
+| `footer`          | tagline + 3 `columns[]` of `{heading,links[]}`                                                                              | footer (all pages)                                   |
+| `install`         | `primary` (the real one-liner + `line_count`), `with_https`, `from_source` (**not** an install), `requirements`, `docs_url` | home + download — **copy, never retype**; see §19.22 |
+| `meta`            | description, keywords[], og_image, twitter_card                                                                             | `<head>` of every page                               |
 
 You **may** restyle, reorder visually, and add brand-flavored **micro-copy**
 (section eyebrows, button labels, empty/aside lines, alt text) drawn from the
@@ -156,29 +157,29 @@ testimonial or count.
 
 ### Field-by-field: what to DO with each
 
-| Field | What the authoring agent does with it |
-|-------|----------------------------------------|
-| `site_architecture` | Build the primary nav from `nav[]` (label/order/emphasis; ids stay canonical). Move `demoted_pages` into the footer (respect `fold_into`). Author any `extra_pages`, drawing content **only** from the listed `facts_from` content.json paths. Arrange the footer per `footer_arrangement`. |
-| `homepage_narrative` | Order and render the home page's sections per `sections[]` (each `source`/`treatment`/`weight`); frame the page with `logline` and the chosen `arc`. |
-| `page_blueprints` | For each listed page id, compose the DOM per its `template` + literal `spec` (this is *what the page is*; §3/§13 still govern *how it looks*). |
-| `feature_casting` | Hero the `hero[]` features (use each `angle` as its voiced, factual headline), grid the `support[]`, push `footnote[]` to the Features page only, keep `omit_from_home[]` off the home page. Every feature must still appear **somewhere**. |
-| `copy_overlay` | Replace **presentation** copy (hero, section headings, footer tagline) with the overlay values; anything absent inherits `content.json` verbatim. Facts unchanged. |
-| `copy_treatments` | Render the named shared block (pitch_bullets/faq/clients/ecosystem) in the specified container/component — same facts, brand-native markup. |
-| `faq_experience` | Frame the FAQ per `frame`/`persona`; reorder answers per `question_order`; add `extra_questions` as re-phrasings that **map to** existing canonical answers (`maps_to`) — no new facts. |
-| `persona_vignettes` | Use each vignette to decide which product `surfaces` to mock up in imagery and which `features_shown` to depict; seed `img/PROMPTS.md`. |
-| `hero_experience` | Build the hero interaction per `mode`/`spec` within `js_budget_kb`; **always** ship the `fallback` (static/no-JS/reduced-motion) carrying the **same copy**. |
-| `navigation_model` | Build the nav paradigm per `mode`/`spec`/`keyboard`; **always** also render the `fallback` standard accessible topbar/menu — the exotic mode is an enhancement layer only. |
-| `scroll_experience` | Apply the reading rhythm per `mode`/`spec`; under `prefers-reduced-motion` resolve to the `reduced_motion` description (plain continuous scroll). |
-| `easter_eggs` | Wire each `{trigger, effect, reward_copy, exit}`; keep them inert for non-discoverers, never shadow browser/AT shortcuts, and honor the explicit `exit`. |
-| `conversion_funnel` | Shape the download journey per `style`; open the Download page with `download_opening`; wire the `cta_ladder` steps; respect `friction_notes`. |
-| `proof_strategy` | Render the ordered `signals` at `placement` using only **verifiable** proof (real numbers/links/quotes). |
-| `visitor_paths` | If present, render the self-select fork (`prompt` + `paths[]`) near the hero, emphasizing each path's `emphasis` feature ids. `null` = single curated path, no fork. |
-| `experience_archetype` | Adopt this as the declared layout archetype (replaces the derived guess in `new_site_prompt.md` STEP 1). |
-| `complexity_profile` | Enforce `density`/`reading_level`/`jargon_policy` and the `page_budget` caps (max home sections, max words/section). For `jargon_policy: "translate"`, surface the plain term and preserve the precise one in a `<details>`. |
-| `intensity_toggle` | If present, add the visitor-facing calm-mode toggle (`label`/`affects`/`default`/`placement`) as a self-contained enhancement. `null` = nothing loud enough to tame. |
-| `mascot.behavior` | If non-`null`, build the on-page companion (`placement`/`idle`/`tips`/`easter_interactions`/`dismiss`); disable `idle` under reduced-motion; persist dismissal via localStorage. `null` = imagery-only mascot. |
-| `seasonal_activation` | `"documented"` = record seasonal data only (no live behavior). `"live-js"` = ship a tiny date-gate that flips the `seasonal_variants` override tokens + motif during `active_range`. |
-| `error_page_experience` | **Schema-only for now** — document the 404 concept; do **not** attempt to ship a per-kit 404 this pass (see the note below). |
+| Field                   | What the authoring agent does with it                                                                                                                                                                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `site_architecture`     | Build the primary nav from `nav[]` (label/order/emphasis; ids stay canonical). Move `demoted_pages` into the footer (respect `fold_into`). Author any `extra_pages`, drawing content **only** from the listed `facts_from` content.json paths. Arrange the footer per `footer_arrangement`. |
+| `homepage_narrative`    | Order and render the home page's sections per `sections[]` (each `source`/`treatment`/`weight`); frame the page with `logline` and the chosen `arc`.                                                                                                                                        |
+| `page_blueprints`       | For each listed page id, compose the DOM per its `template` + literal `spec` (this is _what the page is_; §3/§13 still govern _how it looks_).                                                                                                                                              |
+| `feature_casting`       | Hero the `hero[]` features (use each `angle` as its voiced, factual headline), grid the `support[]`, push `footnote[]` to the Features page only, keep `omit_from_home[]` off the home page. Every feature must still appear **somewhere**.                                                 |
+| `copy_overlay`          | Replace **presentation** copy (hero, section headings, footer tagline) with the overlay values; anything absent inherits `content.json` verbatim. Facts unchanged.                                                                                                                          |
+| `copy_treatments`       | Render the named shared block (pitch_bullets/faq/clients/ecosystem) in the specified container/component — same facts, brand-native markup.                                                                                                                                                 |
+| `faq_experience`        | Frame the FAQ per `frame`/`persona`; reorder answers per `question_order`; add `extra_questions` as re-phrasings that **map to** existing canonical answers (`maps_to`) — no new facts.                                                                                                     |
+| `persona_vignettes`     | Use each vignette to decide which product `surfaces` to mock up in imagery and which `features_shown` to depict; seed `img/PROMPTS.md`.                                                                                                                                                     |
+| `hero_experience`       | Build the hero interaction per `mode`/`spec` within `js_budget_kb`; **always** ship the `fallback` (static/no-JS/reduced-motion) carrying the **same copy**.                                                                                                                                |
+| `navigation_model`      | Build the nav paradigm per `mode`/`spec`/`keyboard`; **always** also render the `fallback` standard accessible topbar/menu — the exotic mode is an enhancement layer only.                                                                                                                  |
+| `scroll_experience`     | Apply the reading rhythm per `mode`/`spec`; under `prefers-reduced-motion` resolve to the `reduced_motion` description (plain continuous scroll).                                                                                                                                           |
+| `easter_eggs`           | Wire each `{trigger, effect, reward_copy, exit}`; keep them inert for non-discoverers, never shadow browser/AT shortcuts, and honor the explicit `exit`.                                                                                                                                    |
+| `conversion_funnel`     | Shape the download journey per `style`; open the Download page with `download_opening`; wire the `cta_ladder` steps; respect `friction_notes`.                                                                                                                                              |
+| `proof_strategy`        | Render the ordered `signals` at `placement` using only **verifiable** proof (real numbers/links/quotes).                                                                                                                                                                                    |
+| `visitor_paths`         | If present, render the self-select fork (`prompt` + `paths[]`) near the hero, emphasizing each path's `emphasis` feature ids. `null` = single curated path, no fork.                                                                                                                        |
+| `experience_archetype`  | Adopt this as the declared layout archetype (replaces the derived guess in `new_site_prompt.md` STEP 1).                                                                                                                                                                                    |
+| `complexity_profile`    | Enforce `density`/`reading_level`/`jargon_policy` and the `page_budget` caps (max home sections, max words/section). For `jargon_policy: "translate"`, surface the plain term and preserve the precise one in a `<details>`.                                                                |
+| `intensity_toggle`      | If present, add the visitor-facing calm-mode toggle (`label`/`affects`/`default`/`placement`) as a self-contained enhancement. `null` = nothing loud enough to tame.                                                                                                                        |
+| `mascot.behavior`       | If non-`null`, build the on-page companion (`placement`/`idle`/`tips`/`easter_interactions`/`dismiss`); disable `idle` under reduced-motion; persist dismissal via localStorage. `null` = imagery-only mascot.                                                                              |
+| `seasonal_activation`   | `"documented"` = record seasonal data only (no live behavior). `"live-js"` = ship a tiny date-gate that flips the `seasonal_variants` override tokens + motif during `active_range`.                                                                                                        |
+| `error_page_experience` | **Ship a real per-kit `404.html`** — the root shim exists, so this is required, not schema-only. Full spec in the section below.                                                                                                                                                            |
 
 ### Performance & safety rule for opt-in JS
 
@@ -187,8 +188,25 @@ Any per-site JS added for `hero_experience`, `navigation_model`, `mascot.behavio
 
 - **Self-contained, hand-written vanilla JS** with **no external dependencies**
   (no libraries, no CDNs) — consistent with §7.
-- **Budgeted at roughly ≤15 KB total** across all of them (each field may carry a
-  tighter per-feature budget, e.g. `hero_experience.js_budget_kb`).
+- **Sized by what the experience needs, not by a byte target.** The old
+  "≤15 KB" figure is guidance, and it is explicitly **subordinate to making each
+  site detailed and genuinely its own** (owner ruling, 2026-07-25). A richer,
+  more customised layout that costs a few more KB of hand-written vanilla JS is
+  the better trade every time. `tools/selfcheck.mjs` warns at 40 KB purely as a
+  runaway signal, not a target to sit under.
+
+  What a JS budget was ever protecting is **user-perceived performance**, and
+  hand-written JS is almost never where that goes — fonts, images and blocking
+  requests are. One kit removed 48 KB of unused Inter 500 from first paint, which
+  dwarfs every JS difference in this program. So spend bytes on interaction
+  detail freely, and keep the constraints that actually matter: no CDNs, no
+  libraries, `prefers-reduced-motion` respected, a working no-JS fallback, and no
+  unused font weights loaded.
+
+  Never hit a size number by deleting the comments that explain why the code
+  exists, by dropping a declared experience field, or by simplifying a layout
+  the kit asked for.
+
 - **`prefers-reduced-motion`-respecting** — motion is gated/dropped under reduced
   motion.
 - For `navigation_model` and `hero_experience`, it must **always render a working
@@ -237,6 +255,7 @@ tooling/CSS expect (see `tools/render.mjs` for the reference markup) — keep th
 so styling and reviews stay portable.
 
 ### 3.1 `index.html` — Home
+
 1. **Hero** (`.hero`) — `hero.eyebrow` → `<h1>hero.headline</h1>` →
    `hero.subheadline` → two CTAs (`.btn.btn-primary` = `primary_cta`,
    `.btn.btn-secondary` = `secondary_cta`). The primary CTA must be **above the
@@ -248,37 +267,45 @@ so styling and reviews stay portable.
 4. **CTA banner** (`.cta-banner`) — closing `<h2>` + a prominent download button.
 
 ### 3.2 `features.html`
+
 - `.page-header` (`<h1>Features</h1>` + lead) → `.content-section` with a
   `.content-grid` of `.feature-detail` articles (one per `features[]`, each with
   `id="<feature.id>"`, larger icon, `h2`, body) → closing `.cta-banner`.
 
 ### 3.3 `clients.html`
+
 - `.page-header` → `.client-cards` grid of `.client-card` (one per `clients[]`):
   `h2` name + `.client-status.status-<status>` badge, tagline, `highlights[]`
   list, and a "View source" button when `repo` is set → closing `.cta-banner`.
 
 ### 3.4 `download.html`
+
 - `.page-header` → **Server** block (PHP 8.3+ requirement + install snippet in a
   `.code-block`) → **Clients** download cards (skip `status:"deprecated"`) →
   **Ecosystem** list from `ecosystem[]` → closing `.cta-banner` linking to docs.
 
 ### 3.5 `plugins.html`
+
 - `.page-header` → "Plugin model" (`LifecycleInterface` + manifest, drop into
   `plugins/`) → "Ecosystem plugins" → "Write your own" (link to
   `phlix-plugin-example`) → closing `.cta-banner`.
 
 ### 3.6 `docs.html`
+
 - `.page-header` → "Documentation" linking out to `site.social.docs` with
   User guide / API reference / Developer docs / Hub admin links → "Ecosystem"
   list. (This page is a summary + link-out, not full docs.)
 
 ### 3.7 `hub.html`
+
 - `.page-header` ("Phlix Hub") → "What the Hub does" (reverse-tunnel relay, NAT
   traversal) → "Self-host or use the public hub" → "Hub mode in clients" →
   closing `.cta-banner`.
 
 ### 3.8 `about.html`
-- `.page-header` → "Philosophy" → "License" (BSD-3-Clause) → "Contributing"
+
+- `.page-header` → "Philosophy" → "License" (see §4 — never hard-code a licence
+  name here; read it from `content.json`) → "Contributing"
   (the `detain` GitHub org) → **FAQ** as a `<dl class="faq-list">` of all
   `faq[]` items.
 
@@ -309,7 +336,7 @@ accessibility and SEO.
   <footer class="site-footer" role="contentinfo">
     <p class="footer-tagline">footer.tagline</p>
     <nav class="footer-nav" aria-label="Footer navigation"> … 3 columns (§5) … </nav>
-    <p class="footer-copy">&copy; <year> Phlix — BSD-3-Clause</p>
+    <p class="footer-copy">&copy; <year> Phlix — <licence from content.json></p>
   </footer>
 
   <script src="js/main.js" defer></script>
@@ -318,6 +345,7 @@ accessibility and SEO.
 ```
 
 **Mandatory shell rules**
+
 - Exactly **one `<h1>` per page** (the hero `h1` on home; the `.page-header h1`
   elsewhere). Heading hierarchy never skips a level.
 - The current page's nav link gets `aria-current="page"`.
@@ -335,15 +363,18 @@ Plugins · Docs · Hub · About.
 the link-out; keep one behavior consistent.)
 
 **Footer — 3 columns (from `content.json.footer.columns`):**
+
 - **Product:** Features, Clients, Download, Plugins
 - **Developers:** Documentation, Server source, Plugin example, API reference
-- **Project:** GitHub org, Issues, Hub, License (BSD-3)
+- **Project:** GitHub org, Issues, Hub, License (use the label verbatim from
+  `content.json.footer.columns` — do not restate the licence from memory)
 
 **Calls to action (reused):** "Get Phlix" / "Download Phlix" (primary, → download),
 "Read the docs" (secondary, → external docs). Every page ends in a `.cta-banner`
 that drives toward **download** (or docs on the download page).
 
 **External link targets that must be correct:**
+
 - Server source: `https://github.com/detain/phlix-server`
 - Docs: `https://detain.github.io/phlix-docs`
 - Plugin example: `https://github.com/detain/phlix-plugin-example`
@@ -376,6 +407,7 @@ so the brand kit is a single source of truth:
   brand-specific component (carousel/marquee/etc.).
 
 **Token rules**
+
 - Define every brand color, spacing step, radius, shadow, and font once in
   `:root`; reference via `var(--…)` everywhere. **No raw off-palette hex** in
   component CSS.
@@ -389,6 +421,7 @@ so the brand kit is a single source of truth:
 ## 7. JavaScript (`js/main.js`)
 
 Vanilla, dependency-free, `defer`-loaded. Responsibilities:
+
 - **Mobile nav toggle:** wire `.nav-toggle` ↔ `.nav-menu`, keep
   `aria-expanded` in sync, close on `Esc` and on outside click, and trap/return
   focus correctly.
@@ -415,8 +448,8 @@ Vanilla, dependency-free, `defer`-loaded. Responsibilities:
   matching the kit's icon style. No icon-font CDNs.
 - **`img/PROMPTS.md`** — record the exact generation prompt for every image asset
   (built from the kit's `image_prompt_prefix` + subject + `image_prompt_suffix`
-  + `negative_prompt`) so artwork can be regenerated later. Until real renders
-  exist, CSS/SVG-only artwork is preferred over raster placeholders.
+  - `negative_prompt`) so artwork can be regenerated later. Until real renders
+    exist, CSS/SVG-only artwork is preferred over raster placeholders.
 
 ---
 
@@ -518,7 +551,11 @@ All product claims must match Phlix reality. Safe, true facts you can lean on:
   (ContentDirectory/AvTransport/SSDP). **Plugin** contract
   (`LifecycleInterface` + manifest). **Phlix Hub** reverse-tunnel relay.
 - Clients: **Roku, Samsung Tizen, Windows, Mobile (RN, beta), any DLNA device**.
-- License: **BSD-3-Clause**.
+- License: **`phlix-server` and `phlix-hub` are MPL-2.0**; the shared libraries,
+  plugins and clients are **MIT**. Never state a single licence "across the
+  board" — that claim was wrong on all 50 first-pass sites. `content.json` (the
+  FAQ answer and the footer label) is the authority; if it disagrees with this
+  line, `content.json` wins and this line is the stale one.
 
 Do **not** mention unsupported clients, invented features, or competitor
 trademarks except the factual "Plex/Jellyfin/Emby alternative" framing already in
@@ -566,3 +603,431 @@ A brand-kit site is **done** only when **all** are true:
    (§13).
 7. The review loop (see `new_site_prompt.md`) reports **no remaining ❌ and no
    dimension below the agreed score bar**.
+
+---
+
+## 19. Known traps — read this before you build
+
+Every entry below is a defect that **actually shipped** on the 2026-07-04 pass, or
+a conflict the `abstract-canvas` pilot hit on 2026-07-24. They are listed so you
+spend your effort on design instead of rediscovering them. Cost of ignoring this
+section: a review round per item.
+
+### 19.1 Never trust the kit's own contrast arithmetic — measure it
+
+`accessibility.minimum_contrast` is **prose written by a human, and it is
+sometimes wrong.** `abstract-canvas` claimed its accent was 5.8:1 on its own
+background; measured, it is 4.73:1, and 4.35:1 on card surfaces — i.e. _failing_
+AA for small text while the kit asserted it passed.
+
+Compute the real WCAG ratio for every text/background pair you ship. When the
+measured value fails, the fix is **not** to abandon the kit's palette: derive a
+deeper or lighter mix of the kit's _own_ pigments for small text, and keep the
+pure brand hue for large display text, rules, borders and icons (which need only
+3:1). Document the derived tokens in `SITE.md` as mixes, so a reviewer can see
+they are not new hues. §12 is a hard gate; a wrong claim in the kit does not
+lower it.
+
+### 19.2 The `@copyright` bug that silently broke 113 of 150 CSS files
+
+A bare ` * @copyright …` line left **outside** a `/* … */` block is a CSS parse
+error. Browsers discard the rest of the stylesheet from that point, so the site
+looks fine in the author's head and is visibly broken in production. 113 of 150
+first-pass CSS files had it. Check before you finish:
+
+```bash
+grep -n "^ \* @" sites/<slug>/css/*.css     # must be empty
+```
+
+### 19.3 Fonts must resolve locally — 45 of 50 sites got this wrong
+
+Zero external font requests: no `fonts.googleapis.com`, no `fonts.gstatic.com`,
+no CDN — the CSP forbids it and the request simply fails. Every `@font-face`
+`src` must point at a WOFF2 that exists in the repo. The shared pool is
+`shared/assets/fonts/` (referenced as `../../assets/fonts/…` from a site's CSS)
+and `shared/data/font-sources.json` lists the 70 vendored OFL-1.1 families.
+
+If your kit names a family that is not in the pool, **escalate — do not
+substitute silently and do not add a CDN link.** Adding to the pool is a shared
+change, so it is the orchestrator's job.
+
+### 19.4 Do not run `stylelint --fix`
+
+It is configured to strip vendor prefixes and will delete `-webkit-text-stroke`
+(which has **no** unprefixed equivalent, so the effect vanishes) and
+`-webkit-background-clip: text`. Fix lint findings by hand. `prettier --write`
+is safe and owns formatting.
+
+### 19.5 `og:image` must be a `.png`
+
+`tools/check-meta.mjs` rule 5 rejects an SVG `og:image` — several platforms will
+not render one. Keep `og.svg` as the editable source and reference the
+rasterised `og.png` in the meta. Regenerate just your own kit:
+
+```bash
+node tools/gen-og.mjs --site <slug>
+node tools/gen-sitemap.mjs --site <slug>
+```
+
+Both flags were added for this program precisely so you never have to write
+outside your own directory. Requires `librsvg2-bin` (`rsvg-convert`); ImageMagick's
+internal SVG renderer cannot handle the brand SVGs' patterns and filters.
+
+### 19.6 Field-precedence rules for conflicts inside one kit
+
+Kits contradict themselves. Resolve with these rules and **record the call in
+`REGEN_PLAN.md` §5** rather than guessing silently:
+
+| Conflict                                                                                                                                                             | Rule                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A general field vs. a more specific one covering the same concern (e.g. `fonts.ui.usage` assigns nav to the UI face, `navigation_model.spec` names the display face) | The **more specific field wins for its own concern**.                                                                                                                            |
+| `page_blueprints` prose vs. a structured field (e.g. blueprint says "4 focal features", `feature_casting.hero` lists 2)                                              | The **structured field is the authority** for counts and casting; honour the blueprint's _shape_, not its arithmetic. Never invent content to reach the blueprint's number.      |
+| `complexity_profile.page_budget.words_per_section_max` vs. facts that must appear                                                                                    | The cap governs **authored/presentation prose** (headings, framing, captions). Verbatim `content.json` fact strings are exempt — §16 forbids dropping facts to hit a word count. |
+| A field vs. `content.json` on a **fact** (licence, client status, feature list)                                                                                      | `content.json` **always wins.** Kits carry design intent, not facts.                                                                                                             |
+| A field vs. §12 accessibility                                                                                                                                        | **§12 wins.** See 19.1.                                                                                                                                                          |
+
+### 19.7 Honesty constraints that reviewers check
+
+- **`proof_strategy` signals must be verifiable.** Do not print a star count,
+  contributor count, download total, or user number — a static page cannot verify
+  it and an invented figure is a fabrication. Link to the live page
+  (`/stargazers`, `/graphs/contributors`) instead.
+- **A CTA label must not misdescribe its destination.** When `copy_overlay`
+  overrides only a label and the href still goes elsewhere, make the visible text
+  honest (e.g. `Browse the Gallery (the docs)`) so the accessible name matches
+  what happens on click (WCAG 2.5.3).
+- **Never state one licence "across the board."** See §16.
+
+### 19.8 Easter eggs must not hijack the page
+
+A `typed-word` egg needs a document-level key listener that is **disabled while
+focus is in any `input`/`textarea`/`contenteditable`**, never calls
+`preventDefault`, and exits on `Esc`. A key-sequence listener that swallows
+typing is an accessibility failure, not a delight. Two eggs may legitimately
+share a trigger count (`easter_eggs[0]` `logo-clicks:5` and
+`mascot.behavior.easter_interactions[0]` `click:5`) — they have different
+targets; implement both.
+
+### 19.9 Absence is never a defect
+
+A kit that does not declare an experience field gets the **default behaviour**,
+and that is correct. Reviewers are instructed the same way. Do not invent a
+`mascot`, an `intensity_toggle`, or `extra_pages` your kit never asked for.
+
+### 19.10 Run the tools; do not hand-roll the checks
+
+Two commands replace every mechanical grep, and both are scoped to one kit:
+
+```bash
+node tools/selfcheck.mjs --site <slug>     # 14 static checks (must PASS)
+node tools/render-check.mjs --site <slug>  # real browser at 320px + 1280px
+```
+
+`render-check` exists because **three of the pilot's defects were invisible in
+source**: a hero that rendered 0×0 (absolutely-positioned children plus
+`margin-inline:auto` → shrink-to-fit, so `aspect-ratio` had nothing to resolve
+against), a mascot tip bubble covering the primary CTA at 320px, and a fixed
+toggle sitting underneath the mascot. No linter finds those; a browser does.
+
+### 19.11 A fixed companion must never cover the CTA
+
+Any `position: fixed`/`sticky` element — mascot, intensity toggle, cookie note —
+must be checked at **320px**, where there is no spare room. It must not overlap
+the primary CTA, must not overlap another fixed element, and must not push
+unrequested tips on a phone. `render-check` fails the build on the first two.
+
+### 19.12 The two CSS defects behind almost every zoom/overflow failure
+
+Two independent kits hit these, with the same root cause, so assume yours will.
+Getting them right up front removes most responsive findings from your review.
+
+**1. Grid tracks need `minmax(0, 1fr)`, not `1fr`.** A bare `1fr` track has an
+implicit `auto` minimum, so it refuses to shrink below its content's min-content
+width. One long unbreakable token — `LifecycleInterface`, a bare repo URL, a
+hyphen-free compound — then forces the whole grid wider than the viewport. This
+was the root cause of `download.html` overflowing at 320px **and** most of the
+200%-text-zoom overflow on the pilot.
+
+```css
+/* wrong: the track cannot shrink below its longest word */
+grid-template-columns: repeat(2, 1fr);
+/* right */
+grid-template-columns: repeat(2, minmax(0, 1fr));
+```
+
+**2. Long tokens still need a wrapping rule, and the scope is wider than you
+think.** `minmax(0, …)` lets the track shrink, but the word itself still overflows
+its box. `overflow-wrap: break-word` is **not** enough — only `anywhere` reduces
+the min-content contribution, which is what a grid/flex track measures.
+
+The intuition "long strings only live in code and URLs" is **wrong, and was
+measured to be wrong.** One kit narrowed its wrapping rule to exactly
+`code`/`<dd>`/bare-URL anchors and `render-check` then failed **9 of 9 pages**, at
+343–389px against a 320px viewport. The actual offenders were **ordinary body
+words in narrow grid tracks**: `transcoding,` in a 164px spec column, `Features`
+in a 132px footer column, link-list titles, feature paragraphs. At 200% zoom a
+three-column footer gives each column ~130px, and plenty of everyday words exceed
+that.
+
+So split by role rather than by "does this look like code":
+
+```css
+/* body-weight text: `anywhere`, because these sit in narrow tracks */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+/* headings: NOT `anywhere` — unmarked mid-word breaks in a large display face
+   look like a rendering error. `break-word` leaves min-content intact, so a real
+   overflow still surfaces in render-check instead of being silently absorbed. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+```
+
+Also worth doing: wrap genuine identifiers in prose (`LifecycleInterface`) in
+`<code>`. That is more honest markup _and_ it moves them into the `anywhere` set.
+
+Then confirm with `node tools/render-check.mjs --site <slug>`, which tests every
+page at 320×640, 320×700, 375×667, 768×1024, 860×720 and 1280×900, plus 200% text
+zoom per page. Do not narrow a wrapping rule without re-running it — this is the
+one rule where a reasonable-sounding restriction has already produced a
+whole-site failure.
+
+### 19.13 `overflow: hidden` hides overflow from the naive test — and from your visitor
+
+A container with `overflow: hidden` absorbs its children's overflow, so
+`document.scrollWidth` stays equal to the viewport and a scroll-based check
+reports PASS while the `<h1>` and the primary CTA are **visibly cut off**. The
+pilot shipped exactly this: at 200% text zoom the hero clipped its own headline
+and both buttons. `render-check` now tests for clipped headings and controls
+directly, but the design rule is simpler: never put `overflow: hidden` on a
+container whose text must reflow. Clip decoration, not content.
+
+### 19.14 Ambiguities that recur in EVERY kit — use these resolutions verbatim
+
+Five kits have now each spent real effort resolving the _same_ handful of
+conflicts, and reached the same answers. Do not re-derive them; cite the row and
+move on. Only record an ambiguity in `REGEN_PLAN.md` if it is **not** in this
+table.
+
+| Recurring conflict                                                                           | Canonical resolution                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The kit's `accessibility.minimum_contrast` prose disagrees with reality                      | **Measured wins, every time.** See below — 5 of 5 kits were wrong. `tools/kit-brief.mjs` prints the measured table plus a pre-derived substitute; use its substitute verbatim so all 50 sites share one derivation.                                        |
+| A kit says "5 native clients" (or any client/feature count)                                  | **`content.json` wins on facts.** It is _four_ native clients — Roku, Tizen, Windows, Mobile (beta) — **plus any DLNA device**. Two kits stated 5; both were wrong.                                                                                        |
+| `proof_strategy` asks for a live star / issue / contributor / download count                 | A static page cannot verify a number, and printing one is fabrication (§19.7). **Link to the live page** (`/stargazers`, `/issues`, `/graphs/contributors`) with a descriptive label. Never print a figure.                                                |
+| `proof_strategy` asks for "a quote from the docs" or an attributed testimonial               | No such quote exists to verify. Use a verbatim string from `content.json` (e.g. `pitch_bullets[0]`) attributed to **the project**, not to an invented person or site.                                                                                      |
+| `copy_overlay` renames a CTA but its `href` still points elsewhere (usually the docs)        | Keep the kit's label and make the destination honest in the visible text — `Read the Case File (the docs)` — so the accessible name matches what happens on click (WCAG 2.5.3).                                                                            |
+| `fonts.ui.usage` assigns a surface that `navigation_model` / `navigation.topbar` also claims | The **more specific, newer field wins for its own surface** (§19.6). Typically: wordmark in the display face, nav links in the UI face.                                                                                                                    |
+| `complexity_profile.page_budget.words_per_section_max` vs facts that must appear             | The cap governs **authored prose** only (headings, framing, captions). Verbatim `content.json` fact strings are exempt; §16 forbids dropping a fact to hit a word count.                                                                                   |
+| A fixed `mascot.behavior` companion has nowhere to sit at 320px                              | **Do not go fixed on phones.** Below 768px place the companion **in flow** (e.g. above the footer) or have it arrive only on first interaction; never auto-push a tip on a phone. Above 768px fixed is fine if it clears the CTA. §19.11 is unconditional. |
+| `footer_arrangement: mirror-nav` vs §5's three footer columns                                | Both: the mirrored index row first, then the three `content.json` columns verbatim.                                                                                                                                                                        |
+| A kit note says its 404 is "out of scope"                                                    | Stale — it predates the root shim. §2A and §18.1 require `404.html`. Ship it.                                                                                                                                                                              |
+
+**On contrast, the record so far — this is why the rule is "measure":**
+
+| Kit                    | Claimed | Measured                                               |
+| ---------------------- | ------- | ------------------------------------------------------ |
+| `abstract-canvas`      | 5.8:1   | **4.73:1** (and 4.35:1 on cards — failing AA)          |
+| `cottagecore-bloom`    | 4.8:1   | **4.02:1**                                             |
+| `swiss-modernist`      | 4.6:1   | **4.43:1**                                             |
+| `neon-noir`            | —       | wrong in 3 places, **silent on 2 real AA failures**    |
+| `stardust-observatory` | 4.8:1   | **7.61:1** (understated — so the error runs both ways) |
+
+Five for five. Treat every kit's contrast prose as unverified.
+
+**Settled reviewer disputes — do not re-open these:**
+
+| Claim a reviewer is likely to file                                                                    | Ruling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "`404.html` has `noindex` **and** a self-canonical — contradictory"                                   | **Not a defect. Keep the canonical.** The documented hazard of mixing the two is that `noindex` can propagate to the canonical _target_; with a **self**-referencing canonical there is no other page to poison. GitHub Pages also serves `404.html` with a real 404 status, so it cannot be indexed regardless of either directive. §10 requires a canonical on every page and `tools/check-meta.mjs` states in its own header that `404.html` is deliberately not exempt — removing it fails the gate and desyncs the site from its 49 siblings. |
+| "Printing the kit's literal `badges.labels` (4K, HDR, Dolby Vision…)"                                 | **Do not print them.** They are app-surface strings; rendering them asserts library capabilities `content.json` does not state, which is a §16 violation and a worse defect than an unused CSS rule. Keep the kit's `badges.colors` _mapping_ and take labels from the site's own vocabulary.                                                                                                                                                                                                                                                      |
+| "A no-JS checkbox/`<details>` disclosure announces less precisely than a button with `aria-expanded`" | **Prefer the no-JS control.** `navigation_model.fallback` asks for something that works without JavaScript; a control with better ARIA that does nothing with JS off is worse. JS may add `aria-expanded` when it runs, since by then the ARIA is backed by real behaviour.                                                                                                                                                                                                                                                                        |
+| "This palette swatch row shows more than the kit's two-accents-per-view limit"                        | **A palette specimen page is exempt.** A page whose subject _is_ the palette must show the palette; dropping a swatch to satisfy a composition rule would misrepresent it. The limit governs design surfaces, not documentation of the design.                                                                                                                                                                                                                                                                                                     |
+
+### 19.15 `.visually-hidden` needs `overflow: hidden`, or it silently overflows
+
+A `clip-path`-only visually-hidden utility still **contributes its full width to
+layout**. `clip-path` affects painting, not the box. One kit measured a
+skip-link/screen-reader-text utility adding **~520px to `document.scrollWidth`**
+at 200% text zoom — a horizontal-overflow failure whose cause is invisible in the
+markup, because the offending text is not on screen.
+
+The pattern must clip the box as well as the paint:
+
+```css
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden; /* required — clip-path alone does NOT stop it */
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+If `render-check` reports overflow you cannot find on screen, suspect this first.
+
+### 19.16 Do not put a section's items at the section's own heading level
+
+**Hit 3 of the first 5 kits, each independently, and each on a different page.**
+The shape is always the same: a section titled `<h2>The gallery of plates</h2>`
+followed by the eight plates _inside that section_ also marked `<h2>`. The items
+become siblings of the heading that introduces them, so the document outline
+claims eight top-level topics where there is one topic with eight parts.
+
+The tell that it is a mistake rather than a choice: **the same content on
+`index.html` is already correctly `<h3>`.** The site contradicts itself, so one of
+the two is wrong — and it is never the home page. One kit's worst page had `h1`
+plus **ten flat `h2` and no `h3` at all**.
+
+Two things do **not** rescue it: wrapping each item in `<article>`, and styling
+the items smaller. In fact smaller item CSS is _evidence of the bug_ — one kit's
+card titles computed to 1.35rem against section titles at 1.65–2.6rem, proving
+subordinate intent that the markup contradicted.
+
+Rule: **before you write a heading, ask what contains it.** If a heading sits
+inside a section that already has a title, it goes one level deeper than that
+title. Check every page, not just `index.html`; interior pages are where this
+happens, because the home page's rhythm makes the nesting obvious and the
+interior pages' does not.
+
+### 19.17 `strong { font-weight: 500 }` is usually not enough — but the fix is kit-specific
+
+**Three of the first five kits shipped this.** A single 100-unit step in a serif
+or humanist face at body size is close to sub-perceptual, and it is often the
+site's _only_ emphasis channel. Worse, two kits paired it with
+`color: var(--color-text)` — the same colour as body copy, so the declaration did
+nothing at all.
+
+**The correct fix depends on what the kit declares, so check before you choose:**
+
+- If the kit's body/UI role declares **700** and a 700 face exists in the pool
+  (`kit-brief` prints both), use **700**. Do not settle for 500.
+- If the kit **caps** the body face at `[400, 500]`, 700 is an _undeclared weight_
+  and using it violates the kit. Add a **second channel** instead — an ink colour
+  that still clears 4.5:1 against every surface it lands on.
+
+Either way, delete a `color` declaration that merely restates the body colour.
+And check whether `<strong>`/`<em>` occur on the site at all: two kits had the
+rule but no element using it, so the emphasis system was inert and the copy had
+no emphasis anywhere.
+
+### 19.18 A comment that swallows the declarations after it
+
+**Two kits shipped this in the same region of `base.css` (lines ~131–145),** which
+means it comes from the scaffold rather than from either author. The shape is a
+comment whose close is missing or misplaced, e.g. an opening `/* … fonts{` whose
+`*/` does not arrive until several lines later — so every custom property in
+between is **never declared**. Both kits lost tokens this way, and in each case at
+least one lost token existed nowhere else in the file, so the value was simply
+undefined at runtime.
+
+There is usually no visual symptom, because an undefined custom property either
+falls back or is unreferenced. That is exactly why it survives review. After
+editing a token block, confirm the properties you think you declared actually
+resolve — `getComputedStyle(document.documentElement).getPropertyValue('--x')`
+returning empty is the test.
+
+### 19.19 Check every seasonal / alternate palette, not just the default
+
+One kit's author correctly found a failing accent and fixed the **tertiary** use
+of it — but the _same hue_ was routed into `--color-primary` by a seasonal
+override, so the **primary CTA label dropped to 4.24:1 for one month of the
+year**. All of that kit's palette variants shipped at least one small-text
+failure.
+
+If a kit declares `seasonal_activation`, alternate themes, or an
+`intensity_toggle` that changes colours, the contrast matrix must be computed
+**per variant**. A variant that is inert today (because today's date is outside
+its window) still ships, and will be live for weeks. Trace which tokens each
+variant overrides, then re-measure every text pair that uses them.
+
+### 19.20 `prefers-reduced-motion` must remove motion, not content
+
+One kit's easter eggs were **silently deleted** under reduced motion, because a
+single `quiet()` helper conflated "reduced motion" with the kit's own calm mode.
+Reduced motion is an accessibility preference about _animation_; it must never
+cost a visitor content, a reward, or a feature. Another kit left a
+`translate3d` offset applied to five layers when calm mode was on, so the layout
+stayed displaced with the motion removed — the worst of both.
+
+Also: a `reduceMotion` media query read **once** at load never sees the visitor
+change the setting. Attach a `change` listener. Same for a viewport-width guard
+read once — see §19.14 on the 768px companion boundary.
+
+### 19.21 A dismissible companion needs a way back
+
+One kit wrote its mascot dismissal to `localStorage` with **no control to bring
+it back**. Combined with a mis-hit (§19.11), a visitor aiming at a card
+irreversibly dismissed a declared experience field on their first tablet visit
+and could never restore it. If a thing can be dismissed persistently, provide a
+restore affordance somewhere stable — and prefer session-scoped dismissal over
+`localStorage` unless the kit asks otherwise.
+
+### 19.22 The install command must be correct and identical on every page
+
+**This was worse than a per-kit slip: all 50 sites had it wrong, because there was
+nothing to copy from.** `shared/content.json` had no install command, so every
+author invented one. 16 sites shipped `git clone … && composer install` as though
+it were the install; one shipped a two-command version that **omitted the `cd`**
+and therefore did not work; one site claimed "one line", "three lines" and "four
+lines" on three different pages, each locally accurate and the set incoherent.
+
+A dev checkout is **not** an install. `git clone` + `composer install` creates no
+database, installs no service and runs no migrations. Presenting it as the way to
+install Phlix is a §16 honesty failure, not a formatting nit.
+
+`content.json` now has an **`install`** block, traced to `phlix-server`'s own
+README, and it is the single source of truth:
+
+- `install.primary` — the real one-liner (`curl … install.sh | sudo bash`), with
+  `what_it_does` and `line_count: 1`;
+- `install.with_https` — the same run with `--domain` / `--admin-email`;
+- `install.from_source` — the 3-line dev checkout, explicitly labelled as **not an
+  install**. Use it only where you are genuinely describing building from source.
+
+**Copy the command; never retype it.** If you state its length in prose, take the
+number from `line_count` rather than counting the block you happened to render.
+A broken install command is the single most expensive defect on a self-host
+marketing site — it is the conversion step, and it is the one claim a visitor will
+test within a minute of reading it.
+
+### 19.23 Verify your own `REGEN_PLAN.md` before you report
+
+Every wave-1 kit had at least one manifest row that did not match the site, and
+reviewers file each one as a defect. The recurring kinds:
+
+- a row claiming a field is rendered when it appears **nowhere** on the site
+  (one kit's `homepage_narrative.logline` was claimed as the hero deck and was
+  not present — `grep` for a distinctive phrase from it and you will know);
+- a word-count or budget row asserted rather than measured;
+- an **escalation note that is simply wrong** (one claimed
+  `content.json.meta.og_image` was a root-absolute `.svg`; it is a relative
+  `.png`, and has been for some time);
+- stale rows describing a workaround you later removed — if you stop needing a
+  workaround, delete the paragraph documenting it in `SITE.md` and
+  `BUILD_LOG.md` too.
+
+The manifest is what the reviewer checks you against. Re-read it last, with the
+finished site open, and correct it. This costs you five minutes and saves a
+review round.

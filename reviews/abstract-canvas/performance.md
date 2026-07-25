@@ -1,67 +1,74 @@
-# Dimension 8: Performance — Review
+# Performance Review — Abstract Canvas
 
-**Score: 38/100**
+> Supersedes the 2026-06-30 review of the **predecessor** site (recoverable from git history).
 
----
+**Variant**: abstract-canvas
+**Round**: 1 (regen pass, `regen/wave-1`)
+**Reviewer**: adversarial reviewer (independent)
+**Date**: 2026-07-24
 
-## Findings
+## Score
 
-### ❌ FAIL — Self-hosted WOFF2 fonts: css/fonts/ directory does not exist
-- `index.html:31-38` — Inline `@font-face` block with `font-family: 'Cormorant Garamond'` uses only `local('Cormorant Garamond')` with `font-display: swap`
-- **No WOFF2 font files are loaded** — the `@font-face` has no `url()` pointing to an actual WOFF2 file
-- `css/fonts/` directory confirmed absent (`ls` returned "No fonts directory")
-- Brand kit spec: "Fonts declared with @font-face + font-display: swap (self-hosted WOFF2 preferred)"
-- new_site.md §13: "Fonts self-hosted WOFF2 with font-display: swap; subset to used scripts"
-- new_site.md §1: "css/fonts/ — self-hosted WOFF2 (optional but preferred)"
-- **Impact**: The inline Cormorant Garamond declaration only falls back to whatever local font is installed — no actual brand typography loads. This is a significant regression.
-- The declaration in `index.html:33-37` uses `local()` only — no `url()` src, so the browser never fetches a WOFF2 file
-- `base.css:75-79` defines `--font-headline` etc. as CSS custom properties but these are never paired with real @font-face rules in the CSS files
+- **Performance**: 87 / 100
 
-### ❌ FAIL — No font-face declarations in any CSS file for the brand fonts
-- `base.css` has only a reset, tokens, and base element styles — no @font-face rules
-- `theme.css` has no @font-face rules
-- `components.css` has no @font-face rules
-- The only @font-face is the inline one in `index.html:31-38` which only uses `local()` for one font (Cormorant Garamond) and only on the home page
-- **No @font-face exists for Bebas Neue, Lora, Inter, or JetBrains Mono**
+Lighthouse could not be run in this environment, so this is a budget-and-critical-path audit plus
+browser measurements, not a Lighthouse score. Nothing found here is a blocker.
 
-### ✅ PASS — JS loaded with `defer`
-- All pages: `<script src="js/main.js" defer></script>` (index.html:285, features.html:190, etc.)
-- No render-blocking inline scripts
+## ✅ Passed
 
-### ✅ PASS — No CDN dependencies in deployed pages
-- No Google Fonts `<link>` tags found
-- No CDN script tags found
-- All links are local relative paths (`css/base.css`, `css/theme.css`, `css/components.css`, `js/main.js`)
-- External links use `https://` with `rel="noopener noreferrer"` (e.g., docs links)
+- **No raster images on any page.** The hero composition, all 8 feature icons, the hub diagram, the
+  three persona vignettes, Palette and the 404 canvas are CSS gradients + inline SVG. `og.png`
+  (74 KB) is metadata only and never fetched by a visitor. Hero image budget (≤120 KB) is trivially
+  met — there is no hero image.
+- **JS: 13.9 KB, one file, `defer`, dependency-free, hand-written** — inside the §2A ~15 KB budget,
+  and `hero_experience.js_budget_kb: 0` is honoured literally (the hero is pure markup, verified with
+  JS disabled). No render-blocking script, no CDN, no library.
+- **All 10 `@font-face` rules are `font-display: swap`** and point at existing vendored WOFF2s in the
+  shared latin-subset pool; zero external font requests (§19.3 clean).
+- CSS is three files, 57.6 KB unminified, no `@import`, no web-font `@import`, no filter/backdrop
+  effects on large areas; `npm run build` minifies them for `dist/`.
+- Depth is `box-shadow`, never glow images (`do_dont.performance.do` respected); the canvas grain is
+  two repeating gradients rather than a texture asset, and it is dropped at print.
+- Layout stability: the logo carries `width`/`height` attributes; no injected content shifts the page
+  on load in the default (out-of-season) state.
 
-### ✅ PASS — CSS: three separate files loaded in correct order
-- `index.html:41-43` — `<link rel="stylesheet" href="css/base.css">`, `css/theme.css`, `css/components.css` in correct order
-- Same pattern on all other pages
-- base.css (reset + tokens) → theme.css (typography + layout) → components.css (UI components) — correct cascade
+## ⚠️ Concerns (non-blocking)
 
-### ✅ PASS — Hero uses CSS gradient/SVG, no heavy raster
-- `theme.css:153-162` — `.hero::before` uses only `linear-gradient()` and `radial-gradient()` — no raster images
-- `theme.css:209-237` — `.hero-accent-block` uses CSS gradients only — no raster images
-- Hero section has no `<img>` elements, only CSS gradients and inline SVG
+- **Fonts dominate the payload: ~312 KB** across the 8 faces a page actually exercises (Bebas 400
+  13.8 KB; Cormorant 600 + 700 = 75.3 KB; **Inter 400 + 500 + 600 = 144.8 KB**; Lora 400 37.8 KB;
+  JetBrains Mono 400 40.4 KB). Total first-load ≈ 385 KB — inside the ~500 KB budget, but 80% of it
+  is type, and Inter 500 appears to be used only by `.skip-link` (`css/base.css:288-290`). Dropping
+  one Inter weight recovers ~48 KB. — ROUND-1 #22.
+- `body::before` is a **fixed**, full-viewport, two-gradient overlay at `opacity: .5`
+  (`css/base.css:151-161`). Cheap in principle, but a fixed-position painted layer is the classic
+  cause of scroll-repaint cost on mid-range phones; the kit's `responsive_behavior.tablet` even asks
+  for reduced effect intensity on mid-range devices. Worth a scroll-jank check on real hardware.
+- The seasonal banner is created and inserted **before** `<header>` after first paint
+  (`js/main.js:388-395`), i.e. a CLS event at the top of the document — inert today (no active range),
+  live for 4 months of the year. — ROUND-1 #26.
+- Print output loses all 13 `.reveal` blocks (not a speed issue, but a `.reveal`-gating side effect
+  worth fixing while in the file). — ROUND-1 #24.
 
-### ⚠️ WARN — Total page weight: hero is lightweight but og:image is SVG (not counted as KB transferred, but...)
-- `img/og.svg` is an SVG file — no raster image to track for hero image budget
-- new_site.md §13: "hero image ≤~120 KB" — the hero has no raster image at all, so this passes trivially
-- Total transferred per page is lightweight (HTML + CSS + minimal JS), well under the ~500 KB budget
+## ❌ Failures (must fix this round)
 
-### ⚠️ WARN — Font subsetting cannot be assessed because no WOFF2 files exist
-- Since no WOFF2 files are in `css/fonts/`, there is nothing to subset
-- The inline font-face in index.html only uses `local()` — no download required
+- None.
 
-### ❌ FAIL — All 8 pages should have font-face declarations
-- Only `index.html` has an inline @font-face (for Cormorant Garamond only, and only with `local()`)
-- `features.html`, `clients.html`, `download.html`, `plugins.html`, `docs.html`, `hub.html`, `about.html` have NO @font-face declarations at all
-- Even the inline block in index.html is incomplete (no url(), only local())
+## Recommendations (ranked by impact)
 
----
+1. Verify whether Inter 500 (and Lora 500) are used at all; drop unused weights from the vendored
+   block (impact: medium, effort: low — but the sentinel block is tool-owned, so regenerate rather
+   than hand-edit).
+2. Reserve space for the seasonal banner (or render it server-side, hidden) so an active season does
+   not shift the header (impact: low, effort: low).
+3. Spot-check scroll performance with the fixed grain layer on a mid-range phone; if it costs, gate it
+   behind `@media (min-width: 900px)` (impact: low, effort: low).
 
-## Summary
+## Evidence
 
-The performance profile is severely undermined by a critical font loading regression. No self-hosted WOFF2 files exist in `css/fonts/`, and no CSS file contains a proper `@font-face url()` rule for any of the four brand fonts (Cormorant Garamond, Bebas Neue, Lora, Inter, JetBrains Mono). The inline `@font-face` in `index.html` only specifies `local()` with `font-display: swap` — no actual font file is downloaded. Every other page has zero font loading code. The site relies entirely on whatever local system fonts happen to be installed, which means the Abstract Canvas brand typography is completely absent in the deployed pages. The good news: JS is non-blocking, no CDN dependencies, hero is pure CSS, and page weight is low — but without self-hosted fonts, the visual identity fails.
-
-**Critical fix required**: Generate self-hosted WOFF2 files for Cormorant Garamond, Bebas Neue, Lora, Inter, and JetBrains Mono, place them in `css/fonts/`, and add proper `@font-face` rules with `url()` + `format('woff2')` + `font-display: swap` in `base.css`.
+- Byte counts: `css/base.css` 12.5 KB, `css/theme.css` 30.0 KB, `css/components.css` 15.0 KB,
+  `js/main.js` 13.9 KB, `img/logo.svg` 1.8 KB, `img/favicon.svg` 0.7 KB, `img/og.png` 74.9 KB;
+  fonts measured in `shared/assets/fonts/` (390 KB for all 10 declared faces, ~312 KB for the 8
+  exercised).
+- `node tools/render-check.mjs --site abstract-canvas` reports no failed requests and no console
+  errors on any of the 9 pages at either viewport.
+- `selfcheck` reports "10 @font-face rule(s) … js 13.6 KB".
