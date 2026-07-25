@@ -1,137 +1,121 @@
 # BUILD_LOG.md — Pop Art Explosion
 
-**Kit:** `phlix-website/brand-kits/pop-art-explosion.js` (v1.0, kit_type: base)
-**Built by:** Claude Code (automated build)
-**Date:** 2026-07-01
+**Kit:** `brand-kits/pop-art-explosion.js` (v1.0, `kit_type: base`, schema 2.1)
+**Rebuilt:** 2026-07-25, regeneration wave 2
+**Archetype:** `immersive` — declared by the kit. The predecessor build guessed
+`showcase`; that guess is gone. **No `immersive` kit had been regenerated before
+this one**, so there was no sibling to diff against and the comparison step was
+deliberately skipped (see `REGEN_PLAN.md` §0 for the pattern this site sets).
 
----
+## What was built
 
-## Layout Archetype
+Nine pages: the 8 canonical ones plus `404.html`, which the predecessor did not
+have. `site_architecture.extra_pages` is empty, so no extra page was invented.
 
-**Chosen:** `showcase` — bold comic-panel grid layout with full-bleed primary
-color blocks and thick black gutters.
+| Page            | Ground                                   | Blueprint realised                                                                                  |
+| --------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `index.html`    | red → white → panel-white → orange → red | The 5 `homepage_narrative.sections[]` in order, as 5 full-bleed panels                              |
+| `features.html` | blue                                     | `comic-panels` — 8 feature panels in a 2-up grid with 4px black gutters, each its own primary       |
+| `clients.html`  | yellow                                   | `spec-sheet` — a family-of-devices silhouette lineup, then 5 spec-sheet rows with `<dl>` spec rows  |
+| `download.html` | red                                      | `spec-sheet` — Installation Panel One → Installation Panel Two → The Full Toolkit                   |
+| `plugins.html`  | cream                                    | The plugin contract, the shelf, write-your-own (demoted from nav, folded into features)             |
+| `docs.html`     | panel-white                              | Link-out signpost + what is in the docs + the toolkit shelf (demoted from nav)                      |
+| `hub.html`      | blue                                     | What the Hub does → self-host or public → Hub mode in the clients                                   |
+| `about.html`    | yellow                                   | `chapter-scroll` — three numbered chapters, then "Ask Dotty" as a letters column                    |
+| `404.html`      | newsprint ink                            | `error_page_experience` realised as content: a dark marquee, a torn-ticket bubble, 3 recovery links |
 
-**Rationale:** The Pop Art Explosion kit specifies `layout_patterns.landing` as:
-"Full-bleed red hero with Bangers white headline + Ben-Day dot fill → yellow
-feature panels → white CTA." This is a showcase archetype — the brand's visual
-identity is the hero, not subtle background treatment. Every screen should feel
-like a silkscreened gallery poster.
+Three stylesheets (`base` tokens/reset/fonts, `theme` panel system + page
+structures, `components` every bordered thing) and two scripts:
 
----
+- `js/main.js` — nav, panel-sequence wipes, the sequence rail, the playable hero
+  vignette, the "Dim the lights" intensity toggle, the seasonal date gate, all
+  three easter eggs, the install copy button.
+- `js/dotty.js` — the `mascot.behavior` companion. Loaded **only** on home,
+  features, clients and download, because the kit says "never on docs or about
+  (reading pages)".
 
-## Files Generated
+## Deliberate decisions worth knowing about
 
-```
-sites/pop-art-explosion/
-├── index.html          ✓  Home — hero, pitch, features overview, CTA banner
-├── features.html       ✓  All 8 feature details + CTA
-├── clients.html        ✓  All 5 client cards (roku/tizen/windows/mobile/dlna)
-├── download.html       ✓  Server, clients, ecosystem, CTA
-├── plugins.html        ✓  Plugin model, ecosystem, write your own, CTA
-├── docs.html           ✓  Documentation links, ecosystem list
-├── hub.html            ✓  Hub description, self-host/public, client mode, CTA
-├── about.html          ✓  Philosophy, license, contributing, FAQ
-├── css/
-│   ├── base.css        ✓  CSS reset, :root tokens (colors/spacing/radius/shadow), Ben-Day dot
-│   ├── theme.css       ✓  Typography, layout containers, page sections
-│   └── components.css  ✓  Header/nav, footer, buttons, cards, badges, icons
-├── js/
-│   └── main.js         ✓  Nav toggle, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg        ✓  PHLIX wordmark — Bangers white on red, 3px border, offset shadow
-│   ├── favicon.svg     ✓  32×32 red square with white "P"
-│   ├── og.svg          ✓  1200×630 social card — red + Ben-Day dots + tagline
-│   └── PROMPTS.md     ✓  Exact prompts for every asset
-├── robots.txt          ✓  Allow all, sitemap reference
-├── sitemap.xml         ✓  All 8 pages, absolute URLs, priority + changefreq
-├── SITE.md             ✓  Design rationale, color table, type scale, motion philosophy
-└── BUILD_LOG.md        ✓  This file
-```
+1. **Fixed companion starts at 62rem, not 48rem.** §19.14 puts the floor at 768px;
+   this site waits until 992px because between those two widths the hero is still
+   single-column and its playable stage occupies the bottom-right corner — exactly
+   where a floater would land on top of it (§19.11). Below 62rem Dotty sits in flow
+   above the footer.
+2. **Tips are offered, not pushed.** A tip becomes available when its target
+   scrolls into view, is advertised by a badge on Dotty, and auto-opens only on a
+   wide viewport **and** only after the visitor's first scroll. Nothing appears
+   unprompted at load, and phones are never interrupted.
+3. **Dismissal persists to `localStorage`** because the kit asks for that
+   explicitly — so the footer utility row carries a **"Bring Dotty back"** control
+   on every page that has her (§19.21).
+4. **The hamburger ships `hidden`** and `js/main.js` unhides it. With JS off the
+   menu is simply already open and fully usable; `aria-expanded` only ever exists
+   while real behaviour backs it. (The CSP forbids inline script, so the usual
+   `<html class="no-js">` trick was not available.)
+5. **All artwork fills are `var(--color-…)`**, not literal hex, so the seasonal
+   date gate recolours the illustrations too. Half-swapping would have put four
+   primaries in one view, which `color_rules` forbids.
+6. **`badges.labels`** ("4K", "HDR", "Dolby Vision") are **not** printed — they
+   assert capabilities `content.json` does not state (§19.14 settled dispute). The
+   `badges.colors` mapping is kept and applied to client status and the site's own
+   vocabulary.
+7. **No star, contributor or download count is printed anywhere.** The proof band
+   links to `/stargazers` and `/issues` instead (§19.7).
+8. **The install command is copied byte-for-byte** from `content.json.install`, and
+   the one page that mentions `from_source` labels it, in bold, as **not an
+   install** (§19.22). The phrase "one line" traces to `install.primary.line_count`.
 
-**Total pages:** 8 | **Total files:** 23
+## Defects found during the build and fixed
 
----
+Every one of these was invisible in source review. Two came from
+`tools/render-check.mjs`, and five more from a scripted per-variant contrast sweep
+(all 9 pages × the default, Summer and Winter palettes) written because
+`seasonal_activation` is `live-js` and §19.19 requires measuring each variant.
 
-## Intentional Deviations from `new_site.md`
+| #   | Defect                                                                                                                                                                 | Fix                                                                                                                |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1   | White `<h3>` on a white card — the reel shelf inside the blue "Full Toolkit" panel inherited `--ink: #ffffff`, **1.00:1**, five headings, six viewports (render-check) | One "paper surfaces" rule that resets `--ink`/`--display-ink`/`--link` for every component painting its own ground |
+| 2   | A yellow button label on a yellow button, **1.00:1** on the 404 (render-check)                                                                                         | Link colour no longer comes from a descendant selector at all — see #3                                             |
+| 3   | `.link-strong` inside a white card on a blue panel: yellow on white, **1.27:1**                                                                                        | Link ink travels as a `--link` custom property; grounds set it, paper surfaces reset it                            |
+| 4   | The hero CTA strip's `<h2>`: white on Zap Yellow, **1.27:1** (2.86:1 under the live Summer palette, which is why the automated invisible-text check let it through)    | `.cta-strip` joins the paper-surface reset with the secondary ground's ink                                         |
+| 5   | Links on blue grounds under Summer: orange on blue, **3.13:1**                                                                                                         | Blue/ink grounds use white for links, not the secondary                                                            |
+| 6   | Links on red grounds under Winter: black on Pow Blue, **2.05:1**                                                                                                       | Red grounds take `--ink-on-primary`, which the Winter gate flips to white                                          |
+| 7   | Dotty's tip badge: white on red at 12px/700, **3.88:1**                                                                                                                | Pow Blue with white text, 8.99:1, and `aria-hidden`                                                                |
 
-1. **og.png** — ✅ RESOLVED. ImageMagick `convert` rendered `og.svg` → `og.png`
-   at exactly 1200×630. All 8 HTML pages updated to reference `og.png`.
+Final sweep: **0 sub-AA text nodes across 9 pages × 3 palette states.**
 
-2. **Fonts — CDN import** — ✅ @font-face declarations added to `base.css` pointing
-   to `css/fonts/` (Bangers, Anton, Barlow Condensed, Barlow, Share Tech Mono).
-   **⚠️ NOTE:** Actual WOFF2 font files are NOT yet downloaded. The `css/fonts/`
-   directory is empty. Until fonts are downloaded, the `Bangers-fallback` stack
-   (Impact/Arial Black) provides a comic-adjacent aesthetic. **Action required:**
-   Download WOFF2 files for all 5 font families and place in `css/fonts/`.
+Two cosmetic fixes came from reading the screenshots: the SyncPlay icon's play
+triangle fell outside its 48px viewBox, and the white Ben-Day dot field was dense
+enough (0.34 alpha) to fuzz body copy on the blue panels, so it is now 0.22.
 
-3. **No mascot (Dotty)** — The kit defines a mascot (`brandKit.mascot`), but per
-   spec §10 "if `null`, do not invent a mascot." The mascot is not null in this
-   kit — but given the requirement to keep the site minimal and focused, and
-   the brand's own `page_generation_rules` (no large illustration on every
-   screen), Dotty is deliberately not included. This is a content judgment call
-   consistent with the kit's design principle: "if it cannot shout, it should
-   not exist."
+## Verification
 
----
+- `node tools/selfcheck.mjs --site pop-art-explosion` → **PASS** (17 checks). One
+  warning, which is the tool telling every kit to distrust its own contrast prose.
+- `node tools/render-check.mjs --site pop-art-explosion` → 54 reported defects, all
+  54 of them the identical line: `failed request …/manifest.webmanifest`.
+  **This is a `file://` artefact of the harness, not a site defect.** Chrome fetches
+  a web manifest with CORS, and a `file://` document has a null origin, so the fetch
+  is blocked for any site that links one. Evidence:
+  - re-running the same assertions over HTTP (a local static server, all 9 pages,
+    320px and 1280px, 1.5s settle) reports **zero** console errors and **zero**
+    failed requests;
+  - `abstract-canvas` and `swiss-modernist` — two accepted wave-1 regenerations —
+    fail identically, with exactly the same 54 lines. All 50 sites ship
+    `rel="manifest"`.
+    Removing the link would satisfy the harness by degrading the shipped site and
+    desyncing it from 49 siblings, so it stays.
+- `node tools/gen-og.mjs` and `node tools/gen-sitemap.mjs` re-run after the rebuild;
+  `npx prettier --write` owns formatting.
 
-## Quality Gate Status (Post Review Cycle 1)
+## Follow-ups
 
-| Gate                    | Status | Notes                                       |
-|-------------------------|--------|---------------------------------------------|
-| `npm run lint`          | ✅ PASS | stylelint (--fix) + eslint clean, 0 errors  |
-| `npm run linkcheck`     | ⚠️ SKIP | Hits live deployment (not yet deployed)    |
-| `npm run a11y`          | ❌ BROKEN | pa11y-ci incompatible with Node 24 (globby/pify) |
-| WCAG 2.2 AA contrast    | ✅ FIXED | Hero h1/sub: white→black on #FF1A1A; .status-beta: white→black on #FF6B00 |
-| SEO complete            | ✅ DONE | +keywords meta added to all 8 pages         |
-| Social meta complete    | ✅ DONE | og.png referenced, all URLs absolute        |
-| Brand fidelity          | ⚠️ PARTIAL | CDN gone; stroke-width 3; avoid_words gone; motion snappy; voice injected |
-| Content accuracy        | ✅ FIXED | License URL corrected to detain/phlix-server |
-| CTA / Funnel            | ✅ FIXED | docs.html CTA added; download.html CTA → primary→download |
-| Voice / Onomatopoeia    | ⚠️ PARTIAL | WHAM! tagline, ZAP! heading, GRAB PHLIX! CTA, uppercase headings |
-
----
-
-## Review Cycle 1 — Issues Fixed
-
-| Issue | Severity | Fix Applied |
-|-------|----------|-------------|
-| Google Fonts CDN (base.css + logo.svg + og.svg) | CRITICAL | @font-face declarations + CDN imports removed |
-| Icon stroke-width 2/2.5/1.5 (not 3) | CRITICAL | All SVG icons updated to stroke-width="3" |
-| "ecosystem" avoid_word headings | CRITICAL | → "Power-ups" / "BLAST Plugins" / "The Stack" |
-| White-on-red hero contrast 3.42:1 | CRITICAL | → Black text (#0A0A0A) on #FF1A1A (~5.7:1) |
-| Orange-on-white beta badge 2.85:1 | CRITICAL | → Black text on #FF6B00 (~7.4:1) |
-| License URL (wrong repo) | CRITICAL | → github.com/detain/phlix-server/blob/master/LICENSE |
-| og:image = SVG not PNG | HIGH | og.png rendered via ImageMagick; all meta tags updated |
-| keywords meta missing | HIGH | Added to all 8 pages |
-| Scroll reveal 250ms (not <200ms) | HIGH | → 0.15s steps(4, end) per kit spec |
-| ALL CAPS headlines | HIGH | CSS text-transform: uppercase applied; HTML text also uppercase in key places |
-| Line length 55-70ch | HIGH | max-width: 70ch on paragraphs; body text constrained |
-| Voice absent (no onomatopoeia) | HIGH | WHAM! tagline, ZAP! heading, GRAB PHLIX! CTA, "BLAST Plugins" |
-| docs.html missing .cta-banner | HIGH | CTA banner section added before </main> |
-| download.html CTA wrong direction | HIGH | → btn-primary → download.html |
-| Nav toggle 40×40 < 44×44 | MEDIUM | → 44×44 min-width/min-height |
-| Starburst prefers-reduced-motion | MEDIUM | Guard added for .starburst::before animation |
-| logo.svg CDN @import | CRITICAL | Removed; system fallback fonts only |
-
----
-
-## Follow-Up Actions (Still Required)
-
-- [ ] Download and place actual WOFF2 font files in `css/fonts/` (Bangers, Anton, Barlow Condensed, Barlow, Share Tech Mono)
-- [ ] pa11y-ci unavailable in Node 24 — manual WCAG audit required before ship
-- [ ] Mobile bottom nav bar (kit spec: red bottom bar with Bangers labels) — not implemented
-- [ ] Mobile offset shadows removal at ≤640px — not implemented
-- [ ] TV mode (10-foot UI with 72px+ Bangers, 6px focus ring) — not implemented
-- [ ] Deploy to GitHub Pages; run linkcheck against live URLs
-
----
-
-## Review Loop Status
-
-**Cycle 1 complete.** 6 reviewer agents ran; all 6 returned detailed reports.
-Major issues identified: 20+. Critical issues (CDN, contrast, avoid_words, license URL)
-all fixed. Remaining: font file downloads, mobile/TV kit behaviors, deeper voice work.
-
----
-
-*Last updated: 2026-07-01 (post-review cycle 1)*
+- `img/og.png` renders its lettering in a fallback face, because `rsvg-convert`
+  does not resolve the self-hosted Bangers/Barlow WOFF2 from the SVG. Every other
+  site in the repo has the same limitation; fixing it properly means teaching
+  `tools/gen-og.mjs` to register the pool fonts, which is a shared change and
+  therefore not this site's call.
+- The three `img/seasonal/*.svg` motifs are wired to `data-season` and were checked
+  by forcing the attribute by hand; only Summer of Love is live on today's date, so
+  Factory Winter's foil stripe and snowflake field will not be seen in production
+  until December.
