@@ -119,14 +119,17 @@
               <h3 id="stage-server">Raise the server</h3>
               <p>
                 Phlix Server runs on your own hardware: PHP 8.3+ on Workerman 5.x, with FFmpeg doing
-                the transcoding. Clone it, install the dependencies, start it.
+                the transcoding. One line raises the whole observatory.
               </p>
-              <pre class="code-block"><code>git clone https://github.com/detain/phlix-server.git
-cd phlix-server
-composer install
-php start.php start</code></pre>
+              <pre
+                class="code-block"
+              ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
               <p class="code-caption">
-                Requires PHP 8.3+ and Workerman 5.x; FFmpeg for transcoding. The full setup notes
+                On a fresh Ubuntu or Debian host this installs PHP 8.3+, MySQL and FFmpeg, creates a
+                dedicated <code>phlix</code> user and its database, writes an env file with a
+                generated secret, runs the migrations, and registers a systemd service behind
+                HAProxy with an auto-renewing certificate. Add <code>--domain</code> and
+                <code>--admin-email</code> to provision HTTPS in the same run. The full setup notes
                 live in the docs.
               </p>
               <details class="jargon">

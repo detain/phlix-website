@@ -355,17 +355,21 @@
               <h3>Prepare the soil</h3>
             </div>
             <p class="section-lead">
-              The server is the ground everything grows in. It needs PHP 8.3+ and Workerman 5.x —
+              The server is the ground everything grows in. It needs a fresh Ubuntu or Debian host —
               that is the whole list.
             </p>
-            <!-- Character-for-character the block in the home page's seed box.
-                 Three lines on every page that mentions it (§19.22); the PHP
-                 and Workerman requirement is stated in the prose above rather
-                 than as a fourth line inside the block, so "three lines" is
-                 true wherever it is written. -->
-            <pre class="code-block"><code>git clone https://github.com/detain/phlix-server.git
-cd phlix-server
-composer install</code></pre>
+            <!-- Copied from shared/content.json `install.primary.command`, not
+                 retyped, and identical to the home page's seed box. One line on
+                 every page that mentions it (§19.22). -->
+            <pre
+              class="code-block"
+            ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
+            <p class="mt-4">
+              That one line plants PHP 8.3+, MySQL and FFmpeg, digs the database, writes the env
+              file, runs the migrations and registers the service behind HAProxy with a certificate
+              that renews itself. Add <code>--domain</code> and <code>--admin-email</code> to raise
+              HTTPS in the same breath.
+            </p>
             <p class="mt-4">
               Point it at the folders you already keep your media in. The folder-watcher does the
               rest — add a file, see it appear.
