@@ -1,5 +1,22 @@
 #!/usr/bin/env node
 /**
+ * ⚠ LEGACY — NOT PART OF THE DEPLOY PATH. DO NOT TREAT AS SOURCE OF TRUTH.
+ *
+ * This file belongs to the removed `variants/` pipeline: it templated pages from
+ * `shared/data/brand-kits.json` and emitted `/variants/<slug>/...` URLs. The
+ * `variants/` directory was DELETED on 2026-06-30 and replaced by 50
+ * hand-authored sites under `sites/<slug>/`.
+ *
+ * `tools/build.mjs` does NOT read this file, and does not read
+ * `shared/data/brand-kits.json` either. The real sources of truth are:
+ *   - `brand-kits/*.js`   — one brand kit per file (the 50 kits)
+ *   - `sites/<slug>/`     — the authored site for each kit (what gets published)
+ * See `new_site.md` for the authoring rulebook and `plan_site_regen.md` §0.5.
+ *
+ * Kept only as historical reference. Nothing should import it; if you are
+ * reaching for it, you almost certainly want `brand-kits/*.js` instead.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
  * tools/render.mjs
  *
  * Renders one HTML page for one variant using simple ${...} interpolation.

@@ -6,7 +6,7 @@
 // FAILS (exit 1) on the pre-fix tree (proving it catches B1/B2/B3); PASSES after
 // tools/fix-meta.mjs has run. Wired into `npm run meta` and `npm test`.
 //
-// For every variants/<slug>/<page>.html it asserts:
+// For every sites/<slug>/<page>.html it asserts:
 //   1. exactly one  <link rel="canonical">, og:url, og:image, twitter:image
 //   2. canonical === og:url
 //   3. both absolute, start with  <site.url>/<slug>/  and end with the correct
@@ -14,6 +14,15 @@
 //   4. NO two distinct files share a canonical URL  (B1 collision detector)
 //   5. og:image / twitter:image absolute and end with .png  (not .svg/relative)
 //   6. twitter:card === summary_large_image
+//
+// Scope note — sites/<slug>/404.html is deliberately NOT exempt from any rule.
+// It is `noindex` and is only ever reached through the root 404 shim, but
+// new_site.md §2A requires it to carry canonical/og:url under the *normal* rule
+// (<site.url>/<slug>/404.html). Rule 3 already derives exactly that (the
+// index.html special-case is the only branch), and rule 4 cannot false-positive
+// on it because that URL is unique per slug just like every other page. So the
+// generic rules cover it correctly and no carve-out is needed. (gen-sitemap.mjs
+// excludes 404.html from the sitemap; that is a separate, unrelated rule.)
 //
 // Parsing: focused regex over the in-tree HTML (no new runtime dependency).
 
@@ -23,7 +32,9 @@ import { fileURLToPath } from 'node:url';
 import { globSync } from 'glob';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const VARIANTS = join(ROOT, 'variants');
+// The generated brand-kit sites. (Was `variants/` until that directory was
+// removed on 2026-06-30 and replaced by sites/<slug>/.)
+const SITES = join(ROOT, 'sites');
 
 const content = JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'));
 const SITE_URL = String(content.site.url).replace(/\/+$/, '');
@@ -44,15 +55,15 @@ function findAll(html, elementRe, attr) {
 const errors = [];
 const canonicalOwners = new Map(); // canonical URL -> first file that claimed it
 
-const files = globSync('*/*.html', { cwd: VARIANTS }).sort();
+const files = globSync('*/*.html', { cwd: SITES }).sort();
 if (files.length === 0) {
-  console.error('[check-meta] no variants/*/*.html files found');
+  console.error('[check-meta] no sites/*/*.html files found');
   process.exit(1);
 }
 
 for (const rel of files) {
   const [slug, file] = rel.split('/');
-  const html = readFileSync(join(VARIANTS, rel), 'utf8');
+  const html = readFileSync(join(SITES, rel), 'utf8');
   const fail = (msg) => errors.push(`${rel}: ${msg}`);
 
   const canonicals = findAll(html, /<link\b[^>]*\brel=("|')canonical\1[^>]*>/, 'href');
