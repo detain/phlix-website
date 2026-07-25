@@ -43,11 +43,36 @@ The kit slug is on the last line of this message.
   kits are in flight concurrently. A needed shared change is an escalation, not
   an edit: write it in `REGEN_PLAN.md` and report it.
 - Do **not** run `git` or `gh`. Leave your work uncommitted in the tree.
+- **Scratch files go in a slug-scoped directory.** Up to five kits are being
+  fixed at once and they share one session scratchpad, so a fixed filename like
+  `scratchpad/probe.mjs` gets overwritten mid-run by another kit's agent. This
+  has already happened. Put throwaway harnesses under
+  `<scratchpad>/<slug>/…` — never a bare filename at the top level.
 
-## Self-check before reporting
+## Verify like the reviewer, not by inspection
 
 Re-run the mechanical checks from `review_site_prompt.md` yourself. It is much
 cheaper for you to catch a broken font path than for another review round to.
+
+But note: on every kit so far **both tools were already clean before the review**,
+so a clean run does **not** show your fixes worked. It only shows you broke
+nothing. For each finding, verify the specific claim the way the reviewer did:
+
+- contrast → compute the ratio, including **every** seasonal/alternate palette
+  variant, not just the default (§19.19);
+- a no-JS finding → actually load the page with JavaScript disabled;
+- a reduced-motion finding → set `prefers-reduced-motion: reduce` and check no
+  **content** disappeared, only motion (§19.20);
+- heading levels → probe the rendered outline on every page, not just the one
+  named in the finding;
+- an overlap or hit-target finding → `document.elementFromPoint` at the real
+  coordinates, at tablet widths too (§19.11);
+- a font-weight change → check the weight against the kit's declared list for
+  that family; `kit-brief` marks undeclared pool files inline.
+
+A short throwaway Puppeteer harness asserting each fix is the highest-value thing
+you can write. One kit's Fixer shipped 31 assertions and closed its round in one
+pass.
 
 ## Report back
 
