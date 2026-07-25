@@ -168,46 +168,211 @@
 .hero-plane {
   position: absolute;
   inset-block-end: 0;
-  inset-inline: -6%;
+  inset-inline: 0;
   height: 100%;
-  will-change: transform;
 }
 
-.hero-plane svg {
+/* Only the two bottom bands get a horizontal bleed, so their parallax pan can
+   never expose an edge. The framing planes must stay hero-aligned, because
+   their art is placed against the hero's own left and right edges. */
+.plane-cottage,
+.plane-flowers {
+  inset-inline: -6%;
+}
+
+/* `will-change` promotes a compositor layer for the lifetime of the page. Five
+   of them is real GPU memory, and it buys nothing on a touch device (the
+   pointer handler is filtered to `mouse`) or when the visitor has asked for
+   stillness. So it is scoped to a fine-pointer, motion-welcome, garden-awake
+   session only. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:not([data-calm='true']) .hero-plane {
+    will-change: transform;
+  }
+}
+
+/* ── How the diorama frames the copy instead of lining the floor ──────────
+   Each plane carries up to four pieces of art, placed and SIZED in CSS rather
+   than left at `height: auto`. `height: auto` made every plane's height
+   width÷aspect, so all five collapsed into one thin strip pinned to the bottom
+   edge — 81% of the hero carried no illustration at 375px against a kit that
+   says "always abundant" four times. Percentage heights with a px `min-height`
+   plus a `slice` fit mean the art CROPS on a narrow viewport instead of
+   shrinking, so the composition survives a tall narrow hero.               */
+.hero-plane .art {
   position: absolute;
+}
+
+/* The full-bleed wash: pure blobs, so `none` (which stretches) is safe here
+   and would not be on linework. */
+.art-wash {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.art-top {
+  inset-block-start: 0;
+  inset-inline: 0;
+  width: 100%;
+  height: 17%;
+  min-height: 118px;
+}
+
+.art-bottom {
   inset-block-end: 0;
   inset-inline: 0;
   width: 100%;
-  height: auto;
 }
 
-/* Depth order: sky wash → thatched cottage → gate & climbing roses →
-   foreground flowers → Primrose. Depth factors live in js/main.js. */
+/* The gate piers: climbing roses carried all the way up both edges. This is
+   the "gate frame" the kit's hero_experience actually asks for. */
+.art-left,
+.art-right {
+  inset-block: 0;
+  width: clamp(44px, 9vw, 140px);
+  height: 100%;
+}
+
+.art-left {
+  inset-inline-start: -10px;
+}
+
+.art-right {
+  inset-inline-end: -10px;
+}
+
+/* Depth order: sky wash + pressed-flower field → canopy & thatched cottage →
+   gate & climbing roses → foreground border → Primrose. Depth factors live in
+   js/main.js. */
 .plane-sky {
   opacity: 0.9;
 }
 
 .plane-cottage {
-  opacity: 0.5;
+  opacity: 0.55;
+}
+
+.plane-cottage .art-bottom {
+  height: 23%;
+  min-height: 196px;
 }
 
 .plane-gate {
   opacity: 0.85;
 }
 
+.plane-gate .art-bottom {
+  height: 34%;
+  min-height: 300px;
+}
+
 .plane-flowers {
   opacity: 0.95;
 }
 
+.plane-flowers .art-bottom {
+  height: 23%;
+  min-height: 208px;
+}
+
+/* The pressed-flower field — a scatter of botanical specimens across the whole
+   hero, denser toward the margins, so no part of the field is bare paper. Kept
+   faint: this sits behind body copy whose own contrast is 15.9:1, and the
+   scatter must read as pressed paper, not as noise. */
+.motif {
+  display: block;
+  position: absolute;
+  width: clamp(26px, 4.4vw, 58px);
+  color: var(--color-secondary);
+  opacity: 0.34;
+}
+
+.motif svg {
+  width: 100%;
+  height: auto;
+}
+
+.motif-rose {
+  color: var(--color-primary);
+}
+
+.m1 {
+  inset-block-start: 6%;
+  inset-inline-start: 3%;
+  rotate: -12deg;
+}
+
+.m2 {
+  inset-block-start: 13%;
+  inset-inline-end: 6%;
+  rotate: 14deg;
+}
+
+.m3 {
+  inset-block-start: 27%;
+  inset-inline-start: 7%;
+  rotate: 8deg;
+}
+
+.m4 {
+  inset-block-start: 31%;
+  inset-inline-end: 3%;
+  rotate: -18deg;
+}
+
+.m5 {
+  inset-block-start: 45%;
+  inset-inline-start: 2%;
+  rotate: 22deg;
+}
+
+.m6 {
+  inset-block-start: 48%;
+  inset-inline-end: 9%;
+  rotate: -6deg;
+}
+
+.m7 {
+  inset-block-start: 62%;
+  inset-inline-start: 8%;
+  rotate: -24deg;
+}
+
+.m8 {
+  inset-block-start: 66%;
+  inset-inline-end: 4%;
+  rotate: 10deg;
+}
+
+.m9 {
+  inset-block-start: 20%;
+  inset-inline-start: 46%;
+  rotate: -9deg;
+  opacity: 0.22;
+}
+
+.m10 {
+  inset-block-start: 55%;
+  inset-inline-start: 38%;
+  rotate: 16deg;
+  opacity: 0.22;
+}
+
+/* Primrose hovers in the open right-hand air, clear of the visitor_paths
+   panel's edge — she used to be pinned at `margin-inline-start: 62%`, which
+   put her on a card border at tablet widths. */
 .plane-bee {
-  inset-block-end: 14%;
+  inset-block-end: 44%;
+  inset-inline-start: auto;
+  inset-inline-end: 7%;
+  width: clamp(40px, 5.2vw, 62px);
   height: auto;
 }
 
 .plane-bee svg {
-  position: static;
-  width: 54px;
-  margin-inline-start: 62%;
+  width: 100%;
+  height: auto;
 }
 
 .hero > .container {
@@ -227,10 +392,20 @@
   z-index: 1;
 }
 
+/* The right-hand reserve. Copy stays in the left column so the fixed companion
+   in the bottom-right can never reach the primary CTA (REGEN_PLAN §5.6), and
+   the reserved band is where the gate pier, the pressed-flower scatter and
+   Primrose live. The reserve now starts at 48rem: it used to start at 62rem,
+   which left roughly 620–992px with a right half that was neither claimed by
+   the copy nor filled with art. */
+@media (width >= 48rem) {
+  .hero-inner {
+    max-width: 76%;
+  }
+}
+
 @media (width >= 62rem) {
   .hero-inner {
-    /* Copy stays in the left column so the fixed companion in the
-       bottom-right can never reach the primary CTA (REGEN_PLAN §5.6). */
     max-width: 62%;
   }
 }
@@ -247,6 +422,17 @@
 
 .hero-script {
   margin-top: var(--space-2);
+}
+
+/* homepage_narrative.logline, printed as the hero deck — the one declared
+   string that had no home on the page. */
+.hero-deck {
+  max-width: 44ch;
+  margin-top: var(--space-4);
+  color: var(--color-text);
+  font-size: 1.1875rem;
+  font-style: italic;
+  line-height: 1.6;
 }
 
 .hero-sub {
@@ -271,13 +457,25 @@
   margin-top: var(--space-8);
 }
 
-/* ── visitor_paths fork — "What kind of gardener are you?" ──────────────── */
+/* ── visitor_paths fork — "What kind of gardener are you?" ────────────────
+   ONE parchment panel, not three floating opaque cards. Three separate
+   `--color-surface` fills sitting directly on the gate and flower planes cut
+   the illustration into disconnected pieces; a single seed-packet panel with
+   the three choices ruled inside it occludes the garden once, deliberately,
+   and reads as an object resting in the border rather than as clutter.
+   The panel is fully opaque on purpose: render-check's contrast probe ignores
+   alpha (REGEN_PLAN §5.5.2), so no text on this site sits on a translucent
+   fill. */
 .paths {
   position: relative;
   z-index: 1;
+  max-width: 44rem;
   margin-top: var(--space-12);
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--color-border);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
 }
 
 .paths h2 {
@@ -412,9 +610,11 @@
 }
 
 /* The one signal in the placard that is a spec rather than a count: a sprig
-   stands in for the numeral so it still reads as part of the same row. */
+   stands in for the numeral so it still reads as part of the same row. Sage,
+   like every other decorative icon on the site — the kit reserves Garden Rose
+   for ACTIVE icon states, and this one is never active. */
 .placard-spec > svg {
-  color: var(--color-primary);
+  color: var(--color-sage-ink);
 }
 
 .placard-label {
@@ -443,12 +643,17 @@
   margin-top: 0;
 }
 
-/* Hand-lettered garden sign holding one true quoted line */
+/* Hand-lettered garden sign holding one true quoted line.
+   Sage, not rose: `color_rules` reserves Garden Rose for "the single most
+   important CTA per screen", and a rose-bordered quote card two beats above the
+   CTA ladder competed with it for first fixation. Sage Ink is the kit's own
+   secondary hue, deepened enough to clear the 3:1 UI bar (2.88 → 5.63). */
 .garden-sign {
   max-width: 62ch;
   margin-top: var(--space-12);
   padding: var(--space-8);
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-alt);
   box-shadow: var(--shadow-md);
@@ -506,13 +711,17 @@
   margin-top: 0;
 }
 
+/* Sage border and a sage glow, for the same reason as `.garden-sign`: the seed
+   box sits directly beside the CTA ladder, and a rose glow there made the code
+   block compete with "Start Your Garden". */
 .seed-box {
   min-width: 0;
   padding: var(--space-6);
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-alt);
-  box-shadow: var(--shadow-rose-glow);
+  box-shadow: var(--shadow-sage-glow);
 }
 
 .seed-box h3 {
@@ -566,12 +775,15 @@
   font-size: clamp(1.5rem, 3.2vw, 2.15rem);
 }
 
-.content-section h3 {
+/* Scoped to prose blocks. Left unscoped, this rule would put a 32px top margin
+   on every card title on the site, because §19.16 moved card titles from <h2>
+   down to <h3> where they belong. */
+.content-section .prose-block h3 {
   margin-top: var(--space-8);
   font-size: 1.25rem;
 }
 
-.content-section h3:first-child {
+.content-section .prose-block h3:first-child {
   margin-top: 0;
 }
 
@@ -579,9 +791,18 @@
 .content-section p + ul,
 .content-section p + ol,
 .content-section ul + p,
-.content-section h2 + p,
-.content-section h3 + p {
+.content-section :is(h2, h3, h4) + p {
   margin-top: var(--space-4);
+}
+
+/* Cards space their children with flex `gap`, so a margin under the title would
+   double only that one gap. This override is the price of putting card titles at
+   the level they belong (§19.16); the alternative was leaving them as <h2>. */
+.content-section
+  :is(.client-card, .download-card, .book, .season-card, .room-card)
+  :is(h3, h4)
+  + p {
+  margin-top: 0;
 }
 
 .content-grid {
@@ -630,7 +851,11 @@
   margin-top: var(--space-12);
 }
 
-.journal-page > h2 {
+/* Journal entries are items INSIDE the journal section, so they are <h3> under
+   the section's own title (§19.16). */
+.journal-page > h3 {
+  margin-top: var(--space-2);
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
   font-style: italic;
 }
 
@@ -659,8 +884,9 @@
   font-size: clamp(2.25rem, 6vw, 3.5rem);
 }
 
-.step-index h2 {
+.step-index h3 {
   margin: 0;
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
 }
 
 /* ── seasons.html — the year's four moods (site_architecture.extra_pages) ─ */
@@ -802,6 +1028,16 @@ html[data-calm='true'] .reveal {
   flex: 0 0 auto;
   width: 30px;
   height: 30px;
+}
+
+/* The season's name, prefixed to the kit's banner sentence as its own element so
+   the declared sentence survives verbatim instead of being paraphrased into a
+   lower-cased clause. Nunito 600 is a declared UI weight; the colour is the
+   variant's own rose ink, which every variant overrides alongside its hues. */
+.season-name {
+  margin-inline-end: var(--space-1);
+  color: var(--color-rose-ink);
+  font-weight: 600;
 }
 
 /* @copyright 2026 Joe Huss <detain@interserver.net> */

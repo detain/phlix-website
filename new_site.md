@@ -94,17 +94,18 @@ sites/<slug>/
 for every brand-kit site. Read it; do **not** invent product copy, features, or
 claims. It provides these blocks — wire each into the pages as noted:
 
-| Key               | Shape                                                          | Used on                       |
-| ----------------- | -------------------------------------------------------------- | ----------------------------- |
-| `site`            | name, url, repo_org, locales, `social.{github,docs}`           | shell, footer, meta           |
-| `hero`            | eyebrow, headline, subheadline, `primary_cta`, `secondary_cta` | home hero                     |
-| `pitch_bullets[]` | 7 one-line value props                                         | home "Why Phlix?"             |
-| `features[]`      | 8 × `{id,title,body,icon}`                                     | home overview + features page |
-| `clients[]`       | 5 × `{id,name,tagline,repo,highlights[],store_url,status}`     | clients + download            |
-| `ecosystem[]`     | 5 × `{name,repo,what}`                                         | download + docs               |
-| `faq[]`           | 6 × `{q,a}`                                                    | about                         |
-| `footer`          | tagline + 3 `columns[]` of `{heading,links[]}`                 | footer (all pages)            |
-| `meta`            | description, keywords[], og_image, twitter_card                | `<head>` of every page        |
+| Key               | Shape                                                                                                                       | Used on                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `site`            | name, url, repo_org, locales, `social.{github,docs}`                                                                        | shell, footer, meta                                  |
+| `hero`            | eyebrow, headline, subheadline, `primary_cta`, `secondary_cta`                                                              | home hero                                            |
+| `pitch_bullets[]` | 7 one-line value props                                                                                                      | home "Why Phlix?"                                    |
+| `features[]`      | 8 × `{id,title,body,icon}`                                                                                                  | home overview + features page                        |
+| `clients[]`       | 5 × `{id,name,tagline,repo,highlights[],store_url,status}`                                                                  | clients + download                                   |
+| `ecosystem[]`     | 5 × `{name,repo,what}`                                                                                                      | download + docs                                      |
+| `faq[]`           | 6 × `{q,a}`                                                                                                                 | about                                                |
+| `footer`          | tagline + 3 `columns[]` of `{heading,links[]}`                                                                              | footer (all pages)                                   |
+| `install`         | `primary` (the real one-liner + `line_count`), `with_https`, `from_source` (**not** an install), `requirements`, `docs_url` | home + download — **copy, never retype**; see §19.22 |
+| `meta`            | description, keywords[], og_image, twitter_card                                                                             | `<head>` of every page                               |
 
 You **may** restyle, reorder visually, and add brand-flavored **micro-copy**
 (section eyebrows, button labels, empty/aside lines, alt text) drawn from the

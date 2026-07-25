@@ -147,13 +147,22 @@
   transition: color var(--dur-quick) var(--ease-garden);
 }
 
-/* site_architecture.nav emphasis tiers */
+/* site_architecture.nav emphasis tiers.
+   Three tiers need three visibly different treatments, and a 100-unit Nunito
+   step at 15px is not one — `primary` and `default` used to differ by weight
+   alone, which vanishes entirely on a fallback stack. Each tier now carries two
+   channels: `primary` = 600 + a warm butter panel (an inset ring, so revealing
+   it costs no layout shift); `default` = 500 on bare ivory; `muted` = 400 in
+   Taupe Ink (4.93:1). */
 .nav-menu a[data-emphasis='primary'] {
+  background-color: var(--color-surface-alt);
+  box-shadow: inset 0 0 0 1px var(--color-border);
   font-weight: 600;
 }
 
 .nav-menu a[data-emphasis='muted'] {
   color: var(--color-taupe-ink);
+  font-weight: 400;
 }
 
 .nav-menu a:hover {
@@ -304,7 +313,10 @@
   font-size: 0.9375rem;
 }
 
-/* ── Path buttons (visitor_paths fork) ──────────────────────────────────── */
+/* ── Path buttons (visitor_paths fork) ────────────────────────────────────
+   Outlined, not filled. The three cards sit inside the one `.paths` parchment
+   panel now, so they inherit its surface instead of each punching their own
+   opaque rectangle through the diorama. */
 .path-card {
   display: flex;
   align-items: center;
@@ -314,7 +326,7 @@
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
+  background-color: transparent;
   color: var(--color-text);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
@@ -330,6 +342,7 @@
 .path-card:hover {
   transform: translateY(-2px);
   border-color: var(--color-primary);
+  background-color: var(--color-surface-alt);
   color: var(--color-text);
   box-shadow: var(--shadow-md);
 }
@@ -363,12 +376,16 @@
 }
 
 /* ── Seed-catalog plate (feature_casting.hero) ──────────────────────────── */
+/* Petal-blush border with a sage spine, not a rose outline: `color_rules`
+   reserves Garden Rose for the one most important CTA per screen, and two
+   rose-bordered plates on the home page out-shouted the CTA ladder. */
 .plate {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-8);
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-block-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-lg);
@@ -508,7 +525,7 @@
   min-width: 0;
   padding: var(--space-4) var(--space-6);
   border: 1px solid var(--color-border);
-  border-inline-start: 3px solid var(--color-primary);
+  border-inline-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-md);
   background-color: var(--color-bg);
   box-shadow: var(--shadow-sm);
@@ -580,7 +597,7 @@
   box-shadow: var(--shadow-rose-glow);
 }
 
-.client-card h2 {
+.client-card h3 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -710,7 +727,7 @@
   color: var(--color-sage-ink);
 }
 
-.feature-detail h2 {
+.feature-detail h3 {
   font-size: clamp(1.35rem, 3vw, 1.85rem);
 }
 
@@ -753,7 +770,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.download-card h3 {
+.download-card :is(h3, h4) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -793,13 +810,13 @@
   min-width: 0;
   padding: var(--space-4);
   border: 1px solid var(--color-border);
-  border-inline-start: 6px solid var(--color-primary);
+  border-inline-start: 6px solid var(--color-sage-ink);
   border-radius: var(--radius-sm) var(--radius-md) var(--radius-md) var(--radius-sm);
   background-color: var(--color-bg);
   box-shadow: var(--shadow-sm);
 }
 
-.book h3 {
+.book :is(h3, h4) {
   margin-top: 0;
   font-family: var(--font-mono);
   font-size: 0.9375rem;
@@ -817,9 +834,10 @@
 }
 
 /* Alternate spine colours so the shelf reads as mismatched, hand-collected
-   volumes rather than a matched set. Two accents per view (kit color_rules). */
+   volumes rather than a matched set. Sage + lavender is one of the kit's own two
+   permitted accent pairs, and it keeps Garden Rose off the shelf entirely. */
 .bookshelf > li:nth-child(even) .book {
-  border-inline-start-color: var(--color-secondary);
+  border-inline-start-color: var(--color-lav-ink);
 }
 
 /* ── Code blocks ────────────────────────────────────────────────────────── */
@@ -827,10 +845,6 @@
   min-width: 0;
   margin-top: var(--space-4);
   font-size: 0.9375rem;
-}
-
-.code-comment {
-  color: var(--color-sage-ink);
 }
 
 /* ==========================================================================
@@ -876,13 +890,15 @@
   color: var(--color-sage-ink);
 }
 
-/* The gardener's rephrasing, in the script face. Dancing Script is only ever
-   set large here — 1.4rem minimum — because a script face at label size is a
-   legibility problem, not a flourish. Taupe ink on ivory measures 4.93:1. */
+/* The gardener's rephrasing, in the script face. These are QUESTIONS a reader
+   has to parse, not a flourish, and a cursive face's effective x-height at
+   22.4px reads like an 11–12px roman — so 1.4rem in the site's lowest-contrast
+   ink was legal (4.93:1) and still the hardest text on the site to read. Now
+   1.7rem in Rose Ink: 27.2px, and 6.10:1 on the `.faq-item` ivory surface. */
 .faq-list dt.faq-rephrase {
-  color: var(--color-taupe-ink);
+  color: var(--color-rose-ink);
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   font-weight: 700;
   line-height: var(--lh-display);
 }
@@ -908,7 +924,7 @@
   box-shadow: var(--shadow-md);
 }
 
-.season-card h2 {
+.season-card h3 {
   font-size: 1.35rem;
 }
 
@@ -1073,9 +1089,15 @@
 
 /* ==========================================================================
    mascot.behavior — Primrose the bumble bee
-   Fixed bottom-right on Home / Features / Download / About only. Rendered at
-   >= 45rem (720px) only: at 320px a companion plus a tip bubble cannot exist
-   without covering the primary CTA (§19.11, REGEN_PLAN §5.6).
+   Fixed bottom-right on Home / Features / Download / About only.
+
+   Rendered at >= 56.25rem (900px) only, which is the SAME breakpoint the nav
+   uses. It used to be 45rem (720px), and that 180px disagreement was the worst
+   defect on the site: between 720 and 899px the "Primrose, rest now" pill lay
+   across a `visitor_paths` card and swallowed 7 of 18 clicks aimed at it, and
+   because dismissal persists to localStorage the visitor could never undo it.
+   A component breakpoint that disagrees with the nav breakpoint always opens a
+   band nobody tested (§19.11, §19.21, REGEN_PLAN §5.6).
    ========================================================================== */
 .mascot {
   display: none;
@@ -1085,7 +1107,7 @@
   display: none;
 }
 
-@media (width >= 45rem) {
+@media (width >= 56.25rem) {
   .mascot:not([hidden]) {
     display: flex;
     position: fixed;
@@ -1150,7 +1172,7 @@ html[data-calm='true'] .mascot-bee svg {
   max-width: 100%;
   padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
   border: 1px solid var(--color-border);
-  border-inline-start: 3px solid var(--color-primary);
+  border-inline-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-lg);
@@ -1164,22 +1186,76 @@ html[data-calm='true'] .mascot-bee svg {
   display: none;
 }
 
+/* The dismiss pill only exists once Primrose has been engaged — pointed at,
+   focused, or tapped. A permanently-clickable pill hovering over the page is
+   what made the 720–899px mis-hit possible, and `display: none` (rather than
+   opacity or visibility) is deliberate: those two leave a real hit box and a
+   real bounding rect, so a probe would still find a control with the page
+   painted over it. Absolutely positioned, so revealing it never reflows the
+   companion. `:focus-within` fires when the bee itself takes focus, which is
+   what makes the pill Tab-reachable from the keyboard. */
 .mascot-dismiss {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  inset-block-end: calc(100% + var(--space-2));
+  inset-inline-end: 0;
   min-height: 44px;
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
   color: var(--color-taupe-ink);
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.mascot:hover .mascot-dismiss,
+.mascot:focus-within .mascot-dismiss,
+.mascot[data-engaged='true'] .mascot-dismiss {
+  display: inline-flex;
 }
 
 .mascot-dismiss:hover {
   border-color: var(--color-primary);
   color: var(--color-rose-ink);
+}
+
+/* §19.21 — the way back. Dismissal persists via localStorage because the kit
+   asks for exactly that ("she stays tucked until the visitor returns"), so the
+   restore control has to be somewhere stable: the footer utility row, beside
+   the intensity toggle. JS reveals it only when Primrose is actually resting. */
+.primrose-restore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.primrose-restore svg {
+  color: var(--color-honey-ink);
+}
+
+.primrose-restore:hover {
+  border-color: var(--color-primary);
+  color: var(--color-rose-ink);
+}
+
+.primrose-restore[hidden] {
+  display: none;
 }
 
 /* easter_interactions[0] — "a delighted loop-de-loop and a little curtsy" */
@@ -1254,7 +1330,8 @@ html[data-calm='true'] .mascot-bee svg {
   inset-inline-start: var(--space-6);
   max-width: min(22rem, calc(100vw - 2 * var(--space-6)));
   padding: var(--space-4) var(--space-6);
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-inline-start: 3px solid var(--color-sage-ink);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-lg);

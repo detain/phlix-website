@@ -54,10 +54,19 @@ All resolved under §19.6 and recorded in `REGEN_PLAN.md` §5. Summary:
    `saturate(0.72)` does not. §12 wins over a field.
 4. **Two `click:5` eggs.** Topbar sigil ×5 = petal shower + reward copy;
    Primrose ×5 = loop-de-loop curtsy. Different targets, both shipped (§19.8).
-5. **Primrose is hidden below 720px.** The kit places her bottom-right with
-   anchored tips and also says "never push unrequested tips on a phone" — at
-   320px both cannot be true without covering the CTA (§19.11). Below 720px she
-   appears only as inline illustration (hero diorama, 404).
+5. **Primrose is hidden below 900px, the nav's own breakpoint.** The kit places
+   her bottom-right with anchored tips and also says "never push unrequested
+   tips on a phone" — at 320px both cannot be true without covering the CTA
+   (§19.11). Below 900px she appears only as inline illustration (hero diorama,
+   404). Round 1 shipped this at **720px**, which disagreed with the nav's
+   900px breakpoint and opened a 180px band where her dismiss pill lay across a
+   `visitor_paths` card and swallowed 7 of 18 clicks aimed at it — irreversibly,
+   because the dismissal persists. Two lessons, both now in `new_site.md`: a
+   component breakpoint must not disagree with the nav's (§19.11), and a
+   persistent dismissal needs a restore control (§19.21, "Wake Primrose" in the
+   footer utility row). The dismiss pill itself is now revealed only when
+   Primrose is hovered, focused or tapped, so it is never a standing click
+   target over the page.
 6. **`proof_strategy` "quotes-from-docs"** is quoted from `content.json`'s FAQ
    answer, not from an unverifiable sentence in `phlix-docs` (§19.7). No star
    counts, download totals or testimonials appear anywhere.

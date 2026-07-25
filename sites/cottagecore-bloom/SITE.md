@@ -42,18 +42,18 @@ pure black, no dark surfaces anywhere.
 
 ## Colour palette
 
-| Role        | Name          | Hex       | Use here                                                     |
-| ----------- | ------------- | --------- | ------------------------------------------------------------ |
-| Primary     | Garden Rose   | `#C8556A` | Display type ≥24px, rules, borders, botanical fills, glows   |
-| Secondary   | Sage Green    | `#7A9E6B` | **Decorative botanicals only** — 2.88:1, never text or icons |
-| Tertiary    | Lavender Mist | `#8B7AB5` | Large/UI accents only — 3.60:1                               |
-| Background  | Warm Ivory    | `#FFF8F2` | Page ground, and the label colour on rose buttons            |
-| Surface     | Garden Cream  | `#FFF3E8` | Cards, panels, the topbar                                    |
-| Surface alt | Butter Soft   | `#FDEEDE` | Striped rows, the proof band, the footer                     |
-| Text        | Bark Brown    | `#2A1A10` | All body and headline text — 15.92:1 on Warm Ivory           |
-| Neutral     | Warm Taupe    | `#B0A090` | **Decorative only** — 2.41:1 (bookshelf edge, plane strokes) |
-| Border      | Petal Blush   | `#E8D5C4` | Card borders, dividers, rules                                |
-| Error       | Briar Red     | `#B53040` | Available and text-safe at 5.77:1; not needed on this site   |
+| Role        | Name          | Hex       | Use here                                                                                                                                                                                                                                                |
+| ----------- | ------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Primary     | Garden Rose   | `#C8556A` | Display type ≥24px, the nav active state, the focus ring, card hover borders, botanical fills, glows — **never a static border or a secondary UI edge** (`color_rules` reserves it for the one most important CTA per screen; those edges are Sage Ink) |
+| Secondary   | Sage Green    | `#7A9E6B` | **Decorative botanicals only** — 2.88:1, never text or icons                                                                                                                                                                                            |
+| Tertiary    | Lavender Mist | `#8B7AB5` | Large/UI accents only — 3.60:1                                                                                                                                                                                                                          |
+| Background  | Warm Ivory    | `#FFF8F2` | Page ground, and the label colour on rose buttons                                                                                                                                                                                                       |
+| Surface     | Garden Cream  | `#FFF3E8` | Cards, panels, the topbar                                                                                                                                                                                                                               |
+| Surface alt | Butter Soft   | `#FDEEDE` | Striped rows, the proof band, the footer                                                                                                                                                                                                                |
+| Text        | Bark Brown    | `#2A1A10` | All body and headline text — 15.92:1 on Warm Ivory                                                                                                                                                                                                      |
+| Neutral     | Warm Taupe    | `#B0A090` | **Decorative only** — 2.41:1 (bookshelf edge, plane strokes)                                                                                                                                                                                            |
+| Border      | Petal Blush   | `#E8D5C4` | Card borders, dividers, rules                                                                                                                                                                                                                           |
+| Error       | Briar Red     | `#B53040` | Available and text-safe at 5.77:1; not needed on this site                                                                                                                                                                                              |
 
 **Gradients** (kit `colors.gradients`): _Morning Light_ — the warm rose radial
 glow behind the hero and the page headers. _Cream Fade_ — the surface-to-ground
@@ -110,10 +110,20 @@ Two further rules follow from the same measurement work:
 All five are self-hosted WOFF2 from `shared/assets/fonts/` with
 `font-display: swap`; ten `@font-face` rules, zero external requests.
 
-**Dancing Script is never set below 1.4rem.** It carries only short accent
+**Dancing Script is never set below 1.7rem.** It carries only short accent
 phrases — a tagline, a six-word prompt, a rephrased question — because a script
-face at label size is a legibility problem, not a flourish. It is never used for
-body copy, buttons or navigation, per the kit's own `typography_rules`.
+face at label size is a legibility problem, not a flourish: a cursive x-height at
+22px reads like an 11–12px roman, so the three FAQ rephrasings (real questions a
+reader must parse) are set at 1.7rem in Rose Ink rather than 1.4rem in the
+lowest-contrast token. It is never used for body copy, buttons or navigation,
+per the kit's own `typography_rules`.
+
+**Emphasis.** `fonts.body.weight` caps Lora at `[400, 500]`, so `<strong>` is 500
+**plus a colour channel** (`--color-rose-ink`, ≥4.5:1 on all three surfaces): a
+single 100-unit step in a serif at 17px is not perceptible on its own, and 700
+would be an undeclared weight even though the shared pool carries a `lora-700`
+file. The two undeclared pool faces (Lora 700, Nunito 700) are deliberately not
+`@font-face`d.
 
 ## Spatial system
 
@@ -132,16 +142,22 @@ Motion is the breeze through a cottage window: present, gentle, never demanding.
 Durations 250–550ms on `cubic-bezier(0.25, 0.46, 0.45, 0.94)` and
 `cubic-bezier(0.34, 1.02, 0.64, 1)`.
 
-- **Hero** — `diorama-parallax`: five layered garden planes (sky wash, thatched
-  cottage, gate and climbing roses, foreground flowers, Primrose) drift on
-  pointer position and scroll offset.
+- **Hero** — `diorama-parallax`: five layered garden planes (sky wash and a
+  pressed-flower field, canopy and thatched cottage, gate piers and climbing
+  roses, the foreground border, Primrose) drift on pointer position and scroll
+  offset. Each plane places its art as framing pieces — top, both sides, bottom —
+  sized in CSS with percentage heights and px `min-height`s, so the garden
+  surrounds the copy at every viewport instead of lining the bottom edge.
 - **Scroll** — `petal-unfold`: each beat blooms in (opacity, 12px drift,
   0.985 → 1 scale); beats already walked past settle to `saturate(0.72)`. The
   kit asks for "soft sepia", but `sepia()` shifts luminance and would drop
   measured contrast, so the luminance-preserving `saturate()` carries the same
   reading. §12 wins over a field (§19.6).
 - **Primrose** — drifts up and down as if riding an air current; a delighted
-  loop-de-loop and curtsy after five clicks.
+  loop-de-loop and curtsy after five clicks. Fixed bottom-right at ≥900px only
+  (the nav's breakpoint), her tips arrive on first engagement rather than on
+  load, her dismiss pill appears only while she is hovered/focused/tapped, and
+  "Wake Primrose" in the footer brings her back.
 - **Reduced motion** — the petal-unfold, the parallax and Primrose's drift all
   stop; sections are full colour and full opacity from the start.
 - **"Quiet the Garden"** — the kit's `intensity_toggle`, in the footer utility

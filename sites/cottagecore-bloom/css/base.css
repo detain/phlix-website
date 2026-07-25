@@ -21,11 +21,15 @@
 /* An explicit OPAQUE background colour on both html and body is load-bearing:
    the predecessor set none at all, so the "warm ivory" kit shipped on browser
    white and every contrast probe resolved the backdrop to transparent-black.
-   Texture is applied with the background-image longhand so the colour lives. */
+   Texture is applied with the background-image longhand so the colour lives.
+
+   There is deliberately no `scroll-behavior: smooth`: it applies to EVERY
+   in-page fragment navigation, including the skip link, so a keyboard visitor
+   who presses Enter on "Skip to main content" waits out an animation before
+   focus lands. */
 html {
   /* :root IS html, so the token below resolves here regardless of source order */
   background-color: var(--color-bg);
-  scroll-behavior: smooth;
   text-size-adjust: 100%;
   tab-size: 4;
 }
@@ -46,26 +50,42 @@ select {
   font: inherit;
 }
 
-/* `anywhere`, not `break-word`: only `anywhere` also lowers the element's
-   min-content size, and it is min-content that makes a flex/grid track refuse
-   to shrink. Without it a single long token like "ContentDirectory," forces a
-   track wider than a 320px viewport once text is zoomed to 200% — which is
-   exactly how the 200%-zoom reflow gate fails. Neither value breaks a word
-   that fits, so normal rendering is unchanged. */
+/* §19.12 — `anywhere`, not `break-word`, on BODY-WEIGHT text: only `anywhere`
+   also lowers the element's min-content size, and it is min-content that makes
+   a flex/grid track refuse to shrink. Without it a single long token like
+   "ContentDirectory," or even an ordinary word like "transcoding," in a 164px
+   grid column forces a track wider than a 320px viewport once text is zoomed to
+   200% — which is exactly how the reflow gate fails. Neither value breaks a
+   word that fits, so normal rendering is unchanged. Scope this WIDE: the
+   offenders are usually plain prose in a narrow track, not code. */
 p,
+a,
+li,
+dt,
+dd,
+span,
+summary,
+figcaption,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+/* Headings and pull quotes are the exception. An unmarked mid-word break in
+   Playfair Display or Dancing Script reads as a rendering fault rather than as
+   a wrap, so they get hyphenation (the pages are `lang="en"`) plus
+   `break-word`, which still breaks a word too long for its line. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-dt,
-dd,
-li,
-summary,
-figcaption,
 blockquote {
-  overflow-wrap: anywhere;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 ul[role='list'],
@@ -111,6 +131,7 @@ ol[role='list'] {
   --lh-headline: 1.15;
   --tracking-display: 0.01em;
   --lh-display: 1.2;
+  --tracking-body: 0em; /* kit fonts.body.tracking */
   --lh-body: 1.75;
   --tracking-ui: 0.01em;
   --lh-ui: 1.4;
@@ -138,10 +159,10 @@ ol[role='list'] {
   --radius-xl: 24px;
   --radius-pill: 999px;
 
-  /* Shadows — kit shadows{
-
-  --tracking-body: 0em;
-}; all warm-tinted from Bark Brown */
+  /* Shadows — kit shadows{}; all warm-tinted from Bark Brown.
+     (§19.18: this comment's close used to arrive three lines late, which meant
+     the --tracking-body declaration that sat inside it was never declared at
+     all. It now lives in the typography block above.) */
   --shadow-sm: 0 1px 4px rgb(42 26 16 / 8%);
   --shadow-md: 0 4px 16px rgb(42 26 16 / 10%), 0 1px 4px rgb(200 85 106 / 6%);
   --shadow-lg: 0 10px 36px rgb(42 26 16 / 12%), 0 4px 12px rgb(200 85 106 / 8%);
@@ -180,6 +201,7 @@ body {
   font-family: var(--font-body);
   font-size: 1.0625rem; /* 17px — kit: Lora never below 15px */
   font-weight: 400;
+  letter-spacing: var(--tracking-body);
   line-height: var(--lh-body);
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
@@ -219,7 +241,15 @@ a:focus-visible {
   text-decoration-thickness: 2px;
 }
 
+/* §19.17 — 400 → 500 in Lora at 17px is about one stem pixel, and the Georgia
+   fallback has no 500 at all, so weight alone is sub-perceptual. The kit caps
+   fonts.body.weight at [400, 500], so 700 would be an UNDECLARED weight even
+   though a lora-700 file exists in the shared pool. The second channel is
+   therefore colour: Rose Ink measures 6.10 / 5.88 / 5.65 against Warm Ivory,
+   Garden Cream and Butter Soft, so it clears 4.5:1 on every surface <strong>
+   can land on. */
 strong {
+  color: var(--color-rose-ink);
   font-weight: 500;
 }
 
@@ -350,10 +380,6 @@ hr {
  * kit accessibility.motion_reduction: petal-fall becomes a cross-fade, the
  * Primrose drift loader becomes static, only opacity survives.              */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
@@ -407,13 +433,6 @@ hr {
   src: url('../../assets/fonts/lora-500-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-700-latin.woff2') format('woff2');
-}
-@font-face {
   font-family: 'Nunito';
   font-style: normal;
   font-weight: 400;
@@ -433,13 +452,6 @@ hr {
   font-weight: 600;
   font-display: swap;
   src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-700-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Playfair Display';
