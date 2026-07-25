@@ -52,11 +52,23 @@ from the kit module, the real font pool and the site on disk.
 
 Then read, in this order:
 
-1. **`new_site.md` §19 "Known traps"** — 13 traps, each a defect that actually
+1. **`new_site.md` §19 "Known traps"** — 23 traps, each a defect that actually
    shipped, including the **field-precedence table (§19.6)** for when a kit
    contradicts itself and the **two CSS rules (§19.12)** that caused nearly every
    responsive failure so far. Highest-value page in the repo; skipping it costs a
    review round per item.
+
+   **§19.16–§19.23 are new, and each was hit by two or three of the first five
+   kits independently.** Read them as a pre-flight checklist, not as background:
+   heading levels inside a titled section (§19.16 — 3 of 5 kits), the
+   `strong { font-weight: 500 }` trap and its _kit-specific_ fix (§19.17 — 3 of
+   5), a scaffold comment that silently swallows token declarations (§19.18 — 2
+   of 5, same region of `base.css`), per-variant contrast for seasonal palettes
+   (§19.19), reduced motion removing content (§19.20), an undismissable-forever
+   companion (§19.21), the install command being wrong or inconsistent (§19.22),
+   and verifying your own manifest last (§19.23). Between them these were ~40% of
+   all wave-1 findings, and every one is cheaper to avoid than to fix.
+
 2. **`brand-kits/<slug>.js`** — your design spec, ~1,500 lines. Read it fully for
    **design intent** — voice, motion, imagery, the feel of the thing. The brief
    above already gave you its facts, so you are reading for judgement, not

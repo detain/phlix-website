@@ -20,21 +20,21 @@ rendering; computed-style probes).
 
 ## Scores
 
-| Dimension | Score | Blocking findings |
-| --- | --- | --- |
-| Accessibility | **78** | 3, 5, 6, 7, 8, 15, 16 |
-| Branding Consistency | **84** | 1, 2, 3, 11 |
-| Usability | **84** | 2, 6, 17 |
-| Experience Fidelity | **85** | 4, 13, 14 |
-| Content Quality | **88** | 11, 12, 17, 18, 19, 20 |
-| Depth | **88** | 21 |
-| SEO | **88** | 16 |
-| CTA / Funnel | **90** | 2 (in-band) |
-| Responsive | **92** | 8 (latent) |
-| Localization | **93** | — |
-| Performance | **94** | — |
-| Anti-convergence | **96** | — |
-| Social Metadata | **96** | — |
+| Dimension            | Score  | Blocking findings      |
+| -------------------- | ------ | ---------------------- |
+| Accessibility        | **78** | 3, 5, 6, 7, 8, 15, 16  |
+| Branding Consistency | **84** | 1, 2, 3, 11            |
+| Usability            | **84** | 2, 6, 17               |
+| Experience Fidelity  | **85** | 4, 13, 14              |
+| Content Quality      | **88** | 11, 12, 17, 18, 19, 20 |
+| Depth                | **88** | 21                     |
+| SEO                  | **88** | 16                     |
+| CTA / Funnel         | **90** | 2 (in-band)            |
+| Responsive           | **92** | 8 (latent)             |
+| Localization         | **93** | —                      |
+| Performance          | **94** | —                      |
+| Anti-convergence     | **96** | —                      |
+| Social Metadata      | **96** | —                      |
 
 ---
 
@@ -132,7 +132,7 @@ real.
 
 Zero uses across all nine pages, so `--color-violet-text` and
 `--color-brass-text` reach no rendered element while `SITE.md:71-72` presents
-both as required. (`.client-status status-stable|beta` *are* used and land on
+both as required. (`.client-status status-stable|beta` _are_ used and land on
 `--color-surface` at 7.03:1 / 5.84:1 — correct.)
 
 **Fix:** use them (the kit's `badges.labels` are candidates), or delete the rules
@@ -151,7 +151,7 @@ already signals weighting.
 Measured per beat (verbatim `content.json` facts and kit-verbatim
 `copy_overlay`/`angle` strings excluded): dome-rising 114 ✅, the-instruments
 ~110 ✅, why-stardust ~111 ✅, **proven-path 139 ✗**, chart-course 86 ✅. The
-placard's six `<dd>` are *re-voiced*, so §19.6's exemption does not cover them;
+placard's six `<dd>` are _re-voiced_, so §19.6's exemption does not cover them;
 `REGEN_PLAN.md:29` claims the cap is met.
 
 **Fix:** tighten, or quote verbatim so the exemption applies — and correct the
@@ -184,7 +184,7 @@ tips are likely silent to AT.
 ### 16. `features.html:135,153,168,182,197,213,228,243` and `clients.html:122,146,168,192,214` — titles at the same level as the section introducing them
 
 `features.html:120` is `<h2>The gallery of plates</h2>` and all eight plates are
-`<h2>`; the *same plates on `index.html:265` are `<h3>`*.
+`<h2>`; the _same plates on `index.html:265` are `<h3>`_.
 
 **Fix:** demote to `<h3>` on both pages.
 
@@ -273,7 +273,7 @@ a site defect; it is the only review artefact under `sites/` rather than
 ## Checked and clean (so depth is auditable)
 
 No-JS dome state is genuinely **open** (`.dome-half-*` default transforms are the
-open state; JS *adds* `data-dome="closed"`), so the declared `fallback` and the
+open state; JS _adds_ `data-dome="closed"`), so the declared `fallback` and the
 `aria-label` agree — the author got the hard part right. Nav emphasis renders
 three distinguishable levels (gold-600 / parchment / silver). Footer is
 mirror-row + three verbatim `content.json` columns (§19.14). Licence stated

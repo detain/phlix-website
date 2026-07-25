@@ -85,10 +85,23 @@ const PAGES = readdirSync(renderDir)
 // viewport HEIGHT (a bottom-pinned floater moves, the hero CTA does not), so a
 // defect present at 320x700 was absent at 320x640. These are the sizes the
 // abstract-canvas review measured.
+// Heights matter as much as widths: a bottom-pinned floater moves with the
+// viewport height while the CTA does not, so 320x640 and 320x700 catch different
+// overlaps.
+//
+// The two tablet widths were added after this list MISSED a blocker. A kit pinned
+// its companion `@media (width >= 45rem)` (720px) while its nav breakpoint was
+// 900px, so between 720 and 899px the dismiss button lay across a visitor-path
+// card and swallowed 7 of 18 clicks aimed at it — an irreversible mis-hit, since
+// dismissal persisted to localStorage. With nothing between 375 and 1280 the tool
+// reported PASS and a human reviewer found it by hand. Any kit whose component
+// breakpoints disagree with its nav breakpoint has a band like this.
 const VIEWPORTS = [
   { name: '320x640', width: 320, height: 640 },
   { name: '320x700', width: 320, height: 700 },
   { name: '375x667', width: 375, height: 667 },
+  { name: '768x1024', width: 768, height: 1024 },
+  { name: '860x720', width: 860, height: 720 },
   { name: 'desktop', width: 1280, height: 900 },
 ];
 

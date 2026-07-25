@@ -328,6 +328,103 @@ p(`nearest available and say so in \`REGEN_PLAN.md\` — do **not** invent a fil
 p(`and do **not** let \`font-weight\` reference a face you have not declared.`);
 p();
 
+/* Emphasis (`<strong>`/`<b>`) — §19.17.
+ *
+ * Three of the first five kits shipped `strong { font-weight: 500 }`, which is
+ * close to sub-perceptual at body size and was each time the site's only
+ * emphasis channel. The right fix is NOT the same for every kit: it depends on
+ * whether the kit's own body/UI role declares 700. Deriving that took each
+ * author several lookups and two of them still got it wrong, so resolve it here.
+ */
+{
+  const bodyRole =
+    fontRoles.find((f) => f.role === 'body') ?? fontRoles.find((f) => f.role === 'ui');
+  p(`### Emphasis — what \`<strong>\` should weigh (§19.17)`);
+  p();
+  if (!bodyRole) {
+    p(`_No \`body\` or \`ui\` font role declared; pick the emphasis channel yourself._`);
+  } else {
+    // A family often serves several roles at different weights — swiss-modernist
+    // declares Inter at [400,500] body, [500,600] ui and [800,900] headline. The
+    // permitted set is the union across every role using that family, NOT the body
+    // role alone; judging on the body role would wrongly forbid a weight the kit
+    // openly declares elsewhere.
+    const sameFamily = fontRoles.filter((f) => f.family === bodyRole.family);
+    const declaredForFamily = [
+      ...new Set(
+        sameFamily
+          .flatMap((f) => (f.weights ? [].concat(f.weights) : []))
+          .map(Number)
+          .filter(Boolean),
+      ),
+    ].sort((a, b) => a - b);
+    // Baseline is the LIGHTEST declared body weight, because that is what body
+    // copy actually renders at. Using the max instead makes a kit declaring
+    // [400,700] look as if it has nothing heavier than its own bold.
+    const base = Math.min(...(bodyRole.weights ? [].concat(bodyRole.weights) : [400]).map(Number));
+    // Usable = declared for this family, heavier than the base, and a real file exists.
+    const usable = declaredForFamily.filter((w) => w > base && bodyRole.have.includes(w));
+    // A 100-unit step is the thing §19.17 exists to prevent, so only a >=200 step
+    // counts as sufficient on its own.
+    const strongEnough = usable.filter((w) => w >= base + 200);
+    const roleOf = (w) =>
+      sameFamily
+        .filter((f) => (f.weights ? [].concat(f.weights) : []).map(Number).includes(w))
+        .map((f) => f.role)
+        .join('/');
+
+    p(
+      `Body face: **${bodyRole.family}** at ${JSON.stringify(bodyRole.weights)}. Declared across all` +
+        ` roles for this family: **${declaredForFamily.join(', ')}**${
+          sameFamily.length > 1
+            ? ` (${sameFamily.map((f) => `${f.role} ${JSON.stringify(f.weights)}`).join(', ')})`
+            : ''
+        }.`,
+    );
+    p();
+    const fileFor = (w) => `${bodyRole.family.toLowerCase().replace(/\s+/g, '-')}-${w}-latin.woff2`;
+    if (strongEnough.length) {
+      const pick = strongEnough[0];
+      p(
+        `**Use \`font-weight: ${pick}\`** for \`<strong>\` (body copy renders at ${base}, so this is a` +
+          ` ${pick - base}-unit step) — declared by this kit for the \`${roleOf(pick)}\` role, and` +
+          ` \`${fileFor(pick)}\` is in the pool.` +
+          `${strongEnough.length > 1 ? ` Also declared and available: ${strongEnough.slice(1).join(', ')}.` : ''}`,
+      );
+    } else if (usable.length) {
+      p(
+        `⚠️ The only heavier declared weight is **${usable.join(', ')}** — a ${usable[0] - base}-unit step` +
+          ` from the ${base} body weight, which is **not perceptible enough on its own** (this is exactly` +
+          ` the §19.17 trap). Use it **and** add a **second channel**: an ink colour for \`<strong>\`` +
+          ` clearing 4.5:1 against **every** surface it can land on — check each surface, not just the` +
+          ` main one.`,
+      );
+    } else {
+      p(
+        `⚠️ **No heavier declared weight exists.** The kit declares only ${declaredForFamily.join(', ')}` +
+          ` for ${bodyRole.family}. Carry emphasis with a **second channel**: an ink colour for` +
+          ` \`<strong>\` clearing 4.5:1 against **every** surface it can land on.`,
+      );
+    }
+    if (!declaredForFamily.includes(700) && bodyRole.have.includes(700)) {
+      p();
+      p(
+        `⚠️ A \`${fileFor(700)}\` exists in the pool but **700 is not declared** for ${bodyRole.family}` +
+          ` by this kit — do not reach for it just because the file is there. The pool was backfilled` +
+          ` with 700 for every prose role, so existence is not permission.` +
+          `${usable.length ? ` Stay within ${declaredForFamily.join(', ')}.` : ''}`,
+      );
+    }
+    p();
+    p(
+      `Either way, do not add a \`color\` that merely restates the body colour — two wave-1 kits did` +
+        ` that, so the declaration did nothing. And check emphasis is actually **used**: two kits` +
+        ` shipped the rule with no \`<strong>\`, \`<b>\` or \`<em>\` on any page, so the system was inert.`,
+    );
+  }
+  p();
+}
+
 p(`## Contrast — measured, with accessible substitutes precomputed`);
 p();
 const claim = kit.accessibility?.minimum_contrast;

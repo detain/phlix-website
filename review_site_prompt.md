@@ -84,9 +84,18 @@ canonical filenames are already occupied by the 2026-06-30 review of the
 predecessor site, and the first regeneration review silently overwrote eight of
 them.
 
-Then `reviews/<slug>/round-<n>/FINDINGS.md` — a numbered list of every ❌ and ⚠️.
+**Then return the numbered findings list as TEXT in your final report — do not
+try to write `FINDINGS.md` yourself.** Two of the first five reviewers had that
+exact write rejected by a guardrail, and one lost its entire review to it. The
+orchestrator persists the list to `reviews/<slug>/round-<n>/FINDINGS.md` for you.
+Per-dimension files above do write successfully; it is the findings file
+specifically that is blocked, so put your effort into the text.
+
 **That list is what the Fixer works from**, so each entry needs `file:line` and a
-concrete required change, not a complaint.
+concrete required change, not a complaint. Write it to be pasted verbatim into a
+file and handed to someone who has not read anything else you wrote: number every
+entry, mark each ❌ or ⚠️, and lead with the required change rather than the
+diagnosis.
 
 ## Rules
 

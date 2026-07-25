@@ -840,3 +840,132 @@ The pattern must clip the box as well as the paint:
 ```
 
 If `render-check` reports overflow you cannot find on screen, suspect this first.
+
+### 19.16 Do not put a section's items at the section's own heading level
+
+**Hit 3 of the first 5 kits, each independently, and each on a different page.**
+The shape is always the same: a section titled `<h2>The gallery of plates</h2>`
+followed by the eight plates _inside that section_ also marked `<h2>`. The items
+become siblings of the heading that introduces them, so the document outline
+claims eight top-level topics where there is one topic with eight parts.
+
+The tell that it is a mistake rather than a choice: **the same content on
+`index.html` is already correctly `<h3>`.** The site contradicts itself, so one of
+the two is wrong — and it is never the home page. One kit's worst page had `h1`
+plus **ten flat `h2` and no `h3` at all**.
+
+Two things do **not** rescue it: wrapping each item in `<article>`, and styling
+the items smaller. In fact smaller item CSS is _evidence of the bug_ — one kit's
+card titles computed to 1.35rem against section titles at 1.65–2.6rem, proving
+subordinate intent that the markup contradicted.
+
+Rule: **before you write a heading, ask what contains it.** If a heading sits
+inside a section that already has a title, it goes one level deeper than that
+title. Check every page, not just `index.html`; interior pages are where this
+happens, because the home page's rhythm makes the nesting obvious and the
+interior pages' does not.
+
+### 19.17 `strong { font-weight: 500 }` is usually not enough — but the fix is kit-specific
+
+**Three of the first five kits shipped this.** A single 100-unit step in a serif
+or humanist face at body size is close to sub-perceptual, and it is often the
+site's _only_ emphasis channel. Worse, two kits paired it with
+`color: var(--color-text)` — the same colour as body copy, so the declaration did
+nothing at all.
+
+**The correct fix depends on what the kit declares, so check before you choose:**
+
+- If the kit's body/UI role declares **700** and a 700 face exists in the pool
+  (`kit-brief` prints both), use **700**. Do not settle for 500.
+- If the kit **caps** the body face at `[400, 500]`, 700 is an _undeclared weight_
+  and using it violates the kit. Add a **second channel** instead — an ink colour
+  that still clears 4.5:1 against every surface it lands on.
+
+Either way, delete a `color` declaration that merely restates the body colour.
+And check whether `<strong>`/`<em>` occur on the site at all: two kits had the
+rule but no element using it, so the emphasis system was inert and the copy had
+no emphasis anywhere.
+
+### 19.18 A comment that swallows the declarations after it
+
+**Two kits shipped this in the same region of `base.css` (lines ~131–145),** which
+means it comes from the scaffold rather than from either author. The shape is a
+comment whose close is missing or misplaced, e.g. an opening `/* … fonts{` whose
+`*/` does not arrive until several lines later — so every custom property in
+between is **never declared**. Both kits lost tokens this way, and in each case at
+least one lost token existed nowhere else in the file, so the value was simply
+undefined at runtime.
+
+There is usually no visual symptom, because an undefined custom property either
+falls back or is unreferenced. That is exactly why it survives review. After
+editing a token block, confirm the properties you think you declared actually
+resolve — `getComputedStyle(document.documentElement).getPropertyValue('--x')`
+returning empty is the test.
+
+### 19.19 Check every seasonal / alternate palette, not just the default
+
+One kit's author correctly found a failing accent and fixed the **tertiary** use
+of it — but the _same hue_ was routed into `--color-primary` by a seasonal
+override, so the **primary CTA label dropped to 4.24:1 for one month of the
+year**. All of that kit's palette variants shipped at least one small-text
+failure.
+
+If a kit declares `seasonal_activation`, alternate themes, or an
+`intensity_toggle` that changes colours, the contrast matrix must be computed
+**per variant**. A variant that is inert today (because today's date is outside
+its window) still ships, and will be live for weeks. Trace which tokens each
+variant overrides, then re-measure every text pair that uses them.
+
+### 19.20 `prefers-reduced-motion` must remove motion, not content
+
+One kit's easter eggs were **silently deleted** under reduced motion, because a
+single `quiet()` helper conflated "reduced motion" with the kit's own calm mode.
+Reduced motion is an accessibility preference about _animation_; it must never
+cost a visitor content, a reward, or a feature. Another kit left a
+`translate3d` offset applied to five layers when calm mode was on, so the layout
+stayed displaced with the motion removed — the worst of both.
+
+Also: a `reduceMotion` media query read **once** at load never sees the visitor
+change the setting. Attach a `change` listener. Same for a viewport-width guard
+read once — see §19.14 on the 768px companion boundary.
+
+### 19.21 A dismissible companion needs a way back
+
+One kit wrote its mascot dismissal to `localStorage` with **no control to bring
+it back**. Combined with a mis-hit (§19.11), a visitor aiming at a card
+irreversibly dismissed a declared experience field on their first tablet visit
+and could never restore it. If a thing can be dismissed persistently, provide a
+restore affordance somewhere stable — and prefer session-scoped dismissal over
+`localStorage` unless the kit asks otherwise.
+
+### 19.22 The install command must be correct and identical on every page
+
+One kit shipped a two-command install on the home page that **does not work** — it
+omitted the `cd` that the download page's version had. Another stated "one line"
+on the home page, "four lines" on two others; each was locally accurate and the
+set was incoherent.
+
+Copy the command from `shared/content.json` and do not re-type it. If you
+describe its length in prose, describe the same command the page actually shows.
+A broken install command is the single most expensive defect on a
+self-host marketing site: it is the conversion step.
+
+### 19.23 Verify your own `REGEN_PLAN.md` before you report
+
+Every wave-1 kit had at least one manifest row that did not match the site, and
+reviewers file each one as a defect. The recurring kinds:
+
+- a row claiming a field is rendered when it appears **nowhere** on the site
+  (one kit's `homepage_narrative.logline` was claimed as the hero deck and was
+  not present — `grep` for a distinctive phrase from it and you will know);
+- a word-count or budget row asserted rather than measured;
+- an **escalation note that is simply wrong** (one claimed
+  `content.json.meta.og_image` was a root-absolute `.svg`; it is a relative
+  `.png`, and has been for some time);
+- stale rows describing a workaround you later removed — if you stop needing a
+  workaround, delete the paragraph documenting it in `SITE.md` and
+  `BUILD_LOG.md` too.
+
+The manifest is what the reviewer checks you against. Re-read it last, with the
+finished site open, and correct it. This costs you five minutes and saves a
+review round.
