@@ -13,7 +13,7 @@
 
   /* ─── Mobile nav toggle ─────────────────────────────────────────────────── */
   var toggle = document.querySelector('.nav-toggle');
-  var menu   = document.querySelector('.nav-menu');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.addEventListener('click', function () {
@@ -43,19 +43,24 @@
 
   /* ─── Scroll reveals (lantern-float fade-in) ─────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+    );
 
-    document.querySelectorAll('.feature-card, .client-card, .download-card, .faq-item').forEach(function (el) {
-      el.classList.add('scroll-reveal');
-      revealObserver.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .client-card, .download-card, .faq-item')
+      .forEach(function (el) {
+        el.classList.add('scroll-reveal');
+        revealObserver.observe(el);
+      });
   } else {
     document.querySelectorAll('.scroll-reveal').forEach(function (el) {
       el.classList.add('revealed');
@@ -67,8 +72,7 @@
   style.textContent = [
     '.scroll-reveal { opacity: 0; transform: translateY(16px); transition: opacity 400ms ease-out, transform 400ms ease-out; }',
     '.scroll-reveal.revealed { opacity: 1; transform: translateY(0); }',
-    '@media (prefers-reduced-motion: reduce) { .scroll-reveal { opacity: 1; transform: none; transition: none; } }'
+    '@media (prefers-reduced-motion: reduce) { .scroll-reveal { opacity: 1; transform: none; transition: none; } }',
   ].join('\n');
   document.head.appendChild(style);
-
 })();

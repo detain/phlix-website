@@ -14,7 +14,7 @@
 
   /* ── Mobile nav toggle ─────────────────────────────────────────────────────── */
   var toggle = document.querySelector('.nav-toggle');
-  var menu   = document.querySelector('.nav-menu');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.setAttribute('aria-controls', 'nav-menu');
@@ -46,9 +46,7 @@
   }
 
   /* ── Reduced motion ─────────────────────────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (prefersReducedMotion) {
     document.documentElement.classList.add('reduced-motion');
@@ -69,7 +67,7 @@
             }
           });
         },
-        { rootMargin: '0px 0px -40px 0px', threshold: 0.1 }
+        { rootMargin: '0px 0px -40px 0px', threshold: 0.1 },
       );
 
       revealEls.forEach(function (el) {
@@ -83,10 +81,9 @@
       var style = document.createElement('style');
       style.textContent = [
         '.is-revealed { opacity: 1 !important; transform: translateY(0) !important; }',
-        '@media (prefers-reduced-motion: reduce) { .is-revealed { opacity: 1 !important; transform: none !important; transition: none !important; } }'
+        '@media (prefers-reduced-motion: reduce) { .is-revealed { opacity: 1 !important; transform: none !important; transition: none !important; } }',
       ].join('\n');
       document.head.appendChild(style);
     }
   }
-
 })();

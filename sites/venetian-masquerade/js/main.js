@@ -14,7 +14,7 @@
 
   // ── Mobile nav toggle ───────────────────────────────────────
   var toggle = document.querySelector('.nav-toggle');
-  var menu   = document.querySelector('.nav-menu');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.addEventListener('click', function () {
@@ -46,19 +46,22 @@
   if (!prefersReducedMotion) {
     // ── Scroll reveal (IntersectionObserver) ──────────────────
     var revealTargets = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item'
+      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item',
     );
 
     if ('IntersectionObserver' in window && revealTargets.length > 0) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+      );
 
       revealTargets.forEach(function (el) {
         el.style.opacity = '0';
@@ -78,5 +81,4 @@
       link.setAttribute('aria-current', 'page');
     }
   });
-
 })();

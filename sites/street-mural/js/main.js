@@ -50,16 +50,21 @@
   if (!reducedMotion && 'IntersectionObserver' in window) {
     var reveals = document.querySelectorAll('.reveal');
     if (reveals.length > 0) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
 
-      reveals.forEach(function (el) { observer.observe(el); });
+      reveals.forEach(function (el) {
+        observer.observe(el);
+      });
     }
   } else {
     // Skip animation; just show everything

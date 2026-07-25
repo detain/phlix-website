@@ -9,8 +9,8 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ── Mobile nav toggle ──────────────────────────────────────
-  const toggle  = document.querySelector('.nav-toggle');
-  const menu   = document.querySelector('.nav-menu');
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.addEventListener('click', () => {
@@ -38,7 +38,9 @@
 
   // ── Scroll reveals (progressive enhancement) ───────────────
   if (!reducedMotion && 'IntersectionObserver' in window) {
-    const reveals = document.querySelectorAll('.feature-card, .client-card, .feature-detail, .faq-item, .download-card');
+    const reveals = document.querySelectorAll(
+      '.feature-card, .client-card, .feature-detail, .faq-item, .download-card',
+    );
     if (reveals.length) {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -49,7 +51,7 @@
             }
           });
         },
-        { threshold: 0.12 }
+        { threshold: 0.12 },
       );
       reveals.forEach((el) => {
         el.classList.add('reveal');
@@ -60,5 +62,4 @@
     // Motion disabled or no IO: show everything immediately
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
   }
-
 })();

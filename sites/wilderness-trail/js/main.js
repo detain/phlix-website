@@ -18,7 +18,7 @@
 
   /* ─── Mobile nav toggle ──────────────────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -52,7 +52,7 @@
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item'
+      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item',
     );
 
     var observer = new IntersectionObserver(
@@ -65,7 +65,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     revealEls.forEach(function (el) {

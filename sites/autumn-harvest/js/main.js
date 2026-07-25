@@ -13,9 +13,7 @@
   'use strict';
 
   /* ─── Reduced motion detection ────────────────────────────────────────────── */
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ─── Mobile nav toggle ───────────────────────────────────────────────────── */
   const navToggle = document.querySelector('.nav-toggle');
@@ -77,7 +75,7 @@
 
     leaf.innerHTML = `<path d="M12 2C8 2 5 5 5 9c0 3 2 6 4.5 8 .5.5 1.5 1 2.5 1.5V22h3v-3.5c1-.5 2-1 2.5-1.5C17 15 19 12 19 9c0-4-3-7-7-7z" fill="${color}" stroke="${color}" opacity="0.8"/>`;
     leaf.style.left = Math.random() * 100 + '%';
-    leaf.style.animationDuration = (8000 + Math.random() * 4000) + 'ms';
+    leaf.style.animationDuration = 8000 + Math.random() * 4000 + 'ms';
     leaf.style.animationDelay = Math.random() * 5000 + 'ms';
     leaf.style.color = color;
 
@@ -95,7 +93,7 @@
   /* ─── Scroll reveal (optional) ─────────────────────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const revealEls = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .faq-item'
+      '.feature-card, .client-card, .download-card, .faq-item',
     );
 
     const observer = new IntersectionObserver(
@@ -108,14 +106,13 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     revealEls.forEach(function (el) {
       el.style.opacity = '0';
       el.style.transform = 'translateY(16px)';
-      el.style.transition =
-        'opacity 500ms ease-out, transform 500ms ease-out';
+      el.style.transition = 'opacity 500ms ease-out, transform 500ms ease-out';
       observer.observe(el);
     });
   }

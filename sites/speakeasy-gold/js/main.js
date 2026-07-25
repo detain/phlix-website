@@ -14,7 +14,7 @@
 
   /* ─── Mobile nav toggle ─────────────────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -39,13 +39,11 @@
   }
 
   /* ─── Scroll reveal (IntersectionObserver) ──────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = document.querySelectorAll(
-      '.feature-card, .client-card, .feature-detail, .download-card'
+      '.feature-card, .client-card, .feature-detail, .download-card',
     );
 
     var revealObserver = new IntersectionObserver(
@@ -57,7 +55,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     revealEls.forEach(function (el) {
@@ -73,7 +71,7 @@
       'beforeend',
       '<style>' +
         '.is-revealed { opacity: 1 !important; transform: translateY(0) !important; }' +
-      '</style>'
+        '</style>',
     );
   }
 
@@ -97,9 +95,10 @@
       var errorId = field.id + '-error';
       var errorEl = document.getElementById(errorId);
       var isEmpty = field.value.trim() === '';
-      var isInvalid = field.getAttribute('type') === 'email'
-        ? !isEmpty && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)
-        : false;
+      var isInvalid =
+        field.getAttribute('type') === 'email'
+          ? !isEmpty && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)
+          : false;
 
       if (isEmpty || isInvalid) {
         field.setAttribute('aria-invalid', 'true');
@@ -107,7 +106,7 @@
           if (isEmpty) {
             errorEl.textContent = 'This field is required, friend.';
           } else if (isInvalid) {
-            errorEl.textContent = 'That doesn\'t look like a valid email address.';
+            errorEl.textContent = "That doesn't look like a valid email address.";
           }
         }
         return false;

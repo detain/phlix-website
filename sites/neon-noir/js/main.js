@@ -10,7 +10,7 @@
    Vanilla, dependency-free, defer-loaded
    ========================================================================== */
 
-(function() {
+(function () {
   'use strict';
 
   /* ==========================================================================
@@ -37,7 +37,7 @@
   }
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.contains('is-open');
       if (isOpen) {
         closeNav();
@@ -50,15 +50,15 @@
       navOverlay.addEventListener('click', closeNav);
     }
 
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         closeNav();
       }
     });
 
     const navLinks = navMenu.querySelectorAll('.nav-menu__link');
-    navLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
         if (navMenu.classList.contains('is-open')) {
           closeNav();
         }
@@ -90,7 +90,7 @@
   function initScrollReveal() {
     if (prefersReducedMotion.matches) {
       const revealElements = document.querySelectorAll('.reveal');
-      revealElements.forEach(function(el) {
+      revealElements.forEach(function (el) {
         el.classList.add('is-visible');
       });
       return;
@@ -98,26 +98,29 @@
 
     if (!('IntersectionObserver' in window)) {
       const revealElements = document.querySelectorAll('.reveal');
-      revealElements.forEach(function(el) {
+      revealElements.forEach(function (el) {
         el.classList.add('is-visible');
       });
       return;
     }
 
-    const revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach(function(el) {
+    revealElements.forEach(function (el) {
       revealObserver.observe(el);
     });
   }
@@ -132,8 +135,8 @@
      Smooth Scroll for Anchor Links
      ========================================================================== */
 
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#' || targetId === '#main-content') return;
 
@@ -142,7 +145,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
@@ -154,12 +157,12 @@
 
   function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
-    element.addEventListener('keydown', function(e) {
+    element.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
       if (e.shiftKey) {
@@ -179,5 +182,4 @@
   if (navMenu && navMenu.classList.contains('is-open')) {
     trapFocus(navMenu);
   }
-
 })();

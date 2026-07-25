@@ -14,7 +14,7 @@
 
   /* ── Mobile nav toggle ───────────────────────────────────── */
   var toggle = document.querySelector('.nav-toggle');
-  var menu   = document.querySelector('.nav-menu');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
     toggle.addEventListener('click', function () {
@@ -41,9 +41,7 @@
   }
 
   /* ── Reduced motion ──────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Scroll reveals (IntersectionObserver) ───────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
@@ -57,17 +55,20 @@
       '.docs-links li',
     ];
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px',
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px',
+      },
+    );
 
     revealSelectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
@@ -81,14 +82,17 @@
     });
 
     /* Apply revealed state */
-    document.head.insertAdjacentHTML('beforeend', `
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `
       <style>
         .is-revealed {
           opacity: 1 !important;
           transform: translateY(0) !important;
         }
       </style>
-    `);
+    `,
+    );
   }
 
   /* ── External link opener ────────────────────────────────── */
@@ -98,5 +102,4 @@
       link.setAttribute('rel', 'noopener noreferrer');
     }
   });
-
 })();

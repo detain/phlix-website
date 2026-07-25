@@ -15,7 +15,7 @@
    1. Mobile nav toggle
    ========================================================================== */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -44,16 +44,14 @@
   /* ==========================================================================
    2. Reduced motion guard
    ========================================================================== */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ==========================================================================
    3. Scroll reveals (IntersectionObserver, opt-in)
    ========================================================================== */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .faq-item, .ecosystem-item'
+      '.feature-card, .client-card, .download-card, .faq-item, .ecosystem-item',
     );
 
     if (revealEls.length > 0) {
@@ -66,7 +64,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       revealEls.forEach(function (el) {
@@ -84,5 +82,4 @@
       heroEl.classList.add('lighthouse-hero');
     }
   }
-
 })();
