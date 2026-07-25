@@ -851,6 +851,15 @@ table.
 
 Five for five. Treat every kit's contrast prose as unverified.
 
+**Settled reviewer disputes — do not re-open these:**
+
+| Claim a reviewer is likely to file                                                                    | Ruling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "`404.html` has `noindex` **and** a self-canonical — contradictory"                                   | **Not a defect. Keep the canonical.** The documented hazard of mixing the two is that `noindex` can propagate to the canonical _target_; with a **self**-referencing canonical there is no other page to poison. GitHub Pages also serves `404.html` with a real 404 status, so it cannot be indexed regardless of either directive. §10 requires a canonical on every page and `tools/check-meta.mjs` states in its own header that `404.html` is deliberately not exempt — removing it fails the gate and desyncs the site from its 49 siblings. |
+| "Printing the kit's literal `badges.labels` (4K, HDR, Dolby Vision…)"                                 | **Do not print them.** They are app-surface strings; rendering them asserts library capabilities `content.json` does not state, which is a §16 violation and a worse defect than an unused CSS rule. Keep the kit's `badges.colors` _mapping_ and take labels from the site's own vocabulary.                                                                                                                                                                                                                                                      |
+| "A no-JS checkbox/`<details>` disclosure announces less precisely than a button with `aria-expanded`" | **Prefer the no-JS control.** `navigation_model.fallback` asks for something that works without JavaScript; a control with better ARIA that does nothing with JS off is worse. JS may add `aria-expanded` when it runs, since by then the ARIA is backed by real behaviour.                                                                                                                                                                                                                                                                        |
+| "This palette swatch row shows more than the kit's two-accents-per-view limit"                        | **A palette specimen page is exempt.** A page whose subject _is_ the palette must show the palette; dropping a swatch to satisfy a composition rule would misrepresent it. The limit governs design surfaces, not documentation of the design.                                                                                                                                                                                                                                                                                                     |
+
 ### 19.15 `.visually-hidden` needs `overflow: hidden`, or it silently overflows
 
 A `clip-path`-only visually-hidden utility still **contributes its full width to
@@ -976,15 +985,31 @@ restore affordance somewhere stable — and prefer session-scoped dismissal over
 
 ### 19.22 The install command must be correct and identical on every page
 
-One kit shipped a two-command install on the home page that **does not work** — it
-omitted the `cd` that the download page's version had. Another stated "one line"
-on the home page, "four lines" on two others; each was locally accurate and the
-set was incoherent.
+**This was worse than a per-kit slip: all 50 sites had it wrong, because there was
+nothing to copy from.** `shared/content.json` had no install command, so every
+author invented one. 16 sites shipped `git clone … && composer install` as though
+it were the install; one shipped a two-command version that **omitted the `cd`**
+and therefore did not work; one site claimed "one line", "three lines" and "four
+lines" on three different pages, each locally accurate and the set incoherent.
 
-Copy the command from `shared/content.json` and do not re-type it. If you
-describe its length in prose, describe the same command the page actually shows.
-A broken install command is the single most expensive defect on a
-self-host marketing site: it is the conversion step.
+A dev checkout is **not** an install. `git clone` + `composer install` creates no
+database, installs no service and runs no migrations. Presenting it as the way to
+install Phlix is a §16 honesty failure, not a formatting nit.
+
+`content.json` now has an **`install`** block, traced to `phlix-server`'s own
+README, and it is the single source of truth:
+
+- `install.primary` — the real one-liner (`curl … install.sh | sudo bash`), with
+  `what_it_does` and `line_count: 1`;
+- `install.with_https` — the same run with `--domain` / `--admin-email`;
+- `install.from_source` — the 3-line dev checkout, explicitly labelled as **not an
+  install**. Use it only where you are genuinely describing building from source.
+
+**Copy the command; never retype it.** If you state its length in prose, take the
+number from `line_count` rather than counting the block you happened to render.
+A broken install command is the single most expensive defect on a self-host
+marketing site — it is the conversion step, and it is the one claim a visitor will
+test within a minute of reading it.
 
 ### 19.23 Verify your own `REGEN_PLAN.md` before you report
 

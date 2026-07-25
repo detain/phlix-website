@@ -188,6 +188,28 @@
       }
     ]
   },
+  "install": {
+    "_note": "SINGLE SOURCE OF TRUTH for install commands — do not retype or invent one. Traced to phlix-server/README.md '## Installation'. Before this block existed, all 50 sites invented their own: 16 shipped `git clone && composer install` as if it were the install, one shipped a two-command version that omitted the `cd` and therefore did not work, and three pages of one site claimed 'one line', 'three lines' and 'four lines' respectively. A dev checkout is NOT an install: it creates no database, no service, and runs no migrations. See new_site.md §19.22.",
+    "primary": {
+      "label": "One line, on a fresh Ubuntu or Debian host",
+      "line_count": 1,
+      "command": "curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash",
+      "what_it_does": "Installs system packages (PHP 8.3+, MySQL, ffmpeg), creates a dedicated phlix system user, a MySQL database and user, an env file at /etc/phlix/env with a generated PHLIX_SECRET_KEY, runs database migrations, installs a systemd phlix-server service, and sets up an HAProxy reverse proxy with an auto-renewing Let's Encrypt certificate.",
+      "notes": "Prompts for install path, database credentials and hostname when run in a terminal; runs fully unattended when piped or given -y. Default ports: HTTP on :8096 behind HAProxy on :80/:443, DLNA discovery on 1900/udp."
+    },
+    "with_https": {
+      "label": "Provision HTTPS in the same run",
+      "command": "curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \\\n  | sudo bash -s -- --domain phlix.example.com --admin-email you@example.com"
+    },
+    "from_source": {
+      "label": "Build from source (development, not an install)",
+      "line_count": 3,
+      "command": "git clone https://github.com/detain/phlix-server.git\ncd phlix-server\ncomposer install",
+      "notes": "This is a development checkout only. It does not create a database, a service, or run migrations. Never present it as the way to install Phlix."
+    },
+    "requirements": "PHP 8.3+, MySQL, ffmpeg. The installer targets a fresh Ubuntu/Debian host and also compiles the Swoole and php-uv extensions from source, skipping the build when they already load.",
+    "docs_url": "https://detain.github.io/phlix-docs/install/linux"
+  },
   "meta": {
     "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.",
     "keywords": ["phlix", "media server", "plex alternative", "jellyfin alternative", "self-hosted streaming", "php media server"],
