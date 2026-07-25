@@ -52,13 +52,13 @@ from the kit module, the real font pool and the site on disk.
 
 Then read, in this order:
 
-1. **`new_site.md` §19 "Known traps"** — 23 traps, each a defect that actually
+1. **`new_site.md` §19 "Known traps"** — 24 traps, each a defect that actually
    shipped, including the **field-precedence table (§19.6)** for when a kit
    contradicts itself and the **two CSS rules (§19.12)** that caused nearly every
    responsive failure so far. Highest-value page in the repo; skipping it costs a
    review round per item.
 
-   **§19.16–§19.23 are new, and each was hit by two or three of the first five
+   **§19.16–§19.24 are new, and each was hit by two or three of the first five
    kits independently.** Read them as a pre-flight checklist, not as background:
    heading levels inside a titled section (§19.16 — 3 of 5 kits), the
    `strong { font-weight: 500 }` trap and its _kit-specific_ fix (§19.17 — 3 of
@@ -66,8 +66,23 @@ Then read, in this order:
    of 5, same region of `base.css`), per-variant contrast for seasonal palettes
    (§19.19), reduced motion removing content (§19.20), an undismissable-forever
    companion (§19.21), the install command being wrong or inconsistent (§19.22),
-   and verifying your own manifest last (§19.23). Between them these were ~40% of
-   all wave-1 findings, and every one is cheaper to avoid than to fix.
+   verifying your own manifest last (§19.23), and an **`@copyright` line in every
+   `css/*.css` and `js/*.js`** (§19.24 — wave 1 dropped it from 4 of 203 assets).
+   Between them these were ~40% of all wave-1 findings, and every one is cheaper
+   to avoid than to fix.
+
+   Two facts wave-1 authors each had to discover the hard way, so take them as
+   given rather than researching them:
+
+   - **Licence.** Phlix Server and the Hub are **MPL-2.0**; the shared libraries,
+     plugins and clients are **MIT**. MPL is weak copyleft, so never write "no
+     strings attached", "attribution is required", or anything about endorsement
+     — the one condition is file-level: modify a Phlix file and that file stays
+     open, anything alongside it stays yours. Footer LICENSE links go to
+     `https://github.com/detain/phlix-server/blob/master/LICENSE`. 45 sites got
+     this wrong twice over; `shared/content.json` is the authority.
+   - **Install command.** Copy it from `content.json.install`, never retype it and
+     never invent one. `from_source` is explicitly **not** an install.
 
 2. **`brand-kits/<slug>.js`** — your design spec, ~1,500 lines. Read it fully for
    **design intent** — voice, motion, imagery, the feel of the thing. The brief
@@ -146,11 +161,11 @@ Between them they cover every mechanical check a reviewer will run.
 ```bash
 node tools/gen-og.mjs --site <slug>        # og.svg → og.png (og:image must be PNG)
 node tools/gen-sitemap.mjs --site <slug>   # sitemap.xml + robots.txt
-node tools/selfcheck.mjs --site <slug>     # 14 static checks — must PASS
+node tools/selfcheck.mjs --site <slug>     # 17 static checks — must PASS
 node tools/render-check.mjs --site <slug>  # real browser at 320px + 1280px
 ```
 
-`selfcheck` covers: page inventory, the `@copyright`-outside-a-comment bug, CDN
+`selfcheck` covers: page inventory, `@copyright` headers on every css/js asset (rule 17) and the `@copyright`-outside-a-comment bug, CDN
 references, font resolution, internal-link resolution, 404 requirements, one-`h1`,
 nav-vs-`site_architecture`, section-order-vs-`homepage_narrative`, the palette
 contrast matrix, `avoid_words`, `og:image`, required docs, and a runaway JS size

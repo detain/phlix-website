@@ -96,6 +96,11 @@ const PAGES = readdirSync(renderDir)
 // dismissal persisted to localStorage. With nothing between 375 and 1280 the tool
 // reported PASS and a human reviewer found it by hand. Any kit whose component
 // breakpoints disagree with its nav breakpoint has a band like this.
+/* Requests that ALWAYS fail under the file:// scheme this harness renders with,
+   and so say nothing about the site. Keep this list tight — every entry is a
+   real defect the harness can no longer see. */
+const EXEMPT_REQ = /favicon|manifest\.webmanifest/;
+
 const VIEWPORTS = [
   { name: '320x640', width: 320, height: 640 },
   { name: '320x700', width: 320, height: 700 },
@@ -395,6 +400,30 @@ try {
       const delayed = await new Promise((r) => setTimeout(r, 4000)).then(() =>
         coveredControls(page).catch(() => []),
       );
+      // Re-test horizontal overflow at the same settled moment. The load-time
+      // sample above runs inside the first `evaluate`, so anything that widens
+      // the document only once an animation has advanced is invisible to it —
+      // pop-art-explosion's hero rotates a square orbit, and a rotated square's
+      // bounding box is ~1.37× its side, which pushed the document 34px wide at
+      // 320. Caught by hand, not by this harness. Cheap to close, since we are
+      // already parked here for 4s.
+      //
+      // KNOWN LIMIT, deliberately not papered over: this still only sees state
+      // the page reaches on its own. An overflow that appears only after a
+      // click (as that one did) needs interaction the harness does not perform,
+      // so a settled sample is an improvement, not a guarantee.
+      const settledOverflow = await page
+        .evaluate(() => ({
+          scrollWidth: document.documentElement.scrollWidth,
+          innerWidth: window.innerWidth,
+        }))
+        .catch(() => null);
+      if (settledOverflow && settledOverflow.scrollWidth > settledOverflow.innerWidth + 1) {
+        fails.push(
+          `${where}: horizontal overflow after settling — scrollWidth ${settledOverflow.scrollWidth} > viewport ${settledOverflow.innerWidth}`,
+        );
+      }
+
       const seenOverlap = new Set();
       for (const o of [...atLoad, ...delayed]) {
         const key = `${o.over}|${o.cta}`;
@@ -411,10 +440,35 @@ try {
       for (const t of report.invisibleText.slice(0, 6)) {
         fails.push(`${where}: text "${t.text}" is ${t.ratio}:1 against its background`);
       }
-      for (const e of consoleErrors.slice(0, 4)) warns.push(`${where}: console error — ${e}`);
+      // The manifest's CORS rejection also lands in the console, as a pair: the
+      // "Access to manifest ... blocked by CORS policy" line and a generic
+      // "Failed to load resource: net::ERR_FAILED". Both are artefacts of the
+      // file:// scheme, and left in they were 2 warns × 9 pages × 6 viewports —
+      // enough to bury a real console error, which is the whole point of this
+      // check. `ERR_FAILED` is dropped only when every failed request on the
+      // page was an exempt one, so a genuine broken asset still surfaces it.
+      const onlyExemptFailures = failedReqs.every((u) => EXEMPT_REQ.test(u));
+      for (const e of consoleErrors
+        .filter((e) => !/Access to manifest at .*blocked by CORS policy/.test(e))
+        .filter((e) => !(onlyExemptFailures && /Failed to load resource: net::ERR_FAILED/.test(e)))
+        .slice(0, 4)) {
+        warns.push(`${where}: console error — ${e}`);
+      }
       for (const u of failedReqs.slice(0, 6)) {
         // file:// favicon probes are noise; a real missing asset is not.
-        if (!/favicon/.test(u)) fails.push(`${where}: failed request ${u}`);
+        //
+        // `manifest.webmanifest` is the same class of noise, for a sharper
+        // reason: Chrome fetches a manifest as a CORS request, and a file://
+        // document has a null origin, so the fetch ALWAYS fails here no matter
+        // what the file contains. Adding `rel="manifest"` to all 407 pages
+        // (bcc1541, tools/gen-icons.mjs) therefore made this harness report 54
+        // identical defects — 9 pages × 6 viewports — on every one of the 50
+        // sites, wave-1 regens included. Verified over HTTP: zero failed
+        // requests. Exempting it here is the fix; the alternative was every
+        // future author arguing the same false positive by hand.
+        if (!EXEMPT_REQ.test(u)) {
+          fails.push(`${where}: failed request ${u}`);
+        }
       }
 
       if (wantShots) {

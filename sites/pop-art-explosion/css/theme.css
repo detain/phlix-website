@@ -1,498 +1,989 @@
-/* ================================================================
+/* ==========================================================================
    THEME.CSS — Pop Art Explosion
-   Typography, layout containers, page structure
-   Layout archetype: showcase — bold comic-panel grid with full-bleed
-   primary color blocks and thick black gutters.
-   ================================================================ */
+   The PANEL SEQUENCE: the layout system this kit's `immersive`
+   experience_archetype resolves to. Full-bleed comic panels stacked edge to
+   edge, separated by literal black gutters, each stamped with its position in
+   the sequence — transcribing page_generation_rules, layout_patterns,
+   scroll_experience (panel-sequence) and homepage_narrative.sections[].
+   Also holds the type scale (fonts{} roles) and every page's structure from
+   page_blueprints.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
-/* ── Layout container ─────────────────────────────────────────── */
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-4);
+/* --------------------------------------------------------------------------
+   1. Grounds — a panel's flat primary fill and the ink that is legible on it.
+      Every pair below is MEASURED (see SITE.md); nothing here is a guess.
+      Two ink tokens are seasonal-aware because seasonal_variants re-point
+      --color-primary: js/main.js sets --ink-on-primary to white for Factory
+      Winter, where the ground becomes Pow Blue and black ink would be 2.05:1.
+   -------------------------------------------------------------------------- */
+:root {
+  --ink-on-primary: #0a0a0a; /* black on Kapow Red — 5.10:1 */
+  --display-on-primary: #fff; /* white on Kapow Red — 3.88:1, display only */
+  --ink-on-secondary: #0a0a0a; /* black on Zap Yellow 15.62:1 / Soup Orange 6.43:1 */
 }
 
-.container-narrow {
-  width: 100%;
-  max-width: 900px;
-  margin-inline: auto;
-  padding-inline: var(--space-4);
+[data-ground] {
+  background-color: var(--ground);
+  color: var(--ink);
 }
 
-/* ── Typography scale ───────────────────────────────────────────── */
-.text-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 0.85;
+[data-ground='white'] {
+  --link: var(--color-tertiary); /* 8.99:1 on white */
+  --ground: var(--color-bg);
+  --ink: var(--color-text);
+  --display-ink: var(--color-text);
+  --dots: var(--dots-ink);
+  --accent: var(--color-primary);
 }
 
-.text-mono {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
+[data-ground='surface'] {
+  --link: var(--color-tertiary); /* 8.61:1 on #fafafa */
+  --ground: var(--color-surface);
+  --ink: var(--color-text);
+  --display-ink: var(--color-text);
+  --dots: var(--dots-ink);
+  --accent: var(--color-primary);
 }
 
-.text-ui {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  line-height: 1.2;
-  text-transform: uppercase;
+[data-ground='cream'] {
+  --link: var(--color-tertiary); /* 8.61:1 on #fffbe0 */
+  --ground: var(--color-surface-alt);
+  --ink: var(--color-text);
+  --display-ink: var(--color-text);
+  --dots: var(--dots-yellow);
+  --accent: var(--color-tertiary);
 }
 
-/* ── Comic-panel layout: thick black gutters divide content zones ─ */
-.panel-grid {
-  display: grid;
-  gap: 0;
-  border: var(--border-default);
+[data-ground='red'] {
+  --link: var(--ink-on-primary); /* 5.10:1 on red, 8.99:1 on winter blue */
+  --ground: var(--color-primary);
+  --ink: var(--ink-on-primary);
+  --display-ink: var(--display-on-primary);
+  --dots: var(--dots-white);
+  --accent: var(--color-secondary);
 }
 
-.panel-grid > * {
-  border: var(--border-default);
-  margin: -3px; /* overlaps borders to form continuous gutter */
-  margin-top: 0;
+[data-ground='yellow'] {
+  --link: var(--ink-on-secondary); /* 15.62:1 yellow, 6.43:1 summer orange */
+  --ground: var(--color-secondary);
+  --ink: var(--ink-on-secondary);
+  --display-ink: var(--ink-on-secondary);
+  --dots: var(--dots-ink);
+  --accent: var(--color-primary);
 }
 
-/* ── Page structure: .hero ─────────────────────────────────────── */
-.hero {
-  background-color: var(--color-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.8' fill='%23FFE600' fill-opacity='0.25'/%3E%3C/svg%3E");
+[data-ground='blue'] {
+  --link: #fff; /* 8.99:1. NOT the secondary: orange on blue is 3.13:1 */
+  --ground: var(--color-tertiary);
+  --ink: #fff;
+  --display-ink: #fff;
+  --dots: var(--dots-white);
+  --accent: var(--color-secondary);
+}
+
+[data-ground='orange'] {
+  --link: var(--color-text); /* 6.43:1 */
+  --ground: var(--color-orange);
+  --ink: var(--color-text);
+  --display-ink: var(--color-text);
+  --dots: var(--dots-ink);
+  --accent: var(--color-text);
+}
+
+[data-ground='ink'] {
+  --link: #fff; /* 19.80:1 */
+  --ground: var(--color-text);
+  --ink: #fff;
+  --display-ink: var(--color-secondary);
+  --dots: var(--dots-white);
+  --accent: var(--color-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   2. The panel
+      "Every page must have at least one full-bleed primary color band."
+      "Use comic-panel gutter lines (4px black) to divide layout zones."
+      The gutter is the panel's own top border, so panels sit hard against one
+      another with no whitespace between — exactly the comic page.
+   -------------------------------------------------------------------------- */
+.panel {
+  position: relative;
+  border-top: var(--gutter) solid var(--color-border);
+  padding-block: clamp(var(--space-8), 6vw, var(--space-24));
+  /* Panels are anchor targets in their own right (#clients, #server, #toolkit,
+     #panels, #the-grid, #ask-dotty), and the header is sticky, so without this
+     the panel__tag stamp lands behind the topbar. */
+  scroll-margin-top: var(--anchor-offset);
+}
+
+.panel--tight {
+  padding-block: clamp(var(--space-6), 4vw, var(--space-12));
+}
+
+.panel--dots {
+  background-image: var(--dots);
   background-repeat: repeat;
-  border-bottom: var(--border-feature);
-  overflow: hidden;
-  position: relative;
-  padding: var(--space-16) 0;
 }
 
-.hero-inner {
-  max-width: 1280px;
+.panel__inner {
+  width: 100%;
+  max-width: var(--measure);
   margin-inline: auto;
-  padding-inline: var(--space-8);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-6);
-  position: relative;
-  z-index: 1;
+  padding-inline: clamp(var(--space-4), 4vw, var(--space-12));
 }
 
-.hero-eyebrow {
+/* The orientation stamp. `immersive` removes the usual page landmarks, so each
+   panel says where you are in the sequence — Anton numerals per fonts.number
+   and dashboard_style ("each zone owns one metric in massive Anton numerals"). */
+.panel__tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-secondary);
+  color: var(--ink-on-secondary);
+  border: var(--border-default);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0a0a0a;
-  border: 3px solid #0a0a0a;
-  background: #ffe600;
-  padding: var(--space-1) var(--space-3);
-  display: inline-block;
 }
 
-.hero h1 {
-  color: #0a0a0a;
-  -webkit-text-stroke: 3px #0a0a0a;
-  text-shadow: 6px 6px 0 #ffe600;
-  max-width: 16ch;
-  line-height: 0.9;
-}
-
-.hero-sub {
-  color: #0a0a0a;
-  font-family: var(--font-body);
+/* The numeral is decoration: the sibling <span> already says "Panel 01 of five"
+   in full, so announcing the digits again would make every section heading
+   arrive behind "01, Panel 01 of five". aria-hidden in the markup, exactly like
+   .pennant__no, .chapter__no and .ladder__step. */
+.panel__tag-no {
+  font-family: var(--font-number);
   font-weight: 400;
-  font-size: 1.1rem;
-  max-width: 60ch;
-  line-height: 1.5;
+  font-size: 1.5rem;
+  letter-spacing: var(--tracking-number);
+  line-height: var(--lh-number);
 }
 
-.hero-cta {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  align-items: center;
+/* --------------------------------------------------------------------------
+   3. scroll_experience: panel-sequence
+      "Each homepage section arrives like a comic-page turn: a hard-cut wipe
+      from left to right with a 120ms cubic-bezier snap, plus a faint
+      dust-cloud Ben-Day dot pattern that trails across."
+      The wipe is only armed once js/main.js confirms IntersectionObserver
+      exists AND motion is wanted — the un-scripted state is fully visible.
+   -------------------------------------------------------------------------- */
+.js-wipe .panel[data-seq] {
+  clip-path: inset(0 100% 0 0);
 }
 
-@media (width <= 640px) {
-  .hero {
-    padding: var(--space-12) 0;
-  }
-
-  .hero-inner {
-    padding-inline: var(--space-4);
-  }
-
-  .hero h1 {
-    font-size: clamp(2rem, 12vw, 4rem);
-  }
+.js-wipe .panel[data-seq].is-turned {
+  clip-path: inset(0);
+  transition: clip-path var(--dur-wipe) var(--ease-snap);
 }
 
-/* ── Page structure: .pitch ─────────────────────────────────────── */
-.pitch {
-  background-color: var(--color-surface-alt);
-  border-bottom: var(--border-feature);
-  padding: var(--space-12) 0;
-}
-
-.pitch-inner {
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-}
-
-.pitch h2 {
-  color: var(--color-text);
-  margin-bottom: var(--space-6);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.pitch-bullets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 0;
-  border: var(--border-feature);
-}
-
-.pitch-bullets li {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--color-text);
-  padding: var(--space-4);
-  border-bottom: var(--border-default);
-  border-right: var(--border-default);
-  background: var(--color-bg);
-  position: relative;
-  padding-left: var(--space-8);
-}
-
-.pitch-bullets li::before {
-  content: '■';
-  position: absolute;
-  left: var(--space-3);
-  color: var(--color-primary);
-  font-size: 0.7rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-@media (width <= 640px) {
-  .pitch-inner {
-    padding-inline: var(--space-4);
-  }
-}
-
-/* ── Page structure: .features-overview ───────────────────────── */
-.features-overview {
-  background-color: var(--color-bg);
-  border-bottom: var(--border-feature);
-  padding: var(--space-12) 0;
-}
-
-.features-overview-inner {
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-}
-
-.features-overview h2 {
-  color: var(--color-text);
-  margin-bottom: var(--space-8);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0;
-  border: var(--border-feature);
-  margin-bottom: var(--space-8);
-}
-
-.feature-card {
-  padding: var(--space-6);
-  border-right: var(--border-default);
-  border-bottom: var(--border-default);
-  background: var(--color-bg);
-  position: relative;
-}
-
-.feature-card::after {
+/* the dust cloud: a dot field that flashes across the panel as it turns.
+   Contained by inset:0 so it can never widen the document. */
+.js-wipe .panel[data-seq]::after {
   content: '';
   position: absolute;
   inset: 0;
+  background-image: var(--dots, var(--dots-ink));
+  background-repeat: repeat;
+  opacity: 0;
   pointer-events: none;
-
-  /* Hard offset shadow — card sits on it */
 }
 
-.feature-card:hover {
-  background: var(--color-surface);
+.js-wipe .panel[data-seq].is-turned::after {
+  animation: dust 320ms var(--ease-stamp) 1;
 }
 
-.features-more {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-tertiary);
-}
-
-.features-more a {
-  color: var(--color-tertiary);
-  font-weight: 700;
-}
-
-.features-more a:hover {
-  color: var(--color-primary);
-}
-
-@media (width <= 640px) {
-  .features-overview-inner {
-    padding-inline: var(--space-4);
+@keyframes dust {
+  0% {
+    opacity: 0.85;
+    background-position: -140px 0;
+  }
+  100% {
+    opacity: 0;
+    background-position: 140px 0;
   }
 }
 
-/* ── Page structure: .cta-banner ───────────────────────────────── */
-.cta-banner {
-  background-color: var(--color-secondary);
-  border-top: var(--border-feature);
-  border-bottom: var(--border-feature);
-  padding: var(--space-12) 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.8' fill='%230A0A0A' fill-opacity='0.1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+/* --------------------------------------------------------------------------
+   4. Type scale + shared prose blocks
+   -------------------------------------------------------------------------- */
+/* h1/h2 are display sizes (>= 32px), so a ground may use its display ink —
+   white on Kapow Red is 3.88:1, which clears the 3:1 large-text rule. h3 and
+   below can render at 22px on a phone, where 3.88:1 would NOT be enough, so
+   they always take the ground's small-text ink (black on red, 5.10:1). */
+.panel h2 {
+  color: var(--display-ink, var(--ink));
 }
 
-.cta-banner-inner {
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-8);
+.panel h3,
+.panel h4 {
+  color: var(--ink);
+}
+
+/* PAPER SURFACES.
+   A component that paints its own ground must also reset the ground's ink
+   tokens — otherwise it inherits the ink of the coloured panel it sits inside,
+   and you get a white <h3> on a white card. render-check caught exactly that on
+   the reel shelf inside the blue "Full Toolkit" panel, which is the whole
+   reason this rule exists rather than being repeated per component. */
+.speech,
+.stage,
+.pennant,
+.ladder__rung,
+.client-card,
+.reel,
+.jargon,
+.code-block,
+.dotty__panel,
+.chip,
+.badge {
+  --ground: var(--color-bg);
+  --ink: var(--color-text);
+  --display-ink: var(--color-text);
+  --link: var(--color-tertiary);
+
+  color: var(--color-text);
+}
+
+/* The hero's yellow call-to-action strip is a secondary-ground surface sitting
+   inside a red panel, so it needs the same reset — its <h2> was inheriting the
+   red ground's WHITE display ink, i.e. white on Zap Yellow at 1.27:1. Only the
+   per-variant contrast sweep caught it, because the live Summer palette turns
+   the strip orange and lifted it to 2.86:1, just past the automated
+   invisible-text threshold (§19.19). */
+.cta-strip,
+.speech--yellow {
+  --ground: var(--color-secondary);
+  --ink: var(--ink-on-secondary);
+  --display-ink: var(--ink-on-secondary);
+  --link: var(--ink-on-secondary);
+
+  color: var(--ink-on-secondary);
+}
+
+/* 404.html — error_page_experience: the Wrong Theater marquee. Its surface
+   tokens and its layout live together here; the bulb strip is further down. */
+.marquee {
+  --ground: var(--color-text);
+  --ink: #fff;
+  --display-ink: var(--color-secondary);
+  --link: #fff;
+
+  padding: var(--space-6) var(--space-4);
+  color: #fff;
+  text-align: center;
+  background: var(--color-text);
+  border: var(--border-feature);
+  border-radius: var(--radius-md);
+}
+
+/* Outline lettering. typography_rules: "-webkit-text-stroke: 2px #0A0A0A on
+   yellow and red headlines". There is no unprefixed equivalent, so this
+   property must survive lint — never run `stylelint --fix` here (§19.4). */
+.ink-outline {
+  -webkit-text-stroke: 2px #0a0a0a;
+  paint-order: stroke fill;
+}
+
+.lede {
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  font-weight: 600;
+  max-width: 46ch;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.tiny {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+}
+
+/* jargon_policy: "translate" — the plain phrase is in the sentence, the exact
+   term lives one click away instead of being dropped. */
+.jargon {
+  margin-top: var(--space-3);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  max-width: 68ch;
+}
+
+.jargon > summary {
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.jargon > *:not(summary) {
+  padding: 0 var(--space-3) var(--space-3);
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Gutter grids — "Card grids use 3px black gutters — no space between
+      cards, just the gutter." The grid's own background IS the gutter.
+      Every track is minmax(0, 1fr): a bare 1fr refuses to shrink below its
+      longest word and was the root cause of most 320px/200%-zoom overflow
+      across this program (§19.12).
+   -------------------------------------------------------------------------- */
+.gutter-grid {
+  display: grid;
+  gap: var(--gutter);
+  background: var(--color-border);
+  border: var(--border-feature);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Every cell paints its own ground, so the grid's black background only ever
+   shows through as the gutter itself. A cell with no `data-ground` of its own
+   inherits the surrounding panel's. */
+.gutter-grid > * {
+  padding: clamp(var(--space-4), 3vw, var(--space-8));
+  min-width: 0;
+  background-color: var(--ground, var(--color-bg));
+}
+
+@media (width >= 46rem) {
+  .gutter-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gutter-grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 68rem) {
+  .gutter-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. HOME panel 1 — #starburst-intro
+      layout_patterns.landing + hero_experience (playable-vignette).
+      "no centered-island layout on hero sections": the hero is full-bleed red
+      and the type is set flush to the content edge, not floated in a card.
+   -------------------------------------------------------------------------- */
+.hero {
+  border-top: 0;
+  padding-bottom: 0;
+}
+
+.hero__grid {
+  display: grid;
+  gap: clamp(var(--space-6), 4vw, var(--space-12));
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 62rem) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+}
+
+.hero h1 {
+  color: var(--display-ink);
+  font-size: clamp(2.7rem, 9vw, 5.5rem);
+  margin-block: var(--space-3) var(--space-4);
+}
+
+/* homepage_narrative.arc: "manifesto-first" — the logline is not a subtitle,
+   it is the manifesto strip that opens the whole site. */
+.manifesto {
+  display: block;
+  margin-block: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-secondary);
+  color: var(--ink-on-secondary);
+  border: var(--border-feature);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-headline);
+  font-size: clamp(1.3rem, 3.4vw, 2rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  max-width: 34ch;
+}
+
+/* --------------------------------------------------------------------------
+   7. HOME panel 2 — #dotty-scene (persona_vignettes as comic dioramas)
+   -------------------------------------------------------------------------- */
+.vignette {
+  background-color: var(--ground);
+  background-image: var(--dots);
+  background-repeat: repeat;
+  color: var(--ink);
+}
+
+.vignette h3 {
+  margin-bottom: var(--space-2);
+}
+
+/* the 60-character punchy frame the treatment asks for */
+.vignette__frame {
+  font-family: var(--font-headline);
+  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  max-width: 30ch;
+}
+
+.vignette__diorama {
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--space-4);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.vignette__angle {
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   8. HOME panel 3 — #the-grid (Warhol silkscreen tiles)
+      composition: "Repetition grids (Warhol 4x4 or 2x2 portrait tiles)"
+   -------------------------------------------------------------------------- */
+.warhol {
+  margin-top: var(--space-6);
+}
+
+.warhol__tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background-color: var(--ground);
+  background-image: var(--dots);
+  background-repeat: repeat;
+  color: var(--ink);
+}
+
+.warhol__tile p {
+  max-width: 42ch;
+}
+
+.warhol__icon {
+  width: 56px;
+  height: 56px;
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. HOME panel 4 — #proof-burst
+      copy_treatments.pitch_bullets: "banner-pennants" — each bullet as a
+      thick-outlined pennant banner, strung as bunting.
+   -------------------------------------------------------------------------- */
+.pennants {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 44rem) {
+  .pennants {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 72rem) {
+  .pennants {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.pennant {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-8);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  /* the pennant's swallow-tail cut */
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 50% 100%, 0 calc(100% - 20px));
+}
+
+.pennant__no {
+  flex: none;
+  font-family: var(--font-number);
+  font-size: 1.75rem;
+  line-height: var(--lh-number);
+  letter-spacing: var(--tracking-number);
+  color: var(--color-primary-ink);
+}
+
+.proof {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 62rem) {
+  .proof {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.proof__specs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.proof__specs li {
+  display: flex;
+  gap: var(--space-2);
+  font-family: var(--font-headline);
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.proof__specs li::before {
+  content: '\25b6';
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: 0.8em;
+}
+
+/* --------------------------------------------------------------------------
+   10. HOME panel 5 — #cta-pop (conversion_funnel.cta_ladder)
+   -------------------------------------------------------------------------- */
+.ladder {
+  display: grid;
+  gap: var(--gutter);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--color-border);
+  border: var(--border-feature);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 54rem) {
+  .ladder {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ladder__rung {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-6);
-}
-
-.cta-banner h2 {
+  gap: var(--space-3);
+  padding: clamp(var(--space-4), 3vw, var(--space-6));
+  background: var(--color-bg);
   color: var(--color-text);
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  text-transform: uppercase;
-  max-width: 20ch;
 }
 
-@media (width <= 640px) {
-  .cta-banner-inner {
-    padding-inline: var(--space-4);
-  }
+.ladder__step {
+  font-family: var(--font-number);
+  font-size: 2.5rem;
+  line-height: var(--lh-number);
+  letter-spacing: var(--tracking-number);
+  color: var(--color-primary-ink);
 }
 
-/* ── Page structure: .page-header ──────────────────────────────── */
+/* --------------------------------------------------------------------------
+   11. Interior pages — each is one ACT with its own full-bleed ground, so the
+       immersion survives navigation (page_blueprints).
+   -------------------------------------------------------------------------- */
 .page-header {
-  background-color: var(--color-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.8' fill='%23FFE600' fill-opacity='0.3'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  border-bottom: var(--border-feature);
-  padding: var(--space-12) 0;
-}
-
-.page-header-inner {
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-8);
+  border-top: 0;
 }
 
 .page-header h1 {
-  color: #0a0a0a;
-  -webkit-text-stroke: 3px #0a0a0a;
-  text-shadow: 5px 5px 0 #ffe600;
-  margin-bottom: var(--space-4);
+  color: var(--display-ink);
 }
 
-.page-lead {
-  font-family: var(--font-body);
-  font-size: 1.1rem;
-  color: #0a0a0a;
-  max-width: 60ch;
-  line-height: 1.5;
+.page-header__grid {
+  display: grid;
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
 }
 
-@media (width <= 640px) {
-  .page-header-inner {
-    padding-inline: var(--space-4);
+@media (width >= 58rem) {
+  .page-header__grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
   }
 }
 
-/* ── Page structure: .content-section ─────────────────────────── */
-.content-section {
-  background-color: var(--color-bg);
-  padding: var(--space-12) 0;
+.content-section > .panel__inner > h2 {
+  margin-bottom: var(--space-4);
 }
 
-.content-section h2 {
-  color: var(--color-text);
-  font-size: clamp(1.2rem, 3vw, 2rem);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-2);
-  border-bottom: var(--border-default);
-}
-
-.content-grid {
+.stack {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 0;
-  border: var(--border-feature);
-}
-
-/* ── Page structure: client-cards ──────────────────────────────── */
-.client-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0;
-  border: var(--border-feature);
-}
-
-/* ── Feature detail articles ───────────────────────────────────── */
-.feature-detail {
-  padding: var(--space-6);
-  border-right: var(--border-default);
-  border-bottom: var(--border-default);
-  background: var(--color-bg);
-  display: flex;
   gap: var(--space-4);
-  align-items: flex-start;
 }
 
-.feature-detail-icon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  color: var(--color-primary);
+/* features.html — page_blueprints.features: 2-up comic-panel grid, 4px black
+   gutters, chunky Bangers titles, each panel its own full-bleed colour. */
+.feature-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background-color: var(--ground);
+  background-image: var(--dots);
+  background-repeat: repeat;
+  color: var(--ink);
+  scroll-margin-top: var(--anchor-offset);
 }
 
-.feature-detail-text h2 {
-  border: none;
-  margin-bottom: var(--space-2);
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+.feature-detail__icon {
+  width: 64px;
+  height: 64px;
+  flex: none;
 }
 
-.feature-detail-text p {
-  font-size: 0.95rem;
-  color: var(--color-text);
-}
-
-/* ── Download blocks ───────────────────────────────────────────── */
-.download-block {
-  background: var(--color-surface);
-  border: var(--border-default);
-  padding: var(--space-4);
-  margin-bottom: var(--space-8);
-}
-
-.download-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0;
-  border: var(--border-feature);
-  margin-bottom: var(--space-8);
-}
-
-.download-card {
-  padding: var(--space-6);
-  border-right: var(--border-default);
-  border-bottom: var(--border-default);
-  background: var(--color-bg);
-}
-
-/* ── Ecosystem list ────────────────────────────────────────────── */
-.ecosystem-list {
-  list-style: none;
-  border: var(--border-feature);
-}
-
-.ecosystem-list li {
-  padding: var(--space-4);
-  border-bottom: var(--border-default);
-  background: var(--color-bg);
-  font-family: var(--font-body);
-}
-
-.ecosystem-list li:last-child {
-  border-bottom: none;
-}
-
-.ecosystem-list strong a {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  color: var(--color-tertiary);
-}
-
-/* ── Docs links ────────────────────────────────────────────────── */
-.docs-links {
-  list-style: none;
-  border: var(--border-feature);
-}
-
-.docs-links li {
-  border-bottom: var(--border-default);
-}
-
-.docs-links li:last-child {
-  border-bottom: none;
-}
-
-.docs-links a {
-  display: block;
-  padding: var(--space-4);
-  font-family: var(--font-body);
-  font-weight: 600;
-  color: var(--color-tertiary);
-  background: var(--color-bg);
-  text-decoration: none;
-}
-
-.docs-links a:hover {
-  background: var(--color-surface-alt);
-  color: var(--color-primary);
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── FAQ list ──────────────────────────────────────────────────── */
-.faq-list {
-  border: var(--border-feature);
-}
-
-.faq-item {
-  border-bottom: var(--border-default);
-  padding: var(--space-4);
-  background: var(--color-bg);
-}
-
-.faq-item:last-child {
-  border-bottom: none;
-}
-
-.faq-item dt {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.95rem;
+.feature-detail__angle {
+  font-family: var(--font-headline);
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-  padding-bottom: var(--space-2);
-  border-bottom: var(--border-subtle);
 }
 
-.faq-item dd {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
+/* clients.html — page_blueprints.clients: spec-sheet + family-of-devices */
+.lineup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-end;
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.lineup li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.spec-sheet {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.client-card {
+  display: grid;
+  gap: clamp(var(--space-4), 3vw, var(--space-6));
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  padding: clamp(var(--space-4), 3vw, var(--space-6));
+  background: var(--color-bg);
   color: var(--color-text);
-  line-height: 1.6;
+  border: var(--border-feature);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  scroll-margin-top: var(--anchor-offset);
+}
+
+@media (width >= 50rem) {
+  .client-card {
+    grid-template-columns: 168px minmax(0, 1fr);
+  }
+}
+
+.client-card__art {
+  width: 100%;
+  max-width: 168px;
+  height: auto;
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+
+.spec-rows {
+  margin-top: var(--space-4);
+  border-top: var(--border-subtle);
+}
+
+.spec-rows > div {
+  display: grid;
+  gap: var(--space-1) var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: var(--border-subtle);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 34rem) {
+  .spec-rows > div {
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+  }
+}
+
+.spec-rows dt {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.spec-rows dd {
+  font-weight: 600;
+}
+
+/* download.html — conversion_funnel.style: instant-command */
+.install-panel {
+  display: grid;
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: var(--space-6);
+}
+
+@media (width >= 64rem) {
+  .install-panel {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  }
+}
+
+.shelf {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 48rem) {
+  .shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 74rem) {
+  .shelf {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* copy_treatments.ecosystem: "repo-list" as a shelf of reel canisters */
+.reel {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.reel__can {
+  flex: none;
+  width: 44px;
+  height: 44px;
+}
+
+/* about.html — page_blueprints.about: chapter-scroll */
+.chapter__no {
+  display: block;
+  font-family: var(--font-number);
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  line-height: var(--lh-number);
+  letter-spacing: var(--tracking-number);
+  color: var(--accent);
+  -webkit-text-stroke: 3px #0a0a0a;
+  paint-order: stroke fill;
+}
+
+.chapter__grid {
+  display: grid;
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 56rem) {
+  .chapter__grid {
+    grid-template-columns: 8rem minmax(0, 1fr);
+  }
+}
+
+.marquee__bulbs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.marquee__bulb {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary);
+  border: 2px solid #0a0a0a;
+}
+
+.marquee p {
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 4vw, 2.1rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-inline: auto;
+  color: var(--color-secondary);
+}
+
+.lost-grid {
+  display: grid;
+  gap: clamp(var(--space-6), 4vw, var(--space-12));
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 58rem) {
+  .lost-grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. TV / 10-foot pass. responsive_behavior.tv: Bangers headlines >= 72px,
+       6px yellow focus ring with 3px black offset, dot fields removed to cut
+       visual noise at distance.
+   -------------------------------------------------------------------------- */
+@media (width >= 100rem) {
+  h1 {
+    font-size: 6.5rem;
+  }
+
+  .panel--dots,
+  .warhol__tile,
+  .feature-detail,
+  .vignette {
+    background-image: none;
+  }
+
+  :focus-visible {
+    outline-width: 6px;
+    box-shadow: 0 0 0 9px #0a0a0a;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. Odds and ends that belong to one page each.
+   -------------------------------------------------------------------------- */
+
+/* visitor_paths — the self-select fork, sitting in the hero's yellow CTA strip */
+.paths {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 52rem) {
+  .paths {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.paths li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.paths .btn {
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* proof_strategy.signals[2] — the verbatim line, with Dotty pointing at it */
+.proof__quote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.proof__dotty {
+  width: 96px;
+  height: 96px;
+  flex: none;
+}
+
+/* download.html — Installation Panel Two's client cards */
+.download-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* about.html + 404.html portraits */
+.about__dotty {
+  width: min(140px, 40vw);
+  height: auto;
+  margin-inline: auto;
+}
+
+.lost-grid__dotty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.lost__dotty {
+  width: min(160px, 42vw);
+  height: auto;
+  flex: none;
 }
