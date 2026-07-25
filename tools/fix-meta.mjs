@@ -3,7 +3,7 @@
 //
 //   node tools/fix-meta.mjs
 //
-// For every `variants/<slug>/<page>.html` this derives the CORRECT meta values
+// For every `sites/<slug>/<page>.html` this derives the CORRECT meta values
 // from the file path + shared/content.json and rewrites the <head> in place:
 //
 //   base       = <site.url>/<slug>/
@@ -14,7 +14,7 @@
 //
 // The core B1/B2 fix is that canonical/og:url MUST include the "<slug>/"
 // segment — the hand-authored pages omit it (or, in one family, inject a bogus
-// "/variants/" segment). og:image was a relative ".svg" (B3) → blank share
+// "/sites/" segment). og:image was a relative ".svg" (B3) → blank share
 // cards; we point it at the committed 1200x630 PNG produced by tools/gen-og.mjs.
 //
 // Idempotent + formatting-agnostic: each target tag is matched by attribute
@@ -30,12 +30,12 @@ import { fileURLToPath } from 'node:url';
 import { globSync } from 'glob';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const VARIANTS = join(ROOT, 'variants');
+const SITES = join(ROOT, 'sites');
 
 const content = JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'));
 const SITE_URL = String(content.site.url).replace(/\/+$/, ''); // no trailing slash
 
-/** Derive the canonical/og:url and og image URL for a variants/<slug>/<page>.html file. */
+/** Derive the canonical/og:url and og image URL for a sites/<slug>/<page>.html file. */
 export function derive(slug, file) {
   const base = `${SITE_URL}/${slug}/`;
   const isIndex = file === 'index.html';
@@ -116,11 +116,11 @@ function fixHtml(html, slug, file) {
   return html;
 }
 
-const files = globSync('*/*.html', { cwd: VARIANTS }).sort();
+const files = globSync('*/*.html', { cwd: SITES }).sort();
 let changed = 0;
 for (const rel of files) {
   const [slug, file] = rel.split('/');
-  const abs = join(VARIANTS, rel);
+  const abs = join(SITES, rel);
   const before = readFileSync(abs, 'utf8');
   const after = fixHtml(before, slug, file);
   if (after !== before) {
