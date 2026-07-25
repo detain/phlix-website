@@ -110,7 +110,15 @@ async function coveredControls(page) {
       return s.display !== 'none' && s.visibility !== 'hidden' && s.opacity !== '0';
     };
     const controls = [
-      ...document.querySelectorAll('a[href], button, input, select, textarea, [tabindex]'),
+      // `[tabindex]` deliberately EXCLUDES tabindex="-1": that marks an element
+      // as programmatically focusable only, and the shared shell puts it on
+      // <main id="main-content"> for the skip link. Treating it as a control
+      // meant a fixed mascot overlapping the page body counted as "covering a
+      // control" — a false positive that would have failed every kit with a
+      // companion.
+      ...document.querySelectorAll(
+        'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ),
     ].filter((el) => {
       const r = el.getBoundingClientRect();
       return r.width >= 1 && r.height >= 1 && r.top <= window.innerHeight && r.bottom >= 0;

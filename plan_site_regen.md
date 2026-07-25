@@ -368,6 +368,21 @@ Per kit, the cycle is:
 
 Loop B→C until a full round yields no ❌ and no dimension below 90.
 
+### Freeze the tools before a wave starts
+
+**Do not edit `tools/**` while a wave is running.** Three of the four wave-1
+authors independently reported that `tools/render-check.mjs` changed underneath
+them mid-build — twice in one case — which makes an author's PASS
+non-comparable with the tool the reviewer will run, and cost at least one
+re-verification per kit. It also produced a wasted workaround: one author nested
+its mascot inside `<main>` specifically to dodge a tool false positive that was
+fixed an hour later.
+
+Sequence per wave: land tool changes → verify against an already-finished kit →
+**then** launch the authors. Fixes discovered mid-wave go into the next wave
+unless they are blocking, and if one does land mid-wave, say so to every live
+agent rather than letting them discover it.
+
 ### Concurrency and isolation
 
 - **5 concurrent agents** (owner's call, 2026-07-24, superseding the original ≤3).

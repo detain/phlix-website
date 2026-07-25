@@ -765,3 +765,35 @@ pilot shipped exactly this: at 200% text zoom the hero clipped its own headline
 and both buttons. `render-check` now tests for clipped headings and controls
 directly, but the design rule is simpler: never put `overflow: hidden` on a
 container whose text must reflow. Clip decoration, not content.
+
+### 19.14 Ambiguities that recur in EVERY kit — use these resolutions verbatim
+
+Five kits have now each spent real effort resolving the _same_ handful of
+conflicts, and reached the same answers. Do not re-derive them; cite the row and
+move on. Only record an ambiguity in `REGEN_PLAN.md` if it is **not** in this
+table.
+
+| Recurring conflict                                                                           | Canonical resolution                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The kit's `accessibility.minimum_contrast` prose disagrees with reality                      | **Measured wins, every time.** See below — 5 of 5 kits were wrong. `tools/kit-brief.mjs` prints the measured table plus a pre-derived substitute; use its substitute verbatim so all 50 sites share one derivation.                                        |
+| A kit says "5 native clients" (or any client/feature count)                                  | **`content.json` wins on facts.** It is _four_ native clients — Roku, Tizen, Windows, Mobile (beta) — **plus any DLNA device**. Two kits stated 5; both were wrong.                                                                                        |
+| `proof_strategy` asks for a live star / issue / contributor / download count                 | A static page cannot verify a number, and printing one is fabrication (§19.7). **Link to the live page** (`/stargazers`, `/issues`, `/graphs/contributors`) with a descriptive label. Never print a figure.                                                |
+| `proof_strategy` asks for "a quote from the docs" or an attributed testimonial               | No such quote exists to verify. Use a verbatim string from `content.json` (e.g. `pitch_bullets[0]`) attributed to **the project**, not to an invented person or site.                                                                                      |
+| `copy_overlay` renames a CTA but its `href` still points elsewhere (usually the docs)        | Keep the kit's label and make the destination honest in the visible text — `Read the Case File (the docs)` — so the accessible name matches what happens on click (WCAG 2.5.3).                                                                            |
+| `fonts.ui.usage` assigns a surface that `navigation_model` / `navigation.topbar` also claims | The **more specific, newer field wins for its own surface** (§19.6). Typically: wordmark in the display face, nav links in the UI face.                                                                                                                    |
+| `complexity_profile.page_budget.words_per_section_max` vs facts that must appear             | The cap governs **authored prose** only (headings, framing, captions). Verbatim `content.json` fact strings are exempt; §16 forbids dropping a fact to hit a word count.                                                                                   |
+| A fixed `mascot.behavior` companion has nowhere to sit at 320px                              | **Do not go fixed on phones.** Below 768px place the companion **in flow** (e.g. above the footer) or have it arrive only on first interaction; never auto-push a tip on a phone. Above 768px fixed is fine if it clears the CTA. §19.11 is unconditional. |
+| `footer_arrangement: mirror-nav` vs §5's three footer columns                                | Both: the mirrored index row first, then the three `content.json` columns verbatim.                                                                                                                                                                        |
+| A kit note says its 404 is "out of scope"                                                    | Stale — it predates the root shim. §2A and §18.1 require `404.html`. Ship it.                                                                                                                                                                              |
+
+**On contrast, the record so far — this is why the rule is "measure":**
+
+| Kit                    | Claimed | Measured                                               |
+| ---------------------- | ------- | ------------------------------------------------------ |
+| `abstract-canvas`      | 5.8:1   | **4.73:1** (and 4.35:1 on cards — failing AA)          |
+| `cottagecore-bloom`    | 4.8:1   | **4.02:1**                                             |
+| `swiss-modernist`      | 4.6:1   | **4.43:1**                                             |
+| `neon-noir`            | —       | wrong in 3 places, **silent on 2 real AA failures**    |
+| `stardust-observatory` | 4.8:1   | **7.61:1** (understated — so the error runs both ways) |
+
+Five for five. Treat every kit's contrast prose as unverified.
