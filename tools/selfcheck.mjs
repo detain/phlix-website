@@ -353,6 +353,30 @@ function checkSite(slug) {
     }
   }
 
+  // 16. Every SVG must be well-formed XML (new_site.md §1).
+  //
+  // autumn-harvest shipped a favicon whose banner was a CSS-style /* … */ block.
+  // SVG is XML, so the file failed to parse and the site rendered NO favicon at
+  // all — invisible in review because a missing favicon looks like a default one.
+  // Same shape as the `@copyright`-outside-a-comment CSS bug in check 2: a
+  // comment syntax borrowed from the wrong language.
+  const svgFiles = existsSync(join(dir, 'img'))
+    ? readdirSync(join(dir, 'img')).filter((f) => f.endsWith('.svg'))
+    : [];
+  for (const f of svgFiles) {
+    const txt = readFileSync(join(dir, 'img', f), 'utf8');
+    const head = txt.replace(/^\uFEFF/, '').trimStart();
+    if (head.startsWith('/*')) {
+      fail(
+        `img/${f}: starts with a CSS-style /* … */ comment — SVG is XML and will not parse; use <!-- … -->`,
+      );
+    } else if (!head.startsWith('<')) {
+      fail(`img/${f}: does not begin with '<' — not well-formed XML, so nothing will render it`);
+    } else if (!/<svg[\s>]/.test(txt)) {
+      fail(`img/${f}: no <svg> element`);
+    }
+  }
+
   return { slug, fails, warns, notes };
 }
 
