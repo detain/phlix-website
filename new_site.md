@@ -1031,3 +1031,28 @@ reviewers file each one as a defect. The recurring kinds:
 The manifest is what the reviewer checks you against. Re-read it last, with the
 finished site open, and correct it. This costs you five minutes and saves a
 review round.
+
+### 19.24 Every `css/*.css` and `js/*.js` needs an `@copyright` line
+
+Put it in the file's own banner comment, last line before the closing rule:
+
+```css
+/* ==========================================================================
+   BASE.CSS — Your Kit Name
+   …whatever the file is for…
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+```
+
+The wave-1 regen dropped it from four assets (`swiss-modernist/css/{base,theme,
+components}.css` and `abstract-canvas/css/nojs.css`) because authors write these
+files from scratch per kit and the banner is easy to reinvent without it.
+
+Nothing caught it at the time. §19's older `@copyright`-outside-a-comment trap
+only checks that a notice which **is** present sits inside `/* … */`, so deleting
+the banner outright passed every gate cleanly — the same shape of blind spot as a
+string count reaching zero while the claim stays wrong. `selfcheck` rule 17 now
+fails on a missing header, so this is mechanical: run it and the list is exact.
+
+Only presence is checked. The rest of the banner is yours — describe what the
+file does and which kit fields it transcribes, as the compliant kits do.

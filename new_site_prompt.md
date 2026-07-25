@@ -68,7 +68,7 @@ the site. Use them all; nothing in the kit is decorative.
 - **tagline_secondary[]** → rotating use in CTA banners, the footer tagline area,
   and section eyebrows.
 - **mission**, **values[]** → About page "Philosophy" flavor; never overrides
-  the BSD-3/self-host facts.
+  the licence/self-host facts (MPL-2.0 server + Hub, MIT libraries and clients).
 
 ### 4 · Brand DNA & principles
 - **brand_dna** → prepend mentally to every design decision; the 2–3 sentence

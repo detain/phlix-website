@@ -377,6 +377,33 @@ function checkSite(slug) {
     }
   }
 
+  // 17. Every site CSS/JS asset carries a `@copyright` header.
+  //
+  // The wave-1 regen dropped the header from `swiss-modernist/css/{base,theme,
+  // components}.css` and `abstract-canvas/css/nojs.css` — 4 of 203 site assets.
+  // Nothing caught it: check 2 only verifies that an `@copyright` which IS
+  // present sits inside a comment, so deleting the banner outright passed
+  // cleanly. Authors write these files from scratch per kit, so this recurs on
+  // every wave unless it is gated.
+  //
+  // Deliberately a `fail`, not a warn: the repo's own licence terms are what
+  // ask for the notice, so a missing one is a compliance defect rather than a
+  // style preference. Only the header's presence is checked — the banner's
+  // wording is the kit author's.
+  const assetFiles = [
+    ...cssFiles.map((f) => join('css', f)),
+    ...(existsSync(join(dir, 'js'))
+      ? readdirSync(join(dir, 'js'))
+          .filter((f) => f.endsWith('.js'))
+          .map((f) => join('js', f))
+      : []),
+  ];
+  for (const rel of assetFiles) {
+    if (!readFileSync(join(dir, rel), 'utf8').includes('@copyright')) {
+      fail(`${rel}: no @copyright header (new_site.md §19.24)`);
+    }
+  }
+
   return { slug, fails, warns, notes };
 }
 

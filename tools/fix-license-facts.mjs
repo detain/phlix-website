@@ -58,7 +58,7 @@
  * ---------------------------------------------------------------------------
  *
  * @copyright Copyright (c) 2026 Joe Huss <detain@interserver.net>
- * @license   BSD-3-Clause
+ * @license   MIT
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';

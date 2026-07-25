@@ -125,4 +125,17 @@ for the cross-repo action-version policy.
 
 ## License
 
-BSD-3-Clause. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
+
+This repository's own contents are MIT. The fonts vendored under
+`shared/assets/fonts/` are **not** ours — all 70 families are under the SIL Open
+Font License 1.1 and are redistributed under its terms, which require their
+copyright notices to travel with them. Those are in
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), with the licence text bundled
+beside the fonts at `shared/assets/fonts/OFL.txt`. Regenerate both with
+`node tools/gen-font-notices.mjs` after adding a family.
+
+Note that the **sites** this repo builds describe Phlix the software, which is
+licensed separately: Phlix Server and the Hub are MPL-2.0, and the shared
+libraries, plugins, and clients are MIT. `shared/content.json` is the authority
+for what the sites may claim.

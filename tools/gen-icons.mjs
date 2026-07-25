@@ -30,7 +30,7 @@
  * that kit's glyph to a path in the SVG and re-run.
  *
  * @copyright Copyright (c) 2026 Joe Huss <detain@interserver.net>
- * @license   BSD-3-Clause
+ * @license   MIT
  */
 
 import { execFileSync } from 'node:child_process';

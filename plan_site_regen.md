@@ -233,7 +233,7 @@ the tiering below is now real in every repo:
 | Applications      | `phlix-server`, `phlix-hub`                                         | **MPL-2.0**                                    |
 | Interop layer     | `phlix-shared`, `phlix-contracts`, `phlix-tokens`, `phlix-syncplay` | **MIT** (deliberate — third-party consumption) |
 | Plugins + clients | `phlix-plugin-*`, roku/tizen/windows/mobile/console/ui              | **MIT**                                        |
-| Docs + website    | `phlix-docs`, `phlix-website`                                       | BSD-3-Clause (content)                         |
+| Docs + website    | `phlix-docs`, `phlix-website`                                       | **MIT** (`phlix-website` relicensed 2026-07-25)|
 
 All 24 repos now ship a `LICENSE` file matching their declaration, and naming
 control lives in `phlix-server/TRADEMARK.md` (attribution is appreciated, not
@@ -262,6 +262,15 @@ So "BSD-3-Clause across the board" is not true of any of the three code repos, a
 the flagship server is marked proprietary. This is a licensing decision for the
 owner — **not** something to normalise automatically, and adding a LICENSE file to
 `phlix-server` would contradict its own manifest.
+
+> **Resolved since.** The table above is the as-audited snapshot; treat it as
+> history, not current state. `phlix-server` and `phlix-hub` now both ship a real
+> MPL-2.0 `LICENSE` (verified live 2026-07-25), and **`phlix-website` was
+> relicensed BSD-3-Clause → MIT on 2026-07-25** at the owner's instruction — clean
+> to do, since `git log` shows one human author and dependabot, whose commits only
+> bump dependencies. The 50 sites' own licence claims were corrected in `4d5705d`
+> and `c58ab1e`; see `tools/fix-license-facts.mjs` for what the first pass missed
+> and why.
 
 It blocked Phase 1 because the regen prompt requires every fact to trace to
 `content.json`; as written, all 50 regenerated sites would have republished this
