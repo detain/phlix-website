@@ -1,1027 +1,638 @@
 /* ==========================================================================
-   THEME.CSS — Swiss Modernist Brand Kit
-   Typography, Layout, Grid Archetype
+   THEME.CSS — Swiss Modernist
+   Typographic roles, the 12-column grid, band structure, page archetype.
+   Archetype: GRID. The grid is not scaffolding for the design — it is the
+   design. Column guides are drawn, sections are numbered, and every band
+   opens on a 2px Ink Black rule (scroll_experience.spec).
    ========================================================================== */
 
-/* ==========================================================================
-   TYPOGRAPHY SCALE
-   ========================================================================== */
-
-/* Headline — Inter Black (900), tight tracking */
-.text-headline {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-4xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-}
-
-/* Display — Barlow Condensed Black (800), for large numerals */
-.text-display {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display);
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-}
-
-.text-display-xl {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display);
-  font-size: var(--text-5xl);
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-}
-
-/* Body — Inter Regular (400) */
-.text-body {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body);
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-}
-
-/* UI — Inter Medium/SemiBold (500-600) */
-.text-ui {
-  font-family: var(--font-ui);
-  font-weight: var(--font-weight-ui);
-  font-size: var(--text-base);
-  line-height: var(--line-height-ui);
-  letter-spacing: var(--tracking-wide);
-}
-
-/* Mono — JetBrains Mono for data */
-.text-mono {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--text-sm);
-  line-height: var(--line-height-mono);
-}
-
-/* Size variants */
-.text-xs {
-  font-size: var(--text-xs);
-}
-.text-sm {
-  font-size: var(--text-sm);
-}
-.text-base {
-  font-size: var(--text-base);
-}
-.text-lg {
-  font-size: var(--text-lg);
-}
-.text-xl {
-  font-size: var(--text-xl);
-}
-.text-2xl {
-  font-size: var(--text-2xl);
-}
-.text-3xl {
-  font-size: var(--text-3xl);
-}
-.text-4xl {
-  font-size: var(--text-4xl);
-}
-.text-5xl {
-  font-size: var(--text-5xl);
-}
-
-/* Weight variants */
-.font-normal {
-  font-weight: 400;
-}
-.font-medium {
-  font-weight: 500;
-}
-.font-semibold {
-  font-weight: 600;
-}
-.font-bold {
-  font-weight: 700;
-}
-.font-black {
-  font-weight: 900;
-}
-
-/* Case variants */
-.uppercase {
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-}
-
-/* Color variants */
-.text-primary {
-  color: var(--color-primary);
-}
-.text-secondary {
-  color: var(--color-secondary);
-}
-.text-tertiary {
-  color: var(--color-tertiary);
-}
-.text-muted {
-  color: var(--color-neutral);
-}
-
-/* ==========================================================================
-   LAYOUT SYSTEM — 12-column grid, 8px base unit
-   ========================================================================== */
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
+/* --------------------------------------------------------------------------
+   1. MEASURE & THE 12-COLUMN GRID
+   -------------------------------------------------------------------------- */
 
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-6);
+  padding-inline: var(--page-inline);
 }
 
-/* 12-column grid */
-.grid-12 {
+/* The modular grid. 4 columns on a phone, 8 on a tablet, 12 on the desktop —
+   the kit's responsive_behavior, expressed as column counts rather than
+   arbitrary breakpoints. */
+.grid12 {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--grid-gutter);
 }
 
-/* Column spans */
-.col-span-1 {
-  grid-column: span 1;
-}
-.col-span-2 {
-  grid-column: span 2;
-}
-.col-span-3 {
-  grid-column: span 3;
-}
-.col-span-4 {
-  grid-column: span 4;
-}
-.col-span-5 {
-  grid-column: span 5;
-}
-.col-span-6 {
-  grid-column: span 6;
-}
-.col-span-7 {
-  grid-column: span 7;
-}
-.col-span-8 {
-  grid-column: span 8;
-}
-.col-span-9 {
-  grid-column: span 9;
-}
-.col-span-10 {
-  grid-column: span 10;
-}
-.col-span-11 {
-  grid-column: span 11;
-}
-.col-span-12 {
-  grid-column: span 12;
+@media (width >= 768px) {
+  .grid12 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
 }
 
-/* ==========================================================================
-   SECTION STRUCTURE
-   ========================================================================== */
-
-.section {
-  padding-block: var(--space-16);
+@media (width >= 1024px) {
+  .grid12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
 }
 
-.section-lg {
-  padding-block: var(--space-24);
+/* --------------------------------------------------------------------------
+   2. TYPOGRAPHIC ROLES
+   Display type clamps against vw so the strict px scale is honoured at
+   desktop while 320px and 200% text zoom cannot overflow (§12/§14).
+   -------------------------------------------------------------------------- */
+
+/* Uppercase is reserved for category labels and nav (typography_rules). */
+.label {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: var(--lh-ui);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-gray-deep);
 }
 
-.section-sm {
-  padding-block: var(--space-8);
+.readout {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: var(--lh-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-gray-deep);
 }
 
-/* ==========================================================================
-   HERO — Swiss Modernist Landing Pattern
-   Full-bleed Grid White, oversized Inter Black headline,
-   4px Basel Red rule beneath, asymmetric grid composition
-   ========================================================================== */
+.lead {
+  font-size: var(--text-lg);
+  line-height: var(--lh-body);
+  max-width: 62ch;
+}
+
+/* The Swiss section index. Real numbered sections, set in Barlow Condensed
+   Black at Rule Gray (#888 on Grid White = 3.33:1, clearing 3:1 as large
+   graphical text). It is content, not a watermark: it lives inside the
+   heading and is never aria-hidden. */
+.section-index {
+  display: block;
+  font-family: var(--font-number);
+  font-weight: 900;
+  font-size: min(var(--text-3xl), 12vw);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   3. BANDS — every section opens on a 2px Ink Black rule
+   -------------------------------------------------------------------------- */
+
+.band {
+  padding-block: var(--space-12);
+}
+
+@media (width >= 1024px) {
+  .band {
+    padding-block: var(--space-16);
+  }
+}
+
+.band > .container {
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+  padding-block-start: var(--space-6);
+}
+
+.band--surface {
+  background-color: var(--color-surface);
+}
+
+/* Drawn column guides — 1px Module Gray lines on the twelfths. Desktop only:
+   at narrow widths the guides would be noise, not structure. */
+@media (width >= 1024px) {
+  .band--guides {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--color-surface-alt) 0 1px,
+      transparent 1px calc(100% / 12)
+    );
+  }
+}
+
+.band-head {
+  margin-block-end: var(--space-8);
+}
+
+.band-head h2 {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: min(var(--text-2xl), 8.5vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.05;
+}
+
+.band-head .lead {
+  margin-block-start: var(--space-4);
+}
+
+@media (width >= 1024px) {
+  .band-head {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: var(--grid-gutter);
+    align-items: start;
+  }
+
+  .band-head h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .band-head .lead {
+    margin-block-start: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. HERO — section 01, `manifesto` (hero_experience.mode: static)
+   -------------------------------------------------------------------------- */
 
 .hero {
-  padding-block: var(--space-24) var(--space-16);
-  background-color: var(--color-bg);
-  border-bottom: var(--border-width-heavy) solid var(--color-border);
-  position: relative;
-  overflow: hidden;
+  padding-block: var(--space-8) var(--space-16);
 }
 
-.hero-inner {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--grid-gutter);
-  align-items: center;
-}
-
-.hero-content {
-  grid-column: 1 / 8;
+.hero > .container {
+  border-block-start: none;
+  padding-block-start: 0;
 }
 
 .hero-eyebrow {
   font-family: var(--font-ui);
-  font-weight: 600;
   font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  color: var(--color-tertiary);
-  margin-bottom: var(--space-4);
+  color: var(--color-text);
+  margin-block-end: var(--space-4);
+}
+
+.hero-eyebrow .section-index {
+  margin-block-end: var(--space-2);
 }
 
 .hero-headline {
   font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  color: var(--color-text);
-  margin-bottom: var(--space-4);
+  font-weight: 900;
+  font-size: min(var(--text-4xl), 13vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--lh-headline);
+  max-width: 22ch;
 }
 
-.hero-headline-rule {
-  width: 64px;
+/* The 4px Basel Red rule that anchors the primary headline
+   (page_generation_rules). A pseudo-element, so it is never an empty node. */
+.hero-headline::after {
+  content: '';
+  display: block;
+  width: min(320px, 60%);
   height: var(--border-width-rule);
+  margin-block-start: var(--space-6);
   background-color: var(--color-primary);
-  margin-bottom: var(--space-6);
 }
 
-.hero-subheadline {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body);
+.hero-manifesto {
   font-size: var(--text-lg);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  max-width: 52ch;
-  margin-bottom: var(--space-8);
+  font-weight: 500;
+  line-height: 1.45;
+  max-width: 40ch;
+  margin-block-start: var(--space-6);
 }
 
-.hero-cta {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  align-items: center;
+.hero-readout {
+  margin-block-start: var(--space-6);
+  padding-block-start: var(--space-3);
+  border-block-start: var(--border-width) solid var(--color-border);
 }
 
-/* Hero visual — large typographic composition on right */
-.hero-visual {
-  grid-column: 8 / 13;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+@media (width >= 1024px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gutter);
+    align-items: start;
+  }
+
+  /* Asymmetric, mathematically proportioned: 7 columns of type, one empty
+     column, then the technical readout on the right-hand column edge. */
+  .hero-primary {
+    grid-column: 1 / span 7;
+  }
+
+  .hero-aside {
+    grid-column: 9 / span 4;
+  }
+
+  .hero-headline {
+    font-size: var(--text-4xl);
+  }
 }
 
-.hero-numeral {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display);
-  font-size: clamp(120px, 20vw, 280px);
-  line-height: 1;
-  color: var(--color-surface-alt);
-  letter-spacing: -0.04em;
-  user-select: none;
-}
+/* --------------------------------------------------------------------------
+   5. SPEC ROWS — copy_treatments.pitch_bullets: "spec-rows"
+   -------------------------------------------------------------------------- */
 
-/* ==========================================================================
-   PITCH SECTION — Why Phlix?
-   ========================================================================== */
-
-.pitch {
-  padding-block: var(--space-16);
-  background-color: var(--color-surface);
-  border-bottom: var(--border-width) solid var(--color-border);
-}
-
-.pitch-header {
-  margin-bottom: var(--space-8);
-}
-
-.pitch-header h2 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-2xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-}
-
-.pitch-list {
+.spec-rows {
   list-style: none;
   padding: 0;
+  margin: 0;
+  border-block-start: var(--border-width) solid var(--color-border);
+}
+
+.spec-rows > li {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-4);
-}
-
-.pitch-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-  max-width: 65ch;
-}
-
-.pitch-item::before {
-  content: '';
-  width: 24px;
-  height: 2px;
-  background-color: var(--color-border);
-  flex-shrink: 0;
-  margin-top: 10px;
-}
-
-/* ==========================================================================
-   FEATURES OVERVIEW — Card Grid
-   ========================================================================== */
-
-.features-overview {
-  padding-block: var(--space-16);
-  background-color: var(--color-bg);
-  border-bottom: var(--border-width) solid var(--color-border);
-}
-
-.features-overview-header {
-  margin-bottom: var(--space-8);
-}
-
-.features-overview-header h2 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-2xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-6);
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-4);
-  margin-bottom: var(--space-8);
-}
-
-.feature-card {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: minmax(0, 3.5rem) minmax(0, 1fr);
   gap: var(--space-3);
+  align-items: baseline;
+  margin: 0;
+  padding-block: var(--space-3);
+  border-block-end: var(--border-width) solid var(--color-neutral);
 }
 
-.feature-card-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.spec-rows > li:hover {
+  background-color: var(--color-surface-alt);
 }
 
-.feature-card-icon svg {
-  width: 32px;
-  height: 32px;
-  stroke: var(--color-text);
-  stroke-width: 1.5;
-  fill: none;
-}
-
-.feature-card h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-  line-height: var(--line-height-ui);
-}
-
-.feature-card p {
-  font-family: var(--font-body);
+.spec-row-index {
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  max-width: 70ch;
+  font-weight: 500;
+  color: var(--color-gray-deep);
+  font-variant-numeric: tabular-nums;
 }
 
-.features-link {
-  font-family: var(--font-ui);
-  font-weight: 600;
+.spec-row-text {
   font-size: var(--text-base);
+  line-height: var(--lh-body);
+}
+
+@media (width >= 1024px) {
+  .spec-rows > li {
+    grid-template-columns: minmax(0, 5rem) minmax(0, 1fr);
+  }
+
+  .spec-row-text {
+    font-size: var(--text-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. FEATURE MODULES — feature_casting
+   -------------------------------------------------------------------------- */
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+}
+
+.module-grid > * {
+  grid-column: 1 / -1;
+}
+
+@media (width >= 768px) {
+  .module-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  /* Two hero modules side by side; four support modules two-up. */
+  .module--hero,
+  .module--support,
+  .module--footnote {
+    grid-column: span 4;
+  }
+}
+
+@media (width >= 1024px) {
+  .module-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .module--hero {
+    grid-column: span 6;
+  }
+
+  .module--support {
+    grid-column: span 3;
+  }
+
+  .module--footnote {
+    grid-column: span 6;
+  }
+}
+
+.module-grid-note {
+  grid-column: 1 / -1;
+  margin-block-start: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   7. PROOF PLACARD — proof_strategy
+   -------------------------------------------------------------------------- */
+
+.proof-numbers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  .proof-numbers {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.proof-numbers > li {
+  margin: 0;
+  padding-block-start: var(--space-3);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+/* The single Basel Red bar, under the lead metric only. */
+.proof-numbers > li.is-lead {
+  border-block-start-color: var(--color-primary);
+  border-block-start-width: var(--border-width-rule);
+}
+
+.proof-figure {
+  display: block;
+  font-family: var(--font-number);
+  font-weight: 900;
+  font-size: min(var(--text-4xl), 16vw);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
   color: var(--color-text);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
 }
 
-.features-link:hover {
+.proof-caption {
+  display: block;
+  margin-block-start: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: var(--lh-ui);
   color: var(--color-text);
 }
 
-.features-link::after {
-  content: '→';
+.proof-links {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
 }
 
-/* ==========================================================================
-   CTA BANNER — Closing section
-   ========================================================================== */
+.proof-links > li {
+  margin: 0;
+}
+
+.proof-quote {
+  margin-block-start: var(--space-8);
+  padding: var(--space-6);
+  background-color: var(--color-surface-alt);
+  border-inline-start: var(--border-width-rule) solid var(--color-tertiary);
+}
+
+.proof-quote blockquote {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.proof-quote figcaption {
+  margin-block-start: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-secondary);
+}
+
+@media (width >= 1024px) {
+  .proof-figure {
+    font-size: var(--text-4xl);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. CTA BAND — conversion_funnel closing step
+   -------------------------------------------------------------------------- */
 
 .cta-banner {
-  padding-block: var(--space-16);
-  background-color: var(--color-surface);
-  border-top: var(--border-width-heavy) solid var(--color-border);
-  text-align: center;
+  padding-block: var(--space-12);
+}
+
+.cta-banner > .container {
+  border-block-start: var(--border-width-rule) solid var(--color-border);
+  padding-block-start: var(--space-8);
 }
 
 .cta-banner h2 {
   font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-2xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-4);
+  font-weight: 900;
+  font-size: min(var(--text-3xl), 11vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--lh-headline);
 }
 
 .cta-banner p {
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  color: var(--color-tertiary);
-  margin-bottom: var(--space-6);
-  max-width: 48ch;
-  margin-inline: auto;
+  margin-block-start: var(--space-4);
+  max-width: 60ch;
 }
 
-/* ==========================================================================
-   PAGE HEADER — Interior page hero
-   ========================================================================== */
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  margin-block-start: var(--space-8);
+  list-style: none;
+  padding: 0;
+}
+
+.cta-actions > li {
+  margin: 0;
+}
+
+@media (width >= 1024px) {
+  .cta-banner h2 {
+    font-size: var(--text-3xl);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. PAGE HEADER — every page but home
+   -------------------------------------------------------------------------- */
 
 .page-header {
-  padding-block: var(--space-16);
-  background-color: var(--color-bg);
-  border-bottom: var(--border-width-heavy) solid var(--color-border);
+  padding-block: var(--space-8) var(--space-12);
 }
 
 .page-header h1 {
   font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-3xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-4);
+  font-weight: 900;
+  font-size: min(var(--text-3xl), 12vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--lh-headline);
 }
 
-.page-header-rule {
-  width: 48px;
+.page-header h1 .section-index {
+  margin-block-end: var(--space-2);
+}
+
+.page-header h1::after {
+  content: '';
+  display: block;
+  width: min(240px, 50%);
   height: var(--border-width-rule);
+  margin-block-start: var(--space-4);
   background-color: var(--color-primary);
-  margin-bottom: var(--space-6);
 }
 
-.page-header p {
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  color: var(--color-tertiary);
-  max-width: 60ch;
+.page-header .lead {
+  margin-block-start: var(--space-6);
 }
 
-/* ==========================================================================
-   CONTENT SECTION — Generic content wrapper
-   ========================================================================== */
+@media (width >= 1024px) {
+  .page-header > .container {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gutter);
+  }
+
+  .page-header h1 {
+    grid-column: 1 / span 6;
+    font-size: var(--text-3xl);
+  }
+
+  .page-header .lead {
+    grid-column: 8 / span 5;
+    margin-block-start: 0;
+    align-self: end;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. CONTENT SECTIONS
+   -------------------------------------------------------------------------- */
 
 .content-section {
-  padding-block: var(--space-16);
-  background-color: var(--color-bg);
+  padding-block: var(--space-12);
 }
 
-.content-section + .content-section {
-  border-top: var(--border-width) solid var(--color-surface-alt);
+.content-section > .container {
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+  padding-block-start: var(--space-6);
+}
+
+.content-section h2 {
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: min(var(--text-2xl), 8.5vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.05;
+}
+
+.content-body > * + * {
+  margin-block-start: var(--space-4);
 }
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  margin-block-start: var(--space-8);
 }
 
-.feature-detail {
-  padding: var(--space-6);
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-}
-
-.feature-detail-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: var(--space-4);
-}
-
-.feature-detail-icon svg {
-  width: 48px;
-  height: 48px;
-  stroke: var(--color-text);
-  stroke-width: 1.5;
-  fill: none;
-}
-
-.feature-detail h2 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-xl);
-  letter-spacing: -0.02em;
-  line-height: var(--line-height-ui);
-  margin-bottom: var(--space-3);
-}
-
-.feature-detail p {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-}
-
-/* ==========================================================================
-   CLIENT CARDS
-   ========================================================================== */
-
-.client-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-4);
-  margin-block: var(--space-8);
-}
-
-.client-card {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.client-card h2 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-xl);
-  letter-spacing: -0.02em;
-  line-height: var(--line-height-ui);
-}
-
-.client-status {
-  display: inline-block;
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  padding: var(--space-1) var(--space-2);
-  border: var(--border-width) solid;
-}
-
-.status-stable {
-  color: var(--color-success);
-  border-color: var(--color-success);
-}
-
-.status-beta {
-  color: var(--color-warning);
-  border-color: var(--color-warning);
-}
-
-.status-deprecated {
-  color: var(--color-error);
-  border-color: var(--color-error);
-}
-
-.client-tagline {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-tertiary);
-}
-
-.client-highlights {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.client-highlights li {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin: 0;
-}
-
-.client-highlights li::before {
-  content: '';
-  width: 12px;
-  height: 1px;
-  background-color: var(--color-tertiary);
-  flex-shrink: 0;
-}
-
-/* ==========================================================================
-   DOWNLOAD PAGE
-   ========================================================================== */
-
-.download-section {
-  margin-bottom: var(--space-12);
-}
-
-.download-section h2 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-4);
-  padding-bottom: var(--space-3);
-  border-bottom: var(--border-width-heavy) solid var(--color-border);
-}
-
-.code-block {
-  background-color: var(--color-surface-alt);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-4);
-  margin-block: var(--space-4);
-  overflow-x: auto;
-}
-
-.code-block code {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  background: none;
-  padding: 0;
-}
-
-.download-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-4);
-}
-
-.download-card {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.download-card h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-}
-
-.download-card p {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-tertiary);
-}
-
-.download-card code {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-}
-
-/* ==========================================================================
-   PLUGINS PAGE
-   ========================================================================== */
-
-.plugin-model {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-6);
-  margin-block: var(--space-6);
-}
-
-.plugin-model h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-4);
-}
-
-.plugin-model ul {
-  list-style: none;
-  padding: 0;
-}
-
-.plugin-model li {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-surface-alt);
-  margin: 0;
-}
-
-/* ==========================================================================
-   FAQ LIST
-   ========================================================================== */
-
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.faq-item {
-  border-bottom: var(--border-width) solid var(--color-border);
-  padding-block: var(--space-6);
-}
-
-.faq-item:first-child {
-  border-top: var(--border-width) solid var(--color-border);
-}
-
-.faq-item dt {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-3);
-}
-
-.faq-item dd {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  max-width: 70ch;
-}
-
-/* ==========================================================================
-   ECOSYSTEM LIST
-   ========================================================================== */
-
-.ecosystem-list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-block: var(--space-6);
-}
-
-.ecosystem-item {
-  padding-block: var(--space-4);
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--space-4);
-  align-items: baseline;
-}
-
-.ecosystem-item:last-child {
-  border-bottom: none;
-}
-
-.ecosystem-item strong {
-  font-family: var(--font-ui);
-  font-weight: 600;
-}
-
-.ecosystem-item span {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-tertiary);
-}
-
-/* ==========================================================================
-   ABOUT PAGE
-   ========================================================================== */
-
-.about-philosophy {
-  padding-block: var(--space-12);
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
-  margin-bottom: var(--space-8);
-}
-
-.about-philosophy h2 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-4);
-}
-
-.about-philosophy p {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-  max-width: 65ch;
-  margin-bottom: var(--space-4);
-}
-
-.license-block {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-6);
-  margin-block: var(--space-6);
-}
-
-.license-block h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-lg);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-3);
-}
-
-.license-block p {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-tertiary);
-}
-
-/* ==========================================================================
-   RESPONSIVE — 320→1920
-   ========================================================================== */
-
-/* Tablet: 8-column grid, touch targets 48px, scaled headlines */
-@media (width >= 769px) and (width <= 1024px) {
-  :root {
-    --grid-columns: 8;
-    --grid-gutter: 16px;
-  }
-
-  .grid-12 {
-    grid-template-columns: repeat(8, 1fr);
-  }
-
-  .hero-content {
-    grid-column: 1 / 6;
-  }
-
-  .hero-visual {
-    grid-column: 6 / 9;
-  }
-
-  .hero-numeral {
-    font-size: clamp(80px, 15vw, 180px);
-  }
-
-  .col-span-3 {
-    grid-column: span 4;
-  }
-  .col-span-4 {
-    grid-column: span 4;
-  }
-  .col-span-5 {
-    grid-column: span 4;
-  }
-  .col-span-6 {
-    grid-column: span 4;
-  }
-  .col-span-7 {
-    grid-column: span 8;
-  }
-  .col-span-8 {
-    grid-column: span 8;
-  }
-
-  h1 {
-    font-size: var(--text-3xl);
-  }
-  h2 {
-    font-size: var(--text-2xl);
-  }
-
-  .btn {
-    min-height: 48px;
-  }
-
-  .pitch-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .client-cards,
-  .download-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (width <= 1024px) {
-  .hero-content {
-    grid-column: 1 / 9;
-  }
-
-  .hero-visual {
-    grid-column: 9 / 13;
-  }
-}
-
-@media (width <= 768px) {
-  :root {
-    --grid-gutter: 16px;
-  }
-
-  .hero-inner {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .hero-visual {
-    display: none;
-  }
-
-  .hero-content {
-    grid-column: 1;
-  }
-
-  .pitch-list {
-    grid-template-columns: 1fr;
-  }
-
-  .features-grid,
-  .client-cards,
-  .download-cards {
-    grid-template-columns: 1fr;
-  }
-
+@media (width >= 768px) {
   .content-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 1024px) {
+  .content-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  h1 {
-    font-size: var(--text-3xl);
-  }
-  h2 {
+  .content-section h2 {
     font-size: var(--text-2xl);
   }
-  h3 {
-    font-size: var(--text-xl);
+}
+
+/* Asymmetric two-column text block: 4 columns of heading, 7 of copy. */
+@media (width >= 1024px) {
+  .split {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gutter);
   }
 
-  .text-4xl {
-    font-size: var(--text-3xl);
-  }
-  .text-5xl {
-    font-size: var(--text-4xl);
+  .split > :first-child {
+    grid-column: 1 / span 4;
   }
 
-  .ecosystem-item {
-    grid-template-columns: 1fr;
-    gap: var(--space-2);
+  .split > :last-child {
+    grid-column: 6 / span 7;
   }
 }
 
-@media (width <= 480px) {
-  :root {
-    --space-6: 16px;
+/* --------------------------------------------------------------------------
+   11. 404 — error_page_experience: "Missing Grid Alignment"
+   -------------------------------------------------------------------------- */
+
+.error-page {
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.error-frame {
+  position: relative;
+}
+
+.error-readout {
+  margin-block-end: var(--space-6);
+  padding-block-end: var(--space-3);
+  border-block-end: var(--border-width) solid var(--color-border);
+}
+
+/* The content sits deliberately off-grid; one 2px Basel Red guide line marks
+   where column 1 actually is. Only at >=768px — at 320px there is no spare
+   column to step off of, and an inline offset would overflow. */
+@media (width >= 768px) {
+  .error-offset {
+    margin-inline-start: calc(100% / 6);
+    border-inline-start: var(--border-width) dashed var(--color-neutral);
+    padding-inline-start: var(--space-6);
   }
 
-  .hero {
-    padding-block: var(--space-12);
-  }
-
-  .section {
-    padding-block: var(--space-8);
-  }
-
-  .cta-banner {
-    padding-block: var(--space-8);
+  .error-guide {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--border-width-heavy);
+    background-color: var(--color-primary);
   }
 }
 
-/* ==========================================================================
-   TV (10-foot UI) — 1920px and beyond
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
+.error-headline {
+  margin-block-start: var(--space-8);
+}
 
-@media (width >= 1600px) {
-  :root {
-    --text-base: 18px;
-    --text-lg: 20px;
-    --text-xl: 28px;
-    --text-2xl: 36px;
-    --text-3xl: 56px;
-    --text-4xl: 72px;
-    --text-5xl: 112px;
-  }
+.error-lead {
+  margin-block-start: var(--space-4);
+}
+
+.error-recovery {
+  margin-block-start: var(--space-8);
 }

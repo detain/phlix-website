@@ -1,132 +1,163 @@
-# Image Generation Prompts — Neon Noir Brand Kit
+# Image prompts — Neon Noir
 
-This file records the exact prompts used to generate every image asset in this brand-kit site. Use these to regenerate or refine any asset.
+Every prompt below is built from the kit's own fields:
 
----
+- **prefix** — `image_prompt_prefix`: "Neo-noir cinematic illustration, high contrast, deep
+  black shadows, neon city night, electric cyan and magenta neon signs, rain-slicked streets,
+  1940s noir meets modern neon city,"
+- **suffix** — `image_prompt_suffix`: ", dark atmospheric palette (void black, electric cyan,
+  neon magenta, amber), sharp hard shadows, film grain, cinematic composition, high quality."
+- **negative** — `negative_prompt`: warm, golden hour, daylight, sunshine, cozy, cheerful,
+  pastel, soft, cream background, family friendly, cartoonish, rounded bubbles, corporate
+  clean, flat bright colors.
 
-## Logo (`img/logo.svg`)
+Palette to hold in every render: void black `#0a0c10`, deep navy `#111827`, electric cyan
+`#00e5ff`, neon magenta `#ff2d78`, neon amber `#f5a623`, ghost white `#e8edf5`.
 
-**Prompt:**
-```
-Design a Neon Noir logo: Playfair Display italic wordmark in ghost-white on
-void-black, optional 1px electric-cyan rectangular border, sharp corners,
-no warm colors, no rounded shapes.
-```
-
-**Implementation:** Hand-crafted SVG — Playfair Display italic "Phlix" wordmark on void-black background with electric-cyan border and animated neon amber accent bar.
-
-**Negative constraints (from kit):**
-- No rounded shapes
-- No warm colors (no golden, amber except for primary CTA accents)
-- No play-button triangle cliché
-- No gears or circuits
+Assets currently shipping as CSS/SVG originals are marked **[shipped as SVG]** — the prompt is
+recorded so a real render can replace it later without re-deriving the art direction.
 
 ---
 
-## Favicon (`img/favicon.svg`)
+## Brand marks
 
-**Prompt:**
-```
-Sharp square favicon, dark void-black background, neon amber (#F5A623) border,
-ghost-white italic "P" letterform, no rounded corners beyond 4px.
-```
+### `logo.svg` **[shipped as SVG]**
 
-**Implementation:** 32×32 SVG with void-black background, amber border, and animated cyan glow dot.
+> Design a Neon Noir logo: Playfair Display italic wordmark "Phlix" in ghost-white on
+> void-black, inside a sharp-cornered rectangular badge with a 1px electric-cyan border, a
+> short neon-amber accent bar, and "NEON NOIR" in small letterspaced steel-mist caps. Sharp
+> corners, no warm colours, no rounded shapes, no play-button triangle.
 
----
+Forbidden per `logo_rules`: play-button triangle, gears or circuits, sunbursts, warm
+illustration.
 
-## Social Share Image (`img/og.svg` → `img/og.png`)
+### `favicon.svg` **[shipped as SVG]**
 
-**Prompt:**
-```
-A neo-noir media landing page social graphic: Playfair Display headline
-in neon amber, dark atmospheric key art, city night, rain reflections,
-high-contrast noir composition, 1200x630px.
-```
+> A 32×32 void-black square with a 1px neon-amber border and a bold italic serif "P" in
+> ghost-white, plus a single amber neon dot. High contrast, sharp corners, legible at 16px.
 
-**Implementation:** Hand-crafted SVG — city silhouette against void-black with neon window lights, venetian-blind shadow pattern, neon horizon gradient line, "Phlix" headline with cyan glow.
+### `og.svg` → `og.png` (1200×630)
 
-**To generate PNG:** Render `og.svg` to 1200×630 PNG at 2x resolution.
+> {prefix} a city skyline at night seen across wet asphalt, lit windows in deep navy towers, a
+> thin neon horizon line, and the wordmark "Phlix" in Playfair Display with a cyan halation
+> glow, generous black negative space at the lower left for the headline "Every Frame, a
+> Mystery." {suffix}
 
----
-
-## Background Texture (CSS-only)
-
-**Prompt:**
-```
-Void-black background with subtle rain-texture and faint neon-cyan radial
-glow in one corner. No warm light. No text.
-```
-
-**Implementation:** Pure CSS — `background: radial-gradient()` + CSS noise/grain via SVG filter embedded in CSS.
+`og.png` is rasterised from `og.svg` by `node tools/gen-og.mjs --site neon-noir`, because
+`og:image` must be a PNG.
 
 ---
 
-## Hero Illustration Concept
+## Home — the alley diorama **[shipped as SVG]**
 
-**Prompt:**
-```
-{image_prompt_prefix} dramatic neo-noir hero scene: lone silhouette
-under neon signs, venetian-blind shadows, rain-slicked streets,
-{image_prompt_suffix}
-```
+Realises `hero_experience.spec` and the `homepage_narrative.sections[0].treatment`.
 
-**Where:**
-- `image_prompt_prefix` = "Neo-noir cinematic illustration, high contrast, deep black shadows, neon city night, electric cyan and magenta neon signs, rain-slicked streets, 1940s noir meets modern neon city,"
-- `image_prompt_suffix` = ", dark atmospheric palette (void black, electric cyan, neon magenta, amber), sharp hard shadows, film grain, cinematic composition, high quality."
+> {prefix} a lone figure in a trench coat and fedora leaning in a lit doorway of a rain-soaked
+> alley, watching a buzzing neon marquee overhead that reads "PHLIX", the brim of the hat
+> catching a cyan glow, two points of amber light where the eyes are, magenta and amber
+> reflections pooling in the wet asphalt below, venetian-blind shadows falling across the
+> brickwork {suffix}
 
-**Negative prompt:**
-```
-warm, golden hour, daylight, sunshine, cozy, cheerful, pastel,
-soft, cream background, family friendly, cartoonish, rounded bubbles,
-corporate clean, flat bright colors
-```
+Three pose variants are needed, one per vignette step — the sign changes colour and the figure
+shifts:
+
+1. **cyan** — leaning against the wall, arms crossed, looking down the alley.
+2. **magenta** — looking back over the shoulder at the flickering sign.
+3. **amber** — squared up in the lit doorway, sign fully steady.
 
 ---
 
-## Feature Icons (7 inline SVG)
+## Persona vignettes
 
-Each icon follows:
-```
-Sharp outlined minimal icon of {subject}, 1.5px stroke, ghost-white,
-no rounded joins, neon-cyan active state, noir aesthetic.
-```
+These three come from `persona_vignettes` and decide which product surfaces are depicted.
 
-| Feature | Icon concept |
-|---------|-------------|
-| library | Open book with pages |
-| syncplay | Clock with sync arrows |
-| transcode | Video display with signal |
-| auth/shield | Shield with check |
-| livetv/antenna | Broadcast antenna wave |
-| dlna/broadcast | Radio tower/signal |
-| plugins/puzzle | Puzzle piece |
-| hub | Network/relay nodes |
+### The Midnight Collector — home art and library grid
 
-**Implementation:** All icons are inline SVGs in the HTML with 1.5px stroke, sharp corners, ghost-white fill, and cyan active states on hover.
+> {prefix} a dark living room at 2 a.m. lit only by a television showing a poster grid of
+> films, a phone face-up on the kitchen counter showing the same film mid-playback, a third
+> screen glowing in a bedroom doorway, all three in sync, cyan interface light on every
+> surface {suffix}
 
----
+Surfaces: home hero, media library grid, media player with the SyncPlay indicator.
+Features shown: syncplay, library, transcode.
 
-## Mascot: Lux (CSS/SVG placeholder)
+### Remote Access — hub art
 
-**Prompt:**
-```
-A sleek silhouetted figure wearing a long trench coat and a fedora whose brim
-casts a neon-cyan glow. Their eyes are two points of amber light in the darkness.
-Leaning against a rain-slicked wall, arms crossed, noir aesthetic.
-```
+> {prefix} a figure on a rain-soaked street at night holding a phone, a thin cyan line
+> arcing from the phone across a sleeping skyline to a single lit window far away, the line
+> passing cleanly through a dark wall {suffix}
 
-**Note:** The Neon Noir kit defines mascot "Lux" (anthropomorphic neon sign letter X). For the marketing site, Lux is referenced but not prominently featured — the dark atmospheric photography and neon accents carry the identity instead.
+Surfaces: hub connect screen, remote media library, media player.
+Features shown: hub, auth, transcode.
+
+### The Multi-Screen Night — clients art
+
+> {prefix} a living-room television playing a noir thriller, and in the far distance through
+> a window a second lit apartment showing the identical frame at the identical moment, both
+> rooms washed in the same magenta and cyan light {suffix}
+
+Surfaces: media player, SyncPlay overlay, hub network status.
+Features shown: syncplay, hub, auth.
 
 ---
 
-## Art Direction Rules Applied
+## 404 — the dead-end alley **[shipped as SVG]**
 
-1. Background is always void-black (#0A0C10) or deep-navy (#111827)
-2. Maximum two neon accent colors per screen
-3. Primary CTA is always neon amber (#F5A623) with void-black text
-4. Sharp corners (2px radius) except pill for badge shapes
-5. All text must meet WCAG AA against its dark background
-6. No warm golden or cream tones
-7. Film grain and neon halation on all imagery
-8. Venetian-blind shadow patterns as signature dividers
+Realises `error_page_experience.concept`.
+
+> {prefix} a dead-end alley at night, a burnt-out neon sign above a shut door with only one
+> stroke of the letter X still glowing amber, a figure in a trench coat holding a paper file
+> marked "FILE NOT FOUND", a dented filing cabinet standing in shadow, no way through {suffix}
+
+---
+
+## Feature icons **[shipped as inline SVG]**
+
+Eight icons: library, syncplay (clock), transcode (film), shield, antenna, broadcast, puzzle,
+hub.
+
+> Sharp outlined minimal icon of {subject}, 1.5px stroke, ghost-white, square caps and joins,
+> no rounded joins, maximum 2px corner radius, electric-cyan active state, noir aesthetic, on
+> void black.
+
+Per `icon_rules`: never a rounded playful icon set, never filled by default, one stroke weight
+per view.
+
+---
+
+## Seasonal motifs **[shipped as SVG]**
+
+Referenced by `seasonal_activation.motif_assets` and shown by the date gate in
+`js/experience.js`.
+
+### `seasonal/champagne-countdown.svg` — Midnight New Year (12-28…01-03)
+
+> {prefix} a champagne flute silhouette against a magenta neon countdown clock, slow-falling
+> confetti shaped like film-frame perforations {suffix}
+
+### `seasonal/blood-moon-rooftops.svg` — Blood Moon October (10-01…10-31)
+
+> {prefix} a crescent moon silhouette over rainy rooftops in deep crimson neon, spider-web
+> geometry worked into the venetian-blind shadow device {suffix}
+
+### `seasonal/valentine-neon-hearts.svg` — Valentine's Neon (02-10…02-14)
+
+> {prefix} a stylised neon heart sign flickering above a city roofline, rain puddles below
+> reflecting pink {suffix}
+
+---
+
+## Backdrops and textures
+
+Per the kit's performance rules these are **CSS only** — no raster textures ship:
+
+- **Film grain** — a 3px radial-dot lattice at 2.8% ghost-white on `body`.
+- **Rain** — a 104° repeating hairline cyan gradient, masked to fade downward.
+- **Venetian blinds** — a 7px repeating horizontal gradient, skewed −1.1°.
+- **Amber interrogation light** — a radial amber-to-transparent gradient behind the hero and
+  every CTA banner.
+
+If a raster backdrop is ever added:
+
+> Void-black background with subtle rain texture and a faint neon-cyan radial glow in one
+> corner. No warm light. No text.

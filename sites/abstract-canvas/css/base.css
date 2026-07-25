@@ -60,6 +60,18 @@ html {
   --color-success-text: #146b40;
   --color-warning-text: #7a5600;
 
+  /* Umber Ink — Carbon Black warmed towards Raw Umber. The middle rung of the
+     three-step `site_architecture.nav[].emphasis` ladder: it has to be visibly
+     lighter than Carbon Black (14.87 on linen) and visibly darker than
+     Raw-Umber Ink (5.94), which it is —
+       umber-ink #3F3A30 → 9.65 / 8.89 / 7.92 (linen / cream / aged ground) */
+  --color-umber-ink: #3f3a30;
+
+  /* Carbon Black lifted 8% towards Gallery Linen — the pressed/hover state of
+     the primary button, where `buttons.primary` needs a lighter mark without
+     leaving carbon. #2A2A2A → 12.26 / 11.29 / 10.07 */
+  --color-primary-hover: #2a2a2a;
+
   /* Named pigment aliases, for readable component CSS */
   --color-gallery-linen: #f0ede4;
   --color-canvas-cream: #e8e4d8;
@@ -143,6 +155,16 @@ body {
   line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* accessibility.font_scaling: "long-form descriptions need reflow room".
+     `overflow-wrap` inherits, so declaring it once here gives every text role
+     — .wall-text, .plain-line, .section-intro, .talk dt/dd, .marginalia-item h3,
+     .plugin-model prose, the headlines — permission to break a word that cannot
+     fit its column rather than inflate the column past the viewport. At 200%
+     text zoom on a 320px screen that is the difference between reflow and a
+     clipped headline. `white-space: pre` regions (the install snippet) are
+     unaffected by design: they scroll instead. */
+  overflow-wrap: break-word;
 }
 
 /* Linen canvas grain — signature_elements: "Linen canvas grain texture on
@@ -163,6 +185,14 @@ body::before {
 body > * {
   position: relative;
   z-index: 1;
+}
+
+/* `body > *` gives <main> a stacking context, which scopes Palette's z-index to
+   it — so <main> has to out-stack the footer that follows it, or the companion
+   would be painted behind the footer at the bottom of a page. The sticky header
+   keeps its own z-index: 100 and stays above both. */
+body > main {
+  z-index: 2;
 }
 
 img,
@@ -221,17 +251,24 @@ h6 {
   text-wrap: balance;
 }
 
+/* accessibility.font_scaling — display sizes are capped against the viewport as
+   well as the root font size. A `rem`-only floor grows to 200% under text-only
+   zoom (2.25rem → 72px on a 320px screen) and no amount of word-breaking makes
+   that read; the `min(…, Nvw)` ceiling lets the headline keep growing with zoom
+   but never past a share of the screen it cannot fit in. The caps are
+   deliberately above every value the fluid clamp produces at normal zoom, so
+   the rendered type scale at 320–1400px is byte-identical to before. */
 h1 {
-  font-size: clamp(2.25rem, 4vw + 1rem, 4rem);
+  font-size: min(clamp(2.25rem, 4vw + 1rem, 4rem), 16vw);
   font-weight: 700;
 }
 
 h2 {
-  font-size: clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem);
+  font-size: min(clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem), 14vw);
 }
 
 h3 {
-  font-size: clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem);
+  font-size: min(clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem), 12vw);
 }
 
 h4 {
@@ -276,18 +313,24 @@ details > summary {
    SKIP LINK
    ========================================================================== */
 
+/* The 44px floor applies here too: this is the first control on every page.
+   Inter 600 rather than 500 — it is the only rule on the site that asked for
+   Inter 500, and dropping it takes a 48 KB face out of the first paint. */
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-4);
   z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--color-primary);
   color: var(--color-bg);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
 }
 

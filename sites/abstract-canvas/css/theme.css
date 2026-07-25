@@ -104,7 +104,47 @@
    eyebrow, and a wide column for the work itself. Collapses to one column. */
 .wall-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
+}
+
+/* ── The single-column grid track, and why every one of them is `minmax(0, 1fr)`
+   ──
+   A `display: grid` with no `grid-template-columns` places its items in ONE
+   implicit column, and an implicit track is sized `auto` — which is floored at
+   its content's min-content width. So a single unbreakable string anywhere
+   inside (an install URL, a class name in `<code>`, a long compound word at 200%
+   text zoom) silently inflates the whole column past the viewport, and
+   `overflow-x: auto` on a block *child* does not stop that propagation because
+   the scroll container is not the grid item. `minmax(0, 1fr)` removes the
+   min-content floor and lets the track be exactly as wide as the container.
+   It changes nothing when the content already fits, which is every one of these
+   grids at normal zoom.
+
+   Each of these selectors declares its own multi-track template inside a
+   `@media (width >= …)` block further down this file, which still wins. */
+.hero-inner,
+.path-list,
+.focal-works,
+.feature-grid,
+.marginalia,
+.marginalia-item,
+.gallery-labels,
+.proof-grid,
+.proof-specs,
+.proof-links,
+.cta-ladder,
+.vignettes,
+.fold-in,
+.station-grid,
+.station-cards,
+.reference-shelf,
+.shelf-item,
+.plugin-model,
+.link-cards,
+.hub-diagram,
+.blank-canvas-grid {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (width >= 900px) {
@@ -224,10 +264,15 @@
   text-transform: uppercase;
 }
 
+/* The 16vw ceiling is the same accessibility.font_scaling guard as `h1` in
+   base.css: at 320px the fluid clamp already resolves to its 2.5rem floor, so
+   the cap is inert at normal zoom (40px either way) and only bites under
+   text-only zoom, where 2.5rem would become 80px and no longer fit the column
+   the hero clips to. */
 .hero-headline {
   max-width: 22ch;
   margin-bottom: var(--space-6);
-  font-size: clamp(2.5rem, 4.6vw + 1rem, 4.5rem);
+  font-size: min(clamp(2.5rem, 4.6vw + 1rem, 4.5rem), 16vw);
   font-weight: 700;
   line-height: 1.02;
 }
@@ -475,7 +520,15 @@
   padding-left: var(--space-3);
 }
 
+/* This disclosure is the ONLY route to the verbatim engineering wording under
+   `complexity_profile.jargon_policy: "translate"`, so a missed tap costs the
+   visitor the fact. accessibility.touch_target: 44px, 48px on a phone. */
 .technical-mark > summary {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 44px;
+  padding-block: var(--space-2);
   color: var(--color-neutral-ink);
   font-family: var(--font-ui);
   font-size: 0.8125rem;
@@ -485,18 +538,24 @@
   list-style: none;
 }
 
+@media (width <= 600px) {
+  .technical-mark > summary {
+    min-height: 48px;
+  }
+}
+
 .technical-mark > summary::marker,
 .technical-mark > summary::-webkit-details-marker {
   display: none;
 }
 
 .technical-mark > summary::after {
-  content: ' ›';
+  content: '›';
   color: var(--color-cadmium-text);
 }
 
 .technical-mark[open] > summary::after {
-  content: ' ⌄';
+  content: '⌄';
 }
 
 .technical-mark > p {
@@ -575,8 +634,12 @@
   background: var(--color-surface);
 }
 
+/* do_dont.colors.dont: "Scatter cadmium red across multiple elements
+   indiscriminately". Seven identical red catalogue numerals in one section read
+   as decoration and dilute the one red mark that section is allowed — the
+   cadmium rule on the first CTA rung. The numerals carry raw-umber ink. */
 .wall-label-no {
-  color: var(--color-cadmium-text);
+  color: var(--color-neutral-ink);
   font-family: var(--font-display);
   font-size: 1.5rem;
   line-height: 1;
@@ -903,6 +966,11 @@
   letter-spacing: var(--tracking-display);
 }
 
+/* A `<pre>`, so the shell's whitespace is semantic, and a keyboard-reachable
+   scroll region (`tabindex="0"` + `role="region"` in the markup) because the
+   commands are wider than a phone column and a scroller nobody can focus is an
+   axe `scrollable-region-focusable` failure. The commands deliberately do NOT
+   wrap: a URL broken mid-path is a command a visitor cannot trust. */
 .code-block {
   overflow-x: auto;
   margin-block: var(--space-6);
@@ -914,10 +982,12 @@
 }
 
 .code-block code {
+  display: block;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.7;
+  white-space: pre;
 }
 
 .code-comment {
@@ -996,6 +1066,13 @@
   font-family: var(--font-mono);
   font-size: 0.9375rem;
   font-weight: 500;
+}
+
+/* accessibility.touch_target — a spine on the shelf is still a tap target */
+.shelf-item-name a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .shelf-item-what {
@@ -1233,25 +1310,58 @@
 
 /* ==========================================================================
    SEASONAL MOTIFS — seasonal_activation.mode = "live-js".
-   js/main.js sets data-season on <html> during an active_range and injects the
-   override tokens the variant declares; these rules only add the motif mark.
+   js/main.js sets data-season on <html> during an active_range and applies the
+   override tokens the variant declares. The banner itself is authored markup in
+   every page, hidden here until a season is live, so nothing is injected above
+   the banner landmark after first paint. These rules add the declared
+   `motif_assets` mark and re-tint the colour-field band.
+   Preview any season out of range with ?season=<slug>.
    ========================================================================== */
 
 .seasonal-banner {
   display: none;
   padding-block: var(--space-3);
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface-alt);
+  background-color: var(--color-surface-alt);
 }
 
 html[data-season] .seasonal-banner {
   display: block;
 }
 
+.seasonal-banner .container {
+  min-height: 44px;
+}
+
 .seasonal-banner p {
+  max-width: 46ch;
   font-family: var(--font-headline);
   font-size: 1.0625rem;
   font-style: italic;
+}
+
+/* seasonal_activation.motif_assets[0..2] — each variant's gestural mark, set as
+   the banner's own ground so it reads as paint on the wall rather than as an
+   image in the content. Decorative: the banner's sentence carries the meaning. */
+html[data-season='autumn-study'] .seasonal-banner {
+  background-image: url('../img/seasonal/autumn-leaf-marks.svg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+}
+
+html[data-season='winter-white'] .seasonal-banner {
+  background-image: url('../img/seasonal/winter-frost-texture.svg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+}
+
+html[data-season='spring-opening'] .seasonal-banner {
+  background-image: url('../img/seasonal/spring-flower-forms.svg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
 }
 
 html[data-season='autumn-study'] .band {
@@ -1297,6 +1407,16 @@ html.js-reveals .reveal.is-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.js-reveals .reveal {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* Printing never fires an IntersectionObserver, so without this every settled
+   block — both focal works, all four studies and the seven gallery labels —
+   prints as a blank rectangle. */
+@media print {
   html.js-reveals .reveal {
     opacity: 1;
     animation: none;

@@ -1,74 +1,127 @@
+/*
+ * base.css — Neon Noir
+ * Self-hosted brand faces, the :root token block, reset, element defaults,
+ * focus ring, and the two global "quiet the site down" switches
+ * (prefers-reduced-motion and the visitor-facing calm mode).
+ *
+ * Every colour, space, radius and shadow below comes from the kit's
+ * design_tokens block. The two derived tokens are MIXES of the kit's own
+ * pigments, added because the raw hue fails WCAG AA at small sizes
+ * (see SITE.md § Contrast, measured).
+ *
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
 /* ==========================================================================
-   BASE.CSS — Neon Noir brand kit
-   Reset, tokens (:root CSS variables), element defaults
+   1. Brand faces — self-hosted WOFF2 from the shared pool. No CDN, ever.
    ========================================================================== */
 
-/* Modern CSS Reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
 }
 
-* {
-  margin: 0;
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
 }
 
-html {
-  scroll-behavior: smooth;
-  text-size-adjust: 100%;
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/bebas-neue-400-latin.woff2') format('woff2');
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
+@font-face {
+  font-family: 'IBM Plex Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-serif-400-latin.woff2') format('woff2');
 }
 
-input,
-button,
-textarea,
-select {
-  font: inherit;
+@font-face {
+  font-family: 'IBM Plex Serif';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-serif-500-latin.woff2') format('woff2');
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-sans-500-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
 }
 
 /* ==========================================================================
-   CSS Custom Properties — Design Tokens from neon-noir brand kit
+   2. Tokens
    ========================================================================== */
 
 :root {
-  /* Color System */
-  --color-primary: #f5a623;
-  --color-secondary: #00e5ff;
-  --color-tertiary: #ff2d78;
-  --color-bg: #0a0c10;
-  --color-surface: #111827;
-  --color-surface-alt: #1c2333;
-  --color-text: #e8edf5;
-  --color-neutral: #7a8fa6;
-  --color-success: #00c9a7;
-  --color-warning: #ffb300;
-  --color-error: #e5154e;
-  --color-info: #29abe2;
-  --color-border: #2a3650;
-  --color-focus: #00e5ff;
-  --color-shadow: rgb(0, 229, 255, 0.15);
-  --color-overlay: rgb(0, 0, 0, 0.78);
+  /* Colour — kit design_tokens.color, verbatim */
+  --color-primary: #f5a623; /* Neon Amber */
+  --color-secondary: #00e5ff; /* Electric Cyan */
+  --color-tertiary: #ff2d78; /* Neon Magenta */
+  --color-bg: #0a0c10; /* Void Black */
+  --color-surface: #111827; /* Deep Navy */
+  --color-surface-alt: #1c2333; /* Charcoal Slate */
+  --color-text: #e8edf5; /* Ghost White */
+  --color-neutral: #7a8fa6; /* Steel Mist */
+  --color-success: #00c9a7; /* Cyan Spark */
+  --color-warning: #ffb300; /* Flicker Amber */
+  --color-error: #e5154e; /* Danger Magenta */
+  --color-info: #29abe2; /* Cold Blue */
+  --color-border: #2a3650; /* Dim Steel */
+  --color-focus: #00e5ff; /* Focus Cyan Pulse */
 
-  /* Spacing Scale */
+  /* Derived mixes of the kit's own pigments — for AA at small sizes */
+  --color-magenta-text: #fa5391; /* Magenta 80% + Ghost White 20% → 5.02:1 on slate */
+  --color-edge-strong: #5a6b84; /* Dim Steel 40% + Steel Mist 60% → 3.27:1 on navy */
+
+  /* Space — kit spacing_scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -79,21 +132,21 @@ h6 {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner Radius Scale */
+  /* Radius — sharp by design */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 8px;
   --radius-xl: 12px;
   --radius-pill: 999px;
 
-  /* Typography */
+  /* Type roles */
   --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-display: 'Bebas Neue', 'Impact', 'Haettenschweiler', sans-serif;
   --font-body: 'IBM Plex Serif', 'Palatino', 'Georgia', serif;
   --font-ui: 'IBM Plex Sans', system-ui, 'Helvetica Neue', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', 'Courier', monospace;
 
-  /* Shadow System */
+  /* Shadow — deep black first, neon practicals second */
   --shadow-sm: 0 1px 3px rgb(0, 0, 0, 0.6);
   --shadow-md: 0 4px 12px rgb(0, 0, 0, 0.7), 0 0 8px rgb(0, 229, 255, 0.08);
   --shadow-lg: 0 10px 32px rgb(0, 0, 0, 0.8), 0 0 20px rgb(0, 229, 255, 0.12);
@@ -101,8 +154,29 @@ h6 {
   --shadow-neon-amber: 0 0 12px rgb(245, 166, 35, 0.6), 0 0 30px rgb(245, 166, 35, 0.2);
   --shadow-neon-magenta: 0 0 12px rgb(255, 45, 120, 0.5), 0 0 30px rgb(255, 45, 120, 0.2);
 
-  /* Content Width */
-  --max-width: 1400px;
+  /* Glow dials — calm mode empties these, so glow is one switch away */
+  --glow-cyan: var(--shadow-neon-cyan);
+  --glow-amber: var(--shadow-neon-amber);
+  --glow-text-cyan: 0 0 14px rgb(0, 229, 255, 0.45);
+  --glow-text-amber: 0 0 16px rgb(245, 166, 35, 0.4);
+
+  /* Motion — slow, deliberate, camera-like */
+  --ease-cine: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-cut: 460ms;
+  --dur-hover: 200ms;
+
+  /* Layout */
+  --measure: 1400px;
+  --measure-read: 68ch;
+
+  /* Kit gradients */
+  --grad-neon-horizon: linear-gradient(160deg, #ff2d78, #00e5ff);
+  --grad-city-depth: linear-gradient(180deg, #111827, #0a0c10);
+  --grad-interrogation: radial-gradient(
+    circle at 50% 0%,
+    rgb(245, 166, 35, 0.35),
+    rgb(10, 12, 16, 0) 70%
+  );
   --tracking-headline: -0.02em;
   --lh-headline: 1.05;
   --tracking-display: 0.06em;
@@ -118,214 +192,209 @@ h6 {
   --lh-number: 1;
 }
 
+/* Seasonal variants — flipped on by js/experience.js inside active_range only. */
+[data-season='midnight-new-year'] {
+  --color-primary: #f5a623;
+  --color-secondary: #ff2d78;
+  --color-tertiary: #00e5ff;
+}
+
+[data-season='blood-moon-october'] {
+  --color-primary: #e5154e;
+  --color-secondary: #ff6b00;
+  --color-surface: #170810;
+}
+
+[data-season='valentines-neon'] {
+  --color-primary: #ff2d78;
+  --color-secondary: #f5a623;
+}
+
 /* ==========================================================================
-   Base Element Styles
+   3. Reset
    ========================================================================== */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
 body {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--color-text);
-  background-color: var(--color-bg);
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  /* Pushed-film grain: a 3px dot lattice — cheap enough for every page. */
+  background-image: radial-gradient(rgb(232, 237, 245, 0.028) 1px, transparent 1px);
+  background-size: 3px 3px;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.65;
+  /* `anywhere`, not `break-word`: only `anywhere` shrinks the min-content size,
+     and several rows here are flex containers whose anonymous text item would
+     otherwise refuse to go below the width of "ContentDirectory" — which is
+     what pushed clients.html and about.html into horizontal scroll at 200%
+     text zoom. */
+  overflow-wrap: anywhere;
+}
+
+/* A class that sets `display` beats the UA sheet's [hidden] rule, and several
+   things here are hidden buttons that also carry .btn — so make it explicit. */
+[hidden] {
+  display: none !important;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-hover) var(--ease-cine);
+}
+
+a:hover {
+  color: var(--color-text);
 }
 
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
   font-family: var(--font-headline);
   font-weight: 700;
-  line-height: 1.05;
   letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+strong {
   color: var(--color-text);
-}
-
-h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-}
-h2 {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
-}
-h3 {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-}
-h4 {
-  font-size: 1.25rem;
-}
-
-p {
-  font-family: var(--font-body);
-  line-height: 1.65;
-}
-
-a {
-  color: var(--color-secondary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-primary);
+  font-weight: 500;
 }
 
 code,
+kbd,
+samp,
 pre {
   font-family: var(--font-mono);
   font-size: 0.9em;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+button {
+  font: inherit;
+}
+
+::selection {
+  background-color: rgb(0, 229, 255, 0.3);
+  color: var(--color-text);
 }
 
 /* ==========================================================================
-   Skip Link
+   4. Skip link + focus
    ========================================================================== */
 
 .skip-link {
   position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-3) var(--space-6);
-  background: var(--color-primary);
-  color: var(--color-bg);
+  z-index: 200;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-secondary);
+  background-color: var(--color-bg);
+  color: var(--color-secondary);
   font-family: var(--font-ui);
-  font-weight: 600;
+  font-size: 0.9375rem;
   text-decoration: none;
-  border-radius: var(--radius-sm);
-  transition: top 0.2s ease;
+  transform: translateY(-250%);
+  transition: transform var(--dur-hover) var(--ease-cine);
 }
 
 .skip-link:focus {
-  top: var(--space-4);
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+  transform: translateY(0);
 }
-
-/* ==========================================================================
-   Focus Styles — WCAG 2.2 AA compliant
-   ========================================================================== */
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(0, 229, 255, 0.2);
+  /* The 4px outer halo the kit asks for, so the ring survives on dark glass. */
+  box-shadow: 0 0 0 6px rgb(0, 229, 255, 0.2);
 }
 
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ==========================================================================
-   Text Selection
-   ========================================================================== */
-
-::selection {
-  background: var(--color-primary);
-  color: var(--color-bg);
-}
-
-/* ==========================================================================
-   Scrollbar Styling
-   ========================================================================== */
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-sm);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral);
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ==========================================================================
-   Reduced Motion
+   5. Quiet switches
+   Two dials do the same job: the OS preference, and the footer calm-mode
+   toggle (intensity_toggle). Anything animated must answer to both.
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* ==========================================================================
-   Utility Classes
-   ========================================================================== */
+[data-intensity='calm'] {
+  --glow-cyan: none;
+  --glow-amber: none;
+  --glow-text-cyan: none;
+  --glow-text-amber: none;
+  --shadow-neon-cyan: 0 1px 3px rgb(0, 0, 0, 0.6);
+  --shadow-neon-amber: 0 1px 3px rgb(0, 0, 0, 0.6);
+  --shadow-neon-magenta: 0 1px 3px rgb(0, 0, 0, 0.6);
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  scroll-behavior: auto;
 }
 
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-/* Gradient utilities */
-.gradient-neon-horizon {
-  background: linear-gradient(160deg, #ff2d78, #00e5ff);
-}
-
-.gradient-amber-interrogation {
-  background: radial-gradient(
-    ellipse at center,
-    rgb(245, 166, 35, 0.35) 0%,
-    rgb(10, 12, 16, 0) 70%
-  );
-}
-
-.gradient-city-depth {
-  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* Neon text glow */
-.text-glow-cyan {
-  text-shadow:
-    0 0 10px rgb(0, 229, 255, 0.5),
-    0 0 30px rgb(0, 229, 255, 0.3);
-}
-
-.text-glow-amber {
-  text-shadow:
-    0 0 10px rgb(245, 166, 35, 0.5),
-    0 0 30px rgb(245, 166, 35, 0.3);
-}
-
-.text-glow-magenta {
-  text-shadow:
-    0 0 10px rgb(255, 45, 120, 0.5),
-    0 0 30px rgb(255, 45, 120, 0.3);
+[data-intensity='calm'] *,
+[data-intensity='calm'] *::before,
+[data-intensity='calm'] *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
 }
 
 /* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
@@ -356,6 +425,13 @@ pre {
   src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-mono-700-latin.woff2') format('woff2');
+}
+@font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
@@ -377,6 +453,13 @@ pre {
   src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-sans-700-latin.woff2') format('woff2');
+}
+@font-face {
   font-family: 'IBM Plex Serif';
   font-style: normal;
   font-weight: 400;
@@ -389,6 +472,13 @@ pre {
   font-weight: 500;
   font-display: swap;
   src: url('../../assets/fonts/ibm-plex-serif-500-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-serif-700-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Playfair Display';

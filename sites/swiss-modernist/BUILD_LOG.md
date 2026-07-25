@@ -1,163 +1,111 @@
-# BUILD_LOG.md — Swiss Modernist Brand Kit Site
+# BUILD_LOG.md — Swiss Modernist
 
-## Build Summary
+## Regeneration, 2026-07-24 → 2026-07-25
 
-**Site:** `/home/sites/phlix/phlix-website/sites/swiss-modernist/`
-**Brand Kit:** `phlix-website/brand-kits/swiss-modernist.js` (BASE kit, v1.0)
-**Layout Archetype:** `grid` (systematic/modular/brutalist — aligned with Swiss International Typographic Style)
-**Build date:** 2026-07-04
-**Builder:** opencode agent
+Regenerated from `brand-kits/swiss-modernist.js` so the site implements the kit's declared
+**experience** schema rather than the shared 2026-07-04 template. Plan and field-by-field
+diff: `REGEN_PLAN.md`. Design rationale and every measured contrast ratio: `SITE.md`.
 
----
+### Shipped
 
-## What Was Built
+| File                              | State                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| `index.html`                      | Rewritten — 5 bands in `homepage_narrative` order, arc `manifesto-first`     |
+| `features.html`                   | Rewritten — `page_blueprints.features`, one `.feature-detail` per feature id |
+| `clients.html`                    | Rewritten — card grid whose bodies are spec tables                           |
+| `download.html`                   | Rewritten — `conversion_funnel: instant-command`, three ruled blocks         |
+| `plugins.html`                    | Rewritten — contract / reference implementation / write-your-own             |
+| `docs.html`                       | Rewritten — numbered link-out index + ecosystem repo list                    |
+| `hub.html`                        | Rewritten — what it does / self-host or public / hub mode in clients         |
+| `about.html`                      | Rewritten — three ruled blocks + man-page FAQ                                |
+| `404.html`                        | **New** — `error_page_experience`, "Missing grid alignment"                  |
+| `css/base.css`                    | Rewritten; tokens + the generated `@font-face` block carried forward         |
+| `css/theme.css`                   | Rewritten — grid, band structure, typographic roles                          |
+| `css/components.css`              | Rewritten — topbar, buttons, modules, spec tables, FAQ, footer, egg          |
+| `js/main.js`                      | Rewritten — nav toggle + the one easter egg; ~4 KB                           |
+| `img/og.svg`                      | Reworked; `og.png` regenerated with `tools/gen-og.mjs`                       |
+| `img/PROMPTS.md`                  | Rewritten — seeded from `persona_vignettes`                                  |
+| `img/logo.svg`, `img/favicon.svg` | Carried forward unchanged                                                    |
+| `sitemap.xml`, `robots.txt`       | Regenerated with `tools/gen-sitemap.mjs --site swiss-modernist`              |
+| `SITE.md`                         | Rewritten                                                                    |
+| `REGEN_PLAN.md`                   | New                                                                          |
 
-### Files Created
+### Defects in the predecessor that this pass fixes
+
+1. **No `404.html`** at all — `new_site.md` §2A requires a real per-kit page. Added.
+2. **Stale licence in four places** — the old site said `BSD-3-Clause` in the footer, the
+   closing CTA, the JSON-LD `license` field and the `og.svg` bottom bar. `content.json` is
+   the authority: `phlix-server` and `phlix-hub` are **MPL-2.0**; the shared libraries,
+   plugins and clients are **MIT**. Never stated as one licence across the board (§16).
+3. **A hero `01` numeral at 1.19:1** — an invisible watermark that `render-check` failed.
+   Treated as a defect, not decoration: section numerals are now real numbered indices
+   inside their own heading at Rule Gray `#888888` = **3.33:1**, clearing 3:1 as large
+   graphical text. Nothing was marked `aria-hidden` to dodge the check.
+4. **Basel Red on Grid White used for small text.** Measured 4.43:1, not the 4.6:1 the kit
+   asserts (§19.1). Small text on red now sits on the derived `#CC0018` (5.51:1); pure Basel
+   Red is confined to rules, the focus ring and large accents.
+5. **Rule Gray `#888888` used as a text colour** at 3.33:1. Small secondary text now uses
+   the derived `#5E5E5E` (6.09:1 on Grid White).
+6. **A broken footer link** — API reference pointed at `…/phlix-docs/reference`; it is
+   `…/phlix-docs/reference/api.html` per `content.json`.
+7. **Scroll behaviour contradicting the kit** — the old `main.js` shipped
+   `IntersectionObserver` fade-ins with inline `translateY` and a smooth-scroll hijack on
+   every in-page anchor. `scroll_experience.mode` is `continuous`; both are removed.
+8. **A concatenated install command** rendered as one unreadable line
+   (`composer create-project detain/phlix-server cd phlix-server php start.php`). It is now
+   a single valid `&&`-joined command inside a `<pre>`.
+
+### Intentional deviations, and why
+
+- **Two red marks in the hero band.** `design_principles` says "once per view";
+  `page_generation_rules` demands both a red headline rule and a red CTA. Resolved as one
+  red mark per band, with the hero carrying the anchor rule plus the primary action.
+  Recorded in `REGEN_PLAN.md` §5.1 and `SITE.md`.
+- **`feature_casting.footnote` features appear on the home page.** §2A says "Features page
+  only"; `homepage_narrative` says "remaining six features … below". Both honoured:
+  `plugins` and `hub` render as compact footnote rows. `REGEN_PLAN.md` §5.5.
+- **Ink Black modules on the home page** where `do_dont.colors` says "no dark backgrounds
+  anywhere" but the narrative treatment asks for "dark cards". The narrative wins for its
+  own section (§19.6); `logo_rules.colors` already sanctions Ink Black surfaces.
+  `REGEN_PLAN.md` §5.4.
+- **No printed star or issue count.** `proof_strategy` asks for live counts; §19.7 forbids
+  unverifiable figures on a static page. Labelled links to `/stargazers` and `/issues`
+  instead.
+- **The `proof_strategy` docs quote is attributed to the project, not to "docs.phlix".** The
+  line is verbatim from `content.json.pitch_bullets[0]`; attributing it to a docs page I
+  cannot verify would be a fabrication. `REGEN_PLAN.md` §5.7.
+- **`copy_overlay.hero.headline` ships verbatim** as "Your media. Grid. Grid. Logic." — the
+  repeated "Grid." looks like a slip in the kit, but the overlay is the declared authority
+  for presentation copy. Flagged rather than silently corrected.
+- **Display type uses `min(<scale step>, <vw>)`** rather than bare px steps. The strict
+  scale is honoured exactly at desktop; the clamp is what makes 320px and 200% text zoom
+  reflow without horizontal scroll (§12/§14).
+- **`overflow-wrap: anywhere`** is set on text elements site-wide. Only `anywhere` (not
+  `break-word`) reduces min-content size, and without it long identifiers
+  (`LifecycleInterface`) and bare repo URLs set grid-track minimums that overflowed the
+  viewport at 200% text zoom on seven of the nine pages.
+
+### Verification
 
 ```
-swiss-modernist/
-├── index.html           Home
-├── features.html        Features (7 feature details)
-├── clients.html         Clients (5 client cards)
-├── download.html        Download (server + 5 clients + ecosystem)
-├── plugins.html         Plugins (contract + writing guide)
-├── docs.html            Docs (4 link-out cards + ecosystem)
-├── hub.html             Phlix Hub
-├── about.html           About + FAQ (6 questions)
-├── css/
-│   ├── base.css         CSS reset + design tokens (:root)
-│   ├── theme.css        Typography + layout + section styles
-│   └── components.css   Header/nav, footer, buttons, cards, badges, forms
-├── js/
-│   └── main.js          Mobile nav toggle, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg         Inter Black wordmark + Basel Red underrule
-│   ├── favicon.svg      Square Basel Red with white P
-│   ├── og.svg           1200×630 typographic social image
-│   └── PROMPTS.md       All image generation prompts
-├── robots.txt
-├── sitemap.xml
-├── SITE.md              Design rationale and token reference
-└── BUILD_LOG.md         This file
+node tools/gen-og.mjs --site swiss-modernist        → wrote 1 og.png
+node tools/gen-sitemap.mjs --site swiss-modernist   → 8 URLs + robots.txt
+node tools/selfcheck.mjs --site swiss-modernist     → PASS
+node tools/render-check.mjs --site swiss-modernist  → PASS (9 pages x 2 viewports)
+npx prettier --write "sites/swiss-modernist/**"     → clean
 ```
 
----
+`selfcheck` emits one WARN — "kit claims contrast 4.5:1 — verify by measurement" — which is
+the §19.1 reminder, not a defect. It was verified: see the measured table in `SITE.md`.
 
-## Key Design Decisions
+### Known follow-ups
 
-### Layout Archetype: Grid
-
-Chose `grid` over `immersive` or `minimal` because Swiss Modernist IS the grid. The 12-column, 8px-base modular grid is the defining structural principle of the International Typographic Style. Every layout decision traces back to grid alignment.
-
-### Color Application
-
-- **Basel Red (#E8001C):** Applied to the hero headline rule, primary CTA buttons, and the active navigation indicator only — exactly once per view. This is a hard constraint from the kit.
-- **Ink Black (#121212):** All headlines, body text, structural borders
-- **Type Black (#1A1A1A):** Secondary headings, rule lines
-- **Rule Gray (#888888):** Dividers, inactive states, metadata labels
-- **Grid White (#F8F8F4):** All page backgrounds
-- **Column White (#EFEFEB) / Module Gray (#E5E5E0):** Card surfaces and alternating table rows
-
-### Typography
-
-Single typeface system: **Inter** for all roles. Barlow Condensed for display numerals (the hero "01"). JetBrains Mono for code. No serif. No mixing.
-
-Headlines use Inter Black (900 weight) at tight tracking (-0.04em) — this is the Swiss grotesque character.
-
-### Motion
-
-Snap/instantaneous only. No easing. No bounce. Hover states are 80ms linear — fast enough to feel mechanical. Reduced motion support via `prefers-reduced-motion` media query.
-
-### Shapes
-
-Zero border radius on all primary UI (buttons, cards, inputs). `border-radius: 0px` everywhere except the pill badge for tag/chip elements (radius-pill: 999px). This is a defining Swiss Modernist trait — hard right angles, no softness.
-
-### Deviations from `new_site.md`
-
-None intentional. All 8 pages scaffolded per §3, all sections per canonical class names, shared shell baked in per §4, SEO/social/a11y per §10–12.
-
----
-
-## Brand Spirit Notes
-
-The kit's `brand_opposites` were checked against every screen:
-- NOT warm/cozy — correct; no warm tones
-- NOT playful or decorative — correct; no illustrations
-- NOT colorful — correct; only black, white, gray, and one red
-- NOT rounded or soft — correct; all corners 0px
-- NOT dark-background — correct; all backgrounds are Grid White or Column White
-- NOT chaotic/asymmetric for its own sake — correct; asymmetric but mathematically proportioned
-
-The kit's `design_principles` were honored:
-- Grid used strictly (12-col, 8px base)
-- White space is structure (never filled)
-- Basel Red applied exactly once per view
-- Typography carries visual weight
-- Black for structure/hierarchy, red only for primary action
-- No decorative elements
-- Maximum contrast throughout
-- Motion is mechanical/instantaneous
-
----
-
-## Intentional Deviations from kit's `layout_patterns`
-
-The kit's `layout_patterns.landing` says "Full-bleed Grid White hero with oversized Inter Black headline (grid-width type); 4px Basel Red rule beneath it; feature grid sections; Ink Black CTA." This was followed exactly.
-
----
-
-## Review Loop — Round 1 Issues Fixed
-
-After initial adversarial review, the following issues were corrected:
-
-1. **Google Fonts CDN removed** from `index.html` — `<link rel="preconnect">` to fonts.gstatic.com deleted. No CDN dependencies remain.
-2. **Pitch bullet red rules changed** — `.pitch-item::before` changed from `var(--color-primary)` (Basel Red) to `var(--color-border)` (Ink Black). Red is for structure (header motif, primary CTA) not decorative content accents.
-3. **Feature-link hover red removed** — `.features-link:hover` changed from `var(--color-primary)` to `var(--color-text)`.
-4. **Scroll behavior `smooth` removed** — `scroll-behavior: smooth` deleted from `base.css` (line 16). Swiss Modernist is snap/instantaneous only.
-5. **Scroll reveal animation: `200ms ease` → `100ms linear`** in `js/main.js` — ease curve not in allowed list.
-6. **Anchor scroll: smooth removed** — `target.scrollIntoView()` now uses default (no smooth behavior).
-7. **Feature card text opacity removed** — `opacity: 0.85` deleted from `.feature-card p`. Maximum contrast is non-negotiable.
-8. **Line length constrained** — `.pitch-item { max-width: 65ch }` and `.feature-card p { max-width: 70ch }` added.
-9. **"faff" → "required"** in `clients.html:59` — informal British slang replaced with precise language.
-10. **Tablet 8-column grid added** — new `@media (min-width: 769px) and (max-width: 1024px)` breakpoint with `.grid-8` class, 48px touch targets, scaled typography.
-
-## Known Follow-ups
-
-1. **Fonts (critical gap):** `css/fonts/` is empty. Build environment cannot download files. System font fallbacks used:
-   - Inter → `'Helvetica Neue', Helvetica, Arial, sans-serif` (preserves grotesque character)
-   - Barlow Condensed → `Impact, sans-serif`
-   - JetBrains Mono → `'Courier New', Courier, monospace`
-   **Required action:** Download WOFF2 files for Inter (400/500/600/700/800/900), Barlow Condensed (800/900), JetBrains Mono (400) into `css/fonts/`. Add `@font-face` declarations in `base.css` with `font-display: swap`. The Inter Black 900 weight headline — the primary visual element — falls back to Helvetica/Arial. The Swiss Modernist identity is largely preserved through the grid, color, and motion systems; the typographic weight precision at large sizes is the gap.
-2. **OG image:** Shipped as `img/og.svg` — should be rasterized to `og.png` (1200×630) for full social platform compatibility.
-3. **Tooling note:** `tools/render.mjs` was not found at the path referenced. Build uses static HTML files only. Canonical class names from `new_site.md` used throughout.
-4. **`npm run lint`, `npm run linkcheck`, `npm run a11y`:** Not executed in this build environment. Must be run before declaring the site production-ready.
-
-## Review Loop — Final State
-
-After 2 rounds of adversarial review:
-- **Brand fidelity:** 92 ✅ (red disciplined to structural elements only)
-- **SEO:** 95 ✅
-- **Readability:** 91 ✅
-- **Spelling/Grammar:** 96 ✅
-- **Usability:** 91 ✅
-- **Accessibility:** 93 ✅
-- **Responsive:** 91 ✅ (tablet 8-column grid added in round 2)
-- **Performance:** 72 ⚠️ (fonts gap — same root cause as localization)
-- **Content Accuracy:** 100 ✅
-- **CTA/Funnel:** 94 ✅
-- **Social Metadata:** 100 ✅ (all absolute URLs)
-- **Localization:** 85 ⚠️ (fonts gap — no @font-face subsetting)
-
-No ❌ defects remaining. Two ⚠️ warnings both trace to the font self-hosting gap.
-
----
-
-## Metadata
-
-| Field | Value |
-|-------|-------|
-| kit_version | 1.0 |
-| schema_version | N/A (BASE kit) |
-| site_version | 1.0 |
-| license | BSD-3-Clause |
-| author | Phlix Project | |
+- ~~The shared font pool has no Inter 700, so `strong`/`b` resolve to the 600 face.~~
+  **Resolved by the orchestrator:** `inter-700-latin.woff2` is now vendored, and
+  `strong`/`b` here are `font-weight: 700`. The gap was systemic rather than
+  Inter-specific — no kit ever *declares* 700 (it is what `bolder` on 400 body text
+  computes to), so the vendoring pass never fetched it for any family.
+  `tools/vendor-fonts.mjs` now always requests 700 for the `body`/`ui`/`mono` roles.
+- `og.png` is rasterised by `rsvg-convert`, which does not embed the brand WOFF2 faces, so
+  the card's type renders in the system fallback of the Inter / Barlow / JetBrains stacks.
+  Fixing that properly means rendering the card in a browser — a `tools/**` change.

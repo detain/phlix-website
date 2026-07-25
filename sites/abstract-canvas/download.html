@@ -6,7 +6,7 @@
     <title>Get Started — Download Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Set up Phlix Server in one line on PHP 8.3+ and Workerman 5.x, then choose your stations: Roku, Samsung TV, Windows, mobile or DLNA."
     />
     <meta
       name="keywords"
@@ -28,7 +28,7 @@
     <meta property="og:title" content="Get Started — Download Phlix" />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Set up Phlix Server in one line on PHP 8.3+ and Workerman 5.x, then choose your stations: Roku, Samsung TV, Windows, mobile or DLNA."
     />
     <meta
       property="og:image"
@@ -40,7 +40,7 @@
     <meta name="twitter:title" content="Get Started — Download Phlix" />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Set up Phlix Server in one line on PHP 8.3+ and Workerman 5.x, then choose your stations: Roku, Samsung TV, Windows, mobile or DLNA."
     />
     <meta
       name="twitter:image"
@@ -53,9 +53,54 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
+
+    <!-- navigation_model.fallback: the phone menu with no script. Only ever
+         requested by a visitor who has no js/main.js to collapse it. -->
+    <noscript><link rel="stylesheet" href="css/nojs.css" /></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Get Started — Download Phlix",
+        "url": "https://detain.github.io/phlix-website/abstract-canvas/download.html",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Phlix",
+          "url": "https://detain.github.io/phlix-website/abstract-canvas/"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "The Studio",
+              "item": "https://detain.github.io/phlix-website/abstract-canvas/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Get Started",
+              "item": "https://detain.github.io/phlix-website/abstract-canvas/download.html"
+            }
+          ]
+        }
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- seasonal_activation (mode: live-js) — authored markup, kept display:none
+         by css/theme.css until js/main.js finds a live active_range and sets
+         data-season on <html>; that rule also attaches the season's declared
+         motif_assets mark. Nothing is injected after first paint. -->
+    <div class="seasonal-banner">
+      <div class="container">
+        <p>The season shifts — Palette has prepared fresh grounds for the canvas.</p>
+      </div>
+    </div>
 
     <header class="site-header" role="banner">
       <div class="container">
@@ -159,14 +204,18 @@
               coroutine server you host yourself. Clone it, install its dependencies, and the first
               mark is made.
             </p>
-            <div class="code-block">
-              <code>
-                <span class="code-comment"># PHP 8.3+ with Workerman 5.x</span><br />
-                git clone https://github.com/detain/phlix-server.git<br />
-                cd phlix-server<br />
-                composer install
-              </code>
-            </div>
+            <!-- conversion_funnel.download_opening asks for a "one-liner server
+                 install", and the page says "one line to paint" on seven pages —
+                 so it is one line, chained, not three commands stacked. A <pre>
+                 so the shell's whitespace is semantic, and tabindex/role/label so
+                 the horizontal scroller is reachable from a keyboard. -->
+            <pre
+              class="code-block"
+              tabindex="0"
+              role="region"
+              aria-label="Phlix Server install command"
+            ><code><span class="code-comment"># PHP 8.3+ with Workerman 5.x</span>
+git clone https://github.com/detain/phlix-server.git &amp;&amp; cd phlix-server &amp;&amp; composer install</code></pre>
             <p class="wall-text">
               The documentation carries the authoritative first-run walkthrough — configuration,
               library paths, and the metadata keys for TMDB, TVDB and Fanart.tv.

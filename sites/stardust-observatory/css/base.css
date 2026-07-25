@@ -28,6 +28,20 @@
   --color-shadow: rgb(6, 14, 24, 0.45);
   --color-overlay: rgb(6, 16, 26, 0.75);
 
+  /* Derived small-text mixes of the kit's OWN pigments.
+   * The kit's accessibility.minimum_contrast prose is only partly right, so
+   * every pair below was measured (see SITE.md → "Measured contrast").
+   * Pure violet/brass/#7A5C2A stay in use for glows, rules and borders. */
+  --color-violet-text: #a38db4; /* 35% Nebula Violet → Dome Parchment  5.28:1 on indigo */
+  --color-brass-text: #b98c40; /* 35% Telescope Brass → Constellation Gold  5.17:1 */
+  --color-info-text: #79a0d2; /* 35% Refractor Blue → Dome Parchment  5.84:1 */
+  --color-success-text: #8eb795; /* 35% Meridian Green → Dome Parchment  7.03:1 */
+  --color-border-interactive: #b07d3a; /* Telescope Brass — 4.84:1 on navy, ≥3:1 for UI edges */
+
+  /* Layout */
+  --content-max: 1360px;
+  --measure: 68ch;
+
   /* Named swatches */
   --color-constellation-gold: #c9a84c;
   --color-telescope-brass: #b07d3a;
@@ -134,6 +148,10 @@ body {
   font-size: 1rem;
   line-height: var(--lh-body);
   min-height: 100vh;
+  /* At 200% text zoom on a 320px screen, single long words (ContentDirectory,
+   * LifecycleInterface, "Instruments" at display size) are wider than the
+   * viewport. Break them rather than let the page scroll sideways (§12/§14). */
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -178,6 +196,7 @@ h6 {
   line-height: var(--lh-headline);
   letter-spacing: var(--tracking-headline);
   color: var(--color-text);
+  overflow-wrap: break-word;
 }
 
 p {
@@ -231,6 +250,22 @@ p:last-child {
   }
 }
 
+/* ── "Steady Gaze" — the kit's intensity_toggle, visitor-controlled ────────── *
+ * Same result as prefers-reduced-motion, but chosen in the footer utility row
+ * and remembered in localStorage. affects: hero → static, scroll → continuous,
+ * animation → fade-only.                                                      */
+html[data-intensity='steady'] *,
+html[data-intensity='steady'] *::before,
+html[data-intensity='steady'] *::after {
+  animation: none !important;
+  transition-duration: var(--duration-fast) !important;
+  transition-property: opacity, color, background-color, border-color !important;
+}
+
+html[data-intensity='steady'] {
+  scroll-behavior: auto;
+}
+
 /* ── Selection ─────────────────────────────────────────────────────────────── */
 ::selection {
   background: rgb(201, 168, 76, 0.3);
@@ -270,6 +305,9 @@ code {
   padding: 0.1em 0.4em;
   border-radius: var(--radius-sm);
   color: var(--color-primary);
+  /* class names such as LifecycleInterface must break rather than push the
+   * layout sideways at 200% text zoom on a 320px screen */
+  overflow-wrap: anywhere;
 }
 
 pre {
@@ -334,6 +372,13 @@ pre code {
   src: url('../../assets/fonts/dm-mono-500-latin.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/dm-mono-500-latin.woff2') format('woff2');
+}
+@font-face {
   font-family: 'IM Fell English';
   font-style: normal;
   font-weight: 400;
@@ -369,6 +414,13 @@ pre code {
   src: url('../../assets/fonts/jost-600-latin.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/jost-700-latin.woff2') format('woff2');
+}
+@font-face {
   font-family: 'Lora';
   font-style: normal;
   font-weight: 400;
@@ -388,6 +440,13 @@ pre code {
   font-weight: 600;
   font-display: swap;
   src: url('../../assets/fonts/lora-600-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/lora-700-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Playfair Display';

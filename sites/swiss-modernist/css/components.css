@@ -1,78 +1,223 @@
 /* ==========================================================================
-   COMPONENTS.CSS — Swiss Modernist Brand Kit
-   Header/Nav, Footer, Buttons, Cards, Forms, Badges
+   COMPONENTS.CSS — Swiss Modernist
+   Topbar, footer, buttons, modules, spec tables, repo lists, man-page FAQ,
+   badges, icons, and the one easter-egg surface.
    ========================================================================== */
 
-/* ==========================================================================
-   BUTTONS — Swiss Modernist
-   Primary = Basel Red (sharp), Secondary = Ink Black (sharp)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   1. TOPBAR — navigation_model.mode: "topbar"
+   Grid White bar, 2px bottom Ink Black border, numbered signage index.
+   Sticky with no transition: it snaps, it does not drift.
+   -------------------------------------------------------------------------- */
 
-.btn {
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--color-bg);
+  border-block-end: var(--border-width-heavy) solid var(--color-border);
+}
+
+.nav-primary {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-inline);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 56px;
+}
+
+.nav-logo {
+  display: block;
+  padding-block: var(--space-2);
+  text-decoration: none;
+}
+
+.nav-logo svg {
+  width: 96px;
+  height: 28px;
+}
+
+/* Hamburger: Ink Black, sharp, 48x48 touch target. */
+.nav-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-base);
-  letter-spacing: var(--tracking-wide);
-  text-decoration: none;
-  padding: var(--space-3) var(--space-6);
-  border: var(--border-width) solid transparent;
-  cursor: pointer;
-  transition:
-    background-color 80ms linear,
-    border-color 80ms linear;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
-  min-height: 44px;
-  white-space: nowrap;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
-.btn:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: butt;
 }
 
-/* Primary — Basel Red, one per view */
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  width: 100%;
+}
+
+.nav-menu.is-open {
+  display: block;
+  padding-block-end: var(--space-4);
+}
+
+.nav-item {
+  margin: 0;
+  border-block-start: var(--border-width) solid var(--color-neutral);
+}
+
+.nav-link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding-block: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 500;
+  letter-spacing: var(--tracking-ui);
+  line-height: var(--lh-ui);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* The signage index — 01..08, mono, tabular. 6.09:1 on Grid White. */
+.nav-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-gray-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+/* site_architecture.nav emphasis ladder. */
+.nav-link.is-primary {
+  font-weight: 700;
+}
+
+.nav-link.is-muted,
+.nav-link.is-muted .nav-index {
+  color: var(--color-gray-deep);
+}
+
+.nav-link[aria-current='page'] {
+  font-weight: 700;
+}
+
+.nav-link[aria-current='page'] .nav-index {
+  color: var(--color-text);
+}
+
+@media (width >= 900px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    width: auto;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+
+  .nav-item {
+    border-block-start: none;
+  }
+
+  .nav-link {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 56px;
+    padding-block: var(--space-2);
+    font-size: var(--text-sm);
+    border-block-start: var(--border-width-heavy) solid transparent;
+  }
+
+  /* Emphasis "primary" reads as a structural rule above the label — weight
+     and rule, never colour. */
+  .nav-link.is-primary {
+    border-block-start-color: var(--color-border);
+  }
+
+  .nav-link[aria-current='page'] {
+    box-shadow: inset 0 -2px 0 var(--color-border);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. BUTTONS — 0px radius, one red per view
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--motion-snap);
+}
+
+/* The one Basel Red action. The fill is the kit's deeper red (5.51:1 with
+   Grid White text) because pure Basel Red is 4.43:1 and cannot carry a
+   small label — see SITE.md → Derived tokens. */
 .btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
-}
-
-.btn-primary:hover {
-  background-color: #cc0018;
-  border-color: #cc0018;
+  background-color: var(--color-primary-deep);
   color: var(--color-bg);
 }
 
+.btn-primary:hover,
 .btn-primary:active {
-  background-color: #cc0018;
-  border-color: #cc0018;
+  background-color: var(--color-primary-press);
   color: var(--color-bg);
 }
 
-/* Secondary — Ink Black */
 .btn-secondary {
   background-color: var(--color-secondary);
   color: var(--color-bg);
-  border-color: var(--color-secondary);
 }
 
-.btn-secondary:hover {
-  background-color: #000;
-  border-color: #000;
-  color: var(--color-bg);
-}
-
+.btn-secondary:hover,
 .btn-secondary:active {
   background-color: #000;
-  border-color: #000;
   color: var(--color-bg);
 }
 
-/* Ghost — Ink Black border */
 .btn-ghost {
   background-color: transparent;
   color: var(--color-text);
@@ -80,722 +225,790 @@
 }
 
 .btn-ghost:hover {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-alt);
   color: var(--color-text);
 }
 
-/* Link — underlined text */
-.btn-link {
-  background-color: transparent;
-  color: var(--color-text);
-  border: none;
-  padding: 0;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  min-height: auto;
+/* Signage sub-label: keeps a CTA's accessible name honest about where it
+   goes (§19.7) without a second line of chrome. */
+.btn-note {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-mono);
 }
 
-.btn-link:hover {
-  color: var(--color-primary);
-}
-
-/* Danger — Error Red */
-.btn-danger {
-  background-color: var(--color-error);
-  color: var(--color-bg);
-  border-color: var(--color-error);
-}
-
-.btn-danger:hover {
-  background-color: #a80016;
-  border-color: #a80016;
+.btn-primary .btn-note,
+.btn-secondary .btn-note {
   color: var(--color-bg);
 }
 
-/* Icon button */
-.btn-icon {
-  background-color: transparent;
-  color: var(--color-text);
-  border: none;
-  padding: var(--space-2);
-  min-width: 44px;
-  min-height: 44px;
-}
+/* --------------------------------------------------------------------------
+   3. MODULES — grid cells that hold a feature
+   -------------------------------------------------------------------------- */
 
-.btn-icon:hover {
-  background-color: var(--color-surface);
-  color: var(--color-text);
-}
-
-/* FAB — Floating Action Button (rectangular, sharp) */
-.btn-fab {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-}
-
-.btn-fab:hover {
-  background-color: #cc0018;
-  border-color: #cc0018;
-  color: var(--color-bg);
-}
-
-/* ==========================================================================
-   SITE HEADER — Topbar
-   Grid White bar, 2px bottom Ink Black border
-   Inter Black wordmark, navigation in Inter 500, underlined on hover
-   ========================================================================== */
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-  background-color: var(--color-bg);
-  border-bottom: var(--border-width-heavy) solid var(--color-border);
-}
-
-.site-header-inner {
+.module {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  gap: var(--space-6);
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background-color: var(--color-surface-alt);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  flex-shrink: 0;
+/* hover: only the structural red line appears — no lift, no glow. An inset
+   shadow, so nothing reflows. */
+.module:hover {
+  box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
 }
 
-.nav-logo svg {
-  height: 32px;
-  width: auto;
+.module-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-gray-deep);
 }
 
-.nav-logo-text {
+.module h3 {
   font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: 20px;
-  letter-spacing: var(--tracking-tight);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.15;
+}
+
+.module p {
+  font-size: var(--text-base);
+  line-height: var(--lh-body);
+}
+
+.module-icon {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
   color: var(--color-text);
 }
 
-.nav-toggle {
-  display: none;
-  background: transparent;
-  border: none;
-  padding: var(--space-2);
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
+/* The two cast hero features: inverted Ink Black modules on the grid.
+   Grid White on Ink Black = 17.0:1. */
+.module--hero {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
 }
 
-.nav-toggle svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--color-text);
-  stroke-width: 1.5;
-  fill: none;
+.module--hero h3 {
+  color: var(--color-bg);
+  font-size: var(--text-xl);
 }
 
-.nav-menu {
+.module--hero .module-index,
+.module--hero .module-angle {
+  color: var(--color-surface-alt);
+}
+
+.module--hero .module-icon {
+  color: var(--color-bg);
+  width: 40px;
+  height: 40px;
+}
+
+.module--hero:hover {
+  box-shadow: inset var(--border-width-rule) 0 0 var(--color-primary);
+}
+
+.module-angle {
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* footnote[] features: present, at footnote weight. */
+.module--footnote {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: transparent;
+  border-color: var(--color-neutral);
+}
+
+.module--footnote h3 {
+  font-size: var(--text-base);
+}
+
+.module--footnote p {
+  font-size: var(--text-sm);
+}
+
+.module--footnote .module-body {
   display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* --------------------------------------------------------------------------
+   4. FEATURE DETAIL — page_blueprints.features
+   -------------------------------------------------------------------------- */
+
+.feature-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  grid-column: 1 / -1;
+  padding: var(--space-6);
+  background-color: var(--color-surface-alt);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.feature-detail:hover {
+  box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
+}
+
+/* One Basel Red accent rule, above the primary feature only. */
+.feature-detail.is-primary {
+  border-block-start: var(--border-width-rule) solid var(--color-primary);
+}
+
+.feature-detail h2 {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.1;
+}
+
+.feature-detail p {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.feature-detail .module-icon {
+  width: 40px;
+  height: 40px;
+}
+
+@media (width >= 768px) {
+  .feature-detail {
+    grid-column: span 4;
+  }
+}
+
+@media (width >= 1024px) {
+  .feature-detail {
+    grid-column: span 6;
+  }
+
+  /* page_blueprints.features asks for a 24px Inter 500 body; honoured at the
+     width where the 12-column grid can carry it. */
+  .feature-detail p {
+    font-size: var(--text-xl);
+    line-height: 1.4;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. CLIENT CARDS + SPEC TABLE — copy_treatments.clients: "spec-table"
+   -------------------------------------------------------------------------- */
+
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  margin-block-start: var(--space-8);
+}
+
+.client-card {
+  grid-column: 1 / -1;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.client-card:hover {
+  box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
+}
+
+.client-card h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.1;
+}
+
+.client-tagline {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+@media (width >= 768px) {
+  .client-cards {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .client-card {
+    grid-column: span 4;
+  }
+}
+
+@media (width >= 1024px) {
+  .client-cards {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .client-card {
+    grid-column: span 3;
+  }
+
+  /* Five cards on a 12-column grid: the fifth takes the remaining measure
+     rather than pretending the row is full. */
+  .client-card:last-child {
+    grid-column: span 12;
+  }
+}
+
+.spec-table {
+  margin-block-start: var(--space-4);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+.spec-table .spec-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding-block: var(--space-2);
+  border-block-end: var(--border-width) solid var(--color-neutral);
+}
+
+.spec-table dt {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-gray-deep);
+}
+
+.spec-table dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--lh-ui);
+}
+
+.spec-table dd ul {
   list-style: none;
   padding: 0;
-  gap: 0;
   margin: 0;
 }
 
-.nav-item {
+.spec-table dd li {
   margin: 0;
 }
 
-.nav-link {
-  display: block;
+.spec-table dd code,
+.repo-list dd code {
+  font-size: var(--text-xs);
+}
+
+/* Status badges: sharp rectangles, never more than two badge colours. */
+.client-status {
+  display: inline-block;
+  padding: 2px var(--space-2);
   font-family: var(--font-ui);
-  font-weight: var(--font-weight-ui);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
-  text-decoration: none;
-  color: var(--color-text);
-  padding: var(--space-4) var(--space-4);
-  border-bottom: 2px solid transparent;
-  transition:
-    border-color 80ms linear,
-    color 80ms linear;
-}
-
-.nav-link:hover {
-  color: var(--color-text);
-  border-bottom-color: var(--color-tertiary);
-}
-
-.nav-link[aria-current='page'] {
+  font-size: var(--text-xs);
   font-weight: 600;
-  border-bottom-color: var(--color-primary);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-ui);
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
 }
 
-@media (width <= 768px) {
-  .nav-toggle {
-    display: flex;
-  }
+.status-stable {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
 
-  .nav-menu {
-    display: none;
-    position: absolute;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background-color: var(--color-bg);
-    border-bottom: var(--border-width-heavy) solid var(--color-border);
-    flex-direction: column;
-    padding: var(--space-4) 0;
-  }
+.status-beta {
+  background-color: transparent;
+  color: var(--color-text);
+  border: var(--border-width) solid var(--color-tertiary);
+}
 
-  .nav-menu.is-open {
-    display: flex;
-  }
+/* --------------------------------------------------------------------------
+   6. CODE BLOCK + REPO LIST — conversion_funnel: "instant-command"
+   -------------------------------------------------------------------------- */
 
-  .nav-link {
-    padding: var(--space-4) var(--space-6);
-    border-bottom: none;
-    border-left: 4px solid transparent;
-  }
+/* A <pre> so no formatter can reflow the command, and pre-wrap so a narrow
+   screen wraps at the spaces instead of scrolling. */
+pre.code-block {
+  margin-block-start: var(--space-6);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-inline-start-width: var(--border-width-rule);
+  overflow-x: auto;
+}
 
-  .nav-link:hover {
-    border-left-color: var(--color-tertiary);
-    border-bottom-color: transparent;
-  }
+pre.code-block code {
+  display: block;
+  background: none;
+  padding: 0;
+  font-size: var(--text-sm);
+  white-space: pre-wrap;
+  overflow-wrap: normal;
+  color: var(--color-text);
+}
 
-  .nav-link[aria-current='page'] {
-    border-left-color: var(--color-primary);
-    border-bottom-color: transparent;
+.code-caption {
+  margin-block-start: var(--space-3);
+}
+
+/* copy_treatments.ecosystem: "repo-list" — name, link, description, ruled. */
+.repo-list {
+  margin-block-start: var(--space-8);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+.repo-list .repo-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+  border-block-end: var(--border-width) solid var(--color-neutral);
+}
+
+.repo-list dt {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-headline);
+}
+
+.repo-list dd {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--lh-body);
+}
+
+@media (width >= 768px) {
+  .repo-list .repo-row {
+    grid-template-columns: 4fr 5fr 3fr;
+    gap: var(--grid-gutter);
+    align-items: baseline;
   }
 }
 
-/* ==========================================================================
-   SITE FOOTER
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   7. DOWNLOAD CARDS
+   -------------------------------------------------------------------------- */
+
+.download-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  margin-block-start: var(--space-8);
+}
+
+.download-card {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.download-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.15;
+}
+
+.download-card p {
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+}
+
+.download-card:hover {
+  box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
+}
+
+@media (width >= 768px) {
+  .download-cards {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .download-card {
+    grid-column: span 4;
+  }
+}
+
+@media (width >= 1024px) {
+  .download-cards {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .download-card {
+    grid-column: span 3;
+  }
+
+  .download-card:last-child {
+    grid-column: span 12;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. LINK LIST — docs / hub / plugins link-outs
+   -------------------------------------------------------------------------- */
+
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--space-8);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+.link-list > li {
+  display: grid;
+  grid-template-columns: minmax(0, 3rem) minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: baseline;
+  margin: 0;
+  padding-block: var(--space-4);
+  border-block-end: var(--border-width) solid var(--color-neutral);
+}
+
+.link-list > li:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.link-list .link-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-gray-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.link-list .link-body > * + * {
+  margin-block-start: var(--space-1);
+}
+
+.link-list .link-title {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-headline);
+}
+
+.link-list .link-desc {
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+}
+
+@media (width >= 768px) {
+  .link-list > li {
+    grid-template-columns: minmax(0, 4rem) minmax(0, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. MAN-PAGE FAQ — faq_experience.frame: "man-page"
+   -------------------------------------------------------------------------- */
+
+.manpage-head {
+  margin-block-start: var(--space-6);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+.manpage-head .spec-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding-block: var(--space-3);
+  border-block-end: var(--border-width) solid var(--color-neutral);
+}
+
+.manpage-head dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-gray-deep);
+}
+
+.manpage-head dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--lh-mono);
+  overflow-wrap: anywhere;
+}
+
+@media (width >= 768px) {
+  .manpage-head .spec-row {
+    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+    gap: var(--grid-gutter);
+  }
+}
+
+.faq-list {
+  margin-block-start: var(--space-8);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+}
+
+.faq-entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-block-end: var(--border-width) solid var(--color-neutral);
+}
+
+.faq-entry dt {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-headline);
+  line-height: 1.25;
+}
+
+.faq-entry dd {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--lh-body);
+}
+
+.faq-ref {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-gray-deep);
+  margin-block-end: var(--space-1);
+}
+
+/* page_blueprints.about: a two-column <dl> on desktop, single column on mobile.
+   4-of-11 for the question, 7-of-11 for the answer — asymmetric, on the grid.
+   Declared after the base .faq-entry rule so it is the one that applies. */
+@media (width >= 1024px) {
+  .faq-entry {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--grid-gutter);
+  }
+}
+
+/* SEE ALSO aliases: extra_questions re-phrased onto a canonical answer. */
+.faq-entry--alias {
+  background-color: var(--color-surface-alt);
+}
+
+.faq-entry--alias dt,
+.faq-entry--alias dd {
+  font-size: var(--text-sm);
+}
+
+/* --------------------------------------------------------------------------
+   10. FOOTER — footer_arrangement: "mirror-nav"
+   -------------------------------------------------------------------------- */
 
 .site-footer {
+  padding-block: var(--space-12) var(--space-8);
+  border-block-start: var(--border-width-rule) solid var(--color-border);
   background-color: var(--color-surface);
-  border-top: var(--border-width-heavy) solid var(--color-border);
-  padding-block: var(--space-12);
-  margin-top: auto;
 }
 
 .footer-tagline {
   font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-8);
-  max-width: 40ch;
+  font-weight: 900;
+  font-size: min(var(--text-2xl), 8vw);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--lh-headline);
+}
+
+/* The nav, mirrored: same eight destinations, same signage indices. */
+.footer-mirror {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--space-8);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2) var(--grid-gutter);
+  border-block-start: var(--border-width-heavy) solid var(--color-border);
+  padding-block-start: var(--space-4);
+}
+
+.footer-mirror > li {
+  margin: 0;
+}
+
+.footer-mirror a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.footer-mirror a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--space-8);
-  margin-bottom: var(--space-8);
-  padding-bottom: var(--space-8);
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
+  margin-block-start: var(--space-12);
 }
 
-.footer-nav-column h3 {
+.footer-nav-column h2 {
   font-family: var(--font-ui);
+  font-size: var(--text-xs);
   font-weight: 600;
-  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  color: var(--color-tertiary);
-  margin-bottom: var(--space-4);
+  color: var(--color-gray-deep);
+  padding-block-end: var(--space-2);
+  border-block-end: var(--border-width) solid var(--color-border);
 }
 
 .footer-nav-column ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-block-start: var(--space-3);
 }
 
 .footer-nav-column li {
-  margin-bottom: var(--space-2);
+  margin-block-end: var(--space-1);
 }
 
 .footer-nav-column a {
-  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: var(--text-sm);
   color: var(--color-text);
-  text-decoration: none;
-}
-
-.footer-nav-column a:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
 }
 
 .footer-copy {
-  font-family: var(--font-body);
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-4);
+  border-block-start: var(--border-width) solid var(--color-border);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--color-tertiary);
+  line-height: var(--lh-mono);
+  color: var(--color-gray-deep);
 }
 
-@media (width <= 768px) {
+@media (width >= 768px) {
+  .footer-mirror {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .footer-nav {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gutter);
   }
 }
 
-/* ==========================================================================
-   BADGES — Swiss Modernist
-   Sharp rectangle, 0px radius, Inter 600 10px uppercase
-   ========================================================================== */
-
-.badge {
-  display: inline-block;
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  padding: 2px 6px;
-  border: var(--border-width) solid;
-  border-radius: var(--radius-sm);
-  white-space: nowrap;
+@media (width >= 1024px) {
+  .footer-mirror {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
 }
 
-.badge-primary {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-  color: var(--color-bg);
-}
+/* --------------------------------------------------------------------------
+   11. EASTER EGG — easter_eggs[0]: logo-clicks:7
+   The sweep element is created by JS only when the egg fires, so it never
+   exists (and can never cover the CTA) for anyone who has not found it.
+   -------------------------------------------------------------------------- */
 
-.badge-black {
-  background-color: var(--color-text);
-  border-color: var(--color-text);
-  color: var(--color-bg);
-}
-
-.badge-neutral {
-  background-color: transparent;
-  border-color: var(--color-neutral);
-  color: var(--color-text);
-}
-
-.badge-quality {
-  background-color: var(--color-text);
-  border-color: var(--color-text);
-  color: var(--color-bg);
-}
-
-.badge-status-new {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-  color: var(--color-bg);
-}
-
-/* ==========================================================================
-   FORMS — Swiss Modernist
-   Grid White fill, 1px Ink Black border, 0px radius
-   ========================================================================== */
-
-.form-group {
-  margin-bottom: var(--space-4);
-}
-
-.form-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-sm);
-  margin-bottom: var(--space-2);
-  color: var(--color-text);
-}
-
-.form-input {
-  width: 100%;
-  padding: var(--space-3);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  transition: border-color 80ms linear;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--color-focus);
-}
-
-.form-input::placeholder {
-  color: var(--color-neutral);
-}
-
-.form-error {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-error);
-  margin-top: var(--space-2);
-}
-
-/* Checkbox — sharp square */
-.form-checkbox {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  cursor: pointer;
-}
-
-.form-checkbox input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  appearance: none;
-  flex-shrink: 0;
-}
-
-.form-checkbox input[type='checkbox']:checked {
-  background-color: var(--color-text);
-  border-color: var(--color-text);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23F8F8F4' d='M12.707 4.707a1 1 0 0 0-1.414-1.414l-4 4a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px;
-}
-
-/* ==========================================================================
-   TABLES — Swiss Modernist
-   Inter 600 12px uppercase, Module Gray header, 2px Ink Black bottom border
-   ========================================================================== */
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-}
-
-.data-table th {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  text-align: left;
-  padding: var(--space-3) var(--space-4);
-  background-color: var(--color-surface-alt);
-  border-bottom: var(--border-width-heavy) solid var(--color-border);
-  color: var(--color-text);
-}
-
-.data-table td {
-  padding: var(--space-3) var(--space-4);
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
-  color: var(--color-text);
-}
-
-.data-table tbody tr:nth-child(even) {
-  background-color: var(--color-surface-alt);
-}
-
-.data-table tbody tr:hover {
-  background-color: var(--color-surface-alt);
-}
-
-/* ==========================================================================
-   MEDIA CARDS — Swiss Modernist
-   Column White card, 0px radius, 1px Ink Black border
-   ========================================================================== */
-
-.media-card {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  overflow: hidden;
-}
-
-.media-card-poster {
-  width: 100%;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  border-bottom: var(--border-width) solid var(--color-border);
-}
-
-.media-card-info {
-  padding: var(--space-4);
-}
-
-.media-card-title {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: var(--text-base);
-  letter-spacing: -0.02em;
-  line-height: var(--line-height-ui);
-  margin-bottom: var(--space-1);
-}
-
-.media-card-meta {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--color-tertiary);
-}
-
-/* ==========================================================================
-   TOAST — Swiss Modernist
-   Sharp-edged rectangular, bottom-right, Grid White background
-   4px left color bar, snap in/out
-   ========================================================================== */
-
-.toast {
+.egg-sweep {
   position: fixed;
-  bottom: var(--space-6);
-  right: var(--space-6);
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  padding: var(--space-4);
-  padding-left: calc(var(--space-4) + 4px);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  max-width: 360px;
-  box-shadow: var(--shadow-lg);
-}
-
-.toast::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-}
-
-.toast-success::before {
-  background-color: var(--color-success);
-}
-.toast-error::before {
-  background-color: var(--color-error);
-}
-.toast-warning::before {
-  background-color: var(--color-warning);
-}
-.toast-info::before {
-  background-color: var(--color-info);
-}
-
-.toast-message {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  line-height: var(--line-height-normal);
-}
-
-/* ==========================================================================
-   CARDS — Base Swiss card style
-   Sharp-cornered Column White cards with 1px Ink Black border
-   ========================================================================== */
-
-.card {
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.card-padded {
-  padding: var(--space-6);
-}
-
-.card-featured {
-  border-left: var(--border-width-rule) solid var(--color-primary);
-}
-
-/* ==========================================================================
-   SEARCH BAR — Swiss Modernist
-   Full-width rectangular input, 1px Ink Black border
-   ========================================================================== */
-
-.search-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-bar-icon {
-  position: absolute;
-  left: var(--space-4);
-  width: 20px;
-  height: 20px;
-  stroke: var(--color-tertiary);
-  stroke-width: 1.5;
-  fill: none;
-  pointer-events: none;
-}
-
-.search-bar-input {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--z-egg);
   width: 100%;
-  padding: var(--space-3) var(--space-4);
-  padding-left: calc(var(--space-4) + 28px);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  background-color: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-}
-
-.search-bar-input:focus {
-  outline: none;
-  border-color: var(--color-focus);
-}
-
-.search-bar-input::placeholder {
-  color: var(--color-neutral);
-}
-
-/* ==========================================================================
-   TABS — Swiss Modernist
-   Underline tabs, active = 2px Basel Red + Inter 700
-   ========================================================================== */
-
-.tabs {
-  display: flex;
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
-}
-
-.tab {
-  font-family: var(--font-ui);
-  font-weight: var(--font-weight-ui);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
-  text-decoration: none;
-  color: var(--color-tertiary);
-  padding: var(--space-4) var(--space-6);
-  border-bottom: 2px solid transparent;
-  margin-bottom: calc(-1 * var(--border-width));
-  transition:
-    border-color 80ms linear,
-    color 80ms linear;
-}
-
-.tab:hover {
-  color: var(--color-text);
-}
-
-.tab.active {
-  font-weight: 700;
-  color: var(--color-text);
-  border-bottom-color: var(--color-primary);
-}
-
-/* ==========================================================================
-   BREADCRUMBS — Swiss Modernist
-   Inter 400 14px, Rule Gray for ancestors, Ink Black for current
-   Separated by ' / ' in Rule Gray
-   ========================================================================== */
-
-.breadcrumbs {
-  display: flex;
-  align-items: center;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  gap: 0;
-}
-
-.breadcrumb-item {
-  color: var(--color-tertiary);
-}
-
-.breadcrumb-item a {
-  color: var(--color-tertiary);
-  text-decoration: none;
-}
-
-.breadcrumb-item a:hover {
-  color: var(--color-text);
-}
-
-.breadcrumb-item[aria-current='page'] {
-  color: var(--color-text);
-  font-weight: 500;
-}
-
-.breadcrumb-sep {
-  margin-inline: var(--space-2);
-  color: var(--color-tertiary);
-}
-
-/* ==========================================================================
-   DIALOG / MODAL — Swiss Modernist
-   Centered Column White card on mid-opacity black scrim
-   1px Ink Black border, Inter Black 24px title, 2px Basel Red rule below
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-
-.dialog {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-modal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-6);
-}
-
-.dialog-backdrop {
-  position: absolute;
-  inset: 0;
-  background-color: var(--color-overlay);
-}
-
-.dialog-panel {
-  position: relative;
-  background-color: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
-  max-width: 480px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.dialog-header {
-  padding: var(--space-6);
-  border-bottom: var(--border-width) solid var(--color-surface-alt);
-}
-
-.dialog-title {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-xl);
-  letter-spacing: var(--tracking-tight);
-  margin-bottom: var(--space-4);
-}
-
-.dialog-title-rule {
-  width: 100%;
-  height: var(--border-width-rule);
+  height: var(--border-width-heavy);
   background-color: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: egg-sweep 1000ms linear 1 forwards;
 }
 
-.dialog-body {
-  padding: var(--space-6);
+.egg-reward {
+  position: fixed;
+  inset-block-start: var(--border-width-heavy);
+  inset-inline-start: 0;
+  z-index: var(--z-egg);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--lh-mono);
+  color: var(--color-bg);
+  background-color: var(--color-text);
 }
 
-.dialog-footer {
-  padding: var(--space-6);
-  border-top: var(--border-width) solid var(--color-surface-alt);
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-3);
+@keyframes egg-sweep {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-sweep {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. PRINT — the grid holds on paper too
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .site-header,
+  .footer-mirror {
+    position: static;
+    display: none;
+  }
+
+  .band--guides {
+    background-image: none;
+  }
 }

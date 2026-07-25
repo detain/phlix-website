@@ -245,6 +245,15 @@ async function loadKits() {
  * tracking, lineHeight }`. Roles may be absent, and several roles routinely share
  * one family (e.g. `headline` and `number`).
  */
+// Roles that carry running prose, and therefore inline <strong>/<b>. Nothing in
+// a kit ever *declares* weight 700, because it is implicit: `bolder` on 400 body
+// text computes to exactly 700. So 700 was never vendored, and every site with
+// Inter/Lora/IBM Plex/Nunito Sans/Jost body text had no real bold — one kit had
+// to write `strong { font-weight: 600 }` as a workaround, which reads as barely
+// emphasised. Families with no upstream 700 (display faces like Bebas Neue)
+// clamp back harmlessly via resolveWeight.
+const PROSE_ROLES = new Set(['body', 'ui', 'mono']);
+
 function kitRoles(kit) {
   const roles = [];
   for (const [role, spec] of Object.entries(kit.fonts)) {
@@ -252,6 +261,7 @@ function kitRoles(kit) {
     const weights = (Array.isArray(spec.weight) ? spec.weight : [spec.weight])
       .filter((w) => w != null)
       .map((w) => String(w));
+    if (PROSE_ROLES.has(role)) weights.push('700');
     roles.push({
       role,
       family: spec.family,

@@ -85,14 +85,29 @@
   color: var(--color-primary);
 }
 
-/* site_architecture.nav[].emphasis */
+/* site_architecture.nav[].emphasis — THREE declared levels, so three visibly
+   distinct rungs. Colour does the work, because Cormorant Garamond ships here in
+   600 and 700 only: a `font-weight: 500` would be snapped back to the 600 face
+   and render identically, which is how the previous two-level ladder came to
+   look like one level.
+     primary  Carbon Black  #1A1A1A  700   14.87:1 on cream-topbar-adjacent linen
+     default  Umber Ink     #3F3A30  600    9.65:1
+     muted    Raw-Umber Ink #5F594C  600    5.94:1, one step down in size
+   All three clear AA for small text; see the derived-pigment note in base.css. */
 .nav-link[data-emphasis='primary'] {
   color: var(--color-primary);
+  font-weight: 700;
+}
+
+.nav-link[data-emphasis='default'] {
+  color: var(--color-umber-ink);
+  font-weight: 600;
 }
 
 .nav-link[data-emphasis='muted'] {
   color: var(--color-neutral-ink);
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .nav-link[data-emphasis='muted']:hover {
@@ -204,11 +219,18 @@
    ghost: sizing-ground outline · 4px radius throughout
    ========================================================================== */
 
+/* `min-width: 0` + `max-width: 100%`: a button is a flex item inside
+   `.hero-actions` / `.recovery-links`, and a flex item's automatic minimum size
+   is its min-content width — so at 200% text zoom "Set Up Your Studio" grew to
+   319px inside a 272px column and the hero clipped it. With the floor removed
+   the label wraps onto a second line instead, which is what the visitor needs. */
 .btn {
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
+  min-width: 0;
+  max-width: 100%;
   min-height: 48px;
   padding: var(--space-3) var(--space-6);
   border: 1px solid transparent;
@@ -242,8 +264,8 @@
 }
 
 .btn-primary:hover {
-  border-color: #2a2a2a;
-  background: #2a2a2a;
+  border-color: var(--color-primary-hover);
+  background: var(--color-primary-hover);
   box-shadow: var(--shadow-md);
   color: var(--color-bg);
 }
@@ -352,8 +374,12 @@
   font-weight: 600;
 }
 
+/* `minmax(0, 1fr)` for the same reason as the grids in theme.css: an implicit
+   `auto` track is floored at its content's min-content width, so one long
+   unbreakable label would widen the whole page. */
 .footer-nav {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-8);
   padding-bottom: var(--space-8);
   border-bottom: 1px solid var(--color-border);
@@ -387,10 +413,12 @@
   gap: var(--space-1);
 }
 
+/* accessibility.touch_target — the footer directory is the whole navigation on a
+   phone with JS off, so its rows carry the same 44px floor as the nav. */
 .footer-col a {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 44px;
   color: var(--color-text);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
@@ -499,6 +527,16 @@
   display: none;
 }
 
+/* §19.11 — a fixed companion must never cover the primary CTA. On a phone the
+   bottom-right corner and the CTA band are the same 40 or so pixels, so Palette
+   steps aside for exactly as long as a call to action is sitting under it and
+   comes straight back (js/main.js `guardPalette`). Not `visibility: hidden` and
+   not `pointer-events: none`: the defect is that the companion is *painted* over
+   the button, so it has to actually not be there. */
+.palette-companion.is-stepped-aside {
+  display: none;
+}
+
 .palette-bubble {
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-border);
@@ -542,12 +580,14 @@
   box-shadow: var(--shadow-md);
 }
 
+/* accessibility.touch_target — this is the control that makes the companion go
+   away, so it is the last one that should be hard to hit. */
 .palette-dismiss {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background: var(--color-bg);
@@ -631,6 +671,11 @@ html[data-intensity='quiet'] .palette-figure svg {
     width: 32px;
     height: 32px;
   }
+
+  .palette-dismiss {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 /* ==========================================================================
@@ -651,11 +696,13 @@ html[data-intensity='quiet'] .palette-figure svg {
 
 .stack-4 {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
 }
 
 .stack-6 {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 }
 

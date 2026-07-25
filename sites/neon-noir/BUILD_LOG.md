@@ -1,110 +1,127 @@
-# BUILD LOG — Neon Noir Brand-Kit Site
+# BUILD LOG — Neon Noir
 
-**Kit:** Neon Noir (base kit, `kit_type: "base"`)
-**Version:** 1.0
-**Built:** 2026-07-01
-**Site path:** `sites/neon-noir/`
+**Kit:** `brand-kits/neon-noir.js` — base kit, schema 2.1, archetype `narrative-scroll`
+**Regenerated:** 2026-07-25 (supersedes the 2026-07-04 first pass)
+**Manifest:** `REGEN_PLAN.md` · **Rationale:** `SITE.md`
 
 ---
 
-## What was built
+## What was generated
 
-### Site Structure
+| File                                            | State                                                                       |
+| ----------------------------------------------- | --------------------------------------------------------------------------- |
+| `index.html`                                    | rewritten — 5 narrative sections with the kit's own section ids             |
+| `features.html`                                 | rewritten — evidence-board blueprint, 8 files, serials, decoders            |
+| `clients.html`                                  | rewritten — network-map blueprint, trunk line + 5 nodes                     |
+| `download.html`                                 | rewritten — interrogation blueprint, clearance token / agents / toolkit     |
+| `plugins.html`                                  | rewritten — demoted from the nav, filed under Evidence Files                |
+| `docs.html`                                     | rewritten — demoted to the footer index                                     |
+| `hub.html`                                      | rewritten — "Reach Anywhere"                                                |
+| `about.html`                                    | rewritten — case-closed chapters + interrogation transcript                 |
+| `404.html`                                      | **new** — dead-end alley, `noindex`, 3 recovery links, relative assets only |
+| `css/base.css`                                  | rewritten — 10 real `@font-face` rules, tokens, both quiet switches         |
+| `css/theme.css`                                 | rewritten — type roles, blueprints, cut/wipe motion                         |
+| `css/components.css`                            | rewritten — topbar, footer, cards, transcript, Lux, calm switch, eggs       |
+| `js/main.js`                                    | rewritten — nav disclosure + cinematic cut (~2.7 KB)                        |
+| `js/experience.js`                              | **new** — vignette, Lux, eggs, calm mode, seasonal gate, copy (~11 KB)      |
+| `img/seasonal/*.svg`                            | **new** — the three `seasonal_activation.motif_assets`                      |
+| `img/og.png`                                    | regenerated from the carried-forward `og.svg` via `tools/gen-og.mjs`        |
+| `robots.txt`, `sitemap.xml`                     | regenerated via `tools/gen-sitemap.mjs` (8 URLs, 404 excluded)              |
+| `SITE.md`, `BUILD_LOG.md`, `img/PROMPTS.md`     | rewritten                                                                   |
+| `img/logo.svg`, `img/favicon.svg`, `img/og.svg` | carried forward unchanged                                                   |
+
+---
+
+## Defects fixed from the 2026-07-04 pass
+
+1. **No brand font ever loaded.** Every page carried an inline `@font-face` block whose `src`
+   was `local(...)` only — no WOFF2 — so all five faces silently fell back. Replaced with ten
+   real `@font-face` rules pointing at `shared/assets/fonts/*.woff2` (§19.3).
+2. **The `@copyright` parse bug** (§19.2) was present in all three stylesheets: a bare
+   ` * @copyright …` line outside any comment block, which discards the rest of the file.
+3. **The licence was wrong in four places** — "BSD-3-Clause across the board" in the About
+   philosophy line, the About licence chapter, the About FAQ answer, and the footer
+   (`License (BSD-3)` plus the copyright line), and BSD-3 in the home JSON-LD. `content.json`
+   says MPL-2.0 for the server and hub, MIT for the shared libraries, plugins and clients.
+   Corrected everywhere; the footer label is now verbatim from `content.json`.
+4. **No `404.html`** at all, although `error_page_experience` is declared and §2A makes the
+   page required.
+5. **`API reference`** pointed at `…/phlix-docs/reference`; `content.json` says
+   `…/phlix-docs/reference/api.html`.
+6. Nineteen declared experience fields were ignored entirely — see `REGEN_PLAN.md` §1.
+
+---
+
+## Deviations from the spec, and why
+
+1. **The footer case index is not a third `<nav>`.** The `mirror-nav` index is a `<div>` with a
+   visually-hidden `<h2>`, so the page keeps exactly one primary and one footer navigation
+   landmark (§4).
+2. **Lux is not fixed below 768px.** `mascot.behavior.placement` says bottom-right corner. At
+   320px there is no room for a floating companion that cannot cover the CTA, so the same
+   element renders in-flow above the footer instead. No duplicated content (§19.11).
+3. **Lux sits inside `<main>`.** `tools/render-check.mjs` counts `main[tabindex="-1"]` as a
+   control, so any fixed element outside `<main>` reads as covering it. Nesting the aside
+   inside `<main>` removes that false positive while leaving the real CTA-overlap check fully
+   active — Lux is still tested against every button and link on the page.
+4. **No `-webkit-text-stroke` and no `-webkit-background-clip: text` anywhere.** Both have no
+   unprefixed equivalent and `stylelint --fix` deletes them, which would silently erase the
+   effect (§19.4). All neon glow is `text-shadow` / `box-shadow`, which is also what the kit's
+   own performance rules ask for. `stylelint --fix` was never run.
+5. **The 404's giant numerals use `--color-edge-strong`, not Charcoal Slate.** Slate on void is
+   1.30:1 — effectively invisible. The derived mix reads as dim steel tubing at 3.61:1.
+6. **`overflow-wrap: anywhere` on `body`**, not `break-word`. Only `anywhere` reduces
+   min-content size, and several rows are flex containers whose anonymous text item otherwise
+   refuses to shrink below the width of "ContentDirectory" / "LifecycleInterface" — which put
+   `clients.html` and `about.html` into horizontal scroll at 200% text zoom.
+7. **`[hidden] { display: none !important }`** is declared explicitly, because a class that
+   sets `display` (`.btn`) beats the UA sheet's `[hidden]` rule — which had left the
+   JS-controlled "Bring Lux back", "Follow the next lead" and "Copy" buttons visible.
+8. **The install snippet** is `git clone` / `composer install` / `php start.php start`. There
+   is no install command in `content.json`; this matches how the server is actually started
+   and is consistent with the other kits' download pages. No invented one-liner installer.
+9. **No printed counts anywhere.** `proof_strategy` asks for a live star count; a static page
+   cannot verify one, so the trust band links to `/stargazers` and `/issues` instead (§19.7).
+10. **The docs "quote"** is `pitch_bullets[0]`, attributed to the project brief — not a
+    fabricated quotation from the documentation, which a static build cannot verify (§19.7).
+
+---
+
+## Verification
+
 ```
-sites/neon-noir/
-├── index.html           Home
-├── features.html        Features
-├── clients.html         Clients
-├── download.html        Download
-├── plugins.html         Plugins
-├── docs.html            Docs (link-out)
-├── hub.html             Phlix Hub
-├── about.html           About + FAQ
-├── css/
-│   ├── base.css         reset, :root tokens, element defaults, utilities
-│   ├── theme.css        typography scale, layout containers, page sections
-│   └── components.css   nav, footer, buttons, cards, forms, badges, tables
-├── js/
-│   └── main.js          nav toggle, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg         Playfair italic wordmark, cyan border, amber accent
-│   ├── favicon.svg      32×32 void-black, amber P letterform
-│   ├── og.svg           1200×630 city silhouette, neon horizon
-│   └── PROMPTS.md       exact generation prompts for every image asset
-├── robots.txt
-├── sitemap.xml
-├── SITE.md              design rationale, palette, type, motion, assets
-└── BUILD_LOG.md         this file
+node tools/gen-og.mjs      --site neon-noir   → 1 og.png from 1 svg
+node tools/gen-sitemap.mjs --site neon-noir   → sitemap.xml (8 URLs) + robots.txt
+node tools/selfcheck.mjs   --site neon-noir   → PASS
+node tools/render-check.mjs --site neon-noir  → PASS (9 pages × 4 viewports)
+npx prettier --write "sites/neon-noir/**"     → clean
 ```
 
-### Files created: 8 HTML + 3 CSS + 1 JS + 3 SVG + 3 MD + 2 XML = 20 files
+`selfcheck` reports 10 `@font-face` rules, all 6 kit nav labels present, 5/5 narrative
+sections in order, 51 palette pairs clearing 4.5:1, and ~14 KB of JS. Its single warning is
+the standard §19.1 reminder to measure the kit's contrast claim rather than trust it — done,
+and the numbers are tabulated in `SITE.md`.
+
+A browser probe additionally confirmed, by hand: the vignette steps 0→1→2 and lights one lead
+per pose; the typed-word egg fires and clears on Esc **and stays inert while focus is in an
+input**; calm mode flips the tokens, reports "Lights out", and releases every armed element;
+Lux's dismissal survives a reload and the footer recall button brings him back; the mobile nav
+opens, closes on Esc, and keeps `aria-expanded` in sync.
+
+Repo-wide gates (`npm run lint`, `npm test`, `npm run build`, `npm run a11y`) were **not** run:
+they cover all 50 sites and three other kits were being regenerated concurrently in this same
+checkout.
 
 ---
 
-## Layout Archetype
+## Known follow-ups
 
-**Immersive** — chosen for the Neon Noir brand's cinematic, full-bleed hero concept. Dark backgrounds with neon glow accents create the noir atmosphere. The hero takes the full viewport, content sections alternate void-black and deep-navy, and the CTA banner uses an amber radial glow. Negative space (darkness) is structural, not empty.
-
----
-
-## Design Decisions
-
-1. **Playfair Display italic** for hero headlines — high-contrast noir elegance, the `em` tag used for the amber accent word in the home hero headline ("Every Frame, a **Mystery**.")
-
-2. **Neon flicker animation** on hero wordmark — `neon-flicker` keyframe (4s cycle) matches the kit's `header_motif` specification.
-
-3. **Venetian-blind dividers** implemented as CSS `repeating-linear-gradient` in `.venetian-divider` class.
-
-4. **Card hover glow** — 200ms ease-out transition with `translateY(-3px)` + cyan border + `box-shadow: var(--shadow-neon-cyan)`.
-
-5. **Focus ring** — 2px `var(--color-focus)` + 2px void-black offset + 4px cyan outer glow per kit spec.
-
-6. **Mobile nav** — slides in from right (300ms ease), focus trap implemented, overlay backdrop, Escape key closes.
-
-7. **Reduced motion** — all animations gated behind `matchMedia('(prefers-reduced-motion: reduce)')`.
-
-8. **Tagline secondary** used in CTA banners:
-   - Home: "The city never sleeps. Neither do you."
-   - Features: "Cinema lives in the dark."
-   - Clients: "See the shadows. Find the story."
-   - Plugins: "The library is yours. Build what you need."
-   - Hub: "The city follows you."
-   - About: "Your terms. Your library."
-
----
-
-## Intentional Deviations from Spec
-
-None — all decisions trace directly to kit fields.
-
----
-
-## Known Follow-ups
-
-1. **og.png** — `og.svg` is the editable source. For production use, render `og.svg` to 1200×630 PNG at 2x resolution.
-2. **Font files** — fonts are declared via `@font-face` with `font-display: swap` pointing to locally available fonts. In production, self-host WOFF2 files.
-3. **Feature icon SVGs in `img/`** — the 7 feature icons are inline in HTML. For standalone use, extract to `img/icons/` if needed.
-
----
-
-## Quality Gates
-
-| Gate | Status |
-|------|--------|
-| All 8 pages + CSS/JS/img exist | ✓ |
-| `npm run lint` | pending |
-| `npm run linkcheck` | pending |
-| `npm run a11y` | pending |
-| Brand fidelity review | pending |
-| Final review loop | pending |
-
----
-
-## Metadata
-
-- **Kit:** `phlix-website/brand-kits/neon-noir.js`
-- **Kit type:** base
-- **Kit version:** 1.0
-- **Kit author:** Phlix Design
-- **Kit created:** 2026-06-30
-- **Kit compatible models:** claude-opus-4-8, claude-sonnet-4-6, sdxl, flux.1
+- `shared/content.json meta.og_image` is `/img/og.svg` — an SVG **and** an absolute path, both
+  of which §11 / `check-meta` rule 5 forbid. Every site therefore has to ignore that field.
+  Worth fixing centrally; not touched here because `shared/**` is read-only to this build.
+- The alley diorama and the 404 sign are CSS/SVG originals standing in for real renders. The
+  prompts that would produce the intended artwork are in `img/PROMPTS.md`.
+- `tools/render-check.mjs` gained viewports and checks (2 → 4 viewports, plus a clipping and a
+  delayed-overlap pass) **while this build was running**, so early passing runs are not
+  comparable to later ones. Everything reported here is from the final run against the current
+  tool.

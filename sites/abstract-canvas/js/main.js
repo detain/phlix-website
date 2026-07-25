@@ -2,17 +2,11 @@
  * MAIN.JS — Abstract Canvas
  *
  * Self-contained, dependency-free enhancement layer. Everything here is
- * optional: with JS disabled every page still carries its full copy, its
- * navigation and its CTAs (hero_experience.js_budget_kb is 0 — the hero is
- * pure markup).
+ * optional: with JS off every page keeps its copy, its CTAs and — via
+ * css/nojs.css — its navigation (hero_experience.js_budget_kb is 0).
  *
- * Implements, in kit order:
- *   navigation_model.fallback   mobile menu toggle + Esc + outside click
- *   scroll_experience           opacity-only settle, continuous scroll
- *   intensity_toggle            "Gallery quiet", persisted
- *   mascot.behavior             Palette: tips, idle, reactions, dismissal
- *   easter_eggs                 logo-clicks:5 and typed-word:palette
- *   seasonal_activation         live date-gate over seasonal_variants
+ * In kit order: navigation_model.fallback · scroll_experience ·
+ * intensity_toggle · mascot.behavior · easter_eggs · seasonal_activation.
  *
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
@@ -21,22 +15,30 @@
   'use strict';
 
   var root = document.documentElement;
-  var store = {
-    get: function (k) {
-      try {
-        return window.localStorage.getItem(k);
-      } catch {
-        return null;
-      }
-    },
-    set: function (k, v) {
-      try {
-        window.localStorage.setItem(k, v);
-      } catch {
-        /* private mode — the feature simply does not persist */
-      }
-    },
-  };
+
+  /* Wrapped because private mode throws on access. `store` outlives the tab
+     (preferences); `session` survives one self-navigation (the logo egg). */
+  function safeStore(which) {
+    return {
+      get: function (k) {
+        try {
+          return window[which].getItem(k);
+        } catch {
+          return null;
+        }
+      },
+      set: function (k, v) {
+        try {
+          window[which].setItem(k, v);
+        } catch {
+          /* nothing to do: the feature is simply not persisted */
+        }
+      },
+    };
+  }
+
+  var store = safeStore('localStorage');
+  var session = safeStore('sessionStorage');
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -160,20 +162,83 @@
   var bubble = null;
   var figure = null;
 
-  /* Palette speaks briefly and then goes quiet again: a bubble parked in the
-     corner forever would sit on top of the footer utility row and the last
-     card of a grid. Nine seconds is long enough to read twice. */
+  /* Nine seconds reads twice; a bubble parked forever sits on the footer row.
+     `earned` = a line the visitor asked for (an egg reward, a reaction to
+     touching Palette) and it holds against the unrequested scroll tips. */
+  var SAY_MS = 9000;
   var sayTimer = null;
+  var holdUntil = 0;
 
-  function say(text) {
+  function say(text, earned) {
     if (!bubble) return;
+    if (!earned && Date.now() < holdUntil) return;
+    if (earned) holdUntil = Date.now() + SAY_MS;
     bubble.textContent = text;
+    guardPalette(); /* speaking changes the footprint */
     window.clearTimeout(sayTimer);
     if (text) {
       sayTimer = window.setTimeout(function () {
         if (bubble) bubble.textContent = '';
-      }, 9000);
+        guardPalette();
+      }, SAY_MS);
     }
+  }
+
+  /* ══ §19.11 — Palette must never be painted over a control ══
+       Cheapest step first: decline the tip (the bubble is usually what grew the
+       footprint), then step aside while the control is still underneath — and
+       step straight back. Every width, every control, because "the primary CTA"
+       is whatever copy_overlay renamed it to. Rects in REGEN_PLAN row 26. */
+
+  var TIP_MAX_WIDTH = 700;
+  var CONTROLS = 'a[href], button, input, select, textarea, [tabindex]';
+  var guardBox = null;
+  var guardFrame = null;
+  var guardTargets = null;
+
+  function paletteObstructs() {
+    /* Cache: a hidden box measures 0, but the last good rect is the corner it
+       comes back to. */
+    var r = palette.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0) guardBox = r;
+    if (!guardBox) return false;
+    if (!guardTargets) guardTargets = document.querySelectorAll(CONTROLS);
+    for (var i = 0; i < guardTargets.length; i++) {
+      var el = guardTargets[i];
+      if (el.contains(palette) || palette.contains(el)) continue;
+      var b = el.getBoundingClientRect();
+      if (b.width < 1 || b.height < 1) continue;
+      if (b.bottom < 0 || b.top > window.innerHeight) continue;
+      if (
+        b.left < guardBox.right - 1 &&
+        b.right > guardBox.left + 1 &&
+        b.top < guardBox.bottom - 1 &&
+        b.bottom > guardBox.top + 1
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function guardPalette() {
+    if (!palette) return;
+    palette.classList.remove('is-stepped-aside');
+    if (!paletteObstructs()) return;
+    if (bubble && bubble.textContent) {
+      window.clearTimeout(sayTimer);
+      bubble.textContent = '';
+      if (!paletteObstructs()) return;
+    }
+    palette.classList.add('is-stepped-aside');
+  }
+
+  function scheduleGuard() {
+    if (guardFrame) return;
+    guardFrame = window.requestAnimationFrame(function () {
+      guardFrame = null;
+      guardPalette();
+    });
   }
 
   function buildPalette() {
@@ -191,7 +256,10 @@
       '<button class="palette-dismiss" type="button" ' +
       'aria-label="Palette, rest for a moment">×</button>' +
       '</div>';
-    document.body.appendChild(palette);
+    /* Inside <main>, not loose in <body>: a top-level div is content outside
+       every landmark, and the mandated `main[tabindex="-1"]` would otherwise be
+       a "control" the companion is forever on top of. */
+    (document.getElementById('main-content') || document.body).appendChild(palette);
 
     bubble = palette.querySelector('.palette-bubble');
     figure = palette.querySelector('.palette-figure');
@@ -214,7 +282,7 @@
       if (clicks >= 5) {
         clicks = 0;
         figure.classList.add('is-settling', 'is-glowing');
-        say('Palette spins, sets itself down, and gives you an approving look.');
+        say('Palette spins, sets itself down, and gives you an approving look.', true);
         window.setTimeout(function () {
           if (figure) figure.classList.remove('is-settling');
         }, 900);
@@ -225,18 +293,25 @@
     var holdTimer = null;
     figure.addEventListener('mouseenter', function () {
       holdTimer = window.setTimeout(function () {
-        say('Palette offers you its sable brush — a gift for the artist who understands the work.');
+        say(
+          'Palette offers you its sable brush — a gift for the artist who understands the work.',
+          true,
+        );
       }, 2000);
     });
     figure.addEventListener('mouseleave', function () {
       window.clearTimeout(holdTimer);
     });
 
-    /* mascot.behavior.tips — anchored to the section each tip belongs to.
-       Not on a phone: a fixed bubble on a 320px viewport lands on top of the
-       hero's primary CTA, and an unrequested aside must never cover the action.
-       Palette still appears, still reacts when touched, still dismisses. */
-    if (window.innerWidth <= 700) return;
+    /* §19.11 — keep the companion off every button, at every scroll position. */
+    window.addEventListener('scroll', scheduleGuard, { passive: true });
+    window.addEventListener('resize', scheduleGuard);
+    guardPalette();
+
+    /* mascot.behavior.tips, anchored to their sections — but not on a phone,
+       where §19.11 forbids an unrequested aside. Palette still appears, still
+       reacts when touched, still dismisses. */
+    if (window.innerWidth <= TIP_MAX_WIDTH) return;
 
     Object.keys(TIPS).forEach(function (where) {
       var parts = where.split(':');
@@ -266,31 +341,38 @@
        Both are inert for anyone who does not go looking, never shadow a
        browser or assistive-technology shortcut, and exit on Esc. */
 
-  /* easter_eggs[0] — logo-clicks:5. The logo is a link, so it is only counted
-     on the page it already points at (home), where suppressing a pointless
-     self-navigation costs the visitor nothing. */
+  /* easter_eggs[0] — logo-clicks:5. The wordmark is a link named "Phlix home"
+     and it stays one: an egg does not license `preventDefault()`, which killed
+     both click and Enter. The count rides in sessionStorage across the
+     self-navigation and expires after 20s, so it rewards a flurry. */
+  var LOGO_KEY = 'phlix-ac-logo-clicks';
+  var LOGO_WINDOW = 20000;
   var logo = document.querySelector('.nav-logo');
+
+  function logoClicks() {
+    var parts = (session.get(LOGO_KEY) || '').split(':');
+    var count = parseInt(parts[0], 10);
+    var at = parseInt(parts[1], 10);
+    if (!count || !at || Date.now() - at > LOGO_WINDOW) return 0;
+    return count;
+  }
+
   if (logo && pageId === 'home') {
-    var logoClicks = 0;
-    var logoTimer = null;
-    logo.addEventListener('click', function (e) {
-      e.preventDefault();
-      logoClicks += 1;
-      window.clearTimeout(logoTimer);
-      logoTimer = window.setTimeout(function () {
-        logoClicks = 0;
-      }, 1800);
-      if (logoClicks >= 5) {
-        logoClicks = 0;
-        if (figure) {
-          figure.classList.add('is-settling', 'is-glowing');
-          window.setTimeout(function () {
-            if (figure) figure.classList.remove('is-settling');
-          }, 900);
-        }
-        say('The work is well-made — keep painting.');
-        window.setTimeout(clearEggs, 4000);
+    if (logoClicks() >= 5) {
+      session.set(LOGO_KEY, '');
+      if (figure) {
+        figure.classList.add('is-settling', 'is-glowing');
+        window.setTimeout(function () {
+          if (figure) figure.classList.remove('is-settling');
+        }, 900);
       }
+      say('The work is well-made — keep painting.', true);
+      window.setTimeout(clearEggs, 4000);
+    }
+
+    logo.addEventListener('click', function () {
+      session.set(LOGO_KEY, logoClicks() + 1 + ':' + Date.now());
+      /* No preventDefault, no return false: the link navigates. */
     });
   }
 
@@ -314,7 +396,10 @@
     if (typed.indexOf('palette') !== -1) {
       typed = '';
       if (figure) figure.classList.add('is-lifted');
-      say('Palette recognizes its own name — you are a true artist. (Esc to set it back down.)');
+      say(
+        'Palette recognizes its own name — you are a true artist. (Esc to set it back down.)',
+        true,
+      );
     }
   });
 
@@ -359,7 +444,6 @@
       },
     },
   ];
-  var SEASON_BANNER = 'The season shifts — Palette has prepared fresh grounds for the canvas.';
 
   function inRange(md, from, to) {
     // A range that wraps the new year (12-01..01-15) is two ranges.
@@ -379,20 +463,16 @@
     return null;
   }
 
+  /* Attribute and tokens only. The banner is authored markup on every page, kept
+     `display: none` by css/theme.css until `data-season` appears — which is also
+     where the declared `motif_assets` mark is attached. Nothing is inserted
+     after first paint, so no landmark appears above `banner`. */
   var season = activeSeason();
   if (season) {
     root.setAttribute('data-season', season.slug);
     Object.keys(season.tokens).forEach(function (token) {
       root.style.setProperty(token, season.tokens[token]);
     });
-    var header = document.querySelector('.site-header');
-    if (header && header.parentNode) {
-      var banner = document.createElement('aside');
-      banner.className = 'seasonal-banner';
-      banner.innerHTML = '<div class="container"><p></p></div>';
-      banner.querySelector('p').textContent = SEASON_BANNER;
-      header.parentNode.insertBefore(banner, header);
-    }
   }
 
   /* ══ 404 — show the address that was asked for, once we can read it ══ */

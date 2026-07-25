@@ -3,37 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plugins — Phlix Observatory</title>
+    <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Extend the observatory with a curated selection of instruments. Each plugin is versioned, indexed, and built to last across decades of viewing."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
     />
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/stardust-observatory/plugins.html"
     />
 
-    <meta property="og:title" content="Plugins — Phlix Observatory" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/stardust-observatory/plugins.html"
+    />
+    <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="Extend the observatory with a curated selection of instruments. Each plugin is versioned, indexed, and built to last across decades of viewing."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/stardust-observatory/img/og.png"
     />
-    <meta
-      property="og:url"
-      content="https://detain.github.io/phlix-website/stardust-observatory/plugins.html"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Plugins — Phlix Observatory" />
+    <meta name="twitter:title" content="Plugins — Phlix" />
     <meta
       name="twitter:description"
-      content="Extend the observatory with a curated selection of instruments. Each plugin is versioned, indexed, and built to last across decades of viewing."
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
     />
     <meta
       name="twitter:image"
@@ -47,23 +51,35 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body data-page="plugins">
     <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="seasonal-banner" id="seasonal-banner" hidden>
+      <p>
+        <img
+          class="seasonal-motif"
+          src="img/seasonal/perseid-meteor-trail.svg"
+          alt=""
+          width="20"
+          height="20"
+        /><span class="seasonal-text"></span>
+      </p>
+    </div>
 
     <header class="site-header" role="banner">
       <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix" width="120" height="40" />
+        <a class="nav-logo" href="./" aria-label="Phlix — Stardust Observatory, home">
+          <img src="img/logo.svg" alt="Phlix" width="132" height="33" />
         </a>
+        <span class="nav-divider" aria-hidden="true"></span>
         <button
           class="nav-toggle"
+          type="button"
           aria-label="Toggle navigation"
           aria-expanded="false"
           aria-controls="nav-menu"
         >
           <svg
-            width="24"
-            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -74,107 +90,141 @@
           </svg>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./">The Observatory</a></li>
+          <li class="nav-primary-item"><a href="features.html">Instruments</a></li>
+          <li><a href="clients.html">Viewing Rooms</a></li>
+          <li class="nav-primary-item"><a href="download.html">Chart Your Course</a></li>
+          <li><a href="hub.html">Distant Observatories</a></li>
+          <li class="nav-muted-item"><a href="about.html">Our Story</a></li>
         </ul>
-        <a href="download.html" class="nav-cta">Download</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1">
       <div class="page-header">
         <div class="container">
+          <p class="page-eyebrow">Shelved in the library — the plugin bench</p>
           <h1>Plugins</h1>
           <p class="page-lead">
-            Extend the observatory with a curated selection of instruments. Each plugin is
-            versioned, indexed, and built to last across decades of viewing.
+            The interchangeable lenses of the observatory. A plugin is a small PHP package with a
+            versioned manifest; the loader finds it, and the lifecycle hooks tell it when to wake.
           </p>
-          <div class="hero-cta">
-            <a href="download.html" class="btn btn-primary btn-large">Begin your watch</a>
-            <a href="docs.html" class="btn btn-secondary btn-large">Read the docs</a>
-          </div>
         </div>
       </div>
 
-      <div class="content-section">
+      <section class="content-section" aria-labelledby="model-heading">
         <div class="container">
-          <h2>Plugin model</h2>
+          <h2 class="section-title" id="model-heading">The plugin model</h2>
           <p>
-            Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in
-            the <code>plugins/</code> directory and the loader picks it up automatically.
+            Every plugin implements <code>LifecycleInterface</code> and ships a manifest that
+            declares its version and capabilities. Drop it into the <code>plugins/</code> directory
+            and the loader picks it up — no core patching, no rebuild.
           </p>
-          <pre class="code-block"><code>// See the reference plugin:
+          <pre
+            class="code-block"
+          ><code># The reference plugin — a metadata provider, start to finish:
 https://github.com/detain/phlix-plugin-example</code></pre>
+        </div>
+      </section>
 
-          <h2>Ecosystem plugins</h2>
+      <section class="content-section" aria-labelledby="eco-heading">
+        <div class="container">
+          <h2 class="section-title" id="eco-heading">Ecosystem plugins</h2>
           <p>
-            The plugin contract makes it easy to add metadata providers, transcode pipelines, or
-            anything else you can imagine.
+            The contract is deliberately small, so most extensions take one of three shapes: a
+            metadata provider that enriches what the scanner found, a transcode helper that changes
+            how a file is prepared, or a notifier that reports what the server just did.
           </p>
-
-          <div class="plugin-grid">
-            <article class="plugin-card">
-              <h3>Aperture Archive</h3>
-              <p>
-                Preserve your most valuable recordings in a redundant, indexed archive tier.
-                Checksummed, versioned, retrievable across decades.
-              </p>
+          <p>
+            The shared interfaces, DTOs and event types those plugins compile against live in
+            <code>phlix-shared</code>, a Composer package of its own.
+          </p>
+          <div class="scholar-shelf">
+            <article class="spine">
+              <div class="spine-body">
+                <h3>phlix-plugin-example</h3>
+                <p>Reference metadata-provider plugin</p>
+                <a
+                  class="link-arrow"
+                  href="https://github.com/detain/phlix-plugin-example"
+                  rel="noopener noreferrer"
+                  >Open the repository <span aria-hidden="true">→</span></a
+                >
+              </div>
             </article>
-            <article class="plugin-card">
-              <h3>Meridian Sync</h3>
-              <p>
-                A SyncPlay enhancement that learns your group's viewing rhythm and pre-buffers the
-                next episode. Because waiting breaks immersion.
-              </p>
-            </article>
-            <article class="plugin-card">
-              <h3>Constellation Metadata</h3>
-              <p>
-                A metadata aggregator that pulls from twelve scientific and cultural databases —
-                giving your collection the depth of a star atlas, not just a film poster.
-              </p>
-            </article>
-            <article class="plugin-card">
-              <h3>Transit Scheduler</h3>
-              <p>
-                Program your Live TV recordings with transit-time precision. The EPG guide becomes a
-                map of the night sky — plan your evening's viewing the way a navigator plans a
-                route.
-              </p>
+            <article class="spine">
+              <div class="spine-body">
+                <h3>phlix-shared</h3>
+                <p>Shared interfaces, DTOs, event types — Composer package</p>
+                <a
+                  class="link-arrow"
+                  href="https://github.com/detain/phlix-shared"
+                  rel="noopener noreferrer"
+                  >Open the repository <span aria-hidden="true">→</span></a
+                >
+              </div>
             </article>
           </div>
+        </div>
+      </section>
 
-          <h2>Write your own</h2>
+      <section class="content-section" aria-labelledby="write-heading">
+        <div class="container">
+          <h2 class="section-title" id="write-heading">Write your own</h2>
           <p>
-            Start from
-            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-              >phlix-plugin-example</a
+            Copy <code>phlix-plugin-example</code>, rename the manifest, implement the lifecycle
+            methods you care about, and drop the folder in. The manifest is versioned, so the loader
+            can tell you plainly when a plugin was written against an older contract.
+          </p>
+          <p>
+            <a
+              class="link-arrow"
+              href="https://github.com/detain/phlix-plugin-example"
+              rel="noopener noreferrer"
+              >Read phlix-plugin-example <span aria-hidden="true">→</span></a
             >
-            for the smallest working starter &mdash; a clean slate ready for your first instrument.
           </p>
         </div>
-      </div>
+      </section>
 
-      <section class="cta-banner">
-        <div class="cta-banner-inner">
-          <h2>Chart new skies</h2>
-          <a href="download.html" class="btn btn-primary btn-large">Begin your watch</a>
+      <hr class="page-turn" />
+
+      <section class="cta-banner" aria-labelledby="cta-heading">
+        <div class="container-narrow">
+          <h2 id="cta-heading">A lens is no use without a telescope.</h2>
+          <p class="section-lead center-block">
+            Raise the server first; the plugin bench is waiting on the other side of the install.
+          </p>
+          <p>
+            <a class="btn btn-primary btn-large" href="download.html">Open Your Dome</a>
+          </p>
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="container">
-        <p class="footer-tagline">Science made beautiful. Stories made infinite.</p>
+        <p class="footer-tagline">Every sky deserves to be mapped.</p>
+
+        <nav class="footer-mirror" aria-label="Observatory map">
+          <ul role="list">
+            <li><a href="./">The Observatory</a></li>
+            <li><a href="features.html">Instruments</a></li>
+            <li><a href="clients.html">Viewing Rooms</a></li>
+            <li><a href="download.html">Chart Your Course</a></li>
+            <li><a href="hub.html">Distant Observatories</a></li>
+            <li><a href="about.html">Our Story</a></li>
+          </ul>
+        </nav>
+        <p class="footer-shelved">
+          Shelved in the library for consultation:
+          <a href="plugins.html">Plugins</a> <span aria-hidden="true">·</span>
+          <a href="docs.html">Docs</a>
+        </p>
+
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
-            <h3>Product</h3>
+            <h2>Product</h2>
             <ul role="list">
               <li><a href="features.html">Features</a></li>
               <li><a href="clients.html">Clients</a></li>
@@ -183,7 +233,7 @@ https://github.com/detain/phlix-plugin-example</code></pre>
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Developers</h3>
+            <h2>Developers</h2>
             <ul role="list">
               <li>
                 <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
@@ -201,14 +251,16 @@ https://github.com/detain/phlix-plugin-example</code></pre>
                 >
               </li>
               <li>
-                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
+                <a
+                  href="https://detain.github.io/phlix-docs/reference/api.html"
+                  rel="noopener noreferrer"
                   >API reference</a
                 >
               </li>
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Project</h3>
+            <h2>Project</h2>
             <ul role="list">
               <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
               <li>
@@ -221,17 +273,33 @@ https://github.com/detain/phlix-plugin-example</code></pre>
               </li>
               <li>
                 <a
-                  href="https://github.com/phlix-website/blob/master/LICENSE"
+                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   rel="noopener noreferrer"
-                  >License (BSD-3)</a
+                  >License (MPL-2.0)</a
                 >
               </li>
             </ul>
           </div>
         </nav>
-        <p class="footer-copy">&copy; 2026 Phlix &mdash; BSD-3-Clause</p>
+
+        <div class="footer-utility">
+          <button type="button" class="intensity-toggle" aria-pressed="false">
+            <span class="toggle-track" aria-hidden="true"></span> Steady Gaze
+          </button>
+          <p class="footer-a11y">
+            Steady Gaze holds the dome still and removes the page-turns and glows. Motion also stops
+            on its own if your system asks for reduced motion.
+          </p>
+        </div>
+
+        <p class="footer-copy">
+          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins
+          and clients are MIT.
+        </p>
       </div>
     </footer>
+
+    <p class="footer-whisper" hidden>You&rsquo;ve mapped the entire observatory. Look up.</p>
 
     <script src="js/main.js" defer></script>
   </body>

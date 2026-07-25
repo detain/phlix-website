@@ -1,0 +1,42 @@
+/* ==========================================================================
+   NOJS.CSS — Abstract Canvas
+   Loaded only from <noscript>, so these rules exist exactly when js/main.js
+   does not. navigation_model.fallback promises a working fallback: without this
+   file the phone menu is a `display: none` panel behind an inert button, and the
+   footer directory is the only way around the site.
+
+   A <noscript> stylesheet rather than an `html.js` class because a class can
+   only be added after the document has parsed — which means a flash of an open
+   menu on every scripted phone load. This costs one request that a scripted
+   visitor never makes.
+   ========================================================================== */
+
+@media (width <= 860px) {
+  /* The hamburger does nothing without script, so it should not be offered. */
+  .nav-toggle {
+    display: none;
+  }
+
+  /* The six labels become a full-width row under the wordmark. Six 48px rows on
+     a sticky header would own the whole viewport, so the header scrolls here. */
+  .site-header {
+    position: static;
+  }
+
+  .site-header > .container {
+    flex-wrap: wrap;
+    padding-bottom: var(--space-2);
+  }
+
+  .nav-primary {
+    flex: 1 0 100%;
+  }
+
+  .nav-menu {
+    position: static;
+    display: flex;
+    padding-block: 0;
+    border-bottom: none;
+    box-shadow: none;
+  }
+}

@@ -1,108 +1,123 @@
 /**
- * Phlix brand kit configuration.
+ * Swiss Modernist — site behaviour.
+ *
+ * Deliberately small. hero_experience.js_budget_kb is 0 (the hero is fully
+ * static), scroll_experience.mode is "continuous" (so there are no scroll
+ * reveals and no smooth-scroll hijack), and the kit has no mascot and no
+ * intensity toggle. That leaves exactly two jobs: the mobile nav toggle, and
+ * the single declared easter egg.
  *
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
-/* ==========================================================================
-   MAIN.JS — Swiss Modernist Brand Kit
-   Vanilla JS, no dependencies, defer-loaded
-   ========================================================================== */
-
 (function () {
   'use strict';
 
-  /* ==========================================================================
-     MOBILE NAV TOGGLE
-     ========================================================================== */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  var navToggle = document.querySelector('.nav-toggle');
-  var navMenu = document.querySelector('.nav-menu');
+  /* ------------------------------------------------------------------------
+     1. MOBILE NAV — navigation_model.fallback
+     The markup is a plain <nav><ul> of links that works with JS disabled;
+     this only adds the small-screen disclosure.
+     ---------------------------------------------------------------------- */
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      var isOpen = navMenu.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  var toggle = document.querySelector('.nav-toggle');
+  var menu = document.querySelector('.nav-menu');
+
+  function closeMenu(refocus) {
+    if (!menu || !toggle) return;
+    menu.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (refocus) toggle.focus();
+  }
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', function () {
+      var open = menu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     document.addEventListener('click', function (e) {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        navMenu.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.focus();
-      }
+      if (!menu.classList.contains('is-open')) return;
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) closeMenu(false);
     });
   }
 
-  /* ==========================================================================
-     REDUCED MOTION
-     ========================================================================== */
+  /* ------------------------------------------------------------------------
+     2. EASTER EGG — easter_eggs[0]: "logo-clicks:7"
+     A 2px Basel Red rule sweeps left to right once, at constant velocity.
+     Rules it obeys (new_site.md §19.8):
+       • inert for anyone who does not find it — the sweep element does not
+         exist in the DOM until the egg fires, so it can never cover a CTA;
+       • never swallows typing: it listens for clicks, not keys;
+       • Esc cancels;
+       • the logo link still navigates. A click is only counted (and its
+         default suppressed) when the link would be a no-op anyway, i.e. when
+         it points at the page you are already on.
+     ---------------------------------------------------------------------- */
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var logo = document.querySelector('.nav-logo');
+  var clicks = 0;
+  var sweep = null;
+  var reward = null;
 
-  function handleReducedMotion() {
-    document.documentElement.classList.toggle('reduced-motion', prefersReducedMotion.matches);
+  function normalise(path) {
+    return path.replace(/index\.html$/, '');
   }
 
-  prefersReducedMotion.addEventListener('change', handleReducedMotion);
-  handleReducedMotion();
-
-  /* ==========================================================================
-     SCROLL REVEALS (IntersectionObserver)
-     ========================================================================== */
-
-  if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card');
-
-    var revealObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px',
-      },
-    );
-
-    revealElements.forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(16px)';
-      el.style.transition = 'opacity 100ms linear, transform 100ms linear';
-      revealObserver.observe(el);
-    });
-
-    document.head.insertAdjacentHTML(
-      'beforeend',
-      '<style>.is-revealed{opacity:1!important;transform:none!important;}</style>',
+  function isSelfLink(el) {
+    var target = new URL(el.getAttribute('href'), window.location.href);
+    return (
+      target.origin === window.location.origin &&
+      normalise(target.pathname) === normalise(window.location.pathname)
     );
   }
 
-  /* ==========================================================================
-     SMOOTH ANCHOR SCROLLING
-     ========================================================================== */
+  function clearEgg() {
+    if (sweep && sweep.parentNode) sweep.parentNode.removeChild(sweep);
+    if (reward && reward.parentNode) reward.parentNode.removeChild(reward);
+    sweep = null;
+    reward = null;
+  }
 
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      var targetId = this.getAttribute('href');
-      if (targetId === '#' || targetId === '#main-content') return;
+  function fireEgg() {
+    clearEgg();
 
-      var target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView();
+    sweep = document.createElement('div');
+    sweep.className = 'egg-sweep';
+
+    reward = document.createElement('p');
+    reward.className = 'egg-reward';
+    reward.setAttribute('role', 'status');
+    reward.textContent = 'Grids on grids.';
+
+    document.body.appendChild(sweep);
+    document.body.appendChild(reward);
+
+    // The sweep completes on its own (~1s). Under reduced motion the rule is
+    // simply drawn, not animated, and is cleared on the same schedule.
+    window.setTimeout(clearEgg, reduceMotion.matches ? 1200 : 1000);
+  }
+
+  if (logo) {
+    logo.addEventListener('click', function (e) {
+      if (!isSelfLink(logo)) {
+        clicks = 0;
+        return; // let the browser navigate home
+      }
+      e.preventDefault(); // this link goes nowhere new; count it instead
+      clicks += 1;
+      if (clicks >= 7) {
+        clicks = 0;
+        fireEgg();
       }
     });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    clicks = 0;
+    clearEgg();
+    if (menu && menu.classList.contains('is-open')) closeMenu(true);
   });
 })();
