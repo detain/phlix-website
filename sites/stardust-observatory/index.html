@@ -82,13 +82,8 @@
           <img src="img/logo.svg" alt="Phlix" width="132" height="33" />
         </a>
         <span class="nav-divider" aria-hidden="true"></span>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
+        <input class="nav-check" id="nav-check" type="checkbox" aria-label="Toggle navigation" />
+        <label class="nav-toggle" for="nav-check">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -98,7 +93,7 @@
           >
             <path d="M3 12h18M3 6h18M3 18h18" />
           </svg>
-        </button>
+        </label>
         <ul class="nav-menu" id="nav-menu" role="list">
           <li><a href="./" aria-current="page">The Observatory</a></li>
           <li class="nav-primary-item"><a href="features.html">Instruments</a></li>
@@ -113,6 +108,10 @@
     <main id="main-content" tabindex="-1">
       <!-- 1 ─ dome-rising · copy_overlay.hero + visitor_paths ─────────────── -->
       <section class="hero" id="dome-rising" aria-labelledby="hero-heading">
+        <!-- The nebula bloom and the star field. They live in their own clipped
+             box so that `.hero` itself — which holds the h1, both CTAs and the
+             visitor-path fork — never clips reflowing text (§19.13). -->
+        <div class="hero-decor" aria-hidden="true"></div>
         <div class="container">
           <div class="hero-grid" id="hero">
             <div class="hero-copy">
@@ -267,7 +266,7 @@
                 Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
                 hydrates metadata_json. Add a file, see it appear.
               </p>
-              <span class="plate-footnote">cast: hero instrument</span>
+              <p class="plate-mark"><span class="badge badge-gold">Principal instrument</span></p>
             </article>
 
             <article class="plate plate-hero reveal" id="syncplay">
@@ -287,7 +286,7 @@
                 Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
                 Play, pause, seek — everyone moves together.
               </p>
-              <span class="plate-footnote">cast: hero instrument</span>
+              <p class="plate-mark"><span class="badge badge-gold">Principal instrument</span></p>
             </article>
           </div>
 
@@ -306,6 +305,9 @@
                 QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28
                 libx264/libx265 with HLS master and variant playlists.
               </p>
+              <p class="plate-mark">
+                <span class="badge badge-brass">Supporting instrument</span>
+              </p>
             </article>
 
             <article class="plate reveal" id="auth">
@@ -320,6 +322,9 @@
               <p>
                 JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user,
                 4- or 6-digit PINs, rating filter from G to NC-17.
+              </p>
+              <p class="plate-mark">
+                <span class="badge badge-brass">Supporting instrument</span>
               </p>
             </article>
 
@@ -336,6 +341,9 @@
               <p>
                 Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
                 hub.
+              </p>
+              <p class="plate-mark">
+                <span class="badge badge-brass">Supporting instrument</span>
               </p>
             </article>
           </div>
@@ -369,8 +377,9 @@
           <div class="pitch-intro">
             <p>
               A rented library is someone else&rsquo;s sky: it changes without warning, and one
-              night the thing you loved is simply gone. Phlix hands the dome back to you — your
-              hardware, your catalogue, your rules about who may look through the eyepiece.
+              night the thing you loved is simply gone. Phlix hands the dome back to you —
+              <strong>your hardware, your catalogue, your rules</strong> about who may look through
+              the eyepiece.
             </p>
             <p class="story-quote">
               &ldquo;What we seek is always older and larger than we imagined.&rdquo;
@@ -411,10 +420,7 @@
             <dl class="placard-specs">
               <div>
                 <dt>Native clients</dt>
-                <dd>
-                  Four — Roku, Samsung Tizen, Windows, Mobile (beta) — plus any DLNA device, which
-                  needs no app at all.
-                </dd>
+                <dd>Four — Roku, Samsung Tizen, Windows, Mobile (beta) — plus any DLNA device.</dd>
               </div>
               <div>
                 <dt>Shared viewing</dt>
@@ -430,13 +436,11 @@
               </div>
               <div>
                 <dt>Where it runs</dt>
-                <dd>Your own hardware: PHP 8.3+ on Workerman 5.x, self-hosted end to end.</dd>
+                <dd>Your own hardware: PHP 8.3+ on Workerman 5.x.</dd>
               </div>
               <div>
                 <dt>Reaching it</dt>
-                <dd>
-                  Reverse-tunnel relay through the Hub — self-host the hub or use the public one.
-                </dd>
+                <dd>Reverse-tunnel relay through the Hub — self-hosted or public.</dd>
               </div>
             </dl>
           </div>
@@ -447,14 +451,13 @@
               so.&rdquo;
             </blockquote>
             <figcaption>
-              The project&rsquo;s first principle, stated in its own words. Read the reasoning in
+              The project&rsquo;s first principle, in its own words — the reasoning is in
               <a href="about.html">Our Story</a>.
             </figcaption>
           </figure>
 
           <p class="section-lead text-center center-block">
-            From the observatory archive — everything above is visible in the source, and the
-            counters are best read live rather than printed here:
+            From the observatory archive. The counters read better live than printed here:
           </p>
           <div class="archive-row">
             <a
@@ -612,8 +615,11 @@ php start.php start</code></pre>
 
     <p class="footer-whisper" hidden>You&rsquo;ve mapped the entire observatory. Look up.</p>
 
-    <!-- mascot.behavior — Meridian appears on Home, Features and Download only -->
-    <div class="meridian">
+    <!-- mascot.behavior — Meridian appears on Home, Features and Download only.
+         `hidden` in the markup, not just in JS: Meridian arrives on the first
+         scroll, tap or keystroke (§19.11), so with scripting off it must not
+         render two focusable buttons that can never do anything. -->
+    <div class="meridian" hidden>
       <div class="meridian-bubble" hidden>
         <p id="meridian-say" role="status" aria-live="polite"></p>
       </div>

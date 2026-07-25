@@ -57,10 +57,10 @@
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <header class="site-header" role="banner">
+    <header class="site-header">
       <nav class="nav-primary" aria-label="Primary navigation">
         <a class="nav-logo" href="./" aria-label="Phlix home">
-          <svg viewBox="0 0 120 34" aria-hidden="true" focusable="false">
+          <svg viewBox="0 0 120 30" aria-hidden="true" focusable="false">
             <text
               x="0"
               y="24"
@@ -72,7 +72,6 @@
             >
               Phlix
             </text>
-            <rect x="0" y="30" width="56" height="4" fill="#E8001C" />
           </svg>
         </a>
         <button
@@ -146,8 +145,8 @@
             <h2 id="contract-h"><span class="section-index">01</span>The contract</h2>
             <div class="content-body">
               <p>
-                LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
-                phlix-plugin-example.
+                <code>LifecycleInterface</code> + manifest schema. Drop a plugin in, the loader
+                picks it up. See phlix-plugin-example.
               </p>
               <p>
                 A plugin is two things: a class implementing
@@ -155,10 +154,16 @@
                 loader reads the manifest, resolves the class, and calls the lifecycle hooks. There
                 is no registry to sign up to and no build step.
               </p>
-              <pre
-                class="code-block"
-              ><code>plugins/my-plugin/plugin.json   # manifest, versioned schema
-plugins/my-plugin/Plugin.php    # implements LifecycleInterface</code></pre>
+              <dl class="spec-table">
+                <div class="spec-row">
+                  <dt>Interface</dt>
+                  <dd><code>LifecycleInterface</code> &mdash; the hooks the loader calls</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>Manifest</dt>
+                  <dd>Declares the schema version the plugin was written against</dd>
+                </div>
+              </dl>
             </div>
           </div>
         </div>
@@ -180,9 +185,9 @@ plugins/my-plugin/Plugin.php    # implements LifecycleInterface</code></pre>
                 rename it, replace the provider.
               </p>
               <p>
-                Metadata providers are the most common plugin shape: Phlix ships with TMDB, TVDB,
-                Fanart.tv and local NFO support and a 24-hour cache, so a new provider slots into an
-                existing pipeline rather than inventing one.
+                The reference plugin is a metadata provider. Phlix already ships TMDB, TVDB,
+                Fanart.tv and local NFO support with a 24-hour cache, so a new provider slots into
+                an existing pipeline rather than inventing one.
               </p>
             </div>
           </div>
@@ -257,7 +262,7 @@ plugins/my-plugin/Plugin.php    # implements LifecycleInterface</code></pre>
       </section>
     </main>
 
-    <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer">
       <div class="container">
         <p class="footer-tagline">Structure is everything.</p>
 

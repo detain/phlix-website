@@ -35,7 +35,16 @@
     }
   }
 
-  var systemCalm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* A media query read once at load never sees the visitor change the setting
+   * (new_site.md §19.20), so every query this file leans on gets a listener.
+   * `addListener` is the pre-2021 Safari spelling. */
+  function listen(mq, fn) {
+    if (typeof mq.addEventListener === 'function') mq.addEventListener('change', fn);
+    else if (typeof mq.addListener === 'function') mq.addListener(fn);
+  }
+
+  var calmMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var systemCalm = calmMq.matches;
 
   function calm() {
     return systemCalm || root.getAttribute('data-intensity') === 'steady';
@@ -63,26 +72,28 @@
     });
   }
 
-  /* ── 1. Topbar (navigation_model.fallback stays the source of truth) ───── */
-  var toggle = document.querySelector('.nav-toggle');
+  /* ── 1. Topbar ─────────────────────────────────────────────────────────── *
+   * The disclosure itself is CSS-only — `.nav-check:checked ~ .nav-menu` — so
+   * `navigation_model.fallback` holds with scripting off. This adds only the two
+   * niceties CSS cannot express: click-outside and Esc-to-close.               */
+  var navCheck = document.getElementById('nav-check');
+  var navLabel = document.querySelector('.nav-toggle');
   var menu = document.querySelector('.nav-menu');
 
-  if (toggle && menu) {
-    var setMenu = function (open) {
-      menu.classList.toggle('is-open', open);
-      toggle.setAttribute('aria-expanded', String(open));
-    };
-    toggle.addEventListener('click', function () {
-      setMenu(!menu.classList.contains('is-open'));
-    });
+  function closeMenu(refocus) {
+    if (!navCheck || !navCheck.checked) return false;
+    navCheck.checked = false;
+    if (refocus) navCheck.focus();
+    return true;
+  }
+
+  if (navCheck && menu) {
     document.addEventListener('click', function (e) {
-      if (
-        menu.classList.contains('is-open') &&
-        !menu.contains(e.target) &&
-        !toggle.contains(e.target)
-      ) {
-        setMenu(false);
-      }
+      if (!navCheck.checked) return;
+      if (e.target === navCheck) return;
+      if (menu.contains(e.target)) return;
+      if (navLabel && navLabel.contains(e.target)) return;
+      closeMenu(false);
     });
   }
 
@@ -102,6 +113,7 @@
       else root.removeAttribute('data-intensity');
       store(STORE_INTENSITY, steady ? 'steady' : null);
       syncIntensity();
+      settleCalm();
     });
   }
 
@@ -138,6 +150,27 @@
       el.classList.add('is-visible');
     });
   }
+
+  /* §19.20 — asking for calm mid-session must remove motion, never content. The
+   * CSS half is already query-gated (both the closed-dome transforms and the
+   * `.reveal` offset live inside `prefers-reduced-motion: no-preference`), so
+   * this only settles the state JS holds: the dome ends open, every reveal ends
+   * in place. Called by the system-setting listener and by Steady Gaze. */
+  function settleCalm() {
+    if (!calm()) return;
+    if (dome) {
+      dome.removeAttribute('data-dome');
+      dome.classList.add('is-open');
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal'), function (el) {
+      el.classList.add('is-visible');
+    });
+  }
+
+  listen(calmMq, function () {
+    systemCalm = calmMq.matches;
+    settleCalm();
+  });
 
   /* ── 5. mascot.behavior — Meridian, the armillary companion ───────────── */
   var meridian = document.querySelector('.meridian');
@@ -181,12 +214,25 @@
       return t.page === page;
     });
     var queue = mine.slice();
+    var spoken = [];
     var armed = false; /* nothing is pushed before the visitor moves */
-    var phone = window.matchMedia('(width <= 600px)').matches;
+
+    /* The phone boundary is 768px (new_site.md §19.14), and it is re-read on
+     * every change rather than latched at load, so rotating a tablet moves the
+     * boundary with the device instead of leaving 601–767px auto-pushed. */
+    var phoneMq = window.matchMedia('(width <= 768px)');
+    var isPhone = function () {
+      return phoneMq.matches;
+    };
 
     var say = function (text) {
-      bubble.textContent = text;
+      /* Unhide BEFORE writing. A `hidden` element is outside the accessibility
+       * tree, so a live-region mutation made while it is hidden is not announced
+       * by most screen readers — the bubble has to exist first, then change. */
       bubbleBox.hidden = false;
+      window.setTimeout(function () {
+        bubble.textContent = text;
+      }, 60);
     };
     var hush = function () {
       bubbleBox.hidden = true;
@@ -195,8 +241,49 @@
     /* A floating companion must never sit on a control that is already on
      * screen (new_site.md §19.11) — at 320px there is no corner free of the
      * hero's buttons at all. So Meridian waits in the wings and arrives once
-     * the visitor starts exploring: first scroll, tap or keystroke. */
+     * the visitor starts exploring: first scroll, tap or keystroke. It is
+     * `hidden` in the markup too, so with JS off there are no dead buttons and
+     * the "arrives on first interaction" accommodation stays true. */
     meridian.hidden = true;
+
+    var offer = function (tip) {
+      if (!tip || spoken.indexOf(tip) !== -1) return;
+      spoken.push(tip);
+      say(tip.say);
+      queue = queue.filter(function (q) {
+        return q !== tip;
+      });
+      window.setTimeout(hush, 9000);
+    };
+
+    /* Which surfaces on this page have a tip, and are they on screen now. */
+    var pending = [];
+    mine.forEach(function (tip) {
+      var target = document.querySelector(tip.sel);
+      if (target) pending.push({ tip: tip, el: target });
+    });
+
+    var onScreen = function (el) {
+      var box = el.getBoundingClientRect();
+      var view = window.innerHeight || document.documentElement.clientHeight;
+      var shown = Math.min(box.bottom, view) - Math.max(box.top, 0);
+      return shown > 0 && shown >= Math.min(box.height, view) * 0.4;
+    };
+
+    /* `home:#hero` is already intersecting when the page loads, so an observer
+     * that unobserved on its first (pre-arrival) callback could never speak it:
+     * IntersectionObserver only reports threshold *crossings*, and #hero never
+     * crosses again. So a target stays observed until it has actually been
+     * spoken, and arrival re-checks whatever is on screen right then. */
+    var recheck = function () {
+      if (!armed || !meridian || isPhone()) return;
+      for (var i = 0; i < pending.length; i += 1) {
+        if (spoken.indexOf(pending[i].tip) === -1 && onScreen(pending[i].el)) {
+          offer(pending[i].tip);
+          return;
+        }
+      }
+    };
 
     var arrive = function () {
       armed = true;
@@ -204,6 +291,7 @@
       window.removeEventListener('scroll', arrive);
       window.removeEventListener('pointerdown', arrive);
       window.removeEventListener('keydown', arrive);
+      recheck();
     };
     window.addEventListener('scroll', arrive, { passive: true });
     window.addEventListener('pointerdown', arrive);
@@ -211,24 +299,32 @@
 
     /* Context-aware tips: desktop offers them as you pass each surface; a
      * phone never gets an unrequested bubble (new_site.md §19.11). */
-    if (!phone) {
-      mine.forEach(function (tip) {
-        var target = document.querySelector(tip.sel);
-        if (!target) return;
-        observe(
-          [target],
-          function () {
-            if (!armed || !meridian) return;
-            say(tip.say);
-            queue = queue.filter(function (q) {
-              return q !== tip;
+    if (pending.length && 'IntersectionObserver' in window) {
+      var tipIo = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            if (!armed || !meridian || isPhone()) return; /* stays observed */
+            var match = null;
+            pending.forEach(function (p) {
+              if (p.el === entry.target) match = p.tip;
             });
-            window.setTimeout(hush, 9000);
-          },
-          { threshold: 0.4 },
-        );
+            if (!match || spoken.indexOf(match) !== -1) return;
+            offer(match);
+            tipIo.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.4 },
+      );
+      pending.forEach(function (p) {
+        tipIo.observe(p.el);
       });
     }
+
+    /* Crossing the 768px boundary mid-session (a rotation, a resized window)
+     * re-evaluates: below it nothing is pushed, above it whatever is on screen
+     * becomes offerable. */
+    listen(phoneMq, recheck);
 
     /* Tap Meridian for the next note — the only tip source on a phone. */
     var clicks = 0;
@@ -299,6 +395,16 @@
     if (logo) logo.classList.remove('is-aligned');
   }
 
+  /* Both eggs that carry a `reward_copy` render it through the same surface. */
+  function rewardNode(text) {
+    var reward = document.createElement('div');
+    reward.className = 'egg-reward';
+    var span = document.createElement('span');
+    span.textContent = text;
+    reward.appendChild(span);
+    return reward;
+  }
+
   if (logo) {
     var logoClicks = 0;
     var logoTimer = null;
@@ -327,11 +433,7 @@
         spark.style.setProperty('--dy', Math.sin(angle) * 160 + 'px');
         eggLayer.appendChild(spark);
       }
-      var reward = document.createElement('div');
-      reward.className = 'egg-reward';
-      reward.innerHTML =
-        '<span>The dome is aligned perfectly. You&rsquo;ve found the zenith.</span>';
-      eggLayer.appendChild(reward);
+      eggLayer.appendChild(rewardNode('The dome is aligned perfectly. You’ve found the zenith.'));
       document.body.appendChild(eggLayer);
       window.setTimeout(clearEgg, 5000);
     });
@@ -348,11 +450,7 @@
         w.classList.remove('egg-word');
       });
       if (meridian) meridian.classList.remove('is-tilted');
-      if (menu && menu.classList.contains('is-open') && toggle) {
-        menu.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.focus();
-      }
+      closeMenu(true);
       return;
     }
 
@@ -370,11 +468,21 @@
       w.classList.add('egg-word');
     });
     if (meridian) meridian.classList.add('is-tilted');
+
+    /* `easter_eggs[1].reward_copy` — the egg used to highlight the word and then
+     * time out silently, so the reward line never reached a visitor. It now
+     * renders in the same `.egg-reward` surface the logo egg uses, and Esc
+     * clears it through `clearEgg()` exactly as the kit's `exit` describes. */
+    clearEgg();
+    eggLayer = rewardNode('Precision words bring precision sight.');
+    document.body.appendChild(eggLayer);
+
     window.setTimeout(function () {
       Array.prototype.forEach.call(words, function (w) {
         w.classList.remove('egg-word');
       });
       if (meridian) meridian.classList.remove('is-tilted');
+      clearEgg();
     }, 4000);
   });
 

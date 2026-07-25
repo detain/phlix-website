@@ -72,13 +72,8 @@
           <img src="img/logo.svg" alt="Phlix" width="132" height="33" />
         </a>
         <span class="nav-divider" aria-hidden="true"></span>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
+        <input class="nav-check" id="nav-check" type="checkbox" aria-label="Toggle navigation" />
+        <label class="nav-toggle" for="nav-check">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -88,7 +83,7 @@
           >
             <path d="M3 12h18M3 6h18M3 18h18" />
           </svg>
-        </button>
+        </label>
         <ul class="nav-menu" id="nav-menu" role="list">
           <li><a href="./">The Observatory</a></li>
           <li class="nav-primary-item"><a href="features.html">Instruments</a></li>
@@ -110,7 +105,7 @@
           <p class="page-lead">
             Three steps to your own observatory: the zenith protocol, the companion instruments you
             will carry, and the archive of references for later. The install is the quiet part where
-            the magic happens — one command, and then you are the astronomer.
+            the magic happens — <strong>one command</strong>, and then you are the astronomer.
           </p>
         </div>
       </div>
@@ -121,7 +116,7 @@
           <div class="expedition">
             <section class="stage" id="server" aria-labelledby="stage-server">
               <p class="stage-kicker">Stage one — the zenith protocol</p>
-              <h2 id="stage-server">Raise the server</h2>
+              <h3 id="stage-server">Raise the server</h3>
               <p>
                 Phlix Server runs on your own hardware: PHP 8.3+ on Workerman 5.x, with FFmpeg doing
                 the transcoding. Clone it, install the dependencies, start it.
@@ -155,14 +150,14 @@ php start.php start</code></pre>
 
             <section class="stage clients" id="clients" aria-labelledby="stage-clients">
               <p class="stage-kicker">Stage two — companion instruments</p>
-              <h2 id="stage-clients">Carry the right eyepieces</h2>
+              <h3 id="stage-clients">Carry the right eyepieces</h3>
               <p>
                 Each client is a separate app with its own source. Take the ones that match the
                 screens you actually watch from; the DLNA path needs nothing at all.
               </p>
               <div class="download-cards">
                 <article class="download-card">
-                  <h3>Roku</h3>
+                  <h4>Roku</h4>
                   <p>
                     Native Roku channel
                     <span class="client-status status-stable">stable</span>
@@ -175,7 +170,7 @@ php start.php start</code></pre>
                   >
                 </article>
                 <article class="download-card">
-                  <h3>Samsung Tizen</h3>
+                  <h4>Samsung Tizen</h4>
                   <p>
                     Smart TV app
                     <span class="client-status status-stable">stable</span>
@@ -188,7 +183,7 @@ php start.php start</code></pre>
                   >
                 </article>
                 <article class="download-card">
-                  <h3>Windows</h3>
+                  <h4>Windows</h4>
                   <p>
                     Native desktop
                     <span class="client-status status-stable">stable</span>
@@ -201,7 +196,7 @@ php start.php start</code></pre>
                   >
                 </article>
                 <article class="download-card">
-                  <h3>Mobile (iOS + Android)</h3>
+                  <h4>Mobile (iOS + Android)</h4>
                   <p>
                     React Native app
                     <span class="client-status status-beta">beta</span>
@@ -214,7 +209,7 @@ php start.php start</code></pre>
                   >
                 </article>
                 <article class="download-card">
-                  <h3>Any DLNA device</h3>
+                  <h4>Any DLNA device</h4>
                   <p>
                     No install required
                     <span class="client-status status-stable">stable</span>
@@ -226,7 +221,7 @@ php start.php start</code></pre>
 
             <section class="stage" id="archive" aria-labelledby="stage-archive">
               <p class="stage-kicker">Stage three — the archive of references</p>
-              <h2 id="stage-archive">Shelve the reference works</h2>
+              <h3 id="stage-archive">Shelve the reference works</h3>
               <p>
                 Five repositories make up the ecosystem. You need the first to watch anything; the
                 rest are there when you want to read, extend, or self-host the relay.
@@ -234,7 +229,7 @@ php start.php start</code></pre>
               <div class="scholar-shelf">
                 <article class="spine">
                   <div class="spine-body">
-                    <h3>phlix-server</h3>
+                    <h4>phlix-server</h4>
                     <p>The media server itself — PHP 8.3+, Workerman 5.x</p>
                     <a
                       class="link-arrow"
@@ -246,7 +241,7 @@ php start.php start</code></pre>
                 </article>
                 <article class="spine">
                   <div class="spine-body">
-                    <h3>phlix-hub</h3>
+                    <h4>phlix-hub</h4>
                     <p>Cloud directory + reverse-tunnel relay</p>
                     <a
                       class="link-arrow"
@@ -258,7 +253,7 @@ php start.php start</code></pre>
                 </article>
                 <article class="spine">
                   <div class="spine-body">
-                    <h3>phlix-shared</h3>
+                    <h4>phlix-shared</h4>
                     <p>Shared interfaces, DTOs, event types — Composer package</p>
                     <a
                       class="link-arrow"
@@ -270,7 +265,7 @@ php start.php start</code></pre>
                 </article>
                 <article class="spine">
                   <div class="spine-body">
-                    <h3>phlix-docs</h3>
+                    <h4>phlix-docs</h4>
                     <p>End-user, developer, and hub-admin docs (VitePress)</p>
                     <a
                       class="link-arrow"
@@ -282,7 +277,7 @@ php start.php start</code></pre>
                 </article>
                 <article class="spine">
                   <div class="spine-body">
-                    <h3>phlix-plugin-example</h3>
+                    <h4>phlix-plugin-example</h4>
                     <p>Reference metadata-provider plugin</p>
                     <a
                       class="link-arrow"
@@ -418,8 +413,11 @@ php start.php start</code></pre>
 
     <p class="footer-whisper" hidden>You&rsquo;ve mapped the entire observatory. Look up.</p>
 
-    <!-- mascot.behavior — Meridian appears on Home, Features and Download only -->
-    <div class="meridian">
+    <!-- mascot.behavior — Meridian appears on Home, Features and Download only.
+         `hidden` in the markup, not just in JS: Meridian arrives on the first
+         scroll, tap or keystroke (§19.11), so with scripting off it must not
+         render two focusable buttons that can never do anything. -->
+    <div class="meridian" hidden>
       <div class="meridian-bubble" hidden>
         <p id="meridian-say" role="status" aria-live="polite"></p>
       </div>

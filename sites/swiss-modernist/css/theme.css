@@ -108,15 +108,40 @@
   background-color: var(--color-surface);
 }
 
-/* Drawn column guides — 1px Module Gray lines on the twelfths. Desktop only:
-   at narrow widths the guides would be noise, not structure. */
+/* Drawn column guides — 1px Module Gray lines on the REAL column edges.
+   This is the archetype's only visible expression, so it must not lie: a
+   gradient painted on the section would be pitched at viewport/12 and coincide
+   with no column edge at all (and at 1920px a third of it would land in the
+   page margins). Instead the guides are twelve empty children laid out by the
+   same `repeat(12, minmax(0, 1fr))` + `--grid-gutter` as the content, inside an
+   overlay inset by the container's own `--page-inline` padding. Guide n is
+   therefore the left edge of column n by construction, at every width.
+   `isolation: isolate` makes `.container` a stacking context so `z-index: -1`
+   puts the guides behind the copy but still above the band's background.
+   Desktop only: at narrow widths the guides would be noise, not structure. */
+.grid-guides {
+  display: none;
+}
+
 @media (width >= 1024px) {
-  .band--guides {
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--color-surface-alt) 0 1px,
-      transparent 1px calc(100% / 12)
-    );
+  .band--guides > .container {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .grid-guides {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: var(--page-inline);
+    z-index: -1;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gutter);
+    pointer-events: none;
+  }
+
+  .grid-guides > span {
+    border-inline-start: var(--border-width) solid var(--color-surface-alt);
   }
 }
 

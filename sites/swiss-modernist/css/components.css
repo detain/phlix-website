@@ -37,9 +37,13 @@
   text-decoration: none;
 }
 
+/* 96 x 24 is the 120 x 30 viewBox at exactly 0.8, so the wordmark is not
+   letterboxed. The viewBox lost 4px of height with the Basel Red underrule,
+   which logo_rules.colors permits only in a full-identity lockup, never in
+   navigation — img/logo.svg and img/og.svg keep it. */
 .nav-logo svg {
   width: 96px;
-  height: 28px;
+  height: 24px;
 }
 
 /* Hamburger: Ink Black, sharp, 48x48 touch target. */
@@ -114,9 +118,19 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* site_architecture.nav emphasis ladder. */
+/* site_architecture.nav emphasis ladder. 600 is the kit's own ui emphasis
+   weight (fonts.ui.weight: [500,600]); 700 is not declared for Inter anywhere
+   in this kit, so the step is 500 → 600 and the rest of the distinction is
+   structural. At small widths that structure is the item's own top border
+   promoted to a 2px Ink Black rule, so the three emphasis levels stay
+   distinguishable before the ≥900px rule-above-label appears. */
 .nav-link.is-primary {
-  font-weight: 700;
+  font-weight: 600;
+}
+
+.nav-item:has(> .nav-link.is-primary) {
+  border-block-start-color: var(--color-border);
+  border-block-start-width: var(--border-width-heavy);
 }
 
 .nav-link.is-muted,
@@ -125,7 +139,7 @@
 }
 
 .nav-link[aria-current='page'] {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .nav-link[aria-current='page'] .nav-index {
@@ -195,8 +209,14 @@
 
 /* The one Basel Red action. The fill is the kit's deeper red (5.51:1 with
    Grid White text) because pure Basel Red is 4.43:1 and cannot carry a
-   small label — see SITE.md → Derived tokens. */
+   small label — see SITE.md → Derived tokens.
+   `min-width` is what makes it actually dominant: "Install" is a short word, so
+   without a reserved measure the longer secondary label produced a bigger block
+   than the primary and the black button won the page. 176px = 22 × the 8px unit,
+   measured wider than the "Read the spec" ghost at 320/375/768/1280, and still
+   fits the 288px measure at 320px. */
 .btn-primary {
+  min-width: 176px;
   background-color: var(--color-primary-deep);
   color: var(--color-bg);
 }
@@ -243,6 +263,10 @@
   color: var(--color-bg);
 }
 
+.btn-ghost .btn-note {
+  color: var(--color-gray-deep);
+}
+
 /* --------------------------------------------------------------------------
    3. MODULES — grid cells that hold a feature
    -------------------------------------------------------------------------- */
@@ -255,10 +279,13 @@
   background-color: var(--color-surface-alt);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
+  transition: box-shadow var(--motion-snap);
 }
 
 /* hover: only the structural red line appears — no lift, no glow. An inset
-   shadow, so nothing reflows. */
+   shadow, so nothing reflows. `microinteractions.hover` specifies "over 80ms
+   linear", which wins over `do_dont.animation.dont` ("animate shadow") for its
+   own concern: the more specific field governs the card hover. */
 .module:hover {
   box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
 }
@@ -369,6 +396,7 @@
   background-color: var(--color-surface-alt);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
+  transition: box-shadow var(--motion-snap);
 }
 
 .feature-detail:hover {
@@ -380,7 +408,7 @@
   border-block-start: var(--border-width-rule) solid var(--color-primary);
 }
 
-.feature-detail h2 {
+.feature-detail h3 {
   font-family: var(--font-headline);
   font-weight: 800;
   font-size: var(--text-xl);
@@ -411,11 +439,28 @@
   }
 
   /* page_blueprints.features asks for a 24px Inter 500 body; honoured at the
-     width where the 12-column grid can carry it. */
+     width where the 12-column grid can carry it. The title steps up with it —
+     a 24px body under a 24px title is not a hierarchy. */
+  .feature-detail h3 {
+    font-size: var(--text-2xl);
+  }
+
   .feature-detail p {
     font-size: var(--text-xl);
     line-height: 1.4;
   }
+}
+
+/* `.module-index` is a <p>, so a bare `.module-index` (0-1-0) loses to
+   `.module p`, `.module--footnote p` and `.feature-detail p` (0-1-1) and its
+   declared 12px never applied anywhere — every feature card rendered
+   label 24px / title 24px / body 24px, making the gray metadata label the
+   loudest thing in the card. Re-asserted at 0-2-0 so the label is a label.
+   Card now reads 12 / 32 / 24 at ≥1024px and 12 / 24 / 18 below it. */
+.module .module-index,
+.feature-detail .module-index {
+  font-size: var(--text-xs);
+  line-height: var(--lh-ui);
 }
 
 /* --------------------------------------------------------------------------
@@ -435,22 +480,26 @@
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
+  transition: box-shadow var(--motion-snap);
 }
 
 .client-card:hover {
   box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
 }
 
-.client-card h3 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-3);
+/* The card head is name + status, each on its own line — never a wrapping flex
+   row. A badge that sometimes wraps and sometimes does not is what staggered
+   the internal rules across the row by 33px. */
+.card-head h3 {
   font-family: var(--font-headline);
   font-weight: 800;
   font-size: var(--text-xl);
   letter-spacing: var(--tracking-headline);
   line-height: 1.1;
+}
+
+.card-head .client-status {
+  margin-block-start: var(--space-2);
 }
 
 .client-tagline {
@@ -459,6 +508,12 @@
   color: var(--color-text);
 }
 
+/* Cards in a row must share one horizontal rule (`composition`: "strong
+   horizontal rule lines anchoring sections"). The head row is therefore
+   RESERVED, not measured: a two-line name plus the badge line is the worst case
+   at span-3 widths, so every `.spec-table` in the row starts on the same
+   baseline. Only from 768px up — at mobile the cards are stacked and there is
+   no row to align to. */
 @media (width >= 768px) {
   .client-cards {
     grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -466,6 +521,9 @@
 
   .client-card {
     grid-column: span 4;
+    display: grid;
+    grid-template-rows: minmax(5.5rem, auto) auto 1fr;
+    align-content: start;
   }
 }
 
@@ -474,14 +532,12 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
+  /* Five cards, four columns wide each: row 2 carries one card and three empty
+     columns. That empty measure IS the Swiss asymmetry — the alternative (the
+     fifth card spanning all 12) left ~1000px of dead width and broke the
+     five-way comparison the grid exists to support. */
   .client-card {
     grid-column: span 3;
-  }
-
-  /* Five cards on a 12-column grid: the fifth takes the remaining measure
-     rather than pretending the row is full. */
-  .client-card:last-child {
-    grid-column: span 12;
   }
 }
 
@@ -577,8 +633,15 @@ pre.code-block code {
   color: var(--color-text);
 }
 
+/* Prose, so Inter — `fonts.mono.usage` reserves JetBrains Mono for "counters,
+   technical readouts, runtimes, durations, file sizes, code… used sparingly",
+   which a two-line sentence is not. The <code> above it stays mono. */
 .code-caption {
   margin-block-start: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+  color: var(--color-gray-deep);
 }
 
 /* copy_treatments.ecosystem: "repo-list" — name, link, description, ruled. */
@@ -637,13 +700,11 @@ pre.code-block code {
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
+  transition: box-shadow var(--motion-snap);
 }
 
-.download-card h3 {
-  font-family: var(--font-headline);
-  font-weight: 800;
+.download-card .card-head h3 {
   font-size: var(--text-lg);
-  letter-spacing: var(--tracking-headline);
   line-height: 1.15;
 }
 
@@ -656,6 +717,8 @@ pre.code-block code {
   box-shadow: inset var(--border-width-heavy) 0 0 var(--color-primary);
 }
 
+/* Same reserved head row as the client cards, and a bottom-anchored action so
+   the five buttons sit on one line rather than wherever the copy leaves them. */
 @media (width >= 768px) {
   .download-cards {
     grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -663,6 +726,11 @@ pre.code-block code {
 
   .download-card {
     grid-column: span 4;
+    display: grid;
+    grid-template-rows: minmax(4.5rem, auto) 1fr auto;
+    row-gap: var(--space-3);
+    justify-items: start;
+    align-content: start;
   }
 }
 
@@ -671,12 +739,10 @@ pre.code-block code {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
+  /* Five span-3 cards; row 2 is one card and three empty columns. See the note
+     on `.client-card` — the fifth card no longer spans 12. */
   .download-card {
     grid-column: span 3;
-  }
-
-  .download-card:last-child {
-    grid-column: span 12;
   }
 }
 
@@ -766,7 +832,6 @@ pre.code-block code {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--lh-mono);
-  overflow-wrap: anywhere;
 }
 
 @media (width >= 768px) {
@@ -967,6 +1032,13 @@ pre.code-block code {
   animation: egg-sweep 1000ms linear 1 forwards;
 }
 
+/* The reward is a live region that exists from page load (a region appended
+   with its text already set is not reliably announced), so it must be invisible
+   until it has something to say. */
+.egg-reward:empty {
+  display: none;
+}
+
 .egg-reward {
   position: fixed;
   inset-block-start: var(--border-width-heavy);
@@ -1008,7 +1080,7 @@ pre.code-block code {
     display: none;
   }
 
-  .band--guides {
-    background-image: none;
+  .grid-guides {
+    display: none;
   }
 }

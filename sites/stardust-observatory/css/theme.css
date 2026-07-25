@@ -171,14 +171,26 @@
 }
 
 /* ── 1. #dome-rising — hero (hero_experience: guided-reveal) ─────────────── */
+/* No `overflow: hidden` here: this box holds the h1, both CTAs and the
+ * visitor-path fork, and clipping a container whose text must reflow is exactly
+ * what new_site.md §19.13 forbids (it also hides the overflow from a
+ * scrollWidth-based check). The nebula bloom and the star field live in
+ * `.hero-decor` below, which is the only thing that clips. */
 .hero {
   position: relative;
-  overflow: hidden;
   background: var(--gradient-celestial-zenith);
   padding-block: var(--space-16) var(--space-12);
 }
 
-.hero::before {
+/* The decorative wrapper — clip decoration, not content. */
+.hero-decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-decor::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -187,7 +199,7 @@
   pointer-events: none;
 }
 
-.hero::after {
+.hero-decor::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -628,7 +640,10 @@
   background: var(--gradient-star-atlas-horizon);
 }
 
-.page-header .page-eyebrow {
+/* Un-scoped on purpose: the 404's copy column is a `.misaligned > div`, not a
+ * `.page-header`, and a `.page-header`-scoped rule left its eyebrow rendering as
+ * plain body copy — indistinguishable from the `.page-lead` beneath it. */
+.page-eyebrow {
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 500;
@@ -775,7 +790,13 @@
   display: none;
 }
 
-.stage h2 {
+/* The expedition is three descending levels, not two (§19.16): the `.sr-only`
+ * "The three stages" label is the h2, each stage title is an h3, and the cards
+ * and spines nested inside a stage are h4. Demoting the stage alone would have
+ * put it level with its own children; demoting both levels together is what
+ * actually removes the contradiction. Sizes are unchanged at every level, so a
+ * stage title still reads as a stage title. */
+.stage h3 {
   font-family: var(--font-headline);
   font-size: clamp(1.25rem, 2.8vw, 1.625rem);
   margin-block-end: var(--space-3);
@@ -828,7 +849,10 @@
   border-radius: var(--radius-sm) 0 0 var(--radius-sm);
 }
 
-.spine-body h3 {
+/* A spine is an h3 on docs.html and plugins.html, where the shelf sits directly
+ * under the section's own h2, but an h4 inside a `.stage` on download.html. Both
+ * levels get the same treatment — the shelf looks identical either way. */
+.spine-body :is(h3, h4) {
   font-family: var(--font-headline);
   font-size: 1rem;
   margin-block-end: var(--space-1);
@@ -838,6 +862,100 @@
   font-family: var(--font-body);
   font-size: 0.875rem;
   margin-block-end: var(--space-2);
+}
+
+/* ── hub.html — the sight line (the relay drawn as three signal stations) ── *
+ * Distinct on purpose from download's vertical `.expedition` stages and home's
+ * `.cta-ladder`: this reads left to right along a dashed meridian rail, each
+ * station a brass aperture node, because the thing being described is a path a
+ * signal travels rather than a sequence of things the visitor does.            */
+.signal-path {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-8);
+  margin-block-start: var(--space-8);
+  counter-reset: station;
+}
+
+.signal-path > li {
+  counter-increment: station;
+  position: relative;
+}
+
+.station-node {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: var(--space-4);
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.station-node svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+/* The dashed rail between nodes: horizontal while the stations sit side by side,
+ * vertical once they stack. */
+.signal-path > li::after {
+  content: '';
+  position: absolute;
+  top: 28px;
+  inset-inline-start: 68px;
+  inset-inline-end: calc(-1 * var(--space-8));
+  border-top: 1px dashed var(--color-border);
+}
+
+.signal-path > li:last-child::after {
+  display: none;
+}
+
+.station-coord {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-block-end: var(--space-2);
+}
+
+.station-coord::before {
+  content: 'Station ' counter(station, upper-roman) ' · ';
+  color: var(--color-primary);
+}
+
+.signal-path h3 {
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  margin-block-end: var(--space-2);
+}
+
+.signal-path p:not(.station-coord) {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+@media (width <= 768px) {
+  .signal-path > li::after {
+    top: 68px;
+    bottom: calc(-1 * var(--space-8));
+    inset-inline: 27px auto;
+    border-top: 0;
+    border-inline-start: 1px dashed var(--color-border);
+  }
 }
 
 /* ── docs.html — the shelved reference desk ─────────────────────────────── */
@@ -871,6 +989,140 @@
   color: var(--color-primary);
 }
 
+/* The reading index — an atlas table of contents with brass dot leaders. It is
+ * deliberately NOT a link list: the three readings `content.json` names are
+ * chapters inside the one published guide, and inventing a URL for each of them
+ * would be worse than telling the visitor where they sit (§19.7). */
+.desk-index {
+  margin-block-start: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.desk-entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-3);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* The dot leader is a flex item of the row itself, ordered between the term and
+ * its location, so the markup stays a valid `<dl>`: one `<dt>` and two `<dd>`
+ * per wrapper, nothing else. */
+.desk-entry::before {
+  content: '';
+  order: 2;
+  flex: 1 1 var(--space-8);
+  align-self: end;
+  height: 0.55em;
+  margin-block-end: 0.2em;
+  border-bottom: 1px dotted var(--color-border);
+}
+
+.desk-entry dt {
+  order: 1;
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.desk-entry .desk-where {
+  order: 3;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.desk-entry .desk-note {
+  order: 4;
+  flex: 1 0 100%;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  margin: var(--space-2) 0 0;
+}
+
+/* ── plugins.html — the lens bench ──────────────────────────────────────── *
+ * The kit calls plugins "the interchangeable lenses of the observatory", so the
+ * three shapes the contract admits are drawn as three ground lenses seated on a
+ * brass rail — domed at the top where the glass is, square where it sits in the
+ * bench. Nothing else on the site has this silhouette.                         */
+.lens-bench {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-6);
+  margin-block-start: var(--space-8);
+  padding-block-end: var(--space-6);
+  border-bottom: 3px solid transparent;
+  border-image: var(--gradient-brass-shimmer) 1;
+}
+
+.lens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 46% 46% var(--radius-md) var(--radius-md) / 22% 22% var(--radius-md)
+    var(--radius-md);
+  transition:
+    border-color var(--duration-base) var(--ease-default),
+    box-shadow var(--duration-base) var(--ease-default);
+}
+
+.lens:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.lens-glass {
+  width: 72px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: var(--space-4);
+  color: var(--color-primary);
+}
+
+.lens-glass svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.lens h3 {
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  margin-block-end: var(--space-2);
+}
+
+.lens p {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  max-width: 34ch;
+}
+
+.lens .lens-grind {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-block-start: var(--space-3);
+}
+
 /* ── about.html — page_blueprints.about: scholar-study ──────────────────── */
 /* minmax(0, 1fr) rather than the implicit auto column: an auto column is floored
  * at its content's min-content width, which at 200% text zoom on a 320px screen
@@ -888,6 +1140,16 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   position: relative;
+}
+
+/* h3, for the same reason as `.stage h3`: the rooms are the members of the group
+ * the `.sr-only` "The study" label introduces. No headings nest inside a room, so
+ * this level is the last one. Kept at the old h2 size — the walk through the
+ * study reads exactly as before. */
+.study-room h3 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.375rem, 3vw, 1.875rem);
+  margin-block-end: var(--space-4);
 }
 
 .study-room .room-label {
@@ -998,6 +1260,10 @@
   padding: var(--space-6);
   overflow-x: auto;
   margin-block: var(--space-4);
+  /* A shell command is never centred. `.cta-banner { text-align: center }`
+   * cascades into the nested <pre> on the home page's conversion band, which
+   * centred the four-line install command line by line. */
+  text-align: start;
 }
 
 .code-block code {

@@ -99,12 +99,21 @@ states, ordinary borders, or decoration.
 | headline | Inter            | 800     | `h3` card/module titles, feature titles, repo names                              |
 | display  | Barlow Condensed | 900     | Section indices (`01`–`08`, `404`) and proof numerals                            |
 | body     | Inter            | 400     | All body copy, leads, feature bodies, FAQ answers                                |
-| ui       | Inter            | 500/600 | Nav labels, buttons, uppercase category labels                                   |
+| ui       | Inter            | 500/600 | Nav labels, buttons, uppercase category labels, `strong`/`b`                     |
 | mono     | JetBrains Mono   | 400/500 | Nav indices, spec-row indices, readouts, man-page labels, code, footer copyright |
 
 Self-hosted WOFF2 only, from the shared pool (`../../assets/fonts/…`), `font-display: swap`.
 Nine faces: Inter 400/500/600/800/900, Barlow Condensed 800/900, JetBrains Mono 400/500.
-The pool has no Inter 700, so `strong`/`b` resolve to the 600 face.
+
+**Inter 700 is deliberately not shipped.** The kit declares Inter as headline [800,900], body
+[400,500] and ui [500,600] — the family's declared union is 400/500/600/800/900, and 700
+appears in no role. An `inter-700-latin.woff2` does exist in the shared pool (it was backfilled
+for every prose family), but presence in the pool is not permission to use it, so the generated
+`@font-face` block for it is removed — as is `jetbrains-mono-700`, undeclared for the same
+reason (mono is [400,500]). `strong`/`b` therefore weigh **600**: declared for the `ui` role, in
+the pool, and a 200-unit step up from the 400 body weight. The nav's two emphasis rules
+(`is-primary`, `aria-current="page"`) use 600 for the same reason, with the rest of the emphasis
+ladder carried structurally by a 2px Ink Black rule rather than by weight alone.
 
 Rules enforced: no headline below weight 800; body always left-aligned (never justified);
 uppercase only for category labels and the nav; line-height 1.6 for body.

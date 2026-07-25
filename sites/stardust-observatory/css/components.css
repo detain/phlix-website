@@ -84,6 +84,27 @@
   box-shadow: 0 0 6px rgb(201, 168, 76, 0.7);
 }
 
+/* ── The mobile disclosure is CSS-only ─────────────────────────────────────── *
+ * `navigation_model.fallback` promises the topbar "IS the standard accessible
+ * nav … collapsing to a labeled hamburger menu on mobile". A hamburger whose
+ * only opener is a JS class is not a fallback: with scripting off the nav below
+ * 900px was unreachable. So the opener is a real focusable checkbox with the
+ * accessible name on it, the <label> is the visible brass square, and
+ * `:checked ~ .nav-menu` does the disclosure with no script at all. main.js only
+ * adds the niceties: click-outside and Esc-to-close.                            */
+.nav-check {
+  /* focusable but invisible — never display:none / visibility:hidden, or the
+   * keyboard cannot reach the menu at all */
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .nav-toggle {
   display: none;
   width: 44px;
@@ -94,6 +115,7 @@
   border: 1px solid var(--color-border-interactive);
   border-radius: var(--radius-sm);
   color: var(--color-text);
+  cursor: pointer;
 }
 
 .nav-toggle:hover {
@@ -101,9 +123,28 @@
   color: var(--color-primary);
 }
 
+/* The checkbox is the focus target; the label is what a sighted visitor sees. */
+.nav-check:focus-visible + .nav-toggle {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.nav-check:checked + .nav-toggle {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
 .nav-toggle svg {
   width: 20px;
   height: 20px;
+}
+
+/* Above the breakpoint the menu is always open, so the opener must not be a
+ * tab stop with no visible focus ring. */
+@media (width >= 901px) {
+  .nav-check {
+    display: none;
+  }
 }
 
 .nav-menu {
@@ -172,7 +213,7 @@
     display: none;
   }
 
-  .nav-menu.is-open {
+  .nav-check:checked ~ .nav-menu {
     display: flex;
     flex: 1 0 100%;
     flex-direction: column;
@@ -527,16 +568,16 @@
   stroke-width: 2;
 }
 
-.plate h3,
-.plate h2 {
+/* h3 only: a plate is always a member of the section that introduces the
+ * gallery, never a peer of it. */
+.plate h3 {
   font-family: var(--font-headline);
   font-size: 1.125rem;
   font-weight: 700;
   margin-block-end: var(--space-3);
 }
 
-.plate-hero h3,
-.plate-hero h2 {
+.plate-hero h3 {
   font-size: clamp(1.25rem, 2.6vw, 1.5rem);
 }
 
@@ -555,13 +596,14 @@
   margin-block-end: var(--space-4);
 }
 
-.plate-footnote {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-neutral);
+/* Every plate carries its classification mark — the visitor-facing replacement
+ * for the internal `feature_casting` vocabulary that used to print here as
+ * "cast: hero instrument". The mark is a `.badge`, which is where the kit's
+ * `badges.colors` mapping finally lands: gold for the principal instruments,
+ * brass for the three that keep the dome turning, violet for the deep-sky work.
+ * All three sit on `.plate`'s `--color-surface`, where they measure 6.90:1,
+ * 4.54:1 and 5.28:1. */
+.plate-mark {
   margin-block-start: var(--space-4);
 }
 
@@ -614,7 +656,8 @@
   margin-block-end: var(--space-2);
 }
 
-.client-card h2 {
+/* h3: each chamber is a member of the group introduced by "Choose a room". */
+.client-card h3 {
   font-family: var(--font-headline);
   font-size: 1.25rem;
   font-weight: 700;
@@ -664,7 +707,9 @@
   box-shadow: var(--shadow-glow-gold);
 }
 
-.download-card h3 {
+/* h4: a download card lives inside a `.stage`, whose title is an h3 (§19.16).
+ * Size is unchanged from when it was an h3. */
+.download-card h4 {
   font-family: var(--font-headline);
   font-size: 1.0625rem;
   margin-block-end: var(--space-2);
@@ -727,8 +772,10 @@
 
 /* ── Meridian, the companion (mascot.behavior) ─────────────────────────── *
  * Home, Features and Download only — never on Docs or the FAQ, per the kit.
- * Bottom-right ≥601px; bottom-left below that. Tips are never pushed
- * unprompted on a phone (new_site.md §19.11) — tap Meridian for one.        */
+ * Bottom-right above 768px; bottom-left at or below it. 768px is the §19.14
+ * phone boundary, and it is the same number js/main.js uses, re-read on every
+ * `change` so a rotation moves the boundary with the device. Tips are never
+ * pushed unprompted on a phone (§19.11) — tap Meridian for one.             */
 .meridian {
   position: fixed;
   inset-block-end: var(--space-4);
@@ -860,7 +907,7 @@
   display: none;
 }
 
-@media (width <= 600px) {
+@media (width <= 768px) {
   .meridian {
     inset-inline: var(--space-4) auto;
     align-items: flex-start;
@@ -942,14 +989,18 @@
   text-shadow: 0 0 12px rgb(201, 168, 76, 0.7);
 }
 
-/* scroll-past-footer whisper */
+/* scroll-past-footer whisper — faint, but never illegible.
+ * It was 18px IM Fell at rgb(168 180 192 / 0.65), which composites to #727E8C on
+ * navy = 4.21:1 — a §12 AA failure at that size, and 18px also breaks the kit's
+ * own typography Don't ("Set IM Fell English below 20px"). Now 20px on a solid
+ * 85% Stardust-Silver mix: 6.30:1, still visibly a whisper. */
 .footer-whisper {
   padding: var(--space-12) var(--space-6) var(--space-16);
   background: var(--color-bg);
   text-align: center;
   font-family: var(--font-display);
-  font-size: 1.125rem;
-  color: rgb(168, 180, 192, 0.65);
+  font-size: 1.25rem;
+  color: var(--color-silver-faint);
   margin: 0;
 }
 

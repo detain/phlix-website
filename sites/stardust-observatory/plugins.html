@@ -72,13 +72,8 @@
           <img src="img/logo.svg" alt="Phlix" width="132" height="33" />
         </a>
         <span class="nav-divider" aria-hidden="true"></span>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
+        <input class="nav-check" id="nav-check" type="checkbox" aria-label="Toggle navigation" />
+        <label class="nav-toggle" for="nav-check">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -88,7 +83,7 @@
           >
             <path d="M3 12h18M3 6h18M3 18h18" />
           </svg>
-        </button>
+        </label>
         <ul class="nav-menu" id="nav-menu" role="list">
           <li><a href="./">The Observatory</a></li>
           <li class="nav-primary-item"><a href="features.html">Instruments</a></li>
@@ -131,10 +126,53 @@ https://github.com/detain/phlix-plugin-example</code></pre>
         <div class="container">
           <h2 class="section-title" id="eco-heading">Ecosystem plugins</h2>
           <p>
-            The contract is deliberately small, so most extensions take one of three shapes: a
-            metadata provider that enriches what the scanner found, a transcode helper that changes
-            how a file is prepared, or a notifier that reports what the server just did.
+            The contract is deliberately small, so most extensions take one of three shapes. The kit
+            calls a plugin an interchangeable lens; here are the three grinds that sit on the bench.
           </p>
+
+          <!-- No `page_blueprints` entry covers this page, so the motif is the
+               site's own: three ground lenses seated on a brass rail — domed
+               where the glass is, square where it beds into the bench. -->
+          <div class="lens-bench">
+            <article class="lens">
+              <span class="lens-glass" aria-hidden="true">
+                <svg viewBox="0 0 72 44">
+                  <path d="M36 4c9 0 16 8 16 18s-7 18-16 18-16-8-16-18S27 4 36 4z" />
+                  <path d="M8 22h12M52 22h12" opacity="0.6" />
+                  <path d="M30 14c-2.4 2.4-3.4 5-3.4 8" opacity="0.7" />
+                </svg>
+              </span>
+              <h3>Metadata provider</h3>
+              <p>Enriches what the scanner already found — the reference plugin is one of these.</p>
+              <span class="lens-grind">phlix-plugin-example</span>
+            </article>
+            <article class="lens">
+              <span class="lens-glass" aria-hidden="true">
+                <svg viewBox="0 0 72 44">
+                  <path d="M24 6c10 4 10 28 0 32" />
+                  <path d="M48 6c-10 4-10 28 0 32" />
+                  <path d="M8 22h14M50 22h14" opacity="0.6" />
+                </svg>
+              </span>
+              <h3>Transcode helper</h3>
+              <p>Changes how a file is prepared before it reaches the eyepiece.</p>
+              <span class="lens-grind">ffmpeg-side</span>
+            </article>
+            <article class="lens">
+              <span class="lens-glass" aria-hidden="true">
+                <svg viewBox="0 0 72 44">
+                  <path d="M36 8a14 14 0 0 1 0 28 14 14 0 0 1 0-28z" />
+                  <path d="M36 15v10M36 29h0.01" />
+                  <path d="M56 12a16 16 0 0 1 0 20" opacity="0.6" />
+                  <path d="M16 12a16 16 0 0 0 0 20" opacity="0.6" />
+                </svg>
+              </span>
+              <h3>Notifier</h3>
+              <p>Reports what the server just did, outward to wherever you are listening.</p>
+              <span class="lens-grind">event-side</span>
+            </article>
+          </div>
+
           <p>
             The shared interfaces, DTOs and event types those plugins compile against live in
             <code>phlix-shared</code>, a Composer package of its own.

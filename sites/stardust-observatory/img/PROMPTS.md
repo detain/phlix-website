@@ -56,7 +56,7 @@ grungy, gritty texture, chrome gloss, futuristic HUD, pixel art, low-poly
 
 ## Feature Icons (inline SVG)
 
-For each of the 7 features, use this template:
+For each of the 8 features, use this template:
 
 **Template:** `{image_prompt_prefix} {icon_subject} {image_prompt_suffix}`
 
