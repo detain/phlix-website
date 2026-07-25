@@ -67,25 +67,25 @@
     });
   }
 
-  /* Two different questions, deliberately NOT one helper (new_site.md §19.20).
+  /* Two different questions, and they must never become one (new_site.md §19.20).
    *
-   *   calm()      the visitor asked this site to quiet down. intensity_toggle
-   *               .affects lists `easter_eggs`, so this one MAY remove features.
-   *   noMotion()  the OS asked for less animation. This one may ONLY remove
-   *               movement — never content, a reward, or a feature.
+   *   calm()   the visitor asked this site to quiet down. intensity_toggle
+   *            .affects lists `easter_eggs`, so this one MAY remove features.
+   *   motion   the OS asked for less animation. This may ONLY remove movement —
+   *            never content, a reward, or a feature.
    *
    * Conflating them is what silently deleted both easter eggs for every
-   * reduced-motion visitor. The query is read live on each call, so a visitor
-   * who changes the setting mid-visit is honoured without a reload.
+   * reduced-motion visitor.
+   *
+   * There is deliberately no `noMotion()` helper: every motion decision now lives
+   * in CSS behind `@media (prefers-reduced-motion: no-preference)`, so animation
+   * is opt-in where it is declared and JS cannot accidentally gate a *feature* on
+   * a *motion* preference. That also honours a visitor who changes the setting
+   * mid-visit with no listener and no reload. If you ever need the query here,
+   * gate only a transform or a duration with it.
    */
-  var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
   function calm() {
     return root.getAttribute('data-intensity') === 'calm';
-  }
-
-  function noMotion() {
-    return motionQuery.matches;
   }
 
   /* ======================================================================
