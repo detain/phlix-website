@@ -19,7 +19,7 @@
 //
 // Exit 1 on any FAIL.
 
-import { cpSync, existsSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -58,7 +58,11 @@ if (existsSync(join(SHARED, 'assets'))) {
 }
 const renderDir = join(stage, slug);
 
-const PAGES = [
+// Every HTML page in the kit, canonical order first then anything else. A
+// hardcoded list left `site_architecture.extra_pages` completely ungated — 16
+// kits declare one, and `cottagecore-bloom`'s `seasons.html` had to be probed by
+// hand because the tool skipped it.
+const CANONICAL_ORDER = [
   'index.html',
   'features.html',
   'clients.html',
@@ -68,7 +72,14 @@ const PAGES = [
   'hub.html',
   'about.html',
   '404.html',
-].filter((p) => existsSync(join(renderDir, p)));
+];
+const PAGES = readdirSync(renderDir)
+  .filter((f) => f.endsWith('.html'))
+  .sort((a, b) => {
+    const ia = CANONICAL_ORDER.indexOf(a);
+    const ib = CANONICAL_ORDER.indexOf(b);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib) || a.localeCompare(b);
+  });
 
 // 320x640 alone is not enough: the pilot's mascot/CTA overlap changed with
 // viewport HEIGHT (a bottom-pinned floater moves, the hero CTA does not), so a
@@ -303,7 +314,17 @@ try {
         }
 
         // 4. Text the same colour as what is directly behind it.
-        const parseRgb = (s) => (s.match(/\d+(\.\d+)?/g) || []).slice(0, 3).map(Number);
+        //
+        // Alpha must be composited, not discarded. Reading only the first three
+        // numbers treats `rgba(255,255,255,0.06)` as opaque white, which both
+        // invents failures on legitimately translucent surfaces and hides real
+        // ones where a faint overlay is doing the work.
+        const parseRgba = (s) => {
+          const n = (s.match(/[\d.]+/g) || []).map(Number);
+          if (n.length < 3) return null;
+          return { rgb: n.slice(0, 3), a: n.length > 3 ? n[3] : 1 };
+        };
+        const over = (fg, bg) => fg.rgb.map((c, i) => c * fg.a + bg.rgb[i] * (1 - fg.a));
         const lum = ([r, g, b]) => {
           const f = [r, g, b]
             .map((v) => v / 255)
@@ -318,18 +339,23 @@ try {
           // -webkit-background-clip:text intentionally makes the fill
           // transparent; that is a technique, not a defect.
           if (cs.webkitTextFillColor === 'rgba(0, 0, 0, 0)') continue;
-          let bg = 'rgba(0, 0, 0, 0)';
+          // Composite the whole ancestor stack onto white, so a translucent
+          // overlay contributes its real share instead of being read as opaque
+          // or skipped entirely.
+          const layers = [];
           for (let n = el; n && n !== document.documentElement; n = n.parentElement) {
-            const c = getComputedStyle(n).backgroundColor;
-            if (c && !c.includes('rgba(0, 0, 0, 0)')) {
-              bg = c;
-              break;
-            }
+            const c = parseRgba(getComputedStyle(n).backgroundColor);
+            if (c && c.a > 0) layers.push(c);
           }
-          const fc = parseRgb(cs.color);
-          const bc = parseRgb(bg);
-          if (fc.length === 3 && bc.length === 3) {
-            const [hi, lo] = [lum(fc), lum(bc)].sort((a, b) => b - a);
+          const rootBg = parseRgba(getComputedStyle(document.documentElement).backgroundColor);
+          let bgRgb = rootBg && rootBg.a > 0 ? rootBg.rgb : [255, 255, 255];
+          for (const layer of layers.reverse()) bgRgb = over(layer, { rgb: bgRgb, a: 1 });
+
+          const fg = parseRgba(cs.color);
+          if (fg) {
+            // Text alpha composites against the background it sits on.
+            const fgRgb = over(fg, { rgb: bgRgb, a: 1 });
+            const [hi, lo] = [lum(fgRgb), lum(bgRgb)].sort((a, b) => b - a);
             const ratio = (hi + 0.05) / (lo + 0.05);
             if (ratio < 1.6) {
               out.invisibleText.push({ text: txt.slice(0, 40), ratio: ratio.toFixed(2) });

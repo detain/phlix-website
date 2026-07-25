@@ -120,6 +120,13 @@ function checkSite(slug) {
     for (const m of txt.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)) {
       const ref = m[1];
       if (/^(https?:)?\/\//.test(ref) || ref.startsWith('data:')) continue;
+      // A same-document fragment reference — `url(#noise)`, or `url(%23noise)`
+      // when it appears inside an encoded `data:image/svg+xml,…` payload — points
+      // at an SVG <filter>/<gradient> id, not at a file. Trying to resolve it on
+      // disk is a guaranteed false failure, and it fired on 11 sites' noise
+      // textures. (These are matched because the scan walks every `url(...)` in
+      // the file, including ones nested inside a data URI.)
+      if (ref.startsWith('#') || /^%23/i.test(ref)) continue;
       const clean = ref.split(/[?#]/)[0];
       // Font URLs are written for the BUILT layout: build.mjs copies
       // shared/assets → dist/assets, so `../../assets/…` from

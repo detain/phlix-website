@@ -797,3 +797,29 @@ table.
 | `stardust-observatory` | 4.8:1   | **7.61:1** (understated — so the error runs both ways) |
 
 Five for five. Treat every kit's contrast prose as unverified.
+
+### 19.15 `.visually-hidden` needs `overflow: hidden`, or it silently overflows
+
+A `clip-path`-only visually-hidden utility still **contributes its full width to
+layout**. `clip-path` affects painting, not the box. One kit measured a
+skip-link/screen-reader-text utility adding **~520px to `document.scrollWidth`**
+at 200% text zoom — a horizontal-overflow failure whose cause is invisible in the
+markup, because the offending text is not on screen.
+
+The pattern must clip the box as well as the paint:
+
+```css
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden; /* required — clip-path alone does NOT stop it */
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+If `render-check` reports overflow you cannot find on screen, suspect this first.
