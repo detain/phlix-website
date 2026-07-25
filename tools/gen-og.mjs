@@ -69,9 +69,13 @@ if (!HAVE_RSVG) {
 /** Rasterise one sanitised SVG to an exactly OG_WIDTH x OG_HEIGHT PNG. */
 function rasterize(srcPath, outPath) {
   if (HAVE_RSVG) {
-    execFileSync('rsvg-convert', ['-w', String(OG_WIDTH), '-h', String(OG_HEIGHT), '-o', outPath, srcPath], {
-      stdio: ['ignore', 'ignore', 'pipe'],
-    });
+    execFileSync(
+      'rsvg-convert',
+      ['-w', String(OG_WIDTH), '-h', String(OG_HEIGHT), '-o', outPath, srcPath],
+      {
+        stdio: ['ignore', 'ignore', 'pipe'],
+      },
+    );
     return;
   }
   // -background none keeps transparency where the SVG omits a fill; the brand
@@ -80,11 +84,15 @@ function rasterize(srcPath, outPath) {
   execFileSync(
     'convert',
     [
-      '-background', 'none',
-      '-density', '192',
+      '-background',
+      'none',
+      '-density',
+      '192',
       srcPath,
-      '-resize', `${OG_WIDTH}x${OG_HEIGHT}`,
-      '-extent', `${OG_WIDTH}x${OG_HEIGHT}`,
+      '-resize',
+      `${OG_WIDTH}x${OG_HEIGHT}`,
+      '-extent',
+      `${OG_WIDTH}x${OG_HEIGHT}`,
       '-strip',
       outPath,
     ],
@@ -92,9 +100,24 @@ function rasterize(srcPath, outPath) {
   );
 }
 
-const svgs = globSync('*/img/og.svg', { cwd: SITES }).sort();
+// `--site <slug>` scopes the batch to one kit, so a regen agent can rasterise
+// its own og.svg without writing into the other 49 sites' directories.
+const siteFlag = process.argv.indexOf('--site');
+const onlySlug = siteFlag === -1 ? null : process.argv[siteFlag + 1];
+if (siteFlag !== -1 && !onlySlug) {
+  console.error('[gen-og] --site requires a kit slug');
+  process.exit(1);
+}
+
+const svgs = globSync(onlySlug ? `${onlySlug}/img/og.svg` : '*/img/og.svg', {
+  cwd: SITES,
+}).sort();
 if (svgs.length === 0) {
-  console.error('[gen-og] no sites/*/img/og.svg found');
+  console.error(
+    onlySlug
+      ? `[gen-og] no sites/${onlySlug}/img/og.svg found — wrong slug?`
+      : '[gen-og] no sites/*/img/og.svg found',
+  );
   process.exit(1);
 }
 
@@ -104,9 +127,21 @@ if (svgs.length === 0) {
 // these survived authoring. Map the named entities the kits actually use to
 // numeric character references, which are always valid.
 const NAMED_ENTITIES = {
-  nbsp: 160, mdash: 8212, ndash: 8211, bull: 8226, hellip: 8230,
-  lsquo: 8216, rsquo: 8217, ldquo: 8220, rdquo: 8221, times: 215,
-  copy: 169, reg: 174, trade: 8482, deg: 176, middot: 183,
+  nbsp: 160,
+  mdash: 8212,
+  ndash: 8211,
+  bull: 8226,
+  hellip: 8230,
+  lsquo: 8216,
+  rsquo: 8217,
+  ldquo: 8220,
+  rdquo: 8221,
+  times: 215,
+  copy: 169,
+  reg: 174,
+  trade: 8482,
+  deg: 176,
+  middot: 183,
 };
 
 /**
@@ -148,7 +183,12 @@ try {
       rasterize(srcForConvert, pngPath);
       written += 1;
     } catch (err) {
-      failed.push({ rel, msg: String(err.stderr || err.message).trim().split('\n')[0] });
+      failed.push({
+        rel,
+        msg: String(err.stderr || err.message)
+          .trim()
+          .split('\n')[0],
+      });
     }
   }
 } finally {
