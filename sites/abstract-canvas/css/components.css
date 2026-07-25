@@ -1,665 +1,672 @@
 /* ==========================================================================
    COMPONENTS.CSS — Abstract Canvas
-   Header/nav, footer, buttons, cards, forms, badges
+   Topbar/nav, breadcrumbs, buttons, badges, footer + utility row,
+   the "Gallery quiet" intensity toggle, and Palette (mascot.behavior).
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ==========================================================================
-   SITE HEADER
-   Canvas-cream bar with bottom sizing-ground border;
-   Cormorant Garamond brand wordmark
+   SITE HEADER — navigation_model.mode = "topbar"
+   "Canvas-cream topbar, wordmark at left, nav labels in Cormorant Garamond,
+    active link underlined in cadmium red."
    ========================================================================== */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
-.site-header .container {
+.site-header > .container {
   display: flex;
+  gap: var(--space-6);
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-6);
-  height: 72px;
+  min-height: 72px;
 }
 
-/* Logo */
 .nav-logo {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
-  gap: var(--space-3);
+  padding-block: var(--space-2);
   text-decoration: none;
-  flex-shrink: 0;
+}
+
+.nav-logo:hover {
+  text-decoration: none;
 }
 
 .nav-logo-img {
-  width: 120px;
+  width: 132px;
   height: auto;
 }
 
-.nav-logo-text {
-  font-family: var(--font-headline);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--color-primary);
-  transition: text-shadow var(--transition-fast) var(--ease-gallery);
-}
-
-.nav-logo:hover .nav-logo-text {
-  text-shadow: 0 0 0 2px rgb(204, 34, 0, 0.3);
-  color: var(--color-primary);
-}
-
-/* Primary Navigation */
 .nav-primary {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
 }
 
 .nav-menu {
   display: flex;
-  align-items: center;
   gap: var(--space-1);
-  list-style: none;
+  align-items: center;
 }
 
+/* Cormorant Garamond nav labels (navigation_model.spec overrides fonts.ui for
+   this one surface). Sized up to 1.0625rem so the serif stays legible. */
 .nav-link {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--color-text);
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
+  border-bottom: 2px solid transparent;
+  color: var(--color-text);
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-decoration: none;
   transition:
-    color var(--transition-fast) var(--ease-gallery),
-    background var(--transition-fast) var(--ease-gallery);
+    border-color var(--transition-base) var(--ease-gallery),
+    color var(--transition-base) var(--ease-gallery);
 }
 
 .nav-link:hover {
-  color: var(--color-secondary);
-  background: rgb(204, 34, 0, 0.06);
+  border-bottom-color: var(--color-sizing);
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
 .nav-link[aria-current='page'] {
-  color: var(--color-secondary);
-  font-weight: 600;
+  border-bottom-color: var(--color-cadmium);
+  color: var(--color-primary);
 }
 
-/* Mobile nav toggle — hamburger brushstroke feel */
+/* site_architecture.nav[].emphasis */
+.nav-link[data-emphasis='primary'] {
+  color: var(--color-primary);
+}
+
+.nav-link[data-emphasis='muted'] {
+  color: var(--color-neutral-ink);
+  font-weight: 500;
+}
+
+.nav-link[data-emphasis='muted']:hover {
+  color: var(--color-primary);
+}
+
+/* Mobile toggle — 48px, labelled per navigation_model.fallback */
 .nav-toggle {
   display: none;
   align-items: center;
   justify-content: center;
   width: 48px;
   height: 48px;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  background: var(--color-bg);
   color: var(--color-primary);
-  cursor: pointer;
-  transition: background var(--transition-fast);
 }
 
 .nav-toggle:hover {
-  background: var(--color-surface-alt);
+  border-color: var(--color-umber);
 }
 
-.nav-toggle-icon {
+.nav-toggle svg {
   width: 22px;
   height: 22px;
+}
+
+.nav-toggle .icon-close {
+  display: none;
+}
+
+.nav-toggle[aria-expanded='true'] .icon-open {
+  display: none;
+}
+
+.nav-toggle[aria-expanded='true'] .icon-close {
   display: block;
 }
 
+@media (width <= 860px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-link {
+    min-height: 48px;
+    padding: var(--space-3) var(--gutter);
+    border-bottom: 1px solid var(--color-border);
+    border-left: 3px solid transparent;
+    font-size: 1.125rem;
+  }
+
+  .nav-link[aria-current='page'] {
+    border-bottom-color: var(--color-border);
+    border-left-color: var(--color-cadmium);
+  }
+}
+
 /* ==========================================================================
-   BUTTONS
-   Primary: carbon black (#1A1A1A) + gallery-linen text
-   Secondary: transparent + cadmium-red border + cadmium-red text
-   Ghost: transparent + sizing-ground border + paint-ink text
-   Danger: alizarin crimson (#B8001C)
+   BREADCRUMBS — navigation.breadcrumbs; used on the two footer-demoted pages
+   so a visitor still knows where they are when no nav item is current.
+   ========================================================================== */
+
+.breadcrumbs {
+  padding-top: var(--space-6);
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.breadcrumbs li {
+  color: var(--color-neutral-ink);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+}
+
+.breadcrumbs li + li::before {
+  content: '›';
+  margin-right: var(--space-2);
+  color: var(--color-umber);
+}
+
+/* ==========================================================================
+   BUTTONS — kit `buttons{}` block, verbatim
+   primary: carbon black on gallery linen · secondary: cadmium outline
+   ghost: sizing-ground outline · 4px radius throughout
    ========================================================================== */
 
 .btn {
   display: inline-flex;
+  gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  min-height: 48px;
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid transparent;
+  border-radius: 4px;
   font-family: var(--font-ui);
   font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
-  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: var(--tracking-ui);
+  text-align: center;
   text-decoration: none;
-  white-space: nowrap;
   transition:
-    background var(--transition-fast) var(--ease-gallery),
-    color var(--transition-fast) var(--ease-gallery),
-    border-color var(--transition-fast) var(--ease-gallery),
-    box-shadow var(--transition-fast) var(--ease-gallery),
-    transform var(--transition-fast) var(--ease-gallery);
-  user-select: none;
+    background var(--transition-base) var(--ease-gallery),
+    border-color var(--transition-base) var(--ease-gallery),
+    box-shadow var(--transition-base) var(--ease-gallery),
+    transform 180ms var(--ease-gallery);
 }
 
 .btn:hover {
   text-decoration: none;
 }
 
+/* microinteractions.button_press: yields 1px, like a brush into wet paint */
 .btn:active {
   transform: translateY(1px);
 }
 
-/* Primary CTA — carbon black */
 .btn-primary {
+  border-color: var(--color-primary);
   background: var(--color-primary);
   color: var(--color-bg);
-  border-color: var(--color-primary);
 }
 
 .btn-primary:hover {
-  background: #2a2a2a;
   border-color: #2a2a2a;
-  color: var(--color-bg);
+  background: #2a2a2a;
   box-shadow: var(--shadow-md);
+  color: var(--color-bg);
 }
 
-/* Secondary CTA — transparent + cadmium-red border */
 .btn-secondary {
+  border-color: var(--color-cadmium);
   background: transparent;
-  color: var(--color-secondary);
-  border-color: var(--color-secondary);
-  border-width: 1px;
+  color: var(--color-cadmium-text);
 }
 
 .btn-secondary:hover {
-  background: rgb(204, 34, 0, 0.06);
-  color: var(--color-secondary);
+  background: rgb(204 34 0 / 0.07);
+  color: var(--color-cadmium-text);
 }
 
-/* Ghost — sizing-ground border + paint-ink text */
 .btn-ghost {
+  border-color: var(--color-border);
   background: transparent;
   color: var(--color-text);
-  border-color: var(--color-border);
 }
 
 .btn-ghost:hover {
-  background: var(--color-surface);
   border-color: var(--color-umber);
+  background: var(--color-surface);
   color: var(--color-text);
 }
 
-/* Danger */
-.btn-danger {
-  background: var(--color-error);
-  color: var(--color-bg);
-  border-color: var(--color-error);
-}
-
-.btn-danger:hover {
-  background: #9a0018;
-  border-color: #9a0018;
-  color: var(--color-bg);
-}
-
-/* Icon button */
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background: var(--color-surface-alt);
-  color: var(--color-text);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-}
-
-.btn-icon:hover {
-  background: var(--color-bg);
-  color: var(--color-secondary);
-  border-color: var(--color-secondary);
-}
-
-.btn-icon svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* Large / hero CTA */
 .btn-lg {
+  min-height: 52px;
   padding: var(--space-4) var(--space-8);
   font-size: 1rem;
-  font-weight: 600;
+}
+
+.btn-sub {
+  font-weight: 400;
+  opacity: 0.85;
 }
 
 /* ==========================================================================
-   SITE FOOTER
-   Gallery-linen background, warm umber text, organized columns
+   BADGES & WALL CHIPS
+   badges: 4px radius, 1px border, Inter 600 uppercase 10–11px
+   ========================================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px var(--space-2);
+  border: 1px solid currentcolor;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-stable {
+  color: var(--color-success-text);
+}
+
+.status-beta {
+  color: var(--color-warning-text);
+}
+
+.status-deprecated {
+  color: var(--color-neutral-ink);
+}
+
+/* A highlight on a station's wall — component_styles.chip */
+.wall-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.client-station:nth-of-type(even) .wall-chip {
+  background: var(--color-surface-alt);
+}
+
+/* ==========================================================================
+   SITE FOOTER — site_architecture.footer_arrangement = "full-directory"
    ========================================================================== */
 
 .site-footer {
-  background: var(--color-surface-alt);
   border-top: 1px solid var(--color-border);
-  padding: var(--space-12) 0 var(--space-8);
+  padding-block: var(--space-12) var(--space-8);
+  background: var(--color-surface-alt);
 }
 
 .footer-tagline {
-  font-family: var(--font-headline);
-  font-size: 1.5rem;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--color-neutral);
+  max-width: 34ch;
   margin-bottom: var(--space-8);
+  color: var(--color-primary);
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 1.4vw + 0.8rem, 1.625rem);
+  font-style: italic;
+  font-weight: 600;
 }
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-8);
-  margin-bottom: var(--space-8);
   padding-bottom: var(--space-8);
   border-bottom: 1px solid var(--color-border);
 }
 
-.footer-col h3 {
+@media (width >= 620px) {
+  .footer-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 1000px) {
+  .footer-nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.footer-col h2 {
+  margin-bottom: var(--space-4);
+  color: var(--color-neutral-ink);
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-neutral);
-  margin-bottom: var(--space-4);
 }
 
 .footer-col ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  list-style: none;
+  gap: var(--space-1);
 }
 
 .footer-col a {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
   color: var(--color-text);
-  text-decoration: none;
-  transition: color var(--transition-fast);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
 }
 
 .footer-col a:hover {
-  color: var(--color-secondary);
+  color: var(--color-cadmium-text);
 }
 
-.footer-copy {
+/* Utility row — intensity_toggle.placement: "footer utility row, beside the
+   reduced-motion note" */
+/* The toggle sits at the inline start of the row: the bottom-right corner
+   belongs to Palette, and a control hidden behind the companion is no control
+   at all. */
+.footer-utility {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-6);
+  align-items: center;
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.motion-note {
+  max-width: 52ch;
+  color: var(--color-neutral-ink);
   font-family: var(--font-ui);
   font-size: 0.8125rem;
-  color: var(--color-neutral);
+  line-height: 1.5;
 }
 
-/* ==========================================================================
-   BADGES / CHIPS
-   Slightly rounded rect (4px), 1px border; carbon black for quality,
-   ultramarine for status, cadmium red for Favorite
-   ========================================================================== */
-
-.badge {
+.intensity-toggle {
   display: inline-flex;
+  gap: var(--space-2);
   align-items: center;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-sm);
-  border: 1px solid currentcolor;
-  line-height: 1.4;
-  white-space: nowrap;
 }
 
-.badge-quality {
+.intensity-toggle:hover {
+  border-color: var(--color-umber);
+}
+
+.intensity-toggle[aria-pressed='true'] {
+  border-color: var(--color-ultramarine);
   color: var(--color-primary);
 }
 
-.badge-status {
-  color: var(--color-tertiary);
-}
-
-.badge-favorite {
-  color: var(--color-secondary);
-}
-
-.badge-new {
-  color: var(--color-tertiary);
-}
-
-.badge-beta {
-  color: var(--color-warning);
-}
-
-/* Chip — rounded-rect on aged-ground */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
+.intensity-toggle .toggle-dot {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-umber);
   border-radius: var(--radius-pill);
-  color: var(--color-text);
+  background: transparent;
 }
 
-.chip-active {
-  background: var(--color-bg);
-  border-color: var(--color-secondary);
-  color: var(--color-secondary);
+.intensity-toggle[aria-pressed='true'] .toggle-dot {
+  border-color: var(--color-ultramarine);
+  background: var(--color-ultramarine);
+}
+
+.footer-copy {
+  padding-top: var(--space-6);
+  color: var(--color-neutral-ink);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
+/* Hidden by default; only shown while a seasonal range is live */
+.seasonal-banner .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* ==========================================================================
-   FORMS
-   Canvas-cream fill, 1px sizing-ground border, 4px radius
-   Focus: 1px ultramarine border + outer ring
+   PALETTE — mascot.behavior
+   A small tilted palette in the bottom-right on every page except the FAQ
+   page. Idle tilt is CSS-only and drops under reduced motion / gallery quiet.
    ========================================================================== */
 
-.form-group {
+.palette-companion {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 90;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
+  align-items: flex-end;
+  max-width: min(320px, calc(100vw - var(--space-8)));
 }
 
-.form-label {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text);
+.palette-companion[hidden] {
+  display: none;
 }
 
-.form-input,
-.form-select,
-.form-textarea {
-  width: 100%;
+.palette-bubble {
   padding: var(--space-3) var(--space-4);
-  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  border-left: 3px solid var(--color-cadmium);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
   color: var(--color-text);
-  transition:
-    border-color var(--transition-fast) var(--ease-gallery),
-    box-shadow var(--transition-fast) var(--ease-gallery);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.55;
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: var(--color-umber);
+.palette-bubble:empty {
+  display: none;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: var(--color-focus);
-  box-shadow: 0 0 0 3px rgb(0, 85, 170, 0.15);
+.palette-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-end;
 }
 
-.form-input.error,
-.form-textarea.error {
-  border-color: var(--color-error);
-}
-
-.form-error {
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  color: var(--color-error);
-}
-
-/* Checkbox */
-.form-checkbox {
+.palette-figure {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  cursor: pointer;
-}
-
-.form-checkbox input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--color-primary);
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-}
-
-/* ==========================================================================
-   MEDIA BADGE (quality label — e.g. 4K, HDR)
-   ========================================================================== */
-
-.media-badge {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: var(--color-bg);
-  line-height: 1.4;
-}
-
-.media-badge.hdr {
-  background: var(--color-tertiary);
-  color: #fff;
-}
-
-.media-badge.dolby {
-  background: var(--color-primary);
-  color: var(--color-bg);
-}
-
-/* ==========================================================================
-   CODE BLOCK
-   JetBrains Mono on canvas-alt surface
-   ========================================================================== */
-
-.code-block {
-  background: var(--color-surface-alt);
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--space-4) var(--space-6);
-  overflow-x: auto;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition-base) var(--ease-gallery),
+    transform var(--transition-base) var(--ease-gallery);
 }
 
-.code-block code {
-  font-family: var(--font-mono);
+.palette-figure:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.palette-dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-neutral-ink);
+  font-family: var(--font-ui);
   font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--color-text);
+  line-height: 1;
 }
 
-.code-block .keyword {
-  color: var(--color-secondary);
-}
-.code-block .string {
-  color: var(--color-success);
-}
-.code-block .comment {
-  color: var(--color-umber);
-  font-style: italic;
+.palette-dismiss:hover {
+  border-color: var(--color-umber);
+  color: var(--color-primary);
 }
 
-/* ==========================================================================
-   MOBILE NAV RESPONSIVE
-   ========================================================================== */
-
-@media (width <= 768px) {
-  .nav-toggle {
-    display: flex;
+/* mascot.behavior.idle — "gently tilts left and right as if considering the
+   work". Opacity/rotation only, 6s, and disabled below. */
+@keyframes palette-consider {
+  0%,
+  100% {
+    transform: rotate(-4deg);
   }
 
-  .nav-menu {
-    position: fixed;
-    inset: 72px 0 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-4) 0;
-    overflow-y: auto;
-    transform: translateX(-100%);
-    transition: transform var(--transition-base) var(--ease-gallery);
-    z-index: 99;
-  }
-
-  .nav-menu.is-open {
-    transform: translateX(0);
-  }
-
-  .nav-link {
-    display: block;
-    width: 100%;
-    padding: var(--space-4) var(--space-6);
-    font-size: 1rem;
-    border-radius: 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .nav-link:last-child {
-    border-bottom: none;
-  }
-
-  .nav-backdrop {
-    display: none;
-    position: fixed;
-    inset: 72px 0 0;
-    background: rgb(20, 18, 16, 0.3);
-    z-index: 98;
-  }
-
-  .nav-backdrop.is-visible {
-    display: block;
+  50% {
+    transform: rotate(4deg);
   }
 }
 
-@media (width >= 769px) {
-  .nav-backdrop {
-    display: none !important;
+.palette-figure svg {
+  width: 38px;
+  height: 38px;
+  animation: palette-consider 6s var(--ease-gallery) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palette-figure svg {
+    animation: none;
   }
 }
 
-/* ==========================================================================
-   FOOTER NAV RESPONSIVE
-   ========================================================================== */
+html[data-intensity='quiet'] .palette-figure svg {
+  animation: none;
+}
 
-@media (width <= 480px) {
-  .footer-nav {
-    grid-template-columns: 1fr;
+/* easter reactions: Palette turns once and sets itself down, wears a cadmium
+   aura, or lifts off the ground when it hears its own name. */
+@keyframes palette-settle {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.palette-figure.is-settling svg {
+  animation: palette-settle 900ms var(--ease-gallery) 1;
+}
+
+.palette-figure.is-glowing {
+  border-color: var(--color-cadmium);
+  box-shadow: var(--shadow-cadmium);
+}
+
+.palette-figure.is-lifted {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+}
+
+@media (width <= 600px) {
+  .palette-companion {
+    max-width: calc(100vw - var(--space-6));
+  }
+
+  .palette-figure {
+    width: 48px;
+    height: 48px;
+  }
+
+  .palette-figure svg {
+    width: 32px;
+    height: 32px;
   }
 }
 
 /* ==========================================================================
-   UTILITY CLASSES
+   UTILITIES
    ========================================================================== */
 
 .visually-hidden {
   position: absolute;
+  overflow: hidden;
   width: 1px;
   height: 1px;
-  padding: 0;
   margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
+  padding: 0;
   border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-.text-center {
-  text-align: center;
-}
-.text-left {
-  text-align: left;
-}
-
-.flex {
-  display: flex;
-}
-.flex-wrap {
-  flex-wrap: wrap;
-}
-.items-center {
-  align-items: center;
-}
-.gap-2 {
-  gap: var(--space-2);
-}
-.gap-4 {
+.stack-4 {
+  display: grid;
   gap: var(--space-4);
 }
-.gap-6 {
+
+.stack-6 {
+  display: grid;
   gap: var(--space-6);
 }
 
-.mt-4 {
-  margin-top: var(--space-4);
-}
 .mt-6 {
   margin-top: var(--space-6);
 }
+
 .mt-8 {
   margin-top: var(--space-8);
 }
+
 .mt-12 {
   margin-top: var(--space-12);
-}
-.mb-4 {
-  margin-bottom: var(--space-4);
-}
-.mb-6 {
-  margin-bottom: var(--space-6);
-}
-.mb-8 {
-  margin-bottom: var(--space-8);
-}
-.mb-12 {
-  margin-bottom: var(--space-12);
-}
-
-.pt-12 {
-  padding-top: var(--space-12);
-}
-.pb-12 {
-  padding-bottom: var(--space-12);
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* Paint-stroke divider */
-.divider-brushstroke {
-  border: none;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-border) 15%,
-    var(--color-secondary) 40%,
-    var(--color-border) 65%,
-    transparent 100%
-  );
-  margin: var(--space-12) 0;
-  opacity: 0.6;
 }

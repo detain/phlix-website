@@ -1,184 +1,182 @@
 # img/PROMPTS.md — Abstract Canvas
 
-> Exact prompts used to (re)generate every image asset for the Abstract Canvas brand kit site.
+Every image asset on this site, with the exact prompt that regenerates it. Prompts are built as
+`image_prompt_prefix + subject + image_prompt_suffix`, with the kit's `negative_prompt` as the
+avoid-list, per `brand-kits/abstract-canvas.js` §16.
 
----
+All artwork currently shipped is **CSS or hand-authored SVG** — no raster art beyond `og.png`,
+which is rasterised from `og.svg` with `rsvg-convert -w 1200 -h 630`. The prompts below exist so a
+painted replacement can be commissioned later without re-deriving the brief.
 
-## Logo
+**Prefix**
 
-**Subject:** Phlix wordmark in Cormorant Garamond (or Georgia/Times New Roman fallback) on gallery linen (#F0EDE4), with a single gestural cadmium-red (#CC2200) brushstroke mark and an ultramarine (#0055AA) dot accent.
-
-**Prompt:**
 ```
 Fine art abstract expressionist painting, gestural brushwork, warm gallery light,
 oil on linen canvas, cadmium red and ultramarine pigments, carbon black marks,
-Wordmark "Phlix" in Cormorant Garamond or Georgia serif, carbon black on warm
-gallery-linen ground (hex #F0EDE4), a single gestural cadmium-red brushstroke
-accent, generous negative space, fine art quality, museum-print composition,
-no text overlays.
 ```
 
-**Negative:**
+**Suffix**
+
 ```
-cold, neon, digital, dark background, night, fluorescent,
-corporate, cartoonish, vector flat, emoji, cheerful stock photo,
-bright white clinical, pastel candy, glowing UI, chrome metal
-```
-
-**Allowed symbols (from kit):**
-- gestural brushstroke mark ✓
-- palette shape ✓
-- color field rectangle ✓
-- canvas stretcher frame ✓
-
-**Forbidden (from kit):**
-- play-button triangle cliché ✗
-- gear or circuit icons ✗
-- neon glows ✗
-- photorealistic imagery ✗
-
----
-
-## OG Image (1200×630)
-
-**Subject:** Full-bleed social share card for Phlix media server, Abstract Canvas brand.
-
-**Prompt:**
-```
-Fine art abstract expressionist painting, gestural brushwork, warm gallery light,
-oil on linen canvas, cadmium red and ultramarine pigments, carbon black marks,
-A fine-art media landing page hero composition: full-bleed warm gestural backdrop
-with Rothko-inspired color-field rectangles in cadmium red and ultramarine on warm
-gallery-linen ground (hex #F0EDE4), brand wordmark "Phlix" in carbon black Cormorant
-Garamond serif, italic tagline "Every Frame Is a Brushstroke." below, generous gallery
-negative space, museum-print quality, no text overlays.
+, warm gallery-linen ground (hex #F0EDE4), painterly texture, visible brushstrokes,
+fine art quality, museum-print composition, no text overlays.
 ```
 
-**Negative:**
+**Negative (applies to every prompt below)**
+
 ```
-cold, neon, digital, dark background, night, fluorescent,
-corporate, cartoonish, vector flat, emoji, cheerful stock photo,
-bright white clinical, pastel candy, glowing UI, chrome metal
+cold, neon, digital, dark background, night, fluorescent, corporate, cartoonish,
+vector flat, emoji, cheerful stock photo, bright white clinical, pastel candy,
+glowing UI, chrome metal
 ```
 
 ---
 
-## Feature Icons (inline SVG, 40×40)
+## 1. Logo — `img/logo.svg` (shipped as SVG)
 
-Each icon: outlined editorial style, 1.5–2px stroke, carbon black (#1A1A1A) default, cadmium red (#CC2200) active state, slightly rounded caps/joins (4–6px radius), sable-brush quality.
+From `prompt_library.logo`:
 
-### library icon
 ```
-Outlined editorial icon of a library/folder stack, 1.5px stroke, carbon black,
-slightly rounded caps (sable-brush quality), cadmium-red active state, fine-art aesthetic.
-```
-
-### syncplay icon
-```
-Outlined editorial icon of synchronized play arrows/circular sync, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
+Design an Abstract Canvas logo: Cormorant Garamond wordmark in carbon black on
+gallery linen (#F0EDE4), optional 1px cadmium-red rectangular border, medium
+corners, no cold colors, no harsh edges.
 ```
 
-### transcode icon
-```
-Outlined editorial icon of a film reel with transcoding arrows, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
-```
+Built with allowed symbols only — canvas stretcher frame, colour field rectangle, gestural
+brushstroke mark. Forbidden symbols avoided: no play-button triangle, no gear or circuit, no neon
+glow, no photorealism. The wordmark is set in Georgia (Cormorant Garamond's declared fallback)
+because a webfont cannot load inside an `<img>`.
 
-### auth/shield icon
-```
-Outlined editorial icon of a shield with checkmark, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
-```
+## 2. Favicon — `img/favicon.svg`
 
-### livetv/antenna icon
 ```
-Outlined editorial icon of a broadcast antenna/tv tower, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
+{prefix} a single square colour field in carbon black holding one serif letter P in
+gallery linen, with one cadmium-red brushstroke dragged along its lower edge and a
+small ultramarine colour-field square in the upper right {suffix}
 ```
 
-### dlna/broadcast icon
-```
-Outlined editorial icon of a DLNA broadcast symbol (waves + screen), 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
-```
+## 3. Social card — `img/og.svg` → `img/og.png` (1200x630)
 
-### plugins/puzzle icon
+From `prompt_library.marketing`, topic = the site itself:
+
 ```
-Outlined editorial icon of interlocking puzzle pieces, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
+{prefix} a fine-art poster-style social graphic for a self-hosted media server:
+Cormorant Garamond wordmark "Phlix" in carbon black, the tagline "Every Frame Is a
+Brushstroke." in italic raw umber, two Rothko-like floating rectangles in cadmium red
+and ultramarine in the right third, one long gestural mark across the lower field,
+generous gallery negative space {suffix}
 ```
 
-### hub icon
+## 4. Hero composition — CSS + inline SVG (`.hero-field`, home page)
+
 ```
-Outlined editorial icon of connected network nodes/hub, 1.5px stroke,
-carbon black, slightly rounded caps (sable-brush quality), cadmium-red active state,
-fine-art aesthetic.
-```
-
----
-
-## Hero Art
-
-**Subject:** Full-bleed gestural hero composition with color-field gradient.
-
-**Prompt:**
-```
-Fine art abstract expressionist painting, gestural brushwork, warm gallery light,
-oil on linen canvas, cadmium red and ultramarine pigments, carbon black marks,
-A full-bleed gestural hero composition on warm gallery-linen ground (hex #F0EDE4):
-bold Rothko-inspired floating rectangles of saturated color, a Pollock-like web of
-dripped line in carbon black, cadmium-red and ultramarine color field blocks anchoring
-the composition, asymmetric and searching with generous breathing room, as if made
-by a hand that knows what it's doing — confident, free, and utterly intentional.
-Visible brushstroke texture, impasto buildup, fine art quality, museum-print
-composition, no text overlays.
+{prefix} a full-bleed gestural hero composition: two Rothko-like floating rectangles
+of saturated cadmium red and ultramarine, a Kline-like calligraphic slash across the
+lower field, asymmetric and searching, off-center with generous breathing room,
+impasto buildup at the edges {suffix}
 ```
 
-**Negative:**
+Shipped as two gradient-filled blocks plus a two-stroke inline SVG so it costs no request and
+scales to any viewport.
+
+## 5. Palette, the mascot — inline SVG (`js/main.js` companion, `about.html`, `404.html`)
+
+`mascot.description`, rendered as a small gestural figure:
+
 ```
-cold, neon, digital, dark background, night, fluorescent,
-corporate, cartoonish, vector flat, emoji, cheerful stock photo,
-bright white clinical, pastel candy, glowing UI, chrome metal
-```
-
----
-
-## Site Background Texture
-
-**Subject:** Gallery-linen warm background with subtle canvas-grain texture.
-
-**Prompt:**
-```
-Gallery-linen warm background (#F0EDE4) with subtle canvas-grain texture and a
-soft cadmium-red color-field rectangle in one quadrant at 15% opacity. No text,
-no figures, no overlays — just warm painterly surface.
+{prefix} a painter's palette whose form is suggested by thick paint strokes rather
+than clean outlines, carrying colour-field rounds of cadmium red and ultramarine on
+its surface, a sable brush tucked behind it like a quill, tilted as if studying the
+viewer the way a painter studies a subject {suffix}
 ```
 
----
+Poses drawn from `mascot.poses`: _tilted at an angle, studying the viewer_ (companion) and _flat on
+a paint-streaked studio table_ (the 404, where Palette faces an unpainted canvas).
 
-## Client/Poster Mockup Images
+## 6. Feature icons — 8 inline SVGs
 
-For any client device mockup imagery in the clients section:
+From `prompt_library.icon`, one per `content.json` feature. 1.5–2px stroke, carbon black default,
+cadmium red for the active state, slightly rounded caps (sable-brush quality), medium corner radius,
+never filled by default.
 
-**Subject:** Fine-art gallery one-sheet style device mockup.
-
-**Prompt:**
 ```
-Fine art gallery one-sheet: Cormorant Garamond title in paint-ink or cadmium red,
-high-quality key art, 1px sizing-ground border, medium corners (6px), warm
-Kodak Portra film grade texture, asymmetric and intentional composition, fine-arts
-aesthetic, museum-print quality.
+Outlined editorial icon of {subject}, 1.5px stroke, carbon black, slightly rounded
+caps (sable-brush quality), cadmium-red active state, fine-art aesthetic.
 ```
 
-**Rules (per kit):**
-- Always warm-toned: Kodak Portra film grade, never cold or blue-tinted ✓
-- Prefer natural north-light studio photography — no harsh artificial flash ✓
-- Textures welcome: close-up of paint surface, canvas grain, brushstroke detail ✓
-- Composition like a painting — asymmetric, intentional, breathing room ✓
+| Feature id  | `{subject}`                                      |
+| ----------- | ------------------------------------------------ |
+| `library`   | an open book resting on a shelf edge             |
+| `syncplay`  | a clock face with a single sweeping hand         |
+| `transcode` | a projector body with its lens throw             |
+| `auth`      | a shield with a checked mark inside              |
+| `livetv`    | a broadcast signal traced as one continuous line |
+| `dlna`      | a screen with an arrow arriving into it          |
+| `plugins`   | an interlocking volume, drawn as one solid       |
+| `hub`       | a centre node with three satellites              |
+
+## 7. Persona vignettes — three surface studies (`features.html`)
+
+`persona_vignettes` decides _which surfaces_ get depicted. Each is shipped as a hand-drawn SVG
+wireframe of the surface itself — drawn, never photographed, so nothing reads as a testimonial.
+
+### Study I — The Collector's Study
+
+Surfaces: home hero, **library grid**, **media detail view**. Features shown: `library`,
+`transcode`, `auth`.
+
+```
+{prefix} a study of a media library wall: a grid of poster rectangles in canvas cream
+on gallery linen, one larger detail panel at the right with a carbon-black play mark
+and a single cadmium-red accent bar beneath it {suffix}
+```
+
+### Study II — The Family Studio
+
+Surfaces: home hero, **SyncPlay lobby**, **media player**. Features shown: `syncplay`, `auth`,
+`hub`.
+
+```
+{prefix} a study of three rooms watching one film: three framed screens side by side
+in canvas cream, a single shared timeline drawn beneath them as one long gestural
+stroke, the playhead a carbon-black round, cadmium red marking elapsed time {suffix}
+```
+
+### Study III — The Live Painter
+
+Surfaces: **admin dashboard**, **library upload**, **quality profiles**. Features shown: `library`,
+`transcode`, `hub`, `plugins`.
+
+```
+{prefix} a study of an admin bench: a top stat bar of carbon-black and ultramarine
+blocks, three canvas-cream panels below it, one marked with a cadmium-red edge, and a
+descending stack of quality-profile bars in aged ground {suffix}
+```
+
+## 8. The unpainted canvas — `404.html` (CSS + inline SVG)
+
+`error_page_experience.concept`, realised rather than printed:
+
+```
+{prefix} a blank stretched linen canvas on its stretcher, primed with gesso and
+entirely without paint, lit by soft north light, with a painter's palette resting at
+its lower right as though the painter has just stepped back to consider it {suffix}
+```
+
+## 9. Seasonal motifs — `img/seasonal/*.svg`
+
+`seasonal_activation.motif_assets`, applied by the `js/main.js` date-gate only while a variant's
+`active_range` is live.
+
+| File                       | Variant                       | Prompt subject                                                                                                       |
+| -------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `autumn-leaf-marks.svg`    | Autumn Study (10-01..11-15)   | fallen-leaf shapes as gestural marks in burnt sienna and raw sienna, a warm amber field replacing the cadmium accent |
+| `winter-frost-texture.svg` | Winter White (12-01..01-15)   | a cooler, paler fresh-gessoed ground with sparse frost-form marks in Prussian blue and more negative space           |
+| `spring-flower-forms.svg`  | Spring Opening (03-15..05-15) | gestural flower-form marks in magenta with viridian stems, the composition lighter and more open                     |
+
+## 10. Photography, if any is ever added
+
+`photography_style` + `photo_rules` govern it: warm Kodak Portra grade, natural north-light studio,
+close-up paint and canvas texture welcome, asymmetric composition with breathing room, never cold or
+blue-tinted, never generic stock, never over-processed. No photographic asset ships today — the kit's
+`realism` is `abstract`, so drawn and CSS artwork is the faithful choice.

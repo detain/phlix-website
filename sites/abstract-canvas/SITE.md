@@ -1,126 +1,179 @@
 # SITE.md — Abstract Canvas for Phlix
 
-## Concept & Vision
+**Kit:** `brand-kits/abstract-canvas.js` v1.0 · schema_version 2.0 · `kit_type: base`
+**Layout archetype:** **editorial** — declared by the kit's `experience_archetype`, not derived.
+**Regenerated:** 2026-07-24 (the 2026-07-04 build predated the kit's experience schema; see
+`REGEN_PLAN.md` for the change manifest and `BUILD_LOG.md` for what moved).
 
-Abstract Canvas dresses Phlix in the contemplative energy of a painter's studio at golden hour — linseed oil and primed linen, cadmium red and ultramarine pigments, the reverence of a MoMA gallery wall. Every screen is a canvas; every choice is a brushstroke. The site should feel like stepping into a gallery exhibition about media, not a SaaS marketing page. Warm, intentional, and quietly electric with creative possibility.
+## Brand DNA, condensed
 
----
+Abstract Canvas lives at the intersection of fine-art reverence and gestural energy: warm
+gallery-linen ground carrying carbon-black type and cadmium-red accents — the painter's primary
+pigments, applied with intention. Never sterile, never cold, never flat-digital. Every surface has
+implied texture; every element should feel placed by a hand rather than by a grid.
 
-## Aesthetic Direction
+## Concept & vision
 
-**Layout archetype: Immersive** — full-bleed hero with Rothko-inspired color field gradient, generous breathing room, asymmetric compositions, gallery-grid rhythm for content sections.
+The site is a gallery you walk, not a landing page you scroll. The home page opens in the studio,
+hangs two focal works at eye level, states the artist's position on the white wall beside them,
+offers a modest placard of verifiable facts, and closes by inviting you to hang your own work. The
+nav is a gallery walk (The Studio · The Canvas · The Gallery · Get Started · The Frame · The Story);
+reference material and the plugin room sit in the footer directory so the main path stays
+contemplative.
 
-The Abstract Canvas identity draws from Mark Rothko's luminous color field paintings, Jackson Pollock's gestural drip work, and the white-cube gallery aesthetic. The warm gallery-linen ground (#F0EDE4) carries carbon-black type and cadmium-red accents like pigments on a primed canvas. No cold whites, no clinical surfaces — every element feels handmade and intentional.
+## Aesthetic direction — how _editorial_ was built
 
----
+- Asymmetric two-column wall grid: a narrow left margin carrying a Bebas catalogue numeral and an
+  Inter eyebrow, and a wide column carrying the work. Collapses to one column below 900px.
+- **Left-aligned** headings and wall text throughout (`page_generation_rules`: content left-aligned
+  on wider viewports). Nothing is centre-set except short display phrases.
+- Sections alternate gallery-linen and canvas-cream "rooms", separated by horizontal colour-field
+  band dividers and palette-knife scrape rules — both `signature_elements`.
+- Reading measure capped at 68ch (`typography_rules`: 60–75ch); content width 1080px inside a 1400px
+  maximum (`ui_generation_rules`).
+- Texture: a two-axis hairline linen grain on `body::before`, no image request, dropped for print.
 
-## Color Palette
+## Colour palette
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| Background | Gallery Linen | `#F0EDE4` | Default page background |
-| Surface | Canvas Cream | `#E8E4D8` | Card and panel surfaces |
-| Surface Alt | Aged Ground | `#DDD8C8` | Hover states, alternate panels |
-| Primary | Carbon Black | `#1A1A1A` | Primary CTAs, headlines |
-| Secondary | Cadmium Red | `#CC2200` | Single most important accent |
-| Tertiary | Ultramarine | `#0055AA` | Structural depth, focus rings |
-| Text | Paint Ink | `#141210` | Body and headline text |
-| Neutral | Raw Umber | `#8A8070` | Secondary UI, captions |
-| Border | Sizing Ground | `#C8C2B0` | Card borders, dividers |
-| Success | Viridian | `#1A7A4A` | Confirmations |
-| Warning | Yellow Ochre | `#C8900A` | Caution states |
-| Error | Alizarin | `#B8001C` | Destructive actions |
-| Info | Cerulean | `#1A6BA8` | Informational banners |
+| Role                             | Name                                          | Hex                                           | Usage here                                              |
+| -------------------------------- | --------------------------------------------- | --------------------------------------------- | ------------------------------------------------------- |
+| Background                       | Gallery Linen                                 | `#F0EDE4`                                     | Every page ground                                       |
+| Surface                          | Canvas Cream                                  | `#E8E4D8`                                     | Cards, framed studies, topbar                           |
+| Surface alt                      | Aged Ground                                   | `#DDD8C8`                                     | Proof placard, code blocks, footer                      |
+| Primary                          | Carbon Black                                  | `#1A1A1A`                                     | Headlines, primary CTA, icons                           |
+| Secondary                        | Cadmium Red                                   | `#CC2200`                                     | Marks, rules, active nav underline, one accent per view |
+| Tertiary                         | Ultramarine                                   | `#0055AA`                                     | Focus ring, structural edges, path markers              |
+| Text                             | Paint Ink                                     | `#141210`                                     | Body copy                                               |
+| Neutral                          | Raw Umber                                     | `#8A8070`                                     | Non-text chrome only (see below)                        |
+| Border                           | Sizing Ground                                 | `#C8C2B0`                                     | Card borders, dividers                                  |
+| Success / Warning / Error / Info | Viridian / Yellow Ochre / Alizarin / Cerulean | `#1A7A4A` / `#C8900A` / `#B8001C` / `#1A6BA8` | Status vocabulary                                       |
 
-### Gradients
+### Text-safe derived pigments (accessibility)
 
-- **Color Field Dusk** (hero backdrop): `linear-gradient(170deg, #CC2200, #0055AA)`
-- **Studio Light** (hero glow): `radial-gradient(rgba(240,237,228,1.0), rgba(221,216,200,0.0))`
-- **Canvas Depth** (surface transitions): `linear-gradient(180deg, #E8E4D8, #DDD8C8)`
+`accessibility.minimum_contrast` claims Cadmium Red on Gallery Linen is ~5.8:1. Measured, it is
+**4.73:1** on linen and **4.35:1** on canvas cream — i.e. _below_ AA for small text on card
+surfaces. Raw Umber is 3.32:1 on linen (the kit itself flags it). Since `accessibility` is a hard
+commitment, small text uses darkened mixes of the same pigments, and the raw pigments are reserved
+for marks, rules and borders:
 
----
+| Token                  | Hex       | Linen | Cream | Aged |
+| ---------------------- | --------- | ----- | ----- | ---- |
+| `--color-cadmium-text` | `#B31E00` | 5.78  | 5.32  | 4.75 |
+| `--color-neutral-ink`  | `#5F594C` | 5.94  | 5.47  | 4.88 |
+| `--color-success-text` | `#146B40` | 5.59  | 5.15  | 4.59 |
+| `--color-warning-text` | `#7A5600` | 5.68  | 5.23  | 4.66 |
+
+Paint Ink on Gallery Linen measures 15.96:1; Carbon Black 14.87:1; Ultramarine 6.23:1.
+
+### Gradients (from `colors.gradients`)
+
+- **Color Field Dusk** — `linear-gradient(170deg, #CC2200, #0055AA)`: the hero's two floating
+  blocks and the band dividers.
+- **Studio Light** — radial linen glow behind the hero copy.
+- **Canvas Depth** — `linear-gradient(180deg, #E8E4D8, #DDD8C8)`: the 404's primed canvas.
 
 ## Typography
 
-| Role | Font | Weights | Usage |
-|------|------|---------|-------|
-| Headline | Cormorant Garamond | 600, 700 | Dramatic page titles, hero headlines |
-| Display | Bebas Neue | 400 | Oversized numerals, title cards |
-| Body | Lora | 400, 500 | Descriptions, long-form reading |
-| UI | Inter | 400, 500, 600 | Buttons, labels, navigation |
-| Mono | JetBrains Mono | 400, 500 | Code, technical readouts |
+| Role     | Family             | Weights         | Where                                                         |
+| -------- | ------------------ | --------------- | ------------------------------------------------------------- |
+| Headline | Cormorant Garamond | 600 / 700       | h1–h6, nav labels, manifesto, artist-talk questions           |
+| Display  | Bebas Neue         | 400             | Catalogue numerals and station numbers only, always uppercase |
+| Body     | Lora               | 400 / 500       | Wall text, plain-language lines, FAQ answers                  |
+| UI       | Inter              | 400 / 500 / 600 | Buttons, eyebrows, chips, badges, footer links                |
+| Mono     | JetBrains Mono     | 400 / 500       | Code block, repo names, disclosed technical wording           |
+| Number   | Cormorant Garamond | 600             | Figures inside wall text                                      |
 
-**Typography rules from kit:**
-- Cormorant Garamond headlines must be semibold (600+); never light weight on linen.
-- Bebas Neue display type is always uppercase.
-- Body copy (Lora) must never be set in all-caps.
-- Left-align body copy for readability; centered blocks only for short display phrases.
-- Cormorant Garamond italic for captions and fine-print asides.
+Fonts are the shared latin-subset WOFF2 pool at `../../assets/fonts/`, declared inside the
+`vendor-fonts:begin/end` sentinel block in `base.css` and owned by `tools/vendor-fonts.mjs` — do not
+hand-edit. All five families the kit names are **OFL-1.1**. Zero external font requests.
+`font-display: swap` on every face.
 
----
+Rules honoured: Cormorant never below 600 on linen; Bebas uppercase-only and numerals-only; Lora
+never all-caps; headline tracking −0.01em; Cormorant italic for captions, the manifesto and
+attributions; no geometric sans in a headline slot.
 
-## Spacing System (from kit spacing_scale)
+## Spatial system
 
-`4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96` px — only these steps are used for margins, padding, and gaps.
+Only the kit's `spacing_scale` steps (4, 8, 12, 16, 24, 32, 48, 64, 96) appear as `--space-*`.
+Radii come from `corner_radius` (3/6/12/18/999px); buttons use the 4px the `buttons{}` block
+specifies. Borders are 1px sizing-ground, with 2px cadmium or ultramarine reserved for emphasis
+edges — no hairlines that vanish on linen.
 
----
+## Motion philosophy
 
-## Motion Philosophy
+`animation_speed: medium`, `motion_style: organic / painterly / deliberate / imperfect`. Transitions
+are 150–420ms on the kit's own easing curves. Nothing springs, bounces or snaps. Section entrances
+are **opacity-only** settles, which is also what `scroll_experience: continuous` asks for: the page
+never hijacks the scroll. Palette's idle is a slow ±4° consideration.
 
-Motion should feel **organic and imperfect** — like paint spreading across canvas, not pixels snapping into place.
+Three independent brakes, any one of which stills the page: `prefers-reduced-motion`, the visitor's
+own **"Gallery quiet"** toggle in the footer utility row (`intensity_toggle`, persisted in
+localStorage), and the absence of JavaScript.
 
-- **Speed:** Medium (250–450ms transitions)
-- **Easing:** `cubic-bezier(0.25, 0.1, 0.25, 1.0)` — organic ease, nothing springy or bouncy
-- **Hero reveal:** Color-field sweep (saturated rectangle expands then dissolves)
-- **Card hover:** 2px cadmium-red top border + 2px lift with umber soft shadow (250ms)
-- **Button press:** Yields 1px downward like pressing a brush into wet paint (180ms)
-- **Loading:** Gestural brushstroke sweeps left-to-right in cadmium red at 30% opacity
-- **Reduced motion:** All replaced with cross-fades; no bouncing or sliding
+## Experience contract implemented
 
----
+`REGEN_PLAN.md` §1 is the row-by-row manifest. In short: the kit's nav and footer demotion, the
+five-section `homepage_narrative`, the four `page_blueprints`, `feature_casting` (2 focal / 4 studies
+/ 2 marginalia), the `copy_overlay`, all four `copy_treatments`, the Artist Talks FAQ frame with its
+three extra questions, the persona vignettes as drawn surface studies, a static hero, a topbar with
+its accessible fallback, continuous scroll, both easter eggs, the guided-steps funnel with its
+three-rung ladder, verifiable proof signals, the visitor-path fork, `complexity_profile`'s
+translate-the-jargon disclosures, the Gallery quiet toggle, Palette as an on-page companion, the
+live-JS seasonal date-gate, and a themed `404.html`.
 
-## Visual Assets
+### Seasonal variants (live, not documented-only)
 
-### Logo
-- Wordmark: "Phlix" in Cormorant-inspired serif on gallery linen
-- Accent: gestural cadmium-red brushstroke mark
-- Simple, high-contrast, reads at all sizes
-- Readable on gallery linen at all sizes
+`seasonal_activation.mode` is `live-js`, so `js/main.js` gates on the date and applies each variant's
+declared override tokens plus a motif class and the kit's banner line. None is active on
+2026-07-24. To see one out of season, append `?season=autumn-study` (or `winter-white`,
+`spring-opening`) to any page URL — the slug is matched against a fixed list.
 
-### Feature Icons
-- Outlined editorial style, 1.5–2px stroke weight
-- Slightly rounded caps/joins (4–6px radius) — like a fine sable brush line
-- Carbon black default; cadmium red for active/featured state
-- Inline SVG, no CDN dependency
+| Variant        | Range        | Overrides                                            |
+| -------------- | ------------ | ---------------------------------------------------- |
+| Autumn Study   | 10-01..11-15 | primary `#8B3A00`, secondary `#CC6600`, bg `#F2EBD8` |
+| Winter White   | 12-01..01-15 | bg `#F8F6F2`, surface `#EFECE4`, secondary `#003399` |
+| Spring Opening | 03-15..05-15 | secondary `#AA2288`, tertiary `#007744`              |
 
-### OG Image
-- 1200×630: gallery linen background with Rothko-inspired color field gradient
-- "Phlix" wordmark + "Every Frame Is a Brushstroke." tagline
-- Full brand palette: cadmium red, ultramarine, carbon black on warm linen
+## Sound identity — context only, never shipped
 
-### Signature Elements (from kit)
-- Gestural brushstroke marks as decorative dividers
-- Paint-streak texture overlays on card surfaces
-- Color field rectangular blocks (Rothko-inspired) as section accents
-- Linen canvas grain texture on backgrounds
+The kit describes a startup cello note resolving to a warm piano chord, a wood-block notification, a
+paper-on-wood click, a two-note success tone and a muted string for errors. This is a static site:
+**no audio is shipped.** Recorded here as brand context for the product itself.
 
----
+## Visual assets
 
-## Responsive Behavior
+| Asset                                            | Form                                                                                  |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `img/logo.svg`                                   | Serif wordmark in a canvas stretcher frame, colour-field margin, two gestural strokes |
+| `img/favicon.svg`                                | Carbon square, serif P, cadmium drag, ultramarine colour field                        |
+| `img/og.svg` → `img/og.png`                      | 1200×630 share card (rasterised with `rsvg-convert`; 73 KB)                           |
+| `img/seasonal/*.svg`                             | The three `motif_assets` the kit names                                                |
+| 8 feature icons                                  | Inline SVG, 1.75px stroke, rounded caps, carbon black                                 |
+| Palette                                          | Inline SVG: the companion, the Artist-Talks persona mark, and the 404's figure        |
+| Hero field, 3 vignette studies, the blank canvas | CSS gradients + hand-authored inline SVG                                              |
 
-| Breakpoint | Behavior |
-|------------|----------|
-| Desktop (1024+) | Multi-column poster rails, hover cadmium-red border affordances, editorial sidebar, max 1400px content width |
-| Tablet (768–1023) | 2–3 column grids, enlarged touch targets (48px min), collapsible sidebar to icon rail |
-| TV (1280+) | 10-foot UI: Bebas Neue at 2× scale, bold 4px cadmium-red focus ring, D-pad navigation |
-| Mobile (<768) | Single column, bottom nav, full-width portrait posters, sticky carbon-black play bar, touch-optimized |
+No raster photography: `realism: abstract` and `do_dont.imagery` both point away from it. Every
+prompt is recorded in `img/PROMPTS.md`.
 
----
+## Accessibility commitments
 
-## Accessibility Commitments
+- WCAG 2.2 AA. Every text/background pair measured (table above); nothing ships below 4.5:1 for
+  small text or 3:1 for large text and UI edges.
+- Focus: 2px ultramarine ring, 2px offset, 4px ultramarine halo — `accessibility.focus_style`
+  implemented literally, never clipped.
+- Touch targets: 48px minimum on the nav toggle, buttons, path links and Palette's controls.
+- `prefers-reduced-motion` drops all animation; the Gallery quiet toggle does the same on request.
+- Survives 200% text zoom: every layout is fluid grid with `minmax(0, 1fr)` tracks and ch-based
+  measures, no fixed-px layout widths.
+- Palette is two labelled buttons plus a polite live region — never a focus trap, and dismissible.
 
-- **Focus style:** 2px ultramarine ring with 2px linen offset + 4px outer umber halo
-- **Touch targets:** 48×48px on mobile and TV; 44×44px on desktop
-- **Motion:** Honor `prefers-reduced-motion: reduce` — replace gestural loaders with static shimmer; retain only opacity-based animations
-- **Font scaling:** All layouts survive 200% browser text zoom without clipping
-- **Contrast:** Paint Ink on Gallery Linen = ~18:1 (AAA); Carbon Black on Gallery Linen = ~16.8:1 (AAA); Cadmium Red on Gallery Linen = ~5.8:1 (AA)
+## Voice
+
+`voice: thoughtful, cultivated, direct, honest`; the register of catalogue wall text. No exclamation
+marks. None of `avoid_words` appears in the site's prose (`binge`, `content`, `consume`,
+`algorithm`, `awesome`, `amazing`, `exciting`, `leverage`, `synergy`, `utilize`, `robust`,
+`seamless`, `game-changing`) — including inside the `<details>` bodies, which are verbatim
+`content.json`. The word "content" survives in exactly two non-prose places: `<meta content="…">`
+attributes and the mandatory skip-link string "Skip to main content" (`new_site.md` §4). Neither is
+the streaming-industry usage the kit is banning.
+Facts are `content.json`'s; framing is the kit's `copy_overlay` and `feature_casting.angle`.
