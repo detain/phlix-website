@@ -39,22 +39,28 @@
 
   // ─── Scroll reveals (optional, disabled when reduced-motion is active) ──────
   if (!reducedMotion && 'IntersectionObserver' in window) {
-    var revealTargets = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    var revealTargets = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
     if (revealTargets.length > 0) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+      );
 
       revealTargets.forEach(function (el) {
         el.style.opacity = '0';
         el.style.transform = 'translateY(12px)';
-        el.style.transition = 'opacity 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1)';
+        el.style.transition =
+          'opacity 300ms cubic-bezier(0.22,1,0.36,1), transform 300ms cubic-bezier(0.22,1,0.36,1)';
         observer.observe(el);
       });
     }

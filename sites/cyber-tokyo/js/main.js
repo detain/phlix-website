@@ -13,7 +13,7 @@
 
   /* ── Mobile nav toggle ── */
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -44,15 +44,18 @@
   if (!reducedMotion.matches) {
     var revealEls = document.querySelectorAll('.feature-card, .client-card, .feature-detail');
     if (revealEls.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+      );
 
       revealEls.forEach(function (el) {
         el.style.opacity = '0';

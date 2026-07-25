@@ -1,355 +1,613 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Noir — Phlix Media Server</title>
-  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server">
-  <link rel="canonical" href="https://detain.github.io/phlix-website/sites/neon-noir/">
-  <meta name="theme-color" content="#F5A623">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Noir — Phlix Media Server</title>
+    <meta
+      name="description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+    />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/neon-noir/" />
+    <meta name="theme-color" content="#F5A623" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Phlix">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/sites/neon-noir/">
-  <meta property="og:title" content="Neon Noir — Phlix Media Server">
-  <meta property="og:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta property="og:image" content="https://detain.github.io/phlix-website/sites/neon-noir/img/og.png">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/neon-noir/" />
+    <meta property="og:title" content="Neon Noir — Phlix Media Server" />
+    <meta
+      property="og:description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
+    />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Neon Noir — Phlix Media Server">
-  <meta name="twitter:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta name="twitter:image" content="https://detain.github.io/phlix-website/sites/neon-noir/img/og.png">
-  <meta name="twitter:creator" content="@detain">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Neon Noir — Phlix Media Server" />
+    <meta
+      name="twitter:description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="twitter:image"
+      content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
+    />
+    <meta name="twitter:creator" content="@detain" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
 
-  <!-- Fonts (self-hosted via @font-face) -->
-  <style>
-    @font-face {
-      font-family: 'Playfair Display';
-      font-style: normal;
-      font-weight: 700;
-      font-display: swap;
-      src: local('Playfair Display Bold'), local('PlayfairDisplay-Bold');
-    }
-    @font-face {
-      font-family: 'Playfair Display';
-      font-style: normal;
-      font-weight: 900;
-      font-display: swap;
-      src: local('Playfair Display Black'), local('PlayfairDisplay-Black');
-    }
-    @font-face {
-      font-family: 'Bebas Neue';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: local('Bebas Neue Regular'), local('BebasNeueRegular');
-    }
-    @font-face {
-      font-family: 'IBM Plex Serif';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: local('IBM Plex Serif'), local('IBMPlexSerif');
-    }
-    @font-face {
-      font-family: 'IBM Plex Serif';
-      font-style: normal;
-      font-weight: 500;
-      font-display: swap;
-      src: local('IBM Plex Serif Medium'), local('IBMPlexSerif-Medium');
-    }
-    @font-face {
-      font-family: 'IBM Plex Sans';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: local('IBM Plex Sans'), local('IBMPlexSans');
-    }
-    @font-face {
-      font-family: 'IBM Plex Sans';
-      font-style: normal;
-      font-weight: 500;
-      font-display: swap;
-      src: local('IBM Plex Sans Medium'), local('IBMPlexSans-Medium');
-    }
-    @font-face {
-      font-family: 'IBM Plex Sans';
-      font-style: normal;
-      font-weight: 600;
-      font-display: swap;
-      src: local('IBM Plex Sans SemiBold'), local('IBMPlexSans-SemiBold');
-    }
-    @font-face {
-      font-family: 'IBM Plex Mono';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: local('IBM Plex Mono'), local('IBMPlexMono');
-    }
-    @font-face {
-      font-family: 'IBM Plex Mono';
-      font-style: normal;
-      font-weight: 600;
-      font-display: swap;
-      src: local('IBM Plex Mono SemiBold'), local('IBMPlexMono-SemiBold');
-    }
-  </style>
+    <!-- Fonts (self-hosted via @font-face) -->
+    <style>
+      @font-face {
+        font-family: 'Playfair Display';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local('Playfair Display Bold'), local('PlayfairDisplay-Bold');
+      }
+      @font-face {
+        font-family: 'Playfair Display';
+        font-style: normal;
+        font-weight: 900;
+        font-display: swap;
+        src: local('Playfair Display Black'), local('PlayfairDisplay-Black');
+      }
+      @font-face {
+        font-family: 'Bebas Neue';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('Bebas Neue Regular'), local('BebasNeueRegular');
+      }
+      @font-face {
+        font-family: 'IBM Plex Serif';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('IBM Plex Serif'), local('IBMPlexSerif');
+      }
+      @font-face {
+        font-family: 'IBM Plex Serif';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: local('IBM Plex Serif Medium'), local('IBMPlexSerif-Medium');
+      }
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('IBM Plex Sans'), local('IBMPlexSans');
+      }
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: local('IBM Plex Sans Medium'), local('IBMPlexSans-Medium');
+      }
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('IBM Plex Sans SemiBold'), local('IBMPlexSans-SemiBold');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('IBM Plex Mono'), local('IBMPlexMono');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('IBM Plex Mono SemiBold'), local('IBMPlexMono-SemiBold');
+      }
+    </style>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/components.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Phlix",
-    "description": "Self-hostable PHP media server that streams to Roku, Samsung TV, Windows, mobile, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "PHP 8.3+",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "license": "https://opensource.org/licenses/BSD-3-Clause"
-  }
-  </script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Phlix",
+        "description": "Self-hostable PHP media server that streams to Roku, Samsung TV, Windows, mobile, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "PHP 8.3+",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "license": "https://opensource.org/licenses/BSD-3-Clause"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- Navigation Overlay for Mobile -->
-  <div class="nav-overlay" aria-hidden="true"></div>
+    <!-- Navigation Overlay for Mobile -->
+    <div class="nav-overlay" aria-hidden="true"></div>
 
-  <header class="site-header" role="banner">
-    <nav class="nav-primary" aria-label="Primary navigation">
-      <a class="nav-logo" href="./" aria-label="Phlix home">
-        <img src="img/logo.svg" alt="Phlix logo" width="120" height="40">
-      </a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-        <svg class="nav-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-      <ul class="nav-menu" id="nav-menu" role="list">
-        <li><a class="nav-menu__link" href="./" aria-current="page">Home</a></li>
-        <li><a class="nav-menu__link" href="features.html">Features</a></li>
-        <li><a class="nav-menu__link" href="clients.html">Clients</a></li>
-        <li><a class="nav-menu__link" href="download.html">Download</a></li>
-        <li><a class="nav-menu__link" href="plugins.html">Plugins</a></li>
-        <li><a class="nav-menu__link" href="docs.html">Docs</a></li>
-        <li><a class="nav-menu__link" href="hub.html">Hub</a></li>
-        <li><a class="nav-menu__link" href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home">
+          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" />
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <svg
+            class="nav-toggle__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu" role="list">
+          <li><a class="nav-menu__link" href="./" aria-current="page">Home</a></li>
+          <li><a class="nav-menu__link" href="features.html">Features</a></li>
+          <li><a class="nav-menu__link" href="clients.html">Clients</a></li>
+          <li><a class="nav-menu__link" href="download.html">Download</a></li>
+          <li><a class="nav-menu__link" href="plugins.html">Plugins</a></li>
+          <li><a class="nav-menu__link" href="docs.html">Docs</a></li>
+          <li><a class="nav-menu__link" href="hub.html">Hub</a></li>
+          <li><a class="nav-menu__link" href="about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <main id="main-content" tabindex="-1">
-
-    <!-- Hero Section -->
-    <section class="hero" aria-labelledby="hero-headline">
-      <div class="hero__content">
-        <span class="hero__eyebrow">Self-hosted media server</span>
-        <h1 class="hero__headline hero__headline--animated" id="hero-headline">Every Frame, a <em>Mystery</em>.</h1>
-        <p class="hero__subheadline">An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.</p>
-        <div class="hero__actions">
-          <a href="download.html" class="btn btn-primary btn--lg">Get Phlix</a>
-          <a href="https://detain.github.io/phlix-docs" class="btn btn-secondary btn--lg" rel="noopener noreferrer">Read the docs</a>
+    <main id="main-content" tabindex="-1">
+      <!-- Hero Section -->
+      <section class="hero" aria-labelledby="hero-headline">
+        <div class="hero__content">
+          <span class="hero__eyebrow">Self-hosted media server</span>
+          <h1 class="hero__headline hero__headline--animated" id="hero-headline">
+            Every Frame, a <em>Mystery</em>.
+          </h1>
+          <p class="hero__subheadline">
+            An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop,
+            phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows
+            you anywhere.
+          </p>
+          <div class="hero__actions">
+            <a href="download.html" class="btn btn-primary btn--lg">Get Phlix</a>
+            <a
+              href="https://detain.github.io/phlix-docs"
+              class="btn btn-secondary btn--lg"
+              rel="noopener noreferrer"
+              >Read the docs</a
+            >
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Pitch Section -->
-    <section class="pitch" aria-labelledby="pitch-title">
-      <h2 class="pitch__title" id="pitch-title">Why Phlix?</h2>
-      <ul class="pitch__list" role="list">
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          <span>100% self-hostable — your library never leaves your hardware unless you say so</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-          <span>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-          <span>Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-          </svg>
-          <span>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polygon points="23 7 16 12 23 17 23 7"/>
-            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-          </svg>
-          <span>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-          </svg>
-          <span>Live TV with DVR + EPG guide integration</span>
-        </li>
-        <li class="pitch__item reveal">
-          <svg class="pitch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          <span>Plugin system with a versioned manifest contract</span>
-        </li>
-      </ul>
-    </section>
+      <!-- Pitch Section -->
+      <section class="pitch" aria-labelledby="pitch-title">
+        <h2 class="pitch__title" id="pitch-title">Why Phlix?</h2>
+        <ul class="pitch__list" role="list">
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span
+              >100% self-hostable — your library never leaves your hardware unless you say so</span
+            >
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            <span
+              >Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span
+            >
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span
+              >Real-time SyncPlay with NTP-style time sync so movie night actually stays in
+              sync</span
+            >
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
+            <span
+              >Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</span
+            >
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+            <span>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+            <span>Live TV with DVR + EPG guide integration</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg
+              class="pitch__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            <span>Plugin system with a versioned manifest contract</span>
+          </li>
+        </ul>
+      </section>
 
-    <!-- Features Overview -->
-    <section class="features-overview" aria-labelledby="features-title">
-      <div class="container">
-        <h2 class="features-overview__title" id="features-title">Every scene, covered</h2>
-        <div class="features-grid">
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              <line x1="12" y1="6" x2="12" y2="10"/>
-              <line x1="12" y1="14" x2="12" y2="14"/>
-            </svg>
-            <h3 class="feature-card__title">Library that organizes itself</h3>
-            <p class="feature-card__body">Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository hydrates metadata_json. Add a file, see it appear.</p>
-            <a href="features.html#library" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-            <h3 class="feature-card__title">SyncPlay across the room or across the country</h3>
-            <p class="feature-card__body">Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame. Play, pause, seek — everyone moves together.</p>
-            <a href="features.html#syncplay" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <polygon points="23 7 16 12 23 17 23 7"/>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-            </svg>
-            <h3 class="feature-card__title">Transcoding that picks the right quality</h3>
-            <p class="feature-card__body">QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28 libx264/libx265 with HLS master and variant playlists.</p>
-            <a href="features.html#transcode" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            <h3 class="feature-card__title">Multi-user, multi-profile, parental controls</h3>
-            <p class="feature-card__body">JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.</p>
-            <a href="features.html#auth" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-            </svg>
-            <h3 class="feature-card__title">Live TV with DVR + EPG</h3>
-            <p class="feature-card__body">ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.</p>
-            <a href="features.html#livetv" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-              <polyline points="17 2 12 7 7 2"/>
-            </svg>
-            <h3 class="feature-card__title">DLNA for the devices you already own</h3>
-            <p class="feature-card__body">ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't need a new app.</p>
-            <a href="features.html#dlna" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="2" y1="12" x2="22" y2="12"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
-            <h3 class="feature-card__title">Plugin system with a real contract</h3>
-            <p class="feature-card__body">LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See phlix-plugin-example.</p>
-            <a href="features.html#plugins" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="feature-card reveal">
-            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-            </svg>
-            <h3 class="feature-card__title">Phlix Hub — reach any of your servers from anywhere</h3>
-            <p class="feature-card__body">Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public hub.</p>
-            <a href="features.html#hub" class="feature-card__link">See all features <span aria-hidden="true">→</span></a>
-          </article>
+      <!-- Features Overview -->
+      <section class="features-overview" aria-labelledby="features-title">
+        <div class="container">
+          <h2 class="features-overview__title" id="features-title">Every scene, covered</h2>
+          <div class="features-grid">
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                <line x1="12" y1="6" x2="12" y2="10" />
+                <line x1="12" y1="14" x2="12" y2="14" />
+              </svg>
+              <h3 class="feature-card__title">Library that organizes itself</h3>
+              <p class="feature-card__body">
+                Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
+                hydrates metadata_json. Add a file, see it appear.
+              </p>
+              <a href="features.html#library" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <h3 class="feature-card__title">SyncPlay across the room or across the country</h3>
+              <p class="feature-card__body">
+                Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
+                Play, pause, seek — everyone moves together.
+              </p>
+              <a href="features.html#syncplay" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <polygon points="23 7 16 12 23 17 23 7" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+              </svg>
+              <h3 class="feature-card__title">Transcoding that picks the right quality</h3>
+              <p class="feature-card__body">
+                QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28
+                libx264/libx265 with HLS master and variant playlists.
+              </p>
+              <a href="features.html#transcode" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <h3 class="feature-card__title">Multi-user, multi-profile, parental controls</h3>
+              <p class="feature-card__body">
+                JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user,
+                4- or 6-digit PINs, rating filter from G to NC-17.
+              </p>
+              <a href="features.html#auth" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+              <h3 class="feature-card__title">Live TV with DVR + EPG</h3>
+              <p class="feature-card__body">
+                ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide
+                that doesn't make you click through menus.
+              </p>
+              <a href="features.html#livetv" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2" />
+                <polyline points="17 2 12 7 7 2" />
+              </svg>
+              <h3 class="feature-card__title">DLNA for the devices you already own</h3>
+              <p class="feature-card__body">
+                ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't
+                need a new app.
+              </p>
+              <a href="features.html#dlna" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                />
+              </svg>
+              <h3 class="feature-card__title">Plugin system with a real contract</h3>
+              <p class="feature-card__body">
+                LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
+                phlix-plugin-example.
+              </p>
+              <a href="features.html#plugins" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+            <article class="feature-card reveal">
+              <svg
+                class="feature-card__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"
+                />
+              </svg>
+              <h3 class="feature-card__title">
+                Phlix Hub — reach any of your servers from anywhere
+              </h3>
+              <p class="feature-card__body">
+                Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
+                hub.
+              </p>
+              <a href="features.html#hub" class="feature-card__link"
+                >See all features <span aria-hidden="true">→</span></a
+              >
+            </article>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CTA Banner -->
-    <section class="cta-banner" aria-labelledby="cta-title">
-      <h2 class="cta-banner__title" id="cta-title">The city never sleeps. Neither do you.</h2>
-      <p class="cta-banner__subtitle">Start streaming on your own terms — no subscriptions, no tracking, no limits.</p>
-      <a href="download.html" class="btn btn-primary btn--lg">Download Phlix</a>
-    </section>
+      <!-- CTA Banner -->
+      <section class="cta-banner" aria-labelledby="cta-title">
+        <h2 class="cta-banner__title" id="cta-title">The city never sleeps. Neither do you.</h2>
+        <p class="cta-banner__subtitle">
+          Start streaming on your own terms — no subscriptions, no tracking, no limits.
+        </p>
+        <a href="download.html" class="btn btn-primary btn--lg">Download Phlix</a>
+      </section>
+    </main>
 
-  </main>
+    <footer class="site-footer" role="contentinfo">
+      <p class="footer-tagline">Open-source media, on your terms.</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav__column">
+          <h3 class="footer-nav__heading">Product</h3>
+          <ul class="footer-nav__list">
+            <li><a class="footer-nav__link" href="features.html">Features</a></li>
+            <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
+            <li><a class="footer-nav__link" href="download.html">Download</a></li>
+            <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav__column">
+          <h3 class="footer-nav__heading">Developers</h3>
+          <ul class="footer-nav__list">
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://detain.github.io/phlix-docs"
+                rel="noopener noreferrer"
+                >Documentation</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://github.com/detain/phlix-server"
+                rel="noopener noreferrer"
+                >Server source</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://github.com/detain/phlix-plugin-example"
+                rel="noopener noreferrer"
+                >Plugin example</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://detain.github.io/phlix-docs/reference"
+                rel="noopener noreferrer"
+                >API reference</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="footer-nav__column">
+          <h3 class="footer-nav__heading">Project</h3>
+          <ul class="footer-nav__list">
+            <li>
+              <a class="footer-nav__link" href="https://github.com/detain" rel="noopener noreferrer"
+                >GitHub org</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://github.com/detain/phlix-server/issues"
+                rel="noopener noreferrer"
+                >Issues</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://github.com/detain/phlix-hub"
+                rel="noopener noreferrer"
+                >Hub</a
+              >
+            </li>
+            <li>
+              <a
+                class="footer-nav__link"
+                href="https://github.com/detain/phlix-website/blob/master/LICENSE"
+                rel="noopener noreferrer"
+                >License (BSD-3)</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <p class="footer-copy">&copy; 2026 Phlix — BSD-3-Clause</p>
+    </footer>
 
-  <footer class="site-footer" role="contentinfo">
-    <p class="footer-tagline">Open-source media, on your terms.</p>
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <div class="footer-nav__column">
-        <h3 class="footer-nav__heading">Product</h3>
-        <ul class="footer-nav__list">
-          <li><a class="footer-nav__link" href="features.html">Features</a></li>
-          <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
-          <li><a class="footer-nav__link" href="download.html">Download</a></li>
-          <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav__column">
-        <h3 class="footer-nav__heading">Developers</h3>
-        <ul class="footer-nav__list">
-          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">Documentation</a></li>
-          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server" rel="noopener noreferrer">Server source</a></li>
-          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">Plugin example</a></li>
-          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer">API reference</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav__column">
-        <h3 class="footer-nav__heading">Project</h3>
-        <ul class="footer-nav__list">
-          <li><a class="footer-nav__link" href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
-          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer">Issues</a></li>
-          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a></li>
-          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-website/blob/master/LICENSE" rel="noopener noreferrer">License (BSD-3)</a></li>
-        </ul>
-      </div>
-    </nav>
-    <p class="footer-copy">&copy; 2026 Phlix — BSD-3-Clause</p>
-  </footer>
-
-  <script src="js/main.js" defer></script>
-</body>
+    <script src="js/main.js" defer></script>
+  </body>
 </html>

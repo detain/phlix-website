@@ -1,5 +1,21 @@
 #!/usr/bin/env node
 /**
+ * ⚠ LEGACY — NOT PART OF THE DEPLOY PATH. DO NOT RUN. DO NOT TREAT AS SOURCE OF TRUTH.
+ *
+ * This file belongs to the removed `variants/` pipeline: it scaffolded
+ * `variants/<slug>/` folders from `shared/data/brand-kits.json`. The `variants/`
+ * directory was DELETED on 2026-06-30 and replaced by 50 hand-authored sites
+ * under `sites/<slug>/`, so running this would write into a directory nothing
+ * builds or publishes.
+ *
+ * `tools/build.mjs` does NOT read this file, and does not read
+ * `shared/data/brand-kits.json` either. The real sources of truth are:
+ *   - `brand-kits/*.js`   — one brand kit per file (the 50 kits)
+ *   - `sites/<slug>/`     — the authored site for each kit (what gets published)
+ * Sites are authored by an agent following `new_site.md`, not scaffolded by a
+ * script. See `plan_site_regen.md` §0.5.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
  * tools/scaffold-new-variants.mjs
  *
  * Scaffolds variants/<slug>/ folders for brand kits 06–20 (the 75 kits added to

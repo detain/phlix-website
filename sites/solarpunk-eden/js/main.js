@@ -14,7 +14,7 @@
 
   /* ── Mobile nav toggle ─────────────────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -39,26 +39,27 @@
   }
 
   /* ── Reduced-motion guard ──────────────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Scroll reveals (IntersectionObserver) ─────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = document.querySelectorAll('.reveal');
 
     if (revealEls.length > 0) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
-      });
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px',
+        },
+      );
 
       revealEls.forEach(function (el) {
         observer.observe(el);
@@ -81,5 +82,4 @@
       }
     });
   });
-
 })();

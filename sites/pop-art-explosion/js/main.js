@@ -9,7 +9,7 @@
 
   // ── Mobile nav toggle ────────────────────────────────────────────
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
@@ -36,9 +36,7 @@
   }
 
   // ── Reduced motion check ──────────────────────────────────────────
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ── Scroll reveals (fade + slide-up) ──────────────────────────────
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
@@ -51,7 +49,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     document.querySelectorAll('.feature-card, .client-card, .download-card').forEach((el) => {

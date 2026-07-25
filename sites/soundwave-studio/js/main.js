@@ -15,9 +15,7 @@
      Reduced motion preference
      ========================================================================== */
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ==========================================================================
      Mobile nav toggle
@@ -67,11 +65,7 @@
 
     // Close on outside click
     document.addEventListener('click', function (e) {
-      if (
-        isOpen &&
-        !navMenu.contains(e.target) &&
-        !navToggle.contains(e.target)
-      ) {
+      if (isOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
         closeNav();
       }
     });
@@ -80,9 +74,7 @@
     navMenu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
-      const focusable = Array.from(
-        navMenu.querySelectorAll('a[href], button:not([disabled])')
-      );
+      const focusable = Array.from(navMenu.querySelectorAll('a[href], button:not([disabled])'));
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
 
@@ -173,7 +165,7 @@
       {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px',
-      }
+      },
     );
 
     document.querySelectorAll('.reveal').forEach(function (el) {

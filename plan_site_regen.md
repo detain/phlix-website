@@ -53,16 +53,19 @@ signal**. Fix this first. Every item is independently committable.
 on zero matches, so `npm test` can never pass. Point it at `sites/`; exempt
 `404.html` from the canonical-collision rule if needed (it is `noindex`).
 
-### 0.2 Two CSS files have real syntax errors
+### 0.2 ~~Two~~ **113** CSS files had real syntax errors — ✅ DONE
 The copyright-header commit `77afc8e` injected a bare ` * @copyright …` line
-outside any comment block:
+outside any comment block. Only two were visible (prettier reports one syntax
+error per file and stops); a comment-mask scan of all 608 files under `sites/`
+found the line had landed outside a comment in **113 of the 150 CSS files** —
+i.e. **every one of the 50 sites was silently dropping stylesheet rules in
+production**. All 113 fixed; `postcss.parse` now clean across all 608 files.
+The 50 `.js` files from the same commit were fine.
 
-- `sites/street-mural/css/theme.css:562`
-- `sites/manga-studio/css/components.css:761`
-
-Browsers skip to the next parseable rule, so **both sites are silently losing
-styles in production**. Fix the comment delimiters and audit the other 48 for the
-same mangling.
+Still open (cosmetic, deliberately not folded into a syntax repair): 33 CSS files
+where the line landed *inside* an existing banner comment — valid CSS, untidy —
+and the fact that headers now sit mid-file in 146 CSS files and at line 1 in only
+4.
 
 ### 0.3 The `Lint` workflow has never passed
 `gh run list --workflow=lint.yml --branch master` is **failure on every push back
@@ -77,10 +80,41 @@ nothing blocks a deploy on it. Current debt:
 | `lint:js` (eslint) | ✅ clean |
 | `linkcheck` | ❌ (also failing on schedule since 2026-07-20) |
 
-Do `stylelint --fix`, then `prettier --write`, as **one mechanical commit of its
-own, before any regen**, so the regen diffs stay readable. Then decide per rule
-whether to conform or relax `.stylelintrc.json` — do not leave 2570 errors as
-permanent noise, or Phase 2's gate is meaningless again.
+**Resolved — `npm run lint` is now green** (`lint:html`, `lint:css`, `lint:js` all
+clean) and `npm run format:check` reports 0. How, and the two traps met on the
+way:
+
+- **`stylelint --fix` silently strips vendor prefixes.** `stylelint-config-standard`
+  enables `property-no-vendor-prefix`, so a plain `--fix` removed 57 `-webkit-`
+  declarations — including `-webkit-text-stroke`, which has **no** unprefixed
+  equivalent (the effect simply disappears) and `-webkit-background-clip: text`,
+  the canonical gradient-text technique. It also turned valid prefixed/unprefixed
+  pairs into literal duplicate properties, which is where the 25
+  `declaration-block-no-duplicate-properties` errors came from. `property-no-vendor-prefix`
+  and `value-no-vendor-prefix` are now **off**; prefix count verified 275 before
+  and after. **Never run `stylelint --fix` on this repo without that guard.**
+- **stylelint and prettier fought.** With `rule-empty-line-before` and friends on,
+  prettier-clean files reported 600+ phantom errors. Since `format:check` is the
+  enforced gate, prettier owns formatting: `rule-empty-line-before`,
+  `comment-empty-line-before`, `at-rule-empty-line-before`, `function-url-quotes`,
+  `font-family-name-quotes` and `keyframes-name-pattern` are disabled. Substantive
+  rules stay on, so a red `lint:css` now means a real defect.
+- **Real defects found and fixed by the substantive rules** (the reason not to just
+  disable everything): 5 `@font-face` blocks using `style:` instead of
+  `font-style:`, 4 invalid three-value `font-weight` ranges
+  (`400 600 900` — a variable-font range takes two), and 15 duplicate selectors of
+  which **8 carried a silently-dead `line-height`/`color` declaration**. The
+  duplicates were merged later-block-wins, which is behaviour-preserving because
+  the later declaration already won; verified by diffing full computed styles for
+  13 affected selectors across 9 sites in a real browser — all identical (the one
+  apparent difference was an in-flight `inkDissolve` animation, identical once
+  settled).
+- One genuine `htmlhint` error fixed: a duplicated `rel` attribute at
+  `sites/stardust-observatory/download.html`.
+
+Note for JSON configs: stylelint validates rule names, so `"//": "comment"` keys
+are parsed as unknown rules and generate one error per file. Rationale goes here,
+not in `.stylelintrc.json`.
 
 ### 0.4 Brand typography is broken or absent on 45 of 50 sites
 Typography is a primary brand-kit dimension and it is mostly not rendering:
@@ -92,10 +126,21 @@ Typography is a primary brand-kit dimension and it is mostly not rendering:
 | External Google Fonts CDN | **5** | `editorial-underground`, `holographic-future`, `manga-studio`, `pixel-dungeon`, `soundwave-studio` — violates new_site.md §7 (self-hosted, no CDN) **and** the documented CSP `font-src 'self'` |
 | No webfonts at all | **26** | system fonts only |
 
-Decide the font-sourcing policy **before** Phase 1, because every regenerated site
-depends on it: either vendor the WOFF2 files each kit's `fonts{}` names, or pick
-metric-compatible self-hosted substitutes and record the substitution. An
-authoring agent cannot invent font binaries.
+**Decided (2026-07-24): vendor the real WOFF2 per kit.** Typography is a primary
+brand dimension and the point of the program is that kits feel like different
+products, so each kit gets the actual families its `fonts{}` block names,
+latin-subset, self-hosted under `sites/<slug>/css/fonts/` (the layout
+`chrome-velocity` already uses). Requires a per-family licence check — prefer
+OFL/Apache families and record the licence in `SITE.md`. An authoring agent cannot
+invent font binaries, so the files must be vendored **before** the kit is
+re-authored, and `new_site.md` §7 needs this written into it.
+
+Note the 5 CDN sites also violate the documented CSP (`font-src 'self'`), and a
+related finding: **`_headers` sets `script-src 'self'` with no `'unsafe-inline'`,
+yet `sites/prairie-bloom/index.html` and `sites/psychedelic-groove/index.html` ship
+inline footer-year scripts** that the CSP kills. (`_headers` is Cloudflare-format
+and inert on GitHub Pages today, so this is latent rather than live — but it will
+bite on any move to Cloudflare, and the regen should not add inline scripts.)
 
 ### 0.5 Stale tooling paths
 - `.github/workflows/linkcheck.yml` PR trigger still filters on `variants/**/*.html` → never fires on `sites/**`.
@@ -108,9 +153,56 @@ authoring agent cannot invent font binaries.
 root `index.html` and `404.html` are never linted. Add them, or note the exclusion
 deliberately.
 
-**Phase 0 exit bar:** `npm test` (lint + linkcheck + meta) passes on master, the
-font policy is decided and written into `new_site.md` §7, and `npm run dev` serves
-`sites/`.
+### 0.7 The OG/meta pipeline was broken end to end — ✅ DONE
+`gen-og.mjs`, `fix-meta.mjs` and `a11y.mjs` all still globbed `variants/`.
+`gen-og.mjs` being dead was the root cause of a live SEO defect: with no `og.png`
+ever generated, **305 of 402 pages** advertised `og:image` as a relative `.svg`,
+which social platforms will not render. Separately **288 of 402 pages** carried a
+spurious `/sites/` segment in `canonical`/`og:url` — build copies `sites/<slug>/`
+to `dist/<slug>/`, so every one of those URLs 404s live. `check-meta` reported
+**1991 problems**; it now passes clean across all 402 pages.
+
+Two real `gen-og.mjs` bugs surfaced: named XML entities (`&mdash;`/`&nbsp;`/`&bull;`
+are undefined in a DTD-less SVG, so libxml2 rejects the whole document — browsers
+are lenient, which is how they passed authoring), and SVG rasterisation
+(ImageMagick 6 advertises an rsvg delegate but parses SVG with its internal MSVG
+renderer, which reads `fill="url(#noise)"` as a colour named `noise` and drops
+patterns/filters — rendering now prefers `rsvg-convert`, which needs
+**`librsvg2-bin` installed**). It also no longer aborts the batch on the first bad
+file.
+
+### 0.8 ~1200 genuinely broken links — OPEN, needs a decision
+`npm run linkcheck` reports **945 broken links** across 2139. Classes:
+
+| Pattern | Count | Verdict |
+| --- | --- | --- |
+| `detain.github.io/phlix-docs/reference` (+ `hub-admin`, `developers`, `hub`) | ~950 | **Real.** These 301 to a trailing slash that then 404s. The docs site publishes `…/hub-admin/overview.html`-style paths and has **no reference/API page at all**. |
+| `phlix-website/<slug>/img/og.png` | ~626 | **Transient** — the new PNGs simply aren't deployed yet; they resolve after merge. |
+| `github.com/phlix-website/blob/master/LICENSE` | ~226 | **Real** — malformed; the org/repo segment is missing. |
+| `github.com/detain/phlix-server/blob/master/…` | ~66 | **Real** — paths that don't exist in that repo. |
+| doubled `…/<slug>/stardust-observatory/` | 2 | **Real** — path built twice. |
+
+Deliberately **not** hand-fixed: these are content defects in 50 sites that are
+about to be re-authored, so fixing them in the old HTML is throwaway work. The
+leverage is upstream — `shared/content.json` holds the canonical URLs, so **fixing
+them there fixes all 50 regenerated sites at once**. It has one broken
+`phlix-docs/reference` entry today.
+
+**Decision needed before Phase 1:** what should the "reference" docs link point at?
+No such page exists on the docs site. Either publish one in `phlix-docs`, or
+repoint `content.json` at an existing page. Until that's settled, every regenerated
+site will inherit the same dead link.
+
+Also note **`npm test` includes `linkcheck`, which validates absolute URLs against
+the live deployed site.** That makes it unusable as a strict pre-merge gate for any
+newly added asset — new pages and images cannot pass until after they deploy. Treat
+`linkcheck` as a post-deploy check with a known-broken baseline, not a merge gate.
+
+**Phase 0 exit bar (revised):** `npm run lint`, `npm run format:check` and
+`npm run meta` green on master (**all now true**); the font policy decided and
+written into `new_site.md` §7 (**decided: vendor real WOFF2 per kit** — still to be
+written up and the files vendored); `npm run dev` serves `sites/`; and the
+`linkcheck` baseline recorded with the docs-URL decision above made.
 
 ---
 

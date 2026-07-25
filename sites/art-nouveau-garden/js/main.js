@@ -11,7 +11,8 @@
   var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    var focusableSelectors = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    var focusableSelectors =
+      'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
     var focusableEls = function () {
       return [].slice.call(navMenu.querySelectorAll(focusableSelectors)).filter(function (el) {
         return el.offsetParent !== null;
@@ -78,7 +79,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
       revealEls.forEach(function (el) {
         revealObserver.observe(el);
@@ -94,13 +95,20 @@
   /* ── Focus ring bloom on interactive elements ───────────────────────────── */
   if (!prefersReducedMotion) {
     document.querySelectorAll('.btn, a, button, input, select, textarea').forEach(function (el) {
-      el.addEventListener('focus', function () {
-        el.classList.add('focus-ring-bloom');
-      }, { passive: true });
-      el.addEventListener('blur', function () {
-        el.classList.remove('focus-ring-bloom');
-      }, { passive: true });
+      el.addEventListener(
+        'focus',
+        function () {
+          el.classList.add('focus-ring-bloom');
+        },
+        { passive: true },
+      );
+      el.addEventListener(
+        'blur',
+        function () {
+          el.classList.remove('focus-ring-bloom');
+        },
+        { passive: true },
+      );
     });
   }
-
 })();

@@ -9,9 +9,7 @@
   'use strict';
 
   /* ── Reduced motion detection ───────────────────────────────────────────── */
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Mobile nav toggle ──────────────────────────────────────────────────── */
   const navToggle = document.querySelector('.nav-toggle');
@@ -64,7 +62,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
       revealElements.forEach(function (el) {
         revealObserver.observe(el);
@@ -91,10 +89,13 @@
   /* ── Prevent double-tap zoom on mobile ───────────────────────────────── */
   var touchElements = document.querySelectorAll('button, a, input, select, textarea');
   touchElements.forEach(function (el) {
-    el.addEventListener('touchend', function (e) {
-      e.preventDefault();
-      el.click();
-    }, { passive: false });
+    el.addEventListener(
+      'touchend',
+      function (e) {
+        e.preventDefault();
+        el.click();
+      },
+      { passive: false },
+    );
   });
-
 })();

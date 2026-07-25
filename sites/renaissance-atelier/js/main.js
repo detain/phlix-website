@@ -13,9 +13,7 @@
   'use strict';
 
   /* ─── Reduced motion ──────────────────────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ─── Scroll reveals ──────────────────────────────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
@@ -30,9 +28,11 @@
             }
           });
         },
-        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' },
       );
-      reveals.forEach(function (el) { observer.observe(el); });
+      reveals.forEach(function (el) {
+        observer.observe(el);
+      });
     }
   } else {
     // Show all reveals immediately if reduced-motion or no IO support
@@ -58,13 +58,11 @@
       heroContent.style.transform = 'translateY(20px)';
       requestAnimationFrame(function () {
         setTimeout(function () {
-          heroContent.style.transition =
-            'opacity 600ms ease-out, transform 600ms ease-out';
+          heroContent.style.transition = 'opacity 600ms ease-out, transform 600ms ease-out';
           heroContent.style.opacity = '1';
           heroContent.style.transform = 'translateY(0)';
         }, 200);
       });
     }
   }
-
 })();

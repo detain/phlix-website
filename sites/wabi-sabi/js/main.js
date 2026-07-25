@@ -10,7 +10,7 @@
   // ─── Mobile Navigation Toggle ────────────────────────────────────────────────
 
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -38,9 +38,7 @@
 
   // ─── Reduced Motion ────────────────────────────────────────────────────────────
 
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ─── Scroll Reveal (ink-dissolve fade-in) ─────────────────────────────────────
 
@@ -54,11 +52,11 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
     var revealTargets = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item'
+      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item',
     );
 
     revealTargets.forEach(function (el) {
@@ -90,5 +88,4 @@
   } else if (navLogo) {
     navLogo.style.opacity = '1';
   }
-
 })();
