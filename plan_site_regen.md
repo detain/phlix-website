@@ -277,6 +277,54 @@ written up and the files vendored); `npm run dev` serves `sites/`; and the
 
 ---
 
+## 3. Phase 1 — pilot one kit (calibration gate) — ✅ DONE 2026-07-24
+
+**`abstract-canvas` shipped.** Answers to the four questions the pilot existed to
+answer:
+
+1. **Does regen produce a visibly different experience?** Yes, structurally, and
+   measured rather than asserted: 6 renamed nav items vs 8 generic; 5 kit-ordered
+   home sections vs 4; 9 pages vs 8; 2 focal + 4 study + 2 marginalia features vs
+   7 identical cards; 5 stacked stations vs one card grid; a 3-rung CTA ladder vs
+   one repeated CTA. It did **not** converge.
+2. **How many review rounds?** Not yet known — the independent review is the
+   first real data point. The author's self-review was dropped from the prompt as
+   duplicated work.
+3. **Cost:** ~45 min wall-clock, **~410k tokens**, 132 tool calls for one kit,
+   split ~40% reading / ~45% authoring / ~15% verification. Naively ×49 that is
+   the dominant cost of the program, which is why the reading and verification
+   thirds were attacked directly (below) before Phase 2 started.
+4. **Field/DoD conflicts:** 12, all recorded in
+   `sites/abstract-canvas/REGEN_PLAN.md` §5 and folded into `new_site.md` §19.
+
+**What Phase 1 bought, beyond one site.** Three shared-file contradictions that
+would each have hit all 49 remaining kits are fixed (§2A's 404 row contradicting
+its own prose; four places hard-coding BSD-3-Clause against `content.json`;
+`gen-og`/`gen-sitemap` being all-sites-only, so no author could refresh its own
+OG image without writing into 49 other directories). And two new tools now
+mechanize what the pilot hand-rolled:
+
+| Tool                                   | Replaces                                 | Evidence it works                                                                                                                                                                                                          |
+| -------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools/selfcheck.mjs --site <slug>`    | ~10 hand-rolled greps per kit, per agent | Reproduces the known drift exactly: 1/50 pass, 47 missing `404.html`, 16 with unresolvable fonts. Also fixes the pilot's own link-scan bug, whose `[^"#h]` silently skipped `hub.html` on every page.                      |
+| `tools/render-check.mjs --site <slug>` | a per-agent puppeteer harness            | **3 of the pilot's defects were invisible in source**: a hero rendering 0×0, a mascot bubble over the primary CTA at 320px, a toggle under the mascot. Found a 4th the author missed (`download.html` overflows at 320px). |
+
+**Prompt changes for Phase 2:** required reading cut to the kit file plus four
+short sections (`plan_site_regen.md` and `docs/REVIEW_RUBRICS.md` are explicitly
+_not_ the author's to read); `REGEN_PLAN.md` capped at ~400 lines (the pilot wrote
+48 KB of prose); the author no longer self-reviews; verification is four scoped
+commands instead of improvised scripts. `review_site_prompt.md` and
+`fix_site_prompt.md` make the loop reproducible rather than per-kit improvisation.
+
+**The single most transferable finding:** a kit's own
+`accessibility.minimum_contrast` prose **can be wrong**. `abstract-canvas` claimed
+5.8:1 where the accent measures 4.73:1 on its background and 4.35:1 on cards —
+i.e. failing AA for small text while asserting it passed. If the other 49 kits'
+numbers were written the same way, none can be trusted; §19.1 now requires
+measurement.
+
+<details><summary>Original Phase 1 brief</summary>
+
 ## 3. Phase 1 — pilot one kit (calibration gate)
 
 Regenerate **exactly one** kit end-to-end and stop. Recommended pilot:
@@ -300,6 +348,8 @@ The pilot answers questions that would otherwise be answered 50 times:
 pilot converges back on the old template, the prompt is wrong and fixing it once is
 worth far more than 50 mediocre regens.
 
+</details>
+
 ---
 
 ## 4. Phase 2 — waves of five
@@ -320,9 +370,10 @@ Loop B→C until a full round yields no ❌ and no dimension below 90.
 
 ### Concurrency and isolation
 
-- **≤3 concurrent authoring agents.** Each agent owns exactly one `sites/<slug>/`
-  directory; no two agents ever touch the same path, so no worktree isolation is
-  needed for the site trees themselves.
+- **5 concurrent agents** (owner's call, 2026-07-24, superseding the original ≤3).
+  Each agent owns exactly one `sites/<slug>/` directory; no two agents ever touch
+  the same path, so no worktree isolation is needed for the site trees themselves.
+  A wave's reviewer can occupy one of the 5 slots while 4 authors run.
 - Shared files (`shared/content.json`, `new_site.md`, root `index.html`,
   `package.json`) are **read-only to authoring agents.** A kit that needs a shared
   change escalates to the orchestrator instead of editing it — concurrent edits to
