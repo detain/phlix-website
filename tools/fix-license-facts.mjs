@@ -21,6 +21,42 @@
  *   node tools/fix-license-facts.mjs            # apply
  *   node tools/fix-license-facts.mjs --dry-run  # report only
  *
+ * ---------------------------------------------------------------------------
+ * PASS 2 (2026-07-25). Pass 1 shipped and its own report looked clean — it drove
+ * the literal string `BSD-3-Clause` to zero. It was still WRONG in three ways,
+ * and each is a lesson worth keeping:
+ *
+ *  1. **Matching was single-line.** Prettier owns formatting here, so it had
+ *     wrapped these paragraphs mid-sentence:
+ *         sell products based on it
+ *         &mdash; no strings attached.
+ *     Pass 1's literals had the dash inline, so the long semantic rules never
+ *     matched. The short catch-all `BSD-3-Clause` → `MPL-2.0 and MIT` fired
+ *     instead, and the counter reported *its* hits — which read as success while
+ *     the false clause survived on ~31 sites. Matching is now whitespace- and
+ *     dash-encoding-tolerant (`ws()` / `{DASH}`), so a rule cannot silently miss
+ *     because of a line break.
+ *  2. **Matching was case-sensitive.** Three `<meta name="keywords">` carried
+ *     lowercase `bsd-3` / `bsd-3-clause` and were never touched.
+ *  3. **The glob was `sites/*&#47;*.html` only.** It missed five `img/og.svg`
+ *     files whose social-card text says BSD-3-Clause (and which are rasterised
+ *     into the live `og.png`), plus `chrome-velocity/content.json`, which the
+ *     build publishes verbatim.
+ *
+ * The deeper defect pass 1 did not even look for: ~40 sites stated **BSD-3
+ * semantics under an MPL-2.0 label** — "no strings attached", "attribution is
+ * required", "the only obligation is to preserve copyright", and in two cases
+ * BSD-3's no-endorsement clause verbatim. MPL-2.0 is weak copyleft: modify a
+ * Phlix file and that file stays open. "No strings attached" is materially
+ * false for it, so swapping the label alone left every one of those pages
+ * wrong. Nine bespoke paragraphs were rewritten by hand (they each had their own
+ * voice and their own wrong claim); the one dominant shared sentence is rule (A)
+ * below.
+ *
+ * Lesson for the next sweep: a string count going to zero proves the string is
+ * gone, not that the *claim* is right. Grep for the semantics, not the label.
+ * ---------------------------------------------------------------------------
+ *
  * @copyright Copyright (c) 2026 Joe Huss <detain@interserver.net>
  * @license   BSD-3-Clause
  */
@@ -51,8 +87,75 @@ const FAQ_ANSWER = (em) =>
   `If you modify a Phlix file, that file stays open; anything you add alongside it is yours. ` +
   `The shared libraries, plugins, and clients are MIT so you can build on them freely.`;
 
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/* Every dash encoding in use across the 50 sites. A rule must not miss because
+   one kit writes `—` and another `&mdash;`. */
+const DASH_CLASS = '(?:\\u2014|&mdash;|&#8212;)';
+
+/**
+ * Compile a literal into a matcher that tolerates the two things that defeated
+ * pass 1: arbitrary whitespace where the literal has a space (prettier wraps
+ * mid-sentence) and any dash encoding at a `{DASH}` token. Case-insensitive so
+ * the lowercase `bsd-3` in `<meta name="keywords">` is caught too.
+ */
+const ws = (literal) =>
+  new RegExp(
+    literal
+      .trim()
+      .split(/\s+/)
+      .map((t) => (t === '{DASH}' ? DASH_CLASS : escapeRe(t)))
+      .join('\\s+'),
+    'gi',
+  );
+
 /** Ordered [from, to] pairs. `to` may be a function of the file's dash encoding. */
 const RULES = [
+  // ── PASS 2 (A): the dominant false-semantics sentence, on ~31 sites ────────
+  // "no strings attached" is true of BSD-3 and false of MPL-2.0. Distinctive
+  // per-kit tails ("The garden is yours to tend as you see fit.") follow this
+  // sentence and are deliberately left alone.
+  {
+    from:
+      'MPL-2.0 and MIT across all Phlix projects. Use it, modify it, ' +
+      'sell products based on it {DASH} no strings attached.',
+    to: (em) =>
+      `Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins and clients are MIT. ` +
+      `Use them, modify them, and sell products built on them ${em} commercial use is fine. ` +
+      `The one condition: if you modify a Phlix file, that file stays open.`,
+  },
+
+  // ── PASS 2 (B): meta description / keyword fragments ──────────────────────
+  {
+    from: 'MPL-2.0 and MIT across all Phlix projects.',
+    to: () => 'MPL-2.0 server and Hub; MIT libraries, plugins and clients.',
+  },
+  {
+    from: 'MPL-2.0 licensed across all Phlix projects.',
+    to: () => 'MPL-2.0 server and Hub; MIT libraries, plugins and clients.',
+  },
+
+  // ── PASS 2 (C): nordic-saga's visible link TEXT. Pass 2 of my own review
+  // caught two mangled JSON-LD hrefs but missed this third one, which is anchor
+  // text rather than an attribute. The href beside it is already correct.
+  {
+    from: 'opensource.org/licenses/MPL-2.0 and MIT',
+    to: () => 'mozilla.org/en-US/MPL/2.0',
+  },
+
+  // ── PASS 2 (D): a BSD claim with no "-3" in it, so pass 1 could not see it ─
+  {
+    from: 'The entire Phlix ecosystem is open source, peer-reviewed, and MIT/BSD-licensed.',
+    to: () =>
+      'The entire Phlix ecosystem is open source and peer-reviewed ' +
+      '&mdash; MPL-2.0 for the server and Hub, MIT for the libraries, plugins and clients.',
+  },
+
+  // ── PASS 2 (E): social-card text. Scoped to SVG and kept SHORT: these sit in
+  // fixed-width centred <text> runs, so the longer "MPL-2.0 and MIT" risks
+  // overflowing the card. Rasterised into the live og.png, so this is
+  // user-visible in every social embed.
+  { from: 'BSD-3-Clause', to: () => 'MPL-2.0 + MIT', path: /\.svg$/ },
+
   // ── JSON-LD ────────────────────────────────────────────────────────────────
   [
     '"license": { "@type": "CreativeWork", "name": "BSD-3-Clause" }',
@@ -105,7 +208,22 @@ const RULES = [
   ['BSD-3', () => 'MPL-2.0'],
 ];
 
-const files = globSync('sites/*/*.html', { cwd: ROOT }).sort();
+/* Pass 1 globbed only `sites/*&#47;*.html` and therefore never saw the social-card
+   SVGs or the one per-site content.json the build publishes verbatim. */
+const files = [
+  ...globSync('sites/*/*.html', { cwd: ROOT }),
+  ...globSync('sites/*/img/og.svg', { cwd: ROOT }),
+  ...globSync('sites/*/content.json', { cwd: ROOT }),
+].sort();
+
+/* Rules are written either as `[from, to]` (pass 1) or `{ from, to, path }`
+   (pass 2, where some rules are scoped to one file type). Normalise here so the
+   loop below has a single shape to deal with. */
+const rules = RULES.map((r) => (Array.isArray(r) ? { from: r[0], to: r[1] } : r)).map((r) => ({
+  ...r,
+  re: ws(r.from),
+}));
+
 let changedFiles = 0;
 const applied = new Map();
 
@@ -115,10 +233,14 @@ for (const rel of files) {
   // Match the document's own dash encoding so we never mix the two.
   const em = before.includes('&mdash;') ? '&mdash;' : '—';
   let after = before;
-  for (const [from, to] of RULES) {
-    if (!after.includes(from)) continue;
-    const n = after.split(from).length - 1;
-    after = after.split(from).join(typeof to === 'function' ? to(em) : to);
+  for (const { from, to, path: scope, re } of rules) {
+    if (scope && !scope.test(rel)) continue;
+    re.lastIndex = 0;
+    const n = (after.match(re) ?? []).length;
+    if (!n) continue;
+    const replacement = (typeof to === 'function' ? to(em) : to).replaceAll('{DASH}', em);
+    // `$` is literal in these replacements, not a capture reference.
+    after = after.replace(re, () => replacement);
     applied.set(from, (applied.get(from) ?? 0) + n);
   }
   if (after !== before) {
