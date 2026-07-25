@@ -55,10 +55,16 @@ where you should spend nearly all your effort:
 
 ## Write
 
-One file per dimension: `reviews/<slug>/<dimension>.md`, using the
-`docs/REVIEW_RUBRICS.md` template. Then `reviews/<slug>/ROUND-<n>.md` — a
-numbered list of every ❌ and ⚠️. **That list is what the Fixer works from**, so
-each entry needs `file:line` and a concrete required change, not a complaint.
+Write into **`reviews/<slug>/round-<n>/`** — one file per dimension, using the
+`docs/REVIEW_RUBRICS.md` template. Use the next unused round number; `round-1/`
+if none exists. **Never write a bare `reviews/<slug>/<dimension>.md`**: those
+canonical filenames are already occupied by the 2026-06-30 review of the
+predecessor site, and the first regeneration review silently overwrote eight of
+them.
+
+Then `reviews/<slug>/round-<n>/FINDINGS.md` — a numbered list of every ❌ and ⚠️.
+**That list is what the Fixer works from**, so each entry needs `file:line` and a
+concrete required change, not a complaint.
 
 ## Rules
 

@@ -7,9 +7,12 @@ The kit slug is on the last line of this message.
 
 ## Read first
 
-1. `reviews/<slug>/ROUND-<n>.md` — the highest-numbered round file. This is your
-   work list.
-2. The per-dimension files in `reviews/<slug>/` for the detail behind each finding.
+1. `reviews/<slug>/round-<n>/FINDINGS.md` — the highest-numbered round. This is
+   your work list. (The first round of `abstract-canvas` predates this convention
+   and lives at `reviews/abstract-canvas/ROUND-1.md`.)
+2. The per-dimension files beside it, for the detail behind each finding.
+   Anything under `_predecessor-*/` describes the **old** site — context only,
+   not a work list.
 3. `brand-kits/<slug>.js` — the spec. When a finding and the spec disagree, **the
    spec wins**; say so in your report.
 4. `new_site.md` §2A / §7 / §18 and `plan_site_regen.md` §5 — the rules the fix

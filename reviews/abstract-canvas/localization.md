@@ -1,68 +1,66 @@
-# Review: Localization — abstract-canvas
+# Localization Review — Abstract Canvas
 
-## Score: 82 / 100
+> Supersedes the 2026-06-30 review of the **predecessor** site (recoverable from git history).
 
----
+**Variant**: abstract-canvas
+**Round**: 1 (regen pass, `regen/wave-1`)
+**Reviewer**: adversarial reviewer (independent)
+**Date**: 2026-07-24
 
-## Findings
+## Score
 
-### ✅ `<html lang="en">` set on all 8 pages
-- index.html:2 ✅, features.html:2 ✅, clients.html:2 ✅, download.html:2 ✅
-- plugins.html:2 ✅, docs.html:2 ✅, hub.html:2 ✅, about.html:2 ✅
-- Matches `site.default_locale: "en"` from content.json ✅
+- **Localization**: 88 / 100
 
-### ✅ All user-facing strings appear to trace back to content.json (with caveat)
-- Hero content: eyebrow/headline/subheadline/primary_cta/secondary_cta all match content.json hero block
-- Pitch bullets: all 7 items match content.json pitch_bullets exactly
-- Feature titles and bodies: all 8 match content.json features[] exactly
-- Clients: all 5 match content.json clients[] exactly (Roku, Samsung Tizen, Windows, Mobile, DLNA)
-- Ecosystem items: all 5 match content.json ecosystem[] exactly
-- FAQ items: all 6 match content.json faq[] exactly
-- Footer tagline and columns: match content.json footer block exactly
+## ✅ Passed
 
-### ⚠️ CTA button labels are hardcoded inline, not dynamically loaded from content.json
-- The values happen to match content.json (e.g. "Get Phlix" = hero.primary_cta.label), but the HTML has no variable substitution
-- If a translator needed to change "Get Phlix" to "Descargar Phlix", they would need to edit every HTML file
-- Per new_site.md §15: "All user-facing strings trace back to content.json (so a translator swaps one file)"
-- This is a structural rather than content issue — copy is correct, but not i18n-ready
-- **Severity: ⚠️** — not blocked for en-only build, but violates the localization architecture intent
+- `<html lang="en">` on all 9 pages, matching `content.json.site.default_locale`.
+- **No locale-unsafe formatting anywhere**: zero `toLocaleString`, `toLocaleDateString`,
+  `Intl.*` or `new Date().toLocale…` calls in `js/main.js`. The only date logic is the seasonal gate,
+  which builds an `MM-DD` string with `padStart` from `getMonth()`/`getDate()`
+  (`js/main.js:369-380`) — locale-independent by construction, and the year-wrap case is handled.
+- **RTL hygiene is genuinely good** — the CSS uses logical properties throughout:
+  `margin-inline`, `padding-inline`, `padding-block`, `inset-inline`, `border-block`,
+  `padding-left`/`border-left` only on decorative rules. `float` is never used. `.nav-menu`'s mobile
+  panel uses `inset-inline: 0`, and the wall grid is direction-agnostic.
+- Fonts are latin-subset WOFF2s from the shared pool — correctly scoped to the one supported script,
+  no unnecessary ranges shipped.
+- All **facts** are traceable to the single `shared/content.json`, so a translator swapping that one
+  file gets every spec claim, client, licence sentence and FAQ answer.
+- Text is never baked into an image: the logo/OG SVGs use real `<text>`, and every icon is decorative
+  with `aria-hidden`.
 
-### ✅ No locale-unsafe formatting detected
-- No `new Date()` in user-facing copy
-- No `Intl.NumberFormat` or locale-dependent number formatting in visible text
-- Copyright year is hardcoded `© 2026` — acceptable for static site; would need server-side injection for true i18n
-- **No hard-coded dates/numbers in user-facing copy** ✅
+## ⚠️ Concerns (non-blocking)
 
-### ✅ Logical properties not used — but no left/right physical properties found either
-- Reviewed all 8 pages for `left`/`right` in CSS — no physical left/right found in components.css or base.css
-- CSS uses flexbox/grid with `gap` rather than directional margins
-- Some inline `style="margin-left: var(--space-2);"` at download.html:88 — physical property, single instance
-- **Severity: ⚠️** — a few inline physical directional properties exist (download.html:88), but overall no systematic use of left/right that would break RTL
+- **The authored presentation copy is hard-coded in 9 HTML files** — the kit voice ("Two works hang at
+  eye level", the five station talks, the three chapter texts, the 404 line) plus the seven
+  `wall-label` bullets. Facts stay in `content.json`, which is what §15 asks for, but a translator
+  faces ~2,900 words spread across nine documents plus three strings inside `js/main.js` (the tip
+  texts, the reward lines and the seasonal banner, `js/main.js:141-157`, `217-228`, `291`, `317`,
+  `362`). Inherent to the program's static-HTML approach; flagged so it is a known cost, not a
+  surprise.
+- **`© 2026` is hard-coded** in the footer of all 9 pages (e.g. `index.html:634`) — a date literal that
+  will be wrong on 1 Jan and cannot be localised. `content.json` has no year field; the shell spec
+  (§4) does say `&copy; <year>`.
+- The licence line in the footer is a re-voiced sentence rather than the `content.json` label string
+  (the label is used verbatim on the *link*, which is what §5 requires) — traceable to the FAQ answer,
+  so correct, but it is one more sentence a translator must find.
+- Bebas Neue is uppercase-only by design (`text-transform: uppercase` on `.numeral`/`.display`), which
+  will not survive a script without capitals. Only used for roman/arabic numerals here, so harmless.
 
-### ⚠️ Font subset: no subsetting declared
-- Google Fonts not used (self-hosted approach — correct per new_site.md §1)
-- Fonts declared via `@font-face` in base.css:75-79 with system font fallbacks
-- No `unicode-range` subsetting declared on @font-face rules
-- Brand kit fonts (Cormorant Garamond, Lora, Inter, Bebas Neue, JetBrains Mono) are all Latin-script only
-- For en-only build, no subsetting needed — but technically no explicit `unicode-range` is set
-- **Severity: ⚠️** — acceptable for en-only build, though explicit subsetting would be more precise
+## ❌ Failures (must fix this round)
 
-### ⚠️ Some micro-copy is brand-generated, not from content.json
-- download.html: "The server runs on your own hardware. The clients stream to your devices." — brand-flavored, not in content.json
-- about.html: "Built for the viewer who believes how you watch matters as much as what you watch." — brand voice, not in content.json
-- hub.html lines 68-97: descriptive paragraphs are brand-authored, not from content.json
-- docs.html: "Everything you need to install, configure, and extend Phlix — written for humans." — brand micro-copy
-- new_site.md §2 permits brand-flavored micro-copy, so these are acceptable ✅
-- Only substantive product claims (features, clients, ecosystem, FAQ) must match content.json ✅
+- None.
 
-### ❌ `meta.keywords` tag missing from 6 of 8 pages
-- Present: index.html:8
-- Absent: features.html, clients.html, plugins.html, docs.html, hub.html, about.html
-- Per new_site.md §10, `<meta name="keywords">` required on every page
-- **Severity: ⚠️** (not strictly localization, but relates to per-page meta completeness)
+## Recommendations (ranked by impact)
 
----
+1. Derive the copyright year at build time (or drop the year) so it cannot go stale (impact: low,
+   effort: low).
+2. If the program ever adds a second locale, lift the JS-resident strings (tips, reward lines, seasonal
+   banner) into a small data block so they are not buried in logic (impact: low, effort: low).
 
-## Summary
+## Evidence
 
-`<html lang="en">` is correctly set on all pages. All substantive product content traces back to content.json. Copy is locale-safe with no hard-coded dates or numbers. Inline micro-copy is brand-authored but within spec permitted scope. The structural gap is that CTA labels are hardcoded inline rather than injected from content.json — correct for en-only but not i18n-ready if translations were needed. Font subsetting is not explicitly declared but all fonts are Latin-script only so no harm done for this build. The `meta.keywords` omission on 6 pages is a minor spec gap.
+- `grep` sweeps for `toLocale`, `Intl.`, `float:`, `left:`/`right:` and `text-align` across
+  `css/*.css` and `js/main.js`.
+- `<html lang>` and hard-coded-year checks across all 9 pages.
+- Read of `js/main.js` for every user-visible string.
