@@ -245,14 +245,27 @@ async function loadKits() {
  * tracking, lineHeight }`. Roles may be absent, and several roles routinely share
  * one family (e.g. `headline` and `number`).
  */
-// Roles that carry running prose, and therefore inline <strong>/<b>. Nothing in
-// a kit ever *declares* weight 700, because it is implicit: `bolder` on 400 body
-// text computes to exactly 700. So 700 was never vendored, and every site with
-// Inter/Lora/IBM Plex/Nunito Sans/Jost body text had no real bold — one kit had
-// to write `strong { font-weight: 600 }` as a workaround, which reads as barely
-// emphasised. Families with no upstream 700 (display faces like Bebas Neue)
-// clamp back harmlessly via resolveWeight.
-const PROSE_ROLES = new Set(['body', 'ui', 'mono']);
+// HISTORY — read before force-injecting a weight for "prose roles" (body/ui/mono).
+// A previous version of this file did exactly that, injecting
+// weight 700 into every prose role, on the theory that no kit ever *declares*
+// 700 because `bolder` on 400 computes to it. That theory was wrong twice over:
+//
+//   1. Several kits DO declare 700 (pixel-dungeon body/ui [400,700], several
+//      mono roles [400,700]), and several deliberately CAP at [400,500]
+//      (cottagecore-bloom Lora, neon-noir IBM Plex Serif, swiss-modernist Inter
+//      body). Injecting 700 silently overrode the kit's own design decision.
+//   2. The injection reached the per-site EMIT path, not just pool acquisition,
+//      so 50 sites got `@font-face` rules for a weight their kit never asked
+//      for. Two audited kits had shipped exactly that, and one shipped a
+//      `font-weight: 700` face whose `src` was the 500 file (see the clamp guard
+//      in emitCss) — a lie to the font matcher, so `font-weight: 700` rendered
+//      the 500 face.
+//
+// Per-site CSS must contain ONLY the weights the kit declares. A kit that caps
+// its body face and still wants emphasis uses a declared weight or a second
+// channel — see new_site.md §19.17, and the "### Emphasis" block that
+// tools/kit-brief.mjs computes per kit. The shared pool may legitimately hold
+// extra weights; presence in the pool is not permission to reference one.
 
 function kitRoles(kit) {
   const roles = [];
@@ -261,7 +274,6 @@ function kitRoles(kit) {
     const weights = (Array.isArray(spec.weight) ? spec.weight : [spec.weight])
       .filter((w) => w != null)
       .map((w) => String(w));
-    if (PROSE_ROLES.has(role)) weights.push('700');
     roles.push({
       role,
       family: spec.family,
@@ -669,6 +681,7 @@ function managedBlock(kit, sources) {
   const roles = kitRoles(kit);
   const faces = new Map(); // `family|weight` → line data, deduped across roles
   const unresolved = [];
+  const clamped = []; // requested weights with no upstream face, declared at their real weight
 
   for (const r of roles) {
     const src = sources.families[r.family];
@@ -682,7 +695,37 @@ function managedBlock(kit, sources) {
         unresolved.push(`${r.role}: ${r.family} ${w}`);
         continue;
       }
-      faces.set(`${r.family}|${w}`, { family: r.family, weight: w, file: face.file });
+      // `src.faces` is keyed by the REQUESTED weight, but `file` is the weight the
+      // upstream actually serves — `resolveWeight` clamps to the nearest instance
+      // and records `clamped`. Emitting the requested weight with a clamped file
+      // declares a face that does not exist: one kit shipped
+      // `font-weight: 700; src: dm-mono-500-latin.woff2`, so every
+      // `font-weight: 700` against DM Mono silently rendered the 500 face.
+      //
+      // Declare the face at the weight the FILE really is. The family then
+      // genuinely has no 700, the browser synthesises or picks the nearest per the
+      // CSS font-matching algorithm, and nothing lies about what it is.
+      // Two different things arrive here as `clamped`, and only one is a defect:
+      //
+      //   a) a documented SUBSTITUTION with an explicit weightMap (Fredoka One 400
+      //      → Fredoka 600). Deliberate, recorded in font-sources.json, reviewed,
+      //      and already shipped on 5 sites. The stand-in face genuinely represents
+      //      the requested weight, so keep the requested weight and leave it alone.
+      //   b) no upstream instance for the requested weight (DM Mono 700). Nobody
+      //      decided this; it silently produced `font-weight: 700` backed by the
+      //      500 file. Declare it at the weight the file really is.
+      const substituted = Boolean(src.substitution);
+      const realWeight = face.clamped && !substituted ? String(face.sourceWeight) : w;
+      if (face.clamped && !substituted) {
+        clamped.push(
+          `${r.role}: ${r.family} ${w} → declared as ${realWeight} (no ${w} face upstream)`,
+        );
+      }
+      faces.set(`${r.family}|${realWeight}`, {
+        family: r.family,
+        weight: realWeight,
+        file: face.file,
+      });
     }
   }
 
@@ -727,7 +770,7 @@ function managedBlock(kit, sources) {
   for (const l of lines) {
     if (l.length > 100) console.warn(`[fonts] ${kit.slug}: generated line exceeds 100 cols: ${l}`);
   }
-  return { css: `${lines.join('\n')}\n`, faces, unresolved, vars };
+  return { css: `${lines.join('\n')}\n`, faces, unresolved, clamped, vars };
 }
 
 /**
@@ -818,7 +861,7 @@ function emitSite(slug, sources, kit, { dryRun, stripAll }) {
     return null;
   }
 
-  const summary = { slug, removedFaces: [], keptFaces: [], removedImports: [], removedLinks: 0, faces: 0, unresolved: [] };
+  const summary = { slug, removedFaces: [], keptFaces: [], removedImports: [], removedLinks: 0, faces: 0, unresolved: [], clamped: [] };
 
   // 1. clear out the stale @font-face declarations across every stylesheet
   for (const file of siteCss(dir)) {
@@ -837,6 +880,7 @@ function emitSite(slug, sources, kit, { dryRun, stripAll }) {
   const block = managedBlock(kit, sources);
   summary.faces = block.faces.size;
   summary.unresolved = block.unresolved;
+  summary.clamped = block.clamped ?? [];
   const baseText = readFileSync(base, 'utf8');
   const rooted = applyRootVars(baseText, block.vars);
   summary.vars = rooted.applied;
@@ -858,7 +902,8 @@ function emitSite(slug, sources, kit, { dryRun, stripAll }) {
       `removed ${summary.removedFaces.length} stale ` +
       `@font-face / ${summary.removedImports.length} @import / ${summary.removedLinks} CDN <link>` +
       (summary.keptFaces.length ? `, kept ${summary.keptFaces.length} resolving` : '') +
-      (summary.unresolved.length ? `  UNRESOLVED: ${summary.unresolved.join(', ')}` : ''),
+      (summary.unresolved.length ? `  UNRESOLVED: ${summary.unresolved.join(', ')}` : '') +
+      (summary.clamped.length ? `  CLAMPED: ${summary.clamped.join('; ')}` : ''),
   );
   return summary;
 }
