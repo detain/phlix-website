@@ -171,32 +171,74 @@ patterns/filters — rendering now prefers `rsvg-convert`, which needs
 **`librsvg2-bin` installed**). It also no longer aborts the batch on the first bad
 file.
 
-### 0.8 ~1200 genuinely broken links — OPEN, needs a decision
-`npm run linkcheck` reports **945 broken links** across 2139. Classes:
+### 0.8 Broken links: 537 → 166 — mostly RESOLVED
 
-| Pattern | Count | Verdict |
+**Correction to an earlier version of this section**, which claimed the docs site
+"has **no reference/API page at all**" and put the count near 945. Both were wrong.
+The API reference has existed all along at
+`https://detain.github.io/phlix-docs/reference/api.html` ("Phlix Media Server API
+Reference"). It was missed because the earlier probe guessed at paths
+(`api/overview.html`, `dev/api.html`, `reference/overview.html`) and because **the
+docs nav has no Reference entry**, so a crawl from the homepage never reaches the
+`/reference/` section. The real starting count was **537** broken of 2139 scanned.
+
+The docs site is VitePress with `cleanUrls: false`, so every route is `<path>.html`.
+Two measured facts about GitHub Pages that drove the fix:
+
+1. It **already** serves extensionless URLs — `/phlix-docs/faq` → 200, no config.
+   So there was never an "extensions" problem to solve.
+2. A sibling `<name>.html` **outranks** `<name>/`. Provable live: `/libraries` → 200
+   while `/libraries/` → 404, because `docs/libraries.md` exists.
+
+Fact 2 is what made this cheap. The bare paths 404'd only because five sections had
+a directory and no sibling page, and VitePress emits no directory index. Adding five
+landing pages (`reference`, `developers`, `hub`, `hub-admin`, `dev`) in
+**phlix-docs#88** repaired **528 of 537** links with **zero changes to the 50 sites**
+— all five verified 200 live. Separately, **#58** repointed `content.json`'s "API
+reference" entry at `reference/api.html` so regenerated sites link to the precise
+page. The `og.png` class resolved itself on deploy.
+
+**Now at 166**, and the rest is authoring drift that regeneration fixes from
+`content.json`, which is already correct:
+
+| Pattern | Files | Verdict |
 | --- | --- | --- |
-| `detain.github.io/phlix-docs/reference` (+ `hub-admin`, `developers`, `hub`) | ~950 | **Real.** These 301 to a trailing slash that then 404s. The docs site publishes `…/hub-admin/overview.html`-style paths and has **no reference/API page at all**. |
-| `phlix-website/<slug>/img/og.png` | ~626 | **Transient** — the new PNGs simply aren't deployed yet; they resolve after merge. |
-| `github.com/phlix-website/blob/master/LICENSE` | ~226 | **Real** — malformed; the org/repo segment is missing. |
-| `github.com/detain/phlix-server/blob/master/…` | ~66 | **Real** — paths that don't exist in that repo. |
-| doubled `…/<slug>/stardust-observatory/` | 2 | **Real** — path built twice. |
+| `github.com/phlix-website/blob/master/LICENSE` | 113 | Malformed — org segment missing. `content.json:186` already has the right URL (200). |
+| `detain/phlix-server/blob/master/LICENSE` | 33 | **That repo has no LICENSE file** — see §0.9. |
+| `detain/phlix-website/blob/main/LICENSE` | 8 | Wrong branch; it's `master`. |
+| `phlix-docs/{developer,user,plugins,guide,development,api}` | ~12 | One-off typos. Map: `developer`/`development` → `/dev`, `user`/`guide` → `/first-run`, `plugins` → `/plugins/developer-guide`, `api` → `/reference/api`. |
+| doubled `…/<slug>/stardust-observatory/404.html` | 2 | Path built twice. |
 
-Deliberately **not** hand-fixed: these are content defects in 50 sites that are
-about to be re-authored, so fixing them in the old HTML is throwaway work. The
-leverage is upstream — `shared/content.json` holds the canonical URLs, so **fixing
-them there fixes all 50 regenerated sites at once**. It has one broken
-`phlix-docs/reference` entry today.
-
-**Decision needed before Phase 1:** what should the "reference" docs link point at?
-No such page exists on the docs site. Either publish one in `phlix-docs`, or
-repoint `content.json` at an existing page. Until that's settled, every regenerated
-site will inherit the same dead link.
+Do **not** hand-fix these in the old HTML — it is throwaway work on files about to
+be re-authored. The regen prompt must simply take every URL from `content.json`.
 
 Also note **`npm test` includes `linkcheck`, which validates absolute URLs against
 the live deployed site.** That makes it unusable as a strict pre-merge gate for any
 newly added asset — new pages and images cannot pass until after they deploy. Treat
 `linkcheck` as a post-deploy check with a known-broken baseline, not a merge gate.
+
+### 0.9 The published license claim contradicts the code — BLOCKING, owner decision
+
+All 50 sites state BSD-3-Clause as **fact**, including a FAQ answer sourced from
+`content.json`: *"What's the license?" → "BSD-3-Clause across the board."* The
+repos say otherwise:
+
+| Repo | Declares |
+| --- | --- |
+| **phlix-server** | **`"license": "proprietary"`** in `composer.json`, and README: *"Proprietary - All rights reserved."* **No LICENSE file exists.** |
+| phlix-hub | MIT |
+| phlix-shared | MIT |
+| phlix-docs | BSD-3-Clause |
+| phlix-website | BSD-3-Clause (has a real BSD-3 `LICENSE`, © 2026 Joe Huss and contributors) |
+
+So "BSD-3-Clause across the board" is not true of any of the three code repos, and
+the flagship server is marked proprietary. This is a licensing decision for the
+owner — **not** something to normalise automatically, and adding a LICENSE file to
+`phlix-server` would contradict its own manifest.
+
+It blocks Phase 1 because the regen prompt requires every fact to trace to
+`content.json`; as written, all 50 regenerated sites would republish this claim.
+Resolve the intended licensing first, then make `content.json` match.
 
 **Phase 0 exit bar (revised):** `npm run lint`, `npm run format:check` and
 `npm run meta` green on master (**all now true**); the font policy decided and
