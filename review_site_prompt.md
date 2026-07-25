@@ -41,6 +41,12 @@ where you should spend nearly all your effort:
 - **Brand fidelity.** Does this look like a site that brand would actually ship,
   or a recoloured template? Trace colour, type, shape, motion and voice back to
   the kit.
+- **Depth.** Is it _detailed_, or merely compliant? Thin, generic, or
+  under-specified sections are a real finding — **richness outranks byte count**
+  here (owner ruling, 2026-07-25). Correspondingly, do **not** file a finding
+  because JS or CSS exceeds a size guideline; `selfcheck` warns at 40 KB and that
+  is the only threshold. A site that dropped detail to look lean has the defect,
+  not the one that spent bytes on interaction.
 - **Experience fidelity.** For every field the kit **declares**, is it
   _observably_ implemented, not just claimed? (Undeclared field → default
   behaviour → never a defect.)

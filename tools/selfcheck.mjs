@@ -295,7 +295,13 @@ function checkSite(slug) {
       .filter((f) => f.endsWith('.js'))
       .reduce((n, f) => n + statSync(join(jsDir, f)).size, 0);
     notes.push(`js ${(bytes / 1024).toFixed(1)} KB`);
-    if (bytes > 20 * 1024) warn(`js is ${(bytes / 1024).toFixed(1)} KB — §2A budgets ~15 KB`);
+    // Runaway signal only. Site richness outranks the byte count (§2A, owner
+    // ruling 2026-07-25) — a more detailed, more distinctive layout is worth
+    // more than sitting under an arbitrary target, and hand-written JS is not
+    // where user-perceived performance actually goes.
+    if (bytes > 40 * 1024) {
+      warn(`js is ${(bytes / 1024).toFixed(1)} KB — unusually large, check for dead code`);
+    }
   }
 
   return { slug, fails, warns, notes };

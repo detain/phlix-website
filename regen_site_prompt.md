@@ -4,11 +4,25 @@ implements its kit's _experience_ schema instead of the generic template.
 
 **Your kit slug is on the last line of this message.**
 
-Budget guidance: the first run took ~410k tokens with ~40% spent reading; the
-second, with the tooling below, took ~300k. Most of the remaining reading is
-mechanical and is now done for you by `tools/kit-brief.mjs`. Spend your budget on
-**design and authoring** — not on rediscovering known problems, re-deriving
-contrast tokens, or hand-rolling verification scripts.
+**What "good" means here, in priority order** (owner ruling, 2026-07-25):
+
+1. The site is **detailed and unmistakably its own** — a distinct experience, not
+   a recoloured template. This outranks everything below it.
+2. It is correct: facts traceable, accessible, responsive, gates green.
+3. It is small and fast.
+
+So: **take the extra time and the extra kilobytes to make the layout specific to
+this kit.** Do not simplify a layout, drop a declared experience field, or thin
+out interaction detail to sit under a size target — the JS figure in §2A is
+guidance and `selfcheck` only warns at 40 KB as a runaway signal. Real
+performance lives in fonts, images and blocking requests, not in hand-written
+vanilla JS.
+
+Budget guidance for _your own effort_: the first run took ~410k tokens with ~40%
+spent reading; the second, with the tooling below, took ~300k. The mechanical
+reading is now done for you by `tools/kit-brief.mjs`, so spend what you save on
+**design depth** — not on rediscovering known problems, re-deriving contrast
+tokens, or hand-rolling verification scripts.
 
 **Start with the CSS rules in `new_site.md` §19.12 already applied**
 (`minmax(0, 1fr)` on grid tracks, `overflow-wrap: anywhere` where long
@@ -118,14 +132,19 @@ node tools/render-check.mjs --site <slug>  # real browser at 320px + 1280px
 `selfcheck` covers: page inventory, the `@copyright`-outside-a-comment bug, CDN
 references, font resolution, internal-link resolution, 404 requirements, one-`h1`,
 nav-vs-`site_architecture`, section-order-vs-`homepage_narrative`, the palette
-contrast matrix, `avoid_words`, `og:image`, required docs, and the JS budget.
+contrast matrix, `avoid_words`, `og:image`, required docs, and a runaway JS size
+signal (40 KB — not a target to sit under, see the priority order above).
 
-`render-check` catches what source review cannot: elements that render 0×0,
-horizontal overflow, fixed/sticky elements covering the primary CTA, text
-invisible against its own background, console errors, failed asset requests, and
-a 200%-text-zoom reflow pass. **Three of the pilot's defects were invisible in
-source and only appeared here** — a hero that rendered 0×0, a mascot bubble over
-the CTA, and a toggle underneath the mascot. Add `--shots` for screenshots.
+`render-check` catches what source review cannot, across **every page in your kit**
+(including `extra_pages`) at 320×640, 320×700, 375×667 and desktop, plus a
+200%-text-zoom pass per page: elements that render 0×0, horizontal overflow,
+content **clipped** by an `overflow:hidden` ancestor, anything painted over an
+interactive control (re-checked after timers fire, so a mascot tip that appears
+seconds later is caught), text invisible against its composited background,
+console errors and failed asset requests. **Four defects so far were invisible in
+source and only appeared here** — a hero rendering 0×0, a mascot bubble over the
+CTA, a toggle underneath the mascot, and an `<h1>` clipped at 200% zoom while
+`scrollWidth` reported fine. Add `--shots` for screenshots.
 
 Both must be clean before you report. Fix what they find; if you believe a
 finding is a false positive, say which and why in your report.
