@@ -4,31 +4,58 @@ implements its kit's _experience_ schema instead of the generic template.
 
 **Your kit slug is on the last line of this message.**
 
-Budget guidance: the pilot run took ~45 min and ~410k tokens, roughly 40% of it
-spent reading. Most of that reading is now unnecessary — the tooling and the
-trap list below replace it. Aim to spend your effort on **design and authoring**,
-not on rediscovering known problems or hand-rolling verification scripts.
+Budget guidance: the first run took ~410k tokens with ~40% spent reading; the
+second, with the tooling below, took ~300k. Most of the remaining reading is
+mechanical and is now done for you by `tools/kit-brief.mjs`. Spend your budget on
+**design and authoring** — not on rediscovering known problems, re-deriving
+contrast tokens, or hand-rolling verification scripts.
+
+**Start with the CSS rules in `new_site.md` §19.12 already applied**
+(`minmax(0, 1fr)` on grid tracks, `overflow-wrap: anywhere` where long
+identifiers appear, no `overflow: hidden` on containers whose text must reflow).
+Two independent kits hit those same three defects, and between them they caused
+almost every responsive and text-zoom finding so far. Building with them from the
+start is far cheaper than a fix round.
 
 ---
 
-## STEP 0 — Read exactly these, in this order
+## STEP 0 — One command first, then two documents
 
-1. **`new_site.md` §19 "Known traps"** — read this **first**. Nine traps, each a
-   defect that actually shipped, plus the **field-precedence table (§19.6)** for
-   when a kit contradicts itself. This is the highest-value page in the repo.
-2. **`brand-kits/<slug>.js`** — your design spec, ~1,500 lines. Read it fully;
-   this is the one long read that is genuinely required.
-3. **`new_site.md` §2A** — the experience-override DO-table: for each field your
-   kit declares, what to change. Then skim §1 (file inventory), §3 (per-page
-   structure), §4 (shared shell), §7 (fonts), §12 (a11y), §16 (facts), §18 (DoD).
-4. **`shared/content.json`** — the fact source. Facts come from here, always.
-5. **`sites/<slug>/SITE.md`** and a skim of its `index.html` — the July-4
-   predecessor, as **prior art to beat**. Carry forward what works (palette
-   tokens, logo, working `@font-face`, imagery); do not re-derive it.
+**Run this before anything else:**
 
-**Do not read** `plan_site_regen.md` (an orchestrator program doc),
-`docs/REVIEW_RUBRICS.md` (the reviewer's, not yours), or the other 49 sites
-beyond one quick structural comparison. That is pure context cost to you.
+```bash
+node tools/kit-brief.mjs --site <slug>
+```
+
+It resolves, in one call, what previous runs each spent 15–25 tool calls
+rediscovering: your declared vs absent experience fields, the exact nav labels
+and order, the narrative section ids, **the real font filenames in the pool and
+which requested weights have no file**, a **measured** contrast table with
+accessible substitutes already derived, your budgets and `avoid_words`, the
+`content.json` fact counts and the exact licence wording, and what the
+predecessor site already has versus needs. Trust it for facts — it is generated
+from the kit module, the real font pool and the site on disk.
+
+Then read, in this order:
+
+1. **`new_site.md` §19 "Known traps"** — 13 traps, each a defect that actually
+   shipped, including the **field-precedence table (§19.6)** for when a kit
+   contradicts itself and the **two CSS rules (§19.12)** that caused nearly every
+   responsive failure so far. Highest-value page in the repo; skipping it costs a
+   review round per item.
+2. **`brand-kits/<slug>.js`** — your design spec, ~1,500 lines. Read it fully for
+   **design intent** — voice, motion, imagery, the feel of the thing. The brief
+   above already gave you its facts, so you are reading for judgement, not
+   extraction.
+
+Then **skim only as needed**: `new_site.md` §2A (the override DO-table), §3
+(per-page structure), §4 (shared shell), §12 (a11y), §16 (facts), §18 (DoD).
+Read `shared/content.json` when you need exact copy.
+
+**Do not read:** `plan_site_regen.md` (orchestrator doc), `docs/REVIEW_RUBRICS.md`
+(the reviewer's), the predecessor's HTML (the brief summarises it), or the other
+49 sites beyond one quick structural comparison for the anti-convergence check.
+That is pure context cost with no payoff.
 
 ---
 

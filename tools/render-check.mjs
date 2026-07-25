@@ -70,8 +70,14 @@ const PAGES = [
   '404.html',
 ].filter((p) => existsSync(join(renderDir, p)));
 
+// 320x640 alone is not enough: the pilot's mascot/CTA overlap changed with
+// viewport HEIGHT (a bottom-pinned floater moves, the hero CTA does not), so a
+// defect present at 320x700 was absent at 320x640. These are the sizes the
+// abstract-canvas review measured.
 const VIEWPORTS = [
-  { name: 'mobile', width: 320, height: 640 },
+  { name: '320x640', width: 320, height: 640 },
+  { name: '320x700', width: 320, height: 700 },
+  { name: '375x667', width: 375, height: 667 },
   { name: 'desktop', width: 1280, height: 900 },
 ];
 
@@ -80,6 +86,81 @@ if (wantShots) mkdirSync(shotDir, { recursive: true });
 
 const fails = [];
 const warns = [];
+
+/**
+ * Which interactive controls are covered by something painted on top.
+ * Extracted so it can be run twice: once at load, and again after a delay,
+ * because a mascot's tip bubble / idle animation appears on a timer and is not
+ * present at `networkidle0`. The pilot's mascot-over-the-CTA defect was
+ * invisible to a load-time-only check for exactly this reason.
+ */
+async function coveredControls(page) {
+  return page.evaluate(() => {
+    const describe = (el) =>
+      el.tagName.toLowerCase() +
+      (el.id ? `#${el.id}` : '') +
+      (el.className && typeof el.className === 'string'
+        ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}`
+        : '');
+    const found = [];
+    const label = (el) =>
+      (el.textContent || el.getAttribute('aria-label') || describe(el)).trim().slice(0, 40);
+    const visible = (el) => {
+      const s = getComputedStyle(el);
+      return s.display !== 'none' && s.visibility !== 'hidden' && s.opacity !== '0';
+    };
+    const controls = [
+      ...document.querySelectorAll('a[href], button, input, select, textarea, [tabindex]'),
+    ].filter((el) => {
+      const r = el.getBoundingClientRect();
+      return r.width >= 1 && r.height >= 1 && r.top <= window.innerHeight && r.bottom >= 0;
+    });
+    const floaters = [...document.querySelectorAll('body *')].filter((el) => {
+      const p = getComputedStyle(el).position;
+      return (p === 'fixed' || p === 'sticky') && visible(el);
+    });
+
+    // Partial overlap counts. The pilot's mascot covered only the CTA's
+    // bottom-right corner — 41x12px at 320x640 — so sampling the control's
+    // CENTRE reports the control itself and misses it entirely. Instead
+    // intersect the rectangles, then sample the centre of the INTERSECTION to
+    // confirm the floater is genuinely painted on top rather than behind.
+    for (const el of controls) {
+      const r = el.getBoundingClientRect();
+      for (const fl of floaters) {
+        if (fl.contains(el) || el.contains(fl)) continue;
+        const fr = fl.getBoundingClientRect();
+        const ix = Math.max(r.left, fr.left);
+        const iy = Math.max(r.top, fr.top);
+        const iw = Math.min(r.right, fr.right) - ix;
+        const ih = Math.min(r.bottom, fr.bottom) - iy;
+        if (iw <= 1 || ih <= 1) continue;
+        const px = Math.min(Math.max(ix + iw / 2, 1), window.innerWidth - 1);
+        const py = Math.min(Math.max(iy + ih / 2, 1), window.innerHeight - 1);
+        const hit = document.elementFromPoint(px, py);
+        if (!hit) continue;
+        if (hit !== fl && !fl.contains(hit)) continue; // floater is behind
+        found.push({
+          cta: label(el),
+          over: `${describe(fl)} (${getComputedStyle(fl).position}, ${Math.round(iw)}x${Math.round(ih)}px overlap)`,
+        });
+      }
+    }
+
+    // Also catch ordinary stacking bugs: something non-floating painted over a
+    // control's centre.
+    for (const el of controls) {
+      const r = el.getBoundingClientRect();
+      const cx = Math.min(Math.max(r.left + r.width / 2, 1), window.innerWidth - 1);
+      const cy = Math.min(Math.max(r.top + r.height / 2, 1), window.innerHeight - 1);
+      const hit = document.elementFromPoint(cx, cy);
+      if (!hit || hit === el || el.contains(hit) || hit.contains(el)) continue;
+      if (floaters.includes(hit)) continue; // already reported above
+      found.push({ cta: label(el), over: describe(hit) });
+    }
+    return found;
+  });
+}
 
 // Chrome needs --no-sandbox in this environment.
 const browser = await puppeteer.launch({
@@ -108,7 +189,7 @@ try {
       });
 
       const report = await page.evaluate(() => {
-        const out = { collapsed: [], overflow: null, overlaps: [], invisibleText: [] };
+        const out = { collapsed: [], overflow: null, invisibleText: [], clipped: [] };
 
         // 1. Elements that occupy zero area but contain content or children.
         //    This is the hero-collapse class of bug.
@@ -171,37 +252,44 @@ try {
           };
         }
 
-        // 3. Does anything fixed/sticky cover the primary CTA? This is the
-        //    mascot-over-the-button bug.
-        const ctas = [...document.querySelectorAll('a, button')].filter((el) => {
-          const t = (el.textContent || '').toLowerCase();
-          return /get |download|start|install/.test(t);
-        });
-        const floaters = [...document.querySelectorAll('body *')].filter((el) => {
-          const p = getComputedStyle(el).position;
-          return p === 'fixed' || p === 'sticky';
-        });
-        const overlap = (a, b) =>
-          !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
-        for (const cta of ctas) {
-          const cr = cta.getBoundingClientRect();
-          if (cr.width < 1 || cr.height < 1) continue;
-          for (const fl of floaters) {
-            if (fl.contains(cta) || cta.contains(fl)) continue;
-            const cs = getComputedStyle(fl);
-            if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') continue;
-            const fr = fl.getBoundingClientRect();
-            if (fr.width < 1 || fr.height < 1) continue;
-            if (overlap(cr, fr)) {
-              out.overlaps.push({
-                cta: (cta.textContent || '').trim().slice(0, 40),
-                over:
-                  fl.tagName.toLowerCase() +
-                  (fl.id ? `#${fl.id}` : '') +
-                  (fl.className && typeof fl.className === 'string'
-                    ? `.${fl.className.trim().split(/\s+/).slice(0, 2).join('.')}`
-                    : ''),
+        const describe = (el) =>
+          el.tagName.toLowerCase() +
+          (el.id ? `#${el.id}` : '') +
+          (el.className && typeof el.className === 'string'
+            ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}`
+            : '');
+
+        // 3b. Content CLIPPED by an overflow:hidden ancestor.
+        //
+        // This is the check the scrollWidth test cannot make: a container with
+        // `overflow:hidden` absorbs the overflow, so document.scrollWidth stays
+        // equal to the viewport and the page "passes" while the <h1> and the
+        // primary CTA are visibly cut off. Found on 5 of 9 pilot pages at 200%
+        // text zoom. Only headings and controls are checked — decorative
+        // clipping (marquees, bleed images) is intentional and not a defect.
+        for (const el of document.querySelectorAll(
+          'h1, h2, h3, a[href], button, input, select, textarea',
+        )) {
+          const r = el.getBoundingClientRect();
+          if (r.width < 1 || r.height < 1) continue;
+          for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
+            const ns = getComputedStyle(n);
+            const clipsX = ns.overflowX === 'hidden' || ns.overflowX === 'clip';
+            const clipsY = ns.overflowY === 'hidden' || ns.overflowY === 'clip';
+            if (!clipsX && !clipsY) continue;
+            const nr = n.getBoundingClientRect();
+            if (nr.width < 1 || nr.height < 1) continue;
+            const overRight = clipsX && r.right - nr.right > 2;
+            const overLeft = clipsX && nr.left - r.left > 2;
+            const overBottom = clipsY && r.bottom - nr.bottom > 2;
+            if (overRight || overLeft || overBottom) {
+              out.clipped.push({
+                el: describe(el),
+                text: (el.textContent || '').trim().slice(0, 32),
+                by: describe(n),
+                edge: overRight ? 'right' : overLeft ? 'left' : 'bottom',
               });
+              break;
             }
           }
         }
@@ -253,8 +341,25 @@ try {
       for (const c of report.collapsed.slice(0, 6)) {
         fails.push(`${where}: ${c.sel} renders ${c.w}x${c.h} but has content`);
       }
-      for (const o of report.overlaps.slice(0, 6)) {
-        fails.push(`${where}: fixed/sticky ${o.over} covers CTA "${o.cta}"`);
+      // Covered controls, checked twice: at load, then again after the timers
+      // fire, so a mascot tip bubble / idle pose that appears seconds after load
+      // is tested too. Union of both, de-duplicated.
+      const atLoad = await coveredControls(page).catch(() => []);
+      const delayed = await new Promise((r) => setTimeout(r, 4000)).then(() =>
+        coveredControls(page).catch(() => []),
+      );
+      const seenOverlap = new Set();
+      for (const o of [...atLoad, ...delayed]) {
+        const key = `${o.over}|${o.cta}`;
+        if (seenOverlap.has(key)) continue;
+        seenOverlap.add(key);
+        if (seenOverlap.size > 6) break;
+        fails.push(`${where}: ${o.over} is painted over control "${o.cta}"`);
+      }
+      for (const c of report.clipped.slice(0, 6)) {
+        fails.push(
+          `${where}: ${c.el} "${c.text}" is clipped at the ${c.edge} by ${c.by} (overflow:hidden)`,
+        );
       }
       for (const t of report.invisibleText.slice(0, 6)) {
         fails.push(`${where}: text "${t.text}" is ${t.ratio}:1 against its background`);
@@ -275,25 +380,67 @@ try {
     }
   }
 
-  // A 200% text-zoom pass: reflow must survive, per §12/§14.
-  const zoomPage = await browser.newPage();
-  await zoomPage.setViewport({ width: 320, height: 640 });
-  await zoomPage.goto(pathToFileURL(join(renderDir, 'index.html')).href, {
-    waitUntil: 'networkidle0',
-  });
-  const zoomOverflow = await zoomPage.evaluate(() => {
-    document.documentElement.style.fontSize = '32px';
-    return {
-      scrollWidth: document.documentElement.scrollWidth,
-      innerWidth: window.innerWidth,
-    };
-  });
-  if (zoomOverflow.scrollWidth > zoomOverflow.innerWidth + 1) {
-    fails.push(
-      `index.html @320px, 200% text zoom: horizontal overflow — ${zoomOverflow.scrollWidth} > ${zoomOverflow.innerWidth}`,
-    );
+  // A 200% text-zoom pass on EVERY page, per §12/§14. Originally home-only,
+  // which missed that the pilot broke on 5 of 9 pages at this zoom level.
+  // Reports clipping as well as scroll overflow: an overflow:hidden container
+  // absorbs the overflow, so the scrollWidth test alone reports a false PASS
+  // while the <h1> and the primary CTA are cut off.
+  for (const pageFile of PAGES) {
+    const zoomPage = await browser.newPage();
+    await zoomPage.setViewport({ width: 320, height: 640 });
+    await zoomPage.goto(pathToFileURL(join(renderDir, pageFile)).href, {
+      waitUntil: 'networkidle0',
+    });
+    const z = await zoomPage.evaluate(() => {
+      document.documentElement.style.fontSize = '32px';
+      const describe = (el) =>
+        el.tagName.toLowerCase() +
+        (el.id ? `#${el.id}` : '') +
+        (el.className && typeof el.className === 'string'
+          ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}`
+          : '');
+      const clipped = [];
+      for (const el of document.querySelectorAll('h1, h2, h3, a[href], button')) {
+        const r = el.getBoundingClientRect();
+        if (r.width < 1 || r.height < 1) continue;
+        for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
+          const ns = getComputedStyle(n);
+          const clipsX = ns.overflowX === 'hidden' || ns.overflowX === 'clip';
+          const clipsY = ns.overflowY === 'hidden' || ns.overflowY === 'clip';
+          if (!clipsX && !clipsY) continue;
+          const nr = n.getBoundingClientRect();
+          if (nr.width < 1 || nr.height < 1) continue;
+          if (
+            (clipsX && (r.right - nr.right > 2 || nr.left - r.left > 2)) ||
+            (clipsY && r.bottom - nr.bottom > 2)
+          ) {
+            clipped.push({
+              el: describe(el),
+              text: (el.textContent || '').trim().slice(0, 32),
+              by: describe(n),
+            });
+            break;
+          }
+        }
+      }
+      return {
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+        clipped,
+      };
+    });
+    if (z.scrollWidth > z.innerWidth + 1) {
+      fails.push(
+        `${pageFile} @320px, 200% text zoom: horizontal overflow — ${z.scrollWidth} > ${z.innerWidth}`,
+      );
+    }
+    for (const c of z.clipped.slice(0, 4)) {
+      fails.push(
+        `${pageFile} @320px, 200% text zoom: ${c.el} "${c.text}" is clipped by ${c.by} (overflow:hidden hides this from the scrollWidth test)`,
+      );
+    }
+    await zoomPage.close();
   }
-  await zoomPage.close();
 } finally {
   await browser.close();
   rmSync(stage, { recursive: true, force: true });

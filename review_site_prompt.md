@@ -11,9 +11,15 @@ program's 50 sites had a defect rate near 100%. Assume something is wrong.
 ## Start with the machines — they are free
 
 ```bash
+node tools/kit-brief.mjs --site <slug>            # the kit's facts, resolved
 node tools/selfcheck.mjs --site <slug>            # 14 static checks
-node tools/render-check.mjs --site <slug> --shots # real browser, 320 + 1280
+node tools/render-check.mjs --site <slug> --shots # real browser, 4 viewports + 200% zoom
 ```
+
+`kit-brief` gives you the declared-field list, the required nav labels and
+section ids, the real font filenames, and a **measured** contrast table — so you
+can check compliance against resolved facts instead of re-deriving them from the
+kit file.
 
 The author was told to leave both clean, so **anything they report is either a
 regression or something the author overlooked** — start there. Do not

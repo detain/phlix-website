@@ -717,3 +717,51 @@ Any `position: fixed`/`sticky` element — mascot, intensity toggle, cookie note
 must be checked at **320px**, where there is no spare room. It must not overlap
 the primary CTA, must not overlap another fixed element, and must not push
 unrequested tips on a phone. `render-check` fails the build on the first two.
+
+### 19.12 The two CSS defects behind almost every zoom/overflow failure
+
+Two independent kits hit these, with the same root cause, so assume yours will.
+Getting them right up front removes most responsive findings from your review.
+
+**1. Grid tracks need `minmax(0, 1fr)`, not `1fr`.** A bare `1fr` track has an
+implicit `auto` minimum, so it refuses to shrink below its content's min-content
+width. One long unbreakable token — `LifecycleInterface`, a bare repo URL, a
+hyphen-free compound — then forces the whole grid wider than the viewport. This
+was the root cause of `download.html` overflowing at 320px **and** most of the
+200%-text-zoom overflow on the pilot.
+
+```css
+/* wrong: the track cannot shrink below its longest word */
+grid-template-columns: repeat(2, 1fr);
+/* right */
+grid-template-columns: repeat(2, minmax(0, 1fr));
+```
+
+**2. Long tokens still need a wrapping rule.** `minmax(0, …)` lets the track
+shrink, but the word itself still overflows its box. `overflow-wrap: break-word`
+is **not** enough — only `anywhere` reduces the min-content contribution, which
+is what a grid/flex track measures. Scope it where long strings actually occur
+(code, `<pre>`, URLs, identifier-heavy prose) rather than site-wide if you can,
+but site-wide is defensible: one kit needed it because identifiers were setting
+track minimums that overflowed at 200% zoom on **7 of 9 pages**.
+
+```css
+code,
+pre,
+.repo-list a {
+  overflow-wrap: anywhere;
+}
+```
+
+Then confirm with `node tools/render-check.mjs --site <slug>`, which tests every
+page at 320/700-tall/375 and at 200% text zoom.
+
+### 19.13 `overflow: hidden` hides overflow from the naive test — and from your visitor
+
+A container with `overflow: hidden` absorbs its children's overflow, so
+`document.scrollWidth` stays equal to the viewport and a scroll-based check
+reports PASS while the `<h1>` and the primary CTA are **visibly cut off**. The
+pilot shipped exactly this: at 200% text zoom the hero clipped its own headline
+and both buttons. `render-check` now tests for clipped headings and controls
+directly, but the design rule is simpler: never put `overflow: hidden` on a
+container whose text must reflow. Clip decoration, not content.
