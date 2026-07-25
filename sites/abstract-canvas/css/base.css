@@ -182,17 +182,13 @@ body::before {
     repeating-linear-gradient(0deg, rgb(138 128 112 / 0.04) 0 1px, transparent 1px 3px);
 }
 
+/* Lift every top-level block above the fixed linen grain. Palette is a top-level
+   `<aside>` (see components.css) and keeps its own `z-index: 90`, which is why it
+   paints over `<main>` and the footer but stays under the sticky header's 100 —
+   no per-landmark z-index juggling is needed. */
 body > * {
   position: relative;
   z-index: 1;
-}
-
-/* `body > *` gives <main> a stacking context, which scopes Palette's z-index to
-   it — so <main> has to out-stack the footer that follows it, or the companion
-   would be painted behind the footer at the bottom of a page. The sticky header
-   keeps its own z-index: 100 and stays above both. */
-body > main {
-  z-index: 2;
 }
 
 img,
@@ -251,24 +247,41 @@ h6 {
   text-wrap: balance;
 }
 
-/* accessibility.font_scaling — display sizes are capped against the viewport as
-   well as the root font size. A `rem`-only floor grows to 200% under text-only
-   zoom (2.25rem → 72px on a 320px screen) and no amount of word-breaking makes
-   that read; the `min(…, Nvw)` ceiling lets the headline keep growing with zoom
-   but never past a share of the screen it cannot fit in. The caps are
-   deliberately above every value the fluid clamp produces at normal zoom, so
-   the rendered type scale at 320–1400px is byte-identical to before. */
+/* accessibility.font_scaling — "All layouts must survive 200% browser text zoom
+   without clipping or horizontal scroll." Display sizes are therefore capped
+   against the viewport as well as the root font size: the `min(…, Nvw)` ceiling
+   lets a headline keep growing with zoom but never past a share of the screen it
+   cannot fit in.
+
+   The ceilings are set so that at 320px — the tightest case — every heading role
+   still reaches at (or very near) 200% of its normal-zoom rendered size:
+
+     h1              36px → 64px (20vw)  = 178%   ← physics: 64px Cormorant in a
+                                                    288px column is already
+                                                    breaking words mid-word
+     h2              26px → 52px (17vw)  = 200%
+     .section-title  26px → 52px (17vw)  = 200%
+     h3              20px → 40px (14vw)  = 200%
+
+   Every ceiling still sits above every value the fluid clamp produces between
+   320px and 1400px at normal zoom, so the rendered type scale is unchanged —
+   the caps only engage under text-only zoom. Body copy is never capped.
+
+   The ordering matters as much as the ceilings: `.section-title` (theme.css) is
+   the class that paints every section `h2`, so it carries the same ceiling as
+   the `h2` element rule. Cap one and not the other and the hierarchy inverts —
+   an uncapped 52px `h2` beside a capped 51.2px `h1`. */
 h1 {
-  font-size: min(clamp(2.25rem, 4vw + 1rem, 4rem), 16vw);
+  font-size: min(clamp(2.25rem, 4vw + 1rem, 4rem), 20vw);
   font-weight: 700;
 }
 
 h2 {
-  font-size: min(clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem), 14vw);
+  font-size: min(clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem), 17vw);
 }
 
 h3 {
-  font-size: min(clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem), 12vw);
+  font-size: min(clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem), 14vw);
 }
 
 h4 {
@@ -319,8 +332,8 @@ details > summary {
 .skip-link {
   position: absolute;
   top: -100%;
-  left: var(--space-4);
   z-index: 9999;
+  inset-inline-start: var(--space-4);
   display: inline-flex;
   align-items: center;
   min-height: 44px;

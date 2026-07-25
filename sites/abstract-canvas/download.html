@@ -95,12 +95,15 @@
     <!-- seasonal_activation (mode: live-js) — authored markup, kept display:none
          by css/theme.css until js/main.js finds a live active_range and sets
          data-season on <html>; that rule also attaches the season's declared
-         motif_assets mark. Nothing is injected after first paint. -->
-    <div class="seasonal-banner">
+         motif_assets mark. Nothing is injected after first paint.
+         An <aside>, not a <div>: this sits ahead of <header role="banner">, so as
+         a bare div it was the one run of content on the page that belonged to no
+         landmark at all. -->
+    <aside class="seasonal-banner" aria-label="Seasonal note">
       <div class="container">
         <p>The season shifts — Palette has prepared fresh grounds for the canvas.</p>
       </div>
-    </div>
+    </aside>
 
     <header class="site-header" role="banner">
       <div class="container">
@@ -200,23 +203,70 @@
           <div>
             <h2 class="section-title" id="step-server">Canvas and brushes — one line to paint</h2>
             <p class="wall-text mt-6">
-              Phlix Server runs on <strong>PHP 8.3+</strong> with Workerman 5.x — an asynchronous,
-              coroutine server you host yourself. Clone it, install its dependencies, and the first
-              mark is made.
+              Phlix Server runs on <strong>PHP 8.3+</strong> with MySQL and ffmpeg, on a fresh
+              Ubuntu or Debian host you own. One line primes the whole ground: the installer lays in
+              the system packages, creates a dedicated <code>phlix</code> system user, a database
+              and its user, an env file at <code>/etc/phlix/env</code> with a generated secret key,
+              runs the database migrations, installs a <code>phlix-server</code> systemd service,
+              and stands an HAProxy reverse proxy with an auto-renewing Let's Encrypt certificate in
+              front of it.
             </p>
-            <!-- conversion_funnel.download_opening asks for a "one-liner server
-                 install", and the page says "one line to paint" on seven pages —
-                 so it is one line, chained, not three commands stacked. A <pre>
-                 so the shell's whitespace is semantic, and tabindex/role/label so
-                 the horizontal scroller is reachable from a keyboard. -->
+            <!-- §19.22 — this command is `install.primary.command` from
+                 shared/content.json, copied verbatim and not retyped. It is the
+                 only install command on the site, and it is the one in
+                 phlix-server's own README. The `git clone` + `composer install`
+                 that used to sit here is a development checkout: it creates no
+                 database, installs no service and runs no migrations, so
+                 presenting it as the install was a §16 honesty failure. It is
+                 still here — one disclosure below, labelled for what it is.
+                 conversion_funnel.download_opening asks for a "one-liner server
+                 install" and `line_count` is 1, so the seven "one line" claims on
+                 this site are now true for the right reason. The preformatted
+                 block keeps the shell's whitespace semantic, and the tabindex,
+                 role and label together make the horizontal scroller reachable
+                 from a keyboard. -->
             <pre
               class="code-block"
               tabindex="0"
               role="region"
               aria-label="Phlix Server install command"
-            ><code><span class="code-comment"># PHP 8.3+ with Workerman 5.x</span>
-git clone https://github.com/detain/phlix-server.git &amp;&amp; cd phlix-server &amp;&amp; composer install</code></pre>
+            ><code><span class="code-comment"># One line, on a fresh Ubuntu or Debian host</span>
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
             <p class="wall-text">
+              Run it in a terminal and it asks for the install path, the database credentials and
+              the hostname; piped or given <code>-y</code> it runs unattended. When it is done the
+              server is on <code>:8096</code> behind HAProxy on <code>:80</code> and
+              <code>:443</code>, with DLNA discovery on <code>1900/udp</code>.
+            </p>
+            <details class="technical-mark">
+              <summary>The same line, with HTTPS provisioned in the same run</summary>
+              <pre
+                class="code-block"
+                tabindex="0"
+                role="region"
+                aria-label="Phlix Server install command with HTTPS"
+              ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \
+  | sudo bash -s -- --domain phlix.example.com --admin-email you@example.com</code></pre>
+            </details>
+            <details class="technical-mark">
+              <summary>
+                Building from source instead — a development checkout, not an install
+              </summary>
+              <p>
+                Three lines, and deliberately not the same thing: a checkout creates no database, no
+                service and no migrations. Reach for it when you intend to work on Phlix, not when
+                you intend to run it.
+              </p>
+              <pre
+                class="code-block"
+                tabindex="0"
+                role="region"
+                aria-label="Phlix Server development checkout"
+              ><code>git clone https://github.com/detain/phlix-server.git
+cd phlix-server
+composer install</code></pre>
+            </details>
+            <p class="wall-text mt-6">
               The documentation carries the authoritative first-run walkthrough — configuration,
               library paths, and the metadata keys for TMDB, TVDB and Fanart.tv.
             </p>
@@ -472,6 +522,10 @@ git clone https://github.com/detain/phlix-server.git &amp;&amp; cd phlix-server 
             <span class="toggle-dot" aria-hidden="true"></span>
             Gallery quiet
           </button>
+          <!-- §19.21 — mascot.behavior.dismiss persists in localStorage, so there
+               has to be a way back. Revealed by js/main.js only when Palette is
+               tucked away on a page entitled to it. -->
+          <button class="palette-wake" type="button" data-palette-wake hidden>Wake Palette</button>
           <p class="motion-note">
             Motion here is slow by design and follows your system's reduced-motion setting. Prefer
             it stiller still? Ask for gallery quiet.

@@ -77,13 +77,22 @@
 7. **`[hidden] { display: none !important }`** is declared explicitly, because a class that
    sets `display` (`.btn`) beats the UA sheet's `[hidden]` rule — which had left the
    JS-controlled "Bring Lux back", "Follow the next lead" and "Copy" buttons visible.
-8. **The install snippet** is `git clone` / `composer install` / `php start.php start`. There
-   is no install command in `content.json`; this matches how the server is actually started
-   and is consistent with the other kits' download pages. No invented one-liner installer.
+8. **The install snippet** is `shared/content.json` `install.primary.command`, copied not
+   retyped — the real one-line installer from `phlix-server`'s own README. Round 1 shipped
+   `git clone` / `composer install` / `php start.php start` because `content.json` had no
+   install block at the time, and reasoned that "no invented one-liner installer" was the
+   honest choice. It was the opposite: that sequence is a **development checkout**, which
+   creates no database, no service and runs no migrations, so presenting it as the install
+   was a §16 honesty failure (`new_site.md` §19.22). The from-source form is still on the
+   page, inside a disclosure, explicitly labelled "not an install". Line-count prose on
+   `index.html`, `clients.html`, `docs.html` and `about.html` now all say **one line**,
+   taken from `install.primary.line_count`.
 9. **No printed counts anywhere.** `proof_strategy` asks for a live star count; a static page
    cannot verify one, so the trust band links to `/stargazers` and `/issues` instead (§19.7).
-10. **The docs "quote"** is `pitch_bullets[0]`, attributed to the project brief — not a
-    fabricated quotation from the documentation, which a static build cannot verify (§19.7).
+10. **The docs "quote"** is `pitch_bullets[0]`, quoted verbatim. Round 1 attributed it to
+    "The Phlix project brief", a source that does not exist, and gave it no link — an honest
+    quote wearing an invented citation. It is now attributed to Phlix's own pitch, with a
+    working link to the docs in the `<cite>` and a docs link in `.record-links`.
 
 ---
 

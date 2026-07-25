@@ -6,7 +6,7 @@
     <title>Get Access — Download Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix on your own hardware in one line on a fresh Ubuntu or Debian host — packages, database, migrations and a systemd service. Then put a client on every screen."
     />
     <meta
       name="keywords"
@@ -24,18 +24,24 @@
     <meta property="og:title" content="Get Access — Download Phlix" />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix on your own hardware in one line on a fresh Ubuntu or Debian host — packages, database, migrations and a systemd service. Then put a client on every screen."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
 
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content='Phlix on void black: a neon-noir title card reading "Every Frame, a Mystery." over the words SELF-HOSTED MEDIA SERVER, cyan halo at the upper left, one amber rule under the tagline.'
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Get Access — Download Phlix" />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix on your own hardware in one line on a fresh Ubuntu or Debian host — packages, database, migrations and a systemd service. Then put a client on every screen."
     />
     <meta
       name="twitter:image"
@@ -43,7 +49,12 @@
     />
     <meta name="twitter:creator" content="@detain" />
 
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="img/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180" />
+
+    <script src="js/boot.js"></script>
 
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
@@ -128,8 +139,8 @@
               <p class="t-eyebrow">Clearance token</p>
               <h2 id="server-title">Run the server</h2>
               <p class="t-lead">
-                Clone it, install it, start it. PHP 8.3+ on the box and the archive is live on your
-                own hardware.
+                <strong>One line</strong>, on a fresh Ubuntu or Debian host. Run it and the archive
+                is live on your own hardware.
               </p>
               <div class="code-block">
                 <div class="code-block__bar">
@@ -143,23 +154,72 @@
                     Copy
                   </button>
                 </div>
-                <pre id="install-snippet"><code>git clone https://github.com/detain/phlix-server.git
-cd phlix-server
-composer install
-php start.php start</code></pre>
+                <pre
+                  id="install-snippet"
+                ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
               </div>
               <p class="t-typed">
-                Then point it at a folder of media and watch the scanner do the filing.
+                Installs system packages (PHP 8.3+, MySQL, ffmpeg), creates a dedicated phlix system
+                user, a MySQL database and user, an env file at /etc/phlix/env with a generated
+                PHLIX_SECRET_KEY, runs database migrations, installs a systemd phlix-server service,
+                and sets up an HAProxy reverse proxy with an auto-renewing Let's Encrypt
+                certificate.
               </p>
+              <p class="t-typed">
+                It prompts for install path, database credentials and hostname in a terminal, and
+                runs unattended when piped or given <code>-y</code>. Default ports: HTTP on :8096
+                behind HAProxy on :80/:443, DLNA discovery on 1900/udp.
+              </p>
+
+              <details class="decoder">
+                <summary>Two other ways in</summary>
+                <dl class="decoder__body">
+                  <div>
+                    <dt>With HTTPS</dt>
+                    <dd>
+                      Hand the installer a hostname and an address, and it provisions the
+                      certificate in the same run.
+                      <div class="code-block code-block--quiet">
+                        <pre><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \
+  | sudo bash -s -- --domain phlix.example.com --admin-email you@example.com</code></pre>
+                      </div>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>From source</dt>
+                    <dd>
+                      A development checkout — <strong>not an install</strong>. It creates no
+                      database, no service, and runs no migrations.
+                      <div class="code-block code-block--quiet">
+                        <pre><code>git clone https://github.com/detain/phlix-server.git
+cd phlix-server
+composer install</code></pre>
+                      </div>
+                    </dd>
+                  </div>
+                </dl>
+              </details>
             </div>
             <aside aria-labelledby="req-title">
               <h3 id="req-title">What the box needs</h3>
               <ul class="requirement-list" role="list">
                 <li>PHP 8.3 or newer</li>
-                <li>Workerman 5.x (installed by Composer)</li>
-                <li>FFmpeg on the path, for transcoding</li>
+                <li>MySQL</li>
+                <li>ffmpeg</li>
+                <li>A fresh Ubuntu or Debian host — that is what the installer targets</li>
                 <li>A folder of media you already own</li>
               </ul>
+              <p class="t-typed">
+                The installer also compiles the Swoole and php-uv extensions from source, skipping
+                the build when they already load.
+              </p>
+              <p>
+                <a
+                  href="https://detain.github.io/phlix-docs/install/linux"
+                  rel="noopener noreferrer"
+                  >The full install notes, in the docs</a
+                >
+              </p>
             </aside>
           </div>
         </div>
@@ -320,40 +380,37 @@ php start.php start</code></pre>
           </p>
         </div>
       </section>
-      <!-- mascot.behavior — Lux, keyed to #opener on this page -->
-      <aside class="lux" data-tip-for="server" aria-labelledby="lux-name">
-        <div class="lux__figure">
-          <svg viewBox="0 0 60 96" aria-hidden="true" focusable="false">
-            <path d="M14 96V38l8-13h16l8 13v58z" fill="#0a0c10" stroke="#2a3650" stroke-width="1" />
-            <path
-              d="M22 25h16V12a8 8 0 0 0-16 0z"
-              fill="#0a0c10"
-              stroke="#2a3650"
-              stroke-width="1"
-            />
-            <path d="M10 13h40v4H10z" fill="#1c2333" />
-            <path d="M17 12h26l-5-8H22z" fill="#1c2333" />
-            <path d="M12 15h36" stroke="#00e5ff" stroke-width="1.5" opacity="0.8" />
-            <g fill="#f5a623">
-              <rect x="24" y="19" width="4" height="3" />
-              <rect x="33" y="19" width="4" height="3" />
-            </g>
-            <path d="M30 40v34" stroke="#2a3650" stroke-width="1" />
-          </svg>
-        </div>
-        <div class="lux__col">
-          <span class="lux__name" id="lux-name">Lux · night archivist</span>
-          <details class="lux__tip">
-            <summary>Ask Lux<span class="lux__cue"> · note ready</span></summary>
-            <div class="lux__panel">
-              <p>One line and you're running the show. I'll be here when you get back.</p>
-            </div>
-          </details>
-          <p class="lux__react" role="status"></p>
-          <button class="lux__dismiss" type="button" hidden>Lux, take five</button>
-        </div>
-      </aside>
     </main>
+
+    <!-- mascot.behavior — Lux, a document-level companion (sibling of <main>, like
+         .egg-note below). Tip keyed to #server on this page. -->
+    <aside class="lux" data-tip-for="server" aria-labelledby="lux-name">
+      <button class="lux__figure" type="button" aria-label="Nudge Lux">
+        <svg viewBox="0 0 60 96" aria-hidden="true" focusable="false">
+          <path d="M14 96V38l8-13h16l8 13v58z" fill="#0a0c10" stroke="#2a3650" stroke-width="1" />
+          <path d="M22 25h16V12a8 8 0 0 0-16 0z" fill="#0a0c10" stroke="#2a3650" stroke-width="1" />
+          <path d="M10 13h40v4H10z" fill="#1c2333" />
+          <path d="M17 12h26l-5-8H22z" fill="#1c2333" />
+          <path d="M12 15h36" stroke="#00e5ff" stroke-width="1.5" opacity="0.8" />
+          <g fill="#f5a623">
+            <rect x="24" y="19" width="4" height="3" />
+            <rect x="33" y="19" width="4" height="3" />
+          </g>
+          <path d="M30 40v34" stroke="#2a3650" stroke-width="1" />
+        </svg>
+      </button>
+      <div class="lux__col">
+        <span class="lux__name" id="lux-name">Lux · night archivist</span>
+        <details class="lux__tip">
+          <summary>Ask Lux<span class="lux__cue"> · note ready</span></summary>
+          <div class="lux__panel">
+            <p>One line and you're running the show. I'll be here when you get back.</p>
+            <p class="lux__react" role="status"></p>
+            <button class="lux__dismiss" type="button" hidden>Lux, take five</button>
+          </div>
+        </details>
+      </div>
+    </aside>
 
     <div class="egg-note" role="status" hidden>
       <span class="egg-note__body"></span>

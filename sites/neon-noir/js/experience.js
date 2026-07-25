@@ -67,11 +67,25 @@
     });
   }
 
-  function quiet() {
-    return (
-      root.getAttribute('data-intensity') === 'calm' ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
+  /* Two different questions, deliberately NOT one helper (new_site.md §19.20).
+   *
+   *   calm()      the visitor asked this site to quiet down. intensity_toggle
+   *               .affects lists `easter_eggs`, so this one MAY remove features.
+   *   noMotion()  the OS asked for less animation. This one may ONLY remove
+   *               movement — never content, a reward, or a feature.
+   *
+   * Conflating them is what silently deleted both easter eggs for every
+   * reduced-motion visitor. The query is read live on each call, so a visitor
+   * who changes the setting mid-visit is honoured without a reload.
+   */
+  var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function calm() {
+    return root.getAttribute('data-intensity') === 'calm';
+  }
+
+  function noMotion() {
+    return motionQuery.matches;
   }
 
   /* ======================================================================
@@ -87,7 +101,6 @@
     var leads = [].slice.call(stage.querySelectorAll('.vignette__lead'));
     var advance = stage.querySelector('.vignette__advance');
     var pose = 0;
-    var last = 0;
 
     var paint = function () {
       leads.forEach(function (lead, i) {
@@ -109,17 +122,17 @@
 
     paint();
 
-    if (advance) advance.removeAttribute('hidden');
-    if (advance) advance.addEventListener('click', step);
-
-    if (art) {
-      art.addEventListener('click', step);
-      art.addEventListener('pointerenter', function () {
-        var now = Date.now();
-        if (quiet() || now - last < 900) return;
-        last = now;
-        step();
-      });
+    // The ONLY control that advances the vignette is this button: labelled,
+    // focusable, and it announces its own end state. The alley art keeps its
+    // handlers off on purpose — it is aria-hidden decoration, so an interactive
+    // target inside it is invisible to assistive tech, and advancing on
+    // `pointerenter` changed real copy whenever a mouse merely crossed the
+    // picture. `hero_experience.suggested_inputs`' "pointer hover" is honoured
+    // as a hover-brightens-the-halo affordance in CSS instead (theme.css §4),
+    // which is a look, not a content change.
+    if (advance) {
+      advance.removeAttribute('hidden');
+      advance.addEventListener('click', step);
     }
   }
 
@@ -135,8 +148,14 @@
     var figure = lux.querySelector('.lux__figure');
     var keyed = lux.getAttribute('data-tip-for');
 
+    var tip = lux.querySelector('.lux__tip');
+
+    // The reaction lives inside Lux's panel, so a reaction opens the panel —
+    // otherwise the reward would be announced (role="status") but invisible.
     var show = function (msg) {
-      if (react) react.textContent = msg;
+      if (!react) return;
+      react.textContent = msg;
+      if (tip) tip.open = true;
     };
 
     var setAway = function (away) {
@@ -236,14 +255,20 @@
     if (logo) logo.classList.remove('is-pulsing');
   }
 
-  // easter_eggs[0] — logo-clicks:5. A single click still navigates; only a
+  // easter_eggs[0] — logo-clicks:5. A single click always navigates; only a
   // rapid multi-click run (MouseEvent.detail >= 2) is held back, so the
   // wordmark never stops being a working link to the home page.
+  //
+  // Gated on calm() only. In calm mode the egg is off, so nothing is suppressed
+  // either and the wordmark is a plain link even on a double-click. Reduced
+  // motion is NOT a reason to withhold this: the reward is a static glow plus
+  // reward copy, with no animation to remove.
   var logoLink = document.querySelector('.nav-logo');
   if (logoLink) {
     logoLink.addEventListener('click', function (e) {
+      if (calm()) return;
       if (e.detail >= 2) e.preventDefault();
-      if (e.detail === 5 && !quiet()) {
+      if (e.detail === 5) {
         logoLink.classList.add('is-pulsing');
         sayEgg('Case noted. <code>NOIR</code>', 3000);
       }
@@ -271,7 +296,12 @@
     if (e.metaKey || e.ctrlKey || e.altKey || e.key.length !== 1) return;
 
     typed = (typed + e.key.toLowerCase()).slice(-6);
-    if (typed === 'shadow' && !quiet()) {
+    if (typed === 'shadow' && !calm()) {
+      // The reward copy fires for everyone. The blind-bar sweep is the *motion*
+      // part, and components.css §12 paints the overlay only inside
+      // `@media (prefers-reduced-motion: no-preference)` — so setting the
+      // attribute here is a no-op visually for reduced-motion visitors while
+      // still leaving the DOM state honest and Esc-clearable.
       root.setAttribute('data-egg', 'shadow');
       sayEgg('You’ve got the eye for details.', 8000);
       typed = '';

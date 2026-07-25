@@ -41,7 +41,7 @@ p {
 }
 
 .t-eyebrow {
-  color: var(--color-secondary);
+  color: var(--color-secondary-text);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
@@ -50,9 +50,13 @@ p {
   text-transform: uppercase;
 }
 
-/* Bebas Neue has no lowercase — every use of it is uppercase, always. */
+/* Bebas Neue has no lowercase — every use of it is uppercase, always.
+   Cyan, not amber: `dashboard_style` wants numerals "lit by neon accent
+   colors", but `color_rules[2]` reserves amber for the primary CTA, and a step
+   numeral is chrome beside one. Large display size, so 3:1 would do; cyan
+   gives 11.53:1 on navy anyway. */
 .t-num {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 400;
@@ -131,14 +135,17 @@ p {
   transform: skewY(-1.1deg);
 }
 
-.rule-venetian--amber {
+/* The second boundary reads as a colder, further-off window — steel rather
+   than neon. (It used to be an amber variant; amber is CTA-only now.) */
+.rule-venetian--steel {
   background-image: repeating-linear-gradient(
     180deg,
-    rgb(245, 166, 35, 0.22) 0,
-    rgb(245, 166, 35, 0.22) 1px,
+    rgb(122, 143, 166, 0.3) 0,
+    rgb(122, 143, 166, 0.3) 1px,
     transparent 1px,
-    transparent 7px
+    transparent 5px
   );
+  transform: skewY(0.8deg);
 }
 
 .section-head {
@@ -206,13 +213,17 @@ p {
   border-bottom: 1px solid var(--color-border);
 }
 
+/* The band itself is night: void black plus one cold sheen off the wet street
+   in the far corner. The warm practical is NOT here — it belongs to the alley
+   art (.opener__art::before), which is the "hero subject" the kit's Amber
+   Interrogation gradient is scoped to. A warm field across the band reads as
+   golden hour, which this kit prohibits in four separate places. */
 .opener::before {
   content: '';
   position: absolute;
   z-index: 0;
   inset: 0;
-  background-image: var(--grad-interrogation);
-  opacity: 0.85;
+  background-image: var(--grad-street-sheen);
   pointer-events: none;
 }
 
@@ -234,12 +245,17 @@ p {
 
 .opener h1 {
   max-width: 20ch;
-  text-shadow: var(--glow-text-amber);
+  text-shadow: var(--glow-text-cyan);
 }
 
+/* Cyan, upright. Amber is the CTA sitting two lines below this, and Playfair
+   Display ships no italic face in the pool — a synthesised oblique of a
+   high-contrast didone is visibly poor at hero size, so the emphasis is carried
+   by hue + the neon halo instead of a fake slant. */
 .opener h1 em {
-  color: var(--color-primary);
-  font-style: italic;
+  color: var(--color-secondary);
+  font-style: normal;
+  text-shadow: var(--glow-text-cyan);
 }
 
 .opener__sub {
@@ -263,19 +279,43 @@ p {
   border-top: 1px solid var(--color-border);
   color: var(--color-neutral);
   font-size: 0.9375rem;
-  font-style: italic;
   max-width: 76ch;
 }
 
-/* The alley: pure CSS/SVG, decorative, aria-hidden. */
+/* The alley: pure CSS/SVG, decorative, aria-hidden. It carries no text, which
+   is why it is the right home for the one warm light on the page. */
 .opener__art {
   position: relative;
   min-height: 240px;
 }
 
+/* colors.gradients[1] "Amber Interrogation", used for its declared job:
+   "Single overhead light effect behind hero subjects." One practical, hung over
+   the marquee, falling off to nothing well before the copy column. */
+.opener__art::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -14% -6% 26%;
+  background-image: var(--grad-interrogation);
+  pointer-events: none;
+}
+
 .opener__art svg {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: auto;
+}
+
+/* hero_experience.suggested_inputs lists "pointer hover". Hovering the art
+   brightens the practical's halo — it never advances the vignette, because
+   changing content on a mouse crossing decorative art is a trap. The advance
+   control is .vignette__advance, a real labelled button. */
+@media (hover: hover) {
+  .opener__art:hover .alley__halo {
+    opacity: 0.26;
+  }
 }
 
 .opener__rain {
@@ -307,6 +347,7 @@ p {
 .alley__halo {
   fill: var(--sign);
   opacity: 0.16;
+  transition: opacity var(--dur-hover) var(--ease-cine);
 }
 
 .alley__lux {
@@ -330,10 +371,11 @@ p {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The buzz dies once the final headline lands (pose 2 / no-JS default). */
+  /* The buzz dies once the final headline lands (pose 2 / no-JS default).
+     Finite and delayed: see the "one at a time" schedule at §14. */
   [data-pose='0'] .alley__tube,
   [data-pose='1'] .alley__tube {
-    animation: neon-buzz 4.5s steps(8, end) infinite;
+    animation: neon-buzz 4.5s steps(8, end) var(--delay-buzz) 2 both;
   }
 }
 
@@ -384,15 +426,33 @@ p {
   line-height: 1.2;
 }
 
+/* An unrevealed lead is a REAL tagline_secondary line that is on screen, so it
+   has to clear 4.5:1 like any other text — it is not decoration. No opacity:
+   compositing Steel Mist at 0.45 over void gave an effective #3c4754 = 2.07:1.
+   Full-strength Steel Mist is 5.88:1 on void and 5.06:1 even under the street
+   sheen at its peak; the reveal is carried by the ink change to Ghost White,
+   the neon halo, and the lit tube marker below. */
 .vignette__lead[data-state='dim'] {
   color: var(--color-neutral);
-  opacity: 0.45;
-  transition: opacity var(--dur-cut) var(--ease-cine);
+  transition: color var(--dur-cut) var(--ease-cine);
 }
 
 .vignette__lead[data-state='lit'] {
   color: var(--color-text);
   text-shadow: var(--glow-text-cyan);
+}
+
+/* A lit lead also gains a hard 2px tube under it, so the reveal is never
+   carried by colour or glow alone (and survives calm mode, which empties the
+   glow dials). */
+.vignette__lead[data-state='lit']::after {
+  content: '';
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  margin-top: var(--space-1);
+  background-color: var(--color-secondary);
+  box-shadow: var(--glow-cyan);
 }
 
 .vignette__controls {
@@ -495,7 +555,7 @@ p {
 }
 
 .placard dt {
-  color: var(--color-secondary);
+  color: var(--color-secondary-text);
   flex: 0 0 auto;
   font-family: var(--font-ui);
   font-size: 0.75rem;
@@ -514,7 +574,7 @@ p {
 
 .case-quote {
   margin: 0;
-  border-left: 2px solid var(--color-primary);
+  border-left: 2px solid var(--color-secondary);
   padding-left: var(--space-4);
 }
 
@@ -536,6 +596,11 @@ p {
   font-style: normal;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* The attribution carries a real link, so the reader can go and check it. */
+.case-quote cite a {
+  color: var(--color-secondary-text);
 }
 
 .record-links {
@@ -561,11 +626,17 @@ p {
   background-color: var(--color-bg);
 }
 
+/* One low desk lamp over the briefing heading, top-left, plus the cold street
+   sheen bottom-right. The two are at opposite corners so they never stack into
+   a wash, and the warm one is a third of the hero practical's strength: at its
+   peak the composite is #2d2313, which is still night. This band ships on six
+   of nine pages, so a warm field here was most of what made the site read as
+   golden hour. */
 .cta-banner::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: var(--grad-interrogation);
+  background-image: var(--grad-briefing-lamp), var(--grad-street-sheen);
   pointer-events: none;
 }
 
@@ -576,7 +647,7 @@ p {
 
 .cta-banner__title {
   max-width: 30ch;
-  text-shadow: var(--glow-text-amber);
+  text-shadow: var(--glow-text-cyan);
 }
 
 .cta-banner__sub {
@@ -602,8 +673,11 @@ p {
   background-color: var(--color-surface);
 }
 
+/* The lead rung is marked by a lit cyan edge, not amber: the amber in this band
+   is the rung-one CTA fill and nothing else. */
 .ladder__rung:first-child {
-  border-left-color: var(--color-primary);
+  border-left-color: var(--color-secondary);
+  box-shadow: inset 3px 0 12px rgb(0, 229, 255, 0.08);
 }
 
 .ladder__step {
@@ -730,7 +804,7 @@ p {
    ========================================================================== */
 
 .briefing {
-  border-left: 2px solid var(--color-primary);
+  border-left: 2px solid var(--color-secondary);
   padding-left: var(--space-4);
   color: var(--color-text);
   font-family: var(--font-headline);
@@ -832,8 +906,9 @@ p {
 }
 
 .deadend__code {
-  /* Dim steel tubing, one digit still burning. --color-edge-strong clears 3:1
-     for large text; raw Charcoal Slate would have been 1.3:1, i.e. invisible. */
+  /* Dead steel tubing, one digit still burning. --color-edge-strong (Dim Steel
+     40% + Steel Mist 60%) is 3.61:1 on void, which clears the 3:1 large-text
+     floor; the raw Dim Steel #2a3650 it replaces is 1.62:1, i.e. invisible. */
   color: var(--color-edge-strong);
   font-family: var(--font-display);
   font-size: clamp(5rem, 22vw, 11rem);
@@ -871,10 +946,13 @@ p {
    ========================================================================== */
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Armed, but never hidden: an unlit section is dimmed and sitting 14px low,
-     still fully legible. Only the decorative dividers actually clip. */
+  /* Armed, but never dimmed: an unlit group sits 14px low and nothing else.
+     A subtree `opacity` put Steel Mist text (.t-serial, .case-quote cite) at
+     2.81:1 for as long as the group stayed unobserved, which is a real contrast
+     failure on real copy. The cut is now a hard positional cut — which is more
+     on-brand anyway ("Hard cut" is transitions[0]) — plus one transient
+     flicker inside the keyframes as the neon settles. */
   .will-cut {
-    opacity: 0.6;
     transform: translateY(14px);
   }
 
@@ -900,16 +978,14 @@ p {
 
 @keyframes cut-in {
   0% {
-    opacity: 0.6;
     transform: translateY(14px);
   }
 
   55% {
-    opacity: 1;
     transform: translateY(0);
   }
 
-  /* one flicker as the neon settles */
+  /* one flicker as the neon settles — transient, ~90ms, not a resting state */
   72% {
     opacity: 0.74;
   }
@@ -931,10 +1007,24 @@ p {
   }
 }
 
-/* header_motif — slow-scan neon flicker on the hero wordmark. */
+/* header_motif — slow-scan neon flicker on the hero wordmark.
+   ── The "one at a time" schedule ────────────────────────────────────────────
+   do_dont.animation.dont forbids BOTH "Animate more than one element
+   simultaneously" AND "Run continuous looping animations without pause", so all
+   three of this site's ambient animations are finite and their windows are
+   disjoint. Nothing loops forever, and no two ever run together:
+
+     sign-flicker (.opener h1)      6.0s x 2, delay  1.2s  → 1.2s .. 13.2s
+     neon-buzz    (.alley__tube)    4.5s x 2, delay 13.5s  → 13.5s .. 22.5s
+     lux-shift    (.lux__figure)    9.0s x 2, delay 23.0s  → 23.0s .. 41.0s
+
+   After 41s the page is completely still, which is the beat the kit asks for
+   anyway: "The neon flicker fades when the final headline lands."
+   The three delays are declared together in base.css §2 so the schedule can be
+   read in one place instead of three files. */
 @media (prefers-reduced-motion: no-preference) {
   .opener h1 {
-    animation: sign-flicker 7s var(--ease-cine) 1.2s infinite;
+    animation: sign-flicker 6s var(--ease-cine) var(--delay-flicker) 2 both;
   }
 }
 
@@ -942,7 +1032,7 @@ p {
   0%,
   88%,
   100% {
-    text-shadow: var(--glow-text-amber);
+    text-shadow: var(--glow-text-cyan);
   }
 
   90% {
@@ -950,7 +1040,7 @@ p {
   }
 
   92% {
-    text-shadow: var(--glow-text-amber);
+    text-shadow: var(--glow-text-cyan);
   }
 
   94% {

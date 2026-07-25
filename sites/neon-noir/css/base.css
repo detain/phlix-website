@@ -13,88 +13,14 @@
  */
 
 /* ==========================================================================
-   1. Brand faces — self-hosted WOFF2 from the shared pool. No CDN, ever.
+   1. Brand faces
+   The @font-face rules live in ONE place only: the generated
+   `vendor-fonts:begin/end` block at the bottom of this file, owned by
+   tools/vendor-fonts.mjs. A hand-authored duplicate set used to sit here; it
+   was byte-identical in `src` but was a second source of truth that would
+   drift from the generator, so it is gone. Regenerate with:
+       node tools/vendor-fonts.mjs --site neon-noir
    ========================================================================== */
-
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Bebas Neue';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/bebas-neue-400-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-serif-400-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Serif';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-serif-500-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-500-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
-}
 
 /* ==========================================================================
    2. Tokens
@@ -117,9 +43,27 @@
   --color-border: #2a3650; /* Dim Steel */
   --color-focus: #00e5ff; /* Focus Cyan Pulse */
 
-  /* Derived mixes of the kit's own pigments — for AA at small sizes */
-  --color-magenta-text: #fa5391; /* Magenta 80% + Ghost White 20% → 5.02:1 on slate */
-  --color-edge-strong: #5a6b84; /* Dim Steel 40% + Steel Mist 60% → 3.27:1 on navy */
+  /* ── Small-text-safe substitutes ──────────────────────────────────────────
+     Three of the kit's hues fail WCAG AA at small sizes on one or more of the
+     four dark surfaces this site paints on (void #0a0c10, navy #111827, slate
+     #1c2333, and the Blood Moon surface #170810). The substitutes below are
+     `tools/kit-brief.mjs`'s own precomputed values, used VERBATIM so all 50
+     sites derive the same token — the tightest surface (slate) sets the value,
+     which is why one token covers all four. Measured table in REGEN_PLAN §6. */
+  --color-magenta-text: #ff357d; /* for #ff2d78 — 5.65 void / 5.12 navy / 4.53 slate */
+  --color-crimson-text: #ec527c; /* for #e5154e — 5.65 void / 5.62 bm / 4.53 slate */
+  --color-edge-strong: #5a6b84; /* Dim Steel 40% + Steel Mist 60% — LARGE text / decoration only */
+
+  /* ── Role tokens the seasonal blocks retint ───────────────────────────────
+     Consumers must read the role, never the raw hue, or a seasonal override
+     silently drops small text below AA (new_site.md §19.19). Split by job:
+       *-text  small text and functional icons  → needs 4.5:1
+       *-fill  a filled control's background    → pairs with --color-on-*
+       raw     rules, borders, large display    → needs only 3:1          */
+  --color-primary-text: #f5a623; /* 9.66 void / 8.75 navy / 7.75 slate */
+  --color-primary-fill: #f5a623;
+  --color-on-primary: #0a0c10; /* 9.66:1 on the amber fill */
+  --color-secondary-text: #00e5ff; /* 12.72 void / 11.53 navy / 10.21 slate */
 
   /* Space — kit spacing_scale */
   --space-1: 4px;
@@ -165,17 +109,51 @@
   --dur-cut: 460ms;
   --dur-hover: 200ms;
 
+  /* The ambient-animation schedule. do_dont.animation.dont forbids animating
+     more than one element at a time AND continuous loops without pause, so the
+     three ambient animations are finite and their windows do not overlap:
+       sign-flicker 6.0s x2 @ 1.2s  → 1.2 .. 13.2s   (theme.css §14)
+       neon-buzz    4.5s x2 @ 13.5s → 13.5 .. 22.5s  (theme.css §4)
+       lux-shift    9.0s x2 @ 23s   → 23 .. 41s      (components.css §11)
+     After 41s the page is completely still. */
+  --delay-flicker: 1.2s;
+  --delay-buzz: 13.5s;
+  --delay-shift: 23s;
+
   /* Layout */
   --measure: 1400px;
   --measure-read: 68ch;
 
-  /* Kit gradients */
+  /* ── Kit gradients ────────────────────────────────────────────────────────
+     colors.gradients[1] "Amber Interrogation" is sanctioned for exactly one
+     job: "Single overhead light effect behind hero subjects." It is a tight
+     practical over a subject, NOT a field. Painted full-bleed across a band it
+     reads as sunrise, which the kit forbids four times over (color_rules[4],
+     do_dont.colors.dont[3], art_direction, lighting.notes). So:
+       --grad-interrogation  rides on .opener__art only, above the alley sign
+       --grad-briefing-lamp  one dim desk lamp over a briefing heading
+       --grad-street-sheen   the cool counterweight; keeps a band reading night
+     Every warm stop is anchored to a cool or transparent stop within ~45%, so
+     no band ever carries a diffuse warm wash. */
   --grad-neon-horizon: linear-gradient(160deg, #ff2d78, #00e5ff);
   --grad-city-depth: linear-gradient(180deg, #111827, #0a0c10);
   --grad-interrogation: radial-gradient(
-    circle at 50% 0%,
-    rgb(245, 166, 35, 0.35),
-    rgb(10, 12, 16, 0) 70%
+    ellipse 42% 34% at 64% 3%,
+    rgb(245, 166, 35, 0.34) 0%,
+    rgb(245, 166, 35, 0.1) 42%,
+    rgb(10, 12, 16, 0) 72%
+  );
+  --grad-briefing-lamp: radial-gradient(
+    ellipse 30% 50% at 7% -12%,
+    rgb(245, 166, 35, 0.14) 0%,
+    rgb(245, 166, 35, 0.042) 46%,
+    rgb(10, 12, 16, 0) 76%
+  );
+  --grad-street-sheen: radial-gradient(
+    ellipse 74% 44% at 84% 106%,
+    rgb(0, 229, 255, 0.09) 0%,
+    rgb(0, 229, 255, 0.028) 44%,
+    rgb(10, 12, 16, 0) 78%
   );
   --tracking-headline: -0.02em;
   --lh-headline: 1.05;
@@ -192,22 +170,53 @@
   --lh-number: 1;
 }
 
-/* Seasonal variants — flipped on by js/experience.js inside active_range only. */
+/* ==========================================================================
+   2b. Seasonal variants — flipped on by js/experience.js inside active_range
+   only. Each block ships the kit's `overrides` VERBATIM for the raw hues, and
+   then re-derives every role token those hues feed, because a variant that is
+   inert today still ships and will be live for weeks (new_site.md §19.19).
+   Measured per variant in REGEN_PLAN.md §6; every small-text pair below
+   clears 4.5:1 on all of that variant's surfaces.
+   ========================================================================== */
+
+/* Dec 28 – Jan 03. Magenta takes over the secondary slot: #ff2d78 is 4.41:1 on
+   Charcoal Slate, so every small-text consumer moves onto the substitute. */
 [data-season='midnight-new-year'] {
   --color-primary: #f5a623;
   --color-secondary: #ff2d78;
   --color-tertiary: #00e5ff;
+  /* re-derived role tokens for this variant */
+  --color-secondary-text: var(--color-magenta-text); /* 5.65 / 5.12 / 4.53 */
 }
 
+/* Oct 01 – Oct 31. The hard one: Danger Magenta #e5154e is 4.24:1 on void,
+   3.40:1 on slate, and only 3.93:1 under Ghost White — so it fails as small
+   text AND as a button fill. Small text moves to --color-crimson-text; the
+   fill keeps the season's hue and takes kit-brief's near-white label instead
+   (the kit's own buttons.danger pairing, corrected upward from #e8edf5). */
 [data-season='blood-moon-october'] {
   --color-primary: #e5154e;
   --color-secondary: #ff6b00;
   --color-surface: #170810;
+  /* re-derived role tokens for this variant */
+  --color-primary-text: var(--color-crimson-text); /* 5.65 / 5.62 / 4.53 */
+  --color-primary-fill: #e5154e;
+  --color-on-primary: #fcfcfe; /* 4.51:1 on #e5154e */
+  --color-secondary-text: #ff6b00; /* 6.85 / 6.82 / 5.50 — already passes */
+  /* City Depth fades to the season's crimson-black surface, not deep navy. */
+  --grad-city-depth: linear-gradient(180deg, #170810, #0a0c10);
 }
 
+/* Feb 10 – Feb 14. Magenta takes the primary slot: fine as a fill (5.50:1
+   under void-black) but 4.41:1 as small text on slate. */
 [data-season='valentines-neon'] {
   --color-primary: #ff2d78;
   --color-secondary: #f5a623;
+  /* re-derived role tokens for this variant */
+  --color-primary-text: var(--color-magenta-text); /* 5.65 / 5.12 / 4.53 */
+  --color-primary-fill: #ff2d78;
+  --color-on-primary: #0a0c10; /* 5.50:1 on #ff2d78 */
+  --color-secondary-text: #f5a623; /* 9.66 / 8.75 / 7.75 — already passes */
 }
 
 /* ==========================================================================
@@ -240,12 +249,41 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.65;
-  /* `anywhere`, not `break-word`: only `anywhere` shrinks the min-content size,
-     and several rows here are flex containers whose anonymous text item would
-     otherwise refuse to go below the width of "ContentDirectory" — which is
-     what pushed clients.html and about.html into horizontal scroll at 200%
-     text zoom. */
+}
+
+/* Wrapping, split by ROLE rather than by "does this look like code"
+   (new_site.md §19.12). `anywhere` is the only value that shrinks the
+   min-content contribution, which is what a grid or flex track measures — and
+   the offenders are ordinary words, not URLs: "ContentDirectory" in a spec
+   column, "Transcoding" in a 130px footer column at 200% zoom. This used to be
+   a blanket `overflow-wrap: anywhere` on `body`, which also inherited into every
+   heading — see the heading rule below for why that is wrong. */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
   overflow-wrap: anywhere;
+}
+
+/* Headings: NOT `anywhere`. An unmarked mid-word break in Playfair Display at
+   4.25rem reads as a rendering fault, and this kit's headlines are its loudest
+   type. `break-word` leaves min-content intact, so a genuine overflow still
+   surfaces in render-check rather than being silently absorbed. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 /* A class that sets `display` beats the UA sheet's [hidden] rule, and several
@@ -271,7 +309,7 @@ ol {
 }
 
 a {
-  color: var(--color-secondary);
+  color: var(--color-secondary-text);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   transition: color var(--dur-hover) var(--ease-cine);
@@ -291,8 +329,19 @@ h4 {
   line-height: 1.05;
 }
 
+/* Emphasis (new_site.md §19.17). The kit caps the body face at
+   `fonts.body.weight: [400, 500]`, so 700 is an UNDECLARED weight even though
+   ibm-plex-serif-700 happens to sit in the shared pool — existence in the pool
+   is not permission. A single 100-unit step in a serif is close to
+   sub-perceptual on its own, so emphasis gets a second channel instead: the
+   kit's own Electric Cyan, whose declared role (colors.secondary.usage)
+   literally includes "highlights". Measured on every surface `strong` can land
+   on — 12.72 void / 11.53 navy / 10.21 slate / 12.66 Blood-Moon surface / 11.66
+   on the Lux panel — and routed through the season-safe role token so the
+   Midnight New Year magenta swap cannot drop it below AA. Links stay
+   distinguishable because they keep their underline; `strong` has none. */
 strong {
-  color: var(--color-text);
+  color: var(--color-secondary-text);
   font-weight: 500;
 }
 
@@ -327,7 +376,7 @@ button {
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-secondary);
   background-color: var(--color-bg);
-  color: var(--color-secondary);
+  color: var(--color-secondary-text);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
   text-decoration: none;
@@ -425,13 +474,6 @@ button {
   src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-700-latin.woff2') format('woff2');
-}
-@font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
@@ -453,13 +495,6 @@ button {
   src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-700-latin.woff2') format('woff2');
-}
-@font-face {
   font-family: 'IBM Plex Serif';
   font-style: normal;
   font-weight: 400;
@@ -472,13 +507,6 @@ button {
   font-weight: 500;
   font-display: swap;
   src: url('../../assets/fonts/ibm-plex-serif-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Serif';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-serif-700-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Playfair Display';

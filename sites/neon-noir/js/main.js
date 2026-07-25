@@ -16,6 +16,10 @@
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  // Belt-and-braces: every page also sets this from an inline <head> script, so
+  // the CSS knows before first paint whether the nav disclosure is available.
+  // Without JS the attribute never appears and the nav renders as a plain
+  // always-visible list at every width (navigation_model.fallback).
   root.setAttribute('data-js', 'on');
 
   /* ── Mobile nav disclosure ─────────────────────────────────────────────── */
@@ -78,13 +82,25 @@
     });
   }
 
-  // Calm mode can be switched on later; release anything still armed.
-  window.addEventListener('phlix:calm', function () {
+  function release() {
     document.querySelectorAll('.will-cut, .will-wipe').forEach(function (el) {
       el.classList.remove('will-cut');
       el.classList.remove('will-wipe');
     });
-  });
+  }
+
+  // Calm mode can be switched on later; release anything still armed.
+  window.addEventListener('phlix:calm', release);
+
+  // A media query read once at load never sees the visitor turn reduced motion
+  // ON mid-visit (new_site.md §19.20). If they do, un-arm everything still
+  // waiting so nothing stays displaced with the motion removed.
+  if (typeof reduce.addEventListener === 'function') {
+    reduce.addEventListener('change', function (e) {
+      if (e.matches) release();
+      else armCuts();
+    });
+  }
 
   armCuts();
 })();

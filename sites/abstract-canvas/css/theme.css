@@ -23,8 +23,14 @@
   text-transform: uppercase;
 }
 
+/* Capped like the headings in base.css. A catalogue numeral is not a heading, but
+   it is display type on the same wall, and an uncapped Bebas numeral under
+   text-only zoom out-measures the `h1` it sits beside (64px vs 51.2px at 320px)
+   — a visual hierarchy inversion even though the DOM order is right. 12vw keeps
+   it a step below `h3`'s 14vw and is inert at normal zoom (3.25rem tops out at
+   52px, 12vw is 38.4px at 320px only under zoom). */
 .numeral {
-  font-size: clamp(2rem, 3vw + 1rem, 3.25rem);
+  font-size: min(clamp(2rem, 3vw + 1rem, 3.25rem), 12vw);
 }
 
 /* Section eyebrow — Inter, not Bebas: this is a label, not a numeral */
@@ -38,10 +44,15 @@
   text-transform: uppercase;
 }
 
+/* This class paints every section `h2`, so it carries the identical
+   `min(clamp(…), 17vw)` ceiling as the `h2` element rule in base.css. Without
+   it the class simply wins on specificity and the cap is dead code: at 320px
+   with a 32px root an uncapped `.section-title` measured 52.0px against a capped
+   `h1`'s 51.2px — the heading hierarchy inverted on 7 of 9 pages. */
 .section-title {
   color: var(--color-primary);
   font-family: var(--font-headline);
-  font-size: clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem);
+  font-size: min(clamp(1.625rem, 2.4vw + 0.75rem, 2.5rem), 17vw);
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: var(--tracking-headline);
@@ -264,15 +275,15 @@
   text-transform: uppercase;
 }
 
-/* The 16vw ceiling is the same accessibility.font_scaling guard as `h1` in
-   base.css: at 320px the fluid clamp already resolves to its 2.5rem floor, so
-   the cap is inert at normal zoom (40px either way) and only bites under
-   text-only zoom, where 2.5rem would become 80px and no longer fit the column
-   the hero clips to. */
+/* The 20vw ceiling is the same accessibility.font_scaling guard as `h1` in
+   base.css, and deliberately the same number: at 320px the fluid clamp already
+   resolves to its 2.5rem floor, so the cap is inert at normal zoom (40px either
+   way) and only bites under text-only zoom, where 2.5rem would become 80px and
+   no longer fit the column the hero clips to. */
 .hero-headline {
   max-width: 22ch;
   margin-bottom: var(--space-6);
-  font-size: min(clamp(2.5rem, 4.6vw + 1rem, 4.5rem), 16vw);
+  font-size: min(clamp(2.5rem, 4.6vw + 1rem, 4.5rem), 20vw);
   font-weight: 700;
   line-height: 1.02;
 }
@@ -384,7 +395,7 @@
   min-height: 48px;
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-ultramarine);
+  border-inline-start: 3px solid var(--color-ultramarine);
   border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
@@ -461,8 +472,10 @@
   color: var(--color-primary);
 }
 
+/* Same reasoning as `.section-title`: a class that overrides an `h3` has to carry
+   the `h3` ceiling too, or the cap is dead code on the two focal works. 14vw. */
 .focal-work h3 {
-  font-size: clamp(1.375rem, 1.4vw + 0.85rem, 1.75rem);
+  font-size: min(clamp(1.375rem, 1.4vw + 0.85rem, 1.75rem), 14vw);
 }
 
 .focal-work-label {
@@ -516,8 +529,8 @@
    engineering wording is preserved verbatim one disclosure away. */
 .technical-mark {
   margin-top: var(--space-2);
-  border-left: 2px solid var(--color-sizing);
-  padding-left: var(--space-3);
+  border-inline-start: 2px solid var(--color-sizing);
+  padding-inline-start: var(--space-3);
 }
 
 /* This disclosure is the ONLY route to the verbatim engineering wording under
@@ -576,8 +589,8 @@
 .marginalia-item {
   display: grid;
   gap: var(--space-2);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--color-cadmium);
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--color-cadmium);
 }
 
 .marginalia-item h3 {
@@ -668,9 +681,12 @@
   margin-top: var(--space-6);
 }
 
+/* `minmax(0, 1.2fr)`, not `1.2fr`: a bare `<flex>` track is `minmax(auto, <flex>)`,
+   so its floor is the content's min-content width — and this grid holds three bare
+   GitHub URLs. That is the exact shape that produced ROUND-1 #1. */
 @media (width >= 900px) {
   .proof-grid {
-    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-12);
   }
 }
@@ -704,8 +720,8 @@
 
 .proof-quote {
   margin: 0;
-  border-left: 2px solid var(--color-ultramarine);
-  padding-left: var(--space-4);
+  border-inline-start: 2px solid var(--color-ultramarine);
+  padding-inline-start: var(--space-4);
 }
 
 .proof-quote p {
@@ -727,9 +743,24 @@
   gap: var(--space-2);
 }
 
+/* accessibility.touch_target — `.proof-links` is `display: grid`, so these three
+   anchors are blockified grid items and WCAG 2.5.8's "inline in a sentence"
+   exception does not apply to them: they measured 272×26. Same treatment as
+   `.shelf-item-name a` below — the box is the text's width, but never shorter
+   than the floor (44px, 48px on a phone). */
 .proof-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: 44px;
   font-family: var(--font-ui);
   font-size: 0.9375rem;
+}
+
+@media (width <= 600px) {
+  .proof-links a {
+    min-height: 48px;
+  }
 }
 
 /* ==========================================================================
@@ -870,7 +901,7 @@
   margin-top: var(--space-12);
   padding: var(--space-8);
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-cadmium);
+  border-inline-start: 3px solid var(--color-cadmium);
   border-radius: var(--radius-md);
   background: var(--color-surface);
 }
@@ -976,7 +1007,7 @@
   margin-block: var(--space-6);
   padding: var(--space-4) var(--space-6);
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-primary);
+  border-inline-start: 3px solid var(--color-primary);
   border-radius: var(--radius-md);
   background: var(--color-surface-alt);
 }
@@ -1075,6 +1106,12 @@
   min-height: 44px;
 }
 
+@media (width <= 600px) {
+  .shelf-item-name a {
+    min-height: 48px;
+  }
+}
+
 .shelf-item-what {
   font-size: 1rem;
 }
@@ -1089,7 +1126,7 @@
   margin-top: var(--space-6);
   padding: var(--space-8);
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-ultramarine);
+  border-inline-start: 3px solid var(--color-ultramarine);
   border-radius: var(--radius-md);
   background: var(--color-surface);
 }
@@ -1219,8 +1256,8 @@
 .talk dd {
   margin-top: var(--space-3);
   max-width: var(--measure);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--color-cadmium);
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--color-cadmium);
   font-size: 1rem;
 }
 
@@ -1281,7 +1318,7 @@
 
 .blank-canvas svg {
   position: absolute;
-  right: 8%;
+  inset-inline-end: 8%;
   bottom: 6%;
   width: 34%;
   max-width: 150px;

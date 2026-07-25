@@ -92,12 +92,15 @@
     <!-- seasonal_activation (mode: live-js) — authored markup, kept display:none
          by css/theme.css until js/main.js finds a live active_range and sets
          data-season on <html>; that rule also attaches the season's declared
-         motif_assets mark. Nothing is injected after first paint. -->
-    <div class="seasonal-banner">
+         motif_assets mark. Nothing is injected after first paint.
+         An <aside>, not a <div>: this sits ahead of <header role="banner">, so as
+         a bare div it was the one run of content on the page that belonged to no
+         landmark at all. -->
+    <aside class="seasonal-banner" aria-label="Seasonal note">
       <div class="container">
         <p>The season shifts — Palette has prepared fresh grounds for the canvas.</p>
       </div>
-    </div>
+    </aside>
 
     <header class="site-header" role="banner">
       <div class="container">
@@ -406,6 +409,10 @@
             <span class="toggle-dot" aria-hidden="true"></span>
             Gallery quiet
           </button>
+          <!-- §19.21 — mascot.behavior.dismiss persists in localStorage, so there
+               has to be a way back. Revealed by js/main.js only when Palette is
+               tucked away on a page entitled to it. -->
+          <button class="palette-wake" type="button" data-palette-wake hidden>Wake Palette</button>
           <p class="motion-note">
             Motion here is slow by design and follows your system's reduced-motion setting. Prefer
             it stiller still? Ask for gallery quiet.

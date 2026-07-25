@@ -18,7 +18,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { globSync } from 'glob';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -304,6 +304,55 @@ function checkSite(slug) {
     }
   }
 
+  // 15. No font weight the kit never declared (new_site.md §19.17).
+  //
+  // Two kits shipped @font-face rules for weights their kit does not declare,
+  // and one also used `font-weight: 700` in two nav rules against a family whose
+  // declared union is 400/500/600/800/900. A reviewer verified 700 *resolved* and
+  // that nothing *assumed* 600 was bold — both true — and never checked 700
+  // against `fonts{}`. The shared pool holds weights a given kit must not use, so
+  // presence in the pool is not permission.
+  const declaredByFamily = KIT_WEIGHTS.get(slug);
+  if (declaredByFamily) {
+    const anyWeight = new Set();
+    for (const set of declaredByFamily.values()) for (const w of set) anyWeight.add(w);
+    for (const f of cssFiles) {
+      const css = readFileSync(join(dir, 'css', f), 'utf8');
+
+      // (a) @font-face family/weight pairs — the family is named in the rule, so
+      //     this is exact.
+      for (const m of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
+        const fam = m[1].match(/font-family:\s*([^;]+);/);
+        const wt = m[1].match(/font-weight:\s*(\d{3})\s*;/);
+        if (!fam || !wt) continue;
+        const key = fam[1].replace(/['"]/g, '').trim().toLowerCase();
+        const w = Number(wt[1]);
+        const declared = declaredByFamily.get(key);
+        if (!declared) continue; // family not in this kit — a different rule's business
+        if (!declared.has(w)) {
+          fail(
+            `css/${f}: @font-face ${fam[1].trim()} weight ${w} — kit declares only ` +
+              `${[...declared].sort((a, b) => a - b).join(', ')} for this family (§19.17)`,
+          );
+        }
+      }
+
+      // (b) any numeric font-weight declared for NO family in the kit. Resolving
+      //     which family a rule inherits needs full cascade evaluation, but a
+      //     weight the kit never names anywhere cannot be right regardless.
+      const outsideFaces = css.replace(/@font-face\s*\{[^}]*\}/g, '');
+      for (const m of outsideFaces.matchAll(/font-weight:\s*(\d{3})\b/g)) {
+        const w = Number(m[1]);
+        if (anyWeight.has(w)) continue;
+        const line = outsideFaces.slice(0, m.index).split('\n').length;
+        warn(
+          `css/${f}:${line}: font-weight: ${w} — declared for no family in this kit ` +
+            `(kit declares ${[...anyWeight].sort((a, b) => a - b).join(', ')}) (§19.17)`,
+        );
+      }
+    }
+  }
+
   return { slug, fails, warns, notes };
 }
 
@@ -324,6 +373,33 @@ const slugs = all
       .map((p) => p.split('/')[0])
       .sort()
   : [slugArg];
+
+/* family (lower-case) -> Set(declared weights), per slug. Imported rather than
+   regex-parsed: a family routinely serves several roles at different weights
+   (swiss-modernist declares Inter at [400,500] body, [500,600] ui, [800,900]
+   headline), so the permitted set is the UNION across roles and getting that
+   wrong would fail a weight the kit openly declares. */
+const KIT_WEIGHTS = new Map();
+for (const slug of slugs) {
+  const kitPath = join(ROOT, 'brand-kits', `${slug}.js`);
+  if (!existsSync(kitPath)) continue;
+  try {
+    const kit = (await import(pathToFileURL(kitPath).href)).default;
+    const byFamily = new Map();
+    for (const spec of Object.values(kit.fonts ?? {})) {
+      if (!spec || typeof spec !== 'object' || !spec.family) continue;
+      const key = String(spec.family).trim().toLowerCase();
+      if (!byFamily.has(key)) byFamily.set(key, new Set());
+      const ws = (Array.isArray(spec.weight) ? spec.weight : [spec.weight])
+        .map(Number)
+        .filter(Number.isFinite);
+      for (const w of ws) byFamily.get(key).add(w);
+    }
+    if (byFamily.size) KIT_WEIGHTS.set(slug, byFamily);
+  } catch {
+    // A kit that will not import is already reported by the other checks.
+  }
+}
 
 let failed = 0;
 for (const slug of slugs) {

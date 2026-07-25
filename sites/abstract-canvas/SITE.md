@@ -75,9 +75,14 @@ The last two exist for reasons the first four do not, so they are called out rat
   resting state at Carbon Black and says nothing about hover; a lighter carbon is the mark of a
   pressed brush, and it stays inside the pigment.
 
-Every hex the site paints with is now either a kit pigment or one of these six documented
-derivations — including `img/logo.svg`, whose gestural umber mark uses `--color-neutral-ink`
-`#5F594C` rather than an ad-hoc darkening.
+Every hex the site paints with is either a kit pigment, one of the three `seasonal_variants`
+override tokens, or one of these six documented derivations. That now includes both gestural umber
+marks: `img/logo.svg` and the share card `img/og.svg`, which both use `--color-neutral-ink`
+`#5F594C` rather than an ad-hoc darkening. (`og.svg` shipped `#3A3128` through round 2 — the claim
+above was made after fixing the logo and before checking the card it is rasterised into. Verified by
+enumeration this round: **27** distinct hex literals across `*.html`, `css/`, `js/main.js`,
+`img/*.svg` and `img/seasonal/*.svg` — 13 kit palette roles, the 6 derivations above, and the 8
+`seasonal_variants` override values. Nothing else.)
 
 Paint Ink on Gallery Linen measures 15.96:1; Carbon Black 14.87:1; Ultramarine 6.23:1.
 
@@ -113,11 +118,23 @@ face for any family, so the 11 `font-style: italic` rules render as a synthetic 
 the true Cormorant Garamond italic `typography_rules` asks for. §19.3 makes the pool
 orchestrator-owned and forbids a CDN, so the honest state is a faux italic plus this note.
 
-Display type is also capped against the viewport (`min(clamp(…), Nvw)` on `h1`/`h2`/`h3` and
-`.hero-headline`). The caps sit above every value the fluid clamp produces between 320px and 1400px,
-so the rendered scale at normal zoom is unchanged; they only engage under **text-only** 200% zoom,
-where a `rem` floor would otherwise grow an `<h1>` to 72px in a 272px column. Body copy is never
-capped — reading text scales all the way.
+Display type is also capped against the viewport: `min(clamp(…), Nvw)` on `h1` (20vw), `h2` and
+`.section-title` (17vw), `h3` and `.focal-work h3` (14vw), `.numeral` (12vw), and `.hero-headline`
+(20vw, matching `h1`). **Every class that overrides one of those element rules carries the same
+ceiling** — that is the whole point of the list. Cap the element and not the class and the cap is
+dead code: round 2 shipped an uncapped `.section-title`, which paints every section `h2`, and at
+320px with a 32px root it measured 52.0px against a capped `h1`'s 51.2px — the heading hierarchy
+inverted on 7 of 9 pages. Measured after the fix, all 9 pages at 320px / 32px root: h1 64,
+h2 = `.section-title` 52, h3 ≤ 44, `.numeral` 38.4, `scrollWidth` 320, 0 clipped elements.
+
+Every ceiling still sits above every value the fluid clamp produces between 320px and 1400px, so the
+rendered scale at normal zoom is byte-identical. They engage only under **text-only** zoom. What they
+cost there, stated honestly: at 320px `h2`, `.section-title` and `h3` reach a full 200% (26→52,
+20→40) and `h1` reaches 178% (36→64). `h1` stops short because 64px Cormorant in a 288px column is
+already breaking words mid-word; `accessibility.font_scaling` asks that the layout "survive 200%
+browser text zoom without clipping or horizontal scroll", which it does, and no content or
+functionality is lost at any zoom level. Body copy is never capped — reading text scales all the way
+(16→34px).
 
 ## Spatial system
 
@@ -152,9 +169,11 @@ live-JS seasonal date-gate, and a themed `404.html`.
 
 `seasonal_activation.mode` is `live-js`, so `js/main.js` gates on the date and does exactly two
 things: sets `data-season` on `<html>` and applies the variant's declared override tokens. Everything
-visible is CSS and authored markup — the banner sentence is in all 9 pages, kept `display: none`
-until `data-season` appears, and each variant's `motif_assets` SVG is the banner's background mark in
-its own `html[data-season='…']` rule (plus a re-tinted `.band` divider). Nothing is inserted into the
+visible is CSS and authored markup — the banner sentence is in all 9 pages as an
+`<aside aria-label="Seasonal note">` (it precedes `<header role="banner">`, so as a bare `<div>` it
+was the one run of content on the page inside no landmark at all), kept `display: none` until
+`data-season` appears, and each variant's `motif_assets` SVG is the banner's background mark in its
+own `html[data-season='…']` rule (plus a re-tinted `.band` divider). Nothing is inserted into the
 document after first paint. None is active on 2026-07-25. To see one out of season, append
 `?season=autumn-study` (or `winter-white`, `spring-opening`) to any page URL — the slug is matched
 against a fixed list.
@@ -192,21 +211,39 @@ prompt is recorded in `img/PROMPTS.md`.
   small text or 3:1 for large text and UI edges.
 - Focus: 2px ultramarine ring, 2px offset, 4px ultramarine halo — `accessibility.focus_style`
   implemented literally, never clipped.
-- Touch targets: `accessibility.touch_target` is 44px on desktop and 48px on a phone, and that
-  applies to the small controls too, not just the obvious ones — the nav toggle (48), buttons (48),
-  path links (48), the `<details>` summary that holds every disclosed technical fact (44, 48 under
-  600px), Palette's figure and its dismiss (44, 48 under 600px), footer-directory rows (44), the
-  reference-shelf spines (44) and the skip link (44).
-- `prefers-reduced-motion` drops all animation; the Gallery quiet toggle does the same on request.
-- Survives 200% text zoom, verified on all 9 pages at 320px: every single-column grid track is
-  `minmax(0, 1fr)` so it can be narrower than its content's min-content width, `overflow-wrap:
-break-word` is inherited from `body` so long words reflow instead of inflating a column, buttons
-  drop their flex min-width floor so a label wraps rather than being clipped, and display sizes are
-  capped against the viewport. No fixed-px layout widths.
-- Palette is two labelled buttons plus a polite live region — never a focus trap, and dismissible.
-  Per §19.11 it steps aside rather than sit on a call to action at ≤700px, and it never pushes an
-  unrequested tip on a phone.
-- The install snippet is a `<pre>` with `tabindex="0"`, `role="region"` and a label: it scrolls
+- Touch targets: `accessibility.touch_target` is two numbers — 44×44 on desktop, 48×48 on a phone —
+  and **both** are honoured on every blockified control, not just the obvious ones. 44px desktop /
+  48px under 600px on: the nav links, the footer-directory rows (plus a 44/48 `min-width`, because
+  "Hub" is a 29px-wide label and the floor is a square), the reference-shelf spines, the Gallery
+  quiet toggle, the `<details>` summary that holds every disclosed technical fact, the three
+  `.proof-links` credits anchors, and Palette's figure and dismiss. Flat 48 on: the nav toggle, all
+  buttons, the visitor-path links. The skip link is 44. Measured: 0 blockified controls below the
+  floor at 320px, 375px or 1280px on any of the 9 pages.
+- `prefers-reduced-motion` drops all animation, and it is re-read when the visitor **changes** it
+  mid-visit: switching it on mid-page retires the reveal gate and paints every `.reveal`, so the
+  preference costs motion and never content (§19.20). The Gallery quiet toggle does the same on
+  request.
+- Survives 200% text zoom, verified on all 9 pages at 320px: every grid track is `minmax(0, …)` —
+  the single-column base template for all 22 otherwise-implicit grids in one rule at
+  `css/theme.css:137`, and every multi-column template too, including `.proof-grid`'s
+  `1.2fr 1fr 1fr`, which was the last bare `<flex>` track on the site. A bare track's floor is its
+  content's min-content width, which is what overflowed `download.html` in round 1.
+  `overflow-wrap: break-word` is inherited from `body` so long words reflow instead of inflating a
+  column, buttons drop their flex min-width floor so a label wraps rather than being clipped, and
+  display sizes are capped against the viewport. No fixed-px layout widths.
+- Palette is two labelled buttons plus a polite live region in a labelled `<aside>` — never a focus
+  trap, dismissible, and restorable from the footer. Per §19.11 it **moves** rather than sit on a
+  control: `guardPalette()` walks it up its own edge to the nearest band no control occupies, at
+  every width and every scroll position, and it never disappears to achieve that. Hiding it would
+  blur whichever of its buttons held focus (SC 2.4.3) and would delete the only surface an
+  `easter_eggs` reward has. It still never pushes an unrequested tip at ≤700px.
+- Every install command is `shared/content.json`'s `install` block, copied verbatim and never
+  retyped (§19.22). `download.html` shows `install.primary.command` — one line, `line_count: 1`, the
+  same command as `phlix-server`'s own README — and the seven "one line" claims across the site are
+  true of it. The `git clone` + `composer install` checkout sits in a `<details>` below it, labelled
+  a development checkout, because it creates no database, no service and no migrations and is
+  therefore not an install. `install.with_https` is a second disclosure.
+- Each install snippet is a `<pre>` with `tabindex="0"`, `role="region"` and a label: it scrolls
   horizontally, and a scrollable region has to be reachable from a keyboard.
 - Printing works: `@media print` restores the `.reveal` blocks that an `IntersectionObserver` would
   otherwise leave at `opacity: 0` on a page that was never scrolled.
