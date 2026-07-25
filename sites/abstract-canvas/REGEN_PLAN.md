@@ -269,3 +269,9 @@ the earned-line hold that stops a scroll tip overwriting an egg reward. Against 
 of Inter 500 out of the first paint, so the page a visitor actually downloads is ~46 KB _lighter_
 than the one ROUND-1 measured. I would rather be honest about the 1.3 KB of overage than delete the
 comments that explain why the guard exists.
+
+> **Ruled on by the owner (2026-07-25): 16.3 KB is accepted.** The trade stands as
+> described — do not shrink `main.js` by deleting explanatory comments, and
+> reviewers should not re-open this as a finding. §2A's figure is guidance, and a
+> justified overage that lowers total download is the outcome the budget exists to
+> protect.

@@ -188,7 +188,12 @@ Any per-site JS added for `hero_experience`, `navigation_model`, `mascot.behavio
 - **Self-contained, hand-written vanilla JS** with **no external dependencies**
   (no libraries, no CDNs) — consistent with §7.
 - **Budgeted at roughly ≤15 KB total** across all of them (each field may carry a
-  tighter per-feature budget, e.g. `hero_experience.js_budget_kb`).
+  tighter per-feature budget, e.g. `hero_experience.js_budget_kb`). "Roughly" is
+  literal: `tools/selfcheck.mjs` warns at 20 KB, and a **justified** overage that
+  lowers the page's total download is acceptable — one kit shipped 16.3 KB of JS
+  while removing 48 KB of unused font payload, for a net 46 KB saving, and that
+  was ruled correct. What is _not_ acceptable is hitting the number by deleting
+  the comments that explain why the code exists.
 - **`prefers-reduced-motion`-respecting** — motion is gated/dropped under reduced
   motion.
 - For `navigation_model` and `hero_experience`, it must **always render a working
