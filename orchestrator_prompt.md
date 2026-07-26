@@ -6,6 +6,27 @@ worker agents, run the gates, verify their work, and land it in git.
 Read this whole file before you run anything. Then follow it literally, in order.
 Every command below is meant to be copy-pasted exactly as written.
 
+> ## ⛔ READ THIS FIRST — HOW YOU SPAWN WORKERS
+>
+> **You are already running inside opencode.** You spawn workers with your
+> built-in **`task` tool**, the same way you would call any other tool.
+>
+> **NEVER run the `opencode` binary from bash.** Not `opencode run`, not
+> `opencode serve`, not `opencode --agent`, not with `&`, not in a subshell,
+> not ever. Starting a second opencode process from inside opencode does not
+> create a worker — it starts an unrelated server or session that does no work,
+> and you will sit waiting for output that never comes.
+>
+> | ❌ NEVER DO THIS | ✅ DO THIS INSTEAD |
+> | --- | --- |
+> | `bash: opencode run -m ... "prompt" &` | call the **`task`** tool |
+> | `bash: opencode serve` | call the **`task`** tool |
+> | `bash: opencode --agent coder ...` | call the **`task`** tool |
+>
+> If you catch yourself typing the word `opencode` into a bash command, stop.
+> That is always a mistake. The only programs you run in bash are `git`, `gh`,
+> `node`, `npm`, `curl`, and ordinary shell utilities.
+
 ---
 
 ## 0. THE ONE-PARAGRAPH SUMMARY
@@ -29,8 +50,10 @@ collide.
 | Git remote | `git@github.com:detain/phlix-website.git` |
 | Default branch | `master` (unprotected — red CI does **not** block a merge) |
 | Live site | `https://detain.github.io/phlix-website/<slug>/` |
-| Worker model | `SGLANG/MiniMax-M2.7` |
-| Worker runtime | `opencode` at `/home/my/.opencode/bin/opencode` |
+| Worker model | `SGLANG/MiniMax-M2.7` (already your model — workers inherit it) |
+| How you spawn a worker | your built-in **`task`** tool — **never** the `opencode` CLI |
+| Subagent for Authors and Fixers | `coder` |
+| Subagent for Reviewers | `reviewer` |
 | Node | already installed; `npm ci` already done |
 
 **Always start from the repo root.** Every command in this file assumes:
@@ -48,7 +71,6 @@ cd /home/sites/phlix/phlix-website && \
 git status --short && \
 git branch --show-current && \
 node tools/selfcheck.mjs --site swiss-modernist | tail -2 && \
-/home/my/.opencode/bin/opencode --version && \
 echo "ENVIRONMENT OK"
 ```
 
@@ -178,6 +200,10 @@ wilderness-trail    narrative-scroll
 7. **Do not `pkill -f` on a broad pattern.** It will kill your own verification
    runs and other agents' browsers. If you must kill something, target the exact
    PID.
+8. **Never run the `opencode` binary from bash.** See the box at the top of this
+   file. Workers are spawned with the `task` tool and only with the `task` tool.
+   `opencode serve` in particular does nothing useful here — it starts a server,
+   not a worker, and you will wait forever for a result that is not coming.
 
 ---
 
@@ -290,34 +316,48 @@ done
 Every file must be more than 100 lines. If one is short, open it — it contains an
 error message instead of a brief.
 
-### 6.3 Spawn 10 Authors, one per kit
+### 6.3 Spawn 10 Authors, one per kit — with the `task` tool
 
-Each worker runs in its **own opencode session** (no `--continue`, no `--session`)
-so they cannot interfere with each other.
+**Do not run any bash command for this step.** You call the `task` tool ten
+times. Put **all ten calls in a single message** so they run concurrently; if you
+send them one message at a time they will run one after another and the wave will
+take ten times as long.
 
-```bash
-cd /home/sites/phlix/phlix-website
-mkdir -p /tmp/phlix-logs
+Each call takes three things:
 
-for slug in copper-steampunk bamboo-sanctuary solarpunk-eden chrome-velocity \
-            editorial-underground street-mural cyber-tokyo cosmic-odyssey \
-            ice-cathedral afrofuturism; do
-  /home/my/.opencode/bin/opencode run \
-    -m SGLANG/MiniMax-M2.7 \
-    --title "author-$slug" \
-    "$(sed "s/__SLUG__/$slug/g" /home/sites/phlix/phlix-website/.worker-author.txt)" \
-    > "/tmp/phlix-logs/author-$slug.log" 2>&1 &
-  echo "spawned author for $slug (pid $!)"
-  sleep 5
-done
-wait
-echo "ALL AUTHORS FINISHED"
+- **subagent type:** `coder`
+- **description:** `author <slug>`
+- **prompt:** the three lines below, with `<slug>` replaced by the real slug
+
+The prompt for each Author is short on purpose — the worker reads its own long
+instructions from disk, so you never paste a huge string:
+
+```
+You are the Author for the Phlix brand-kit site `<slug>`.
+
+Read /home/sites/phlix/phlix-website/.worker-author.txt in full and follow every
+instruction in it exactly. Wherever that file says __SLUG__, it means <slug>.
+
+Your kit brief is at /tmp/phlix-briefs/<slug>.md — read it before you write code.
 ```
 
-The `sleep 5` staggers the starts so ten processes do not all hit the model
-endpoint in the same instant.
+So for wave A you make ten `task` calls in one message, with `<slug>` set to each
+of: `copper-steampunk`, `bamboo-sanctuary`, `solarpunk-eden`, `chrome-velocity`,
+`editorial-underground`, `street-mural`, `cyber-tokyo`, `cosmic-odyssey`,
+`ice-cathedral`, `afrofuturism`.
 
-**You must create `.worker-author.txt` first** — its contents are in §7.1 below.
+You will get each worker's report back as it finishes. **Handle each one the
+moment it arrives** (§6.4 onward) rather than waiting for all ten.
+
+**`.worker-author.txt` already exists** in the repo root, alongside
+`.worker-review.txt` and `.worker-fix.txt`. Confirm before you start:
+
+```bash
+cd /home/sites/phlix/phlix-website && wc -l .worker-author.txt .worker-review.txt .worker-fix.txt
+```
+
+That must print three files with 79, 49 and 41 lines. If any is missing, its
+contents are in §7 below — recreate it before spawning anything.
 
 ### 6.4 After EACH author finishes: check its scope IMMEDIATELY
 
@@ -375,42 +415,40 @@ A `⚠` warning line is not a failure. Only `✗` lines and a final `FAIL` are.
 ### 6.6 Then the Reviewer, then the Fixer — per kit, in that order
 
 Spawn the Reviewer for a kit **as soon as that kit's author is done and its gates
-are green** — do not wait for the other nine. This keeps all ten lanes busy.
+are green** — do not wait for the other nine. This keeps all ten lanes busy. Again
+this is the `task` tool, never bash.
 
-```bash
-cd /home/sites/phlix/phlix-website
-slug=copper-steampunk
+**Reviewer** — subagent type `reviewer`, description `review <slug>`, prompt:
 
-/home/my/.opencode/bin/opencode run \
-  -m SGLANG/MiniMax-M2.7 \
-  --title "review-$slug" \
-  "$(sed "s/__SLUG__/$slug/g" /home/sites/phlix/phlix-website/.worker-review.txt)" \
-  > "/tmp/phlix-logs/review-$slug.log" 2>&1
+```
+You are the Reviewer for the Phlix brand-kit site `<slug>`.
+
+Read /home/sites/phlix/phlix-website/.worker-review.txt in full and follow every
+instruction in it exactly. Wherever that file says __SLUG__, it means <slug>.
+
+Return your findings as TEXT in your final message. Do not write any file.
 ```
 
-The Reviewer returns its findings **as text in its final message**. Save them:
+The Reviewer's findings come back to you **in its final message**. You must now
+pass that text to the Fixer. Save it first so it cannot be lost:
 
-```bash
-mkdir -p /tmp/phlix-findings
-cp /tmp/phlix-logs/review-$slug.log /tmp/phlix-findings/$slug-round1.txt
+Write the reviewer's returned text verbatim to
+`/tmp/phlix-findings/<slug>-round1.txt` using your file-write tool. Then:
+
+**Fixer** — subagent type `coder`, description `fix <slug>`, prompt:
+
+```
+You are the Fixer for the Phlix brand-kit site `<slug>`.
+
+Read /home/sites/phlix/phlix-website/.worker-fix.txt in full and follow every
+instruction in it exactly. Wherever that file says __SLUG__, it means <slug>.
+
+The findings you must fix are in /tmp/phlix-findings/<slug>-round1.txt — read
+that file. Fix every finding in it.
 ```
 
-Then spawn the Fixer, passing it those findings:
-
-```bash
-cd /home/sites/phlix/phlix-website
-slug=copper-steampunk
-
-/home/my/.opencode/bin/opencode run \
-  -m SGLANG/MiniMax-M2.7 \
-  --title "fix-$slug" \
-  "$(sed "s/__SLUG__/$slug/g" /home/sites/phlix/phlix-website/.worker-fix.txt)
-
-=== THE FINDINGS YOU MUST FIX ===
-
-$(cat /tmp/phlix-findings/$slug-round1.txt)" \
-  > "/tmp/phlix-logs/fix-$slug.log" 2>&1
-```
+For later rounds use `-round2.txt`, `-round3.txt` and point the Fixer at that file
+instead.
 
 After the Fixer finishes, **re-run §6.4 and §6.5 for that kit**. Then run one more
 Reviewer round. Repeat review → fix until a Reviewer round returns **no ❌ blocker
@@ -501,10 +539,14 @@ echo "LIVE CHECK DONE (no BAD lines above = all good)"
 
 ---
 
-## 7. THE THREE WORKER PROMPTS — CREATE THESE FILES ONCE
+## 7. THE THREE WORKER PROMPT FILES
 
-Create each file exactly as shown. `__SLUG__` is replaced automatically by the
-`sed` in the spawn commands.
+**These three files already exist in the repo root.** You do not need to create
+them. They are reproduced here only so you can restore one if it goes missing.
+
+The worker reads its own file and substitutes `__SLUG__` itself — that is why the
+prompt you pass through the `task` tool is only three lines long. Do not paste
+these contents into a `task` call.
 
 ### 7.1 `.worker-author.txt`
 
@@ -714,23 +756,35 @@ parallel is roughly 2 GB and ten Chromes. Check you have room:
 nproc && free -g | head -2
 ```
 
-### 8.2 A warning about ten parallel opencode workers
+### 8.2 Ten parallel `task` workers — prove it on two first
 
-Previous experience with opencode + MiniMax on this repo was **strictly serial** —
-parallel runs interfered with each other. The spawn pattern in §6.3 avoids the
-known cause by giving every worker its **own session** (no `--continue`, no shared
-`--session`) and staggering the starts.
+Previous experience with opencode + MiniMax on this repo was **strictly serial**,
+because workers were being launched as separate `opencode` CLI processes that
+fought over shared state. Spawning through the `task` tool does not have that
+problem: each subagent gets its own context from the runtime.
 
-**Prove it before you trust it.** On your first wave, spawn only **two** authors,
-confirm both produce a complete site and neither log contains errors about
-sessions or locked state, and only then raise it to ten:
+**Still, prove it before you trust it.** On your very first wave, send **two**
+`task` calls in one message. When both come back, check that each actually built
+its own site and did not touch the other's:
 
 ```bash
-tail -40 /tmp/phlix-logs/author-copper-steampunk.log
-tail -40 /tmp/phlix-logs/author-bamboo-sanctuary.log
+cd /home/sites/phlix/phlix-website
+git status --short -- sites/copper-steampunk/ | wc -l    # expect ~20+
+git status --short -- sites/bamboo-sanctuary/ | wc -l    # expect ~20+
 ```
 
-If they interfere, drop to 3–4 concurrent and tell the human.
+Both numbers must be non-trivial and the §6.4 scope check must be clean for each.
+Only then send the remaining eight in one message.
+
+If the two interfere — one kit empty, or files from one kit appearing under the
+other — drop to 3–4 concurrent and tell the human before continuing.
+
+### 8.3 Do not poll for workers with bash
+
+You do not need `wait`, `sleep`, `jobs`, log files, or `ps` to know when a worker
+has finished. The `task` tool returns the worker's report to you directly. Sitting
+in a bash loop waiting for a process is a symptom that you launched a worker the
+wrong way — go back and re-read the box at the top of this file.
 
 ---
 
