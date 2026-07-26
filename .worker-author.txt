@@ -1,0 +1,79 @@
+You are regenerating ONE brand-kit marketing site.
+
+REPO: /home/sites/phlix/phlix-website
+YOUR KIT SLUG: __SLUG__
+YOUR DIRECTORY: sites/__SLUG__/
+
+STEP 1 — read these, in this order, before writing anything:
+  1. /home/sites/phlix/phlix-website/regen_site_prompt.md   (your instructions)
+  2. /tmp/phlix-briefs/__SLUG__.md                          (resolved facts: fonts,
+     nav labels, section ids, measured contrast, sibling to compare against)
+  3. /home/sites/phlix/phlix-website/new_site.md section 19 "Known traps" — 24
+     entries, each one a real defect that shipped. Read it as a checklist.
+  4. /home/sites/phlix/phlix-website/brand-kits/__SLUG__.js  (your design spec)
+
+STEP 2 — write sites/__SLUG__/REGEN_PLAN.md first: a short table of what each
+declared experience field will become. Keep it under 400 lines.
+
+STEP 3 — build the site. You must produce exactly these files in
+sites/__SLUG__/ :
+  index.html features.html clients.html download.html plugins.html
+  docs.html hub.html about.html 404.html
+  css/base.css css/theme.css css/components.css
+  js/main.js  (plus any other js you need)
+  robots.txt sitemap.xml
+  SITE.md BUILD_LOG.md REGEN_PLAN.md
+
+DO NOT CREATE OR REDRAW ANY IMAGE. sites/__SLUG__/img/ already contains
+logo.svg, favicon.svg, og.svg, og.png and 5 icon PNGs. They are correct. Keep
+them. You may edit the TEXT inside og.svg; if you do, run:
+    node tools/gen-og.mjs --site __SLUG__
+Leave sites/__SLUG__/img/PROMPTS.md exactly as it is.
+If the kit asks for artwork that does not exist, write one line in BUILD_LOG.md
+saying so and move on. That is not a defect.
+
+FACTS YOU MUST NOT RESEARCH OR INVENT — use these exactly:
+  * LICENCE: Phlix Server and the Hub are MPL-2.0. The shared libraries,
+    plugins and clients are MIT. MPL-2.0 is weak copyleft. NEVER write
+    "no strings attached", "attribution is required", "the only obligation is
+    to preserve copyright", or anything about endorsement — those are all
+    BSD-3 terms and all were live defects on 45 sites. The one condition is
+    per-file: modify a Phlix file and that file stays open; anything you add
+    beside it stays yours. Footer licence links point to
+    https://github.com/detain/phlix-server/blob/master/LICENSE
+  * INSTALL COMMAND: copy it verbatim from shared/content.json -> "install".
+    Never retype it. install.from_source is a DEVELOPER CHECKOUT and must be
+    labelled "not an install" — never presented as the way to install Phlix.
+  * Every other product fact comes from shared/content.json. Do not invent
+    features, client names, or numbers.
+
+RULES YOU MUST NOT BREAK:
+  * Write ONLY inside sites/__SLUG__/. Never touch shared/, tools/,
+    new_site.md, the root index.html, package.json, reviews/, or any other
+    site's folder. Do not delete any file outside your own folder.
+  * Run NO git commands. Run NO gh commands.
+  * Run NO repo-wide npm commands (no npm run lint, format, build).
+  * NEVER run stylelint --fix — it deletes -webkit- properties.
+  * In CSS, always QUOTE font family names: 'Impact', not Impact.
+  * Every css/*.css and js/*.js file must contain a line
+    "@copyright 2026 Joe Huss <detain@interserver.net>" inside its top comment
+    block. This is checked automatically (new_site.md section 19.24).
+
+VERIFY YOUR OWN WORK — run these until both pass:
+    node tools/selfcheck.mjs --site __SLUG__      (must end "1/1 site(s) pass")
+    node tools/render-check.mjs --site __SLUG__   (must end "PASS"; takes ~5 min)
+
+FOUR TRAPS THAT CAUGHT PREVIOUS AUTHORS — check these before you finish:
+  1. If a control has its own box-shadow AND you style :focus-visible with a
+     box-shadow, the control's own rule wins and the focus ring disappears.
+     Give focused controls BOTH shadows in one list.
+  2. A "reduce motion" toggle must switch off `transition`, not only
+     `animation`. Turning off only `animation` leaves things still moving.
+  3. Rotating a square grows its box by ~1.37x. If a rotating element is
+     inset:0 it will push the page sideways. Inset it ~14% instead.
+  4. Do not give all 9 pages the same <meta name="description">. Write 9
+     different ones.
+
+WHEN DONE: reply with a short text report — what you built, which kit fields
+drove the structure, anything you had to skip, and the final output of both
+verification commands. Do not write a review file.

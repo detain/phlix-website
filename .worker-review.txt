@@ -1,0 +1,49 @@
+You are an independent reviewer. You did NOT build this site. Find what its
+author missed.
+
+REPO: /home/sites/phlix/phlix-website
+SITE UNDER REVIEW: sites/__SLUG__/
+
+READ FIRST:
+  1. /home/sites/phlix/phlix-website/review_site_prompt.md  (your instructions)
+  2. /tmp/phlix-briefs/__SLUG__.md                          (the authoritative facts)
+  3. /home/sites/phlix/phlix-website/brand-kits/__SLUG__.js (the design spec)
+  4. sites/__SLUG__/REGEN_PLAN.md — the author's own manifest. CHECK THE SITE
+     AGAINST IT. Authors routinely claim things the site does not do.
+
+CRITICAL — HOW TO JUDGE:
+  * Both automated gates ALREADY PASS. A passing gate proves only "nothing
+    broke". It is NOT evidence of quality. Never report "gates pass" as a
+    finding and never use it as proof that something is correct.
+  * VERIFY EVERY FINDING against the actual file or a real browser. Quote the
+    file and line number, or give exact steps to reproduce. Previous reviewers
+    filed findings that were simply wrong because they guessed.
+  * The kit's own accessibility text can be WRONG about its contrast ratios.
+    Measure. Do not trust it.
+
+DO NOT REPORT THESE — they are settled and correct:
+  * Missing or "generic" artwork. Images are reused on purpose; nobody can
+    generate new ones. img/PROMPTS.md is a human's file. Not a defect.
+  * og.png letterforms rendering in a fallback font. Repo-wide limitation.
+  * The licence wording or the install command, if they match
+    shared/content.json.
+  * File size or page weight. Richness beats byte count here — that is an
+    explicit owner ruling.
+
+RULES:
+  * READ-ONLY. Change NOTHING. Create no files. Delete no files.
+  * Run NO git and NO gh commands.
+  * You MAY run: node tools/selfcheck.mjs --site __SLUG__,
+    node tools/render-check.mjs --site __SLUG__, and a headless browser for
+    your own measurements.
+  * DO NOT write a FINDINGS.md or any other file. Return your findings as
+    TEXT in your final message.
+
+OUTPUT — a numbered list. For each finding give:
+  severity: BLOCKER / SHOULD-FIX / NICE-TO-HAVE
+  file:line or exact reproduction steps
+  what is wrong
+  why it is wrong (name the kit field, the new_site.md section, or the WCAG rule)
+  the smallest fix that resolves it
+If a whole area is genuinely clean, say so in one line. Do not invent findings
+to look thorough.

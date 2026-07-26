@@ -1,0 +1,41 @@
+You are fixing review findings on ONE site.
+
+REPO: /home/sites/phlix/phlix-website
+SITE: sites/__SLUG__/
+
+READ FIRST: /home/sites/phlix/phlix-website/fix_site_prompt.md
+
+FIX EVERY FINDING listed at the end of this message. All of them.
+Before changing anything for a finding, confirm the problem is real by looking
+at the file. If after checking you believe a finding is wrong, say so clearly in
+your report with your evidence — do not silently skip it.
+
+HOW TO KNOW A FIX WORKED:
+  Both gates were ALREADY GREEN before this review. A green gate does NOT mean
+  your fix worked. For each fix, confirm the actual behaviour changed — measure
+  the computed style, the rendered pixels, the element's position, or the
+  accessible name. A previous fixer reported findings closed on the strength of
+  a passing gate and several were still broken.
+
+  Careful when measuring box-shadow on a control that transitions it: while the
+  transition is running, the browser pads the shorter shadow list with invisible
+  shadows, so an immediate reading looks wrong. Wait ~400ms before reading.
+
+RULES:
+  * Write ONLY inside sites/__SLUG__/. Never touch shared/, tools/,
+    new_site.md, the root index.html, package.json, reviews/, or another site.
+    Do not delete files outside your own folder.
+  * Run NO git and NO gh commands.
+  * Run NO repo-wide npm commands.
+  * NEVER run stylelint --fix.
+  * Keep font family names QUOTED in CSS.
+  * DO NOT create or redraw images.
+  * Keep REGEN_PLAN.md and SITE.md truthful — if a finding proves a claim in
+    them is false, correct that claim too.
+
+WHEN DONE, both of these must pass:
+    node tools/selfcheck.mjs --site __SLUG__
+    node tools/render-check.mjs --site __SLUG__
+
+REPORT as TEXT: one line per finding saying what you changed and how you
+verified the behaviour actually changed. Flag anything you think was wrong.
