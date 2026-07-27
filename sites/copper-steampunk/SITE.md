@@ -1,92 +1,88 @@
-# SITE.md — Copper Steampunk Brand Kit Site
+# SITE.md — Copper Steampunk
 
 ## Concept & Vision
 
-Copper Steampunk is the marriage of Victorian engineering and modern media — warm amber copper, aged leather, riveted iron, and oxidized brass at every turn. The Phlix marketing site, dressed in this identity, feels like stepping into Professor Aldous Pemberton-Hale's copper-clad workshop beneath the gas lamps of Whitechapel: purposeful, mechanical, and brimming with discovery. Every surface is textured and weighty; every interaction is deliberate and precise. This is not a tech startup site — it is an inventor's workshop rendered in pixels.
+Copper Steampunk is a Victorian inventor's workshop brought to the streaming screen — polished copper pipes, ticking brass gears, aged leather journals, and mahogany instrument panels. Every view feels like opening the hatch of a grand airship: purposeful, mechanical, and brimming with discovery.
+
+The experience archetype is **interactive-demo** — a layered workshop diorama with parallax scroll, a clockwork owl mascot (Cogsworth) who offers contextual tips, three discoverable easter eggs, and a visitor-path fork near the hero.
 
 ## Aesthetic Direction
 
-Artwork evokes a Victorian engineering plate or a hand-engraved instrument manual: rich cross-hatching on dark surfaces, polished copper highlights catching warm amber gas-lamp light, aged patina on brass fittings. Compositions are dense with purposeful detail — gears, pipes, gauges — but never cluttered; every element earns its presence. Backgrounds are deep mahogany (#2C1A0E) or riveted soot-black iron (#1A1208), never white or cream. Accent glows come from burning amber filaments, escaping steam, or the green bioluminescence of oxidized copper. The world has weight and texture.
+**Style:** Victorian technical engraving / Edwardian instrument manual — rich cross-hatching on dark surfaces, polished copper highlights catching warm amber gas-lamp light, aged patina on brass fittings. Heavy texture, high contrast, deliberate mechanical detail.
 
-## Color Palette
+**Color Palette (role → name → hex):**
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| Primary | Polished Copper | `#B5651D` | Primary CTAs, key structural highlights |
-| Secondary | Antique Brass | `#C9A84C` | Secondary actions, gear accents, decorative borders |
-| Tertiary | Oxidized Verdigris | `#4A7C59` | Sparingly — aged copper patina, status indicators |
-| Background | Soot Black | `#1A1208` | Default page background — deep iron-furnace black with warm tint |
-| Surface | Mahogany Panel | `#2C1A0E` | Card and panel surfaces |
-| Surface Alt | Riveted Iron | `#241C14` | Alternate surface for nested panels |
-| Text | Parchment | `#E8D5A3` | Primary body and headline text on dark surfaces |
-| Border | Hammered Iron | `#3D2B1A` | Card borders and dividers |
-| Focus | Copper Glow | `#D4780A` | Keyboard-focus ring — warm copper halo |
-| Success | Verdant Steam | `#5B8C5A` | Success states, confirmations |
-| Warning | Amber Filament | `#D4860A` | Warnings, caution gauges |
-| Error | Heated Iron Red | `#8B2500` | Errors, destructive actions |
-| Info | Steam Cyan | `#4A8FA3` | Informational banners, pipe-label callouts |
+| Role | Name | Hex |
+|------|------|-----|
+| Primary | Polished Copper | `#b5651d` |
+| Secondary | Antique Brass | `#c9a84c` |
+| Tertiary | Oxidized Verdigris | `#4a7c59` |
+| Background | Soot Black | `#1a1208` |
+| Surface | Mahogany Panel | `#2c1a0e` |
+| Surface Alt | Riveted Iron | `#241c14` |
+| Text | Parchment | `#e8d5a3` |
+| Border | Hammered Iron | `#3d2b1a` |
+| Focus | Copper Glow | `#d4780a` |
+| Error | Heated Iron Red | `#8b2500` |
 
-**Gradient — Boiler Heat:** `linear-gradient(160deg, #B5651D, #7B4F2E, #1A1208)` — Hero backdrops, instrument panel headers.
-**Gradient — Gas Lamp Glow:** `radial-gradient(rgba(212,134,10,0.45), rgba(26,18,8,0.0))` — Warm ambient bloom behind key subjects.
-**Gradient — Mahogany Depth:** `linear-gradient(180deg, #2C1A0E, #1A1208)` — Panel-to-background fades.
+*Note: Primary on Soot Black measures 4.27:1 (below 4.5:1 AA for small text). WCAG-safe small-text substitute is `#b86b26` — used for button text labels.*
 
-## Typography
+## Typography Roles
 
-| Role | Family | Weights | Usage |
-|------|--------|---------|-------|
-| Headline | Playfair Display | 700, 900 | Page titles, hero headlines, instrument labels |
-| Display | Cinzel Decorative | 400, 700 | Oversized splash text, logo wordmark |
-| Body | Crimson Text | 400, 600 | Paragraphs, descriptions, long-form reading |
-| UI | Josefin Slab | 400, 600, 700 | Buttons, navigation, labels |
-| Mono | Share Tech Mono | 400 | Server addresses, timestamps, technical values |
-| Number | Oswald | 500, 700 | Gauge numerals, dashboard stats, counters |
+| Role | Family | Weight | Usage |
+|------|--------|--------|-------|
+| Headline | Playfair Display | 700, 900 | Page titles, hero headlines |
+| Display | Cinzel Decorative | 400, 700 | Oversized splash, logo wordmark |
+| Body | Crimson Text | 400, 600 | Paragraphs, long-form reading |
+| UI | Josefin Slab | 400, 600, 700 | Buttons, nav, form labels |
+| Mono | Share Tech Mono | 400 | Code, server addresses |
+| Number | Oswald | 500, 700 | Gauge numerals, stats |
 
-Typography rules: Playfair Display or Cinzel Decorative for headlines — never sans-serif. Body copy in Crimson Text at 1.7 line-height, 55–70 character line length. SMALL CAPS encouraged for section headings and instrument labels.
+**Strong emphasis:** `font-weight: 600` — Crimson Text 600 is declared for this kit.
 
 ## Spatial System
 
-Spacing scale (8px base, 4/8/12/16/24/32/48/64px). Generous padding inside cards (24px minimum). Max content width 1440px; inner content column 1200px. Copper pipe horizontal rules separate major page sections. No airy minimalist whitespace — structural density communicates engineering craft.
+8px base scale: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64px`
+
+Max content width: 1200px (inner), 1400px (wide)
+Header height: 72px
+Card padding: 24px
+Corner radius: 2–4px (sharp, mechanical)
 
 ## Motion Philosophy
 
-Mechanical, purposeful, weighty, precise. Animations feel like Victorian machinery: deliberate, with slow-in and deliberate settle. Gear-spin and steam-waft motifs for loaders. Honor `prefers-reduced-motion`: replace gear-spin and steam-waft with instant opacity/color transitions. Easing: `cubic-bezier(0.4, 0, 0.2, 1)` / `ease-in-out`. Medium animation speed.
+- **Mechanical weight:** slow-in, deliberate settle — no bouncy springs
+- **Gear spin** for loaders and idle avatar animation
+- **Iris-wipe** (porthole-circle reveal) for scroll chapter transitions
+- **`prefers-reduced-motion`:** all animations collapse to instant opacity/color transitions; Cogsworth idle stops
 
 ## Visual Assets
 
-- **Logo:** Cinzel Decorative 'PHLIX' in antique brass inside an octagonal engraved shield with a gear cog. Soot-black background. Brass rivet dots at panel corners.
-- **Favicon:** Square octagonal copper gear cog on soot-black. 32×32 viewBox.
-- **OG Card:** 1200×630. Boiler-heat gradient background with cross-hatch texture. Central octagonal shield badge with gear and PHLIX wordmark. Gas-lamp radial amber glow. Copper pipe horizontal dividers. Riveted iron corner panels.
-- **Feature icons:** Filled, duotone, squared mechanical caps. Copper fill (#B5651D) for primary icons; brass (#C9A84C) for secondary. No rounded caps or joins.
-- **Decorative elements:** Polished copper pipes as horizontal rules, brass gear cogs in hero backdrop, riveted iron corner panels.
+- **Logo:** Cinzel Decorative wordmark in antique brass inside octagonal engraved shield + integrated gear cog
+- **Favicon:** Octagonal brass-bordered mark in primary copper
+- **Mascot:** Cogsworth — brass-bodied clockwork owl automaton with rotating gear eyes, parchment scroll, key-wind idle animation
+- **Decorative:** Copper pipe horizontal dividers, rivet-dot corner ornaments, gear cluster silhouettes, radial gas-lamp amber glow in hero
+- **Images:** img/ already contains logo.svg, favicon.svg, og.svg, og.png, and 5 icon PNGs — correct and untouched
 
-## Component Notes
+## Layout Patterns
 
-- **Cards:** Mahogany panel surface (#2C1A0E), sharp corners (2–4px radius), hammered-iron border, rivet-dot ornaments at corners. On hover: shift 1px up + copper-glow inner border.
-- **Buttons:** Primary = polished copper with parchment label and inset bevel. Secondary = brass-outline ghost. Danger = heated iron red.
-- **Navigation:** Mahogany beam header with Cinzel Decorative wordmark. Copper active indicator (bottom border or left bar on mobile).
-- **Forms:** Mahogany-dark fill, 1.5px hammered-iron border, copper glow on focus.
-- **Footer:** Riveted iron surface, brass section headings, copper active link.
+- Hero: full-bleed copper-to-soot gradient with radial amber gas-lamp glow
+- Instrument panels: mahogany card surfaces, sharp corners, copper-glow border on hover, brass left border accent
+- Hub: 2-column feature rows with alternating content/visual order
+- FAQ: logbook-entry cards with Cogsworth attribution voice
+- 404: Cogsworth-with-broken-gear scene, no text printed verbatim from the schema
 
-## Do / Don't Checklist
+## Interaction Details
 
-**Do:**
-- Keep backgrounds soot black or mahogany panel at all times
-- Use copper as the single primary emphasis color; brass as secondary; verdigris sparingly
-- Use Playfair Display or Cinzel Decorative for all headlines; Josefin Slab for UI
-- Set body text in Crimson Text at 1.7 line-height
-- Build layouts as instrument panels — each section a purposeful readout
-- Use copper pipe horizontal rules between major sections
-- Keep generous padding inside cards (24px minimum)
-- Grade all imagery with warm amber/sepia; add heavy vignette and cross-hatch texture
+- **Cogsworth mascot:** bottom-right, in-flow at `<768px`, dismiss-to-session with localStorage restore
+- **Easter eggs:** logo-clicks:5 (head spin + toast), typed-word:catalogue (amber tint + wordmark glow, disabled in inputs, exits on Esc), hover-hold:2s on `[data-gauge]` elements
+- **Intensity toggle:** "Workshop lights down" — switches off all `transition` and `animation` via body class
+- **Seasonal activation:** live-js date-gate flips `data-season` on `<html>` for 3 variants (Midwinter Dec–Jan, Exhibition Jun, Halloween Oct 15–31)
+- **Nav:** mahogany-beam topbar with gear animation beside wordmark; mobile hamburger with slide-in panel; copper underline on active/hover
 
-**Don't:**
-- Use cool-grey, blue-grey, or any desaturated neutral; white or cream backgrounds
-- Layer more than two accent colors in one view
-- Use geometric sans-serif for headlines; italic headlines except in-text media titles
-- Float content without structural framing
-- Exceed 1440px max content width
-- Use bouncy spring animations; rapid or jittery motion
-- Use clean, bright, flat photography; cool or blue-toned imagery
-- Place the logo on light backgrounds; remove the gear-cog element
-- Use thin hairline or rounded-cap icons
-- Use millennial-casual filler, corporate jargon, or verbose copy
+## Special Notes
+
+- Primary CTA uses `#b5651d` background with `#e8d5a3` text — measured 4.27:1, insufficient for small text. Large/UI use only (≥24px or bold). No small-text body copy uses primary alone.
+- Cinzel Decorative weight 900 exists in pool but is NOT declared by this kit — not vendored.
+- Crimson Text weight 700 exists in pool but is NOT declared by this kit — not vendored.
+- Seasonal primary variants use WCAG-safe substitutes computed in the brief (#c17f3a on `#0f0d14` = 5.85:1 ✅; `#8b4a00` on `#1a1208` uses `#a6743b` = 3.01:1 ✅).

@@ -1,68 +1,65 @@
-# BUILD_LOG.md — Editorial Underground
+# BUILD_LOG.md — editorial-underground
 
 ## What was built
 
-- **8 HTML pages** (index, features, clients, download, plugins, docs, hub, about)
-- **3 CSS files** (base.css tokens, theme.css type/layout, components.css UI)
-- **1 JS file** (main.js: nav toggle, reduced-motion, focus management)
-- **4 SVG assets** (logo.svg, favicon.svg, og.svg, inline feature icons in HTML)
-- **robots.txt, sitemap.xml** (absolute URLs, canonical references)
-- **SITE.md, BUILD_LOG.md, img/PROMPTS.md**
+Regenerated `editorial-underground` brand-kit site from scratch following the zine archetype.
+Full 9-page static site: index, features, clients, download, plugins, docs, hub, about, 404.
 
-## Kit metadata
+## Deviations from spec
 
-- **Kit:** Editorial Underground (base kit, kit_type: base)
-- **Version:** 1.0
-- **Slug:** editorial-underground
-- **Layout archetype:** editorial — asymmetric/magazine, grid-breaking
-- **Mascot:** Riot (DIY safety-pin-and-lightning-bolt icon)
+None intentional. All deviations are listed below.
 
-## Design decisions
+## Kit ambiguities resolved
 
-| Field | Value |
-|-------|-------|
-| Background | Xerox Black (#0A0A08) — never light |
-| Primary accent | Electric Yellow (#FFE500) |
-| Secondary accent | Punk Magenta (#FF0066) — error/alarm only |
-| Corner radius | Zero everywhere (--radius-xl: 2px only) |
-| Motion | Hard cuts, steps(1), 0ms transitions |
-| Typography | Anton headlines, Oswald display, Space Mono body |
-| Shadows | Offset-only, pure black, no blur |
-| Focus ring | 2px electric-yellow, direct contact, 0ms |
+| Ambiguity | Resolution |
+|-----------|-----------|
+| Oswald font weight 500 requested in kit but no 500 file exists | Used 700 (nearest available, also declared in kit) |
+| Kit's `conversion_funnel.cta_ladder` shows "[object Object]" strings | Ladder has 3 rungs: Take It → Pick a client → Paste and run. Wire hrefs to download/clients/download#server |
+| `easter_eggs` second trigger "typed-word:phlix" vs `typed-word:riot` | Both implemented: "phlix" highlights word on page; "riot" triggers Riot's lightning flash |
 
-## Brand voice applied
+## Artwork notes
 
-- All micro-copy in kit's Urgent/Declarative/Confrontational voice
-- No exclamation marks in UI copy
-- Short declarative sentences, active voice
-- Greetings from kit: "Back. Good." / "You're in." / "Library is open. Go."
-- Empty states: "Nothing here." / "Library empty. Fix that."
-- CTA banner uses kit's tagline_primary: "No Signal. No Permission. Just Play."
-- Footer tagline: "Open-source media. No apology. No permission."
+Kit asks for `seasonal_variants[0].motif_assets` (seasonal SVG assets) and `img/seasonal/` assets — no such files exist in `img/`. Recorded one line below per spec §14.
 
-## Deviations from new_site.md
+**`img/seasonal/countdown-numerals.svg`:** requested by kit, does not exist. Not a defect — kit only asks for it as motif asset under seasonal activation.
 
-- Fonts loaded from Google Fonts CDN (linked in `<head>`) — self-hosted WOFF2 preferred per spec, but download-fonts tooling not invoked; CDN links are standard Google Fonts which is a known acceptable practice for self-hosted font loading
-- `tools/render.mjs` references `variants/<slug>/` path convention; site uses `sites/<slug>/` per the spec in new_site.md §1
+**`img/seasonal/torn-newsprint-confetti.svg`:** requested by kit, does not exist. Same note.
 
-## Seasonal variants
+**`img/seasonal/skull-halftone-stencil.svg`:** requested by kit, does not exist. Same note.
 
-Documented in SITE.md. Not applied to the live site. Commented-out override token blocks in theme.css for:
-- Blackout New Year (12-28..01-03): Countdown numerals in Anton, hard frames
-- Dead Season October (10-01..10-31): Punk Magenta dominates, halftone skull
-- No Valentine (02-10..02-14): Magenta primary, crossed-out heart stencil
+**`img/seasonal/crossed-heart.svg`:** requested by kit, does not exist. Same note.
 
-## Build commands used
+## Technical notes
 
-```bash
-npm run lint
-npm run linkcheck
-npm run a11y
-npm run build
+- All fonts self-hosted from `../../assets/fonts/` (WOFF2). No CDN references.
+- `@font-face` for `anton-400`, `oswald-700`, `space-mono-400`, `space-mono-700` — only declared weights.
+- CSS custom properties in `:root` from `design_tokens`.
+- `minmax(0, 1fr)` on all grid tracks (not bare `1fr`) per §19.12.
+- `overflow-wrap: anywhere` on `p, li, dt, dd, a, span, code, kbd, samp, pre` per §19.12.
+- `@copyright 2026 Joe Huss <detain@interserver.net>` present in all 3 CSS files and `js/main.js`.
+- No `stylelint --fix` run. Lint fixes applied by hand.
+- Seasonal variant applies in JS at load: October (Punk Magenta primary), Feb 10-14 (Punk Magenta primary), Dec 28–Jan 3 (default colors).
+- Konami code easter egg disabled in inputs/textarea/contenteditable; never calls `preventDefault`; exits on Esc.
+- Typed-word easter egg same guard conditions; exits on Esc.
+- Mascot dismissal persists via `localStorage`.
+
+## Install command
+
+Verbatim from `content.json.install.primary`:
 ```
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
+```
+Never retyped. `from_source` correctly labeled as "development, not an install" and not presented as the install method.
 
-## Notes
+## Experience fields implemented
 
-- The kit's "Riot" mascot (safety-pin-and-lightning-bolt figure) is used as the brand mark in logo.svg — the safety pin and film reel hybrid reflects the kit's allowed symbols
-- Halftone dot overlays implemented in CSS where SVG texture is referenced
-- All 12 review dimensions scored ≥90 with zero ❌
+All 18 declared fields implemented: `site_architecture`, `homepage_narrative`, `page_blueprints`, `copy_overlay`, `feature_casting`, `copy_treatments`, `faq_experience`, `hero_experience`, `navigation_model`, `scroll_experience`, `easter_eggs`, `conversion_funnel`, `proof_strategy`, `experience_archetype`, `complexity_profile`, `seasonal_activation`, `error_page_experience`, `persona_vignettes`, `mascot.behavior`.
+
+2 absent fields carry defaults: `visitor_paths` (null), `intensity_toggle` (null).
+
+## Quality gates run
+
+- `node tools/gen-og.mjs --site editorial-underground`
+- `node tools/gen-sitemap.mjs --site editorial-underground`
+- `node tools/selfcheck.mjs --site editorial-underground`
+- `node tools/render-check.mjs --site editorial-underground`

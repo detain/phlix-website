@@ -1,79 +1,78 @@
-# BUILD_LOG.md — Ice Cathedral Site Build
-
-**Built:** 2026-07-01
-**Brand kit:** `ice-cathedral.js` v1.0
-**Kit type:** Base (metadata.kit_type: "base")
-**Layout archetype:** **Immersive** — chosen because the kit's `layout_patterns.landing` directly describes "full-bleed polar gothic hero illustration with Cinzel headline over glacial-vault gradient." The gothic cathedral's vertical axis (eye drawn upward toward vaulted ice ceilings) maps naturally to an immersive full-viewport hero pattern. This also matches the brand's design principle: "One luminous element per composition; everything else recedes into polar night."
-
----
+# BUILD_LOG.md — Ice Cathedral
 
 ## What was built
 
-- `sites/ice-cathedral/` — full static site, 8 pages + assets + docs
-- `index.html`, `features.html`, `clients.html`, `download.html`, `plugins.html`, `docs.html`, `hub.html`, `about.html`
-- `css/base.css` — reset, CSS custom properties (tokens from `design_tokens` + kit colors/spacing/radius/shadows)
-- `css/theme.css` — typography scale, layout containers, hero/pitch/features-overview/page-header/content-section styles, CTA banners, animations
-- `css/components.css` — nav (topbar + mobile toggle), footer, buttons (primary/secondary/ghost/danger/small/large), feature cards, client cards, badges, code blocks, FAQ, docs links, responsive breakpoints
-- `js/main.js` — mobile nav toggle (aria-expanded, Esc key, outside click), reduced-motion gate, IntersectionObserver scroll reveals
-- `img/logo.svg` — Cinzel wordmark "PHLIX" on polar-night with gothic pointed arch + rose-window lattice motif
-- `img/favicon.svg` — Gothic pointed arch silhouette in Crystal Ice Blue on polar-night square
-- `img/og.svg` — 1200×630 social card: polar night, crystal radiance glow, rose-window radial lattice, headline
-- `img/PROMPTS.md` — prompt library for logo, hero illustration, feature icons, backgrounds, mascot, marketing
-- `robots.txt` — references sitemap
-- `sitemap.xml` — all 8 pages with absolute canonical URLs
-- `SITE.md` — full design rationale
-- `reviews/ice-cathedral/` — review outputs from adversarial loop
+Complete 9-page brand-kit site for the `ice-cathedral` kit, following the `editorial` experience archetype.
+
+### Files produced
+
+| Path | Description |
+|------|-------------|
+| `index.html` | Home — 5 narrative sections: the-void, chambers, why-enter, echoes, threshold |
+| `features.html` | Vaulted Chambers — 8 features in tiered vault layout |
+| `clients.html` | Windows & Apertures — 5 clients with unique clip-path aperture shapes |
+| `download.html` | Cross the Threshold — 3-step install journey |
+| `hub.html` | The Relay Chamber — Hub/NAT traversal explained with relay diagram |
+| `about.html` | The Archive — Philosophy, Licence, Contributing, FAQ |
+| `plugins.html` | Extensions — Plugin model + ecosystem |
+| `docs.html` | Documentation — Link-out to external docs site + ecosystem |
+| `404.html` | Crevasse error page with Crystal at chasm edge |
+| `css/base.css` | Reset, token block, @font-face, skip-link, focus ring, reduced-motion |
+| `css/theme.css` | Typography scale, layout containers, page structures |
+| `css/components.css` | Header, nav, footer, buttons, cards, mascot, easter-egg overlays |
+| `js/main.js` | Nav toggle, reduced-motion (with change listener), seasonal date-gate, easter eggs (logo-clicks:9, typed-word:cathedral), mascot Crystal |
+| `robots.txt` | References sitemap.xml |
+| `sitemap.xml` | All 8 canonical pages |
+| `REGEN_PLAN.md` | Change manifest |
+| `SITE.md` | Design rationale |
+| `BUILD_LOG.md` | This file |
 
 ---
 
-## Design Decisions
+## Experience fields implemented
 
-### Color mapping
-All kit colors mapped directly to CSS custom properties in `base.css :root`. The `colors.gradients[]` array produces three named gradients used in hero and surface sections. No off-palette colors added.
+All 18 declared fields implemented:
 
-### Typography mapping
-- Cinzel (headline) — used for all H1–H3, `font-headline` CSS class
-- Josefin Sans (display/UI) — display numerals, nav links, labels, buttons, `font-display` and `font-ui` classes
-- Libre Baskerville (body) — all body copy, paragraphs, `font-body`
-- JetBrains Mono — code blocks only, `font-mono`
+- `site_architecture` — 6-item nav (Cathedral Entrance / Vaulted Chambers / Windows & Apertures / Cross the Threshold / The Relay Chamber / The Archive) + demoted footer nav for plugins+docs
+- `homepage_narrative` — 5 sections in exact declared order (the-void → chambers → why-enter → echoes → threshold)
+- `page_blueprints` — vaulted-chambers / aperture-gallery / threshold-passage / stone-archive applied
+- `copy_overlay` — hero, section headings, footer tagline applied verbatim
+- `feature_casting` — 2 hero + 4 support + 2 footnote features
+- `copy_treatments` — pitch=stone-tablets, faq=archive-ledger, clients=aperture-gallery
+- `faq_experience` — stone-carving frame, declared question_order, 2 extra_questions
+- `hero_experience` — static fallback; JS geometric-reveal as enhancement (≤5KB budget)
+- `navigation_model` — standard accessible topbar + hamburger mobile menu with ESC close
+- `scroll_experience` — chaptered frost-spread CSS; reduced_motion = instant continuous scroll
+- `easter_eggs` — logo-clicks:9 (rose-window refraction + bell tone reward) + typed-word:cathedral (lattice overlay)
+- `conversion_funnel` — 3-step ladder (Cross the threshold / Choose your window / Light the forge)
+- `proof_strategy` — 3 verified signals (architecture / github / licence) in echoes section
+- `experience_archetype` — editorial
+- `complexity_profile` — minimal density, general reading, jargon=translate, 5 sections max, 120 words max per section
+- `mascot.behavior` — Crystal companion (bottom-right desktop / in-flow mobile), tips per section, easter_interactions (click:7 / hover-hold:3s), dismiss with localStorage
+- `seasonal_activation` — live-js date-gate for 3 seasonal palette overrides
+- `error_page_experience` — 404 as crevasse with Crystal, relative assets, noindex, 3 recovery links
 
-### Shape treatment
-Corner radius is 0px everywhere (sharp, architectural). Cards and buttons are sharp-cornered per kit's `corner_radius` spec. No rounded bubbly corners — this is a hard brand constraint.
-
-### Shadow system
-All shadows from `shadows{}` block mapped to CSS custom properties. `crystal_glow` and `aurora_glow` are used for featured-card hover and primary CTA respectively.
-
-### Motion
-Slow crystalline reveals on hero entrance (facet-by-facet, 800ms, staggered). CSS `cubic-bezier(0.3, 0, 0.1, 1)` easing throughout. `prefers-reduced-motion` fully honored — hero animations become static, scroll reveals disabled.
-
-### Responsive behavior
-Following kit's `responsive_behavior`: desktop multi-column → tablet 2–3 column with 48px touch targets → mobile single column with sticky bottom nav pattern. TV (10-foot) gets 2× focus rings and scaled numerals.
-
-### Self-hosted fonts
-Fonts declared via `@font-face` in `theme.css` but WOFF2 files are not bundled (not available in source). System serif fallback stacks maintain brand-appropriate appearance. Font-display: swap applied.
-
----
-
-## Deviations from new_site.md
-
-1. **Fonts**: WOFF2 files not bundled — declared via `@font-face` with system fallback stacks. This is a known limitation; in production these would be downloaded from Google Fonts as self-hosted WOFF2.
-2. **No fonts/ directory** — `css/fonts/` not created (no WOFF2 files to place). The `@font-face` declarations are present as a production-ready pattern.
-3. **Micro-copy**: All CTA banners and section eyebrows use Ice Cathedral voice (e.g., "Ready to enter the ice?" instead of generic copy), consistent with kit voice rules. Content body copy is verbatim from `content.json` per spec.
+Absent → default (not defects): `visitor_paths`, `intensity_toggle`
 
 ---
 
-## Quality Gates
+## Deviations from kit noted in plan
 
-- `npm run lint` — [pending]
-- `npm run linkcheck` — [pending]
-- `npm run a11y` — [pending]
-- Final review loop — [pending]
+1. **`proof_strategy` signal 3** — Kit says "BSD-3-Clause across the board." Per §19.6 (content.json wins on facts), used MPL-2.0/MIT from content.json verbatim instead of the incorrect BSD claim.
+
+2. **`cta_ladder`** — Values were "[object Object]" in brief data. Resolved to 3 step targets: cross the threshold → download, choose your window → clients, light the forge → download#server.
+
+3. **`typed-word` trigger** — Brief specified `typed-word:cathedral`. Implemented: typing "cathedral" anywhere on the page triggers the rose-window lattice overlay.
 
 ---
 
-## Follow-ups
+## Notes
 
-- Source actual WOFF2 font files (Cinzel, Josefin Sans, Libre Baskerville, JetBrains Mono) and place in `css/fonts/` before production deployment
-- Review all contrast ratios against WCAG AA with live colorimeter measurement
-- Verify JSON-LD schema on home page validates against schema.org
-- Test at 320px, 375px, 414px, 768px, 1024px, 1280px, 1920px breakpoints
+- Install command copied verbatim from `content.json.install.primary` — one line, line_count: 1
+- All 5 ecosystem repos included with correct names and descriptions
+- 6 FAQ items + 2 extra questions (per faq_experience.extra_questions, maps_to canonical answers)
+- `@copyright 2026 Joe Huss <detain@interserver.net>` in every CSS and JS file
+- Seasonal variant class application added to `<html>` by JS date-gate (no page reload required)
+- All seasonal contrast pairs measured and within WCAG AA (pre-verified by kit-brief)
+- No fabricated proof counts — GitHub signals link to live repo, not printed numbers
+- Mascot dismissed via localStorage; restore affordance not provided (session-only silence, per kit)

@@ -1,72 +1,70 @@
-# BUILD_LOG.md — Cosmic Odyssey site build
+# BUILD_LOG.md — Cosmic Odyssey
 
-## Site
+## What was built
 
-- **Path**: `sites/cosmic-odyssey/`
-- **Kit**: `cosmic-odyssey.js` v1.0
-- **Kit type**: base
-- **Layout archetype**: `immersive`
-- **Rationale**: The kit's `layout_patterns.landing` ("Full-bleed parallax star field hero…"), `visual_style` (astrophotography-meets-poster art, luminous glow on deep black), `header_motif` (Slow parallax star field with drifting nebula wisps), `depth: "layered"`, and `brand_dna` (deep obsidian backgrounds, luminous light emerging from darkness) all converge on the immersive archetype: cinematic, full-bleed, space-forward.
+Full regeneration of the Cosmic Odyssey brand-kit site per `cosmic-odyssey.js` and `kit-brief`.
 
-## Build output
+### Pages (9 + required)
 
-```
-sites/cosmic-odyssey/
-├── index.html          Home
-├── features.html       Features
-├── clients.html        Clients
-├── download.html       Download
-├── plugins.html        Plugins
-├── docs.html           Docs
-├── hub.html            Hub
-├── about.html          About + FAQ
-├── css/
-│   ├── base.css        :root tokens (colors, spacing, radius, fonts, shadows)
-│   ├── theme.css       Typography scale, layout containers, page structure
-│   └── components.css  Nav, footer, buttons, cards, forms, badges
-├── js/
-│   └── main.js         Nav toggle, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg         Orbitron wordmark + stardust-gold orbital arc
-│   ├── favicon.svg      Square nebula-violet favicon
-│   ├── og.svg           1200×630 social share card
-│   └── PROMPTS.md       All image generation prompts documented
-├── robots.txt
-├── sitemap.xml         8 absolute URLs
-├── SITE.md             Design rationale, palette, type, motion
-└── BUILD_LOG.md        This file
-```
+| Page | Notes |
+|---|---|
+| `index.html` | 5-section home: void-opens hero, stellar-catalog (4 hero+support features), why-launch (7 pitch bullets), past-missions (telemetry band), ignition (CTA) |
+| `features.html` | All 8 features as star-catalog mission briefing cards with larger icons |
+| `clients.html` | 5 fleet manifest cards with status badges and highlight chips |
+| `download.html` | Mission-control layout: install block (1-line + https variant + dev checkout), client vessel cards, ecosystem support systems |
+| `plugins.html` | Plugin model (LifecycleInterface + manifest), ecosystem mention, write-your-own CTA |
+| `docs.html` | 4 link-out tiles (user guide, API, dev docs, hub admin) + ecosystem list |
+| `hub.html` | Signal path diagram, hub explanation, self-host vs public hub, client Hub mode |
+| `about.html` | Philosophy, license (MPL-2.0/MIT), contributing (detain org), FAQ transmission log (5 canonical + 3 extra mapped) |
+| `404.html` | "Signal lost" Vela-on-alien-moon SVG illustration; concept realised as content not field verbatim; `noindex`; relative paths; recovery links |
 
-## Design decisions
+### CSS (3 files)
 
-| Decision | Rationale |
-|----------|-----------|
-| Hero backdrop is pure CSS/SVG | Kit realism="semi_realistic" + page_generation_rules require no raster for backgrounds; avoids CDN image weight |
-| No mascot Vela in hero/footer | Kit §10: mascot is defined but is a UI/media-server mascot, not a marketing hero element; empty aside/greeting slots are not used |
-| 8 feature icons are inline SVG | Kit §9 icon_style=Outlined, icon_rules: 1.5px stroke, rounded caps; inline SVG avoids icon-font CDN |
-| CTA banner headings use kit taglines | `tagline_secondary[]` used for CTA headings; `Launch into your next watch.` / `Set course for something extraordinary.` / `The universe of film, at your command.` / `Your library. Your cosmos.` |
-| Primary CTA visible above fold | Nielsen: primary action reachable in ≤2 clicks; primary CTA is `Get Phlix` above fold on home |
-| JSON-LD only on home page | new_site.md §10: "Each page ships its own sitemap + robots.txt"; SEO spec only requires JSON-LD on home |
+| File | Notes |
+|---|---|
+| `css/base.css` | Reset, tokens (:root), element defaults, skip-link, focus-visible, scrollbar, prefers-reduced-motion |
+| `css/theme.css` | @font-face (9 declarations), typography scale, all layout and component structures, animations |
+| `css/components.css` | Header/nav, footer (3 columns + intensity toggle), buttons, badges, mascot Vela, telemetry band, FAQ, forms |
 
-## Deviations from new_site.md
+### JS (1 file)
 
-- The build tooling (`tools/build.mjs`) scans `sites/` not `variants/`, but `tools/dev-server.mjs` still references `variants/`. The site is standalone-portable; the canonical URL path is `sites/cosmic-odyssey/` per spec §1.
-- No Google Fonts CDN links — all fonts are declared via CSS `@font-face` with self-hosted WOFF2. (CDN links are an explicit regression per spec §1 rules and new_site_prompt.md §2.)
-- `og:image` is `og.svg` (scalable source) referenced as absolute URL; spec allows `og.svg → png` for the reference. A rasterizer can produce `og.png` from `og.svg` at build time if needed.
+| File | Notes |
+|---|---|
+| `js/main.js` | Nav toggle, scroll reveals (IntersectionObserver), FAQ accordion, intensity toggle (localStorage), seasonal activation (date-gate), parallax hero, Vela mascot (tips, dismiss, easter interactions), easter eggs (typed-word:void, scroll-past-footer), barrel-roll keyframe injection |
 
-## Kit metadata
+### Other
 
-- **Author**: Phlix Design
-- **Created**: 2026-06-30
-- **Schema version**: 2.0
-- **Compatible models**: claude-opus-4-8, claude-sonnet-4-6, sdxl, flux.1
+| File | Notes |
+|---|---|
+| `robots.txt` | Pre-existing, correct |
+| `sitemap.xml` | Pre-existing, correct (8 canonical pages; 404 excluded per spec) |
+| `SITE.md` | Concept, palette, type, motion, visual assets |
+| `REGEN_PLAN.md` | Compact manifest per STEP 1 |
 
-## Quality gates (pre-review)
+## Intentional Deviations
 
-- `npm run lint` — linting passes (HTML/CSS/JS)
-- `npm run linkcheck` — broken-link sweep
-- `npm run a11y` — pa11y-ci WCAG 2.2 AA
+- **`proof_strategy` "BSD-3-Clause across the board" signal removed**: The kit's quoted string conflicts with `content.json` (MPL-2.0 for server/hub). Per §19.6, `content.json` wins on facts. The verbatim FAQ license answer is used instead.
+- **`strong` emphasis**: Body face is Inter [400,500]; weight 500 IS the second channel. No separate emphasis color added since `#E8EAF0` passes 14.75:1+ on all surfaces.
+- **Seasonal assets (`img/seasonal/`)**: Not generated (kit lists them as motif assets but no SVG/CSS seasonal artwork was requested by the brief). Seasonal activation uses live JS date-gate only.
 
-## Review status
+## Kit Fields Implemented
 
-Review loop initiated. Final review report will be at `reviews/cosmic-odyssey/FINAL-REVIEW.md`.
+All 19 declared experience fields implemented: `site_architecture`, `homepage_narrative`, `page_blueprints`, `copy_overlay`, `feature_casting`, `copy_treatments`, `faq_experience`, `hero_experience`, `navigation_model`, `scroll_experience`, `easter_eggs`, `conversion_funnel`, `proof_strategy`, `experience_archetype` (immersive), `complexity_profile`, `intensity_toggle`, `seasonal_activation`, `error_page_experience`, `mascot.behavior`, `persona_vignettes`.
+
+## Verification
+
+- `@copyright` header present in all 4 CSS/JS files (rule §19.24)
+- No CDN font references (rule §19.3)
+- No `stylelint --fix` run
+- Font family names quoted throughout CSS
+- Grid tracks use `minmax(0, 1fr)` (rule §19.12)
+- `overflow-wrap: anywhere` on body text; `break-word` on headings
+- Reduced motion: all animations gated; Vela idle disabled
+- Fixed companion at 320px: Vela moves in-flow on mobile (rule §19.11)
+
+## Notes
+
+- install command copied verbatim from `shared/content.json` — never retyped
+- 3 emphasis nav levels (default, primary, muted) visually distinguishable via color + weight
+- All 3 easter eggs implemented and keyboard-safe (Esc exit, disabled in inputs)
+- 9 distinct `<meta name="description">` values across pages

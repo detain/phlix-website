@@ -1,21 +1,23 @@
-/* =============================================================================
-   base.css — Cosmic Odyssey design tokens + reset
-   Kit: cosmic-odyssey v1.0 | Layout archetype: immersive
-   ============================================================================= */
+/* ==========================================================================
+   BASE.CSS — Cosmic Odyssey
+   CSS reset, design tokens (:root), element defaults, skip-link,
+   focus-visible ring, prefers-reduced-motion resets.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
-/* ── Reset ──────────────────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   1. Modern reset
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
 * {
   margin: 0;
 }
-html {
-  text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
+
 img,
 picture,
 video,
@@ -24,38 +26,47 @@ svg {
   display: block;
   max-width: 100%;
 }
+
 input,
 button,
 textarea,
 select {
   font: inherit;
 }
+
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-  padding: 0;
-}
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
 
-/* ── Design tokens ──────────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   2. Design tokens
+   -------------------------------------------------------------------------- */
 :root {
-  /* Colors — from kit.colors + kit.design_tokens.color */
-  --color-primary: #6b2fae;
+  /* Colors */
+  --color-primary: #7b3fbe;
   --color-secondary: #c0399a;
-  --color-tertiary: #c8a63a;
+  --color-tertiary: #e8c44a;
   --color-neutral: #3a7fbf;
   --color-bg: #080b14;
   --color-surface: #111827;
@@ -68,11 +79,18 @@ button {
   --color-focus: #a78bfa;
   --color-border: #2d3a5e;
 
-  /* Semantic extras from kit.colors */
-  --color-shadow: rgb(0, 7, 20, 0.6);
-  --color-overlay: rgb(0, 7, 20, 0.75);
+  /* Safe small-text substitutes (measured, per kit-brief) */
+  --color-primary-safe: #9362ca; /* on #080b14: 4.5:1 */
+  --color-secondary-safe: #c549a2; /* on #080b14: 4.5:1 */
+  --color-primary-surface-safe: #996bcd; /* on #111827 */
+  --color-secondary-surface-safe: #c955a8; /* on #111827 */
+  --color-primary-alt-safe: #a47bd2; /* on #1e2640 */
+  --color-secondary-alt-safe: #d06bb3; /* on #1e2640 */
+  --color-on-primary: #f1d1e8; /* on #7b3fbe: 4.5:1 */
+  --color-on-fab: #e8eaf0; /* on #7b3fbe: 5.3:1 */
+  --color-focus-on-dark: #a78bfa;
 
-  /* Spacing scale — kit.spacing_scale */
+  /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -83,49 +101,207 @@ button {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner radii — kit.corner_radius */
+  /* Border radii */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-pill: 999px;
 
-  /* Font families — kit.fonts */
-  --font-headline: 'Orbitron', 'Exo 2', 'Rajdhani', sans-serif;
-  --font-display: 'Exo 2', 'Orbitron', 'Rajdhani', sans-serif;
-  --font-body: 'Inter', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-ui: 'Rajdhani', 'Exo 2', system-ui, sans-serif;
-  --font-mono: 'Space Mono', 'JetBrains Mono', 'Courier New', monospace;
-  --font-number: 'Orbitron', 'Exo 2', sans-serif;
+  /* Typography */
+  --font-headline: 'Orbitron', 'Exo 2', sans-serif;
+  --font-display: 'Exo 2', 'Orbitron', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-ui: 'Rajdhani', 'Exo 2', sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
 
-  /* Tracking */
-  --tracking-headline: 0.08em;
-  --tracking-display: 0.18em;
-  --tracking-body: 0.01em;
-  --tracking-ui: 0.05em;
-  --tracking-mono: 0.03em;
-
-  /* Line heights */
-  --lh-headline: 1.05;
-  --lh-display: 0.92;
-  --lh-body: 1.7;
-  --lh-ui: 1.25;
-  --lh-mono: 1.6;
-
-  /* Shadows — kit.shadows (deep void black + violet ambient bloom) */
+  /* Shadows */
   --shadow-sm: 0 1px 3px rgb(0, 7, 20, 0.6);
   --shadow-md: 0 4px 14px rgb(0, 7, 20, 0.7), 0 0 8px rgb(123, 63, 190, 0.1);
   --shadow-lg: 0 12px 32px rgb(0, 7, 20, 0.8), 0 0 20px rgb(123, 63, 190, 0.18);
 
-  /* Layout tokens */
-  --max-width: 1440px;
+  /* Layout */
+  --max-width: 1400px;
   --content-width: 1200px;
-  --gutter: 64px;
-  --tracking-number: 0.04em;
-  --lh-number: 1;
+  --reading-width: 760px;
+
+  /* Transition easing */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-linear: linear;
 }
 
-/* ── Reduced motion ─────────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   3. Base element styles
+   -------------------------------------------------------------------------- */
+html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(123, 63, 190, 0.18) 0%, transparent 70%),
+    linear-gradient(180deg, #080b14 0%, #111827 40%, #1e2640 100%);
+  min-height: 100vh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography defaults
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+h3 {
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+}
+h4 {
+  font-size: 1.125rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+h5 {
+  font-size: 1rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+h6 {
+  font-size: 0.875rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+p {
+  line-height: 1.7;
+  max-width: 70ch;
+}
+
+a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-focus);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+code {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.4em;
+}
+
+/* --------------------------------------------------------------------------
+   5. Text selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: rgb(123, 63, 190, 0.4);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   6. Focus visible ring
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   7. Skip link
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-on-fab);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Scrollbar
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Reduced motion
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -136,196 +312,3 @@ button {
     scroll-behavior: auto !important;
   }
 }
-
-/* ── Focus ring — kit.accessibility.focus_style ─────────────────────────────── */
-:focus {
-  outline: none;
-}
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
-}
-
-/* ── Base element defaults ──────────────────────────────────────────────────── */
-body {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: var(--lh-body);
-  letter-spacing: var(--tracking-body);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  letter-spacing: var(--tracking-headline);
-  line-height: var(--lh-headline);
-  color: var(--color-text);
-}
-
-a {
-  color: var(--color-info);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-a:hover {
-  color: var(--color-primary);
-}
-
-code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  letter-spacing: var(--tracking-mono);
-}
-
-pre {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  letter-spacing: var(--tracking-mono);
-  line-height: var(--lh-mono);
-  overflow-x: auto;
-}
-
-::selection {
-  background: rgb(123, 63, 190, 0.35);
-  color: var(--color-text);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Skip link ───────────────────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  letter-spacing: var(--tracking-ui);
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: top 0.2s;
-}
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Exo 2';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('../../assets/fonts/exo-2-300-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Exo 2';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/exo-2-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/inter-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/inter-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Orbitron';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/orbitron-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Orbitron';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/orbitron-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Orbitron';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/orbitron-900-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Rajdhani';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/rajdhani-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Rajdhani';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/rajdhani-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Rajdhani';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/rajdhani-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

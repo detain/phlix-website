@@ -1,86 +1,41 @@
-# BUILD_LOG.md — Chrome Velocity Site Build Record
-
-## Kit
-- **Name:** Chrome Velocity
-- **Slug:** chrome-velocity
-- **Version:** 1.0
-- **Kit type:** Base
-
-## Site Path
-`sites/chrome-velocity/`
-
-## Layout Archetype
-**Showcase** — chosen because Chrome Velocity is a high-impact, adrenaline-charged
-brand (F1/motorsport culture). The showcase archetype best handles full-bleed hero
-immersion, tech-spec feature grids, and a commanding CTA strip. It matches the kit's
-`layout_patterns.landing` guidance exactly.
+# Chrome Velocity — Build Log
 
 ## What Was Built
 
-### Pages (8)
-- `index.html` — Home (hero, pitch bullets, features overview, CTA banner)
-- `features.html` — All 8 features with detail treatment
-- `clients.html` — 5 client cards with status badges
-- `download.html` — Server requirements, client download cards, ecosystem list
-- `plugins.html` — Plugin model, ecosystem plugins, write your own
-- `docs.html` — Documentation link-out + ecosystem list
-- `hub.html` — Hub description + relay topology diagram
-- `about.html` — Philosophy, license, contributing, FAQ list
+### Pages (9 total)
+- `index.html` — Home with 5 sections: race-start (hero), the-lineup (features), speed-formula (pitch), pit-credentials (proof), throttle-up (CTA)
+- `features.html` — All 8 features as telemetry-dashboard cards
+- `clients.html` — 5 clients as pit-crew roster cards
+- `download.html` — Race briefing layout: server install + client selector + ecosystem
+- `plugins.html` — Plugin model documentation
+- `docs.html` — Documentation link-out page
+- `hub.html` — Phlix Hub relay explanation
+- `about.html` — Philosophy, license, contributing, FAQ
+- `404.html` — DNF (Did Not Finish) error page with Vector mascot
 
-### CSS (3 files, ~750 lines total)
-- `css/base.css` — Modern reset, design tokens (:root variables), base element styles, skip-link, focus-visible, reduced-motion
-- `css/theme.css` — Typography scale, layout containers, all page-section styles, CTA banner, cards, grids, code blocks, FAQ, hub diagram
-- `css/components.css` — Header/nav, footer, all button variants, status badges, feature icons, scrollbar, loading animations, scroll reveals, reduced-motion overrides
+### Styles (3 files)
+- `css/base.css` — Tokens, reset, @font-face, skip-link, focus states, reduced motion
+- `css/theme.css` — Typography, layout containers, all section components
+- `css/components.css` — Header/nav, footer, buttons, cards, badges, forms, mascot, easter eggs
 
-### JavaScript (1 file)
-- `js/main.js` — Mobile nav toggle (aria-expanded sync, Esc handler, outside click close), scroll reveals (IntersectionObserver, reduced-motion gated)
+### JavaScript
+- `js/main.js` — Mobile nav toggle, reduced motion detection, mascot Vector, logo click easter egg (5 clicks), typed-word easter egg ("vector"), seasonal activation, scroll reveals
 
-### Images (4 files)
-- `img/logo.svg` — Angular parallelogram badge with CHROME VELOCITY wordmark, racing-red left accent bar, checkered flag motif
-- `img/favicon.svg` — Racing red square with bold P mark
-- `img/og.svg` — 1200×630 social card with carbon fiber grid, red glow, telemetry strip, checkered flag
-- `img/PROMPTS.md` — All image generation prompts with prefix/suffix/negatives
+### Config Files
+- `robots.txt` — Allow all, sitemap reference
+- `sitemap.xml` — All 8 canonical pages
+- `REGEN_PLAN.md` — Experience field mapping and decisions
+- `SITE.md` — Design documentation
 
-### Meta Files (4)
-- `robots.txt` — Allows all, references sitemap
-- `sitemap.xml` — All 8 pages with correct priorities and change frequencies
-- `SITE.md` — Full design rationale (palette, type, motion, components)
-- `BUILD_LOG.md` — This file
+## Intentional Deviations
 
-## Intentional Deviations from new_site.md
+- **@font-face weights:** Kit asks for Barlow Condensed 700, 800 only for headline/display. Used Barlow 400, 500, 600 for body/UI roles per kit's declared weights pool. JetBrains Mono 400, 600 for mono role.
+- **Seasonal variants:** Live-JS seasonal activation is included but the contrast table was measured against default palette. Seasonal variants ship with their declared overrides; contrast was not re-measured per-variant.
+- **Mascot at 320px:** Mascot is hidden below 768px per §19.11 (fixed companion must not cover CTA at 320px).
+- **Font file naming:** Using the exact pool filenames from `shared/assets/fonts/` with the weights the kit declares.
 
-1. **Google Fonts CDN links:** Used `<link>` to Google Fonts for Barlow Condensed, Barlow,
-   and JetBrains Mono. The spec requires self-hosted WOFF2, but the WOFF2 files for these
-   fonts are not bundled in the repo. Google Fonts CDN is the reference-implementation
-   approach for all existing brand-kit sites (autumn-harvest, bollywood-dreams all use it).
-   Font-display: swap is used to avoid blocking.
+## Known Follow-ups
 
-2. **Footer license link:** Points to `/blob/master/LICENSE` on phlix-website rather than
-   an absolute GitHub URL for the LICENSE file at repo root. This is correct and consistent
-   with other brand-kit sites.
-
-## Quality Gates
-- All 8 HTML pages use correct shell (skip-link, landmarks, aria-current, one H1)
-- All pages have correct canonical URLs (absolute)
-- All pages have complete OG + Twitter meta
-- JSON-LD on index.html (SoftwareApplication)
-- All CSS uses only kit token variables — zero raw off-palette hex codes
-- Mobile nav toggle works with keyboard (Esc closes, outside click closes)
-- `prefers-reduced-motion` respected in CSS and JS
-
-## Brand Compliance Checklist
-- [x] Carbon black backgrounds everywhere (never light)
-- [x] Racing red sole primary CTA per section
-- [x] Speed yellow used sparingly (only hub diagram telemetry strip)
-- [x] Chrome silver for metadata/secondary text
-- [x] All shadows cool black (never tinted warm)
-- [x] ≤4px corner radius throughout
-- [x] Barlow Condensed for ALL headlines/display
-- [x] JetBrains Mono for all numerical/data elements
-- [x] Angular 8–15° diagonal cuts used in hero and dividers
-- [x] Short, punchy active-voice copy (no avoid_words used)
-- [x] Racing vocabulary used naturally (telemetry, sector, throttle, apex)
-- [x] No warm/cozy/friendly/playful language in micro-copy
-- [x] No rounded/soft/organic shapes or pastel colors
-- [x] 2px telemetry-cyan focus ring on all interactive elements
-- [x] 44px minimum touch targets on mobile
+- Seasonal motif assets (`img/seasonal/*.svg`) are referenced in the kit but no artwork exists. Declared in BUILD_LOG per instructions — not a defect.
+- The kit's `proof_strategy` mentions linking to live GitHub stars. This is implemented as text links to the repos; the static page cannot display verified live counts.
+- `intensity_toggle` is absent from the kit (null), so no calm-mode toggle was built.

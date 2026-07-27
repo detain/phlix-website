@@ -1,113 +1,85 @@
-# SITE.md — Ice Cathedral Brand Kit Site
+# SITE.md — Ice Cathedral
 
 ## Concept & Vision
 
-Ice Cathedral is the silence inside a glacier — the absolute cold of polar night broken only by the blue light that lives inside ancient ice. It is gothic cathedral architecture transposed into permafrost: soaring vaulted arches of translucent ice, rose windows rendered in frost crystal, the hush that precedes an avalanche. The site should feel like entering a space of genuine awe — majestic, untouchable, eternal.
+Ice Cathedral is the silence inside a glacier — the absolute cold of polar night broken only by the blue light that lives inside ancient ice. It is gothic cathedral architecture transposed into permafrost: soaring vaulted arches of translucent ice, rose windows rendered in frost crystal, the hush that precedes an avalanche. Phlix built Ice Cathedral for the viewer who wants watching to feel like entering a space of genuine awe — majestic, untouchable, eternal.
 
-## Layout Archetype
-
-**Immersive** — Full-bleed polar gothic hero with vertical axis composition. Every page opens from polar night darkness; content emerges from the ice. The layout mirrors the gothic cathedral's vertical pull — the eye is drawn upward from vaulted hero imagery to content that recedes into the cold. Wide negative space (polar night) is structural, not decorative.
+Every page is a chamber of that cathedral. Navigation is a progression through named spaces (Cathedral Entrance, Vaulted Chambers, Windows & Apertures, Cross the Threshold, The Relay Chamber, The Archive). The language is spare, architectural, reverent. No warmth. No urgency. The glacier does not hurry.
 
 ---
 
-## Color System
+## Aesthetic Direction
+
+**Polar gothic** — absolute darkness broken by one singular luminous element (Crystal Ice Blue, `#A8D8FF`). Architecture is gothic: pointed arches, lancet windows, frost-crystal lattice. All light is cold and internal — refracted through ancient ice, not cast from outside. Compositions are vertical and soaring.
+
+**Reference imagery:** Waitomo Glowworm Caves, Blue Cave Croatia, Antarctic research stations lit against polar night, Ice Hotel Jukkasjärvi, Naica Crystal Cave.
+
+---
+
+## Color Table
 
 | Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| Primary | Crystal Ice Blue | `#A8D8FF` | Primary CTAs, active states, the luminous accent |
-| Secondary | Glacial Silver | `#C8EEFF` | Secondary actions, surface highlights |
-| Tertiary | Deep Aurora Blue | `#6090FF` | Badges, ratings, emphasis accents |
-| Background | Polar Night | `#04101C` | Default page background — absolute Arctic darkness |
-| Surface | Ice Cave Depth | `#081828` | Card and panel surfaces |
-| Surface Alt | Frost Chamber | `#0C2035` | Hover states, nested panels, striped rows |
-| Text | Arctic White | `#EEF5FF` | Primary body and headline text |
-| Neutral | Ice Shadow | `#2A4A6A` | Muted UI chrome, dividers |
-| Success | Glacial Teal | `#00C9B8` | Success toasts, confirmations |
-| Warning | Aurora Amber | `#FFD166` | Warnings — rare warm light against the cold palette |
-| Error | Frost Crimson | `#E05070` | Errors, destructive actions |
-| Info | Cerulean Depth | `#4AB0E0` | Informational banners |
-| Focus | Crystal Focus Pulse | `#A8D8FF` | Keyboard focus ring |
-| Border | Ice Vein | `#1A3050` | Card borders, dividers |
-| Shadow | Crystal Ice Glow | `rgba(168,216,255,0.12)` | Cold blue glow on cards |
-| Overlay | Polar Void | `#020810` | Modal/scrim overlays |
+| `--color-bg` | Polar Night | `#04101C` | Default page background |
+| `--color-surface` | Ice Cave Depth | `#081828` | Card and panel surfaces |
+| `--color-surface-alt` | Frost Chamber | `#0C2035` | Hover states, alternate surfaces |
+| `--color-primary` | Crystal Ice Blue | `#A8D8FF` | Primary CTAs, active states, focal accent |
+| `--color-secondary` | Glacial Silver | `#C8EEFF` | Secondary text, subtle accents |
+| `--color-tertiary` | Deep Aurora Blue | `#6090FF` | Badges, emphasis accents |
+| `--color-text` | Arctic White | `#EEF5FF` | Body and headline text |
+| `--color-border` | Ice Vein | `#1A3050` | Card borders, dividers |
+| `--color-neutral` | Ice Shadow | `#2A4A6A` | Muted text, third-level elements |
+| `--color-focus` | Crystal Focus Pulse | `#A8D8FF` | Focus ring |
 
-### Gradients
-
-- **Glacial Vault** — `linear-gradient(180deg, #A8D8FF, #04101C)` — Hero backdrops
-- **Crystal Radiance** — `radial-gradient(ellipse at center, rgba(168,216,255,0.25), transparent)` — Internal-light effect behind hero subjects
-- **Ice Cave Depth** — `linear-gradient(180deg, #081828, #04101C)` — Subtle surface-to-background fade
+All colors pass WCAG AA minimum. Crystal Ice Blue on Polar Night = 12.71:1 (AAA). Arctic White on Polar Night = 17.46:1 (AAA).
 
 ---
 
 ## Typography Roles
 
-| Role | Font | Weights | Tracking | Usage |
-|------|------|---------|----------|-------|
-| Headline | Cinzel | 400, 700 | 0.08em | Page titles, hero headlines — carved inscription |
-| Display | Josefin Sans | 100–300 | 0.25em | Oversized cold-precision display, splash titles |
-| Body | Libre Baskerville | 400, 700 | 0em | Descriptions, synopses, long-form reading |
-| UI | Josefin Sans | 300–600 | 0.12em | Buttons, labels, navigation, chips — all caps |
-| Mono | JetBrains Mono | 400, 600 | 0.02em | Code, tokens, technical readouts |
-| Number | Josefin Sans | 100 | 0.15em | Stats, counters, runtimes — thin cold numerals |
+| Role | Family | Weight | Usage |
+|------|--------|--------|-------|
+| Headline | Cinzel | 400, 700 | Page titles, hero headlines — carved inscription |
+| Display | Josefin Sans | 100 | Large numerals, cold-precision display text |
+| Body | Libre Baskerville | 400, 700 | Descriptions, long-form reading |
+| UI | Josefin Sans | 300, 400, 600 | Buttons, labels, navigation — precise, cold |
+| Mono | JetBrains Mono | 400, 600 | Code, tokens, technical readouts |
+| Number | Josefin Sans | 100 | Stats, episode numbers — thin cold numerals |
 
-### Typography Rules (brand constraints)
-- Cinzel carries the weight of carved stone — never use light weights for headlines
-- Josefin Sans display text must be ultralight (100–300) and generously tracked (0.2em+)
-- Body copy (Libre Baskerville) is always left-aligned for readability — never centered in blocks
-- Never set body copy in Cinzel — it is architectural display type only
+Cinzel tracking is 0.08em+ (the spacing of letters carved across a cathedral facade). Body text is always left-aligned.
 
 ---
 
 ## Spatial System
 
-9-step spacing scale (px): `4, 8, 12, 16, 24, 32, 48, 64, 96`
-
-- Spacing is generous — whitespace is structural silence
-- Max content width: **1400px**, centered
-- Section padding: 64–96px vertical on desktop, 32–48px on mobile
+Spacing scale: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 px`. Negative space is structural, not accidental. Max content width: 1400px, centered. Generous section padding (96px) with tight card padding (16–24px) creates cathedral-nave rhythm.
 
 ---
 
 ## Motion Philosophy
 
-**Slow crystalline** — Motion in Ice Cathedral is like ice forming: slow, geometric, and inevitable. Transitions use `cubic-bezier(0.3, 0, 0.1, 1)` at 400–700ms. Nothing bounces; nothing springs.
+**Slow crystalline.** Motion is like ice forming — geometric, inevitable, and unhurried. 400–700ms transitions with `ease-in-out` or `cubic-bezier(0.3, 0, 0.1, 1)`. No bounce, no spring, no elastic. Under `prefers-reduced-motion`, all motion is replaced with instant state changes — no content is lost.
 
-- **Crystalline reveal** — Elements fade in with a slow upward drift, like ice growing on glass
-- **Hover** — Cards gain a 1px Crystal Ice Blue border + cold-blue glow over 300ms
-- **Focus** — 2px Crystal Ice Blue ring with outer glow, always visible on dark surfaces
-- **Loading** — Geometric frost-crystal pattern grows outward from center (fallback: static shimmer)
-- **prefers-reduced-motion** — All animations replaced with simple opacity transitions or static states
+Three motion layers: (1) ambient crystal rotation (mascot, slow 24s cycle), (2) scroll reveals (opacity-only 300ms fade, chaptered), (3) micro-interactions (card hover: 300ms border + box-shadow). Scroll reveals are disabled under reduced-motion.
 
 ---
 
 ## Visual Assets
 
-| Asset | Description |
-|-------|-------------|
-| `img/logo.svg` | Wordmark "PHLIX" in Cinzel on polar-night background with gothic arch + rose-window lattice motif |
-| `img/favicon.svg` | Gothic pointed arch silhouette in Crystal Ice Blue on polar-night square |
-| `img/og.svg` | 1200×630 social card: polar night bg, crystal glow, rose-window radial motif, "Silence. Light. Story." headline |
-| `img/PROMPTS.md` | Full prompt library for regenerating every image asset |
-| 7 inline feature SVGs | Outlined, 1.5px stroke, sharp geometric — library, syncplay, transcode, shield, antenna, broadcast, puzzle, hub |
-
-### Mascot: Crystal
-Crystal is a translucent geometric ice formation — a permanent snowflake. Ancient, patient, knowing. Always lit from within by pale ice-blue light. Used in loading screens and empty states.
+- **Logo:** SVG wordmark in Cinzel with crystal ice blue text-shadow on polar night
+- **Favicon:** Hexagonal crystal mark in Crystal Ice Blue on polar night
+- **OG image:** `og.png` — generated from `og.svg` with `tools/gen-og.mjs`
+- **Icons:** Inline SVGs, sharp 1–1.5px stroke, geometric/angular, crystal ice blue active state
+- **Decorative:** CSS frost lattice pattern, SVG rose-window geometry, CSS frost dividers
+- **Mascot:** Crystal — translucent geometric ice formation, slow rotation, bottom-right (in-flow on mobile)
 
 ---
 
-## Shape Language
+## Seasonal Variants (live-js)
 
-- **Gothic pointed arches** — lancet window silhouettes for structural accents
-- **Crystal facet geometry** — hexagonal and triangular panels
-- **Thin precise rule lines (1px)** — hairline cracks in ice; used for dividers
-- **Rose window radial patterns** — decorative motifs in headers and dividers
-- **Corner radius** — 0px everywhere (sharp corners are architectural)
+Three date-gated palette overrides:
+- **Midwinter Solstice** (Dec 18–Jan 5): primary → `#C8EEFF`
+- **Aurora Season** (Sep 15–Oct 15): secondary → `#90FFCC`, tertiary → `#9060FF`
+- **Ice Hotel Opening** (Dec 1–17): primary → `#D0F0FF`, surface → `#0A1E30`
 
----
-
-## Component Style Notes
-
-- **Cards** — Ice Cave Depth background (#081828), 1px Ice Vein border, 2px radius, md shadow. Featured cards gain Crystal Ice Blue border + crystal_glow on hover
-- **Buttons** — Primary: Crystal Ice Blue bg, Polar Night text, 0px radius. Ghost: transparent, Ice Vein border. All buttons min 44×44px touch target
-- **Navigation** — Topbar on Ice Cave Depth with 1px bottom Ice Vein border. Active indicator: 2px Crystal Ice Blue bottom line on nav link
-- **Badges** — Sharp rectangle (0px radius), 1px border. Stable=primary, Beta=amber, Deprecated=error
+Applied by JS date-gate adding `.seasonal-*` class to `<html>`.

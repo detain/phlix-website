@@ -1,128 +1,102 @@
-# SITE.md — Chrome Velocity Design Rationale
+# Chrome Velocity — Site Design Document
 
 ## Concept & Vision
 
-Chrome Velocity is the **motorsport-identity brand** for Phlix. Every screen is a
-pit wall. Every title is a lap record. The visual language borrows from Formula 1
-livery design, carbon-fiber textures, stadium floodlight photography, and telemetry
-data readouts — delivering a media server brand that feels as immediate and
-electrifying as a race start.
-
-The brand DNA: *Chrome Velocity is carbon black, chrome silver, racing red, and speed
-yellow — a palette as instantly legible as a race livery at 300 km/h. It is sharp,
-technical, and relentlessly fast.*
+Chrome Velocity is the pure sensation of speed distilled into a visual identity — carbon-fiber darkness split by racing red, chrome silver, and speed yellow, with the precision of a lap-time readout and the ferocity of a car cornering at 200 mph. The site feels like a Formula 1 pit wall: data-dense, high-contrast, every element racing-functional.
 
 ## Aesthetic Direction
 
-**Art Direction:** Deep carbon black grounds every composition. Chrome silver is the
-reflective mid-tone. Racing red cuts through as the primary accent. Speed yellow is
-used sparingly — only for the sharpest highlights (elite badges, warnings). Lighting
-is dramatic: hard stadium floods from above, creating crisp catch-lights on chrome
-and strong shadows below. Typography treatments feel like a timing screen or
-pit-board — condensed, bold, monospaced for data. Angular 8–15 degree diagonal cuts
-recur across panel edges, badges, and dividers to evoke racing aerodynamics.
+**Reference:** Formula 1 pit lanes under stadium floodlights, carbon fiber weave textures, checkered flag motifs, telemetry data overlays.
 
-**Visual Style tags:** Technical illustration, high-contrast photography, sharp
-geometric vector, data visualization overlay, motion-blur kinetics.
+**Feel:** Elite, technical, electrifying. Never soft, never warm. Every interaction snaps like a race engineer on the radio.
 
-**Rendering:** Semi-realistic vector/cel-shading/halftone composite. Medium texture.
-Layered depth. Cool hard stadium floodlight, high contrast, hard shadows.
+## Color System
 
-## Color Palette
-
-| Role          | Name            | Hex       | Usage |
-|---------------|-----------------|-----------|-------|
-| Primary       | Racing Red      | `#CC0000` | CTAs, active states, critical accents |
-| Secondary     | Chrome Silver   | `#C0C5CE` | Secondary actions, metadata labels, UI rails |
-| Tertiary      | Speed Yellow    | `#FFD100` | Warning states, elite badges (sparingly) |
-| Background    | Carbon Black    | `#0D0D0F` | Default page background |
-| Surface       | Carbon Panel    | `#17181C` | Card/panel surfaces |
-| Surface Alt   | Pit Dark        | `#1F2026` | Alternate surfaces, hover states |
-| Text          | Signal White    | `#F0F2F5` | Primary body/headline text |
-| Text Muted    | Chrome Silver   | `#C0C5CE` | De-emphasized labels, metadata |
-| Border        | Titanium        | `#2A2C32` | Borders, dividers, structural lines |
-| Focus         | Telemetry Cyan  | `#00E5FF` | Keyboard focus rings |
-| Success       | Green Sector    | `#00C853` | Success states |
-| Error         | Danger Red      | `#FF1A1A` | Errors, destructive actions |
-| Warning       | Yellow Flag     | `#FFD100` | Warnings, caution states |
-| Info          | Blue Flag       | `#0096FF` | Informational messages |
-
-**Gradients:**
-- **Race Start:** `#CC0000` → `#FF6B00` (135deg) — hero CTA, progress fills
-- **Telemetry Sweep:** `#0D0D0F` → `#17181C` → `#1F2026` (90deg) — surface depth
-- **Chrome Sheen:** `#5A5E68` → `#C0C5CE` → `#5A5E68` (160deg) — premium element sheen
-- **Speed Burn:** radial yellow glow on dark — subtle halo behind speed-yellow accents
-
-**Color Rules (hard constraints):**
-- Backgrounds are always carbon black or carbon panel surface — never light
-- Racing red is the sole primary CTA color — never dilute it with other actions
-- Speed yellow appears on at most one element per screen section
-- Chrome silver is the go-to for secondary text, metadata, and UI rails
-- Avoid warm-toned shadows — all shadows are cool or pure black
-- Never use more than three accent colors (red, yellow, cyan) in a single view
+| Role | Name | Hex | Usage |
+|------|------|-----|-------|
+| Primary | Racing Red | `#CC0000` | Primary CTAs, active states, critical accents |
+| Secondary | Chrome Silver | `#C0C5CE` | Secondary actions, UI rails, metadata labels |
+| Tertiary | Speed Yellow | `#FFD100` | Warnings, elite badges, sharp highlights |
+| Background | Carbon Black | `#0D0D0F` | Default page background |
+| Surface | Carbon Panel | `#17181C` | Card and panel surfaces |
+| Surface Alt | Pit Dark | `#1F2026` | Alternate surfaces, hover states |
+| Text | Signal White | `#F0F2F5` | Primary body and headline text |
+| Text Muted | Tire Gray | `#C0C5CE` | Secondary text, metadata |
+| Border | Titanium | `#2A2C32` | Default borders and dividers |
+| Focus | Telemetry Cyan | `#00E5FF` | Keyboard focus rings |
 
 ## Typography
 
-| Role      | Family              | Weight   | Usage |
-|-----------|---------------------|----------|-------|
-| Headline  | Barlow Condensed    | 700, 800 | Race-board headlines, hero titles, section headers |
-| Display   | Barlow Condensed    | 800      | Oversized numerals, splash hero text |
-| Body      | Barlow              | 400, 500 | Paragraphs, descriptions |
-| UI        | Barlow              | 500, 600 | Buttons, labels, navigation, chips |
-| Mono      | JetBrains Mono      | 400, 600 | Telemetry readouts, lap times, code |
-| Number    | Barlow Condensed    | 700      | Stat dashboards, counters |
+| Role | Font | Weight | Notes |
+|------|------|--------|-------|
+| Headline | Barlow Condensed | 700 | ALL CAPS for section headers |
+| Display | Barlow Condensed | 800 | Large numerals, splash text |
+| Body | Barlow | 400, 500 | Clean, neutral paragraphs |
+| UI | Barlow | 500, 600 | Buttons, labels, nav items |
+| Mono | JetBrains Mono | 400, 600 | Telemetry, code, data |
+| Number | Barlow Condensed | 700 | Stat numerals |
 
 **Rules:**
 - ALL CAPS for section headers and short labels
-- Headlines must be condensed and bold — no thin/light weights
-- Body text is Barlow regular — never condensed
-- JetBrains Mono is the telemetry voice — all numerical live data
-- Max 70 characters per line for body copy
+- Never use thin or light weights for headlines
+- Monospace for all numerical data and telemetry readouts
 
 ## Spatial System
 
-**Spacing scale (px):** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96
+**Scale:** 4, 8, 12, 16, 24, 32, 48, 64, 96px
 
-All margins, padding, and gaps use only these steps. No arbitrary values.
+**Layout:** Max 1400px content width, 1200px tight content, 1400px max container.
+
+**Corners:** Sharp — 2px small, 4px medium, 6px large, 8px XL. No pill shapes.
+
+**Borders:** Razor-thin 1px titanium lines. 2px racing-red for active/selected states.
 
 ## Motion Philosophy
 
-Motion is decisive — racing cars do not bounce, they cut. Animations feel like
-precise mechanical movements on a race car, not playful UI flourishes.
+**Speed:** Fast — 80–150ms micro, 250ms max for transitions.
 
-- **Speed:** 80–150ms micro, 250ms max transitions
-- **Easing:** `cubic-bezier(0.25, 0.46, 0.45, 0.94)` (sharp) for most; `ease-out` for entrances; `linear` for telemetry sweeps
-- **Hero motif:** Animated telemetry data stream with speed-line blur on scroll entry
-- **Microinteractions:**
-  - Hover: Cards shift 4px up + racing-red left-border flash + shadow sharpens
-  - Button press: Hard 0.96 scale snap — instant precision, no spring
-  - Loading: Lap-timer countdown or telemetry bar sweeping L→R
-  - Focus: 2px telemetry-cyan ring fires at 60ms
-  - Success: Green sector flash + checkered-flag micro-animation
-- **Reduced motion:** Honor `prefers-reduced-motion: reduce` — hard cuts replace wipes, no motion-blur trails
+**Style:** Sharp, kinetic, decisive. No bounce, no spring. Racing cars don't bounce.
 
-## Layout Archetype
+**Easing:** `cubic-bezier(0.25, 0.46, 0.45, 0.94)` (sharp) or `ease-out`.
 
-**Showcase** — Full-bleed immersive hero → tech-spec feature grid → social proof → race-red CTA strip.
+**Scroll effects:** Speed-line sweep on section entry (desktop). Disabled under `prefers-reduced-motion`.
 
-Key layout decisions:
-- Max content width: 1440px; tight columns at 1200px
-- Generous negative space used like a slipstream draft
-- Angular 8–15° panel cuts divide content zones
-- All corners sharp — ≤4px radius maximum (tight 2px standard)
+**Microinteractions:**
+- Cards shift 4px up and apply a racing-red left-border flash on hover
+- Button press snaps at 0.96 scale — instant precision
+- Focus ring: 2px telemetry-cyan at 60ms
 
 ## Visual Assets
 
-- **Logo:** Angular parallelogram badge with CHROME (heavy 800) / VELOCITY (700) wordmark, racing red left accent bar, checkered flag motif. Dark carbon background.
-- **Favicon:** Racing red (#CC0000) square with bold P in signal white.
-- **OG Card:** Dark carbon background with carbon fiber diagonal grid, red glow top accent, red left bar, Phlix + Chrome Velocity wordmark, telemetry-style status strip with checkered flag.
-- **Feature Icons:** Inline SVG, 1.5px stroke, chrome silver, sharp square corners, single-color default / racing red for active state.
-- **Signature elements to incorporate:** Checkered flag stripe motif, carbon fiber weave texture, chrome reflective surfaces, racing telemetry data readouts, speed-line motion blur streaks.
+| Asset | Description |
+|-------|-------------|
+| `img/logo.svg` | Chrome Velocity wordmark |
+| `img/favicon.svg` | Square favicon in racing red |
+| `img/og.png` | 1200×630 social share card |
+| `img/og.svg` | Editable OG source |
+| `icon-*.png` | App icons |
 
-## Component Notes
+**No images were generated for this kit.** CSS/SVG-only artwork for patterns and decorative elements.
 
-- **Cards:** Carbon panel surface (#17181C), 1px titanium border (#2A2C32), 4px radius, 16px padding. Hover: 4px upward translate + 2px racing-red left border.
-- **Buttons:** Primary = racing red. Secondary = transparent + titanium border. ALL CAPS, 0.04em tracking, tight.
-- **Badges:** Sharp rectangular (no rounding), 1px border. Chrome silver (quality), speed yellow (elite), racing red (status), green sector (success).
-- **Forms:** Carbon panel fill, 1px titanium border, 4px radius, telemetry-cyan focus ring.
-- **Navigation:** Sticky carbon header. Active item = racing-red underline (desktop) or left border (mobile). ALL CAPS, tight tracking.
+## Component Patterns
+
+- **Cards:** Carbon panel surface, titanium border. Hover: 2px racing-red left border + 4px upward translate.
+- **Buttons:** Racing red primary, titanium-bordered secondary, sharp 4px corners, uppercase labels.
+- **Focus rings:** 2px telemetry-cyan with 2px carbon-black offset.
+- **Nav:** Carbon-black topbar, uppercase Barlow Condensed links, racing-red active underline.
+- **Mascot (Vector):** Bottom-right HUD figure, telemetry lines pulse in idle, tips per section.
+
+## Seasonal Variants
+
+Three seasonal overrides are live-JS gated by date:
+1. **Night Race** (Sep–Oct): Deeper black, brighter neon primary, cyan focus
+2. **Championship Decider** (Nov): Gold tertiary, unchanged primary
+3. **Season Opener** (Mar): Slightly brighter secondary
+
+## Accessibility
+
+- WCAG AA contrast ratios verified across all text/surface combinations
+- Focus indicators visible and high-contrast on carbon surfaces
+- `prefers-reduced-motion` respected throughout
+- Touch targets minimum 44×44px
+- Semantic HTML landmarks: banner, navigation, main, contentinfo

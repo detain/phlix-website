@@ -1,43 +1,30 @@
 /* ==========================================================================
-   base.css — Chrome Velocity Design Tokens
-   Kit: chrome-velocity v1.0
+   BASE.CSS — Chrome Velocity
+   Design tokens, reset, base element styles, focus states, motion preferences.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ─── Modern Reset ───────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  text-size-adjust: 100%;
-}
-
-/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   -------------------------------------------------------------------------- */
 :root {
-  /* Colors — semantic roles from kit */
-  --color-primary: #c00;
+  /* Color System — Chrome Velocity */
+  --color-primary: #da4545;
   --color-secondary: #c0c5ce;
-  --color-tertiary: #d4a800;
+  --color-tertiary: #ffd100;
   --color-bg: #0d0d0f;
   --color-surface: #17181c;
   --color-surface-alt: #1f2026;
   --color-text: #f0f2f5;
-  --color-text-muted: #3a3d42;
+  --color-text-muted: #c0c5ce;
   --color-border: #2a2c32;
   --color-focus: #00e5ff;
   --color-success: #00c853;
-  --color-warning: #d4a800;
+  --color-warning: #ffd100;
   --color-error: #ff1a1a;
   --color-info: #0096ff;
-  --color-shadow: rgb(0, 0, 0, 0.65);
-  --color-overlay: rgb(0, 0, 0, 0.78);
 
-  /* Spacing scale — kit spacing_scale */
+  /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -48,7 +35,7 @@ html {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Radius — sharp, ≤4px */
+  /* Border Radius */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 6px;
@@ -56,68 +43,160 @@ html {
   --radius-pill: 4px;
 
   /* Typography */
-  --font-headline: 'Barlow Condensed', 'Oswald', 'Impact', 'Arial Narrow', sans-serif;
+  --font-headline: 'Barlow Condensed', 'Oswald', 'Impact', sans-serif;
   --font-display: 'Barlow Condensed', 'Oswald', 'Impact', sans-serif;
-  --font-body: 'Barlow', 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-ui: 'Barlow', 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+  --font-body: 'Barlow', 'Inter', 'Arial', sans-serif;
+  --font-ui: 'Barlow', 'Inter', 'system-ui', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-number: 'Barlow Condensed', 'Oswald', 'Impact', sans-serif;
-
-  /* Font weights */
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-weight-headline: 700;
   --font-weight-display: 800;
+  --font-weight-body: 400;
+  --font-weight-ui: 500;
+  --font-weight-mono: 400;
 
-  /* Shadows — deep carbon, cool black */
+  /* Shadows */
   --shadow-sm: 0 1px 3px rgb(0, 0, 0, 0.55);
   --shadow-md: 0 4px 12px rgb(0, 0, 0, 0.65);
   --shadow-lg: 0 12px 32px rgb(0, 0, 0, 0.75);
-  --shadow-xl: 0 24px 48px rgb(0, 0, 0, 0.8);
 
   /* Motion */
   --duration-fast: 80ms;
   --duration-base: 150ms;
-  --duration-slow: 250ms;
+  --duration-slow: 300ms;
   --easing-sharp: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --easing-out: ease-out;
-  --easing-linear: linear;
 
   /* Layout */
-  --max-width: 1440px;
+  --max-width: 1400px;
   --content-width: 1200px;
-  --tracking-headline: -0.01em;
-  --lh-headline: 0.95;
-  --tracking-display: -0.02em;
-  --lh-display: 0.88;
-  --tracking-body: 0em;
-  --lh-body: 1.55;
-  --tracking-ui: 0.02em;
-  --lh-ui: 1.25;
-  --tracking-mono: 0em;
-  --lh-mono: 1.5;
-  --tracking-number: 0.01em;
-  --lh-number: 1;
 }
 
-/* ─── Base Element Styles ─────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   Font Face Declarations
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../../assets/fonts/barlow-condensed-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../../assets/fonts/barlow-condensed-800-latin.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../assets/fonts/barlow-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../assets/fonts/barlow-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../assets/fonts/barlow-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   Modern Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: 16px;
+  min-height: 100vh;
   line-height: 1.55;
-  font-weight: var(--font-weight-regular);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
 
 img,
+picture,
 video,
+canvas,
 svg {
   display: block;
   max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 a {
@@ -130,54 +209,53 @@ a:hover {
   color: var(--color-primary);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-bold);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
-code,
-pre,
-kbd,
-samp {
+strong {
+  font-weight: 600;
+}
+
+code {
   font-family: var(--font-mono);
+  font-weight: var(--font-weight-mono);
+  background-color: var(--color-surface);
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
 }
 
-button {
-  cursor: pointer;
-  border: none;
+pre {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-mono);
+  background-color: var(--color-surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+pre code {
   background: none;
-  font-family: inherit;
+  padding: 0;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
-/* ─── Skip Link ────────────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   Skip Link
+   -------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-text);
-  padding: var(--space-2) var(--space-4);
-  font-family: var(--font-ui);
-  font-weight: var(--font-weight-semibold);
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
   z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   border-radius: var(--radius-md);
-  text-decoration: none;
   transition: top var(--duration-fast) var(--easing-sharp);
 }
 
@@ -187,22 +265,51 @@ ol {
   outline-offset: 2px;
 }
 
-/* ─── Focus Styles ────────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   Focus Visible Ring
+   -------------------------------------------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* ─── Text Selection ──────────────────────────────────────────────────────── */
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   Text Selection
+   -------------------------------------------------------------------------- */
 ::selection {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: var(--color-text);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Reduced Motion ──────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   Scrollbar Styling
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -214,59 +321,17 @@ ol {
   }
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Barlow';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-400-latin.woff2') format('woff2');
+/* --------------------------------------------------------------------------
+   Visually Hidden (Accessibility)
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
-@font-face {
-  font-family: 'Barlow';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Barlow';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-condensed-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-condensed-800-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/jetbrains-mono-600-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

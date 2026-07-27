@@ -60,7 +60,6 @@ dt {
   font-weight: var(--fw-regular);
   font-size: 1rem;
   line-height: 1.7;
-  max-width: 72ch; /* readability per kit typography_rules */
 }
 
 /* UI chrome — DM Sans, kit fonts.ui */
@@ -98,7 +97,6 @@ pre,
 }
 
 /* ── Layout containers ──────────────────────────────────────────────────── */
-
 .container {
   width: 100%;
   max-width: var(--content-width);
@@ -107,11 +105,13 @@ pre,
 }
 
 .container--wide {
+  width: 100%;
   max-width: var(--max-width);
   padding-inline: var(--space-6);
 }
 
 .container--narrow {
+  width: 100%;
   max-width: 780px;
   margin-inline: auto;
   padding-inline: var(--space-6);
@@ -125,7 +125,7 @@ pre,
   min-height: 90vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow-y: auto;
   background: linear-gradient(160deg, var(--color-canopy) 0%, var(--color-tertiary) 100%);
 }
 
@@ -146,6 +146,7 @@ pre,
   z-index: 1;
   padding: var(--space-24) var(--space-6);
   max-width: 860px;
+  overflow: hidden;
 }
 
 .hero-eyebrow {
@@ -154,21 +155,23 @@ pre,
   font-weight: var(--fw-medium);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgb(244, 239, 224, 0.75);
+  color: #75736c;
   margin-bottom: var(--space-4);
 }
 
 .hero h1 {
-  color: var(--color-parchment);
+  color: #fff;
   margin-bottom: var(--space-6);
-  text-shadow: 0 2px 16px rgb(15, 31, 18, 0.25);
+  text-shadow:
+    0 2px 8px rgb(0, 0, 0, 0.3),
+    0 0 20px rgb(0, 0, 0, 0.15);
 }
 
 .hero-sub {
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
   line-height: 1.65;
-  color: rgb(244, 239, 224, 0.88);
+  color: #fff;
   max-width: 60ch;
   margin-bottom: var(--space-8);
 }
@@ -180,7 +183,277 @@ pre,
   align-items: center;
 }
 
-/* Pitch */
+/* Vine animation overlay SVG (decorative) */
+.hero-vine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+/* ── Home page narrative sections ────────────────────────────────────────── */
+
+/* Section 1: eden-welcome — the hero already carries this */
+#eden-welcome /* noop */
+
+/* Section 2: why-grow — seed-packet header with benefits */
+#why-grow {
+  padding: var(--space-24) 0;
+  background: var(--color-parchment);
+}
+
+.seed-packet-header {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+.seed-packet-header h2 {
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-4);
+}
+
+.seed-packet-header p {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-clay);
+  font-style: italic;
+  max-width: 56ch;
+}
+
+.garden-beds {
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+  max-width: 760px;
+}
+
+.garden-bed {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-garden-ink);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.garden-bed::before {
+  content: '';
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A4F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c-1.5 3-4 5-7 6 3 1 5.5 3 7 6 1.5-3 4-5 7-6-3-1-5.5-3-7-6z'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}
+
+/* Section 3: core-seeds — feature seeds as packets */
+#core-seeds {
+  padding: var(--space-24) 0;
+  background: var(--color-meadow);
+}
+
+.core-seeds-inner {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.seed-catalog-intro {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.seed-catalog-intro h2 {
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-4);
+}
+
+.seed-packets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.seed-packet {
+  background: var(--color-surface);
+  border: 2px solid var(--color-garden-ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.seed-packet:hover {
+  transform: translateY(-3px) rotate(0.5deg);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-canopy);
+}
+
+.seed-packet-label {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-solar-gold);
+  margin-bottom: var(--space-3);
+}
+
+.seed-packet h3 {
+  font-family: var(--font-headline);
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-3);
+}
+
+.seed-packet p {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+/* Section 4: gather-proof — proof strategy signals */
+#gather-proof {
+  padding: var(--space-24) 0;
+  background: var(--color-parchment);
+}
+
+.proof-inner {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.proof-inner h2 {
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.proof-placard {
+  max-width: 760px;
+  margin-inline: auto;
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 2px solid var(--color-garden-ink);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-8);
+}
+
+.proof-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid rgb(42, 61, 46, 0.2);
+}
+
+.proof-row:last-child {
+  border-bottom: none;
+}
+
+.proof-row strong {
+  font-weight: var(--fw-semibold);
+  color: var(--color-deep-canopy);
+}
+
+.proof-row a {
+  color: var(--color-canopy);
+  font-weight: var(--fw-medium);
+}
+
+.proof-quote {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-clay);
+  text-align: center;
+  max-width: 52ch;
+  margin-inline: auto;
+  line-height: 1.5;
+}
+
+@media (width <= 600px) {
+  .proof-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}
+
+/* Section 5: grow-together — conversion funnel CTA */
+#grow-together {
+  padding: var(--space-24) 0;
+  background: linear-gradient(120deg, var(--color-solar-gold) 0%, var(--color-parchment) 100%);
+  text-align: center;
+}
+
+.grow-together-inner {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.grow-together-inner h2 {
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-4);
+}
+
+.grow-together-inner > p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--color-clay);
+  font-style: italic;
+  max-width: 52ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.cta-ladder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.install-command {
+  background: var(--color-deep-canopy);
+  border: 2px solid var(--color-garden-ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+  display: inline-block;
+}
+
+.install-command code {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  color: var(--color-new-leaf);
+  white-space: pre;
+}
+
+.install-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-solar-gold);
+  margin-bottom: var(--space-3);
+}
+
+/* ── Pitch (why-grow section for non-narrative pages) ────────────────────── */
 .pitch {
   padding: var(--space-24) 0;
   background: var(--color-parchment);
@@ -244,7 +517,7 @@ pre,
 
 .feature-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), minmax(0, 1fr)));
   gap: var(--space-6);
 }
 
@@ -322,15 +595,21 @@ pre,
 }
 
 .page-header h1 {
-  color: var(--color-parchment);
+  color: var(--color-deep-canopy);
   margin-bottom: var(--space-4);
+  text-shadow: none;
 }
 
 .page-lead {
   font-family: var(--font-body);
   font-size: 1.125rem;
-  color: rgb(244, 239, 224, 0.82);
+  color: #3a2e28;
   max-width: 60ch;
+}
+
+/* Page-header eyebrow — darker for contrast on green gradient */
+.page-header .hero-eyebrow {
+  color: #4a3a30;
 }
 
 /* Content section */
@@ -354,20 +633,21 @@ pre,
 /* Client cards */
 .client-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), minmax(0, 1fr)));
   gap: var(--space-6);
 }
 
 /* Download cards */
 .download-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), minmax(0, 1fr)));
   gap: var(--space-6);
 }
 
 /* FAQ list */
 .faq-list {
   max-width: 780px;
+  margin-inline: auto;
 }
 
 .faq-item {
@@ -404,7 +684,6 @@ pre,
 }
 
 /* ── Gradient backgrounds ────────────────────────────────────────────────── */
-
 .bg-eden-canopy {
   background: linear-gradient(160deg, var(--color-canopy), var(--color-sky-prism));
 }
@@ -419,9 +698,6 @@ pre,
     var(--color-parchment);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
 /* ── Vine motif divider ─────────────────────────────────────────────────── */
 .vine-divider {
   width: 100%;
@@ -430,3 +706,83 @@ pre,
     center/cover no-repeat;
   flex-shrink: 0;
 }
+
+/* ── Visitor paths ─────────────────────────────────────────────────────── */
+.visitor-paths {
+  padding: var(--space-16) 0;
+  background: var(--color-surface);
+}
+
+.visitor-paths-inner {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  text-align: center;
+}
+
+.visitor-paths h2 {
+  color: var(--color-deep-canopy);
+  margin-bottom: var(--space-8);
+}
+
+.path-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.path-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--color-parchment);
+  border: 2px solid var(--color-garden-ink);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  min-width: 200px;
+  max-width: 260px;
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.path-option:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-canopy);
+}
+
+.path-option-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-meadow);
+  border-radius: var(--radius-md);
+  color: var(--color-canopy);
+}
+
+.path-option-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.path-option h3 {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-deep-canopy);
+}
+
+.path-option p {
+  font-size: 0.875rem;
+  color: var(--color-clay);
+  font-style: italic;
+}
+
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
