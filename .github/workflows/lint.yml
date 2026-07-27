@@ -27,3 +27,21 @@ jobs:
       - name: Accessibility (pa11y-ci, soft-fail until pages exist)
         run: npm run a11y
         continue-on-error: true
+
+  # Additive job, deliberately NOT folded into `lint` above: before this, no
+  # workflow in this repo ran any test at all (`grep -rln 'test:unit\|npm test'
+  # .github/workflows/` returned nothing), so test/copyright.test.mjs could never
+  # have gone red in CI. Runs `npm run test:unit`, NEVER `npm test`: the `test`
+  # script chains `linkcheck`, which validates LIVE URLs and therefore cannot
+  # gate a pull request. Node version, cache and install command mirror `lint`.
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Unit tests (node:test)
+        run: npm run test:unit

@@ -18,14 +18,21 @@
  * looks like success. With the pure code in its own module the CLI needs no
  * guard at all, so there is no guard left to be wrong.
  *
- * This file carries no @copyright line of its own, matching its sibling
- * scripts/add-copyright.mjs (which has none either). That is deliberate: the
- * injector only covers the brand-kits directory, each site's js/main.js and each
- * site's css directory, so the scripts directory is outside its own coverage and
- * nothing enforces either state. The scripts directory is also outside every
- * lint target — tools/lint.mjs points eslint at the sites and tools trees only,
- * and prettier's patterns cover the root HTML plus the sites, shared and docs
- * trees — so nothing would detect drift either way.
+ * This file carries no @copyright HEADER line of its own, matching its sibling
+ * scripts/add-copyright.mjs. Both contain MARKER anyway — the sibling once, in
+ * its line-4 prose; this file three times, because it DEFINES it — so the
+ * injector's duplicate pre-check would skip either. That self-immunity is a
+ * coincidence, and a fragile one (reword the sibling's line-4 prose to drop the
+ * address and it evaporates); it is NOT what protects them. The guarantee is the
+ * traversal roots: brand-kits via walk(), plus each site's js/main.js and css
+ * directory via the readdirSync loops in add-copyright.mjs. Nothing ever walks
+ * scripts/. Do not generalise the sibling half across repos either — the same
+ * script in phlix-tokens and phlix-windows-client has ZERO MARKER hits and is
+ * not self-immune, while every lib/copyright.mjs is, by definition. The scripts
+ * directory is likewise outside every lint target — tools/lint.mjs points eslint
+ * at the sites and tools trees only, and prettier's patterns cover the root HTML
+ * plus the sites, shared and docs trees — so nothing enforces, or would detect
+ * drift in, either state.
  *
  * (Glob patterns are spelled out in prose above on purpose: the star-slash
  * sequence inside a pattern like the sites JS glob would terminate this very
@@ -156,14 +163,30 @@ function prependJsDocblock(content) {
 // `/* vendor-fonts:begin */` / `/* vendor-fonts:end */` written by
 // tools/vendor-fonts.mjs — so that scan landed the copyright line on whatever
 // comment happened to close last, as a naked, delimiter-less line in the middle
-// of the stylesheet. Measured on this repo's own sites/afrofuturism/css/base.css
-// with its existing @copyright line stripped (i.e. exactly what a newly
-// scaffolded site's CSS looks like): the line landed at 325, immediately before
-// `/* vendor-fonts:end */`, and postcss then failed outright with
-// "Unknown word *" at line 325 — the whole file became unparseable, so
-// `npm run lint:css` (stylelint) would go red and the site's CSS would be dead.
-// The same defect shipped in phlix-tokens commit 9ec4298 and destroyed 4 design
-// tokens plus an entire `.eyebrow` rule from a published npm tarball.
+// of the stylesheet.
+//
+// This repo was ALREADY HIT by that — it is the second victim of the same P0
+// header wave as phlix-tokens 9ec4298 (which destroyed 4 design tokens plus an
+// entire `.eyebrow` rule from a published npm tarball), not a repo that merely
+// might have been hit. Measured at git level here: 77afc8e "chore: add copyright
+// headers (P0)" added 150 bare ` * @copyright` lines across 150
+// sites/*/css/*.css files against only 4 `/*` opener lines, and eb20db8 (#57)
+// then repaired them IN PLACE, adding 112 `/*` openers across 148 of those same
+// files to wrap the naked lines in delimiters. The fossil of that sequence is
+// still visible: all 151 tracked site CSS files carry @copyright today, but 136
+// of them carry it BELOW line 10 (only 15 sit in the first 10 lines) — mid-file,
+// inside a wrapper #57 added. Nothing is unsafe today (all 151 parse); this fix
+// stops a re-run, or a newly scaffolded site, from repeating it.
+//
+// The failure mode itself, reproduced on this repo's own
+// sites/afrofuturism/css/base.css with that mid-file @copyright line stripped —
+// a reconstruction of the pre-#57 shape, NOT a stand-in for a newly scaffolded
+// site's CSS (stripping the line leaves an empty `/* */`, which this repo's own
+// stylelint gate rejects as `comment-no-empty` and exits 2 on): the pre-fix scan
+// put the line at 325, immediately before `/* vendor-fonts:end */`, and postcss
+// then failed outright with "Unknown word *" at line 325 — the whole file
+// unparseable, so `npm run lint:css` (stylelint) goes red and the site's CSS is
+// dead.
 //
 // Returns null for TWO DIFFERENT reasons that a caller MUST NOT treat the same
 // way:

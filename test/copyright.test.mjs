@@ -1,9 +1,11 @@
 // Tests for the copyright-header injection helpers in scripts/lib/copyright.mjs.
 //
-// Run with `npm run test:unit`, i.e. `node --test 'test/**/*.test.mjs'`. This
+// Run with `npm run test:unit`, i.e. `node --test "test/**/*.test.mjs"`. This
 // uses node:test and node:assert from the standard library — no new dependency.
 // package.json already pins `engines.node >= 24`, where node:test is stable.
-// (The glob is quoted so node, not the shell, expands it. Note that the
+// (The glob is quoted so node, not the shell, expands it — DOUBLE quotes, which
+// both POSIX shells and cmd.exe strip; single quotes survive literally under
+// cmd.exe and would make the pattern match nothing on Windows. Note that the
 // directory form `node --test test/` does NOT work on Node 24: it resolves the
 // path as a module entry and dies with MODULE_NOT_FOUND.)
 //
@@ -17,22 +19,33 @@
 // the `* @copyright` line got dropped on whatever comment closed last, as a
 // naked, delimiter-less line in the middle of the stylesheet.
 //
-// This was live-reachable. scripts/add-copyright.mjs discovers site CSS through
-// a hand-rolled readdirSync loop over sites/<slug>/css/, NOT through walk() — so
-// the "CSS_EXT is unused, therefore the CSS path is dead" reading is wrong;
-// CSS_EXT was unused, but the CSS path runs. Measured against this repo's own
-// sites/afrofuturism/css/base.css with its existing @copyright line stripped
-// (i.e. exactly what a newly scaffolded site's CSS looks like): the pre-fix
-// script put the line at 325, immediately before `/* vendor-fonts:end */`, and
-// postcss then failed outright — "Unknown word *" at line 325 — so the entire
-// stylesheet became unparseable and `npm run lint:css` would go red. The same
-// defect shipped in phlix-tokens commit 9ec4298, destroyed 4 design tokens plus
-// an entire `.eyebrow` rule, and reached the published npm tarball.
+// This was live-reachable, and it FIRED HERE. scripts/add-copyright.mjs
+// discovers site CSS through a hand-rolled readdirSync loop over
+// sites/<slug>/css/, NOT through walk() — so the "CSS_EXT is unused, therefore
+// the CSS path is dead" reading is wrong; CSS_EXT was unused, but the CSS path
+// runs. Measured at git level in THIS repo: 77afc8e "chore: add copyright
+// headers (P0)" added 150 bare ` * @copyright` lines across 150
+// sites/*/css/*.css files against only 4 `/*` opener lines, and eb20db8 (#57)
+// repaired them IN PLACE, adding 112 `/*` openers across 148 of those same files
+// to wrap the naked lines in delimiters. phlix-website is the second victim of
+// the same P0 header wave as phlix-tokens 9ec4298 (4 design tokens plus a whole
+// `.eyebrow` rule destroyed, shipped in a published npm tarball) — not a repo
+// that merely might have been hit.
 //
-// All 151 tracked CSS files are clean TODAY only because every one of them
-// already carries the marker, so the whole-content pre-check short-circuits
-// before injectCssComment() runs. Any newly scaffolded site would have been
-// corrupted.
+// The failure was reproduced on this repo's own sites/afrofuturism/css/base.css
+// with its mid-file @copyright line stripped — a reconstruction of the pre-#57
+// shape, NOT a stand-in for a newly scaffolded site's CSS (stripping that line
+// leaves an empty `/* */`, which this repo's own stylelint gate rejects as
+// `comment-no-empty` and exits 2 on): the pre-fix script put the line at 325,
+// immediately before `/* vendor-fonts:end */`, and postcss then failed outright
+// — "Unknown word *" at line 325 — so the entire stylesheet became unparseable
+// and `npm run lint:css` would go red.
+//
+// All 151 tracked site CSS files are safe TODAY: each carries the marker, so the
+// whole-content pre-check short-circuits before injectCssComment() runs, and each
+// one parses (the corruption scan is 0/151). The residue of the damage is only
+// the placement — 136 of the 151 carry @copyright below line 10, 15 within the
+// first 10 — and this fix stops a re-run, or a new site, from repeating it.
 //
 // NOT every case below discriminates against the pre-fix code, and they are
 // labelled so the distinction survives. Each label is derived from ONE MEASURED
