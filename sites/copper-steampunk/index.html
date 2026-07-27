@@ -1,300 +1,187 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Phlix — Your media. Your library. Your Phlix.</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phlix — Your Collection, Masterfully Engineered.</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted PHP media server styled as a Victorian inventor's workshop. Catalogue every reel, sync playback across devices, and stream to your screens with precision engineering."
     />
     <meta
       name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+      content="phlix, media server, steampunk, self-hosted, Plex alternative, media streaming"
     />
     <link rel="canonical" href="https://detain.github.io/phlix-website/copper-steampunk/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#b5651d" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Phlix — Your media. Your library. Your Phlix." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/copper-steampunk/" />
+    <meta property="og:title" content="Phlix — Your Collection, Masterfully Engineered." />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted PHP media server styled as a Victorian inventor's workshop. Catalogue every reel, sync playback across devices, and stream to your screens."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/copper-steampunk/img/og.png"
     />
-    <meta property="og:url" content="https://detain.github.io/phlix-website/copper-steampunk/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <!-- Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Phlix — Your media. Your library. Your Phlix." />
+    <meta name="twitter:site" content="@detain" />
+    <meta name="twitter:title" content="Phlix — Your Collection, Masterfully Engineered." />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted PHP media server styled as a Victorian inventor's workshop. Catalogue every reel, sync playback across devices, and stream to your screens."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/copper-steampunk/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
-
-    <!-- Theme color -->
-    <meta name="theme-color" content="#B5651D" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
 
-    <!-- JSON-LD: SoftwareApplication -->
+    <!-- Fonts & Styles -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+
+    <!-- JSON-LD -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Phlix",
-        "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.",
+        "description": "Self-hosted PHP media server with native clients for Roku, Samsung Tizen, Windows, and mobile. Includes SyncPlay, Live TV, and a plugin system.",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "PHP 8.3+",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/OnlineOnly"
-        },
-        "license": "https://www.mozilla.org/en-US/MPL/2.0/"
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "license": "https://github.com/detain/phlix-server/blob/master/LICENSE"
       }
     </script>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/theme.css" />
-    <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body data-page="index">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- Header -->
+    <!-- Seasonal Banner (injected by JS) -->
+    <div class="seasonal-banner" id="seasonal-banner" style="display: none"></div>
+
+    <!-- ============================================================
+       HEADER / NAV
+       ============================================================ -->
     <header class="site-header" role="banner">
       <nav class="nav-primary" aria-label="Primary navigation">
-        <a href="./" class="nav-logo" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="160" height="54" />
+        <a class="nav-logo" href="./" aria-label="Phlix home">
+          <img src="img/logo.svg" alt="Phlix" width="120" height="40" />
         </a>
+
         <button
           class="nav-toggle"
           aria-label="Toggle navigation"
           aria-expanded="false"
           aria-controls="nav-menu"
         >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="square"
-            aria-hidden="true"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
+          <span></span><span></span><span></span>
         </button>
+
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./" aria-current="page">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./" aria-current="page" data-emphasis="default">The Workshop</a></li>
+          <li><a href="features.html" data-emphasis="primary">Instruments</a></li>
+          <li><a href="clients.html" data-emphasis="default">Engineering Gallery</a></li>
+          <li><a href="download.html" data-emphasis="primary">Commission an Engine</a></li>
+          <li><a href="hub.html" data-emphasis="default">The Relay Station</a></li>
+          <li><a href="about.html" data-emphasis="muted">The Logbook</a></li>
         </ul>
       </nav>
     </header>
 
-    <!-- Main content -->
+    <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
     <main id="main-content" tabindex="-1">
-      <!-- Hero -->
-      <section class="hero" aria-labelledby="hero-heading">
-        <!-- Boiler heat gradient backdrop with gear decorations -->
-        <div class="hero-backdrop" aria-hidden="true">
-          <svg
-            class="hero-gears"
-            viewBox="0 0 1200 700"
-            preserveAspectRatio="xMidYMid slice"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient id="hero-copper-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#B5651D" />
-                <stop offset="40%" stop-color="#7B4F2E" />
-                <stop offset="100%" stop-color="#1A1208" />
-              </linearGradient>
-            </defs>
-            <!-- Large gear left -->
-            <g transform="translate(150, 400)" opacity="0.08">
-              <circle cx="0" cy="0" r="180" fill="none" stroke="#C9A84C" stroke-width="12" />
-              <g fill="#C9A84C">
-                <rect x="-18" y="-215" width="36" height="50" rx="4" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(45)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(90)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(135)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(180)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(225)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(270)" />
-                <rect x="-18" y="-215" width="36" height="50" rx="4" transform="rotate(315)" />
-              </g>
-              <circle cx="0" cy="0" r="120" fill="#1A1208" />
-            </g>
-            <!-- Large gear right -->
-            <g transform="translate(1050, 200)" opacity="0.06">
-              <circle cx="0" cy="0" r="220" fill="none" stroke="#C9A84C" stroke-width="14" />
-              <g fill="#C9A84C">
-                <rect x="-20" y="-260" width="40" height="60" rx="5" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(30)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(60)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(90)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(120)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(150)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(180)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(210)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(240)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(270)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(300)" />
-                <rect x="-20" y="-260" width="40" height="60" rx="5" transform="rotate(330)" />
-              </g>
-              <circle cx="0" cy="0" r="150" fill="#1A1208" />
-            </g>
-            <!-- Small gear center-right -->
-            <g transform="translate(900, 550)" opacity="0.07">
-              <circle cx="0" cy="0" r="100" fill="none" stroke="#B5651D" stroke-width="10" />
-              <g fill="#B5651D">
-                <rect x="-12" y="-120" width="24" height="30" rx="3" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(45)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(90)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(135)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(180)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(225)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(270)" />
-                <rect x="-12" y="-120" width="24" height="30" rx="3" transform="rotate(315)" />
-              </g>
-              <circle cx="0" cy="0" r="70" fill="#1A1208" />
-            </g>
-            <!-- Copper pipe cross details -->
-            <line
-              x1="0"
-              y1="350"
-              x2="1200"
-              y2="350"
-              stroke="#7B4F2E"
-              stroke-width="3"
-              opacity="0.2"
-            />
-            <line
-              x1="0"
-              y1="650"
-              x2="1200"
-              y2="650"
-              stroke="#7B4F2E"
-              stroke-width="3"
-              opacity="0.15"
-            />
-            <!-- Porthole circles -->
-            <circle
-              cx="80"
-              cy="400"
-              r="50"
-              fill="none"
-              stroke="#3D2B1A"
-              stroke-width="3"
-              opacity="0.3"
-            />
-            <circle
-              cx="1120"
-              cy="300"
-              r="60"
-              fill="none"
-              stroke="#3D2B1A"
-              stroke-width="3"
-              opacity="0.25"
-            />
-            <!-- Gas lamp glow -->
-            <ellipse cx="600" cy="300" rx="400" ry="250" fill="rgba(212,134,10,0.08)" />
-          </svg>
+      <!-- ── SECTION 1: boiler-rise (hero) ───────────────────────── -->
+      <section class="hero" id="boiler-rise" aria-labelledby="hero-headline">
+        <!-- Hero diorama layers for parallax effect -->
+        <div class="hero-diorama" aria-hidden="true">
+          <div class="hero-diorama__layer hero-diorama__layer--bg"></div>
+          <div class="hero-diorama__layer hero-diorama__layer--gears">
+            <div class="hero-diorama__gear hero-diorama__gear--sm"></div>
+            <div class="hero-diorama__gear hero-diorama__gear--lg"></div>
+            <div class="hero-diorama__gear hero-diorama__gear--xl"></div>
+          </div>
         </div>
 
-        <div class="hero-inner">
-          <p class="hero-eyebrow">Self-hosted media server</p>
-          <h1 id="hero-heading" class="hero-title">Your media. Your library. Your Phlix.</h1>
-          <p class="hero-sub">
-            An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop,
-            phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows
-            you anywhere.
-          </p>
-          <div class="hero-cta">
-            <a href="download.html" class="btn btn-primary btn-large">Get Phlix</a>
-            <a
-              href="https://detain.github.io/phlix-docs"
-              class="btn btn-secondary btn-large"
-              rel="noopener noreferrer"
-              >Read the docs</a
-            >
+        <!-- Mahogany plaque overlay with content -->
+        <div class="hero-plaque">
+          <div class="hero__inner">
+            <p class="hero__eyebrow">Precision engineering meets collection mastery</p>
+            <h1 class="hero__headline" id="hero-headline">
+              Your Collection,<br />Masterfully Engineered.
+            </h1>
+            <p class="hero__subheadline">
+              An Edwardian inventor's workshop brought to the streaming age — a media engine built
+              with the precision of a master watchmaker, the ambition of an airship engineer, and
+              the soul of an eternal explorer.
+            </p>
+            <div class="hero__actions">
+              <a href="download.html" class="btn btn-primary btn-lg">Commission Your Engine</a>
+              <a href="features.html" class="btn btn-secondary btn-lg">Tour the Workshop</a>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Pitch -->
-      <section class="pitch" aria-labelledby="pitch-heading">
-        <div class="pitch-inner">
-          <h2 id="pitch-heading">Why Phlix?</h2>
-          <ul class="pitch-bullets" role="list">
-            <li>100% self-hostable — your library never leaves your hardware unless you say so</li>
-            <li>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</li>
-            <li>
-              Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync
-            </li>
-            <li>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</li>
-            <li>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</li>
-            <li>Live TV with DVR + EPG guide integration</li>
-            <li>Plugin system with a versioned manifest contract</li>
-          </ul>
+      <!-- ── SECTION 1b: visitor_paths fork ───────────────────────── -->
+      <section class="visitor-paths" id="visitor-fork" aria-labelledby="visitor-fork-title">
+        <p class="visitor-paths__prompt" id="visitor-fork-title">What drew you to the workshop?</p>
+        <div class="visitor-paths__options">
+          <a href="features.html#library" class="btn btn-secondary">Collector</a>
+          <a href="features.html#syncplay" class="btn btn-secondary">Synchronizer</a>
+          <a href="plugins.html" class="btn btn-secondary">Engineer</a>
         </div>
       </section>
 
-      <!-- Features overview -->
-      <section class="features-overview" aria-labelledby="features-overview-heading">
-        <div class="features-overview-inner">
-          <h2 id="features-overview-heading">Everything your library needs</h2>
-          <div class="feature-cards">
-            <!-- Library -->
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
+      <!-- ── SECTION 2: the-apparatus (feature_casting) ──────────── -->
+      <section id="the-apparatus" aria-labelledby="apparatus-title">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" id="apparatus-title">The Instruments</h2>
+          </div>
+
+          <!-- Hero features (library + syncplay) -->
+          <div class="grid-2" data-tip style="margin-bottom: var(--space-12)">
+            <article class="feature-card" style="border-left: 3px solid var(--color-primary)">
+              <div class="feature-card__icon" aria-hidden="true">
                 <svg
-                  width="22"
-                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="1.5"
                   stroke-linecap="square"
                 >
-                  <path d="M4 6h16M4 12h16M4 18h12" />
-                  <circle cx="8" cy="6" r="1.5" fill="currentColor" stroke="none" />
+                  <path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14l-8-4-8 4Z" />
                 </svg>
               </div>
-              <h3>Library that organizes itself</h3>
-              <p>
+              <h3 class="feature-card__title">Every reel catalogued in one mechanical ledger</h3>
+              <p class="feature-card__body">
                 Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
                 hydrates metadata_json. Add a file, see it appear.
               </p>
             </article>
-            <!-- SyncPlay -->
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
+
+            <article class="feature-card" style="border-left: 3px solid var(--color-primary)">
+              <div class="feature-card__icon" aria-hidden="true">
                 <svg
-                  width="22"
-                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -302,213 +189,429 @@
                   stroke-linecap="square"
                 >
                   <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                  <path d="M2 12h4M18 12h4M12 2v4M12 18v4" opacity="0.5" />
+                  <polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <h3>SyncPlay across the room or across the country</h3>
-              <p>
-                Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
-                Play, pause, seek — everyone moves together.
+              <h3 class="feature-card__title">Time-locked across the room or across the globe</h3>
+              <p class="feature-card__body">
+                NTP-weighted precision keeps every device locked to the same frame. Play, pause,
+                seek — everyone moves together.
               </p>
             </article>
-            <!-- Transcode -->
+          </div>
+
+          <!-- Support features grid -->
+          <div class="content-grid">
             <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
+              <div class="feature-card__icon" aria-hidden="true">
                 <svg
-                  width="22"
-                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="1.5"
                   stroke-linecap="square"
                 >
-                  <path
-                    d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
-                  />
-                  <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
+                  <path d="M12 2L2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </div>
-              <h3>Transcoding that picks the right quality</h3>
-              <p>
+              <h3 class="feature-card__title">Transcoding that picks the right quality</h3>
+              <p class="feature-card__body">
                 QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28
                 libx264/libx265 with HLS master and variant playlists.
               </p>
             </article>
-            <!-- Auth -->
+
             <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
+              <div class="feature-card__icon" aria-hidden="true">
                 <svg
-                  width="22"
-                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="1.5"
                   stroke-linecap="square"
                 >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path d="M12 8v4M12 16h.01" />
+                  <rect x="3" y="11" width="18" height="11" rx="1" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
               </div>
-              <h3>Multi-user, multi-profile, parental controls</h3>
-              <p>
+              <h3 class="feature-card__title">Multi-user, multi-profile, parental controls</h3>
+              <p class="feature-card__body">
                 JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user,
                 4- or 6-digit PINs, rating filter from G to NC-17.
               </p>
             </article>
-            <!-- Live TV -->
+
             <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
+              <div class="feature-card__icon" aria-hidden="true">
                 <svg
-                  width="22"
-                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="1.5"
                   stroke-linecap="square"
                 >
-                  <rect x="2" y="7" width="20" height="14" rx="0" />
-                  <path d="M16 2l-4 5-4-5" />
-                  <path d="M10 12h4" opacity="0.6" />
+                  <path d="M12 2a3 3 0 0 1 3 3v1a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z" />
+                  <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                  <line x1="12" y1="19" x2="12" y2="22" />
                 </svg>
               </div>
-              <h3>Live TV with DVR + EPG</h3>
-              <p>
+              <h3 class="feature-card__title">
+                Phlix Hub — reach any of your servers from anywhere
+              </h3>
+              <p class="feature-card__body">
+                Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
+                hub.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="square"
+                >
+                  <rect x="2" y="3" width="20" height="14" rx="1" />
+                  <path d="M8 21h8M12 17v4" />
+                </svg>
+              </div>
+              <h3 class="feature-card__title">Live TV with DVR + EPG</h3>
+              <p class="feature-card__body">
                 ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide
                 that doesn't make you click through menus.
               </p>
             </article>
-            <!-- DLNA -->
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="square"
-                >
-                  <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9" />
-                  <path d="M7.8 16.2c3-3 7.5-3.5 10.5-1.5" />
-                  <path d="M10.5 12.5c3.5-3.5 9-3.5 12.5 0" />
-                  <path
-                    d="M14 7.5c3 0 5.5 2.5 5.5 5.5S17 18.5 14 18.5 8.5 16 8.5 13 11 7.5 14 7.5z"
-                  />
-                </svg>
-              </div>
-              <h3>DLNA for the devices you already own</h3>
-              <p>
-                ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't
-                need a new app.
-              </p>
-            </article>
-            <!-- Plugins -->
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="square"
-                >
-                  <circle cx="12" cy="12" r="3" />
-                  <path
-                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
-                  />
-                </svg>
-              </div>
-              <h3>Plugin system with a real contract</h3>
-              <p>
-                LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
-                phlix-plugin-example.
-              </p>
-            </article>
           </div>
-          <p class="features-more"><a href="features.html">See all features →</a></p>
+
+          <p style="text-align: center; margin-top: var(--space-8)">
+            <a href="features.html" class="btn btn-link">View all instruments →</a>
+          </p>
         </div>
       </section>
 
-      <!-- CTA banner -->
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">Fire up the boiler. Adventure awaits.</h2>
-          <a href="download.html" class="btn btn-primary btn-large">Download Phlix</a>
+      <hr class="copper-divider" style="margin: 0" />
+
+      <!-- ── SECTION 3: why-this-workshop (story) ─────────────────── -->
+      <section id="why-this-workshop" aria-labelledby="story-title">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" id="story-title">What sets this apparatus apart?</h2>
+          </div>
+
+          <div class="story-block">
+            <p>
+              In the autumn of 1887, Professor Aldous Pemberton-Hale sealed himself inside his
+              copper-clad workshop beneath the gas lamps of Whitechapel and did not emerge until
+              spring — having assembled, from cog and conduit, pipe and parchment, the first
+              automated moving-picture archive the world had never seen. His machine hummed and
+              hissed, sorting reels by steam-driven index arms, projecting them through porthole
+              lenses onto mahogany screens.
+            </p>
+            <p style="margin-top: var(--space-4)">
+              Phlix carries that same obsessive craftsmanship into the modern home: a media server
+              built with the precision of a master watchmaker, the ambition of an airship engineer,
+              and the soul of an eternal explorer.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="copper-divider" style="margin: 0" />
+
+      <!-- ── SECTION 4: proof-of-craft (proof_strategy) ─────────────── -->
+      <section id="proof-of-craft" aria-labelledby="proof-title">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" id="proof-title">Proof of Craft</h2>
+          </div>
+
+          <div class="grid-3" style="margin-bottom: var(--space-8)">
+            <!-- Spec numbers -->
+            <div class="proof-placard">
+              <span class="proof-placard__label">Engineering Specifications</span>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  margin: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: var(--space-2);
+                "
+              >
+                <li
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-family: var(--font-body);
+                    font-size: var(--text-sm);
+                    color: var(--color-text);
+                  "
+                >
+                  <span>Native client platforms</span>
+                  <strong style="font-family: var(--font-number); color: var(--color-secondary)"
+                    >5</strong
+                  >
+                </li>
+                <li
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-family: var(--font-body);
+                    font-size: var(--text-sm);
+                    color: var(--color-text);
+                  "
+                >
+                  <span>SyncPlay</span>
+                  <strong style="font-family: var(--font-number); color: var(--color-secondary)"
+                    >NTP-precise</strong
+                  >
+                </li>
+                <li
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-family: var(--font-body);
+                    font-size: var(--text-sm);
+                    color: var(--color-text);
+                  "
+                >
+                  <span>Transcoding</span>
+                  <strong style="font-family: var(--font-number); color: var(--color-secondary)"
+                    >HLS + FFmpeg</strong
+                  >
+                </li>
+                <li
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-family: var(--font-body);
+                    font-size: var(--text-sm);
+                    color: var(--color-text);
+                  "
+                >
+                  <span>Plugin contract</span>
+                  <strong style="font-family: var(--font-number); color: var(--color-secondary)"
+                    >Versioned</strong
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <!-- GitHub link -->
+            <div class="proof-placard">
+              <span class="proof-placard__label">From the Engineering Workshop</span>
+              <p class="proof-placard__value" style="margin: 0">
+                <a
+                  href="https://github.com/detain/phlix-server"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  github.com/detain/phlix-server
+                </a>
+              </p>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: var(--text-xs);
+                  color: var(--color-on-dark-muted);
+                  margin: 0;
+                  margin-top: var(--space-2);
+                "
+              >
+                PHP 8.3+ · Workerman 5 async · MPL-2.0
+              </p>
+            </div>
+
+            <!-- Quote from docs -->
+            <div class="proof-placard">
+              <span class="proof-placard__label">From the Archives</span>
+              <blockquote
+                style="
+                  border: none;
+                  padding: 0;
+                  margin: 0;
+                  font-family: var(--font-body);
+                  font-size: var(--text-sm);
+                  font-style: italic;
+                  color: var(--color-text);
+                  opacity: 0.9;
+                "
+              >
+                "A media server built with the precision of a master watchmaker."
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="copper-divider" style="margin: 0" />
+
+      <!-- ── SECTION 5: commission-now (conversion_funnel) ────────── -->
+      <section id="commission-now" aria-labelledby="commission-title">
+        <div class="container">
+          <h2 class="section-title" id="commission-title">Ready to calibrate?</h2>
+          <p
+            style="
+              font-family: var(--font-body);
+              font-size: var(--text-lg);
+              color: var(--color-on-dark-muted);
+              margin-bottom: var(--space-8);
+              max-width: 560px;
+              margin-inline: auto;
+            "
+          >
+            Fire up the engine. One command on a fresh Ubuntu or Debian host, and the workshop
+            awakens.
+          </p>
+
+          <div
+            class="code-block"
+            style="max-width: 640px; margin-inline: auto; margin-bottom: var(--space-6)"
+          >
+            <code id="install-cmd"
+              >curl -fsSL
+              https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo
+              bash</code
+            >
+          </div>
+
+          <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap">
+            <a href="download.html" class="btn btn-primary btn-lg">Commission Your Engine</a>
+            <a href="clients.html" class="btn btn-secondary btn-lg">Choose Your Gallery Wall</a>
+            <a href="download.html#server" class="btn btn-secondary"
+              >Fire Up the Boiler (install)</a
+            >
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- Footer -->
+    <!-- ============================================================
+       FOOTER
+       ============================================================ -->
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+      <!-- Utility row: intensity toggle + reduce motion note -->
+      <div class="footer-utility">
+        <div style="display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap">
+          <label class="intensity-toggle" for="intensity-toggle" aria-label="Workshop lights down">
+            <input type="checkbox" id="intensity-toggle" role="switch" aria-pressed="false" />
+            <span class="intensity-toggle__icon" aria-hidden="true">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="square"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <path
+                  d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                />
+              </svg>
+            </span>
+            <span>Workshop lights down</span>
+          </label>
+          <span>| Reduced motion: respected</span>
+        </div>
+      </div>
+
+      <div class="container">
+        <p class="footer-tagline">Crafted for collectors, engineers, and explorers.</p>
+
+        <!-- Full directory footer nav -->
         <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-col">
-            <h3>Product</h3>
-            <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h3>Developers</h3>
-            <ul role="list">
-              <li>
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
-                  >API reference</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h3>Project</h3>
-            <ul role="list">
-              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
-                  >License (MPL-2.0)</a
-                >
-              </li>
-            </ul>
+          <div class="footer-nav__columns">
+            <div class="footer-nav__column">
+              <h3>Product</h3>
+              <ul>
+                <li><a href="features.html">Instruments</a></li>
+                <li><a href="clients.html">Engineering Gallery</a></li>
+                <li><a href="download.html">Commission an Engine</a></li>
+                <li><a href="plugins.html">Plugins</a></li>
+              </ul>
+            </div>
+            <div class="footer-nav__column">
+              <h3>Developers</h3>
+              <ul>
+                <li>
+                  <a
+                    href="https://detain.github.io/phlix-docs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Documentation</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/detain/phlix-server"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Server source</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/detain/phlix-plugin-example"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Plugin example</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://detain.github.io/phlix-docs/reference/api.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >API reference</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer-nav__column">
+              <h3>Project</h3>
+              <ul>
+                <li>
+                  <a href="https://github.com/detain" target="_blank" rel="noopener noreferrer"
+                    >GitHub org</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/detain/phlix-server/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Issues</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/detain/phlix-hub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Hub</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >License (MPL-2.0)</a
+                  >
+                </li>
+              </ul>
+            </div>
           </div>
         </nav>
+
         <p class="footer-copy">
-          © 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins and
-          clients are MIT.
+          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0. The shared libraries, plugins,
+          and clients are MIT.
         </p>
       </div>
     </footer>

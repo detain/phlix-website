@@ -382,6 +382,157 @@ section + section {
   gap: var(--space-6);
 }
 
+/* ── Visitor Paths (3-path selector) ─────────────────────────────────────── */
+.section-visitor-paths {
+  padding-block: var(--space-16);
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.visitor-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.visitor-path-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
+}
+.visitor-path-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-gold-glow);
+  transform: translateY(-4px);
+  color: var(--color-text);
+}
+.visitor-path-card__icon {
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+.visitor-path-card__icon svg {
+  width: 48px;
+  height: 48px;
+}
+.visitor-path-card__title {
+  font-size: 1.125rem;
+  font-weight: var(--fw-black);
+  font-family: var(--font-headline);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+.visitor-path-card__desc {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(245, 237, 216, 0.75);
+  max-width: 32ch;
+  margin-bottom: var(--space-4);
+  flex: 1;
+}
+.visitor-path-card__link {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+.visitor-path-card--heritage:hover {
+  border-color: var(--color-primary);
+}
+.visitor-path-card--collector:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-violet-glow);
+}
+.visitor-path-card--architect:hover {
+  border-color: var(--color-tertiary);
+  box-shadow: var(--shadow-tribal-glow);
+}
+
+@media (width <= 768px) {
+  .visitor-paths-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Persona Vignettes ────────────────────────────────────────────────────── */
+.section-persona-vignettes {
+  padding-block: var(--space-16);
+}
+
+.persona-vignettes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.persona-vignette {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+.persona-vignette::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-kente-horizon);
+}
+.persona-vignette__role {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+.persona-vignette__name {
+  font-size: 1.125rem;
+  font-weight: var(--fw-black);
+  font-family: var(--font-headline);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+.persona-vignette__story {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: rgba(245, 237, 216, 0.75);
+  max-width: 40ch;
+}
+.persona-vignette__glyph {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+@media (width <= 768px) {
+  .persona-vignettes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── CTA banner ───────────────────────────────────────────────────────────── */
 .cta-banner {
   background: var(--gradient-kente-horizon);
@@ -582,11 +733,118 @@ section + section {
   color: rgba(245, 237, 216, 0.75);
 }
 
-/*
+/* ── Oracle-Fire FAQ Frame (orisha-counsel) ────────────────────────────────── */
+.faq-oracle-section {
+  background: var(--color-bg);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+.faq-oracle-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-kente-horizon);
+}
+.faq-oracle-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 5%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(102, 0, 204, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.faq-oracle-section .container {
+  position: relative;
+  z-index: 1;
+}
+.faq-oracle-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+.faq-oracle-header__glyph {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  color: var(--color-primary);
+  opacity: 0.9;
+}
+.faq-oracle-header__text h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: var(--fw-black);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+.faq-oracle-header__text p {
+  font-size: 0.9375rem;
+  color: rgba(245, 237, 216, 0.6);
+  font-style: italic;
+}
+.faq-oracle-list {
+  display: grid;
+  gap: var(--space-4);
+}
+.faq-oracle-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  position: relative;
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+.faq-oracle-item:hover {
+  border-left-color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
+}
+.faq-oracle-item__q {
+  font-size: 1rem;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-ui);
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.faq-oracle-item__q::before {
+  content: 'Q.';
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-secondary);
+  line-height: 1;
+}
+.faq-oracle-item__a {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: rgba(245, 237, 216, 0.8);
+  padding-left: var(--space-8);
+}
+.faq-oracle-item__a::before {
+  content: 'A.';
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-neutral);
+  margin-right: var(--space-2);
+}
+
+/* ============================================================================
  * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+ * ============================================================================ */
+
 /* ── Utility ───────────────────────────────────────────────────────────────── */
-.sr-only {
+.sr-only,
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -641,17 +899,17 @@ section + section {
 }
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-6);
 }
 .grid-3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-6);
 }
 @media (width <= 768px) {
   .grid-2,
   .grid-3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }

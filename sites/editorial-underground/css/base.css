@@ -1,9 +1,103 @@
-/* base.css — Editorial Underground brand kit tokens
-   Inked from brand kit design_tokens + color/spacing/radius/shadow blocks
-   Xerox Black (#0A0A08) is the canvas. Electric Yellow (#FFE500) is the signal.
-   stylelint-disable color-hex-length, color-function-alias-notation, value-keyword-case
-*/
+/* ==========================================================================
+   BASE.CSS — Editorial Underground
+   Design tokens, reset, element defaults, focus ring, reduced-motion
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   FONT FACES
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Anton';
+  src: url('../../assets/fonts/anton-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('../../assets/fonts/oswald-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../../assets/fonts/space-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../../assets/fonts/space-mono-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --color-primary: #ffe500;
+  --color-secondary: #f06;
+  --color-tertiary: #fff;
+  --color-bg: #0a0a08;
+  --color-surface: #111110;
+  --color-surface-alt: #181816;
+  --color-text: #f5f5f0;
+  --color-neutral: #555550;
+  --color-success: #0c4;
+  --color-warning: #ffe500;
+  --color-error: #f06;
+  --color-info: #aaa;
+  --color-border: #2a2a28;
+  --color-focus: #ffe500;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius — ZERO everywhere except xl */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 2px;
+  --radius-pill: 0px;
+
+  /* Typography roles */
+  --font-headline: 'Anton', impact, haettenschweiler, sans-serif;
+  --font-display: 'Oswald', 'Franklin Gothic Medium', impact, sans-serif;
+  --font-body: 'Space Mono', 'Courier New', courier, monospace;
+  --font-ui: 'Space Mono', 'Courier New', monospace;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  /* Shadows — offset-only, pure black, no blur */
+  --shadow-sm: 2px 2px 0px rgb(0, 0, 0, 1);
+  --shadow-md: 4px 4px 0px rgb(0, 0, 0, 1);
+  --shadow-lg: 8px 8px 0px rgb(0, 0, 0, 1);
+  --shadow-yellow-cut: 3px 3px 0px #ffe500;
+  --shadow-magenta-alarm: 3px 3px 0px #f06;
+
+  /* Layout */
+  --max-width: 1400px;
+}
+
+/* --------------------------------------------------------------------------
+   MODERN RESET
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -13,14 +107,19 @@
 }
 
 html {
-  /* hard cuts — no smooth scroll */
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
   line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 img,
@@ -40,12 +139,26 @@ select {
 }
 
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
@@ -54,182 +167,141 @@ ol[role='list'] {
   list-style: none;
 }
 
+/* --------------------------------------------------------------------------
+   BASE ELEMENT DEFAULTS
+   -------------------------------------------------------------------------- */
 a {
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
-:root {
-  /* ── Color tokens ─────────────────────────────────────── */
-  /* stylelint-disable-next-line color-hex-length */
-  --color-primary: #ffe500;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-secondary: #ff0066;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-tertiary: #ffffff;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-bg: #0a0a08;
-  --color-surface: #111110;
-  --color-surface-alt: #181816;
-  --color-text: #f5f5f0;
-  --color-neutral: #555550;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-success: #00cc44;
-  --color-warning: #ffe500;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-error: #ff0066;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-info: #aaaaaa;
-  --color-border: #2a2a28;
-  --color-focus: #ffe500;
-  /* stylelint-disable-next-line color-hex-length */
-  --color-shadow: #000000;
-
-  /* ── Spacing tokens (px steps only) ─────────────────── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* ── Radius tokens (ZERO everywhere — hard corners only) ── */
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 2px;
-  --radius-pill: 0px;
-
-  /* ── Font tokens ──────────────────────────────────────── */
-  --font-headline: 'Anton', 'Impact', 'Haettenschweiler', sans-serif;
-  --font-display: 'Oswald', 'Impact', 'Franklin Gothic Medium', sans-serif;
-  --font-body: 'Space Mono', 'Courier New', 'Courier', monospace;
-  --font-ui: 'Space Mono', 'Courier New', monospace;
-  --font-mono: 'Space Mono', 'Courier New', 'Courier', monospace;
-  --font-number: 'Anton', 'Impact', sans-serif;
-
-  /* ── Shadow tokens (offset-only, pure black, no blur) ── */
-  --shadow-sm: 2px 2px 0px rgb(0, 0, 0);
-  --shadow-md: 4px 4px 0px rgb(0, 0, 0);
-  --shadow-lg: 8px 8px 0px rgb(0, 0, 0);
-  --shadow-yellow-cut: 3px 3px 0px #ffe500;
-  /* stylelint-disable-next-line color-hex-length */
-  --shadow-magenta-alarm: 3px 3px 0px #ff0066;
-
-  /* ── Borders ──────────────────────────────────────────── */
-  --border-width: 2px;
-  --border-style: solid;
-  --border-color: #2a2a28;
-
-  /* ── Layout ───────────────────────────────────────────── */
-  --max-width: 1400px;
-  --container-padding: var(--space-6);
-  --tracking-headline: 0em;
-  --lh-headline: 0.92;
-  --tracking-display: -0.01em;
-  --lh-display: 0.88;
-  --tracking-body: -0.01em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.02em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0.02em;
-  --lh-mono: 1.5;
-  --tracking-number: 0em;
-  --lh-number: 1;
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-/* ── Focus ring (2px electric-yellow, direct contact, 0ms) ── */
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 0;
+strong,
+b {
+  font-weight: 700;
 }
 
-/* ── Skip link ──────────────────────────────────────────── */
+em,
+i {
+  font-style: italic;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface);
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--color-border);
+}
+
+pre {
+  font-family: var(--font-mono);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: var(--space-4);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--space-4);
+  font-style: italic;
+  color: var(--color-neutral);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+/* --------------------------------------------------------------------------
+   SKIP LINK
+   -------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
-  top: -999px;
+  top: -100%;
   left: var(--space-4);
+  z-index: 9999;
   background: var(--color-primary);
   color: var(--color-bg);
   padding: var(--space-2) var(--space-4);
   font-family: var(--font-ui);
   font-weight: 700;
-  z-index: 9999;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 2px solid var(--color-bg);
 }
 
 .skip-link:focus {
   top: var(--space-4);
+  outline: 2px solid var(--color-bg);
+  outline-offset: 2px;
 }
 
-/* ── Selection ─────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   FOCUS VISIBLE — direct contact, instant
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 0;
+  /* Combined with element's own box-shadow if present — no shadow gap */
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   SELECTION
+   -------------------------------------------------------------------------- */
 ::selection {
   background: var(--color-primary);
   color: var(--color-bg);
 }
 
-/* ── Scrollbar ─────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   SCROLLBAR — stencil style
+   -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-neutral);
+  background: var(--color-border);
+  border: 2px solid var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+  background: var(--color-neutral);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Reduced motion — instant cuts via 0ms transitions ── */
+/* --------------------------------------------------------------------------
+   REDUCED MOTION
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
   }
 }
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Anton';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/anton-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Oswald';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/oswald-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

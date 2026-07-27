@@ -119,3 +119,44 @@ Motion is kinetic, staccato, and punchy — decisive like a thrown can or a stam
 4. **Pride Wall** (06-01..06-20) — Rainbow spray-arc gradient; stencil fists; "Everyone Gets a Wall"
 
 Override token blocks (commented) available in `theme.css` for future activation.
+
+---
+
+## Experience Fields (2026 regen)
+
+### Navigation Model
+Kit nav: 6 links (The Wall, New Pieces, Spray Cans, Claim Your Space, Crew Hub, The Crew) with CSS emphasis classes. Plugins and Docs demoted to footer-only (`.nav-demoted`). Logo link: easter egg logo-clicks:7.
+
+### Visitor Paths
+On homepage: 3-path crew fork near the hero — "I'm a collector", "We sync watches", "I like to tinker". Each links to relevant features or plugins.
+
+### Homepage Sections (5 max)
+1. **the-wall** — Full-bleed hero with spray-arc SVG motif, kit headline copy
+2. **tagged-pieces** — Hero features (Library, SyncPlay) + support grid (auth, transcode, hub, livetv) + footnote tags
+3. **why-paint** — 7-point pitch list with diamond bullet icons
+4. **proof-tag** — Wall stats placard + GitHub row + quote from license
+5. **claim-yours** — CTA banner with 3-rung ladder
+
+### Mascot: Cap
+Spray-can character fixed bottom-right (desktop) or in-flow above footer (mobile). Page-specific tips, idle shake animation (5-8s interval), dismiss-to-localStorage. Accessible `aria-hidden` when not active.
+
+### Easter Eggs
+- **logo-clicks:7** — Spray burst overlay + page filter splatter + Cap tip reward
+- **typed-word:crew** — `spray-cursor` CSS cursor + tagline glow + Cap reaction
+- **scroll-past-footer:3x** — Footer "thanks for scrolling, crew" message
+
+### Intensity Toggle
+Footer utility row: "Volume: LOUD" / "chill" button. Persists to `localStorage`. Sets `data-intensity` on `<html>` and updates motion-state indicator.
+
+### Seasonal Activation
+JS date-matches 4 variants (winter 12-01..01-15, summer 06-21..09-01, culture 02-01..02-28, pride 06-01..06-20). Sets `data-season` on `<html>`. CSS variable overrides in `theme.css`.
+
+### 404 Page
+wrong-wall gag: Cap standing deflated in front of blank concrete wall. Recovery links: Back to Wall, Browse New Pieces, Claim Your Space.
+
+### Typography
+- Chrome fill on hero headlines (background-clip text gradient)
+- Anton ALL CAPS headlines
+- Barlow Condensed body at 55-65ch max-width
+- Hard-shadow drop-shadow on all display type
+

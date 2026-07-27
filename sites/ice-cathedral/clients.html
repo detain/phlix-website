@@ -1,39 +1,47 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Clients — Phlix</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Five windows to the cathedral — native clients for Roku, Samsung Tizen, Windows, and mobile, plus any DLNA device. Each a different aperture, one cold light."
     />
+    <meta
+      name="keywords"
+      content="phlix clients, roku app, samsung tv app, windows media server, dlna, mobile app"
+    />
+    <meta name="theme-color" content="#A8D8FF" />
+
+    <title>Windows &amp; Apertures — Phlix</title>
+
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/ice-cathedral/clients.html"
     />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
 
-    <meta property="og:title" content="Clients — Phlix" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/ice-cathedral/clients.html"
+    />
+    <meta property="og:title" content="Windows &amp; Apertures — Phlix" />
     <meta
       property="og:description"
-      content="Native apps for every screen you own — Roku, Samsung Tizen, Windows, Mobile, and any DLNA device."
+      content="Five windows to the cathedral — native clients for Roku, Samsung Tizen, Windows, and mobile, plus any DLNA device."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/ice-cathedral/img/og.png"
     />
-    <meta
-      property="og:url"
-      content="https://detain.github.io/phlix-website/ice-cathedral/clients.html"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Clients — Phlix" />
+    <meta name="twitter:title" content="Windows &amp; Apertures — Phlix" />
     <meta
       name="twitter:description"
-      content="Native apps for every screen you own — Roku, Samsung Tizen, Windows, Mobile, and any DLNA device."
+      content="Five windows to the cathedral — native clients for Roku, Samsung Tizen, Windows, and mobile, plus any DLNA device."
     />
     <meta
       name="twitter:image"
@@ -41,74 +49,226 @@
     />
     <meta name="twitter:creator" content="@detain" />
 
-    <meta name="theme-color" content="#A8D8FF" />
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
-    <link rel="manifest" href="manifest.webmanifest" />
+    <style>
+      /* ── Aperture gallery card shapes ──────────────────────────────────── */
+      .aperture-card {
+        position: relative;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        padding: var(--space-8);
+        transition:
+          border-color 300ms ease-in-out,
+          box-shadow 300ms ease-in-out;
+        margin-top: var(--space-6);
+      }
+
+      .aperture-card:hover {
+        border-color: var(--color-primary);
+        box-shadow: var(--shadow-crystal);
+      }
+
+      /* Each client = a different aperture geometry */
+      .aperture-card--roku {
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 92% 100%, 8% 100%, 0 85%);
+        padding-top: var(--space-10);
+      }
+
+      .aperture-card--tizen {
+        clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 88%);
+        padding-top: var(--space-12);
+      }
+
+      .aperture-card--windows {
+        clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+      }
+
+      .aperture-card--mobile {
+        clip-path: polygon(8% 0, 92% 0, 100% 4%, 100% 96%, 92% 100%, 8% 100%, 0 96%, 0 4%);
+        max-width: 240px;
+        margin-inline: auto;
+      }
+
+      .aperture-card--dlna {
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        padding: var(--space-10) var(--space-8);
+        text-align: center;
+      }
+
+      .aperture-card__platform {
+        font-family: var(--font-display);
+        font-weight: 100;
+        font-size: 0.625rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        margin-bottom: var(--space-4);
+      }
+
+      .aperture-card__name {
+        font-family: var(--font-headline);
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        margin-bottom: var(--space-2);
+      }
+
+      .aperture-card__tagline {
+        font-family: var(--font-ui);
+        font-size: 0.8125rem;
+        font-weight: 300;
+        color: rgba(238, 245, 255, 0.6);
+        margin-bottom: var(--space-4);
+      }
+
+      .aperture-card__highlights {
+        list-style: none;
+        margin-bottom: var(--space-6);
+      }
+
+      .aperture-card__highlights li {
+        font-family: var(--font-body);
+        font-size: 0.8125rem;
+        color: rgba(238, 245, 255, 0.75);
+        padding: var(--space-1) 0;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .aperture-card__highlights li:last-child {
+        border-bottom: none;
+      }
+
+      /* Gradient accent line at top of each card */
+      .aperture-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+        opacity: 0.5;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .aperture-card {
+          clip-path: none;
+          transition: none;
+        }
+      }
+    </style>
 
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body class="page-clients">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
+    <aside class="seasonal-banner" aria-label="Seasonal note">
+      <div class="container">
+        <p>The season has changed. The ice cathedral shifts.</p>
+      </div>
+    </aside>
+
     <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home"
-          ><img src="img/logo.svg" alt="Phlix logo" width="120" height="32"
-        /></a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            aria-hidden="true"
+      <div class="container">
+        <div class="site-header__inner">
+          <a class="nav-logo" href="./" aria-label="Phlix home">
+            <svg class="nav-logo__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <path
+                d="M14 2 L26 8 L26 20 L14 26 L2 20 L2 8 Z"
+                stroke="#A8D8FF"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <path
+                d="M14 7 L14 21 M7 10.5 L21 17.5 M7 17.5 L21 10.5"
+                stroke="#A8D8FF"
+                stroke-width="0.75"
+                opacity="0.6"
+              />
+            </svg>
+            <span class="nav-logo__wordmark">Phlix</span>
+          </a>
+          <button
+            class="nav-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="nav-menu"
           >
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
-        </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html" aria-current="page">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
+            <span class="nav-toggle__bar"></span>
+            <span class="nav-toggle__bar"></span>
+            <span class="nav-toggle__bar"></span>
+          </button>
+          <nav class="nav-primary" aria-label="Primary navigation">
+            <ul class="nav-menu" id="nav-menu" role="list">
+              <li class="nav-menu__item">
+                <a class="nav-menu__link nav-menu__link--default" href="./">Cathedral Entrance</a>
+              </li>
+              <li class="nav-menu__item">
+                <a class="nav-menu__link nav-menu__link--primary" href="features.html"
+                  >Vaulted Chambers</a
+                >
+              </li>
+              <li class="nav-menu__item">
+                <a
+                  class="nav-menu__link nav-menu__link--default"
+                  href="clients.html"
+                  aria-current="page"
+                  >Windows & Apertures</a
+                >
+              </li>
+              <li class="nav-menu__item">
+                <a class="nav-menu__link nav-menu__link--primary" href="download.html"
+                  >Cross the Threshold</a
+                >
+              </li>
+              <li class="nav-menu__item">
+                <a class="nav-menu__link nav-menu__link--default" href="hub.html"
+                  >The Relay Chamber</a
+                >
+              </li>
+              <li class="nav-menu__item">
+                <a class="nav-menu__link nav-menu__link--muted" href="about.html">The Archive</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
-        <div class="page-header-inner">
-          <h1>Clients</h1>
-          <p class="page-lead">Native apps for every screen you own.</p>
+      <header class="page-header">
+        <div class="container">
+          <div class="page-header__content">
+            <p class="eyebrow page-header__eyebrow">Five apertures, one light</p>
+            <h1 class="page-header__heading">Windows & Apertures</h1>
+            <p class="page-header__lead">
+              Each platform is a different window through which Phlix's light reaches you. A picture
+              window. A wide archway. A tall lancet. A narrow slit. And one that is only a
+              rose-window geometry — present wherever glass receives signal.
+            </p>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div class="content-section">
-        <div class="section-inner">
-          <div class="client-cards">
-            <article class="client-card" id="roku">
-              <div class="client-card-header">
-                <h2>Roku</h2>
-                <span class="client-status status-stable">stable</span>
-              </div>
-              <p class="client-tagline">Native Roku channel</p>
-              <ul class="client-highlights" role="list">
+      <section class="content-section">
+        <div class="container">
+          <!-- Aperture gallery — one card per client -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+              gap: var(--space-8);
+              margin-bottom: var(--space-16);
+            "
+          >
+            <!-- Roku — picture window -->
+            <article class="aperture-card aperture-card--roku">
+              <p class="aperture-card__platform">Roku Channel</p>
+              <h2 class="aperture-card__name">Roku</h2>
+              <p class="aperture-card__tagline">Native Roku channel</p>
+              <ul class="aperture-card__highlights">
                 <li>HLS playback</li>
                 <li>Hub mode</li>
                 <li>Skip intro/outro</li>
@@ -116,38 +276,38 @@
               </ul>
               <a
                 href="https://github.com/detain/phlix-roku-client"
-                class="btn btn-small"
+                class="btn btn--secondary"
                 rel="noopener noreferrer"
-                >View source</a
               >
+                View source
+              </a>
             </article>
 
-            <article class="client-card" id="tizen">
-              <div class="client-card-header">
-                <h2>Samsung Tizen</h2>
-                <span class="client-status status-stable">stable</span>
-              </div>
-              <p class="client-tagline">Smart TV app</p>
-              <ul class="client-highlights" role="list">
+            <!-- Samsung Tizen — wide archway -->
+            <article class="aperture-card aperture-card--tizen">
+              <p class="aperture-card__platform">Samsung Smart TV</p>
+              <h2 class="aperture-card__name">Samsung Tizen</h2>
+              <p class="aperture-card__tagline">Smart TV app</p>
+              <ul class="aperture-card__highlights">
                 <li>Vanilla JS + webpack</li>
                 <li>Direct play + HLS transcoded</li>
                 <li>Remote-optimized UI</li>
               </ul>
               <a
                 href="https://github.com/detain/phlix-tizen-client"
-                class="btn btn-small"
+                class="btn btn--secondary"
                 rel="noopener noreferrer"
-                >View source</a
               >
+                View source
+              </a>
             </article>
 
-            <article class="client-card" id="windows">
-              <div class="client-card-header">
-                <h2>Windows</h2>
-                <span class="client-status status-stable">stable</span>
-              </div>
-              <p class="client-tagline">Native desktop</p>
-              <ul class="client-highlights" role="list">
+            <!-- Windows — tall lancet -->
+            <article class="aperture-card aperture-card--windows">
+              <p class="aperture-card__platform">Native Desktop</p>
+              <h2 class="aperture-card__name">Windows</h2>
+              <p class="aperture-card__tagline">Native desktop</p>
+              <ul class="aperture-card__highlights">
                 <li>Electron + React + TypeScript</li>
                 <li>System tray</li>
                 <li>Media keys</li>
@@ -155,38 +315,38 @@
               </ul>
               <a
                 href="https://github.com/detain/phlix-windows-client"
-                class="btn btn-small"
+                class="btn btn--secondary"
                 rel="noopener noreferrer"
-                >View source</a
               >
+                View source
+              </a>
             </article>
 
-            <article class="client-card" id="mobile">
-              <div class="client-card-header">
-                <h2>Mobile (iOS + Android)</h2>
-                <span class="client-status status-beta">beta</span>
-              </div>
-              <p class="client-tagline">React Native app</p>
-              <ul class="client-highlights" role="list">
+            <!-- Mobile — narrow slit -->
+            <article class="aperture-card aperture-card--mobile">
+              <p class="aperture-card__platform">Mobile App (Beta)</p>
+              <h2 class="aperture-card__name">Mobile</h2>
+              <p class="aperture-card__tagline">React Native app</p>
+              <ul class="aperture-card__highlights">
                 <li>Movies, TV, Music, Photos</li>
                 <li>Offline downloads</li>
                 <li>Token refresh</li>
               </ul>
               <a
                 href="https://github.com/detain/phlix-mobile-client"
-                class="btn btn-small"
+                class="btn btn--secondary"
                 rel="noopener noreferrer"
-                >View source</a
               >
+                View source
+              </a>
             </article>
 
-            <article class="client-card" id="dlna">
-              <div class="client-card-header">
-                <h2>Any DLNA device</h2>
-                <span class="client-status status-stable">stable</span>
-              </div>
-              <p class="client-tagline">No install required</p>
-              <ul class="client-highlights" role="list">
+            <!-- DLNA — rose-window geometry -->
+            <article class="aperture-card aperture-card--dlna">
+              <p class="aperture-card__platform">No Install Required</p>
+              <h2 class="aperture-card__name">Any DLNA Device</h2>
+              <p class="aperture-card__tagline">No install required</p>
+              <ul class="aperture-card__highlights">
                 <li>ContentDirectory</li>
                 <li>AvTransport</li>
                 <li>Discovery via SSDP</li>
@@ -194,46 +354,117 @@
             </article>
           </div>
         </div>
-      </div>
+      </section>
 
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">All clients are open source</h2>
-          <a href="download.html" class="btn btn-primary btn-large">Download Now</a>
+      <!-- CTA Banner -->
+      <section class="cta-banner">
+        <div class="container">
+          <h2 class="cta-banner__heading">Choose your window.</h2>
+          <p class="cta-banner__sub">Five screens. One library. The same silence in every room.</p>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-4)">
+            <a href="download.html" class="btn btn--primary">Cross the threshold</a>
+            <a href="features.html" class="btn btn--ghost">Explore the vaults</a>
+          </div>
         </div>
       </section>
     </main>
 
+    <!-- Mascot companion: Crystal -->
+    <div
+      class="mascot-companion"
+      aria-label="Crystal, the ice cathedral companion"
+      style="opacity: 0"
+    >
+      <p class="mascot-tip" aria-hidden="true"></p>
+      <svg
+        class="mascot-crystal"
+        viewBox="0 0 48 56"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <g class="mascot-crystal__body">
+          <path
+            d="M24 4 L32 14 L32 26 L24 36 L16 26 L16 14 Z"
+            fill="rgba(168,216,255,0.12)"
+            stroke="#A8D8FF"
+            stroke-width="1"
+          />
+          <path d="M24 4 L24 36" stroke="#A8D8FF" stroke-width="0.75" opacity="0.5" />
+          <path d="M16 14 L32 26" stroke="#A8D8FF" stroke-width="0.75" opacity="0.5" />
+          <path d="M32 14 L16 26" stroke="#A8D8FF" stroke-width="0.75" opacity="0.5" />
+          <path d="M24 4 L16 14 M24 4 L32 14" stroke="#A8D8FF" stroke-width="0.75" />
+          <path d="M24 36 L16 26 M24 36 L32 26" stroke="#A8D8FF" stroke-width="0.75" />
+          <circle
+            cx="24"
+            cy="20"
+            r="3"
+            fill="rgba(168,216,255,0.2)"
+            stroke="#A8D8FF"
+            stroke-width="0.5"
+          />
+          <path d="M20 10 L24 6 L28 10" stroke="#C8EEFF" stroke-width="0.5" opacity="0.7" />
+        </g>
+      </svg>
+      <button class="mascot-dismiss" aria-label="Dismiss Crystal">Crystal, rest a moment</button>
+    </div>
+
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+      <div class="container">
+        <p class="footer-tagline">Built from the architecture of cold.</p>
         <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-col">
-            <h3>Product</h3>
-            <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
+          <div>
+            <p class="footer-nav__column-heading">Product</p>
+            <ul class="footer-nav__list">
+              <li><a class="footer-nav__link" href="features.html">Features</a></li>
+              <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
+              <li><a class="footer-nav__link" href="download.html">Download</a></li>
+              <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
             </ul>
           </div>
-          <div class="footer-col">
-            <h3>Developers</h3>
-            <ul role="list">
-              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
-              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
-              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
-              <li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h3>Project</h3>
-            <ul role="list">
-              <li><a href="https://github.com/detain">GitHub org</a></li>
-              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
-              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+          <div>
+            <p class="footer-nav__column-heading">Developers</p>
+            <ul class="footer-nav__list">
               <li>
-                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                <a class="footer-nav__link" href="https://detain.github.io/phlix-docs"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a class="footer-nav__link" href="https://github.com/detain/phlix-server"
+                  >Server source</a
+                >
+              </li>
+              <li>
+                <a class="footer-nav__link" href="https://github.com/detain/phlix-plugin-example"
+                  >Plugin example</a
+                >
+              </li>
+              <li>
+                <a
+                  class="footer-nav__link"
+                  href="https://detain.github.io/phlix-docs/reference/api.html"
+                  >API reference</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav__column-heading">Project</p>
+            <ul class="footer-nav__list">
+              <li><a class="footer-nav__link" href="https://github.com/detain">GitHub org</a></li>
+              <li>
+                <a class="footer-nav__link" href="https://github.com/detain/phlix-server/issues"
+                  >Issues</a
+                >
+              </li>
+              <li>
+                <a class="footer-nav__link" href="https://github.com/detain/phlix-hub">Hub</a>
+              </li>
+              <li>
+                <a
+                  class="footer-nav__link"
+                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   >License (MPL-2.0)</a
                 >
               </li>
@@ -241,8 +472,8 @@
           </div>
         </nav>
         <p class="footer-copy">
-          &copy; 2026 Phlix &mdash; Phlix Server and the Hub are MPL-2.0; the shared libraries,
-          plugins and clients are MIT.
+          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0. Shared libraries, plugins, and
+          clients are MIT.
         </p>
       </div>
     </footer>

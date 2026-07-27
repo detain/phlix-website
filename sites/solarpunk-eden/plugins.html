@@ -6,7 +6,7 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Extend your Phlix garden with plugins built on a versioned LifecycleInterface and manifest contract. Drop a plugin in and the loader picks it up."
     />
     <link
       rel="canonical"
@@ -16,7 +16,7 @@
     <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="Extend Phlix with a versioned plugin contract. Drop in LifecycleInterface + manifest, the loader picks it up."
+      content="Extend your Phlix garden with plugins built on a versioned LifecycleInterface and manifest contract."
     />
     <meta
       property="og:image"
@@ -33,13 +33,12 @@
     <meta name="twitter:title" content="Plugins — Phlix" />
     <meta
       name="twitter:description"
-      content="Extend Phlix with a versioned plugin contract. Drop in LifecycleInterface + manifest, the loader picks it up."
+      content="Extend your Phlix garden with plugins built on a versioned LifecycleInterface and manifest contract."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/solarpunk-eden/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
 
     <meta name="theme-color" content="#2D7A4F" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
@@ -47,17 +46,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
+
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body class="page-plugins">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header" role="banner">
       <nav class="nav-primary" aria-label="Primary navigation">
         <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix" width="120" height="40" />
+          <img src="img/logo.svg" alt="Phlix — Solarpunk Eden" width="120" height="40" />
         </a>
         <button
           class="nav-toggle"
@@ -79,80 +79,151 @@
           </svg>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./" data-emphasis="primary">The Garden</a></li>
+          <li><a href="features.html" data-emphasis="primary">Seeds to Sow</a></li>
+          <li><a href="clients.html" data-emphasis="default">Garden Rooms</a></li>
+          <li><a href="download.html" data-emphasis="primary">Get Started</a></li>
+          <li><a href="hub.html" data-emphasis="default">The Commons</a></li>
+          <li><a href="about.html" data-emphasis="muted">Our Story</a></li>
         </ul>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
+      <section class="page-header" aria-labelledby="page-heading">
         <div class="page-header-inner">
-          <h1>Plugins</h1>
-          <p class="page-lead">Extend Phlix with a versioned plugin contract.</p>
+          <p class="hero-eyebrow">Advanced gardening tools</p>
+          <h1 id="page-heading">Plugins</h1>
+          <p class="page-lead">
+            Drop a plugin in, the loader picks it up. LifecycleInterface + manifest schema — a real
+            contract that grows with your garden.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div class="content-section">
-        <h2 class="reveal">Plugin model</h2>
-        <p class="reveal">
-          Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in
-          the <code>plugins/</code> directory and the loader picks it up automatically.
-        </p>
-        <div class="code-block reveal">
-          <code
-            >// See the reference plugin:
-            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-              >github.com/detain/phlix-plugin-example</a
-            ></code
+      <section class="content-section" aria-labelledby="plugin-ecosystem-heading">
+        <div class="content-grid">
+          <h2
+            id="plugin-ecosystem-heading"
+            class="section-eyebrow reveal"
+            style="grid-column: 1/-1"
           >
+            The Plugin Contract
+          </h2>
+
+          <div
+            class="feature-detail reveal"
+            style="grid-column: 1/-1; max-width: 760px; margin-inline: auto"
+          >
+            <div class="feature-detail-icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              >
+                <path
+                  d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 01-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 10-3.214 3.214c.446.166.855.497.925.968a.979.979 0 01-.276.837l-1.61 1.61a2.404 2.404 0 01-1.705.707 2.402 2.402 0 01-1.704-.706l-1.568-1.568a1.026 1.026 0 00-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 11-3.214-3.214c.464-.18.894-.527.967-1.02a1.026 1.026 0 00-.289-.877l-1.568-1.568A2.402 2.402 0 013.455 10.5c0-.617.236-1.234.706-1.704L5.773 7.185a.98.98 0 01.837-.276c.47.07.802.48.968.925a2.501 2.501 0 113.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 01.276-.837l1.61-1.61a2.404 2.404 0 011.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 013.214 3.214c-.464.18-.894.527-.967 1.02z"
+                />
+              </svg>
+            </div>
+            <div class="feature-detail-text">
+              <h2>LifecycleInterface + manifest schema</h2>
+              <p>
+                Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. The
+                loader discovers it, validates it, and runs it alongside your media. See
+                phlix-plugin-example for the smallest working starter.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="reveal"
+            style="grid-column: 1/-1; text-align: center; margin-top: var(--space-8)"
+          >
+            <a
+              href="https://github.com/detain/phlix-plugin-example"
+              class="btn btn-primary btn-large"
+              rel="noopener noreferrer"
+            >
+              View phlix-plugin-example &rarr;
+            </a>
+          </div>
         </div>
+      </section>
 
-        <h2 class="reveal">Ecosystem plugins</h2>
-        <p class="reveal">
-          The plugin contract makes it easy to add metadata providers, transcode pipelines, or
-          anything else you can imagine.
-        </p>
+      <div class="vine-divider" aria-hidden="true"></div>
 
-        <h2 class="reveal">Write your own</h2>
-        <p class="reveal">
-          Start from
-          <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-            >phlix-plugin-example</a
+      <section class="content-section content-section--alt" aria-labelledby="ecosystem-heading">
+        <div class="content-grid">
+          <h2 id="ecosystem-heading" class="section-eyebrow reveal" style="grid-column: 1/-1">
+            Growing Mediums
+          </h2>
+          <p
+            class="reveal"
+            style="grid-column: 1/-1; font-style: italic; color: var(--color-clay); max-width: 56ch"
           >
-          for the smallest working starter.
-        </p>
-      </div>
-
-      <section class="cta-banner">
-        <div class="cta-banner-inner">
-          <h2>Build something great</h2>
-          <a
-            href="https://github.com/detain/phlix-plugin-example"
-            class="btn btn-primary btn-large"
-            rel="noopener noreferrer"
-            >Get the example plugin</a
+            The Phlix ecosystem — five repositories that grow together.
+          </p>
+          <ul
+            class="ecosystem-list reveal"
+            style="grid-column: 1/-1; max-width: 760px; margin-inline: auto"
+            role="list"
           >
+            <li>
+              <strong>phlix-server</strong> —
+              <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
+                >github.com/detain/phlix-server</a
+              >
+              <br />The media server itself — PHP 8.3+, Workerman 5.x
+            </li>
+            <li>
+              <strong>phlix-hub</strong> —
+              <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer"
+                >github.com/detain/phlix-hub</a
+              >
+              <br />Cloud directory + reverse-tunnel relay
+            </li>
+            <li>
+              <strong>phlix-shared</strong> —
+              <a href="https://github.com/detain/phlix-shared" rel="noopener noreferrer"
+                >github.com/detain/phlix-shared</a
+              >
+              <br />Shared interfaces, DTOs, event types — Composer package
+            </li>
+            <li>
+              <strong>phlix-docs</strong> —
+              <a href="https://github.com/detain/phlix-docs" rel="noopener noreferrer"
+                >github.com/detain/phlix-docs</a
+              >
+              <br />End-user, developer, and hub-admin docs (VitePress)
+            </li>
+            <li>
+              <strong>phlix-plugin-example</strong> —
+              <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+                >github.com/detain/phlix-plugin-example</a
+              >
+              <br />Reference metadata-provider plugin
+            </li>
+          </ul>
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <div class="footer-top">
+          <a class="footer-logo" href="./">Solarpunk Eden</a>
+          <p class="footer-tagline">Your garden. Your stories. Your community.</p>
+        </div>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
             <h3>Product</h3>
             <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
+              <li><a href="features.html">Seeds to Sow</a></li>
+              <li><a href="clients.html">Garden Rooms</a></li>
+              <li><a href="download.html">Get Started</a></li>
               <li><a href="plugins.html">Plugins</a></li>
             </ul>
           </div>
@@ -199,10 +270,29 @@
             </ul>
           </div>
         </nav>
-        <p class="footer-copy">
-          &copy; 2026 Phlix &mdash; Phlix Server and the Hub are MPL-2.0; the shared libraries,
-          plugins and clients are MIT.
-        </p>
+        <div class="footer-bottom">
+          <p class="footer-copy">
+            &copy; 2026 Phlix &mdash; Phlix Server and the Hub are MPL-2.0; the shared libraries,
+            plugins and clients are MIT.
+          </p>
+          <div class="footer-utility">
+            <button class="intensity-toggle" aria-pressed="false">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path
+                  d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                />
+              </svg>
+              <span>Dim the lights</span>
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
 

@@ -300,6 +300,137 @@
   font-size: clamp(1.5rem, 3vw, 2.5rem);
 }
 
+/* ── Narrative homepage sections ──────────────────────────────────────── */
+
+/* #sanctuary-truth — hero is .hero already */
+
+/* #why-quiet — pitch section re-framed as stone-lantern plaques */
+#why-quiet {
+  background: var(--color-surface);
+  padding-block: var(--space-18);
+}
+
+#why-quiet .pitch-inner {
+  max-width: 680px;
+}
+
+/* #what-you-gather — hero features as ink-wash vignettes */
+#what-you-gather {
+  padding-block: var(--space-18);
+}
+
+.feature-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr));
+  gap: var(--space-12);
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.feature-hero-item {
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-alt);
+  border-radius: var(--radius-lg);
+}
+
+.feature-hero-item .feature-icon {
+  width: 64px;
+  height: 64px;
+  margin-block-end: var(--space-4);
+}
+
+.feature-hero-item .feature-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.feature-hero-item h3 {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  letter-spacing: 0.02em;
+  margin-block-end: var(--space-3);
+  color: var(--color-text);
+}
+
+.feature-hero-item p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-neutral);
+  line-height: 1.75;
+}
+
+/* #supporting-craft — quiet grid of support features */
+#supporting-craft {
+  background: var(--color-surface-alt);
+  padding-block: var(--space-18);
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-6);
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* #proof-of-trust — calm placard between features and CTA */
+#proof-of-trust {
+  background: var(--color-gravel-path);
+  padding-block: var(--space-18);
+}
+
+.proof-placard {
+  max-width: 680px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+
+.proof-numbers {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  color: var(--color-text);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  margin-block-end: var(--space-6);
+}
+
+.proof-github {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--color-primary-safe);
+  margin-block-end: var(--space-6);
+}
+
+.proof-github a {
+  color: var(--color-primary-safe);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.proof-quote {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--color-neutral);
+  border-left: 3px solid var(--color-primary);
+  padding-inline-start: var(--space-6);
+  text-align: start;
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+/* #step-inside — closing CTA */
+#step-inside {
+  background: linear-gradient(170deg, #c9ddd3 0%, var(--color-gravel-path) 100%);
+  padding-block: var(--space-18);
+}
+
 /* ── Content sections ──────────────────────────────────────────────────── */
 .content-section {
   padding-block: var(--space-18);
@@ -311,9 +442,59 @@
   gap: var(--space-8);
 }
 
+.content-grid > * {
+  min-width: 0; /* prevents content like LifecycleInterface from forcing overflow */
+}
+
 /* ── Feature detail ────────────────────────────────────────────────────── */
 .feature-detail {
   padding-block: var(--space-8);
+}
+
+/* ── Gallery-cards (features page blueprint) ─────────────────────────── */
+.gallery-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-8);
+}
+
+/* Each card is a tall vertical frame — generous space between */
+.gallery-cards .feature-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-alt);
+  border-radius: var(--radius-lg);
+  min-height: 280px;
+}
+
+.gallery-cards .feature-card .feature-icon {
+  width: 56px;
+  height: 56px;
+  margin-block-end: var(--space-6);
+}
+
+.gallery-cards .feature-card .feature-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.gallery-cards .feature-card h3 {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  letter-spacing: 0.02em;
+  margin-block-end: var(--space-3);
+  color: var(--color-text);
+  flex-grow: 1;
+}
+
+.gallery-cards .feature-card p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-neutral);
+  line-height: 1.65;
 }
 
 .feature-detail h2 {
@@ -374,7 +555,7 @@
 
 .faq-item dt {
   font-family: var(--font-headline);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 1.15rem;
   color: var(--color-text);
   margin-block-end: var(--space-2);

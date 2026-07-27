@@ -9,7 +9,7 @@
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   background: var(--color-bg);
   border-bottom: 3px solid var(--color-border);
   box-shadow: 0 4px 0 var(--color-surface);
@@ -19,7 +19,10 @@
   background-repeat: repeat;
 }
 
+/* Ensure sticky header wins over all page content */
 .nav-primary {
+  position: relative;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -816,9 +819,358 @@
 
 /* ==========================================================================
    SCROLLBAR + SELECTION
- * @copyright 2026 Joe Huss <detain@interserver.net>
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 ::selection {
   background: var(--color-primary);
   color: var(--color-text);
+}
+
+/* ==========================================================================
+   EXPERIENCE FIELD COMPONENTS — Street Mural kit
+   ========================================================================== */
+
+/* ── NAV EMPHASIS LEVELS ───────────────────────────────────────────────── */
+.nav-emphasis-primary {
+  color: var(--color-tertiary) !important;
+}
+
+.nav-emphasis-primary::after {
+  background: var(--color-primary) !important;
+}
+
+.nav-emphasis-primary:hover {
+  color: var(--color-primary) !important;
+}
+
+.nav-emphasis-muted {
+  opacity: 0.55;
+}
+
+.nav-demoted {
+  display: none;
+}
+
+@media (width >= 1024px) {
+  .nav-demoted {
+    display: flex;
+  }
+}
+
+/* ── FOOTER MIRROR NAV ──────────────────────────────────────────────────── */
+.footer-nav-mirror {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.footer-mirror-links {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.footer-mirror-links li a {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  opacity: 0.65;
+  transition:
+    opacity var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.footer-mirror-links li a:hover {
+  opacity: 1;
+  color: var(--color-secondary);
+}
+
+/* ── FOOTER UTILITY ROW — intensity toggle ─────────────────────────────── */
+.footer-utility {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+.intensity-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.intensity-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-chrome);
+}
+
+.intensity-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-primary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+
+.intensity-btn:hover {
+  background: #c51919;
+}
+
+.intensity-state {
+  font-family: var(--font-headline);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+}
+
+.intensity-btn[aria-pressed='false'] {
+  background: var(--color-surface-alt);
+}
+
+.intensity-btn[aria-pressed='false'] .intensity-state {
+  color: var(--color-chrome);
+}
+
+.reduced-motion-note {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-chrome);
+  opacity: 0.6;
+}
+
+/* ── MASCOT CAP ────────────────────────────────────────────────────────── */
+.mascot-cap {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.mascot-body {
+  pointer-events: auto;
+  cursor: default;
+  filter: drop-shadow(3px 3px 0 var(--color-border));
+  transition: transform var(--duration-fast) var(--ease-snap);
+}
+
+.mascot-body:hover {
+  transform: translate(-2px, -2px);
+}
+
+.mascot-body svg {
+  display: block;
+}
+
+.mascot-tip {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  max-width: 220px;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s var(--ease-snap),
+    transform 0.2s var(--ease-snap);
+  pointer-events: none;
+}
+
+.mascot-cap:hover .mascot-tip,
+.mascot-cap.is-active .mascot-tip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mascot-tip p {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  max-width: none;
+}
+
+.mascot-dismiss {
+  pointer-events: auto;
+  width: 24px;
+  height: 24px;
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--color-chrome);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+}
+
+.mascot-cap:hover .mascot-dismiss {
+  opacity: 1;
+}
+
+.mascot-dismiss:hover {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* Mobile: Cap above footer, not fixed */
+@media (width <= 767px) {
+  .mascot-cap {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-surface-alt);
+    border-top: 3px solid var(--color-border);
+    pointer-events: auto;
+  }
+
+  .mascot-tip {
+    opacity: 1;
+    transform: none;
+    max-width: none;
+  }
+
+  .mascot-dismiss {
+    opacity: 1;
+  }
+}
+
+/* Mascot idle shake animation */
+@keyframes cap-shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mascot-body.idle {
+    animation: cap-shake 0.4s ease-in-out;
+    animation-iteration-count: infinite;
+    transform-origin: bottom center;
+  }
+}
+
+/* Spray burst on logo click easter egg */
+@keyframes spray-burst {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.spray-burst {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(ellipse at center, rgb(232, 31, 31, 0.15) 0%, transparent 70%);
+  animation: spray-burst 0.8s ease-out forwards;
+}
+
+/* Typed word cursor change */
+.spray-cursor {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Crect x='8' y='2' width='8' height='16' rx='2' fill='%23E81F1F' stroke='%230D0D0D' stroke-width='1.5'/%3E%3Crect x='10' y='0' width='4' height='4' rx='1' fill='%230066FF'/%3E%3C/svg%3E")
+      12 20,
+    auto;
+}
+
+/* Footer thank-you easter egg message */
+.footer-thanks {
+  text-align: center;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  display: none;
+}
+
+.footer-thanks.is-visible {
+  display: block;
+}
+
+/* ── SEASONAL OVERLAY ───────────────────────────────────────────────────── */
+#seasonal-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#seasonal-overlay.active {
+  opacity: 1;
+}
+
+/* ── PROOF BAND ADDITIONS ───────────────────────────────────────────────── */
+.proof-band .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── STICKY HEADER OFFSET ───────────────────────────────────────────────── */
+:target {
+  scroll-margin-top: 80px;
+}
+
+/* All sections get scroll-margin so sticky header doesn't cover them */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+main {
+  /* Prevent content from rendering behind sticky header on initial load */
+  padding-top: 1px;
 }

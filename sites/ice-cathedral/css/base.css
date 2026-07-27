@@ -1,8 +1,146 @@
-/**
- * base.css — Ice Cathedral
- * Reset, design tokens, :root CSS custom properties
- */
+/* ==========================================================================
+   BASE.CSS — Ice Cathedral
+   Token block, reset, element defaults, font faces.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
+/* ── Font faces ──────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Cinzel';
+  src: url('../../assets/fonts/cinzel-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('../../assets/fonts/cinzel-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('../../assets/fonts/josefin-sans-100-latin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('../../assets/fonts/josefin-sans-300-latin.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('../../assets/fonts/josefin-sans-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('../../assets/fonts/josefin-sans-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('../../assets/fonts/libre-baskerville-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('../../assets/fonts/libre-baskerville-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Color */
+  --color-primary: #a8d8ff;
+  --color-secondary: #c8eeff;
+  --color-tertiary: #6090ff;
+  --color-bg: #04101c;
+  --color-surface: #081828;
+  --color-surface-alt: #0c2035;
+  --color-text: #eef5ff;
+  --color-neutral: #2a4a6a;
+  --color-success: #00c9b8;
+  --color-warning: #ffd166;
+  --color-error: #e05070;
+  --color-info: #4ab0e0;
+  --color-border: #1a3050;
+  --color-focus: #a8d8ff;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-display: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+  --font-body: 'Libre Baskerville', 'Baskerville', georgia, serif;
+  --font-ui: 'Josefin Sans', 'Futura', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgb(4, 16, 28, 0.8);
+  --shadow-md: 0 4px 16px rgb(4, 16, 28, 0.85), 0 0 8px rgb(168, 216, 255, 0.06);
+  --shadow-lg: 0 12px 40px rgb(4, 16, 28, 0.9), 0 0 24px rgb(168, 216, 255, 0.1);
+  --shadow-crystal: 0 0 16px rgb(168, 216, 255, 0.4), 0 0 40px rgb(168, 216, 255, 0.15);
+  --shadow-aurora: 0 0 16px rgb(96, 144, 255, 0.4), 0 0 40px rgb(96, 144, 255, 0.15);
+  --shadow-inner-ice: inset 0 0 24px rgb(168, 216, 255, 0.08);
+
+  /* Layout */
+  --max-width: 1400px;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -13,18 +151,20 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
   min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: var(--color-text);
-  background-color: var(--color-bg);
 }
 
 img,
@@ -44,12 +184,26 @@ select {
 }
 
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: break-word;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
@@ -59,207 +213,61 @@ ol[role='list'] {
 }
 
 a {
-  color: var(--color-primary);
+  color: inherit;
   text-decoration: none;
-  transition: color 200ms ease-in-out;
 }
 
-:root {
-  /* ── Colors ── */
-  --color-primary: #a8d8ff;
-  --color-secondary: #c8eeff;
-  --color-tertiary: #6090ff;
-  --color-bg: #04101c;
-  --color-surface: #081828;
-  --color-surface-alt: #0c2035;
-  --color-text: #eef5ff;
-  --color-neutral: #2a4a6a;
-  --color-success: #00c9b8;
-  --color-warning: #ffd166;
-  --color-error: #e05070;
-  --color-info: #4ab0e0;
-  --color-focus: #a8d8ff;
-  --color-border: #1a3050;
-  --color-shadow: rgb(168, 216, 255, 0.12);
-  --color-overlay: #020810;
-
-  /* ── Gradients ── */
-  --gradient-glacial-vault: linear-gradient(180deg, #a8d8ff 0%, #04101c 100%);
-  --gradient-crystal-radiance: radial-gradient(
-    ellipse at center,
-    rgb(168, 216, 255, 0.25) 0%,
-    rgb(4, 16, 28, 0) 70%
-  );
-  --gradient-ice-cave-depth: linear-gradient(180deg, #081828 0%, #04101c 100%);
-
-  /* ── Spacing ── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* ── Radius ── */
-  --radius-sm: 0px;
-  --radius-md: 2px;
-  --radius-lg: 4px;
-  --radius-xl: 8px;
-  --radius-pill: 999px;
-
-  /* ── Typography ── */
-  --font-headline: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  --font-display: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
-  --font-body: 'Libre Baskerville', 'Baskerville', 'Georgia', serif;
-  --font-ui: 'Josefin Sans', 'Futura', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', 'Courier', monospace;
-
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 4px rgb(4, 16, 28, 0.8);
-  --shadow-md: 0 4px 16px rgb(4, 16, 28, 0.85), 0 0 8px rgb(168, 216, 255, 0.06);
-  --shadow-lg: 0 12px 40px rgb(4, 16, 28, 0.9), 0 0 24px rgb(168, 216, 255, 0.1);
-  --shadow-crystal: 0 0 16px rgb(168, 216, 255, 0.4), 0 0 40px rgb(168, 216, 255, 0.15);
-  --shadow-aurora: 0 0 16px rgb(96, 144, 255, 0.4), 0 0 40px rgb(96, 144, 255, 0.15);
-  --shadow-inner-ice: inset 0 0 24px rgb(168, 216, 255, 0.08);
-
-  /* ── Layout ── */
-  --max-width: 1400px;
-  --gutter: var(--space-6);
-
-  /* ── Focus ── */
-  --focus-ring: 2px solid var(--color-focus);
-  --focus-offset: 2px;
-  --tracking-headline: 0.08em;
-  --lh-headline: 1.15;
-  --tracking-display: 0.25em;
-  --lh-display: 0.95;
-  --tracking-body: 0em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.12em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0.02em;
-  --lh-mono: 1.5;
-  --font-number: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
-  --tracking-number: 0.15em;
-  --lh-number: 1;
-}
-
-/* ── Base element styles ── */
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
-}
-
-h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-}
-h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
-}
-h3 {
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-}
-
-p {
-  line-height: 1.7;
-  color: var(--color-text);
-  max-width: 70ch;
-}
-
-a:hover {
-  color: var(--color-secondary);
-}
-
-code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  background: var(--color-surface);
-  padding: 0.1em 0.35em;
-  border-radius: var(--radius-sm);
-}
-
-pre {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  overflow-x: auto;
-  line-height: 1.5;
-}
-
-pre code {
+button {
+  cursor: pointer;
+  border: none;
   background: none;
-  padding: 0;
 }
 
-/* ── Skip link ── */
+strong {
+  font-weight: 700;
+}
+
+/* ── Skip link ──────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  transition: top 200ms ease;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .skip-link:focus {
+  position: fixed;
   top: var(--space-4);
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
+  left: var(--space-4);
+  width: auto;
+  height: auto;
+  padding: var(--space-3) var(--space-6);
+  clip-path: unset;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
-/* ── Focus visible ── */
+/* ── Focus ring — crystal ice blue with both inner and outer shadow ─────── */
 :focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
   box-shadow: 0 0 0 4px rgb(168, 216, 255, 0.18);
 }
 
-/* ── Text selection ── */
-::selection {
-  background: rgb(168, 216, 255, 0.3);
-  color: var(--color-text);
-}
-
-/* ── Custom scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral);
-}
-
-/* ── Reduced motion ── */
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -270,104 +278,3 @@ pre code {
     scroll-behavior: auto !important;
   }
 }
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Utility classes ── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/jetbrains-mono-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url('../../assets/fonts/josefin-sans-100-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('../../assets/fonts/josefin-sans-300-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/josefin-sans-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/josefin-sans-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/libre-baskerville-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/libre-baskerville-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */
