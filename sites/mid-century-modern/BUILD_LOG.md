@@ -2,68 +2,79 @@
 
 **Brand kit**: Mid-Century Modern (`mid-century-modern.js`) — v1.0
 **Site path**: `sites/mid-century-modern/`
-**Canonical URL**: `https://detain.github.io/phlix-website/sites/mid-century-modern/`
-**Date**: 2026-07-01
-**Layout archetype**: Editorial / Showcase
+**Canonical URL**: `https://detain.github.io/phlix-website/mid-century-modern/`
+**Date**: 2026-07-27 (regen)
+**Layout archetype**: narrative-scroll
 
 ---
 
 ## What was built
 
-- `css/base.css` — Reset, :root CSS custom properties (all brand colors, spacing scale, radii, font stacks, shadows), skip-link, focus ring, reduced-motion override, base element styles
-- `css/theme.css` — Typography scale, layout containers (container, page-header, hero, pitch, features-overview, cta-banner), content-grid, scroll reveal, status badges
-- `css/components.css` — Site header/nav, footer, all button variants, feature-card, feature-detail, client-card, download-card, code-block, ecosystem-list, faq-list, docs-links, download-cards grid, client-cards grid
-- `js/main.js` — Mobile nav toggle, reduced-motion guard, scroll reveals via IntersectionObserver, active nav highlighting
-- `img/logo.svg` — Josefin Sans uppercase wordmark (cream on charcoal) + atomic teal orbital ring with sunburst ticks
-- `img/favicon.svg` — Atomic teal orbital mark on charcoal, 32×32
-- `img/og.svg` — 1200×630 social share card with sunburst motif, tagline "The Future Was Always Now.", teal + yellow accents on charcoal
-- `img/PROMPTS.md` — Exact image generation prompts for every asset
+### CSS
+- `css/base.css` — Reset, :root CSS custom properties (all brand colors, spacing scale, radii, font stacks, shadows), skip-link, focus ring, reduced-motion (animation + transition), sr-only class, base element styles
+- `css/theme.css` — Typography scale, layout containers (container, page-header, hero, pitch, features-overview, cta-banner, compass-section), content-grid, scroll reveal, status badges, reduced-motion override
+- `css/components.css` — Site header/nav (8 links with 3 emphasis levels), footer (3-column grid), all button variants, feature-card, feature-detail, client-card, download-card, code-block, ecosystem-list, faq-list, docs-links, proof-grid, sunburst/orbital decorative, responsive helpers
+
+### JavaScript
+- `js/main.js` — Mobile nav toggle, reduced-motion guard (with change listener), scroll reveals via IntersectionObserver, active nav highlighting, easter eggs (logo-clicks:5 sunburst burst, typed-word:orbit message, scroll-past-footer starfield), mascot Orbit (bottom-right rocket, idle bobbing, dismiss to localStorage, click-launch animation, hover tips)
+
+### Pages (8 + 404)
+- `index.html` — Home with 5 narrative sections: sunburst-rise (hero), what-flies (features overview), why-launch (pitch bullets), compass-true (proof signals), ignition (CTA banner)
+- `features.html` — All 8 feature-detail articles with unique meta description
+- `clients.html` — All 5 clients with status badges and unique meta description
+- `download.html` — Correct install command from content.json (one-line curl), 5 client cards, ecosystem list, unique meta description
+- `plugins.html` — Plugin model (LifecycleInterface + manifest), ecosystem plugins, link to phlix-plugin-example
+- `docs.html` — Link-out to external docs with ecosystem list
+- `hub.html` — Reverse-tunnel relay description, self-host or public hub, hub mode in clients
+- `about.html` — Philosophy, license (MPL-2.0 per content.json), contributing (detain org), FAQ (6 items)
+- `404.html` — Themed 404 with sunburst SVG backdrop, "Out of Orbit" concept, recovery links to home/features/download, noindex meta
+
+### Assets / Config
 - `robots.txt` — Allow all, sitemap reference
-- `sitemap.xml` — All 8 pages with absolute URLs and priorities
+- `sitemap.xml` — 9 pages (8 + 404 excluded per spec)
 - `SITE.md` — Full design documentation
-- `index.html` — Home page (hero with animated SVG sunburst backdrop, pitch, features overview grid of all 8 features, CTA banner)
-- `features.html` — Features detail page with all 8 feature-detail articles
-- `clients.html` — All 5 clients (roku, tizen, windows, mobile/beta, dlna) with status badges
-- `download.html` — Server block, 5 client download cards, ecosystem list
-- `plugins.html` — Plugin model description, link to example
-- `docs.html` — Documentation link-out page with ecosystem list
-- `hub.html` — Hub description (reverse-tunnel relay, NAT traversal)
-- `about.html` — Philosophy, license, contributing, FAQ (6 items from content.json)
+- `REGEN_PLAN.md` — Section mapping and field implementation log
 
 ---
 
-## Layout archetype rationale
+## Changes in this regen (2026-07-27)
 
-**Chosen: Editorial / Showcase**
-
-The Mid-Century Modern brand demands asymmetric but perfectly balanced compositions with a single dominant geometric motif per section. The kit's `layout_patterns.landing` guidance ("full-bleed mid-century illustration hero with Josefin Sans headline over atomic-horizon gradient → feature sections alternating charcoal/ebony → sunburst-yellow CTA") fits the Showcase archetype perfectly — bold hero with a rotating sunburst clock emblem, editorial card grid, and confident typographic CTA.
+1. **404.html added** — was missing, required per §2A error_page_experience
+2. **Nav order fixed** — Hub moved before Plugins (was reversed in original build)
+3. **Unique meta descriptions** — all 8 pages now have distinct descriptions (trap 19.4)
+4. **Homepage section IDs** — corrected to match `homepage_narrative.sections[]` order and IDs
+5. **compass-true proof section** — added between features-overview and CTA banner with GitHub repo links (verifiable signals only, no fabricated numbers)
+6. **Install command corrected** — download.html now uses `curl -fsSL...install.sh | sudo bash` (the primary install from content.json), not composer
+7. **Easter eggs implemented** — logo-clicks:5 (sunburst burst), typed-word:orbit (message, disabled in inputs, Esc exits), scroll-past-footer (starfield canvas)
+8. **Mascot Orbit built** — bottom-right rocket with idle bobbing, dismiss to localStorage, click-launch animation, hover tips on key sections
+9. **Footer license URL corrected** — now points to `https://github.com/detain/phlix-server/blob/master/LICENSE` (per content.json footer columns)
+10. **sr-only class added** — proper visually-hidden pattern per trap 19.15
 
 ---
 
 ## Intentional deviations from new_site.md spec
 
-1. **Hero SVG backdrop**: The spec references `tools/render.mjs` markup for the hero. For the Mid-Century Modern kit, the hero uses a custom inline SVG with a sunburst clock emblem (per `header_motif: "Slow mechanical rotation of a sunburst clock emblem..."`). This is a deliberate brand-grounded enhancement, not a deviation from functionality.
+1. **Hero SVG backdrop**: Custom inline SVG with sunburst clock emblem per `header_motif` — deliberate brand enhancement, not a functional deviation.
 
-2. **Tagline in CTA banner**: The home CTA banner uses `tagline_primary` ("The Future Was Always Now.") and a `tagline_secondary` ("Space-age optimism, every time you press play.") — both drawn from the kit's copy pool — rather than generic Phlix copy. This is intentional brand-voicing per the kit's copy directives.
+2. **Tagline in CTA banner**: Uses `tagline_primary` ("The Future Was Always Now.") from the kit's copy pool — brand-voicing per kit copy directives.
 
-3. **License link in footer**: The footer links to `https://github.com/phlix-website/blob/master/LICENSE` for BSD-3 (consistent with other built sites in the dist folder), not the detain org license URL format used in links from content.json footer links.
+3. **Proof section**: Uses links to GitHub repos rather than fabricated counts per trap 19.7 — verifiable signals only.
 
 ---
 
 ## Brand fidelity notes
 
-- Atomic teal `#00AFAF` used as consistent brand anchor throughout (nav active indicator, feature icons, card hover borders, teal glow shadows)
-- Sunburst yellow `#F2B705` used exclusively for primary CTA buttons — never diluted for secondary actions
-- Charcoal evening `#111008` used as universal background — no cool blue-greys introduced
-- All text on dark surfaces uses cream card `#F5EFE8` (warm, not cool white)
-- No dark-moody, noir, cold-blue, or gritty elements — per `brand_opposites`
-- Josefin Sans headlines use uppercase + tracking per `typography_rules`
-- Mechanical easing throughout — no spring/bounce/elastic per `motion_style`
+- Atomic teal `#00AFAF` used as consistent brand anchor (nav active, feature icons, card hover, teal glow)
+- Sunburst yellow `#F2B705` exclusively for primary CTA — never diluted
+- Charcoal evening `#111008` universal background — no cool blue-greys
+- Cream card `#F5EFE8` text on dark surfaces — warm, not cool white
+- No dark-moody, noir, cold-blue, gritty elements per `brand_opposites`
+- Josefin Sans headlines uppercase + tracking per kit rules
+- Mechanical easing only — no spring/bounce/elastic per `motion_style`
 
 ---
 
 ## Known follow-ups
 
-- Linting and a11y checks to be run per the build toolchain (`npm run lint`, `npm run a11y`, `npm run linkcheck`)
-- Real photography assets to replace placeholder SVG illustrations when generated via `img/PROMPTS.md`
-- Font files to be self-hosted as WOFF2 (currently relying on system font stacks as fallback; production deployment should download and serve Josefin Sans, Bebas Neue, Libre Baskerville, IBM Plex Mono as WOFF2)
+- `img/og.svg` text may need updating if hero headline changes — run `node tools/gen-og.mjs --site mid-century-modern` to re-rasterize
+- Seasonal activation JS date-gate not yet fully wired — seasonal variants are CSS-only tokens
