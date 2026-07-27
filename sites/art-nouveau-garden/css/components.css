@@ -96,6 +96,15 @@
   color: var(--color-primary);
 }
 
+.nav-menu a.muted {
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+.nav-menu a.muted:hover {
+  opacity: 1;
+}
+
 /* Nav toggle (mobile) */
 .nav-toggle {
   display: none;
@@ -804,6 +813,294 @@
 /*
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MASCOT LILY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mascot-lily {
+  position: fixed;
+  top: 80px;
+  right: var(--space-6);
+  z-index: 50;
+  transition: transform var(--duration-medium) var(--easing-garden);
+}
+
+.mascot-lily.dismissed {
+  display: none;
+}
+
+.mascot-body {
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--easing-garden);
+}
+
+.mascot-body:hover {
+  transform: scale(1.05);
+}
+
+.mascot-dismiss {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-garden);
+}
+
+.mascot-body:hover .mascot-dismiss {
+  opacity: 1;
+}
+
+.mascot-dismiss:hover {
+  background: var(--color-error);
+  color: var(--color-surface);
+  border-color: var(--color-error);
+}
+
+.mascot-lily.lantern-brighten .mascot-body svg ellipse[fill='#B8960C'] {
+  animation: lantern-pulse 0.6s ease-out;
+}
+
+@keyframes lantern-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+    fill: #d4a83c;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.mascot-lily.gesture-cta .mascot-body {
+  animation: lily-nod 1s ease-out;
+}
+
+@keyframes lily-nod {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+}
+
+/* Mobile: in-flow above footer, not fixed */
+@media (width < 768px) {
+  .mascot-lily {
+    position: relative;
+    top: auto;
+    right: auto;
+    display: none; /* hidden on mobile to avoid covering CTA */
+  }
+
+  .mascot-lily.dismissed {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTENSITY TOGGLE (CALM MODE)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.intensity-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast) var(--easing-garden);
+}
+
+.intensity-toggle:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.intensity-toggle[aria-pressed='true'] {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.footer-calm-note {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-2);
+}
+
+.calm-toggle-link {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+}
+
+.calm-toggle-link:hover {
+  color: var(--color-text);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CALM MODE (INTENSITY TOGGLE)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body.calm-mode .hero-decoration {
+  opacity: 0.05;
+}
+
+body.calm-mode .vine-divider-icon {
+  opacity: 0.4;
+}
+
+body.calm-mode .feature-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+body.calm-mode .hero {
+  min-height: auto;
+  padding: var(--space-16) 0;
+}
+
+body.calm-mode .mascot-lily {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EASTER EGG ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.nav-logo.vine-unfurl {
+  animation: vine-unfurl-logo 3s ease-out forwards;
+}
+
+@keyframes vine-unfurl-logo {
+  0% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  20% {
+    filter: drop-shadow(0 0 8px rgba(184, 150, 12, 0.6));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+body.garden-shimmer {
+  animation: garden-shimmer-bg 3s ease-out;
+}
+
+@keyframes garden-shimmer-bg {
+  0% {
+    background-color: var(--color-bg);
+  }
+  15% {
+    background-color: rgba(184, 150, 12, 0.05);
+  }
+  30% {
+    background-color: var(--color-bg);
+  }
+  45% {
+    background-color: rgba(61, 122, 138, 0.03);
+  }
+  60% {
+    background-color: var(--color-bg);
+  }
+  75% {
+    background-color: rgba(125, 155, 118, 0.03);
+  }
+  100% {
+    background-color: var(--color-bg);
+  }
+}
+
+/* Easter reward toast */
+.easter-reward {
+  position: fixed;
+  bottom: var(--space-16);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+  animation: float-up 0.4s var(--easing-garden);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INSTALL NOTES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.install-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.install-note {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+
+.install-from-source {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: var(--space-6);
+}
 /* Scroll reveal — only active when motion is allowed */
 @media (prefers-reduced-motion: no-preference) {
   .reveal {

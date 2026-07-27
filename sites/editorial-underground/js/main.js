@@ -246,7 +246,9 @@
       if (localStorage.getItem('riot-dismissed') === 'true') {
         mascot.style.display = 'none';
       }
-    } catch { /* noop */ }
+    } catch {
+      /* noop */
+    }
 
     // Dismiss
     if (mascotClose) {
@@ -256,7 +258,9 @@
         mascot.style.opacity = '0';
         try {
           localStorage.setItem('riot-dismissed', 'true');
-        } catch { /* noop */ }
+        } catch {
+          /* noop */
+        }
         setTimeout(() => {
           mascot.style.display = 'none';
         }, 200);

@@ -37,6 +37,7 @@ html {
   --color-shadow: rgb(74, 94, 68, 0.18);
   --color-overlay: rgb(20, 30, 16, 0.65);
   --color-focus: #b8960c;
+  --color-emphasis: #0f1a0d;
 
   /* Gradients */
   --gradient-golden-hour: linear-gradient(145deg, #b8960c, #c08070);
@@ -129,12 +130,26 @@ select {
 }
 
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
@@ -213,6 +228,17 @@ pre {
   color: var(--color-text);
 }
 
+/* ── Emphasis — two channels: weight (500) + darker ink color ────────────── */
+strong,
+b {
+  font-weight: 500;
+  color: var(--color-emphasis);
+}
+
+em {
+  font-style: italic;
+}
+
 /* ── Scrollbar (webkit) ─────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
@@ -248,16 +274,17 @@ pre {
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 /* ── Utility classes ─────────────────────────────────────────────────────── */
-.sr-only {
+.sr-only,
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
-  border-width: 0;
+  border: 0;
 }
 
 .container {

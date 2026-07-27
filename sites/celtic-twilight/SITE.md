@@ -2,149 +2,101 @@
 
 ## 1. Concept & Vision
 
-Celtic Twilight dresses Phlix in the luminous hush of a stone circle at dusk. The site should feel like stepping into an illuminated manuscript — every page a crafted vellum surface, every scroll a passage through mist and gold leaf. The brand is ancient, lyrical, and reverent; it moves slowly and breathes deeply. Users should feel the weight of stories and the warmth of a hearth, not the cold efficiency of a tech product.
-
-**Brand identity in use:** Celtic Twilight (base kit, v1.0)
-
----
+Celtic Twilight dresses Phlix in the luminous hush of a stone circle at dusk — emerald greens, gold-leaf illumination, twilight purples, and the quiet cadence of ancient storytelling. Every page feels like an illuminated manuscript: warm vellum backgrounds, Cinzel headlines in ancient gold, and motion that rises like mist. The brand is mystical, reverent, folk-rooted, and deeply connected to the land and its stories.
 
 ## 2. Aesthetic Direction
 
-### Art Direction
-Artwork evokes twilight moorland: deep emerald greens fading into dusk purples, soft ground mist, and a faint luminous horizon. Key illustrations draw from Celtic knotwork geometry (spirals, triskelions, interlace) and Pre-Raphaelite figure studies. Lighting is crepuscular and atmospheric: warm gold of a lantern or hearth against cool dusk blue-purple.
+**Archetype:** narrative-scroll — a scrolling illuminated manuscript, unhurried and ceremonial.
 
-### Visual Style Tags
-- Illuminated manuscript
-- Celtic knotwork linework
-- Pre-Raphaelite painterly depth
-- Vellum texture and aged parchment
-- Dusk atmospheric gradients
+**Mood:** Pre-Raphaelite painterly depth, Book of Kells manuscript lineage, standing stone circles at dusk, lantern-gold against cool dusk purple.
 
-### Mood
-Mystical · Reverent · Lyrical · Grounded · Timeless · Atmospheric
+**Visual style:** Watercolor/paper grain texture level, layered depth, warm crepuscular lighting, organic curves and Celtic spiral geometry.
 
-### Layout Archetype: **Immersive Editorial**
-Chosen for its ability to convey depth, ceremony, and atmosphere — fitting for a brand built on ancient story and illuminated manuscript aesthetics. The full-bleed hero with atmospheric gradient, generous whitespace, and editorial serif typography creates the unhurried, reverent quality the brand demands.
-
----
-
-## 3. Color Table
+## 3. Color Palette
 
 | Role | Name | Hex | Usage |
-|------|------|-----|-------|
+|---|---|---|---|
 | Primary | Emerald Grove | `#2D6A4F` | Primary CTAs, active states |
 | Secondary | Twilight Amethyst | `#6B3FA0` | Secondary actions, hover highlights |
-| Tertiary | Ancient Gold | `#B8860B` | Badge highlights, ornamental accents |
+| Tertiary | Ancient Gold | `#B8860B` | Badge highlights, gold ornament accents |
 | Background | Vellum | `#F4EDD8` | Default page background |
 | Surface | Pale Mist | `#FAF7EE` | Card and panel surfaces |
-| Surface Alt | Heather Wash | `#E8E0F0` | Alternate surfaces, hover states |
+| Surface Alt | Heather Wash | `#E8E0F0` | Alternate surfaces |
 | Text | Ink Black | `#1A1208` | Primary body and headline text |
-| Border | Peat Ink | `#2C2010` | Card borders, dividers, linework |
-| Success | Shamrock Mist | `#A8DABC` | Success toasts, confirmations |
-| Warning | Harvest Ochre | `#D4A827` | Warnings, caution states |
-| Error | Rowan Berry | `#8B2020` | Errors, destructive actions |
+| Border | Peat Ink | `#2C2010` | Card borders, dividers |
 | Focus | Gold Leaf Glow | `#C9980A` | Keyboard focus ring |
-| Shadow | Dusk Shadow | `rgba(30,15,48,0.28)` | Drop shadows (twilight-purple tinted) |
-| Overlay | Nightfall Veil | `rgba(13,8,32,0.65)` | Modal/scrim overlays |
+| Error | Rowan Berry | `#8B2020` | Errors, destructive actions |
 
-### Gradients
-- **Dusk Over the Moor:** `linear-gradient(160deg, #2D6A4F, #4A2578, #1A0D2E)` — hero backdrops
-- **Gold Illumination:** `radial-gradient(circle, rgba(201,152,10,0.45), transparent)` — featured ornaments
-- **Rising Mist:** `linear-gradient(0deg, rgba(244,237,216,0), rgba(250,247,238,0.9))` — footer fades
-
-### Color Rules Followed
-- Never more than 3 accent colors in a single view
-- Backgrounds always vellum or vellum-derived — never pure white
-- Gold reserved for highest-importance emphasis (one moment per section max)
-- Shadows carry twilight-purple tint, never neutral grey or pure black
-- Emerald for primary actions; amethyst for secondary; gold for premium/celebration
-
----
+**Seasonal variants:** Samhain (dark inverted), Imbolc (pale spring), Bealthane (deep summer green), Solstice (winter bonfire).
 
 ## 4. Typography
 
-| Role | Family | Fallbacks | Weight | Tracking | Usage |
-|------|--------|-----------|--------|----------|-------|
-| Headline | Cinzel | Trajan Pro, Georgia, serif | 400, 700 | 0.06em | Hero headlines, section titles |
-| Display | Cinzel Decorative | Cinzel, Georgia, serif | 400, 700 | 0.08em | Oversized splash headings |
-| Body | EB Garamond | Garamond, Palatino, Georgia, serif | 400, 500, 600 | 0.01em | Paragraphs, long-form reading |
-| UI | Nunito | Open Sans, system-ui, sans-serif | 400, 600, 700 | 0.02em | Buttons, labels, navigation, chips |
-| Mono | DM Mono | Fira Mono, Courier New, monospace | 400, 500 | 0em | Code, tokens, file paths |
+| Role | Family | Weights | Notes |
+|---|---|---|---|
+| Headline | Cinzel | 400, 700 | Hero headlines, section titles |
+| Display | Cinzel Decorative | 400, 700 | Illuminated drop-caps, ceremonial headings |
+| Body | EB Garamond | 400, 500, 600 | Paragraphs, long-form reading |
+| UI | Nunito | 400, 600, 700 | Buttons, labels, navigation |
+| Mono | DM Mono | 400, 500 | Code blocks, tokens |
 
-### Typography Rules Applied
-- Cinzel and Cinzel Decorative reserved for display/headline only — never body text
-- EB Garamond body text: generous line-height (1.7), no tight tracking
-- Body line-length kept to 62–72 characters for comfortable reading
-- Italic welcome in body copy for lyrical passages; never italic headlines
-
----
+`<strong>` weight: 600 (declared for EB Garamond; `eb-garamond-600-latin.woff2` in pool).
 
 ## 5. Spatial System
 
-**Spacing scale (9 steps):** 4 · 8 · 12 · 16 · 20 · 24 · 32 · 48 · 64 · 96 px
-
-**Corner radius scale:**
-- `--radius-sm: 4px`
-- `--radius-md: 10px`
-- `--radius-lg: 18px`
-- `--radius-xl: 28px`
-- `--radius-pill: 999px`
-
-**Max content width:** 1320px (generous vellum breathing room)
-
----
+- Max content width: 1320px
+- Spacing scale: 4, 8, 12, 16, 20, 24, 32, 48, 64, 96px
+- Border radius: sm=4px, md=10px, lg=18px, xl=28px, pill=999px
+- Border: 1.5px solid peat ink, hand-drawn feel
 
 ## 6. Motion Philosophy
 
-- **Style:** Slow · Organic · Atmospheric · Reverent
-- **Speed:** Slow (never snappy or mechanical)
-- **Easing:** `cubic-bezier(0.4, 0, 0.2, 1)`, `ease-in-out`, spring(low-tension)
-- **Reduced motion:** All non-essential animation gated behind `prefers-reduced-motion: reduce`
-- **Transitions used:** Slow cross-dissolve, mist rise, gentle scale from 0.97, knotwork unfurl
-- **Hover microinteraction:** Cards lift 3px with dusk-purple shadow and 1.015 scale
-- **Button press:** Gentle 0.98 scale with gold inner glow fading over 200ms
-
----
+- **Speed:** slow — animations are unhurried, meditative
+- **Style:** mist rise, manuscript page turn, knotwork unfurl, slow cross-dissolve
+- **Easing:** ease-in-out, cubic-bezier(0.4, 0, 0.2, 1)
+- **Hero parallax:** lantern glow intensifies with scroll; pointer position creates gentle drift
+- **Scroll reveals:** IntersectionObserver fade-in with 22px upward translate
+- **Reduced motion:** all motion disabled, instant transitions
+- **Mascot (Sídhe):** floating spiral drift + lantern pulse animation; easter eggs for hover-hold and typed-word "knotwork"
 
 ## 7. Visual Assets
 
-| Asset | Description |
-|-------|-------------|
-| `img/logo.svg` | Cinzel wordmark in ancient gold on dusk-gradient field, knotwork corner ornaments |
-| `img/favicon.svg` | 32×32 emerald square with gold triskelion spiral ornament |
-| `img/og.svg` | 1200×630 social share card — dusk gradient, gold wordmark, tagline |
-| `img/PROMPTS.md` | Exact generation prompts for every image asset |
-| Inline SVG icons (7) | Single-color outlined icons with rounded caps, organic strokes (1.5px) |
+- **logo.svg:** Cinzel wordmark in ancient gold on dusk gradient, knotwork corner ornaments
+- **favicon.svg:** Emerald square with gold triskelion spiral ornament
+- **og.svg/og.png:** Dusk gradient social card with wordmark and headline
+- **Icons:** Hand-drawn outlined inline SVGs, 1.5–2px stroke, rounded caps, single-color (peat ink/emerald) or duotone
+- **Hero illustration:** Pure CSS/SVG gradient diorama with lantern glow + standing stone silhouette
 
-### Icon Style Applied
-- Outlined, rounded, hand-drawn, organic
-- 1.5–2px stroke weight with rounded caps and joins
-- Single-color (peat ink or emerald); duotone for featured/hero icons
-- No sharp-cornered or purely geometric icons
+## 8. Navigation
 
----
+**Labels:** The Hearth (Home), The Library (Features), The Vessels (Clients), Begin the Quest (Download), The Far Reach (Hub), The Elders Speak (About).
 
-## 8. Signature Elements Used
+**Demoted to footer:** Plugins, Docs — not in primary nav, linked in footer only.
 
-- Interlaced knotwork borders and dividers (SVG corner ornaments)
-- Standing stone silhouettes at dusk (CSS/SVG gradient hero backdrop)
-- Illuminated manuscript capital letter treatment (Cinzel + gold)
-- Triskelion and spiral ornaments (favicon, OG image, ornaments)
-- Hawthorn and oak branch motifs (knotwork SVG)
-- Gold-leaf dot clusters (Book of Kells dotting — ornamental SVG)
-- Vellum texture feel (background colors, warm shadows)
+**Emphasis:** The Hearth, The Library, Begin the Quest = primary (bold, emerald color); others = default.
 
----
+**Companion:** Sídhe — bottom-right on desktop (fixed), in-flow on mobile.
 
-## 9. What Was Avoided (Brand Opposites)
+## 9. Homepage Sections (in order)
 
-The following were treated as hard constraints — any screen drifting toward these is a defect:
-- Neon or electric colors
-- Corporate or clinical design
-- Flat or sterile minimalism
-- Fantasy-game dark (grimdark, skulls, harsh contrast)
-- Novelty-forward or trend-chasing aesthetics
-- High-tech futurism
-- Aggressively bright or cheerful tone
-- Photographic realism, harsh edge lighting
-- Generic play-button triangle, gear/cog, or tech iconography
+1. `the-threshold` — hero with diorama-parallax (lantern glow, stone silhouettes, visitor path fork)
+2. `why-gather` — 7 pitch bullets as knotwork-framed tiles
+3. `the-treasures` — 4 hero features as illuminated manuscript cards
+4. `the-keepers` — proof strategy: spec numbers, GitHub link, quote from docs
+5. `enter-the-circle` — conversion funnel CTA with install command
+
+## 10. Accessibility Notes
+
+- All text on vellum (#F4EDD8) background meets WCAG AA (4.5:1) or better
+- Gold tertiary (#B8860B) used only for large text and decorative accents — never body copy
+- Gold focus ring with 2px offset on all interactive elements
+- prefers-reduced-motion: all animations disabled
+- Touch targets minimum 44×44px
+- All icons have aria-hidden="true" or descriptive alt
+
+## 11. Performance Notes
+
+- Fonts self-hosted WOFF2, subset to Latin, font-display:swap
+- CSS gradient backgrounds (no image requests for hero)
+- IntersectionObserver scroll reveals (no scroll event listeners)
+- Mascot deferred below fold (defer attribute on script)
+- No CDN dependencies

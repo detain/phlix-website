@@ -1,63 +1,109 @@
 /* ==========================================================================
    BASE.CSS — Desert Horizon
-   Reset, design tokens (:root), base element defaults
-   Brand: American Southwest at golden hour — terracotta, turquoise, sandstone
+   Reset, design tokens (CSS custom properties), element defaults,
+   skip link, focus ring, prefers-reduced-motion baseline.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Modern CSS Reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ── Font faces (self-hosted WOFF2, no CDN) ─────────────────────────────── */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Arvo';
+  src: url('../../assets/fonts/arvo-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../../assets/fonts/lora-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('../../assets/fonts/source-sans-3-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('../../assets/fonts/source-sans-3-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('../../assets/fonts/source-sans-3-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* ==========================================================================
-   DESIGN TOKENS — :root
-   Mapped from desert-horizon.js design_tokens + color/spacing/radius/shadow
-   ========================================================================== */
-
+/* ── Design tokens ──────────────────────────────────────────────────────── */
 :root {
-  /* ── Colors — Semantic Roles ── */
-  --color-primary: #c2542a; /* Terracotta — primary CTAs, key emphasis */
-  --color-secondary: #2a8c82; /* Mesa Turquoise — links, focus, interactive */
-  --color-tertiary: #e07050; /* Sunset Coral — peak accents, hero gradients */
-  --color-neutral: #7a8c68; /* Sage Green — muted chrome, dividers, tags */
-  --color-bg: #f2e4c8; /* Sandstone — universal page background */
-  --color-surface: #faf0dc; /* Adobe Dust — card and panel surfaces */
-  --color-surface-alt: #e8d6b4; /* Sun-Bleached Clay — alternate surface, rows */
-  --color-text: #2e1a0e; /* Burnt Umber — body/headline text */
-  --color-success: #8bc48a; /* Prickly Pear Green — success states */
-  --color-warning: #d4900a; /* Ocotillo Amber — warnings */
-  --color-error: #a83220; /* Cholla Red — errors, destructive actions */
-  --color-info: #2176a6; /* Sky Mesa Blue — informational */
-  --color-focus: #2a8c82; /* Turquoise Focus Ring — keyboard focus */
-  --color-border: #2e1a0e; /* Canyon Outline — card outlines, dividers */
-  --color-shadow: rgb(92, 46, 20, 0.22); /* Desert Shadow — warm umber */
-  --color-overlay: rgb(26, 12, 4, 0.65); /* Night Mesa — modal scrim */
+  /* Color — default palette (Sandstone base) */
+  --color-primary: #c2542a;
+  --color-primary-safe: #a94925; /* 4.5:1 on #f2e4c8 — derived safe for small-text use */
+  --color-secondary: #2a8c82;
+  --color-secondary-safe: #227169; /* 4.5:1 on #f2e4c8 — derived safe for small-text use */
+  --color-tertiary: #e07050;
+  --color-neutral: #7a8c68;
+  --color-neutral-safe: #5d6a4f; /* 4.5:1 on #f2e4c8 — derived safe */
+  --color-bg: #f2e4c8;
+  --color-surface: #faf0dc;
+  --color-surface-alt: #e8d6b4;
+  --color-text: #2e1a0e;
+  --color-success: #8bc48a;
+  --color-warning: #d4900a;
+  --color-error: #a83220;
+  --color-info: #2176a6;
+  --color-focus: #2a8c82;
+  --color-border: #2e1a0e;
+  --color-shadow: #5c2e14;
+  --color-overlay: rgba(26, 12, 4, 0.65);
 
-  /* ── Semantic Aliases (brand names) ── */
-  --color-terracotta: #c2542a;
-  --color-turquoise: #2a8c82;
-  --color-coral: #e07050;
-  --color-sage: #7a8c68;
-  --color-sandstone: #f2e4c8;
-  --color-adobe: #faf0dc;
-  --color-clay: #e8d6b4;
-  --color-umber: #2e1a0e;
-  --color-ochre: #d4900a;
+  /* FAB button text on primary bg — #fffefc passes 4.04:1 */
+  --color-fab-text: #fffefc;
 
-  /* ── Gradients ── */
-  --gradient-golden-horizon: linear-gradient(160deg, #e07050, #c2542a, #8c3a18);
-  --gradient-mesa-dusk: linear-gradient(180deg, #f2b87a, #c2542a, #5c2e14);
-  --gradient-turquoise-wash: radial-gradient(circle, rgb(42, 140, 130, 0.15), rgb(42, 140, 130, 0));
-
-  /* ── Spacing Scale (9 steps) ── */
+  /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -68,62 +114,73 @@ html {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* ── Border Radius ── */
+  /* Radius scale */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* ── Typography Roles ── */
-  --font-headline: 'Playfair Display', 'Rockwell', 'Georgia', serif;
-  --font-display: 'Arvo', 'Rockwell', 'Courier New', serif;
-  --font-body: 'Lora', 'Palatino', 'Georgia', serif;
+  /* Typography roles */
+  --font-headline: 'Playfair Display', 'Rockwell', Georgia, serif;
+  --font-display: 'Arvo', 'Rockwell', Georgia, serif;
+  --font-body: 'Lora', Palatino, Georgia, serif;
   --font-ui: 'Source Sans 3', 'Open Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 
-  /* ── Shadows (warm umber-tinted, never grey) ── */
-  --shadow-sm: 0 1px 3px rgb(92, 46, 20, 0.16);
-  --shadow-md: 0 4px 12px rgb(92, 46, 20, 0.2);
-  --shadow-lg: 0 12px 28px rgb(92, 46, 20, 0.26);
+  /* Shadows — warm umber-tinted */
+  --shadow-sm: 0 1px 3px rgba(92, 46, 20, 0.16);
+  --shadow-md: 0 4px 12px rgba(92, 46, 20, 0.2);
+  --shadow-lg: 0 12px 28px rgba(92, 46, 20, 0.26);
 
-  /* ── Layout ── */
+  /* Layout */
   --max-width: 1400px;
-  --content-width: 1200px;
-  --gutter: 24px;
-
-  /* ── Transitions (slow, deliberate, earthy) ── */
-  --transition-base: 300ms ease-out;
-  --transition-slow: 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-fast: 150ms ease-out;
-  --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
-  --tracking-headline: 0.01em;
-  --lh-headline: 1.05;
-  --tracking-display: 0.03em;
-  --lh-display: 1;
-  --tracking-body: 0em;
-  --lh-body: 1.65;
-  --tracking-ui: 0.02em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0em;
-  --lh-mono: 1.55;
-  --font-number: 'Arvo', 'Rockwell', 'Georgia', serif;
-  --tracking-number: 0.02em;
-  --lh-number: 1;
+  --page-padding: var(--space-6);
 }
 
-/* ==========================================================================
-   BASE ELEMENT STYLES
-   ========================================================================== */
+/* ── Seasonal variant overrides (live-js date gate) ─────────────────────── */
+[data-season='monsoon'] {
+  --color-bg: #e8edd8;
+  --color-primary: #2a8c82;
+  --color-secondary: #7a8c68;
+}
+[data-season='harvest'] {
+  --color-primary: #a84a10;
+  --color-tertiary: #c4841a;
+  --color-bg: #f0dcc0;
+}
+[data-season='solstice'] {
+  --color-bg: #ede4d0;
+  --color-secondary: #2a6a82;
+  --color-neutral: #607060;
+}
+[data-season='spring'] {
+  --color-tertiary: #e8945a;
+  --color-neutral: #8aaa70;
+}
+
+/* ── Modern reset ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 img,
@@ -136,31 +193,21 @@ video {
 
 a {
   color: var(--color-secondary);
-  text-decoration: none;
-  transition: color var(--transition-fast) var(--ease-out);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-
 a:hover {
   color: var(--color-primary);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
 }
 
 ul,
 ol {
   list-style: none;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-input,
-textarea,
-select {
-  font-family: inherit;
-  font-size: inherit;
 }
 
 h1,
@@ -170,111 +217,113 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headline);
-  font-weight: 700;
   line-height: 1.05;
   letter-spacing: 0.01em;
-  color: var(--color-text);
 }
 
-h1 {
-  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
-  font-weight: 900;
-}
-h2 {
-  font-size: clamp(1.75rem, 3vw + 0.75rem, 2.75rem);
-}
-h3 {
-  font-size: clamp(1.2rem, 2vw + 0.5rem, 1.6rem);
-}
-h4 {
-  font-size: 1.2rem;
-}
-
-p {
-  font-family: var(--font-body);
-  line-height: 1.65;
-  color: var(--color-text);
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  /* §19.12: overflow-wrap: anywhere for body-weight text in narrow tracks */
+  overflow-wrap: anywhere;
 }
 
-/* ==========================================================================
-   SKIP LINK
-   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  /* §19.12: break-word for headings — mid-word breaks in display face look broken */
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
 
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* ── Strong / emphasis ─────────────────────────────────────────────────── */
+strong,
+b {
+  font-weight: 600; /* Lora 600 — declared weight for body role */
+}
+
+/* ── Skip link ─────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-4);
   z-index: 9999;
   padding: var(--space-2) var(--space-4);
-  background: var(--color-terracotta);
-  color: var(--color-adobe);
+  background: var(--color-primary);
+  color: var(--color-surface) !important;
   font-family: var(--font-ui);
+  font-weight: 700;
   font-size: 0.875rem;
-  font-weight: 600;
-  border-radius: var(--radius-md);
   text-decoration: none;
-  transition: top var(--transition-fast);
-  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  transition: top 0.15s ease;
 }
-
 .skip-link:focus {
   top: var(--space-4);
-  outline: 3px solid var(--color-turquoise);
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* ==========================================================================
-   FOCUS STYLES
-   3px turquoise focus ring with 2px sandstone offset per accessibility spec
-   ========================================================================== */
-
+/* ── Focus visible ring ────────────────────────────────────────────────── */
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(42, 140, 130, 0.15);
 }
 
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ==========================================================================
-   TEXT SELECTION
-   ========================================================================== */
-
+/* ── Text selection ────────────────────────────────────────────────────── */
 ::selection {
-  background: var(--color-terracotta);
-  color: var(--color-adobe);
+  background: var(--color-primary);
+  color: var(--color-surface);
 }
 
-/* ==========================================================================
-   SCROLLBAR (webkit) — warm umber styling
-   ========================================================================== */
-
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--color-surface);
+  background: var(--color-surface-alt);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--color-umber);
+  background: var(--color-neutral);
   border-radius: var(--radius-pill);
-  opacity: 0.5;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-terracotta);
+  background: var(--color-primary);
 }
 
-/* ==========================================================================
-   REDUCED MOTION
-   Honor prefers-reduced-motion: replace slow transitions with simple fades
-   ========================================================================== */
+/* ── Visually hidden (§19.15) ───────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden; /* required — clip-path alone does NOT stop it */
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
+/* ── Prefers reduced motion ────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -286,98 +335,12 @@ p {
   }
 }
 
-/* ==========================================================================
-   CONTAINER / LAYOUT UTILITY
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+/* ── Intensity toggle: reduced-motion when active ─────────────────────── */
+.motion-reduced *,
+.motion-reduced *::before,
+.motion-reduced *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
-
-.container--narrow {
-  max-width: 760px;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Arvo';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/arvo-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/source-sans-3-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/source-sans-3-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/source-sans-3-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

@@ -1,23 +1,16 @@
-# BUILD_LOG.md — Cosmic Horror Brand Kit Site
+# BUILD_LOG.md — Cosmic Horror Brand Kit Site (Regenerated)
 
 **Site:** `sites/cosmic-horror/`
-**Kit:** `phlix-website/brand-kits/cosmic-horror.js` (v1.0, kit_type: "base")
-**Built:** 2026-07-01
+**Kit:** `phlix-website/brand-kits/cosmic-horror.js` (v1.0)
+**Built:** 2026-07-27
 **Layout archetype:** `immersive`
+**Experience fields:** 20 declared, all implemented
 
 ---
 
 ## Summary
 
-Full 8-page brand-kit site for the **Cosmic Horror** identity (Lovecraftian cosmic horror aesthetic). The site renders Phlix as an ancient, watching, patient archive of media — everything in the kit traces back to eldritch green phosphorescence on absolute void-black, Cinzel Roman authority, and the particular wrongness that exists between known colours.
-
----
-
-## Layout Archetype
-
-**`immersive`** — chosen because the kit's `layout_patterns.landing` describes "full-bleed void hero with phosphorescent R'lyeh Rising gradient → cyclopean architecture key art → Cinzel headline → eldritch-green CTA → feature sections on R'lyeh Dark." This matches the immersive archetype: the full viewport is darkness punctuated only by phosphorescent accent. The architecture of the page itself implies depth beyond the screen. Dense academic information layout on dark surfaces below the hero.
-
-**Why not grid/editorial/card:** The kit's brand DNA demands void-black backgrounds as "presence, not absence," extreme contrast, and a sense that the layout extends beyond what is visible. A card-based or editorial approach would lose this vertiginous depth.
+Full 9-page brand-kit site (8 canonical + 404) for the **Cosmic Horror** identity (Lovecraftian cosmic horror aesthetic). The site renders Phlix as an ancient, watching, patient archive of media — everything in the kit traces back to eldritch green phosphorescence on absolute void-black, Cinzel Roman authority, and the particular wrongness that exists between known colours.
 
 ---
 
@@ -26,101 +19,145 @@ Full 8-page brand-kit site for the **Cosmic Horror** identity (Lovecraftian cosm
 ### Files
 ```
 sites/cosmic-horror/
-├── index.html          Home page — hero, pitch bullets, feature cards, CTA
-├── features.html       Feature detail grid (all 8 features, icons, bodies)
-├── clients.html        Client cards with status badges, highlights
-├── download.html       Server requirement, client cards, ecosystem list
-├── plugins.html        Plugin model, ecosystem, example link
+├── index.html          Home page — 5 narrative sections (threshold, the-catalog, why-descend, the-witnesses, the-summons)
+├── features.html       Feature detail grid (all 8 features)
+├── clients.html        Client cards with status badges
+├── download.html       Server requirement, install command, client cards, ecosystem
+├── plugins.html        Plugin model, lifecycle interface, example link
 ├── docs.html           Link-out to external docs + ecosystem list
-├── hub.html            Hub description, self-host / public relay info
+├── hub.html            Hub description, relay modes, client support
 ├── about.html          Philosophy, license, contributing, FAQ
+├── 404.html            Error page with kit voice, recovery links, noindex
 ├── css/
-│   ├── base.css        CSS reset, :root token block, accessibility, reduced-motion
-│   ├── theme.css       Typography scale, layout containers, page structure
-│   └── components.css  Header, nav, footer, buttons, cards, badges, code blocks
+│   ├── base.css        CSS reset, :root tokens, @font-face (self-hosted), accessibility, reduced-motion
+│   ├── theme.css       Typography, layout containers, page structure, animations
+│   └── components.css  Header/nav (kit labels), footer (3 cols), buttons, cards, badges, FAQ, mascot, easter eggs
 ├── js/
-│   └── main.js         Mobile nav toggle, reduced-motion guard, scroll reveals
-├── img/
-│   ├── logo.svg        Wordmark + cyclopean arch/eye sigil, eldritch-green border
-│   ├── favicon.svg     32×32 sigil mark in primary green on void-black
-│   ├── og.svg          1200×630 social share card — tagline + brand on void
-│   └── PROMPTS.md     Exact image generation prompts for every asset
-├── robots.txt          Per-site robots.txt referencing per-site sitemap
-└── sitemap.xml        All 8 canonical URLs as absolute https:// URLs
-```
-
-### Per-site docs
-```
-SITE.md                 Design rationale — concept, colours, type, motion, assets
-BUILD_LOG.md           This file
+│   └── main.js         Nav toggle, reduced-motion (with change listener), scroll reveals, easter eggs (typed-word + logo-clicks), mascot (Nyarla), seasonal awareness, code block copy
+├── img/                 (pre-existing: logo.svg, favicon.svg, og.svg, og.png, icon PNGs, PROMPTS.md)
+├── robots.txt          References sitemap
+├── sitemap.xml         8 canonical URLs (404 excluded — noindex)
+├── REGEN_PLAN.md       Experience field manifest
+├── SITE.md             Design rationale
+└── BUILD_LOG.md        This file
 ```
 
 ---
 
-## Intentional Deviations from new_site.md
+## Experience Fields Implemented
 
-1. **Fonts not yet self-hosted** — `@font-face` declarations in `base.css` declare local WOFF2 paths (`css/fonts/Cinzel-Bold.woff2` etc.) but no font files are present. Production build must run `download-fonts.mjs` for the 5 font families (Cinzel, Uncial Antiqua, Crimson Text, EB Garamond, Courier Prime). Fallback stack (`Trajan Pro, Times New Roman, serif` etc.) is functional.
+All 20 declared fields — all observably present on the site:
 
-2. **`og:image` → og.svg not og.png** — the spec asks for a rasterised `og.png`. We ship `og.svg` (SVG works as og:image on most platforms; most scrapers accept SVG). Production: rasterise `img/og.svg` to `img/og.png` and update meta.
+1. **site_architecture** — 6 nav items with kit labels + emphasis levels; plugins/docs demoted to footer
+2. **homepage_narrative** — 5 sections in kit order: threshold, the-catalog, why-descend, the-witnesses, the-summons
+3. **page_blueprints** — Composed per kit spec
+4. **copy_overlay** — Kit tagline_primary as hero H1; kit voice throughout
+5. **feature_casting** — 2 hero (library, syncplay) + 6 support features
+6. **copy_treatments** — Pitch bullets, FAQ, clients in kit component style
+7. **faq_experience** — Ordered by content.json, kit-voice framing
+8. **hero_experience** — Phosphorescent pulse, cosmic-rift gradient, staggered fade-rise
+9. **navigation_model** — Standard accessible topbar (fallback per spec)
+10. **scroll_experience** — IntersectionObserver fade-ins, geological pace, reduced-motion
+11. **easter_eggs** — typed-word:colour + logo-clicks:7 (both reachable)
+12. **conversion_funnel** — 3-rung CTA ladder on home + download
+13. **proof_strategy** — Live links (/stargazers, /contributors, /issues) — no fabricated numbers
+14. **visitor_paths** — Null (single curated path)
+15. **experience_archetype** — immersive
+16. **complexity_profile** — density=standard, jargon=translate, 5 sections max, 120 words/section
+17. **intensity_toggle** — Null
+18. **seasonal_activation** — "documented" — date awareness JS, no live token flip
+19. **error_page_experience** — 404.html with kit concept, recovery links, noindex, relative paths
+20. **mascot.behavior** — Nyarla companion with hover tips, localStorage dismissal
 
-3. **Home H1 = kit tagline_primary, not content.json hero.headline** — the kit's `tagline_primary: "That Which Has Always Been Watching."` is used as the visual H1. The spec (§2) explicitly says this is the "visual headline overlay" and that the kit's visual identity has authority over presentation. The factual product copy (content.json hero.headline: "Your media. Your library. Your Phlix.") appears in the og:title, not the visible page H1. This is a brand-faithful treatment per the kit's archetype (Shadow: "the visual headline overlay").
+---
 
-4. **No seasonal variant applied** — the three `seasonal_variants` in the kit are documented in SITE.md but not auto-applied. No date detection implemented.
+## Nav Labels (per site_architecture.nav)
 
-5. **No mascot (Nyarla) in rendered pages** — the kit defines a mascot (Nyarla) but the spec says "if null, do not invent a mascot." The mascot is present in the kit but not rendered in the marketing pages to keep the site clean. The PROMPTS.md documents how it would appear in seasonal variants.
+| id | Label | Emphasis |
+|----|-------|----------|
+| home | The Archive Opens | default |
+| features | Catalog of Things | primary |
+| clients | The Watchers | default |
+| download | Descending Below | primary |
+| hub | The Relay | default |
+| about | What We Know | muted |
+
+Demoted to footer: plugins, docs (pages still exist and linked)
+
+---
+
+## Key Fixes from Predecessor
+
+1. **404.html added** — predecessor had no 404 page; now exists per §2A
+2. **Nav labels corrected** — predecessor had no kit labels; now all 6 primary nav items use kit labels
+3. **Home sections corrected** — predecessor had generic sections; now 5 named sections per homepage_narrative
+4. **Fonts self-hosted** — @font-face pointing to `../../assets/fonts/` pool; all declared weights exist
+5. **Secondary color fixed** — `#3D0080` replaced with `#8b66b3` where used as text color (original fails AA at 1.50:1)
+6. **Unique meta descriptions** — each page has distinct description (Trap 4)
+7. **Easter eggs implemented** — typed-word and logo-clicks both reachable
+8. **Mascot implemented** — Nyarla with hover tips, dismiss to localStorage
+9. **Reduced motion change listener** — attaches to change event, not just initial read (Trap 20)
+10. **CSS grid tracks use `minmax(0, 1fr)`** — prevents overflow at 320px / 200% zoom (Trap 12)
+11. **Body text has `overflow-wrap: anywhere`** — long words wrap in narrow tracks (Trap 12)
+12. **No `overflow: hidden` on text containers** — prevents clipping at 200% zoom (Trap 13)
+
+---
+
+## Intentional Deviations from Kit
+
+1. **seasonal_activation = "documented"** — date-gate JS only logs variant, does not flip tokens. Kit field present as awareness mechanism; live behavior deferred per kit's own documentation note.
+
+2. **mascot placement** — kit specifies "bottom-right corner on desktop, top-right on mobile." Mobile placement is in-flow above footer, not fixed top-right. Fixed top-right would cover content/CTA on 320px per Trap 11.
+
+3. **navigation_model** — standard accessible topbar rendered as fallback. Enhancement layer (exotic mode) not built per accessibility constraint; spec requires fallback to always be present.
+
+---
+
+## Install Command
+
+Copied verbatim from `content.json.install.primary` — never retyped:
+```
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
+```
+
+`content.json.install.from_source` used on download page, explicitly labelled "not an install."
 
 ---
 
 ## Quality Gates
 
-- [x] All 8 pages + css/js/img + robots.txt + sitemap.xml + SITE.md + BUILD_LOG.md exist
-- [ ] `npm run lint` — pending run
-- [ ] `npm run linkcheck` — pending run
-- [ ] `npm run a11y` — pending run
-- [ ] WCAG 2.2 AA contrast verified (Eldritch Green 6.8:1 on void, Corrupted White 14.2:1 on void)
-- [x] Brand fidelity: every colour/font/shape/motion/icon/voice traces to the kit
-- [x] Content accuracy: all claims match Phlix facts from new_site.md §16
-- [ ] Responsive at 320–1920px (pending visual check)
-- [ ] Review loop: no ❌, no dimension below 90
-
----
-
-## Known Follow-Ups
-
-1. **Download and install font WOFF2 files** into `css/fonts/` — run `download-fonts.mjs` targeting cosmic-horror or manually fetch from Google Fonts for: Cinzel (700, 900), Uncial Antiqua (400), Crimson Text (400, 600), EB Garamond (400, 500, 600), Courier Prime (400, 700)
-
-2. **Rasterise og.svg → og.png** — most platforms will accept SVG for og:image, but Apple News and some older scrapers require PNG
-
-3. **Run `npm run lint`, `npm run linkcheck`, `npm run a11y`** — fix any failures before deployment
-
-4. **Adversarial review loop** — spawn reviewer agents per new_site.md §3
-
-5. **Reviews** — write review findings to `reviews/cosmic-horror/<dimension>.md` for each of 12 dimensions; iterate until clean
+- [x] All 9 pages (8 canonical + 404) + css + js + img + robots.txt + sitemap.xml + SITE.md + BUILD_LOG.md + REGEN_PLAN.md exist
+- [x] `@copyright 2026 Joe Huss <detain@interserver.net>` in every css/js file
+- [x] Self-hosted fonts from pool (no CDN)
+- [x] All nav labels match site_architecture.nav
+- [x] Home sections in homepage_narrative.sections[] order
+- [x] og:image absolute URL pointing to PNG
+- [x] 404.html: noindex, relative paths, recovery links
+- [x] Two easter eggs reachable
+- [x] mascot dismiss persists via localStorage
+- [x] prefers-reduced-motion with change listener
+- [x] Grid tracks `minmax(0, 1fr)` + overflow-wrap:anywhere on body
+- [x] No fabricated proof numbers — live links only
+- [ ] `selfcheck.mjs` — pending
+- [ ] `render-check.mjs` — pending
 
 ---
 
 ## Brand Fidelity Notes
 
-- Every CSS colour variable maps directly to `kit.colors.*` hex values
-- Cinzel headlines: tracking 0.05em (wide), weight 700+ (monumental)
-- All corner radii ≤ 4px (sharp — kit `corner_radius.large` = 4px)
-- All transitions 250ms+ (slow, geological — kit `animation_speed: "slow"`)
-- No bounce/spring easing — `cubic-bezier(0.0, 0.0, 0.2, 1)` and `ease-in` only
-- No warm colours anywhere — void-black and eldritch green only
-- Voice: terse, formal, no exclamation marks, no warmth — verified in all micro-copy
-- No `avoid_words` from kit's list (fun, awesome, amazing, exciting, cozy, warm, friendly, etc.) in any visible copy
+- Every CSS color variable maps to kit design_tokens
+- Cinzel headlines: tracking 0.05em, weight 700+
+- All corner radii ≤ 4px (sharp)
+- No bounce/spring easing
+- No warm colors
+- Voice: terse, formal, no exclamation marks, no warmth
+- `<strong>` = font-weight: 600 (Crimson Text 600 face)
+- No `avoid_words` (fun, awesome, amazing, exciting, cozy, warm, friendly, etc.) in visible copy
 
 ---
 
-## Kit Metadata
+## Escalations / Notes for Orchestrator
 
-| Field | Value |
-|-------|-------|
-| name | Cosmic Horror |
-| slug | cosmic-horror |
-| version | 1.0 |
-| kit_type | base |
-| archetype | Shadow |
-| personality | Unsettling, Ancient, Vast, Indifferent, Magnificent, Wrong |
-| emotional_goals | Dread, Awe, Fascination, Unease, Transgression, Forbidden wonder |
-| designer_notes | "The researchers who consulted the source materials for this kit are, on the whole, still functional." |
+- Kit's `#3D0080` Void Purple fails AA on Cosmic Void (1.50:1). Used `#8b66b3` as safe substitute wherever secondary appears as text. Verified in contrast table.
+- `crimson-text-700-latin.woff2` and `eb-garamond-700-latin.woff2` exist in pool but are NOT declared for those roles — not used.
+- `cinzel-400-latin.woff2` and `cinzel-600-latin.woff2` exist but NOT declared for headline role — not used.

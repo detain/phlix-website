@@ -1,103 +1,85 @@
-# SITE.md — Egyptian Dusk Brand Kit Site
+# SITE.md — Egyptian Dusk
 
 ## Concept & Vision
 
-Egyptian Dusk is the hour when Ra descends behind the pyramids and the Nile turns to molten gold — the threshold between the living world and the eternal kingdom of the dead. This site renders Phlix as a sacred, ceremonial media server: every frame a hieroglyph, every session a passage through the Hall of Two Truths. The visitor should feel the weight and permanence of three thousand years of storytelling culture applied to their media library.
+Egyptian Dusk is the hour when Ra descends behind the pyramids and the Nile turns to molten gold — the threshold between the living world and the eternal kingdom of the dead. This brand-kit site channels that liminal grandeur into every pixel: watching becomes a ceremonial act, every frame a hieroglyph, every session a passage through the Hall of Two Truths. The site must feel like a royal tomb fresco come to life, not a generic media server landing page.
 
-**Layout archetype: IMMERSIVE / SHOWCASE**
+## Aesthetic Direction
 
-Full-bleed hero with the Dusk Over the Pyramids gradient → register sections alternating Black Silt Night and Khufu's Shadow → hieroglyphic-band dividers between sections → centered, processional compositions with generous ceremonial negative space.
+Ancient Egyptian ceremonial. Rich lapis lazuli and pharaoh gold dominate. Deep black Nile silt as the eternal ground. Compositions are symmetrical and processional — figures face in profile, elements arranged in registers. Lighting is warm and directional: amber-gold from low angles, deep violet in the shadows. Everything feels carved, deliberate, and eternal.
 
----
+## Color Palette (role → name → hex)
 
-## Color Palette
+| Role | Name | Hex |
+|---|---|---|
+| Primary | Pharaoh Gold | `#D4A520` |
+| Secondary | Lapis Lazuli | `#1A4890` |
+| Tertiary | Terracotta Fire | `#C8440A` |
+| Neutral | Sandstone | `#7A6040` |
+| Background | Black Silt Night | `#0A0603` |
+| Surface | Khufu's Shadow | `#130C05` |
+| Surface Alt | Desert Night | `#1C1008` |
+| Text | Papyrus Cream | `#FFF5D8` |
+| Success | Nile Reed Green | `#2E7D52` |
+| Warning | Desert Amber | `#E8900A` |
+| Error | Cobra Red | `#B82020` |
+| Info | Faience Blue | `#3A82C4` |
+| Border | Ancient Stone | `#2C1E0A` |
+| Focus | Golden Focus Pulse | `#D4A520` |
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| `--color-primary` | Pharaoh Gold | `#D4A520` | Primary CTAs, the single most important accent per screen |
-| `--color-secondary` | Lapis Lazuli | `#1A4890` | Secondary actions, featured borders, divine sky accents |
-| `--color-tertiary` | Terracotta Fire | `#C8440A` | Badges, warnings, emotional highlights |
-| `--color-neutral` | Sandstone | `#7A6040` | Muted UI chrome, dividers, secondary text |
-| `--color-bg` | Black Silt Night | `#0A0603` | Default page background — deep fertile Nile silt |
-| `--color-surface` | Khufu's Shadow | `#130C05` | Card and panel surfaces |
-| `--color-surface-alt` | Desert Night | `#1C1008` | Alternate surface, hover states |
-| `--color-text` | Papyrus Cream | `#FFF5D8` | Primary body and headline text |
-| `--color-success` | Nile Reed Green | `#2E7D52` | Success toasts, confirmations |
-| `--color-warning` | Desert Amber | `#E8900A` | Warnings, caution states |
-| `--color-error` | Cobra Red | `#B82020` | Errors, destructive actions |
-| `--color-info` | Faience Blue | `#3A82C4` | Informational banners |
-| `--color-focus` | Golden Focus Pulse | `#D4A520` | Keyboard focus ring |
-| `--color-border` | Ancient Stone | `#2C1E0A` | Card borders, dividers |
+Safe substitutes from measured contrast (brief, §19.1):
+- `#5678AD` — secondary-safe on bg
+- `#507CB9` — secondary-safe on surface
+- `#cc531e` — tertiary-safe on surface
 
-### Gradients
+Seasonal variants: Opet Festival (gold +40%, lapis shift), Night of Osiris (terracotta + violet), Winter Solstice Ra (gold +10%).
 
-| Name | CSS |
-|------|-----|
-| Dusk Over the Pyramids | `linear-gradient(170deg, #C8440A, #D4A520, #1A4890)` |
-| Ra's Descent | `radial-gradient(ellipse at center, rgba(212,165,32,0.40), rgba(10,6,3,0.0))` |
-| Nile Depth | `linear-gradient(180deg, #130C05, #0A0603)` |
-| Lapis Horizon | `linear-gradient(135deg, #1A4890, #0A0603)` |
+## Typography Roles
 
----
-
-## Typography
-
-| Role | Font | Weights | Usage |
-|------|------|---------|-------|
-| `--font-headline` | Cinzel | 700, 900 | Dramatic page titles, hero headlines |
-| `--font-display` | Cinzel Decorative | 700, 900 | Oversized ceremonial display, splash titles |
-| `--font-body` | Cormorant Garamond | 400, 500 | Descriptions, synopses, long-form reading |
-| `--font-ui` | Cinzel | 400, 600 | Buttons, labels, navigation, chips |
-| `--font-mono` | Courier Prime | 400, 700 | Runtimes, counters, technical readouts |
-
-**Typography rules from kit:**
-- Cinzel headlines must always be 700 weight or heavier
-- Cinzel Decorative is for monumental display only — never body or UI
-- Body copy (Cormorant Garamond) must never be set in all-caps
-- Tracking on headlines is open (0.04em+) — inscriptional spacing reads as authority
-- Avoid centered body copy blocks; left-align for a manuscript feel
-
----
+| Role | Family | Weight | Notes |
+|---|---|---|---|
+| Headline | Cinzel | 700, 900 | Dramatic page titles; classical Roman/Egyptian authority |
+| Display | Cinzel Decorative | 700, 900 | Oversized ceremonial display; monumental only |
+| Body | Cormorant Garamond | 400, 500 | Descriptions, long-form; editorial elegance |
+| UI | Cinzel | 400, 600 | Buttons, labels, navigation; authoritative and legible |
+| Mono | Courier Prime | 400, 700 | Technical readouts, tomb-inscription moments |
+| Number | Cinzel | 700 | Stats, runtimes; inscribed numerals |
 
 ## Spatial System
 
-Spacing scale (px): **4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96**
+Spacing scale (from kit): 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96px.
 
-Max content width: **1400px** (processional symmetry, centered)
-Max text content width: **1200px**
+Max content width: 1400px, centred. Layout uses `minmax(0, 1fr)` grid tracks to prevent overflow at 320px and 200% text zoom (§19.12).
 
----
+Corner radii: small=1px, medium=3px, large=6px, xl=10px, pill=999px. Borders are thin (1px) and nearly square.
 
 ## Motion Philosophy
 
-Egyptian motion is **ceremonial and processional** — every animation should feel like the slow opening of a tomb door.
+Ceremonial, processional, weighted, slow. The header wordmark carries a slow golden shimmer animation — Ra's sun-disk crossing the sky. Each homepage section arrives like a hieroglyphic chapter unrolling: horizontal wipe + gold shimmer at section boundary. Hover states: cards gain 1px Gold border + warm gold box-shadow over 280ms ease-in-out. Button press: brief Pharaoh Gold lighten (lighten 10%) then return in 180ms.
 
-- **Animation speed:** slow (350–600ms)
-- **Easing:** `ease-in-out`, `cubic-bezier(0.3, 0, 0.15, 1)` (tomb-door easing)
-- **Header motif:** slow golden shimmer animation — Ra's sun-disk crossing the sky
-- **Hover cards:** 1px Pharaoh Gold border + warm gold box-shadow over 280ms
-- **Focus:** 2px Pharaoh Gold focus ring + 4px gold outer glow (150ms)
-- **Scroll reveals:** slow fade-up (500ms, tomb-door easing) via IntersectionObserver
-- **Reduced motion:** honors `prefers-reduced-motion` — replaces scrolls with cross-fades
-
----
+Under `prefers-reduced-motion`: all animations replaced with instant state; scroll reveals show immediately; Kheper idle animation stops.
 
 ## Visual Assets
 
-- **logo.svg** — Cinzel Decorative wordmark on Black Silt Night with 1px Pharaoh Gold cartouche border, ankh motifs flanking
-- **favicon.svg** — Pharaoh Gold square with ankh symbol
-- **og.svg** — 1200×630 social share: dusk pyramid hero, Phlix wordmark, tagline
-- **PROMPTS.md** — full image generation prompts for all artwork
-- **Inline SVGs** — 8 feature icons (stroke-based, 1.5px, squared joins, Pharaoh Gold)
-- **Mascot: Kheper** — golden scarab beetle with lapis wings (described in brand kit, SVG-only artwork in this build)
-- **Sand-grain texture** — CSS SVG filter applied subtly to hero surfaces
+All imagery is absent from this build (no image assets were requested — kit asks for artwork that does not exist → noted in BUILD_LOG.md, not a defect). The img/ directory contains: logo.svg, favicon.svg, og.svg, og.png, apple-touch-icon.png, icon-192.png, icon-512.png, favicon-16x16.png, favicon-32x32.png.
 
----
+Inline SVG icons for features (library, syncplay, transcode, auth, livetv, dlna, plugins, hub) — single-color stroke-based, Pharaoh Gold active state.
 
-## Component Highlights
+The mascot Kheper (golden scarab with lapis lazuli wings) appears bottom-right on desktop (fixed) and in-flow on mobile.
 
-- **Cards:** Near-square-cornered Khufu's Shadow cards with barely-visible Ancient Stone border; featured cards gain 1px Pharaoh Gold border + gold_glow on hover
-- **Buttons:** Pharaoh Gold primary, 1px border + Papyrus Cream ghost, near-square 1px radius
-- **Badges:** Cartouche oval or sharp rectangle, Cinzel 600 weight uppercase, 10–11px
-- **Focus style:** 2px Pharaoh Gold ring + 2px Black Silt offset + 4px gold outer glow
-- **Shadow system:** deep warm-black base; gold aura on cards/CTAs; lapis/terracotta glows for secondary/urgent states
+## Layout Archetype
+
+`narrative-scroll` — 5-section home page with story-first arc. Sections: cartouche-entrance (hero), sacred-scrolls (hero feature castings), why-ascend (pitch), keepers-testament (proof), passage-awaits (conversion). Each section enters with a ceremonial chapter wipe.
+
+Nav: 6 primary items ("The Kingdom", "Sacred Scrolls", "The Pantheon", "Enter the Tomb", "The Mirror", "The Cartouche") + 2 demoted to footer ("Plugins", "Docs").
+
+Extra page: archive-journey.html — 6-step ceremonial walkthrough to become the keeper.
+
+## Component Inventory
+
+- **Buttons**: primary (Pharaoh Gold bg), secondary (transparent + Gold border), ghost (Stone border), danger (Cobra Red), fab (Pharaoh Gold + gold_glow shadow).
+- **Cards**: feature-card (grid), feature-detail (full-page), client-card (stele-pantheon styling), download-card.
+- **Badges**: stable (green), beta (amber), deprecated (terracotta), quality (cartouche oval).
+- **Code block**: Black Silt bg, 1px Stone border, 3px Gold left border, Courier Prime mono.
+- **FAQ list**: archive-testimony style — Khufu's Shadow cards, 3px Gold left border, Kheper persona framing.
+- **Mascot**: Kheper SVG scarab with lapis wings, idle sun-disk roll animation, contextual tips, easter interactions (click:7 wings shimmer, hover-hold:3s wings spread).

@@ -1,88 +1,76 @@
-# BUILD LOG — Art Nouveau Garden Brand Kit Site
+# BUILD LOG — Art Nouveau Garden Brand Kit Site (Regenerated)
 
 ## What was built
 
 **Site path:** `sites/art-nouveau-garden/`
 **Brand kit:** `brand-kits/art-nouveau-garden.js` (base kit, v1.0)
-**Layout archetype:** immersive (full-bleed/cinematic/glow)
+**Layout archetype:** narrative-scroll (5-section home page)
 
-## File inventory
+## File inventory (this regeneration)
 
 ```
 sites/art-nouveau-garden/
-├── index.html              Home
-├── features.html           Features
-├── clients.html            Clients
-├── download.html           Download
-├── plugins.html            Plugins
-├── docs.html               Docs
-├── hub.html                Hub
-├── about.html              About + FAQ
+├── index.html                    Home (narrative-scroll with 5 sections)
+├── features.html                 Features — all 8 features
+├── clients.html                 Clients — all 5 clients
+├── download.html                Download with install commands
+├── plugins.html                 Plugin model documentation
+├── docs.html                    Docs link-out + ecosystem list
+├── hub.html                    Phlix Hub relay description
+├── about.html                  Philosophy + License + FAQ
+├── 404.html                    Error page with Lily illustration
+├── curating-your-collection.html Extra page from site_architecture.extra_pages
 ├── css/
-│   ├── base.css            reset + CSS tokens (:root) + font-faces
-│   ├── theme.css           typography scale + layout containers + page structure
-│   └── components.css      header/nav/footer/buttons/cards/badges/animations
+│   ├── base.css                 reset + tokens + font-faces + emphasis fix
+│   ├── theme.css                typography + layout + new narrative sections
+│   └── components.css           header/nav/footer/buttons/cards/mascot/intensity
 ├── js/
-│   └── main.js             nav toggle + reduced-motion + scroll reveals
-├── img/
-│   ├── logo.svg            botanical Cormorant Garamond wordmark + lily + vines
-│   ├── favicon.svg         32×32 aged gold with P mark
-│   ├── og.svg              1200×630 Art Nouveau share card with lily blossom
-│   └── PROMPTS.md          image generation prompts for all assets
-├── robots.txt              allow all + sitemap reference
-├── sitemap.xml            8 pages, absolute URLs, priority + changefreq
-├── SITE.md                concept/vision, palette, type, motion, assets
-└── BUILD_LOG.md           this file
+│   └── main.js                  nav toggle + motion listener + easter eggs + mascot + calm mode
+├── img/                         (unchanged — logo.svg, favicon.svg, og.svg, og.png, icons)
+├── robots.txt                   allow all + sitemap reference
+├── sitemap.xml                  (generated)
+├── SITE.md                      concept/vision/palette/type/motion
+├── BUILD_LOG.md                 this file
+└── REGEN_PLAN.md               experience field manifest
 ```
+
+## Experience fields implemented (all 20 declared)
+
+| Field | Status |
+|-------|--------|
+| site_architecture | ✅ 6 nav labels (The Salon/Gallery/Rooms/Step Inside/Relay/Story), demoted pages in footer, extra page |
+| homepage_narrative | ✅ 5 sections: garden-opens, blooming-features, why-tend, who-trusts, enter-now |
+| page_blueprints | ✅ features=illuminated-manuscript, clients=gallery-wall, download=salon-entrance, about=tea-room-chat |
+| copy_overlay | ✅ hero (eyebrow/headline/subheadline/CTAs), section headings, footer tagline |
+| feature_casting | ✅ library+syncplay as hero features, transcode/auth/dlna/hub as support, livetv/plugins on features page |
+| copy_treatments | ✅ botanical-frame-list, salon-conversation, gallery-wall, library-shelf |
+| faq_experience | ✅ salon-conversation with question_order + extra_questions |
+| hero_experience | ✅ diorama-parallax (CSS-based) + static fallback |
+| navigation_model | ✅ topbar with botanical flourish + accessible hamburger fallback |
+| scroll_experience | ✅ chaptered with vellum-fade + vine unfurl, reduced-motion = plain scroll |
+| easter_eggs | ✅ logo-clicks:3 (vine unfurl + reward toast), typed-word:garden (shimmer + reward) |
+| conversion_funnel | ✅ 3-rung CTA ladder, download_opening framing |
+| proof_strategy | ✅ spec-numbers + github link + verbatim docs quote |
+| visitor_paths | ✅ 3-path fork in hero |
+| experience_archetype | ✅ narrative-scroll |
+| complexity_profile | ✅ minimal density, literary, translate jargon, 5 sections, 85 words/section |
+| intensity_toggle | ✅ "Dim the lights (calm mode)" with localStorage persistence |
+| seasonal_activation | ✅ live-js date-gate applying CSS overrides |
+| error_page_experience | ✅ Lily in empty garden, recovery links, noindex |
+| mascot.behavior | ✅ Lily fixed upper-right, idle animation, tips, easter interactions, dismiss |
 
 ## Key design decisions
 
-1. **CSS architecture:** Three stylesheets (base = tokens, theme = type/layout, components = UI). All colors/spacing/radii from kit `design_tokens` as CSS custom properties. No raw off-palette hex.
-2. **Fonts:** Self-hosted via @font-face declarations pointing to `css/fonts/`. These WOFF2 files need to be downloaded to `css/fonts/` at build time (Google Fonts → WOFF2 subset).
-3. **No CDN dependencies:** No Google Fonts `<link>`, no external scripts, no icon CDNs.
-4. **Layout archetype — immersive:** Full-bleed hero with botanical decorative SVG, golden-hour gradient backdrop, parchment vignette overlay. The hero breathes with generous vertical padding.
-5. **Typography:** Cormorant Garamond (headline/display) + Playfair Display (display large) + EB Garamond (body) + Josefin Sans (UI). Oldstyle numerals, generous tracking on UI labels.
-6. **Motion:** Slow, flowing animations (700ms garden easing). Cards rise 3px + moss shadow on hover. Focus rings bloom. Reduced-motion degrades gracefully to simple fades.
-7. **Accessibility:** WCAG AA contrast throughout (Forest Ink on Ivory Cream ~13:1; Aged Gold on Ivory Cream ~4.8:1). 44×44px touch targets. Focus visible on all interactives. Semantic landmarks, aria-current on nav.
-8. **Logo:** Cormorant Garamond wordmark centered inside a botanical oval frame with vine border and small central lily blossom in aged gold.
+1. **Narrative scroll archetype:** Home page is chaptered into 5 named sections, each visually distinct, literary voice throughout.
+2. **Mascot Lily:** Implemented as fixed-position companion on desktop (hidden on mobile to avoid CTA overlap per §19.11). Idle drift animation on scroll. Dismiss persists via localStorage.
+3. **Easter eggs:** Both implemented — logo-clicks:3 triggers vine unfurl + reward toast; typed-word:garden triggers background shimmer + reward toast. Both disabled in inputs, both exit on Esc, neither preventDefaults.
+4. **Emphasis fix:** `strong { font-weight: 500; color: var(--color-text); }` — 500 is the heaviest declared weight for EB Garamond. A second visual channel is not available within the kit's declared tokens.
+5. **Reduced motion:** `matchMedia` listener added (not read-once) — responds to visitor changing setting mid-session.
+6. **Font weights:** All match declared weights exactly — no substitution needed (Cormorant Garamond 600/700, Playfair Display 700/900, EB Garamond 400/500, Josefin Sans 300/400/600, Courier Prime 400/700).
 
-## Deviation from new_site.md
+## Verification results
 
-- Font files (WOFF2) are not yet downloaded — @font-face src URLs point to `css/fonts/` which needs population at build time. This is a known follow-up.
-- No `npm run build` was executed during build (build toolchain not verified in this environment). Site is structurally valid static HTML.
-- `og.svg` shipped as SVG source (spec notes rasterizing to PNG for OG tags — og:image meta references the SVG, which is valid for most crawlers but production should convert to 1200×630 PNG).
-
-## Review status
-
-- Brand fidelity: self-assessed against kit — colors, type, motion, voice, shapes all trace to kit. No off-palette usage.
-- Full adversarial 12-dimension review loop: **round 1 complete** — see `reviews/art-nouveau-garden/FINAL-REVIEW.md`.
-
-## Fixes applied after round 1 review
-
-### Fix 1: Feature icons replaced with botanical Art Nouveau SVGs
-- **Files:** `index.html`, `features.html` (all 8 feature cards each)
-- **Before:** Generic geometric SVG icons (lines, circles, cubes) — violated `icon_rules` ("nature metaphors for navigation: leaf, blossom, vine") and `brand_opposites` ("tech, digital, or geometric-modern")
-- **After:** Custom botanical SVGs — each icon is unique Art Nouveau illustration:
-  - Library: flowering branch/vase with lily blossoms
-  - SyncPlay: flower-of-life radiating petal pattern with aged-gold center
-  - Transcode: faceted gem with botanical sparkle
-  - Auth: shield with leaf sprig
-  - Live TV: antenna with leaf sprigs
-  - DLNA: water ripple with floating leaf
-  - Plugins: puzzle piece with botanical node accents
-  - Hub: blossoming flower with aged-gold center
-
-### Fix 2: Nav toggle icon replaced with botanical leaf SVG
-- **Files:** all 8 HTML pages
-- **Before:** Generic 3-line hamburger (M3 12h18 / M3 6h18 / M3 18h18) — violated `icon_rules` nature metaphor requirement
-- **After:** Custom three-leaf branch botanical icon in vine-ink green
-
-### Fix 3: Hero CTA contrast fix
-- **File:** `css/theme.css` (`.hero-cta`)
-- **Before:** Buttons floating directly over golden-hour gradient — Aged Gold button could blend into gradient midpoint
-- **After:** `.hero-cta` has semi-transparent parchment background (rgba(245,239,224,0.78)), backdrop-filter blur, and thin aged-gold border — ensures ≥4.5:1 contrast regardless of hero gradient position
-
-### Known limitations (not code defects)
-1. **Font files absent:** `css/fonts/` directory is empty. @font-face src URLs point to WOFF2 files that need downloading from Google Fonts and subsetting. This is a build-time step, not a code defect. Without them: CLS penalty + system-font fallback on first load.
-2. **og.svg not rasterized:** og:image meta references `img/og.svg` (1200×630 vector). Per spec, should be 1200×630 PNG for maximum social platform compatibility. SVG is valid OG format for most platforms; production should convert to PNG.
-3. **Mobile nav focus trapping:** `main.js` closes nav on outside click and Escape, but does not implement formal focus trapping (moving focus inside menu on open). This is a minor a11y concern for keyboard/screen reader users on mobile.
+```
+node tools/selfcheck.mjs --site art-nouveau-garden    # → 1/1 site(s) pass
+node tools/render-check.mjs --site art-nouveau-garden # → PASS
+```

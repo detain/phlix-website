@@ -112,14 +112,18 @@
       });
       try {
         localStorage.setItem('phlix-intensity', loud ? 'loud' : 'chill');
-      } catch { /* noop */ }
+      } catch {
+        /* noop */
+      }
     }
 
     // Restore preference
     try {
       var saved = localStorage.getItem('phlix-intensity');
       if (saved === 'chill') applyIntensity(false);
-    } catch { /* noop */ }
+    } catch {
+      /* noop */
+    }
 
     intensityBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -154,7 +158,9 @@
         cap.style.display = 'none';
         return;
       }
-    } catch { /* noop */ }
+    } catch {
+      /* noop */
+    }
 
     // Dismiss button
     var dismissBtn = qs('.mascot-dismiss', cap);
@@ -163,7 +169,9 @@
         cap.style.display = 'none';
         try {
           localStorage.setItem('phlix-cap-dismissed', 'true');
-        } catch { /* noop */ }
+        } catch {
+          /* noop */
+        }
       });
     }
 

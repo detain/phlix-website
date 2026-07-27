@@ -1,10 +1,12 @@
 /* ==========================================================================
-   Egyptian Dusk — base.css
-   Brand kit: Egyptian Dusk v1.0
-   Black Nile silt, hammered pharaoh gold, lapis lazuli, terracotta fire.
+   BASE.CSS — Egyptian Dusk
+   Reset, design tokens, element defaults, skip-link, focus ring, motion.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ─── Modern Reset ──────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   1. Modern reset
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -14,9 +16,17 @@
 }
 
 html {
-  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   hanging-punctuation: first last;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 img,
@@ -33,55 +43,59 @@ button,
 textarea,
 select {
   font: inherit;
+  color: inherit;
 }
 
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-  color: var(--color-primary);
-}
-
-/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   2. Design tokens — Egyptian Dusk palette & spacing
+   -------------------------------------------------------------------------- */
 :root {
-  /* ── Color system (Egyptian Dusk semantic roles) ── */
-  --color-primary: #d4a520; /* Pharaoh Gold */
-  --color-secondary: #1a4890; /* Lapis Lazuli */
-  --color-tertiary: #c8440a; /* Terracotta Fire */
-  --color-neutral: #7a6040; /* Sandstone */
-  --color-bg: #0a0603; /* Black Silt Night */
-  --color-surface: #130c05; /* Khufu's Shadow */
-  --color-surface-alt: #1c1008; /* Desert Night */
-  --color-text: #fff5d8; /* Papyrus Cream */
-  --color-success: #2e7d52; /* Nile Reed Green */
-  --color-warning: #e8900a; /* Desert Amber */
-  --color-error: #b82020; /* Cobra Red */
-  --color-info: #3a82c4; /* Faience Blue */
-  --color-focus: #d4a520; /* Golden Focus Pulse */
-  --color-border: #2c1e0a; /* Ancient Stone */
-  --color-shadow: rgb(212 165 32 / 0.18); /* Gold Aura */
-  --color-overlay: rgb(0 0 0 / 0.82); /* Tomb Darkness */
+  /* Colors — from brand kit design_tokens.color */
+  --color-primary: #d4a520;
+  --color-secondary: #1a4890;
+  --color-tertiary: #c8440a;
+  --color-bg: #0a0603;
+  --color-surface: #130c05;
+  --color-surface-alt: #1c1008;
+  --color-text: #fff5d8;
+  --color-neutral: #7a6040;
+  --color-success: #2e7d52;
+  --color-warning: #e8900a;
+  --color-error: #b82020;
+  --color-info: #3a82c4;
+  --color-border: #2c1e0a;
+  --color-focus: #d4a520;
 
-  /* ── Color gradients ── */
-  --gradient-dusk-pyramids: linear-gradient(170deg, #c8440a, #d4a520, #1a4890);
-  --gradient-ra-descent: radial-gradient(ellipse at center, rgb(212 165 32 / 0.4), transparent);
-  --gradient-nile-depth: linear-gradient(180deg, #130c05, #0a0603);
-  --gradient-lapis-horizon: linear-gradient(135deg, #1a4890, #0a0603);
+  /* Safe substitutes from measured contrast table */
+  --color-secondary-safe: #5678ad; /* on --color-bg */
+  --color-secondary-alt-safe: #507cb9; /* on --color-surface */
 
-  /* ── Spacing scale ── */
+  /* Spacing scale — from brand kit spacing_scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -92,240 +106,38 @@ a:not([class]) {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* ── Border radius ── */
+  /* Radius — from brand kit corner_radius */
   --radius-sm: 1px;
   --radius-md: 3px;
   --radius-lg: 6px;
   --radius-xl: 10px;
   --radius-pill: 999px;
 
-  /* ── Font families ── */
+  /* Typography — from brand kit design_tokens.typography */
   --font-headline: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  --font-display: 'Cinzel Decorative', 'Trajan Pro', 'Georgia', serif;
-  --font-body: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
-  --font-ui: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
-  --font-mono: 'Courier Prime', 'Courier New', 'Courier', monospace;
+  --font-display: 'Cinzel Decorative', 'Trajan Pro', Georgia, serif;
+  --font-body: 'Cormorant Garamond', Garamond, Georgia, serif;
+  --font-ui: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
 
-  /* ── Font sizes (fluid scale) ── */
-  --text-xs: 0.75rem; /* 12px */
-  --text-sm: 0.875rem; /* 14px */
-  --text-base: 1rem; /* 16px */
-  --text-lg: 1.125rem; /* 18px */
-  --text-xl: 1.25rem; /* 20px */
-  --text-2xl: 1.5rem; /* 24px */
-  --text-3xl: 1.875rem; /* 30px */
-  --text-4xl: 2.25rem; /* 36px */
-  --text-5xl: 3rem; /* 48px */
-  --text-6xl: 3.75rem; /* 60px */
-  --text-7xl: 4.5rem; /* 72px */
+  /* Shadows — from brand kit design_tokens.shadow */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.7);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.75), 0 0 8px rgba(212, 165, 32, 0.07);
+  --shadow-lg: 0 10px 36px rgba(0, 0, 0, 0.82), 0 0 22px rgba(212, 165, 32, 0.1);
+  --shadow-gold: 0 0 14px rgba(212, 165, 32, 0.55), 0 0 34px rgba(212, 165, 32, 0.22);
+  --shadow-lapis: 0 0 12px rgba(26, 72, 144, 0.45), 0 0 28px rgba(26, 72, 144, 0.18);
+  --shadow-terracotta: 0 0 12px rgba(200, 68, 10, 0.5), 0 0 28px rgba(200, 68, 10, 0.18);
 
-  /* ── Font weights ── */
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-  --weight-black: 900;
-
-  /* ── Line heights ── */
-  --leading-none: 1;
-  --leading-tight: 1.1;
-  --leading-snug: 1.3;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.7;
-
-  /* ── Letter spacing ── */
-  --tracking-tight: -0.01em;
-  --tracking-normal: 0em;
-  --tracking-wide: 0.04em;
-  --tracking-wider: 0.06em;
-  --tracking-widest: 0.08em;
-
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 4px rgb(0 0 0 / 0.7);
-  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.75), 0 0 8px rgb(212 165 32 / 0.07);
-  --shadow-lg: 0 10px 36px rgb(0 0 0 / 0.82), 0 0 22px rgb(212 165 32 / 0.1);
-  --shadow-gold: 0 0 14px rgb(212 165 32 / 0.55), 0 0 34px rgb(212 165 32 / 0.22);
-  --shadow-lapis: 0 0 12px rgb(26 72 144 / 0.45), 0 0 28px rgb(26 72 144 / 0.18);
-  --shadow-terracotta: 0 0 12px rgb(200 68 10 / 0.5), 0 0 28px rgb(200 68 10 / 0.18);
-
-  /* ── Transitions ── */
-  --transition-fast: 150ms ease-in-out;
-  --transition-base: 280ms ease-in-out;
-  --transition-slow: 400ms ease-in-out;
-  --transition-ceremonial: 500ms cubic-bezier(0.3, 0, 0.15, 1);
-  --ease-tomb-door: cubic-bezier(0.3, 0, 0.15, 1);
-  --ease-slow-reveal: cubic-bezier(0.6, 0, 0.4, 1);
-
-  /* ── Layout ── */
-  --max-width: 1400px;
-  --content-width: 1200px;
-  --content-padding: var(--space-6);
-  --tracking-headline: 0.04em;
-  --lh-headline: 1.1;
-  --tracking-display: 0.08em;
-  --lh-display: 1;
-  --tracking-body: 0.01em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.06em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0.03em;
-  --lh-mono: 1.5;
-  --font-number: 'Cinzel', 'Trajan Pro', serif;
-  --tracking-number: 0.05em;
-  --lh-number: 1;
+  /* Fonts — self-hosted WOFF2 from shared pool */
+  --font-path: '../../assets/fonts/';
 }
 
-/* ─── Base element styles ─────────────────────────────────────────────────── */
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-relaxed);
-  letter-spacing: var(--tracking-normal);
-}
+/* --------------------------------------------------------------------------
+   3. Font-face declarations — Egyptian Dusk pool subset
+   Only declared weights per kit-brief.mjs output
+   -------------------------------------------------------------------------- */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-text);
-}
-
-h1 {
-  font-size: var(--text-5xl);
-}
-h2 {
-  font-size: var(--text-4xl);
-}
-h3 {
-  font-size: var(--text-2xl);
-}
-h4 {
-  font-size: var(--text-xl);
-}
-
-p {
-  font-family: var(--font-body);
-  line-height: var(--leading-relaxed);
-}
-
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-text);
-}
-
-code,
-pre,
-kbd,
-samp {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-}
-
-/* ─── Selection ───────────────────────────────────────────────────────────── */
-::selection {
-  background: rgb(212 165 32 / 0.3);
-  color: var(--color-text);
-}
-
-/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral);
-}
-
-/* ─── Focus styles (Egyptian Dusk: 2px gold ring + 2px offset + outer glow) ─ */
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(212 165 32 / 0.22);
-}
-
-/* ─── Skip link ───────────────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: var(--font-ui);
-  font-weight: var(--weight-bold);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
-  transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-  outline: 2px solid var(--color-bg);
-  outline-offset: 2px;
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Reduced motion ──────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-600-latin.woff2') format('woff2');
-}
+/* Cinzel — headline, ui, number */
 @font-face {
   font-family: 'Cinzel';
   font-style: normal;
@@ -341,6 +153,22 @@ samp {
   src: url('../../assets/fonts/cinzel-900-latin.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400; /* ui usage permitted */
+  font-display: swap;
+  src: url('../../assets/fonts/cinzel-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 600; /* ui usage permitted */
+  font-display: swap;
+  src: url('../../assets/fonts/cinzel-600-latin.woff2') format('woff2');
+}
+
+/* Cinzel Decorative — display */
+@font-face {
   font-family: 'Cinzel Decorative';
   font-style: normal;
   font-weight: 700;
@@ -354,6 +182,8 @@ samp {
   font-display: swap;
   src: url('../../assets/fonts/cinzel-decorative-900-latin.woff2') format('woff2');
 }
+
+/* Cormorant Garamond — body */
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
@@ -368,6 +198,8 @@ samp {
   font-display: swap;
   src: url('../../assets/fonts/cormorant-garamond-500-latin.woff2') format('woff2');
 }
+
+/* Courier Prime — mono */
 @font-face {
   font-family: 'Courier Prime';
   font-style: normal;
@@ -382,4 +214,199 @@ samp {
   font-display: swap;
   src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
 }
-/* vendor-fonts:end */
+
+/* --------------------------------------------------------------------------
+   4. Base element defaults
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+h4 {
+  font-size: 1.125rem;
+}
+
+p {
+  max-width: 68ch;
+  line-height: 1.75;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    text-decoration-color 280ms ease-in-out,
+    color 280ms ease-in-out;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  letter-spacing: 0.03em;
+}
+
+pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+code:not(pre > code) {
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+strong {
+  font-weight: 500; /* Kit caps body at 400/500 — use weight + ink color channel */
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   5. Skip link — visually hidden until focused
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Focus visible — 2px gold ring + 2px offset + outer glow
+   §19.12: combined shadow list so control's own box-shadow doesn't win
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px rgba(212, 165, 32, 0.22),
+    0 0 0 6px var(--color-bg);
+}
+
+/* --------------------------------------------------------------------------
+   7. Selection styling
+   -------------------------------------------------------------------------- */
+::selection {
+  background: rgba(212, 165, 32, 0.3);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   8. Scrollbar styling
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Reduced motion — replace motion with instant state
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Seasonal activation — live-js date gate
+   Applied via JS when date falls within active_range
+   -------------------------------------------------------------------------- */
+:root.seasonal-opet {
+  --color-primary: #e8c040;
+  --color-secondary: #2a5faa;
+  --color-tertiary: #d4600e;
+}
+
+:root.seasonal-osiris {
+  --color-primary: #c8440a;
+  --color-secondary: #5a2080;
+  --color-surface: #0f0808;
+}
+
+:root.seasonal-solstice {
+  --color-primary: #f0c040;
+  --color-secondary: #d4a520;
+}

@@ -1,97 +1,99 @@
-# Autumn Harvest — Phlix Site
+# SITE.md — Autumn Harvest
 
 ## Concept & Vision
 
-Autumn Harvest is the warmth of an October afternoon carried indoors — burnt orange, maple red, harvest gold, and the deep quiet of a bark-brown hearth. Every screen should feel like the first evening you light a fire for the season. The site is cozy, unhurried, and completely at ease — like the best kind of October afternoon that stretches longer than it has any right to.
+Autumn Harvest is a brand-kit site for Phlix that carries the warmth of an October afternoon indoors. The site should feel like stepping into a farmhouse kitchen where the fire is already lit — unhurried, generous, and completely at ease. Every screen invites you to settle in rather than rush past.
 
-## Brand Identity
+## Aesthetic Direction
 
-- **Kit:** Autumn Harvest v1.0
-- **Archetype:** Caregiver — warm, generous, inviting, grounded
-- **Tagline:** "Settle In. The Season Is Perfect."
-- **Personality:** Grounding, Generous, Warm, Nostalgic, Unhurried, Abundant
+**Theme:** Cozy fall harvest — warm almanac illustration meets farmhouse comfort. Inspired by late-Victorian botanical prints, hand-painted gouache harvest scenes, and the specific golden-hour light of October afternoons.
+
+**Mood:** Grounding, nostalgic, abundant, warm. Never cold, clinical, or corporate.
 
 ## Color Palette
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| `--color-primary` | Maple Red | `#B5321A` | Primary CTAs, active states |
-| `--color-secondary` | Burnt Orange | `#D4601A` | Secondary actions, highlights |
-| `--color-tertiary` | Harvest Gold | `#C8901A` | Badges, ratings, warm accents |
-| `--color-accent` | Forest Green | `#2D5016` | Sparingly used evergreen contrast |
-| `--color-bg` | Harvest Cream | `#F7EDD8` | Page background — always warm |
-| `--color-surface` | Warm Parchment | `#FAF2E2` | Card and panel surfaces |
-| `--color-surface-alt` | Linen Bisque | `#EDE0C4` | Alternate surfaces, striped rows |
-| `--color-text` | Hearthstone | `#1E140A` | Body and headline text |
-| `--color-border` | Walnut Line | `#3D2510` | Card borders, dividers |
-| `--color-success` | Sage Meadow | `#7DAF6A` | Success states |
-| `--color-warning` | Amber Lantern | `#D4860A` | Warnings |
-| `--color-error` | Ember Red | `#9B2215` | Errors, destructive actions |
-| `--color-focus` | Cider Glow | `#D4601A` | Focus rings (burnt orange) |
+| Role | Name | Hex |
+|------|------|-----|
+| Primary | Maple Red | #b5321a |
+| Secondary | Burnt Orange | #d4601a |
+| Tertiary | Harvest Gold | #c8901a |
+| Accent | Forest Green | #2d5016 |
+| Background | Harvest Cream | #f7edd8 |
+| Surface | Warm Parchment | #faf2e2 |
+| Surface Alt | Linen Bisque | #ede0c4 |
+| Text | Hearthstone | #1e140a |
+| Border | Walnut Line | #3d2510 |
+| Focus | Cider Glow | #d4601a |
+
+Strong emphasis uses `#b05016` (supplemental channel — clears 4.5:1 on background).
 
 ## Typography
 
-| Role | Family | Fallbacks | Usage |
-|------|--------|-----------|-------|
-| Headline | Playfair Display 700 | Georgia, Palatino, serif | Hero headlines, section titles |
-| Display | Playfair Display 900 | Georgia, serif | Oversized decorative titles |
-| Body | Lora 400/500 | Georgia, Times New Roman, serif | Paragraphs, long-form reading |
-| UI | Nunito 400/600/700 | Open Sans, system-ui, sans-serif | Buttons, labels, navigation |
-| Mono | Inconsolata 400/700 | Courier New, monospace | Code, tokens, timestamps |
+| Role | Family | Weight |
+|------|--------|--------|
+| Headline | Playfair Display | 700 |
+| Display | Playfair Display | 900 |
+| Body | Lora | 400, 500 |
+| UI | Nunito | 400, 600, 700 |
+| Mono | Inconsolata | 400, 700 |
+| Number | Playfair Display | 700 |
 
-Typography rules enforced:
-- Playfair Display carries authority — never below 18px for UI copy
-- Body text in Lora only
-- No ALL CAPS on body text or descriptions
-- Body line-length 60–72 characters
+All fonts self-hosted from the shared WOFF2 pool. Body line-height: 1.7 (relaxed). Body max-width: 72ch.
 
 ## Spatial System
 
-Spacing scale (8-point):
-`4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96` px
-
-Corner radius scale:
-`4px (sm) · 10px (md) · 18px (lg) · 28px (xl) · 999px (pill)`
+- Max site width: 1440px
+- Content width: 1200px
+- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96px
+- Border radius scale: 4, 10, 18, 28, 999px (pill)
 
 ## Motion Philosophy
 
-- Speed: **slow** — nothing should feel rushed
-- Easing: ease-out, ease-in-out, `cubic-bezier(0.22, 0.68, 0, 1.2)` (soft spring)
-- Leaf-drift animation in hero (CSS/SVG, no GIF)
-- Cards lift 3px on hover with warm hearth-shadow
-- All animations respect `prefers-reduced-motion`
+Slow, unhurried, organic. Leaf-drift animations, warm ease-out transitions, gentle settle easing. `cubic-bezier(0.22, 0.68, 0, 1.2)` for spring feel. Animations disabled under `prefers-reduced-motion` — both transitions AND animations per §19.20.
 
 ## Visual Assets
 
-- **Logo:** Playfair Display wordmark + maple leaf flourish, maple red on harvest cream
-- **Favicon:** Square mark with 5-lobed maple leaf on harvest cream
-- **OG image:** Orchard-dusk gradient, harvest cream surfaces, maple-red CTA pill
-- **Feature icons:** Outlined SVG, botanical subject, 1.5–2px warm walnut stroke, rounded joins
-- **Mascot:** Mabel — anthropomorphic maple leaf with cream sweater and plaid scarf
-- **Header motif:** Drifting maple leaf fall animation (amber, crimson, gold)
+- **Logo:** Playfair Display wordmark in maple red on harvest cream, with a small maple leaf flourish
+- **Favicon:** Square mark in maple red
+- **OG image:** 1200×630 — harvest cream background, Playfair headline, leaf motif
+- **Illustrations:** SVG maple leaf decorations in hero (drifting animation)
+- **Mascot:** Mabel — anthropomorphic maple leaf in cream sweater with plaid scarf, holding a cider mug. Appears on Home, Features, Download, About pages.
 
-## Layout Archetype
+## Layout & Structure
 
-**Immersive** — full-bleed orchard-dusk hero (cinematic gradient backdrop), generous negative space, warm parchment/linen surface alternation, leaf motifs throughout, plaid-rule dividers.
+**Home page (narrative-scroll archetype):** Five sections in order:
+1. `welcome` — hero with Golden Hour gradient + drifting leaves + tagline
+2. `why` — pitch bullets (7 items)
+3. `features` — 8 feature cards in auto-fill grid
+4. `proof` — client grid + ecosystem repo links
+5. `gather` — CTA section with 3-rung ladder
 
-## Pages
+**Primary nav:** Home, Features (primary), Clients, Download (primary), About — with a `nav-menu__link--primary` emphasis class for Features and Download. Plugins, Docs, Hub demoted to footer columns.
 
-| Page | Purpose |
-|------|---------|
-| `index.html` | Home — hero, pitch, feature overview, CTA |
-| `features.html` | Feature deep-dives (8 features) |
-| `clients.html` | Client apps (5 clients with status badges) |
-| `download.html` | Server + client download cards, ecosystem list |
-| `plugins.html` | Plugin model explanation |
-| `docs.html` | Link-out to external docs + ecosystem list |
-| `hub.html` | Phlix Hub explanation |
-| `about.html` | Philosophy, license, contributing, FAQ |
+**Responsive:** Mobile-first, 320px minimum. Nav collapses to hamburger at 768px. Cards reflow to single column.
+
+## Component Inventory
+
+- **Buttons:** primary (maple red pill), secondary (burnt orange pill), tertiary (parchment fill + walnut border), ghost, danger
+- **Cards:** feature-card, client-card, download-card — all with walnut border, warm parchment surface, hover lift
+- **FAQ:** `<details>/<summary>` pattern, no-JS compatible, warm copy
+- **Nav:** sticky header, pill active state in maple red, hamburger on mobile
+- **Footer:** 3-column grid (Product, Developers, Project) + tagline + licence note
+
+## Interactions
+
+- **Mabel mascot:** Fixed bottom-right, tip bubble, idle rocking animation, dismissible (sessionStorage)
+- **Easter eggs:** logo-clicks:5 → leaf dance; typed "cider" → Mabel response; 18:00–22:00 → evening greeting
+- **Scroll reveals:** IntersectionObserver fade-up on sections, disabled under reduced-motion
+- **Nav toggle:** Keyboard accessible (Esc to close), focus trapped, outside-click to close
 
 ## Accessibility
 
-- WCAG 2.2 AA baseline
-- Focus: 2px burnt-orange ring with 2px harvest-cream offset
-- Touch targets: minimum 44×44px
-- `prefers-reduced-motion` honored throughout
-- Layout survives 200% text zoom
-- Never rely on color alone for status
+- WCAG 2.2 AA baseline throughout
+- Focus visible ring: 2px burnt orange with cream offset
+- All interactive elements ≥44×44px touch target
+- Layout survives 200% text zoom without clipping
+- `prefers-reduced-motion` honored for all animations and transitions
+
+---
+@copyright 2026 Joe Huss <detain@interserver.net>

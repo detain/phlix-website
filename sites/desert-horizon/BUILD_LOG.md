@@ -1,106 +1,66 @@
 # BUILD_LOG.md — Desert Horizon
 
-**Brand kit:** `brand-kits/desert-horizon.js` (v1.0, schema v2.0, kit_type: base)
-**Built by:** Claude (automated brand-kit site generator)
-**Date:** 2026-07-01
-
----
-
-## Layout Archetype Decision
-
-**Chosen: `showcase`**
-
-Rationale: The Desert Horizon brand's defining visual characteristic is the wide horizontal panorama — low horizon, vast sky, single saguaro silhouette focal point. This maps directly to the `showcase` archetype, which leads with hero-forward wide imagery and generous breathing room. A grid or card archetype would contradict the brand's emphasis on horizontal composition and spaciousness. The `immersive` archetype was considered but was ruled out because the site has 8 distinct marketing pages requiring navigational clarity that pure immersion would sacrifice.
-
----
-
 ## What was built
 
-All 8 pages + supporting files for `sites/desert-horizon/`:
+Full brand-kit site for `desert-horizon` following `narrative-scroll` archetype and all 20 declared experience fields + mascot.behavior.
 
-```
-desert-horizon/
-├── index.html          Home — hero, pitch, features overview, CTA
-├── features.html       All 8 feature details with large icons
-├── clients.html        5 client cards with highlights and status badges
-├── download.html       Server install block, 5 client download cards, ecosystem
-├── plugins.html        Plugin model description, ecosystem, write-your-own
-├── docs.html           Link-out to docs.github.io, ecosystem list
-├── hub.html            Hub description, self-host/public options
-├── about.html          Philosophy, license, contributing, 6 FAQ items
-├── css/
-│   ├── base.css        Reset, :root tokens (all colors/spacing/radius/shadow/fonts)
-│   ├── theme.css       Typography, containers, showcase layout, Navajo strips
-│   └── components.css   Header/nav, footer, all 7 btn variants, cards, badges, forms, tables
-├── js/
-│   └── main.js          Mobile nav toggle, focus trap, ESC/outside click close, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg         Desert Horizon wordmark + saguaro badge, terracotta on sandstone
-│   ├── favicon.svg       Terracotta square with sandstone saguaro silhouette
-│   ├── og.svg            1200×630 WPA-style social share — sunset gradient, saguaro silhouettes, Phlix wordmark
-│   └── PROMPTS.md        Exact image generation prompts for every asset
-├── robots.txt           Allow all, sitemap reference
-├── sitemap.xml          8 URLs, absolute, weekly/monthly changefreq
-├── SITE.md              Full design rationale, palette, type, motion, components
-└── BUILD_LOG.md         This file
-```
+### Pages (9)
+- `index.html` — Home with 6-section narrative scroll + visitor paths fork
+- `features.html` — All 8 features as shelf-display detail cards
+- `clients.html` — 5 client gathering-circle cards
+- `download.html` — Server install block (verbatim from content.json), clients, ecosystem
+- `plugins.html` — Plugin model + phlix-plugin-example link
+- `docs.html` — Link-out to 4 doc categories + ecosystem list
+- `hub.html` — Hub relay, NAT traversal, self-host vs public, client Hub modes
+- `about.html` — Philosophy, license, contributing, 9-item FAQ (Dusty campfire-chat)
+- `404.html` — Dusty confused on empty desert with torn map, 3 recovery links, `noindex`
 
----
+### CSS (3)
+- `css/base.css` — Reset, 10 @font-face rules (self-hosted WOFF2), design tokens, seasonal variants, skip link, focus ring, `.visually-hidden` (overflow:hidden+clip-path), prefers-reduced-motion
+- `css/theme.css` — Typography scale, Navajo-pattern strip, layout containers, hero with parallax layers (ridge/sun), pitch wooden-plaques, feature grid, gather proof band, stay-rooted CTA, scroll reveals, visitor paths
+- `css/components.css` — Header/nav (3 emphasis levels), footer (mirror-nav + 3 columns), all button variants (focus ring includes BOTH shadows in one list), status badges, mascot companion, easter egg toast, season banner, intensity toggle switch
 
-## Intentional Deviations from new_site.md
+### JS (1)
+- `js/main.js` — Seasonal activation (date-gate), intensity toggle (localStorage), mobile nav toggle (Esc + outside click), scroll reveals (IntersectionObserver), parallax hero (pointer + scroll), 3 easter eggs (logo-clicks:5, typed-word:horizon, time-of-day:sunset-zone), mascot companion (tips, click:3 + hover-hold:2s easter interactions, dismiss to localStorage), visitor paths fork, FAQ aria
 
-None. The build follows `new_site.md` §1–18 exactly.
+### Config
+- `robots.txt` — Sitemap reference
+- `sitemap.xml` — 8 pages (404 excluded per noindex)
+- `REGEN_PLAN.md` — Compact field manifest, nav diff, section order, carry-forward, ambiguities
+- `SITE.md` — Full design rationale
+- `BUILD_LOG.md` — This file
 
----
+## Intentional deviations from predecessor
 
-## Design Token Mapping Summary
+- All 6 nav labels replaced with kit-declared values ("The Trading Post", etc.)
+- All 6 homepage section IDs replaced with declared `homepage_narrative` order
+- 404.html created (was missing)
+- mascot.behavior implemented (was absent)
+- Seasonal activation (live-js date-gate) implemented (was absent)
+- Intensity toggle in footer utility row (was absent)
+- Visitor paths fork on homepage (was absent)
+- All `@font-face` self-hosted from shared font pool (predecessor had CDN links)
 
-| Kit Field | CSS Variable | Value |
-|-----------|-------------|-------|
-| `colors.primary.hex` | `--color-primary` | `#C2542A` |
-| `colors.secondary.hex` | `--color-secondary` | `#2A8C82` |
-| `colors.tertiary.hex` | `--color-tertiary` | `#E07050` |
-| `colors.background.hex` | `--color-bg` | `#F2E4C8` |
-| `colors.surface.hex` | `--color-surface` | `#FAF0DC` |
-| `colors.surface_alt.hex` | `--color-surface-alt` | `#E8D6B4` |
-| `colors.text.hex` | `--color-text` | `#2E1A0E` |
-| `colors.border.hex` | `--color-border` | `#2E1A0E` |
-| `colors.shadow.hex` | `--color-shadow` | `rgba(92,46,20,0.22)` |
-| `spacing_scale` | `--space-1` through `--space-24` | 4–96px, 9 steps |
-| `corner_radius` | `--radius-sm/md/lg/xl/pill` | 4/8/16/28/999px |
-| `shadows` | `--shadow-sm/md/lg` | warm umber-tinted |
-| `fonts.headline.family` | `--font-headline` | Playfair Display |
-| `fonts.display.family` | `--font-display` | Arvo |
-| `fonts.body.family` | `--font-body` | Lora |
-| `fonts.ui.family` | `--font-ui` | Source Sans 3 |
-| `fonts.mono.family` | `--font-mono` | IBM Plex Mono |
+## Constraints applied
 
----
+- `complexity_profile.density: minimal` + `words_per_section_max: 100` enforced for authored prose; verbatim content.json facts exempt
+- `avoid_words` list avoided throughout: leverage, synergy, utilize, disrupt, cutting-edge, robust, seamless, ecosystem, unlock, empower
+- Install command copied verbatim from `content.json.install.primary` — never retyped
+- `install.from_source` labelled "not an install" per §19.22
+- `proof_strategy` signals: no invented star counts — GitHub repo links used instead
+- All `@copyright` headers in every CSS/JS file (§19.24)
+- Grid tracks: `minmax(0, 1fr)` not bare `1fr` (§19.12)
+- Body text: `overflow-wrap: anywhere`; headings: `break-word` (§19.12)
+- Focus box-shadow: both the control's own shadow AND focus ring in one list (§19.1)
+- Reduced motion: `transition-duration: 0.01ms` not just animation removed (§19.20)
+- mascot at 320px: `display:none` below 768px (§19.14)
 
-## Brand Opposites Check (Anti-checklist)
+## Assets preserved (not modified)
 
-Verified — none of these appear in the build:
-- ✅ Not neon or electric — warm earthy palette only
-- ✅ Not minimalist-cold — warm sandstone backgrounds throughout
-- ✅ Not cyberpunk or sci-fi — Southwest WPA poster aesthetic
-- ✅ Not corporate or enterprise-grey — handcrafted warm aesthetic
-- ✅ Not rushed or cluttered — generous spacing, showcase openness
-- ✅ Not high-gloss or chrome — linocut/hand-painted texture feel
-- ✅ Not trendy — timeless serif/slab-serif typography, no Inter/Futura
+- `img/logo.svg`, `img/favicon.svg`, `img/og.svg`, `img/og.png` — pre-existing, correct per brief
+- `img/PROMPTS.md` — untouched
+- Font WOFF2 files — self-hosted from `../../assets/fonts/` pool
 
----
+## Escalations (none)
 
-## Known Follow-ups
-
-1. **Self-hosted fonts:** Google Fonts CDN was explicitly excluded per new_site.md §1 rule. Fonts are referenced by name with local fallbacks; real WOFF2 self-hosting requires running `download-fonts.mjs`.
-2. **og.png raster:** `og.svg` is provided as the editable source. Build tooling should convert to `og.png` at 1200×630.
-3. **Seasonal variants:** Four seasonal variants are in the kit but not applied. Documented in `SITE.md` § Seasonal Variants.
-4. **Dusty mascot:** The mascot definition is in the kit but not yet rendered as an actual graphic asset (requires illustration).
-
----
-
-## Review Loop Status
-
-- [ ] Awaiting first review pass (12 dimensions)
-- [ ] Awaiting fixes for ❌ / ⚠️ findings
-- [ ] Final review clean — all dimensions ≥90, no ❌
+No shared changes were needed; all facts resolved from `content.json` and the font pool without substitution.

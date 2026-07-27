@@ -6,33 +6,39 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Extend Phlix with a versioned plugin contract. LifecycleInterface plus manifest schema — drop a plugin in and the loader picks it up."
     />
     <meta
       name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+      content="phlix plugins, phlix extension, LifecycleInterface, plugin example"
     />
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/dia-de-muertos/plugins.html"
     />
 
-    <meta property="og:title" content="Plugins — Phlix" />
-    <meta property="og:description" content="Extend Phlix with a versioned plugin contract." />
-    <meta
-      property="og:image"
-      content="https://detain.github.io/phlix-website/dia-de-muertos/img/og.png"
-    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
     <meta
       property="og:url"
       content="https://detain.github.io/phlix-website/dia-de-muertos/plugins.html"
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:title" content="Plugins — Phlix" />
+    <meta
+      property="og:description"
+      content="Extend Phlix with a versioned plugin contract. Drop a plugin in and the loader picks it up."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/dia-de-muertos/img/og.png"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Plugins — Phlix" />
-    <meta name="twitter:description" content="Extend Phlix with a versioned plugin contract." />
+    <meta
+      name="twitter:description"
+      content="Extend Phlix with a versioned plugin contract. Drop a plugin in and the loader picks it up."
+    />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/dia-de-muertos/img/og.png"
@@ -49,95 +55,190 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body data-page="plugins">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" />
-        </a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
+    <div class="seasonal-banner" id="seasonal-banner" hidden>
+      <p>
+        <svg
+          class="seasonal-motif"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
-        </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
+          <circle cx="12" cy="12" r="5" />
+          <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3" />
+        </svg>
+        <span class="seasonal-text"
+          >The ofrenda glows tonight — remember and celebrate with us during Día de Muertos.</span
+        >
+      </p>
+    </div>
+
+    <header class="site-header" role="banner">
+      <div class="container">
+        <nav class="nav-primary" aria-label="Primary navigation">
+          <a class="nav-logo" href="./" aria-label="Phlix — Día de Muertos, home">
+            <img src="img/logo.svg" alt="Phlix" width="132" height="33" />
+          </a>
+          <span class="nav-divider" aria-hidden="true"></span>
+          <input class="nav-check" id="nav-check" type="checkbox" aria-label="Toggle navigation" />
+          <label class="nav-toggle" for="nav-check">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </label>
+          <ul class="nav-menu" id="nav-menu" role="list">
+            <li><a href="./">The Altar</a></li>
+            <li class="nav-primary-item"><a href="features.html">The Offerings</a></li>
+            <li><a href="clients.html">The Paths</a></li>
+            <li class="nav-primary-item"><a href="download.html">Light the Candle</a></li>
+            <li><a href="hub.html">The Distance</a></li>
+            <li class="nav-muted-item"><a href="about.html">Our Story</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
-        <div class="page-header-inner">
+      <div class="container">
+        <header class="page-header">
           <h1>Plugins</h1>
-          <p class="page-lead">Extend Phlix with a versioned plugin contract.</p>
-        </div>
-      </div>
+          <p class="lead">
+            A versioned contract. A manifest schema. Drop a plugin into the directory and the loader
+            picks it up — no ceremony required.
+          </p>
+        </header>
 
-      <div class="content-section">
-        <h2>Plugin model</h2>
-        <p>
-          Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in
-          the <code>plugins/</code> directory and the loader picks it up automatically.
-        </p>
-        <pre class="code-block"><code>// See the reference plugin:
-<a href="https://github.com/detain/phlix-plugin-example">github.com/detain/phlix-plugin-example</a></code></pre>
-
-        <h2>Ecosystem plugins</h2>
-        <p>
-          The plugin contract makes it easy to add metadata providers, transcode pipelines, or
-          anything else you can imagine.
-        </p>
-
-        <h2>Write your own</h2>
-        <p>
-          Start from
-          <a href="https://github.com/detain/phlix-plugin-example">phlix-plugin-example</a> for the
-          smallest working starter.
-        </p>
-      </div>
-
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">Build something great</h2>
-          <a
-            href="https://github.com/detain/phlix-plugin-example"
-            class="btn btn-primary"
-            rel="noopener noreferrer"
-            >Get the example plugin</a
+        <section class="content-section" aria-labelledby="plugin-model-heading">
+          <h2 id="plugin-model-heading" class="h3">The Plugin Model</h2>
+          <p class="text-body" style="max-width: 60ch; margin-bottom: var(--space-4)">
+            Every plugin implements <code>LifecycleInterface</code> and ships a manifest file. The
+            loader reads the manifest, validates the version, and calls the appropriate lifecycle
+            method. If the manifest is absent or the version incompatible, the plugin is skipped
+            silently — it cannot break the server.
+          </p>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+              gap: var(--space-4);
+              margin-bottom: var(--space-6);
+            "
           >
-        </div>
-      </section>
+            <div class="plate">
+              <h3 class="h4">LifecycleInterface</h3>
+              <p
+                class="text-ui-small"
+                style="color: var(--color-neutral); margin-bottom: var(--space-2)"
+              >
+                Hook points
+              </p>
+              <ul style="margin: 0; padding-left: var(--space-4)">
+                <li><code>onInstall()</code> — first time the plugin is found</li>
+                <li><code>onEnable()</code> — server startup</li>
+                <li><code>onDisable()</code> — server shutdown or admin disable</li>
+                <li><code>onUninstall()</code> — admin removal</li>
+              </ul>
+            </div>
+            <div class="plate">
+              <h3 class="h4">Manifest schema</h3>
+              <p
+                class="text-ui-small"
+                style="color: var(--color-neutral); margin-bottom: var(--space-2)"
+              >
+                Required fields
+              </p>
+              <ul style="margin: 0; padding-left: var(--space-4)">
+                <li><code>name</code> — unique plugin identifier</li>
+                <li><code>version</code> — semver, compared against loader's min version</li>
+                <li><code>description</code> — shown in the admin UI</li>
+                <li><code>author</code>, <code>license</code></li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-body">
+            Plugins live in <code>plugins/</code> alongside the server. See
+            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+              >phlix-plugin-example</a
+            >
+            for the smallest working starter.
+          </p>
+        </section>
+
+        <section class="content-section" aria-labelledby="write-own-heading">
+          <h2 id="write-own-heading" class="h3">Write Your Own</h2>
+          <p class="text-body" style="max-width: 60ch; margin-bottom: var(--space-4)">
+            The plugin contract is intentionally minimal. If you can implement a PHP interface and
+            write a JSON file, you can write a Phlix plugin. The example below is a complete,
+            working metadata provider plugin — nothing is stubbed.
+          </p>
+          <a
+            class="btn btn-secondary"
+            href="https://github.com/detain/phlix-plugin-example"
+            rel="noopener noreferrer"
+          >
+            Explore phlix-plugin-example
+          </a>
+        </section>
+
+        <section class="cta-banner" aria-labelledby="plugins-cta-heading">
+          <div class="container-narrow">
+            <h2 id="plugins-cta-heading">The altar has room for more offerings.</h2>
+            <p class="section-lead center-block">
+              Write your first plugin in an afternoon. The contract is open, the loader is simple.
+            </p>
+            <div
+              style="
+                margin-top: var(--space-6);
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--space-3);
+                justify-content: center;
+              "
+            >
+              <a class="btn btn-primary" href="download.html">Light the First Candle</a>
+              <a
+                class="btn btn-ghost"
+                href="https://detain.github.io/phlix-docs"
+                rel="noopener noreferrer"
+                >Read the docs</a
+              >
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+      <div class="container">
+        <p class="footer-tagline">Every story is a marigold path home.</p>
+        <nav class="footer-mirror" aria-label="Ofrenda map">
+          <ul role="list">
+            <li><a href="./">The Altar</a></li>
+            <li><a href="features.html">The Offerings</a></li>
+            <li><a href="clients.html">The Paths</a></li>
+            <li><a href="download.html">Light the Candle</a></li>
+            <li><a href="hub.html">The Distance</a></li>
+            <li><a href="about.html">Our Story</a></li>
+          </ul>
+        </nav>
+        <p class="footer-shelved">
+          Shelved for the initiated:
+          <a href="plugins.html">Plugins</a> <span aria-hidden="true">·</span>
+          <a href="docs.html">Docs</a>
+        </p>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
-            <h3>Product</h3>
+            <h2>Product</h2>
             <ul role="list">
               <li><a href="features.html">Features</a></li>
               <li><a href="clients.html">Clients</a></li>
@@ -146,7 +247,7 @@
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Developers</h3>
+            <h2>Developers</h2>
             <ul role="list">
               <li>
                 <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
@@ -164,14 +265,16 @@
                 >
               </li>
               <li>
-                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
+                <a
+                  href="https://detain.github.io/phlix-docs/reference/api.html"
+                  rel="noopener noreferrer"
                   >API reference</a
                 >
               </li>
             </ul>
           </div>
           <div class="footer-col">
-            <h3>Project</h3>
+            <h2>Project</h2>
             <ul role="list">
               <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
               <li>
@@ -192,9 +295,15 @@
             </ul>
           </div>
         </nav>
+        <div class="footer-utility">
+          <button type="button" class="intensity-toggle" aria-pressed="false">
+            <span class="toggle-track" aria-hidden="true"></span> Soften the Flame
+          </button>
+          <p class="footer-a11y">Soften the Flame dims the glows and stills the animations.</p>
+        </div>
         <p class="footer-copy">
-          © 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins and
-          clients are MIT.
+          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins
+          and clients are MIT.
         </p>
       </div>
     </footer>

@@ -1,16 +1,12 @@
 /* ==========================================================================
    COMPONENTS.CSS — Desert Horizon
-   Header/nav, footer, buttons, cards, forms, badges, feature cards, etc.
-   American Southwest: terracotta CTAs, turquoise interactive, adobe surfaces
+   Header/nav, footer, buttons, cards, forms, mascot companion.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ==========================================================================
-   SITE HEADER & NAVIGATION
-   Adobe-dust header with 4px Navajo-pattern strip beneath
-   ========================================================================== */
-
+/* ── Site header ────────────────────────────────────────────────────────── */
 .site-header {
-  background: var(--color-adobe);
+  background: var(--color-surface);
   border-bottom: 2px solid var(--color-border);
   position: sticky;
   top: 0;
@@ -18,836 +14,648 @@
   box-shadow: var(--shadow-sm);
 }
 
-.site-header .container {
+.site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 64px;
   gap: var(--space-4);
+  padding-block: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
 }
 
-/* Navajo strip at top of header */
-.site-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 20px,
-    var(--color-turquoise) 20px,
-    var(--color-turquoise) 36px,
-    var(--color-coral) 36px,
-    var(--color-coral) 50px,
-    var(--color-umber) 50px,
-    var(--color-umber) 52px
-  );
-  background-size: 52px 4px;
-  background-repeat: repeat-x;
-}
-
-/* ── Nav Logo ── */
-
+/* Logo */
 .nav-logo {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
   text-decoration: none;
-  gap: var(--space-2);
+  flex-shrink: 0;
 }
 
-.nav-logo:hover {
-  opacity: 0.85;
-}
-
-.nav-logo-img {
+.nav-logo img {
   height: 40px;
   width: auto;
 }
 
-/* ── Nav Toggle (mobile) ── */
-
-.nav-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  color: var(--color-text);
-  transition: background var(--transition-fast) var(--ease-out);
-  flex-shrink: 0;
-}
-
-.nav-toggle:hover {
-  background: var(--color-clay);
-}
-
-.nav-toggle-icon {
-  width: 22px;
-  height: 22px;
-}
-
-/* ── Nav Menu ── */
-
+/* Primary nav list */
 .nav-menu {
   display: flex;
-  list-style: none;
-  gap: var(--space-2);
   align-items: center;
-  padding: 0;
-  margin: 0;
+  gap: var(--space-2);
+  list-style: none;
+  flex-wrap: wrap;
 }
 
 .nav-menu a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
   padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--color-text);
-  border-radius: var(--radius-md);
   text-decoration: none;
   transition:
-    background var(--transition-fast) var(--ease-out),
-    color var(--transition-fast) var(--ease-out);
+    background 0.2s ease,
+    color 0.2s ease;
+  /* Default emphasis: burnt umber text */
+  color: var(--color-text);
+  background: transparent;
 }
 
 .nav-menu a:hover {
-  background: var(--color-clay);
-  color: var(--color-terracotta);
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
 }
 
+/* Primary emphasis: terracotta background */
+.nav-menu a.nav-empha-primary {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+.nav-menu a.nav-empha-primary:hover {
+  background: var(--color-primary-safe);
+  color: var(--color-surface);
+}
+
+/* Muted emphasis: sage, lower weight */
+.nav-menu a.nav-empha-muted {
+  color: var(--color-neutral-safe);
+}
+.nav-menu a.nav-empha-muted:hover {
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+}
+
+/* Current page */
 .nav-menu a[aria-current='page'] {
-  background: var(--color-terracotta);
-  color: var(--color-adobe);
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
-/* ── Mobile Nav Backdrop ── */
-
-.nav-backdrop {
+/* Mobile hamburger */
+.nav-toggle {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--color-overlay);
-  z-index: 98;
-  opacity: 0;
-  transition: opacity var(--transition-base) var(--ease-out);
+  background: none;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  flex-shrink: 0;
 }
 
-.nav-backdrop.is-visible {
-  opacity: 1;
+.nav-toggle svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
 }
 
-/* ==========================================================================
-   BUTTONS
-   Terracotta primary, Mesa turquoise secondary, ghost/danger variants
-   All corners 8px radius, Source Sans 3 bold
-   ========================================================================== */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 2px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+    gap: var(--space-2);
+    box-shadow: var(--shadow-md);
+    z-index: 99;
+  }
+  .nav-menu.is-open {
+    display: flex;
+  }
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+    font-size: 1rem;
+  }
+}
 
+/* ── Site footer ────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-surface-alt);
+  border-top: 2px solid var(--color-border);
+  padding-block: var(--space-12) var(--space-8);
+}
+
+.site-footer__tagline {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-6);
+  max-width: 40ch;
+}
+
+.site-footer__nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.footer-nav-group h4 {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.footer-nav-group ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-nav-group a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-neutral);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-nav-group a:hover {
+  color: var(--color-primary);
+}
+
+.site-footer__copy {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-neutral);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+/* Footer utility row (intensity toggle) */
+.footer-utility {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-6);
+}
+
+.footer-utility__label {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-neutral);
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 10px 24px;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
   font-family: var(--font-ui);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  line-height: 1.3;
-  border-radius: var(--radius-md);
-  border: 2px solid transparent;
   text-decoration: none;
   cursor: pointer;
+  border: 2px solid transparent;
   transition:
-    background var(--transition-fast) var(--ease-out),
-    color var(--transition-fast) var(--ease-out),
-    border-color var(--transition-fast) var(--ease-out),
-    transform var(--transition-fast) var(--ease-out),
-    box-shadow var(--transition-fast) var(--ease-out);
-  white-space: nowrap;
-  min-height: 44px; /* 44px touch target per accessibility spec */
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+  /* §19.1 trap: box-shadow in base rule so :focus-visible can add to it, not replace it */
+  box-shadow: var(--shadow-sm);
+  white-space: normal;
+  min-height: 44px;
+  overflow-wrap: anywhere; /* §19.12: text can break anywhere inside the button */
+  min-width: 0; /* §19.12: grid/flex children must be able to shrink below min-content */
 }
 
 .btn:active {
   transform: scale(0.97);
 }
 
-/* Primary — Terracotta */
+/* Primary: terracotta on surface */
 .btn-primary {
-  background: var(--color-terracotta);
-  color: #faf0dc;
-  border-color: var(--color-terracotta);
+  background: var(--color-primary);
+  color: var(--color-surface);
+  border-color: var(--color-primary);
 }
-
 .btn-primary:hover {
-  background: #a8441e;
-  border-color: #a8441e;
-  color: #faf0dc;
-  box-shadow: var(--shadow-md);
+  background: var(--color-primary-safe);
+  border-color: var(--color-primary-safe);
+  color: var(--color-surface);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--color-surface);
+}
+.btn-primary:focus-visible {
+  /* BOTH shadows in one list — control's own shadow PLUS focus ring */
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--color-focus);
+  outline: none;
 }
 
-/* Secondary — Mesa Turquoise */
+/* Secondary: mesa turquoise on surface */
 .btn-secondary {
-  background: var(--color-turquoise);
-  color: var(--color-adobe);
-  border-color: var(--color-turquoise);
+  background: var(--color-secondary);
+  color: var(--color-surface);
+  border-color: var(--color-secondary);
 }
-
 .btn-secondary:hover {
-  background: #1f7369;
-  border-color: #1f7369;
-  color: var(--color-adobe);
+  background: var(--color-secondary-safe);
+  border-color: var(--color-secondary-safe);
+  color: var(--color-surface);
   box-shadow: var(--shadow-md);
 }
+.btn-secondary:focus-visible {
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--color-focus);
+  outline: none;
+}
 
-/* Ghost — 2px umber border, no fill */
+/* Ghost: transparent, umber border */
 .btn-ghost {
   background: transparent;
-  color: var(--color-umber);
-  border-color: var(--color-umber);
+  color: var(--color-text);
+  border-color: var(--color-border);
 }
-
 .btn-ghost:hover {
-  background: var(--color-clay);
-  color: var(--color-umber);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+.btn-ghost:focus-visible {
+  box-shadow:
+    var(--shadow-sm),
+    0 0 0 3px var(--color-focus);
+  outline: none;
 }
 
-/* Danger — Cholla Red */
+/* Danger: cholla red */
 .btn-danger {
   background: var(--color-error);
-  color: var(--color-adobe);
+  color: var(--color-surface);
   border-color: var(--color-error);
 }
-
 .btn-danger:hover {
-  background: #8c2818;
-  border-color: #8c2818;
-  color: var(--color-adobe);
+  background: #8a2919;
+  border-color: #8a2919;
+}
+.btn-danger:focus-visible {
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--color-focus);
+  outline: none;
 }
 
-/* Link — Turquoise, underline on hover */
+/* Link: turquoise, underline on hover */
 .btn-link {
   background: transparent;
   color: var(--color-secondary);
   border-color: transparent;
   padding-inline: var(--space-2);
-  text-decoration: none;
-  min-height: auto;
-}
-
-.btn-link:hover {
-  color: var(--color-primary);
+  border-radius: var(--radius-sm);
   text-decoration: underline;
   text-underline-offset: 3px;
+  box-shadow: none;
+}
+.btn-link:hover {
+  color: var(--color-primary);
+  box-shadow: none;
+}
+.btn-link:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-focus);
+  outline: none;
 }
 
-/* Small */
-.btn-small {
-  padding: 6px 16px;
-  font-size: 0.85rem;
-  min-height: 36px;
-}
-
-/* Large */
-.btn-large {
-  padding: 14px 36px;
-  font-size: 1.05rem;
-  border-radius: var(--radius-lg);
-}
-
-/* Icon button — circular */
-.btn-icon {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border-radius: var(--radius-pill);
-  background: var(--color-adobe);
-  color: var(--color-umber);
-  border: 2px solid var(--color-border);
-}
-
-.btn-icon:hover {
-  background: var(--color-clay);
-}
-
-/* FAB — Floating action button, terracotta pill */
+/* FAB: floating action, pill, terracotta */
 .btn-fab {
-  padding: 12px;
+  background: var(--color-primary);
+  color: var(--color-fab-text); /* safe 4.5:1 on terracotta */
+  border-color: var(--color-primary);
   border-radius: var(--radius-pill);
-  background: var(--color-terracotta);
-  color: var(--color-adobe);
+  padding: var(--space-4) var(--space-6);
+  font-size: 1rem;
   box-shadow: var(--shadow-lg);
 }
-
 .btn-fab:hover {
-  background: #a8441e;
-  box-shadow: 0 16px 36px rgb(92, 46, 20, 0.32);
+  background: var(--color-primary-safe);
+  border-color: var(--color-primary-safe);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 3px var(--color-surface);
+}
+.btn-fab:focus-visible {
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 3px var(--color-focus);
+  outline: none;
 }
 
-/* ==========================================================================
-   FEATURE CARDS
-   Adobe-dust surface, umber border, optional Navajo-strip accent
-   ========================================================================== */
-
-.feature-card {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
+/* Large CTA button */
+.btn-cta {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1.0625rem;
   border-radius: var(--radius-md);
-  padding: var(--space-6);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  transition:
-    transform var(--transition-base) var(--ease-out),
-    box-shadow var(--transition-base) var(--ease-out);
 }
 
-.feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+/* ── Status badges ─────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-/* Optional Navajo-strip accent at top */
-.feature-card::before {
+.badge-stable {
+  background: rgba(122, 140, 104, 0.15);
+  border-color: var(--color-neutral);
+  color: var(--color-neutral);
+}
+
+.badge-beta {
+  background: rgba(212, 144, 10, 0.12);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+/* ── Masthead divider strip under header ────────────────────────────────── */
+.site-header::after {
   content: '';
   display: block;
   height: 4px;
-  background: repeating-linear-gradient(
+  background-image: repeating-linear-gradient(
     90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 12px,
-    var(--color-turquoise) 12px,
-    var(--color-turquoise) 24px
+    var(--color-primary) 0px,
+    var(--color-primary) 8px,
+    var(--color-secondary) 8px,
+    var(--color-secondary) 16px,
+    transparent 16px,
+    transparent 20px
   );
-  background-size: 24px 4px;
+  background-size: 20px 4px;
   background-repeat: repeat-x;
-  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) 0;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
-.feature-icon {
-  width: 52px;
-  height: 52px;
+/* ── Mascot companion (Dusty) ───────────────────────────────────────────── */
+.mascot {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  z-index: 200;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-clay);
-  border-radius: var(--radius-md);
-  color: var(--color-terracotta);
-  flex-shrink: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+  pointer-events: none; /* container receives events only when visible */
 }
 
-.feature-icon svg {
+.mascot.is-hidden {
+  display: none;
+}
+
+.mascot__body {
+  pointer-events: auto;
+  position: relative;
+  cursor: default;
+  /* Sway animation: transforms carefully tuned so inset:0 doesn't push page */
+  animation: mascot-sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* §19.3: rotating square grows its box 1.37x. The sway uses translateX, not rotate,
+   so no box-growth issue. But we use inset ~14% margin so rotating children stay inside. */
+@keyframes mascot-sway {
+  0%,
+  100% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  50% {
+    transform: translateX(4px) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot__body {
+    animation: none;
+  }
+}
+
+.motion-reduced .mascot__body {
+  animation: none;
+}
+
+.mascot__ Dismiss {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
   width: 28px;
   height: 28px;
-  stroke: var(--color-terracotta);
-}
-
-.feature-card h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.feature-card p {
-  font-family: var(--font-body);
-  font-size: 0.925rem;
-  color: var(--color-umber);
-  line-height: 1.6;
-  margin: 0;
-  flex: 1;
-}
-
-/* ==========================================================================
-   FEATURE DETAIL (features.html — large format)
-   ========================================================================== */
-
-.feature-detail {
-  display: grid;
-  gap: var(--space-6);
-  padding-block: var(--space-8);
-  border-bottom: 2px solid var(--color-border);
-}
-
-@media (width >= 768px) {
-  .feature-detail {
-    grid-template-columns: 80px 1fr;
-    gap: var(--space-8);
-    align-items: start;
-  }
-}
-
-.feature-detail:last-child {
-  border-bottom: none;
-}
-
-.feature-detail-icon {
-  width: 72px;
-  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-clay);
-  border-radius: var(--radius-md);
-  color: var(--color-terracotta);
-}
-
-.feature-detail-icon svg {
-  width: 40px;
-  height: 40px;
-  stroke: var(--color-terracotta);
-}
-
-.feature-detail-text h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.3rem, 2vw + 0.5rem, 1.75rem);
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--space-3);
-}
-
-.feature-detail-text p {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--color-umber);
-  line-height: 1.65;
-  max-width: 70ch;
-}
-
-/* ==========================================================================
-   CLIENT CARDS
-   ========================================================================== */
-
-.client-card {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  transition:
-    transform var(--transition-base) var(--ease-out),
-    box-shadow var(--transition-base) var(--ease-out);
-}
-
-.client-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.client-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-}
-
-.client-card h2 {
-  font-family: var(--font-headline);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.client-status {
-  display: inline-block;
-  padding: 3px 10px;
+  cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--color-border);
-  white-space: nowrap;
-}
-
-.client-status.status-stable {
-  background: var(--color-surface-alt);
-  color: var(--color-umber);
-}
-
-.client-status.status-beta {
-  background: var(--color-surface-alt);
-  color: var(--color-terracotta);
-  border-color: var(--color-terracotta);
-}
-
-.client-status.status-deprecated {
-  background: var(--color-clay);
-  color: var(--color-umber);
-  opacity: 0.7;
-}
-
-.client-tagline {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--color-umber);
-  font-style: italic;
-  margin: 0;
-}
-
-.client-highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.client-highlights li {
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  padding: 3px 10px;
-  background: var(--color-clay);
-  color: var(--color-umber);
-  border-radius: var(--radius-pill);
-  border: 1px solid rgb(46, 26, 14, 0.2);
-}
-
-.client-card .btn {
-  align-self: flex-start;
-  margin-top: auto;
-}
-
-/* ==========================================================================
-   DOWNLOAD CARDS
-   ========================================================================== */
-
-.download-card {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.download-card h3 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.download-card p {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--color-umber);
-  margin: 0;
-}
-
-.download-card .btn {
-  align-self: flex-start;
-  margin-top: auto;
-}
-
-/* ==========================================================================
-   BADGES
-   Slightly rounded rectangle (4px), 2px umber outline
-   Ocotillo amber for quality, turquoise for status, terracotta for favorite
-   ========================================================================== */
-
-.badge {
-  display: inline-block;
-  padding: 3px 10px;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--color-border);
-  line-height: 1.4;
-}
-
-.badge-quality {
-  background: var(--color-ochre);
-  color: var(--color-umber);
-  border-color: var(--color-ochre);
-}
-
-.badge-status {
-  background: var(--color-turquoise);
-  color: var(--color-adobe);
-  border-color: var(--color-turquoise);
-}
-
-.badge-favorite {
-  background: var(--color-terracotta);
-  color: var(--color-adobe);
-  border-color: var(--color-terracotta);
-}
-
-.badge-new {
-  background: var(--color-turquoise);
-  color: var(--color-adobe);
-  border-color: var(--color-turquoise);
-}
-
-/* ==========================================================================
-   FORMS (plugin, settings pages — future use)
-   Sandstone-filled, 2px umber border, 8px radius
-   ========================================================================== */
-
-.form-input,
-.form-select,
-.form-textarea {
-  width: 100%;
-  padding: 10px 14px;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--color-text);
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
+  color: var(--color-neutral);
+  pointer-events: auto;
   transition:
-    border-color var(--transition-fast) var(--ease-out),
-    box-shadow var(--transition-fast) var(--ease-out);
-  appearance: none;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: var(--color-focus);
-  box-shadow: 0 0 0 3px rgb(42, 140, 130, 0.2);
-}
-
-.form-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-}
-
-/* ==========================================================================
-   SITE FOOTER
-   Sandstone background, sage text, saguaro silhouette mark
-   ========================================================================== */
-
-.site-footer {
-  background: var(--color-bg);
-  border-top: 2px solid var(--color-border);
-  padding-block: var(--space-12) var(--space-8);
-  position: relative;
-}
-
-.site-footer::before {
-  content: '';
+    color 0.15s,
+    background 0.15s;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 20px,
-    var(--color-turquoise) 20px,
-    var(--color-turquoise) 40px
-  );
-  background-size: 40px 4px;
-  background-repeat: repeat-x;
+  top: -12px;
+  right: -8px;
+  box-shadow: var(--shadow-sm);
 }
 
-.site-footer .container {
-  display: grid;
-  gap: var(--space-8);
+.mascot__dismiss:hover {
+  color: var(--color-error);
+  background: var(--color-surface-alt);
 }
 
-@media (width >= 768px) {
-  .site-footer .container {
-    grid-template-columns: 1fr auto;
-    align-items: start;
-  }
-}
-
-.footer-tagline {
-  font-family: var(--font-headline);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--color-umber);
-  margin-bottom: var(--space-6);
-  font-style: italic;
-}
-
-.footer-nav {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--space-6);
-}
-
-.footer-col h3 {
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-neutral);
-  margin-bottom: var(--space-4);
-}
-
-.footer-col ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.footer-col a {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--color-neutral);
-  text-decoration: none;
-  transition: color var(--transition-fast) var(--ease-out);
-}
-
-.footer-col a:hover {
-  color: var(--color-terracotta);
-}
-
-.footer-copy {
-  grid-column: 1 / -1;
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  color: var(--color-neutral);
-  margin-top: var(--space-8);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--color-clay);
-}
-
-/* ==========================================================================
-   MOBILE NAV (≤768px)
-   ========================================================================== */
-
-@media (width <= 768px) {
-  .nav-toggle {
-    display: flex;
-  }
-
-  .nav-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: min(320px, 85vw);
-    background: var(--color-adobe);
-    flex-direction: column;
-    align-items: stretch;
-    padding: calc(64px + var(--space-8)) var(--space-6) var(--space-8);
-    gap: var(--space-2);
-    z-index: 99;
-    box-shadow: var(--shadow-lg);
-    overflow-y: auto;
-  }
-
-  .nav-menu.is-open {
-    display: flex;
-  }
-
-  .nav-menu a {
-    font-size: 1rem;
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-  }
-
-  .nav-menu a[aria-current='page'] {
-    background: var(--color-terracotta);
-    color: var(--color-adobe);
-  }
-
-  .nav-backdrop {
-    display: block;
-  }
-
-  .site-header {
-    position: sticky;
-  }
-}
-
-/* ==========================================================================
-   SCROLL REVEAL ANIMATION
-   (triggered by IntersectionObserver in main.js)
-   ========================================================================== */
-
-.reveal {
+/* Tip bubble */
+.mascot__tip {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  max-width: 240px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  line-height: 1.45;
+  box-shadow: var(--shadow-md);
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(8px);
   transition:
-    opacity 600ms var(--ease-out),
-    transform 600ms var(--ease-out);
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  pointer-events: none;
+  text-align: center;
 }
 
-.reveal.is-visible {
+.mascot__tip.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+.mascot__tip::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-top-color: var(--color-border);
+  position: absolute;
+  bottom: -14px;
+  right: 32px;
+}
+
+/* Dusty SVG: saguaro cactus silhouette */
+.mascot-svg {
+  width: 72px;
+  height: 100px;
+  filter: drop-shadow(0 4px 12px rgba(92, 46, 20, 0.3));
+}
+
+@media (max-width: 768px) {
+  .mascot {
+    display: none; /* §19.14: do not go fixed on phones */
   }
 }
 
-/* ==========================================================================
-   TABLES (ecosystem/docs)
-   Arvo bold caps on sun-bleached-clay header row, umber border
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* ── Easter egg reward toast ───────────────────────────────────────────── */
+.egg-toast {
+  position: fixed;
+  top: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  z-index: 300;
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-6);
   font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-th {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.85rem;
+.egg-toast.is-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Season banner ──────────────────────────────────────────────────────── */
+.season-banner {
+  display: none;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  text-align: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-style: italic;
+}
+
+.season-banner.is-visible {
+  display: block;
+}
+
+/* ── Intensity toggle switch ─────────────────────────────────────────────── */
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-track {
+  width: 40px;
+  height: 22px;
   background: var(--color-surface-alt);
-  color: var(--color-text);
-  padding: var(--space-3) var(--space-4);
-  text-align: left;
-  border-bottom: 2px solid var(--color-border);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  position: relative;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
 }
 
-td {
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-clay);
-  font-size: 0.9rem;
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-neutral);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-tr:nth-child(even) td {
-  background: var(--color-surface-alt);
+.toggle-switch input:checked + .toggle-track {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-tr:hover td {
-  background: var(--color-clay);
+.toggle-switch input:checked + .toggle-track::after {
+  transform: translateX(18px);
+  background: var(--color-surface);
+}
+
+.toggle-switch input:focus-visible + .toggle-track {
+  box-shadow: 0 0 0 3px var(--color-focus);
+  outline: none;
+}
+
+.toggle-label {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-neutral);
 }

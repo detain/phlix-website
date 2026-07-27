@@ -1,451 +1,686 @@
 /* ==========================================================================
    THEME.CSS — Desert Horizon
-   Typography scale, layout containers, page structure, showcase layout archetype
-
-   Layout archetype: SHOWCASE
-   Wide horizontal panorama, low horizon, generous sky room, single saguaro
-   silhouette focal point. Hero-forward with unhurried breathing room.
+   Typography scale, layout containers, page structure, narrative-scroll
+   archetype deltas.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ==========================================================================
-   TYPOGRAPHY SCALE
-   ========================================================================== */
-
-/* Display — Arvo slab-serif for oversized stat numbers and bold callouts */
-.font-display {
+/* ── Typography scale ───────────────────────────────────────────────────── */
+.text-headline {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+.text-display {
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.03em;
   line-height: 1;
+  letter-spacing: 0.03em;
 }
-
-/* UI — Source Sans 3 for buttons, labels, navigation */
-.font-ui {
+.text-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.65;
+}
+.text-ui {
   font-family: var(--font-ui);
-  letter-spacing: 0.02em;
+  font-weight: 400;
   line-height: 1.3;
+  letter-spacing: 0.02em;
 }
-
-/* Mono — IBM Plex Mono for code, tokens, file paths */
-.font-mono {
+.text-mono {
   font-family: var(--font-mono);
-  letter-spacing: 0;
+  font-weight: 400;
   line-height: 1.55;
 }
 
-/* Body — Lora for comfortable long-form reading */
-.body-text {
-  font-family: var(--font-body);
-  line-height: 1.65;
-  max-width: 70ch; /* 60–72 char line length per kit */
-}
-
-/* ==========================================================================
-   LAYOUT CONTAINERS
-   ========================================================================== */
-
-/* Full-width wrapper with max-width and centered gutter */
-.site-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
-
-.section-inner,
-.content-inner,
-.hero-inner,
-.pitch-inner,
-.features-overview-inner,
-.cta-banner-inner {
+/* ── Layout containers ─────────────────────────────────────────────────── */
+.container {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-padding);
 }
 
-.content-inner--narrow {
+.container--narrow {
   max-width: 760px;
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-padding);
 }
 
-/* ==========================================================================
-   SHOWCASE LAYOUT ARCHETYPE
-   Wide panorama, generous sky, low horizon lines
-   ========================================================================== */
-
-/* Generous vertical rhythm — desert has room, so should every layout */
-section {
-  padding-block: var(--space-16);
+/* ── Navajo-pattern strip divider ──────────────────────────────────────── */
+.navajo-strip {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-primary) 0px,
+    var(--color-primary) 8px,
+    var(--color-secondary) 8px,
+    var(--color-secondary) 16px,
+    transparent 16px,
+    transparent 20px
+  );
+  background-size: 20px 4px;
+  background-repeat: repeat-x;
+  border: none;
+  margin: 0;
+  flex-shrink: 0;
 }
 
-section + section {
-  padding-top: 0;
+/* ── Page structure ────────────────────────────────────────────────────── */
+.page-header {
+  padding-block: var(--space-12) var(--space-8);
+  border-bottom: 2px solid var(--color-border);
+  position: relative;
+}
+.page-header .container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.page-header h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  color: var(--color-text);
+}
+.page-header .lead {
+  font-size: 1.125rem;
+  color: var(--color-text);
+  max-width: 60ch;
+  line-height: 1.6;
 }
 
-/* ==========================================================================
-   HERO SECTION
-   Full-bleed sunset gradient backdrop, wide SW landscape illustration
-   ========================================================================== */
+.page-section {
+  padding-block: var(--space-12);
+}
 
+.page-section + .page-section {
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Hero (homepage #golden-hour) ───────────────────────────────────────── */
 .hero {
   position: relative;
-  overflow: hidden;
-  padding-block: var(--space-24) var(--space-16);
-  background: var(--gradient-mesa-dusk);
-  color: var(--color-adobe);
-  min-height: 80vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
+  /* No overflow:hidden here — §19.13: never clip content that must reflow.
+     The parallax layers are clipped by their own clip-path in .hero__layer. */
+  background: linear-gradient(160deg, #e07050 0%, #c2542a 40%, #8c3a18 100%);
 }
 
-/* Desert landscape SVG backdrop */
-.hero::before {
-  content: '';
+.hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600' preserveAspectRatio='xMidYMax slice'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23C2542A' stop-opacity='0.9'/%3E%3Cstop offset='40%25' stop-color='%23E07050' stop-opacity='0.7'/%3E%3Cstop offset='70%25' stop-color='%23F2B87A' stop-opacity='0.5'/%3E%3Cstop offset='100%25' stop-color='%23F2E4C8' stop-opacity='0.3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1440' height='600' fill='url(%23sky)'/%3E%3Cg fill='%232E1A0E' opacity='0.85'%3E%3Cpath d='M0 480 Q200 440 400 460 Q600 480 800 450 Q1000 420 1200 445 Q1350 460 1440 440 L1440 600 L0 600 Z'/%3E%3Cpath d='M0 520 Q150 500 300 515 Q500 530 700 505 Q900 480 1100 500 Q1300 520 1440 500 L1440 600 L0 600 Z'/%3E%3Cpath d='M1200 600 L1200 380 Q1220 320 1280 310 L1300 310 Q1310 340 1295 370 Q1290 390 1270 395 Q1240 400 1235 430 Q1230 460 1240 490 Q1250 520 1280 530 L1310 530 Q1290 560 1260 570 Q1230 580 1210 600 Z'/%3E%3Cpath d='M1280 600 L1280 400 Q1300 350 1340 340 L1370 340 Q1380 370 1365 400 Q1360 420 1340 425 Q1310 430 1305 460 Q1300 490 1310 520 Q1320 550 1350 560 Q1380 570 1400 600 Z'/%3E%3Cpath d='M100 600 L100 450 Q140 380 180 370 L200 370 Q215 400 195 430 Q180 455 160 460 Q130 465 125 495 Q120 525 130 555 Q140 585 170 595 Q200 605 220 600 Z'/%3E%3Cpath d='M220 600 L220 470 Q260 400 300 390 L325 390 Q340 420 320 450 Q300 475 280 480 Q250 485 245 515 Q240 545 250 575 Q260 605 290 610 Q320 615 340 600 Z'/%3E%3Cpath d='M1600 600 L1600 560 Q1580 520 1560 515 Q1540 510 1535 535 Q1530 560 1540 590 Q1550 610 1580 610 Z' opacity='0.6'/%3E%3Cpath d='M1650 600 L1650 570 Q1635 545 1620 542 Q1605 539 1602 560 Q1599 581 1608 600 Z' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: cover;
-  background-position: bottom center;
-  background-repeat: no-repeat;
   pointer-events: none;
+  overflow: hidden;
 }
 
-/* Navajo geometric strip at top of hero */
-.hero::after {
-  content: '';
+.hero__layer {
   position: absolute;
-  top: 0;
+  inset: 0;
+  background-size: cover;
+  background-position: center bottom;
+  will-change: transform;
+  transition: opacity 0.6s ease;
+}
+
+/* Horizon ridge silhouette */
+.hero__ridge {
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 6px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 20px,
-    var(--color-turquoise) 20px,
-    var(--color-turquoise) 40px,
-    var(--color-coral) 40px,
-    var(--color-coral) 60px,
-    var(--color-umber) 60px,
-    var(--color-umber) 62px
+  height: 35%;
+  background: #2e1a0e;
+  clip-path: polygon(
+    0% 100%,
+    0% 60%,
+    8% 45%,
+    15% 55%,
+    22% 40%,
+    30% 50%,
+    38% 35%,
+    45% 45%,
+    52% 30%,
+    60% 42%,
+    68% 38%,
+    75% 48%,
+    82% 40%,
+    88% 50%,
+    95% 42%,
+    100% 55%,
+    100% 100%
   );
-  background-size: 82px 6px;
-  background-repeat: repeat-x;
 }
 
-.hero-inner {
+/* Sun circle */
+.hero__sun {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f5c07a 0%, #e07050 60%, transparent 80%);
+  box-shadow: 0 0 60px 20px rgba(224, 112, 80, 0.4);
+}
+
+.hero__content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  padding-block: var(--space-16);
+  width: 100%;
+  /* Solid dark base so text contrast is reliable across the gradient */
+  background: rgba(46, 26, 14, 0.65);
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
   max-width: 800px;
 }
 
-.hero-eyebrow {
+.hero__eyebrow {
   font-family: var(--font-ui);
   font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-clay);
-  margin-bottom: var(--space-4);
+  color: rgba(250, 240, 220, 0.85);
 }
 
 .hero h1 {
-  color: var(--color-adobe);
-  font-size: clamp(2.8rem, 6vw + 1rem, 5rem);
+  font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 900;
-  margin-bottom: var(--space-6);
-  text-shadow: 0 2px 20px rgb(92, 46, 20, 0.5);
+  color: var(--color-surface);
+  line-height: 1;
+  text-shadow: 0 2px 20px rgba(46, 26, 14, 0.4);
 }
 
-.hero-sub {
-  color: var(--color-text);
+.hero__subheadline {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.2rem);
-  line-height: 1.65;
-  max-width: 60ch;
-  margin-bottom: var(--space-8);
-  text-shadow: 0 1px 8px rgb(92, 46, 20, 0.25);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: rgba(250, 240, 220, 0.9);
+  max-width: 58ch;
+  line-height: 1.6;
 }
 
-.hero-cta {
+.hero__ctas {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
   align-items: center;
 }
 
-/* ==========================================================================
-   PITCH SECTION
-   Mesa-spacious bullet list on sandstone
-   ========================================================================== */
+/* Parallax container for diorama */
+.hero.parallax-ready .hero__layer {
+  transition: transform 0.1s linear;
+}
 
+/* ── Pitch section (why-stay) ───────────────────────────────────────────── */
 .pitch {
   padding-block: var(--space-16);
   background: var(--color-bg);
 }
 
-.pitch-inner {
-  max-width: 900px;
-}
-
-.pitch h2 {
+.pitch__header {
   margin-bottom: var(--space-8);
-  color: var(--color-text);
 }
 
+.pitch__header h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  margin-bottom: var(--space-2);
+}
+
+.pitch__eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+}
+
+/* Wooden plaques treatment for pitch bullets */
 .pitch-bullets {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
-  list-style: none;
-  padding: 0;
 }
 
-.pitch-bullets li {
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--color-text);
-  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-8);
+.pitch-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
   background: var(--color-surface);
-  border-left: 4px solid var(--color-terracotta);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  position: relative;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  /* Navajo diamond accent on left */
+  border-left: 6px solid var(--color-primary);
 }
 
-.pitch-bullets li::before {
+.pitch-bullet::before {
   content: '';
-  position: absolute;
-  left: var(--space-2);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background: var(--color-turquoise);
-  border-radius: 50%;
-  opacity: 0.8;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  background: var(--color-primary);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
-/* ==========================================================================
-   FEATURES OVERVIEW SECTION
-   Card grid on sandstone background
-   ========================================================================== */
-
+/* ── Features overview (what-you-find) ─────────────────────────────────── */
 .features-overview {
   padding-block: var(--space-16);
-  background: var(--color-bg);
-}
-
-.features-overview-inner {
-  max-width: var(--max-width);
+  background: var(--color-surface-alt);
 }
 
 .features-overview h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
   margin-bottom: var(--space-8);
-  text-align: center;
 }
 
-.feature-cards {
+.feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-6);
   margin-bottom: var(--space-8);
 }
 
-.features-more {
-  text-align: center;
+.feature-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-card__icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.feature-card__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.feature-card h3 {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.feature-card p {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── Gather section (proof) ─────────────────────────────────────────────── */
+.gather {
+  padding-block: var(--space-16);
+  background: var(--color-bg);
+}
+
+.gather__inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.gather__sign {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.gather__sign h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.gather__spec {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.gather__spec li {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-neutral);
+  line-height: 1.45;
+}
+
+.gather__repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
   font-family: var(--font-ui);
   font-weight: 600;
-}
-
-.features-more a {
+  font-size: 0.875rem;
   color: var(--color-secondary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
-.features-more a:hover {
-  color: var(--color-primary);
-}
-
-/* ==========================================================================
-   CTA BANNER SECTION
-   Sunset gradient with Navajo strip, terracotta CTA button
-   ========================================================================== */
-
-.cta-banner {
+.gather__quote-card {
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
   position: relative;
-  overflow: hidden;
-  padding-block: var(--space-16);
-  background: var(--gradient-golden-horizon);
-  color: var(--color-adobe);
-  text-align: center;
 }
 
-/* Top Navajo strip divider */
-.cta-banner::before {
+.gather__quote-card blockquote {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.gather__quote-card cite {
+  display: block;
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-style: normal;
+  color: var(--color-neutral);
+}
+
+/* ── Stay Rooted CTA (stay-rooted) ────────────────────────────────────── */
+.stay-rooted {
+  padding-block: var(--space-16);
+  /* Solid dark terracotta: safe at 4.5:1+ everywhere the gradient used to be.
+     Gradient moved to ::before so white text reads clearly without ambiguity. */
+  background: #8c3a18;
+  position: relative;
+}
+
+.stay-rooted::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-adobe) 0,
-    var(--color-adobe) 16px,
-    var(--color-umber) 16px,
-    var(--color-umber) 18px,
-    var(--color-turquoise) 18px,
-    var(--color-turquoise) 34px,
-    var(--color-umber) 34px,
-    var(--color-umber) 36px
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(224, 112, 80, 0.7) 0%,
+    rgba(194, 84, 42, 0.85) 50%,
+    rgba(140, 58, 24, 0.9) 100%
   );
-  background-size: 36px 4px;
-  background-repeat: repeat-x;
+  z-index: 0;
 }
 
-.cta-banner-inner {
+.stay-rooted .container {
   position: relative;
   z-index: 1;
 }
 
-.cta-banner h2 {
-  color: var(--color-adobe);
-  margin-bottom: var(--space-6);
-  text-shadow: 0 2px 12px rgb(46, 26, 14, 0.4);
-}
-
-/* ==========================================================================
-   PAGE HEADER (interior pages)
-   Adobe-dust surface with Navajo strip
-   ========================================================================== */
-
-.page-header {
-  background: var(--color-surface);
-  border-bottom: 2px solid var(--color-border);
-  padding-block: var(--space-12) var(--space-8);
+.stay-rooted .container {
   position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
 }
 
-.page-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 24px,
-    var(--color-turquoise) 24px,
-    var(--color-turquoise) 40px
-  );
-  background-size: 40px 4px;
-  background-repeat: repeat-x;
+.stay-rooted h2 {
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  color: var(--color-surface);
+  text-shadow: 0 2px 16px rgba(46, 26, 14, 0.3);
+  max-width: 20ch;
 }
 
-.page-header-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+.stay-rooted p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: rgba(250, 240, 220, 0.9);
+  max-width: 52ch;
+  line-height: 1.6;
 }
 
-.page-header h1 {
-  margin-bottom: var(--space-3);
+/* ── CTA banner (shared) ────────────────────────────────────────────────── */
+.cta-banner {
+  padding-block: var(--space-12);
+  background: var(--color-surface-alt);
+  border-top: 2px solid var(--color-border);
+}
+
+.cta-banner .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+.cta-banner h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
   color: var(--color-text);
 }
 
-.page-lead {
+.cta-banner p {
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  color: var(--color-umber);
-  max-width: 60ch;
+  font-size: 1rem;
+  color: var(--color-text);
+  max-width: 48ch;
 }
 
-/* ==========================================================================
-   CONTENT SECTION
-   Common wrapper for page content
-   ========================================================================== */
-
+/* ── Content sections (interior pages) ────────────────────────────────── */
 .content-section {
   padding-block: var(--space-12);
-  background: var(--color-bg);
-}
-
-.content-inner,
-.content-grid {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
 }
 
 .content-grid {
   display: grid;
-  gap: var(--space-8);
-}
-
-/* ==========================================================================
-   RESPONSIVE GRID
-   ========================================================================== */
-
-@media (width >= 768px) {
-  .content-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (width >= 1024px) {
-  .content-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* ==========================================================================
-   DOWNLOAD / CLIENT CARDS GRID
-   ========================================================================== */
-
-.download-cards,
-.client-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
   gap: var(--space-6);
-  margin-block: var(--space-8);
 }
 
-/* ==========================================================================
-   CODE BLOCK
-   ========================================================================== */
+/* §19.12: minmax(0, 1fr) — bare 1fr fails to shrink below min-content width */
+.content-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.content-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 
+/* Grid/flex children must shrink below min-content to honor container width */
+.content-grid > *,
+.feature-grid > * {
+  min-width: 0;
+  overflow-wrap: anywhere; /* §19.12: every grid item's text can break anywhere */
+}
+
+@media (max-width: 768px) {
+  .content-grid--2,
+  .content-grid--3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Feature detail (features page) ────────────────────────────────────── */
+.feature-detail {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.feature-detail__icon {
+  width: 56px;
+  height: 56px;
+  color: var(--color-primary);
+}
+
+.feature-detail__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.feature-detail h2 {
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.feature-detail p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* ── Client cards (clients page) ───────────────────────────────────────── */
+.client-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+
+.client-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.client-card h2 {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.client-tagline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  font-style: italic;
+}
+
+.client-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.client-highlight-tag {
+  display: inline-block;
+  padding: 2px var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-text);
+}
+
+/* ── Download cards ────────────────────────────────────────────────────── */
+.download-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.download-card h3 {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  color: var(--color-text);
+}
+
+.download-card p {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ── Code block ────────────────────────────────────────────────────────── */
 .code-block {
-  background: var(--color-umber);
-  color: var(--color-clay);
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-6);
+  overflow-x: auto;
   font-family: var(--font-mono);
   font-size: 0.875rem;
-  line-height: 1.55;
-  overflow-x: auto;
-  margin-block: var(--space-4);
-  border: 2px solid var(--color-border);
+  line-height: 1.6;
+  color: var(--color-text);
+  white-space: pre;
+  tab-size: 2;
 }
 
-.code-block a {
-  color: var(--color-turquoise);
+.code-block code {
+  font-family: inherit;
+  background: none;
+  padding: 0;
 }
 
-/* ==========================================================================
-   FAQ LIST
-   ========================================================================== */
-
+/* ── FAQ list (about page) ─────────────────────────────────────────────── */
 .faq-list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
+  max-width: 760px;
 }
 
 .faq-item {
@@ -453,141 +688,72 @@ section + section {
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .faq-item dt {
   font-family: var(--font-headline);
+  font-size: 1.0625rem;
   font-weight: 700;
-  font-size: 1.1rem;
   color: var(--color-text);
-  margin-bottom: var(--space-3);
 }
 
 .faq-item dd {
   font-family: var(--font-body);
-  color: var(--color-umber);
-  line-height: 1.65;
-}
-
-/* ==========================================================================
-   DOCS LINKS
-   ========================================================================== */
-
-.docs-links {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: var(--space-3);
-}
-
-.docs-links li {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.docs-links a {
-  display: block;
-  padding: var(--space-4) var(--space-6);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  color: var(--color-secondary);
-  transition: background var(--transition-fast) var(--ease-out);
-}
-
-.docs-links a:hover {
-  background: var(--color-clay);
-  color: var(--color-primary);
-}
-
-/* ==========================================================================
-   ECOSYSTEM LIST
-   ========================================================================== */
-
-.ecosystem-list {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: var(--space-3);
-}
-
-.ecosystem-list li {
-  font-family: var(--font-body);
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border-left: 4px solid var(--color-turquoise);
-}
-
-.ecosystem-list a {
-  font-weight: 600;
-  color: var(--color-secondary);
-}
-
-/* ==========================================================================
-   CONTENT SECTION H2 HEADINGS
-   ========================================================================== */
-
-.content-section h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.4rem, 2.5vw + 0.5rem, 2rem);
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-4);
+  font-size: 0.9375rem;
   color: var(--color-text);
+  line-height: 1.6;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-neutral);
 }
 
-.content-section h2:first-child {
-  margin-top: 0;
+/* ── Visitor paths fork ────────────────────────────────────────────────── */
+.visitor-paths {
+  padding-block: var(--space-8);
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.content-section p {
-  max-width: 70ch;
-  line-height: 1.65;
-}
-
-/* ==========================================================================
-   NAVAJO PATTERN DIVIDER (reusable)
-   ========================================================================== */
-
-.najo-strip {
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-terracotta) 0,
-    var(--color-terracotta) 20px,
-    var(--color-turquoise) 20px,
-    var(--color-turquoise) 36px,
-    var(--color-umber) 36px,
-    var(--color-umber) 38px
-  );
-  background-size: 38px 4px;
-  background-repeat: repeat-x;
-}
-
-/* ==========================================================================
-   DOWNLOAD BLOCK
-   ========================================================================== */
-
-.download-block {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  margin-block: var(--space-6);
-}
-
-/* ==========================================================================
-   UTILITY
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-
-.text-center {
-  text-align: center;
-}
-.mt-8 {
-  margin-top: var(--space-8);
-}
-.mb-4 {
+.visitor-paths__prompt {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
   margin-bottom: var(--space-4);
+}
+
+.visitor-paths__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ── Scroll reveal animation ────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Section numbering (chaptered narrative) ───────────────────────────── */
+.section-chapter {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  display: block;
+  margin-bottom: var(--space-2);
 }

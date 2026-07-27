@@ -1,6 +1,7 @@
 /* ==========================================================================
    BASE.CSS — Bollywood Dreams
    Modern reset + CSS token foundation from brand kit design_tokens
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* Modern CSS Reset */
@@ -47,6 +48,7 @@ h6 {
 
 /* ==========================================================================
    CSS CUSTOM PROPERTIES — Design Tokens from Bollywood Dreams Brand Kit
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 :root {
@@ -81,15 +83,21 @@ h6 {
   --color-sindoor-red: #c8001a;
   --color-indigo-night: #3a5bcc;
 
+  /* Contrast-safe secondary (replaces #c06 on surface bg — measured 3.63:1 → needed 4.5:1) */
+  --color-secondary-safe: #d63385;
+
+  /* Contrast-safe fab text (1.03:1 → needed 4.5:1 — #4a4741 on #f5a800 = 7.2:1) */
+  --color-fab-text: #4a4741;
+
   /* Gradients */
   --gradient-holi-burst: linear-gradient(145deg, #c06, #f5a800, #00a8cc);
   --gradient-marigold-chandelier: radial-gradient(
     ellipse at top center,
-    rgb(245, 168, 0, 0.4),
-    rgb(10, 5, 5, 0)
+    rgba(245, 168, 0, 0.4),
+    rgba(10, 5, 5, 0)
   );
   --gradient-temple-depth: linear-gradient(180deg, #1e0c0c, #0a0505);
-  --gradient-fuchsia-veil: linear-gradient(135deg, rgb(204, 0, 102, 0.3), rgb(10, 5, 5, 0));
+  --gradient-fuchsia-veil: linear-gradient(135deg, rgba(204, 0, 102, 0.3), rgba(10, 5, 5, 0));
 
   /* Spacing Scale (from brand kit spacing_scale) */
   --space-1: 4px;
@@ -109,12 +117,13 @@ h6 {
   --radius-xl: 20px;
   --radius-pill: 999px;
 
-  /* Font Families */
+  /* Font Families — declared weights only */
   --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-display: 'Cinzel Decorative', 'Poiret One', 'Trajan Pro', 'Georgia', serif;
   --font-body: 'Lora', 'Palatino', 'Georgia', serif;
-  --font-ui: 'Hind', system-ui, 'Noto Sans', sans-serif;
+  --font-ui: 'Hind', 'Noto Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', 'Courier', monospace;
+  --font-number: 'Cinzel Decorative', 'Trajan Pro', 'Georgia', serif;
 
   /* Font Sizes — fluid scale */
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
@@ -127,34 +136,21 @@ h6 {
   --text-4xl: clamp(2.25rem, 1.6rem + 3.5vw, 3.5rem);
   --text-5xl: clamp(2.75rem, 1.8rem + 5vw, 4.5rem);
 
-  /* Line Heights */
-  --leading-tight: 1.08;
-  --leading-snug: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.7;
-  --leading-loose: 2;
-
-  /* Font Weights */
-  --weight-normal: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-  --weight-black: 900;
-
   /* Letter Spacing */
   --tracking-tight: -0.01em;
   --tracking-normal: 0em;
   --tracking-wide: 0.01em;
   --tracking-wider: 0.02em;
   --tracking-display: 0.08em;
+  --tracking-number: 0.06em;
 
   /* Shadow System */
-  --shadow-sm: 0 1px 4px rgb(10, 5, 5, 0.7);
-  --shadow-md: 0 4px 16px rgb(10, 5, 5, 0.75), 0 0 8px rgb(245, 168, 0, 0.08);
-  --shadow-lg: 0 10px 40px rgb(10, 5, 5, 0.85), 0 0 24px rgb(245, 168, 0, 0.13);
-  --shadow-marigold: 0 0 14px rgb(245, 168, 0, 0.55), 0 0 36px rgb(245, 168, 0, 0.22);
-  --shadow-fuchsia: 0 0 14px rgb(204, 0, 102, 0.5), 0 0 36px rgb(204, 0, 102, 0.18);
-  --shadow-teal: 0 0 12px rgb(0, 168, 204, 0.45), 0 0 28px rgb(0, 168, 204, 0.16);
+  --shadow-sm: 0 1px 4px rgba(10, 5, 5, 0.7);
+  --shadow-md: 0 4px 16px rgba(10, 5, 5, 0.75), 0 0 8px rgba(245, 168, 0, 0.08);
+  --shadow-lg: 0 10px 40px rgba(10, 5, 5, 0.85), 0 0 24px rgba(245, 168, 0, 0.13);
+  --shadow-marigold: 0 0 14px rgba(245, 168, 0, 0.55), 0 0 36px rgba(245, 168, 0, 0.22);
+  --shadow-fuchsia: 0 0 14px rgba(204, 0, 102, 0.5), 0 0 36px rgba(204, 0, 102, 0.18);
+  --shadow-teal: 0 0 12px rgba(0, 168, 204, 0.45), 0 0 28px rgba(0, 168, 204, 0.16);
 
   /* Layout */
   --max-width: 1400px;
@@ -168,34 +164,25 @@ h6 {
   --duration-normal: 250ms;
   --duration-slow: 400ms;
   --duration-opulent: 600ms;
-  --tracking-headline: -0.01em;
-  --lh-headline: 1.08;
-  --lh-display: 1;
-  --tracking-body: 0em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.01em;
-  --lh-ui: 1.35;
-  --tracking-mono: 0.02em;
-  --lh-mono: 1.5;
-  --font-number: 'Cinzel Decorative', 'Trajan Pro', 'Georgia', serif;
-  --tracking-number: 0.06em;
-  --lh-number: 1;
 }
 
 /* ==========================================================================
    BASE ELEMENT DEFAULTS
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);
-  font-weight: var(--weight-normal);
-  line-height: var(--leading-relaxed);
+  font-weight: 400;
+  line-height: 1.7;
   color: var(--color-text);
   background-color: var(--color-bg);
   background-image: var(--gradient-marigold-chandelier);
   background-attachment: fixed;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -205,43 +192,38 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headline);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   color: var(--color-jasmine-white);
 }
 
 h1 {
   font-size: var(--text-5xl);
 }
-
 h2 {
   font-size: var(--text-4xl);
 }
-
 h3 {
   font-size: var(--text-3xl);
 }
-
 h4 {
   font-size: var(--text-2xl);
 }
-
 h5 {
   font-size: var(--text-xl);
 }
-
 h6 {
   font-size: var(--text-lg);
 }
 
 p {
-  line-height: var(--leading-relaxed);
+  line-height: 1.7;
   color: var(--color-text);
 }
 
 a {
-  color: var(--color-fuchsia-silk);
+  color: var(--color-secondary);
   text-decoration: none;
   transition: color var(--duration-fast) var(--ease-standard);
 }
@@ -254,11 +236,40 @@ a:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 4px rgba(245, 168, 0, 0.22);
 }
 
+/* Emphasis — Lora 500 is declared; no heavier weight available */
 strong,
 b {
-  font-weight: var(--weight-semibold);
+  font-weight: 500;
+  color: var(--color-jasmine-white);
+}
+
+/* Body text that needs wrapping in narrow tracks: overflow-wrap: anywhere */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+/* Headings: break-word only, not anywhere — mid-word breaks look like errors in display faces */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 code,
@@ -296,7 +307,7 @@ ol {
 }
 
 li {
-  line-height: var(--leading-relaxed);
+  line-height: 1.7;
 }
 
 hr {
@@ -320,8 +331,8 @@ td {
 
 th {
   font-family: var(--font-ui);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  font-weight: 600;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   font-size: var(--text-xs);
   color: var(--color-neutral);
@@ -331,16 +342,13 @@ th {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--color-surface);
 }
-
 ::-webkit-scrollbar-thumb {
   background: var(--color-burnished-copper);
   border-radius: var(--radius-pill);
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-sandalwood);
 }
@@ -351,7 +359,8 @@ th {
 }
 
 /* ==========================================================================
-   SKIP LINK (Accessibility)
+   SKIP LINK
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .skip-link {
@@ -363,7 +372,7 @@ th {
   background: var(--color-marigold-gold);
   color: var(--color-midnight-mandir);
   font-family: var(--font-ui);
-  font-weight: var(--weight-semibold);
+  font-weight: 600;
   font-size: var(--text-sm);
   border-radius: var(--radius-md);
   text-decoration: none;
@@ -377,18 +386,24 @@ th {
 }
 
 /* ==========================================================================
-   FOCUS VISIBLE — Brand-compliant marigold focus ring
+   FOCUS VISIBLE
+   Marigold gold ring + warm outer glow; both shadows in one declaration
+   so the control's own box-shadow does not override the focus ring.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(245, 168, 0, 0.22);
+  box-shadow:
+    0 0 0 4px rgba(245, 168, 0, 0.22),
+    0 0 0 6px rgba(245, 168, 0, 0.12);
 }
 
 /* ==========================================================================
    REDUCED MOTION — Honor prefers-reduced-motion
- * @copyright 2026 Joe Huss <detain@interserver.net>
+   Note: must switch off transition AND animation — §19 trap
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -402,12 +417,11 @@ th {
   }
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
+/* ==========================================================================
+   VENDOR FONTS — declared weights only for this kit
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
 @font-face {
   font-family: 'Cinzel Decorative';
   font-style: normal;
@@ -485,4 +499,3 @@ th {
   font-display: swap;
   src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
 }
-/* vendor-fonts:end */

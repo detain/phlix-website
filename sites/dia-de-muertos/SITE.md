@@ -1,184 +1,89 @@
-# SITE.md — Día de Muertos Brand Kit Site
+# SITE.md — Día de Muertos brand kit site
 
 ## Concept & Vision
 
-A Phlix marketing site that feels like standing in a glowing ofrenda altar at midnight — deep purple-black darkness lit by the warm blaze of cempasúchil marigold gold, papel picado purple, and the pink of a painted sugar skull. This is not Halloween horror. It is the joyful Mexican celebration of Día de Muertos: death as reunion, remembrance as celebration, darkness as the altar cloth that makes the offerings glow.
-
-Every screen should feel like looking into an ofrenda — layered, luminous, alive with memory and color. The product (a media server) is honored the way ancestors are honored: with warmth, beauty, and an open invitation to return.
-
----
+A Día de Muertos marketing site is an **ofrenda altar** — layered, luminous, and alive with
+remembrance. The visitor is not a user, they are a guest at the altar. Every section is a
+tier of the altar: candles and marigolds at the base, the hero offering in the middle, and
+papel picado flags waving above. The palette is the deep dark of a Mexican cemetery at
+midnight lit by ten thousand candles — #0C0512 — set against cempasúchil gold (#FFB800),
+papel picado purple (#CC00BB), and calavera pink (#FF3355). The aesthetic is joyful
+celebration, not morbid reminder.
 
 ## Aesthetic Direction
 
-**Mood:** Candlelit cemetery at midnight during Día de Muertos — not spooky, not macabre, but warm, celebratory, and deeply human. The deep dark exists only to make the gold burn brighter.
+Mexican Day of the Dead folk art — Posada engraving line work meets Frida Kahlo color
+richness. Sugar skulls are ornate and smiling. Marigold petals are everywhere as
+leading lines and glow sources. Papel picado cut-paper patterns provide geometric
+dividers and texture overlays. Composition is symmetrical and layered, echoing the
+tiered architecture of a real ofrenda altar.
 
-**Reference:** Oaxaca cemetery on November 1st, ten thousand candles lit, marigold petals spread from grave to altar, papel picado flags cutting the night sky in purple and pink.
+## Color Palette
 
-**Art direction:** Ofrenda altar composition — layered tiers from earth to heaven. Warm candlelight and marigold gold as the only light sources. Sugar skull motifs that are ornate, smiling, flower-crowned — never scary.
+| Token | Name | Hex | Role |
+|---|---|---|---|
+| `--color-primary` | Cempasúchil Gold | #FFB800 | Primary CTA, active nav, marigold glow |
+| `--color-secondary` | Papel Picado Purple | #CC00BB | Links, purple accents; AA-safe: #D21FC3 on bg |
+| `--color-tertiary` | Calavera Pink | #FF3355 | Badges, pink accents |
+| `--color-bg` | Midnight Cemetery | #0C0512 | Page background |
+| `--color-surface` | Ofrenda Shadow | #130820 | Cards, panels |
+| `--color-surface-alt` | Altar Dark | #1A1030 | Alternate rows, nested panels |
+| `--color-text` | Candlelight White | #FFF0E8 | Body, headlines (18.05:1 on bg) |
+| `--color-neutral` | Incense Mauve | #5A4070 | Muted UI, dividers |
+| `--color-border` | Petal Shadow | #2D1845 | Card borders, dividers |
+| `--color-focus` | Marigold Focus Pulse | #FFB800 | Focus ring (2px + 4px glow) |
 
----
+All contrast values measured per §19.1. The secondary (#CC00BB) achieves only 4.10:1
+on bg — used at AA-safe #D21FC3 instead for any small-text/link use on bg.
 
-## Color Palette (role → name → hex)
+## Typography Roles
 
-| Role              | Name                  | Hex       | Usage                                      |
-|-------------------|-----------------------|-----------|--------------------------------------------|
-| Primary           | Cempasúchil Gold      | #FFB800   | Primary CTA, key nav, active states        |
-| Secondary         | Papel Picado Purple   | #CC00BB   | Secondary actions, links, decoration       |
-| Tertiary          | Calavera Pink         | #FF3355   | Sugar skull accents, badges, emotional emphasis |
-| Background        | Midnight Cemetery     | #0C0512   | Default page background                    |
-| Surface           | Ofrenda Shadow        | #130820   | Cards and panel surfaces                  |
-| Surface Alt       | Altar Dark            | #1A1030   | Alternate panels, hover states             |
-| Text              | Candlelight White     | #FFF0E8   | Primary body and headline text             |
-| Neutral           | Incense Mauve         | #5A4070   | Muted chrome, dividers, secondary text     |
-| Success           | Marigold Bloom        | #E8A000   | Success toasts, confirmations              |
-| Warning           | Candle Flame          | #FF7A00   | Warnings, caution states                   |
-| Error             | Copal Ember           | #E5154E   | Errors, destructive actions                |
-| Info              | Altar Teal            | #00C9B1   | Informational banners                      |
-| Focus             | Marigold Focus Pulse  | #FFB800   | Keyboard focus ring                        |
-| Border            | Petal Shadow          | #2D1845   | Card borders, dividers                     |
-| Overlay           | Cemetery Night        | rgba(12,5,18,0.82) | Modal scrims                         |
-
-### Gradients
-- **Ofrenda Glow:** `#CC00BB → #FFB800` at 175° — hero backdrops, dramatic breaks
-- **Marigold Candle:** radial `rgba(255,184,0,0.40) → transparent` — candlelight glow behind hero subjects
-- **Cemetery Depth:** `#1A1030 → #0C0512` at 180° — surface-to-background fade
-
----
-
-## Typography
-
-| Role      | Font                   | Weight   | Usage                               |
-|-----------|------------------------|----------|-------------------------------------|
-| Headline  | Playfair Display       | 700, 900 | Dramatic page titles, hero          |
-| Display   | Cinzel Decorative      | 400, 700 | Oversized display, calavera title cards, section headers |
-| Body      | Lora                   | 400, 500 | Synopses, long-form reading         |
-| UI        | IBM Plex Sans          | 400–600  | Buttons, labels, navigation         |
-| Mono      | IBM Plex Mono          | 400, 600 | Code, technical readouts            |
-| Number    | Cinzel Decorative      | 700      | Stats, episode numbers              |
-
-**Rules applied:**
-- Playfair Display headlines must be bold (700+) — never thin
-- Cinzel Decorative is display-only (title cards, hero stats)
-- Body copy (Lora) never set in all-caps
-- Display tracking: 0.08em (Cinzel Decorative rewards breathing room)
-
----
+| Role | Face | Weights | Notes |
+|---|---|---|---|
+| Headline | Playfair Display | 700, 900 | Dramatic serif; hero h1, section titles |
+| Display | Cinzel Decorative | 400, 700 | Monumental ceremonial type; wordmark, stats |
+| Body | Lora | 400, 500 | Warm readable serif; prose, feature bodies |
+| UI | IBM Plex Sans | 400, 500, 600 | Buttons, labels, nav |
+| Mono | IBM Plex Mono | 400, 600 | Code blocks, install command |
 
 ## Spatial System
 
-**Spacing scale (8pt grid):** 4, 8, 12, 16, 24, 32, 48, 64, 96px
-
-**Corner radius:** 4 (sm), 8 (md), 16 (lg), 24 (xl), 999px (pill)
-
-**Max content width:** 1400px; content zone: 1100px
-
-**Layout archetype:** `immersive` — full-bleed hero with Cinzel Decorative headline over ofrenda-glow gradient → feature sections on cemetery/ofrenda-shadow alternating → gold CTA banners
-
----
+8-step spacing scale (4px base): 4, 8, 12, 16, 24, 32, 48, 64, 96px. Generous warm dark
+space is intentional — altar cloth needs room to breathe. Content max-width: 1400px.
 
 ## Motion Philosophy
 
-Motion should feel like candlelight — warm, flickering, alive, organic, never mechanical.
-
-- **Animation speed:** medium (280–450ms for major transitions)
-- **Easing:** `ease-in-out` primary; `cubic-bezier(0.34, 1.56, 0.64, 1)` for decorative/celebratory moments
-- **Transitions:** petal fall, candle flame dissolve, papel picado unfurl, altar slide-up
-- **Hover microinteraction:** 1px gold border glow + 3px lift with marigold box-shadow
-- **Focus:** 2px gold ring with 4px warm outer glow
-- **Loading:** floating marigold petals falling gently
-- **`prefers-reduced-motion`:** replace petal-fall with static skeleton shimmer; retain only opacity-based fades
-
----
+Motion feels like candlelight — warm, flickering, alive, never mechanical. Speed is
+medium (280–450ms). Easing is organic (ease-in-out, custom cubic-bezier). Marigold petal
+fall is the signature loading/transition motif. Under `prefers-reduced-motion`, all
+motion reduces to opacity fades and static states; the intensity toggle adds a further
+`saturate(0.4)` filter to all glow effects.
 
 ## Visual Assets
 
-### Generated SVG artwork
-- **`img/logo.svg`** — Cinzel Decorative wordmark in cempasúchil gold on midnight cemetery, papel picado geometric border, arch-topped panel echoing ofrenda altar niche form
-- **`img/favicon.svg`** — 8-petal marigold flower in gold with calavera pink center on midnight background
-- **`img/og.svg`** — 1200×630 social share card: midnight background with warm marigold radial glow, papel picado border pattern, "Phlix" in Cinzel Decorative gold, tagline "Remember. Celebrate. Live."
+Existing SVG assets preserved (logo.svg, favicon.svg, og.svg, og.png, icon PNGs,
+PROMPTS.md). Text inside og.svg has been updated with the Día de Muertos tagline
+headline. All SVG illustrations in HTML are inline folk-art style (Catrina figure,
+ofrenda altar, candles, marigolds).
 
-### Inline SVG icons (7 feature icons)
-All icons: outlined, 1.5px stroke, rounded caps/joins, cempasúchil gold active state, candlelight white default.
+## Component Notes
 
-1. **library** — stack of horizontal lines (film reel / library)
-2. **syncplay** — circle with clock hands (time sync)
-3. **transcode** — 3D box/diamond (transcoding pipeline)
-4. **shield** — classic shield (auth/security)
-5. **antenna** — radiating signal lines (Live TV/antenna)
-6. **broadcast** — DLNA broadcast/wifi-style signal
-7. **puzzle** — puzzle piece (plugin system)
-8. **hub** — circle with radiating spokes (Hub relay)
+- **Catrina mascot**: Bottom-right fixed, visible on home/features/download. Dismissible
+  to localStorage. Tips appear at specific section anchors (home:#hero, .features-overview,
+  download:#server, features:.feature-grid). Easter interactions: click:5 dance,
+  hover-hold:3s heart whisper. §19.11: not fixed on mobile (<768px).
+- **Intensity toggle**: "Soften the Flame" in footer utility row. Kills all CSS
+  transitions AND animations via injected style tag (not just animation property).
+  §19.2.
+- **Seasonal activation**: Oct 31–Nov 2 triggers Día de Muertos Peak banner. No live
+  palette override (no seasonal motif assets shipped).
+- **404 page**: Catrina in empty cemetery SVG illustration, torn papel picado, broken
+  candle, glowing marigold petal pointing the way home. recovery_links: home,
+  features, download.
 
----
+## Layout & Structure
 
-## Component Inventory
-
-### Buttons
-- **Primary:** `#FFB800` bg, `#0C0512` text, 8px radius — cempasúchil gold CTA
-- **Secondary:** transparent bg, `#CC00BB` border/text — papel picado purple ghost
-- **Ghost:** transparent bg, `#FFF0E8` text, 1px `#2D1845` border
-- **Danger:** `#E5154E` bg — copal ember for destructive actions
-- **FAB:** `#FFB800` bg, `#0C0512` text, rounded-lg, marigold glow shadow
-
-### Cards
-- Background: `#130820` (Ofrenda Shadow)
-- Border: 1px `#2D1845`
-- Border-radius: 8px
-- Hover: 1px `#FFB800` border + `var(--shadow-marigold)` box-shadow + 3px lift
-- Featured cards get papel picado pattern overlay at low opacity
-
-### Badges
-- Quality badges (4K/HDR/Dolby Vision): gold border + gold text on transparent
-- Status badges (New/Continue Watching): papel picado purple
-- Favorite badge: calavera pink
-
-### Navigation
-- Sticky header with `backdrop-filter: blur(12px)` on `rgba(19,8,32,0.92)`
-- Active link: cempasúchil gold color + bold weight
-- Mobile: hamburger toggle → full-width dropdown on midnight cemetery background
-
-### Footer
-- Footer tagline in Cinzel Decorative cempasúchil gold
-- 3-column grid (Product / Developers / Project)
-- Warm dividers, copyright in incense mauve
-
----
-
-## Branding rules applied
-
-- ✅ Midnight cemetery (#0C0512) and ofrenda shadow (#130820) used for all backgrounds — never neutral black
-- ✅ Cempasúchil gold (#FFB800) reserved for primary CTA only
-- ✅ At most two vivid accent colors per screen — gold first, purple or pink second
-- ✅ Paple picado purple and calavera pink appear with careful balance
-- ✅ Never: cool blue, grey, white as accent colors
-- ✅ Warm marigold glow via CSS box-shadow, not images
-- ✅ WCAG AA met: candlelight white on midnight cemetery = 18.2:1 contrast
-- ✅ All animations respect `prefers-reduced-motion`
-- ✅ Catrina mascot described in imagery art direction; no actual mascot imagery added to avoid版权 concerns for initial build
-
----
-
-## Anti-patterns explicitly avoided (from brand_opposites)
-- ❌ Halloween horror, gore, or macabre imagery
-- ❌ Cold, clinical, or minimalist design
-- ❌ Monotone or desaturated palette
-- ❌ Fast-food festive (cheap disposable color)
-- ❌ Generic "Mexican restaurant" clichés
-- ❌ Somber or mournful atmosphere
-- ❌ Corporate, flat, or impersonal design
-- ❌ Horror-related skull imagery (Western skull-and-crossbones)
-
----
-
-## Fonts (self-hosted)
-
-Fonts must be self-hosted as WOFF2 in `css/fonts/`. The following need to be acquired:
-- Playfair Display 700, 900
-- Cinzel Decorative 400, 700
-- Lora 400, 500
-- IBM Plex Sans 400, 500, 600
-- IBM Plex Mono 400, 600
-
-Use `tools/download-fonts.mjs` to fetch from Google Fonts or acquire separately.
-
-**Note:** Until fonts are self-hosted, the CSS falls back to the native stack defined in `font-family` — the site is fully readable and on-brand with fallbacks.
+Nine pages total (8 standard + 404). Nav: The Altar / The Offerings / The Paths /
+Light the Candle / The Distance / Our Story — with plugins/docs demoted to
+footer-shelved. Home page follows 5-section narrative arc: hero → why-watch →
+the-offerings → gather-together → light-it.

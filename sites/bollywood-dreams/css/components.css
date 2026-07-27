@@ -1,20 +1,22 @@
 /* ==========================================================================
    COMPONENTS.CSS — Bollywood Dreams
-   Header/nav, footer, buttons, cards, forms, badges, feature cards,
-   status badges, code blocks, and brand-specific components
+   Header/nav, footer, buttons, cards, forms, badges, mascot, intensity toggle
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ==========================================================================
    SITE HEADER & NAVIGATION
-   Midnight-mandir bar with burnished-copper border; brand wordmark in
-   Playfair Display with marigold text-shadow; active indicator in gold
+   Marquee-styled topbar with bulb-dot separators between links.
+   Nav: The Lobby | Now Showing | Box Seats | Buy Your Ticket | The Marquee | The Story
+   Active link glows like a lit marquee bulb (marigold-gold bottom bar).
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-surface);
+  background: rgba(22, 8, 8, 0.95);
   border-bottom: 1px solid var(--color-border);
   height: var(--header-height);
   backdrop-filter: blur(12px);
@@ -34,6 +36,7 @@
   align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .nav-logo img {
@@ -41,32 +44,14 @@
   width: auto;
 }
 
-.nav-logo-text {
-  font-family: var(--font-headline);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  color: var(--color-jasmine-white);
-  text-shadow: 0 0 20px rgb(245, 168, 0, 0.3);
-  letter-spacing: var(--tracking-tight);
-}
-
-.nav-logo:hover .nav-logo-text {
-  color: var(--color-marigold-gold);
-}
-
-/* Primary nav menu */
-.nav-primary {
-  display: flex;
-  align-items: center;
-  gap: var(--space-6);
-}
-
+/* Primary nav menu — marquee style */
 .nav-menu {
   display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
   gap: var(--space-1);
+  align-items: center;
 }
 
 .nav-menu li {
@@ -74,6 +59,7 @@
   align-items: center;
 }
 
+/* Nav link emphasis levels */
 .nav-menu a {
   display: flex;
   align-items: center;
@@ -81,17 +67,33 @@
   padding: var(--space-2) var(--space-4);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-wide);
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--color-text);
   text-decoration: none;
   border-radius: var(--radius-md);
+  position: relative;
   transition:
     color var(--duration-fast) var(--ease-standard),
     background var(--duration-fast) var(--ease-standard);
-  position: relative;
 }
 
+/* Default emphasis — sandalwood text, no gold accent */
+.nav-menu a.nav-link--default {
+  color: var(--color-text);
+}
+
+/* Primary emphasis — marigold-gold text, lit bulb underline */
+.nav-menu a.nav-link--primary {
+  color: var(--color-marigold-gold);
+}
+
+/* Muted emphasis — sandalwood text, subtle */
+.nav-menu a.nav-link--muted {
+  color: var(--color-neutral);
+}
+
+/* Bottom accent bar — glows on hover and aria-current */
 .nav-menu a::after {
   content: '';
   position: absolute;
@@ -105,12 +107,14 @@
   transition: transform var(--duration-normal) var(--ease-slow);
 }
 
-.nav-menu a:hover {
+.nav-menu a:hover,
+.nav-menu a:focus-visible {
   color: var(--color-jasmine-white);
   background: var(--color-surface-alt);
 }
 
-.nav-menu a:hover::after {
+.nav-menu a:hover::after,
+.nav-menu a:focus-visible::after {
   transform: translateX(-50%) scaleX(1);
 }
 
@@ -120,16 +124,16 @@
 
 .nav-menu a[aria-current='page']::after {
   transform: translateX(-50%) scaleX(1);
+  box-shadow: 0 0 8px rgba(245, 168, 0, 0.6);
 }
 
-/* Focus */
 .nav-menu a:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(245, 168, 0, 0.22);
+  box-shadow: 0 0 0 4px rgba(245, 168, 0, 0.22);
 }
 
-/* Mobile nav toggle */
+/* Mobile nav toggle (hamburger) */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -164,18 +168,15 @@
 .nav-toggle[aria-expanded='true'] span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
-
 .nav-toggle[aria-expanded='true'] span:nth-child(2) {
   opacity: 0;
   transform: scaleX(0);
 }
-
 .nav-toggle[aria-expanded='true'] span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Mobile nav */
-@media (width <= 900px) {
+@media (max-width: 900px) {
   .nav-toggle {
     display: flex;
   }
@@ -200,7 +201,6 @@
   .nav-menu.open {
     transform: translateX(0);
   }
-
   .nav-menu a {
     padding: var(--space-4);
     font-size: var(--text-base);
@@ -208,37 +208,34 @@
     justify-content: flex-start;
   }
 
-  /* Backdrop */
   .nav-backdrop {
     position: fixed;
     inset: 0;
     top: var(--header-height);
-    background: rgb(10, 5, 5, 0.7);
+    background: rgba(10, 5, 5, 0.7);
     backdrop-filter: blur(4px);
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--duration-slow) var(--ease-standard);
     z-index: 98;
   }
-
   .nav-backdrop.open {
     opacity: 1;
     pointer-events: all;
   }
 }
 
-@media (width <= 480px) {
-  .nav-logo-text {
-    font-size: var(--text-lg);
-  }
-
+@media (max-width: 480px) {
   .nav-menu {
     width: 100%;
   }
 }
 
 /* ==========================================================================
-   BUTTONS — Marigold Gold primary, Fuchsia Silk ghost, etc.
+   BUTTONS
+   Primary: Marigold Gold | Secondary: Fuchsia Silk ghost | Danger: Sindoor Red
+   Ghost, Link, Icon, FAB variants
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .btn {
@@ -249,8 +246,8 @@
   padding: var(--space-3) var(--space-6);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  font-weight: 600;
+  letter-spacing: 0.01em;
   line-height: 1.35;
   text-decoration: none;
   border: none;
@@ -269,50 +266,41 @@
 .btn:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(245, 168, 0, 0.22);
+  box-shadow: 0 0 0 4px rgba(245, 168, 0, 0.22);
 }
 
 .btn:active {
   transform: scale(0.97);
 }
 
-/* Primary — Marigold Gold on midnight-mandir */
+/* Primary — Marigold Gold */
 .btn-primary {
   background: var(--color-marigold-gold);
-  color: var(--color-midnight-mandir);
+  color: var(--color-fab-text);
   box-shadow: var(--shadow-marigold);
 }
 
 .btn-primary:hover {
   background: #ffb824;
-  color: var(--color-midnight-mandir);
+  color: var(--color-fab-text);
   box-shadow:
-    0 0 18px rgb(245, 168, 0, 0.65),
-    0 0 48px rgb(245, 168, 0, 0.28);
+    0 0 18px rgba(245, 168, 0, 0.65),
+    0 0 48px rgba(245, 168, 0, 0.28);
   transform: translateY(-1px);
 }
 
-.btn-primary:active {
-  background: #e09800;
-  transform: scale(0.97);
-}
-
-/* Secondary — Fuchsia Silk ghost button */
+/* Secondary — Fuchsia Silk ghost */
 .btn-secondary {
   background: transparent;
-  color: var(--color-fuchsia-silk);
-  border: 1px solid var(--color-fuchsia-silk);
+  color: var(--color-secondary-safe);
+  border: 1px solid var(--color-secondary-safe);
 }
 
 .btn-secondary:hover {
-  background: rgb(204, 0, 102, 0.1);
-  color: #e6007a;
-  border-color: #e6007a;
+  background: rgba(214, 51, 133, 0.1);
+  color: var(--color-secondary-safe);
+  border-color: var(--color-secondary-safe);
   box-shadow: var(--shadow-fuchsia);
-}
-
-.btn-secondary:active {
-  background: rgb(204, 0, 102, 0.2);
 }
 
 /* Danger — Sindoor Red */
@@ -323,16 +311,11 @@
 
 .btn-danger:hover {
   background: #d80028;
-  box-shadow: 0 0 14px rgb(200, 0, 26, 0.55);
+  box-shadow: 0 0 14px rgba(200, 0, 26, 0.55);
   transform: translateY(-1px);
 }
 
-.btn-danger:active {
-  background: #b0001a;
-  transform: scale(0.97);
-}
-
-/* Ghost — Burnished Copper border, Jasmine White text */
+/* Ghost — Burnished Copper border */
 .btn-ghost {
   background: transparent;
   color: var(--color-jasmine-white);
@@ -345,7 +328,7 @@
   color: var(--color-jasmine-white);
 }
 
-/* Link — Marigold underline */
+/* Link — marigold underline */
 .btn-link {
   background: transparent;
   color: var(--color-marigold-gold);
@@ -379,7 +362,7 @@
 /* FAB — Floating Action Button */
 .btn-fab {
   background: var(--color-marigold-gold);
-  color: var(--color-midnight-mandir);
+  color: var(--color-fab-text);
   border-radius: var(--radius-pill);
   padding: var(--space-4);
   min-width: 56px;
@@ -390,18 +373,17 @@
 .btn-fab:hover {
   background: #ffb824;
   box-shadow:
-    0 0 20px rgb(245, 168, 0, 0.7),
-    0 0 50px rgb(245, 168, 0, 0.3);
+    0 0 20px rgba(245, 168, 0, 0.7),
+    0 0 50px rgba(245, 168, 0, 0.3);
   transform: scale(1.05);
 }
 
-/* Button sizes */
+/* Sizes */
 .btn-sm {
   padding: var(--space-2) var(--space-4);
   font-size: var(--text-xs);
   min-height: 36px;
 }
-
 .btn-lg {
   padding: var(--space-4) var(--space-8);
   font-size: var(--text-base);
@@ -409,7 +391,8 @@
 }
 
 /* ==========================================================================
-   FEATURE CARD — on home overview and features page
+   FEATURE CARD
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .feature-card {
@@ -442,21 +425,27 @@
 .feature-card h3 {
   font-family: var(--font-headline);
   font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
+  font-weight: 700;
   color: var(--color-jasmine-white);
-  line-height: var(--leading-tight);
+  line-height: 1.25;
 }
 
 .feature-card p {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-text);
-  line-height: var(--leading-relaxed);
+  line-height: 1.7;
   margin: 0;
 }
 
+.feature-card-link {
+  text-decoration: none;
+  display: block;
+}
+
 /* ==========================================================================
-   STATUS BADGE — client status badges
+   STATUS BADGES
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .status-badge {
@@ -465,7 +454,7 @@
   padding: 2px var(--space-3);
   font-family: var(--font-ui);
   font-size: 10px;
-  font-weight: var(--weight-semibold);
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
@@ -474,25 +463,26 @@
 }
 
 .status-stable {
-  background: rgb(245, 168, 0, 0.1);
+  background: rgba(245, 168, 0, 0.1);
   color: var(--color-marigold-gold);
   border-color: var(--color-marigold-gold);
 }
 
 .status-beta {
-  background: rgb(0, 168, 204, 0.1);
+  background: rgba(0, 168, 204, 0.1);
   color: var(--color-peacock-teal);
   border-color: var(--color-peacock-teal);
 }
 
 .status-deprecated {
-  background: rgb(200, 0, 26, 0.1);
+  background: rgba(200, 0, 26, 0.1);
   color: var(--color-sindoor-red);
   border-color: var(--color-sindoor-red);
 }
 
 /* ==========================================================================
-   MEDIA BADGES — 4K, HDR, New, etc.
+   MEDIA BADGES — kit's own labels only
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .badge {
@@ -501,7 +491,7 @@
   padding: 2px var(--space-3);
   font-family: var(--font-ui);
   font-size: 10px;
-  font-weight: var(--weight-semibold);
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
@@ -510,25 +500,26 @@
 }
 
 .badge-quality {
-  background: rgb(245, 168, 0, 0.15);
+  background: rgba(245, 168, 0, 0.15);
   color: var(--color-marigold-gold);
-  border-color: rgb(245, 168, 0, 0.4);
+  border-color: rgba(245, 168, 0, 0.4);
 }
 
 .badge-status {
-  background: rgb(0, 168, 204, 0.15);
+  background: rgba(0, 168, 204, 0.15);
   color: var(--color-peacock-teal);
-  border-color: rgb(0, 168, 204, 0.4);
+  border-color: rgba(0, 168, 204, 0.4);
 }
 
 .badge-favorite {
-  background: rgb(204, 0, 102, 0.15);
-  color: var(--color-fuchsia-silk);
-  border-color: rgb(204, 0, 102, 0.4);
+  background: rgba(204, 0, 102, 0.15);
+  color: var(--color-secondary-safe);
+  border-color: rgba(204, 0, 102, 0.4);
 }
 
 /* ==========================================================================
    FORMS
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .form-group {
@@ -541,9 +532,9 @@
 .form-label {
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: 500;
   color: var(--color-text);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.01em;
 }
 
 .form-input,
@@ -573,7 +564,7 @@
 .form-select:focus {
   outline: none;
   border-color: var(--color-marigold-gold);
-  box-shadow: 0 0 0 3px rgb(245, 168, 0, 0.18);
+  box-shadow: 0 0 0 3px rgba(245, 168, 0, 0.18);
 }
 
 .form-textarea {
@@ -644,7 +635,6 @@
 .form-switch input[type='checkbox']:checked {
   background: var(--color-marigold-gold);
 }
-
 .form-switch input[type='checkbox']:checked::before {
   transform: translateX(18px);
   background: var(--color-midnight-mandir);
@@ -652,12 +642,93 @@
 
 /* ==========================================================================
    SITE FOOTER
+   Mirror-nav row + 3-column directory from content.json.footer.columns
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .site-footer {
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
   padding-block: var(--space-12);
+}
+
+/* Footer utility row (intensity toggle + reduced-motion note) */
+.footer-utility {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-8);
+}
+
+/* Intensity toggle button */
+.intensity-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-neutral);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.intensity-toggle:hover {
+  border-color: var(--color-sandalwood);
+  color: var(--color-text);
+}
+
+.intensity-toggle[aria-pressed='true'] {
+  border-color: var(--color-marigold-gold);
+  color: var(--color-marigold-gold);
+}
+
+.intensity-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(245, 168, 0, 0.22);
+}
+
+/* Footer mirror nav — index row matching primary nav labels */
+.footer-mirror-nav {
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.footer-mirror-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  justify-content: center;
+}
+
+.footer-mirror-nav a {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-neutral);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.footer-mirror-nav a:hover {
+  color: var(--color-marigold-gold);
+}
+.footer-mirror-nav a[aria-current='page'] {
+  color: var(--color-marigold-gold);
 }
 
 .footer-tagline {
@@ -683,7 +754,7 @@
 .footer-col h3 {
   font-family: var(--font-ui);
   font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--color-marigold-gold);
@@ -719,6 +790,7 @@
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 4px rgba(245, 168, 0, 0.22);
 }
 
 .footer-copy {
@@ -728,10 +800,12 @@
   color: var(--color-neutral);
   padding-top: var(--space-8);
   border-top: 1px solid var(--color-border);
+  line-height: 1.6;
 }
 
 /* ==========================================================================
-   SPECIAL MARQUEE — Used sparingly on brand kit pages
+   MARQUEE — for marquee-board copy_treatment
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .marquee-wrapper {
@@ -757,7 +831,6 @@
   from {
     transform: translateX(0);
   }
-
   to {
     transform: translateX(-50%);
   }
@@ -769,7 +842,7 @@
   gap: var(--space-3);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: 500;
   color: var(--color-neutral);
   white-space: nowrap;
 }
@@ -784,6 +857,7 @@
 
 /* ==========================================================================
    TOAST NOTIFICATIONS
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .toast-container {
@@ -820,7 +894,6 @@
     opacity: 0;
     transform: translateX(100%);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
@@ -830,21 +903,19 @@
 .toast.success {
   border-left-color: var(--color-turmeric-spark);
 }
-
 .toast.warning {
   border-left-color: var(--color-saffron-flame);
 }
-
 .toast.error {
   border-left-color: var(--color-sindoor-red);
 }
-
 .toast.info {
   border-left-color: var(--color-indigo-night);
 }
 
 /* ==========================================================================
    CHIPS
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .chip {
@@ -857,7 +928,7 @@
   border-radius: var(--radius-pill);
   font-family: var(--font-ui);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: 500;
   color: var(--color-text);
   cursor: default;
   transition: border-color var(--duration-fast) var(--ease-standard);
@@ -869,7 +940,8 @@
 }
 
 /* ==========================================================================
-   LOADING SPINNER — Rangoli radial spinner (diya flame)
+   LOADING SPINNER — rangoli radial (diya flame)
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .spinner {
@@ -885,7 +957,6 @@
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
@@ -899,6 +970,7 @@
 
 /* ==========================================================================
    DIVIDERS & DECORATIVE ACCENTS
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .divider-gold {
@@ -934,50 +1006,289 @@
 }
 
 /* ==========================================================================
-   UTILITY CLASSES
- * @copyright 2026 Joe Huss <detain@interserver.net>
+   PRIYA MASCOT — bottom-right companion
+   Must NOT overlap CTA at 320px — in-flow above footer on mobile.
+   Idle animation disabled under prefers-reduced-motion.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+.priya-companion {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  max-width: 200px;
+}
+
+.priya-companion[hidden] {
+  display: none;
+}
+
+.priya-close {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background: rgba(22, 8, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--color-neutral);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.priya-close:hover {
+  color: var(--color-text);
+}
+
+.priya-figure {
+  cursor: pointer;
+  animation: priya-idle 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes priya-idle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .priya-figure {
+    animation: none;
+  }
+}
+
+/* Priya tip bubble */
+.priya-tip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  line-height: 1.5;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  max-width: 200px;
+}
+
+/* Mobile: Priya goes in-flow above footer, not fixed */
+@media (max-width: 767px) {
+  .priya-companion {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    flex-direction: row;
+    align-items: center;
+    max-width: 100%;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/* ==========================================================================
+   EASTER EGG — jasmine petal burst overlay
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+.petal-burst {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+  height: 0;
+}
+
+.petal-burst.active {
+  height: auto;
+  animation:
+    petal-burst-in 200ms ease-out both,
+    petal-burst-out 500ms ease-in 4.5s forwards;
+}
+
+@keyframes petal-burst-in {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: 200px;
+    opacity: 1;
+  }
+}
+
+@keyframes petal-burst-out {
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--color-marigold-gold);
+  border-radius: 50% 0 50% 50%;
+  opacity: 0.8;
+  animation: petal-fall 4s ease-in forwards;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(200px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   SEASONAL BANNER
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+.seasonal-banner {
+  background: var(--gradient-holi-burst);
+  padding: var(--space-3) var(--space-6);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-jasmine-white);
+  position: relative;
+  z-index: 101;
+}
+
+/* ==========================================================================
+   VISUALLY HIDDEN — §19.15 requires overflow: hidden + clip-path
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
-  padding: 0;
   margin: -1px;
+  padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
 
-.text-center {
+/* ==========================================================================
+   ERROR PAGE (404)
+   Bollywood cinema atmosphere — inviting, not alarming.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+.error-page {
+  min-height: calc(100vh - var(--header-height) - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) 0;
+}
+
+.error-page .container-prose {
   text-align: center;
 }
 
+.error-page__arch {
+  color: var(--color-primary);
+  width: 160px;
+  height: auto;
+  margin: 0 auto var(--space-6);
+  opacity: 0.8;
+}
+
+.error-page__code {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 10rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  line-height: 1;
+  margin: 0 0 var(--space-4);
+  text-shadow: var(--shadow-marigold);
+}
+
+.error-page__title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin: 0 0 var(--space-6);
+}
+
+.error-page__body {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto var(--space-8);
+  opacity: 0.85;
+}
+
+.error-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-bottom: var(--space-8);
+}
+
+.error-page__actions .btn {
+  min-width: 180px;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+.text-center {
+  text-align: center;
+}
 .text-left {
   text-align: left;
 }
-
 .text-right {
   text-align: right;
 }
-
 .text-gold {
   color: var(--color-marigold-gold);
 }
-
 .text-fuchsia {
-  color: var(--color-fuchsia-silk);
+  color: var(--color-secondary-safe);
 }
-
 .text-teal {
   color: var(--color-peacock-teal);
 }
-
 .text-muted {
   color: var(--color-neutral);
 }
-
 .text-jasmine {
   color: var(--color-jasmine-white);
 }
@@ -985,88 +1296,70 @@
 .mt-2 {
   margin-top: var(--space-2);
 }
-
 .mt-4 {
   margin-top: var(--space-4);
 }
-
 .mt-6 {
   margin-top: var(--space-6);
 }
-
 .mt-8 {
   margin-top: var(--space-8);
 }
-
 .mt-12 {
   margin-top: var(--space-12);
 }
-
 .mb-2 {
   margin-bottom: var(--space-2);
 }
-
 .mb-4 {
   margin-bottom: var(--space-4);
 }
-
 .mb-6 {
   margin-bottom: var(--space-6);
 }
-
 .mb-8 {
   margin-bottom: var(--space-8);
 }
-
 .pt-8 {
   padding-top: var(--space-8);
 }
-
 .pb-8 {
   padding-bottom: var(--space-8);
 }
-
 .w-full {
   width: 100%;
 }
-
 .rounded {
   border-radius: var(--radius-md);
 }
-
 .rounded-lg {
   border-radius: var(--radius-lg);
 }
-
 .shadow {
   box-shadow: var(--shadow-md);
 }
-
 .shadow-gold {
   box-shadow: var(--shadow-marigold);
 }
-
 .hidden {
   display: none;
 }
 
-@media (width <= 768px) {
+@media (max-width: 768px) {
   .hide-mobile {
     display: none;
   }
-
   .toast-container {
     bottom: var(--space-4);
     right: var(--space-4);
     left: var(--space-4);
   }
-
   .toast {
     max-width: 100%;
   }
 }
 
-@media (width >= 769px) {
+@media (min-width: 769px) {
   .show-mobile-only {
     display: none;
   }

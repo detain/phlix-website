@@ -6,7 +6,7 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Extend Phlix with the plugin system — a versioned LifecycleInterface contract and manifest schema. Drop a plugin in, the loader picks it up."
     />
     <link
       rel="canonical"
@@ -16,7 +16,7 @@
     <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Extend Phlix with the plugin system — a versioned LifecycleInterface contract and manifest schema."
     />
     <meta
       property="og:image"
@@ -31,10 +31,7 @@
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Plugins — Phlix" />
-    <meta
-      name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
+    <meta name="twitter:description" content="Extend Phlix with the plugin system." />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/art-nouveau-garden/img/og.png"
@@ -68,10 +65,12 @@
           <svg
             width="24"
             height="24"
-            viewBox="0 0 24 24"
+            viewBox="0 0 32 32"
             fill="none"
-            stroke="currentColor"
+            stroke="#2C3D28"
             stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
             aria-hidden="true"
           >
             <path d="M16 6c-1-2-3-2-4 0 1-2 3-3 4-2" />
@@ -79,7 +78,7 @@
             <path d="M16 6v6" />
             <path d="M10 16c-2-1-4 0-4 2 2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2" />
             <path d="M10 16h6" />
-            <path d="M22 16c2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2-2-1-4 0-4 2" />
+            <path d="M22 16c2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2-2-1 4 0 4 2" />
             <path d="M16 16h6" />
             <path d="M16 22v4" />
             <path d="M13 26c-2 1-3 3-2 4 1-2 3-3 4-2" />
@@ -87,14 +86,12 @@
           </svg>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./">The Salon</a></li>
+          <li><a href="features.html">The Gallery</a></li>
+          <li><a href="clients.html">The Rooms</a></li>
+          <li><a href="download.html">Step Inside</a></li>
+          <li><a href="hub.html">The Relay</a></li>
+          <li><a href="about.html" class="muted">The Story</a></li>
         </ul>
       </nav>
     </header>
@@ -102,44 +99,36 @@
     <main id="main-content" tabindex="-1">
       <div class="page-header">
         <div class="page-header-inner layout-inner">
-          <h1>Plugins</h1>
+          <h1>The Plugin Garden</h1>
           <p class="page-lead">
-            Extend Phlix with a versioned plugin contract — drop a plugin in, and the garden tends
-            itself.
+            A versioned contract, a manifest schema, and a loader that picks up every plugin you
+            drop in.
           </p>
         </div>
       </div>
 
       <div class="content-section">
         <div class="layout-inner">
-          <h2>Plugin model</h2>
+          <h2>The Plugin Model</h2>
           <p>
-            Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in
-            the <code>plugins/</code> directory and the loader picks it up automatically — no
-            configuration, no ceremony.
+            Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop the
+            plugin into the <code>plugins/</code> directory and the loader discovers it
+            automatically — no configuration, no restarts.
           </p>
-          <div class="download-block">
-            <pre class="code-block"><code>// See the reference plugin:
-<a href="https://github.com/detain/phlix-plugin-example">github.com/detain/phlix-plugin-example</a></code></pre>
+          <div class="code-block">
+            <code
+              >plugins/ my-metadata-provider/ manifest.json # name, version, lifecycle hooks src/
+              MyPlugin.php # implements LifecycleInterface</code
+            >
           </div>
 
-          <hr class="vine-divider" />
-          <svg
-            class="vine-divider-icon"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="3" fill="#B8960C" />
-          </svg>
-
-          <h2>Ecosystem plugins</h2>
           <p>
-            The plugin contract makes it easy to add metadata providers, transcode pipelines, or
-            anything your garden of media needs to flourish. Watch this space grow — or plant your
-            own.
+            The manifest declares which lifecycle hooks the plugin responds to and the loader calls
+            them in order. See
+            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+              >phlix-plugin-example</a
+            >
+            for the smallest working starter.
           </p>
 
           <hr class="vine-divider" />
@@ -154,32 +143,47 @@
             <circle cx="12" cy="12" r="3" fill="#B8960C" />
           </svg>
 
-          <h2>Write your own</h2>
+          <h2>Ecosystem Plugins</h2>
+          <p>Community and reference plugins for common use cases.</p>
+
+          <hr class="vine-divider" />
+          <svg
+            class="vine-divider-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="3" fill="#B8960C" />
+          </svg>
+
+          <h2>Write Your Own</h2>
+          <p>
+            The plugin contract is minimal by design. Implement <code>LifecycleInterface</code>,
+            define your manifest, and you have a working plugin.
+          </p>
           <p>
             Start from
-            <a href="https://github.com/detain/phlix-plugin-example">phlix-plugin-example</a> for
-            the smallest working starter. The manifest schema is versioned, so your plugin will
-            always find a welcome corner of the garden.
+            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
+              >phlix-plugin-example</a
+            >
+            — the reference metadata provider plugin.
           </p>
         </div>
       </div>
 
-      <section class="cta-banner" aria-labelledby="cta-plugins-heading">
+      <section class="cta-banner" aria-labelledby="plugins-cta-heading">
         <div class="cta-banner-inner">
-          <h2 id="cta-plugins-heading">Something beautiful awaits in the garden.</h2>
-          <a
-            href="https://github.com/detain/phlix-plugin-example"
-            class="btn btn-primary"
-            rel="noopener noreferrer"
-            >Get the example plugin</a
-          >
+          <h2 id="plugins-cta-heading">Your salon awaits. The lantern is lit.</h2>
+          <a href="download.html" class="btn btn-primary btn-large">Step Through the Garden Gate</a>
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <p class="footer-tagline">Cultivate beauty, frame by frame.</p>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
             <h3>Product</h3>

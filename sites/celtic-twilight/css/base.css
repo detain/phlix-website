@@ -1,8 +1,12 @@
 /* ==========================================================================
    BASE.CSS — Celtic Twilight
-   Modern reset, CSS tokens, element defaults, accessibility base
+   Reset, CSS custom properties (tokens), base element styles, accessibility.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. Modern Reset
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -11,8 +15,65 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   2. CSS Custom Properties — Celtic Twilight Design Tokens
+   -------------------------------------------------------------------------- */
 :root {
-  /* ── Colors ── */
+  /* Colors — from brand-kit design_tokens + measured contrast fixes */
   --color-primary: #2d6a4f;
   --color-secondary: #6b3fa0;
   --color-tertiary: #b8860b;
@@ -24,38 +85,31 @@
   --color-success: #a8dabc;
   --color-warning: #d4a827;
   --color-error: #8b2020;
-  --color-info: #2b6cb0;
-  --color-vellum-85: rgb(244 237 216 / 0.85);
-  --color-vellum-75: rgb(244 237 216 / 0.75);
-  --color-vellum-70: rgb(244 237 216 / 0.7);
   --color-focus: #c9980a;
-  --color-shadow: rgb(30, 15, 48, 0.28);
-  --color-overlay: rgb(13, 8, 32, 0.65);
 
-  /* ── Semantic aliases from kit ── */
-  --color-emerald: #2d6a4f;
-  --color-amethyst: #6b3fa0;
-  --color-gold: #b8860b;
-  --color-vellum: #f4edd8;
-  --color-mist: #faf7ee;
-  --color-heather: #e8e0f0;
-  --color-peat: #2c2010;
-  --color-ink: #1a1208;
+  /* Seasonal-safe substitutes (measured; used where primary/secondary would fail) */
+  --color-primary-safe: #2d6a4f; /* already 5.46:1 on bg */
+  --color-secondary-safe: #6b3fa0; /* already 6.31:1 on bg */
 
-  /* ── Gradients ── */
-  --gradient-dusk: linear-gradient(160deg, #2d6a4f 0%, #4a2578 50%, #1a0d2e 100%);
-  --gradient-gold-glow: radial-gradient(
-    circle,
-    rgb(201, 152, 10, 0.45) 0%,
-    rgb(201, 152, 10, 0) 70%
-  );
-  --gradient-mist-rise: linear-gradient(
-    0deg,
-    rgb(244, 237, 216, 0) 0%,
-    rgb(250, 247, 238, 0.9) 100%
-  );
+  /* Surfaces */
+  --color-bg-vellum: #f4edd8;
+  --color-surface-mist: #faf7ee;
+  --color-surface-heather: #e8e0f0;
 
-  /* ── Spacing Scale ── */
+  /* Typography */
+  --font-headline: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  --font-body: 'EB Garamond', Garamond, Palatino, Georgia, serif;
+  --font-ui: 'Nunito', 'Open Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Fira Mono', 'Courier New', monospace;
+
+  /* Tracking */
+  --tracking-headline: 0.06em;
+  --tracking-display: 0.08em;
+  --tracking-body: 0.01em;
+  --tracking-ui: 0.02em;
+
+  /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -67,91 +121,126 @@
   --space-16: 64px;
   --space-24: 96px;
 
-  /* ── Corner Radius ── */
+  /* Corner radius */
   --radius-sm: 4px;
   --radius-md: 10px;
   --radius-lg: 18px;
   --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* ── Typography ── */
-  --font-headline: 'Cinzel', 'Trajan Pro', 'Palatino Linotype', 'Georgia', serif;
-  --font-display: 'Cinzel Decorative', 'Cinzel', 'Palatino Linotype', 'Georgia', serif;
-  --font-body: 'EB Garamond', 'Garamond', 'Palatino', 'Georgia', serif;
-  --font-ui: 'Nunito', 'Open Sans', system-ui, sans-serif;
-  --font-mono: 'DM Mono', 'Fira Mono', 'Courier New', monospace;
-  --tracking-headline: 0.06em;
-  --tracking-display: 0.08em;
-  --tracking-body: 0.01em;
-  --tracking-ui: 0.02em;
-  --lh-headline: 1.1;
-  --lh-display: 1;
-  --lh-body: 1.7;
-  --lh-ui: 1.35;
+  /* Shadows — dusk-purple tinted */
+  --shadow-sm: 0 1px 3px rgba(30, 15, 48, 0.14);
+  --shadow-md: 0 4px 12px rgba(30, 15, 48, 0.2);
+  --shadow-lg: 0 10px 28px rgba(30, 15, 48, 0.28);
 
-  /* ── Shadows (twilight-purple tinted) ── */
-  --shadow-sm: 0 1px 3px rgb(30, 15, 48, 0.14);
-  --shadow-md: 0 4px 12px rgb(30, 15, 48, 0.2);
-  --shadow-lg: 0 10px 28px rgb(30, 15, 48, 0.28);
-
-  /* ── Layout ── */
+  /* Layout */
   --max-width: 1320px;
-  --gutter: var(--space-6);
-  --tracking-mono: 0em;
-  --lh-mono: 1.6;
-  --font-number: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
-  --tracking-number: 0.04em;
-  --lh-number: 1;
+  --page-padding: var(--space-6);
+
+  /* Transition */
+  --transition-base: 220ms ease-in-out;
+  --transition-slow: 400ms ease-in-out;
 }
 
-/* ── Font-face declarations — NOTE: production build should self-host WOFF2 fonts.
-     Using system font fallbacks (defined in :root --font-* tokens) until local fonts are added. ── */
-
-/* ── Base elements ── */
-html {
-  scroll-behavior: smooth;
-  text-size-adjust: 100%;
-  font-size: 16px;
+/* --------------------------------------------------------------------------
+   3. Font Faces — self-hosted WOFF2 only
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 400;
+  font-style: normal;
+  src: url(../../assets/fonts/cinzel-400-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 700;
+  font-style: normal;
+  src: url(../../assets/fonts/cinzel-700-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cinzel Decorative';
+  font-weight: 400;
+  font-style: normal;
+  src: url(../../assets/fonts/cinzel-decorative-400-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cinzel Decorative';
+  font-weight: 700;
+  font-style: normal;
+  src: url(../../assets/fonts/cinzel-decorative-700-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-weight: 400;
+  font-style: normal;
+  src: url(../../assets/fonts/eb-garamond-400-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-weight: 500;
+  font-style: normal;
+  src: url(../../assets/fonts/eb-garamond-500-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-weight: 600;
+  font-style: normal;
+  src: url(../../assets/fonts/eb-garamond-600-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 400;
+  font-style: normal;
+  src: url(../../assets/fonts/nunito-400-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 600;
+  font-style: normal;
+  src: url(../../assets/fonts/nunito-600-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 700;
+  font-style: normal;
+  src: url(../../assets/fonts/nunito-700-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-weight: 400;
+  font-style: normal;
+  src: url(../../assets/fonts/dm-mono-400-latin.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-weight: 500;
+  font-style: normal;
+  src: url(../../assets/fonts/dm-mono-500-latin.woff2) format('woff2');
+  font-display: swap;
 }
 
+/* --------------------------------------------------------------------------
+   4. Base Element Styles
+   -------------------------------------------------------------------------- */
 body {
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: var(--lh-body);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   letter-spacing: var(--tracking-body);
   color: var(--color-text);
   background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
-
-img,
-video,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: var(--color-secondary);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-a:hover {
-  color: var(--color-primary);
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-button {
-  cursor: pointer;
-  font-family: var(--font-ui);
-  border: none;
-  background: none;
 }
 
 h1,
@@ -161,66 +250,150 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headline);
-  line-height: var(--lh-headline);
+  line-height: 1.15;
   letter-spacing: var(--tracking-headline);
   color: var(--color-text);
 }
 
-/* ── Skip link ── */
+h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+}
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+}
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+}
+h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+}
+
+p {
+  margin-bottom: var(--space-4);
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    color var(--transition-base),
+    text-decoration-color var(--transition-base);
+}
+a:hover {
+  color: var(--color-primary);
+  text-decoration-color: currentColor;
+}
+
+strong {
+  font-weight: 600;
+}
+em {
+  font-style: italic;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: var(--color-surface-alt);
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1.5px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+ul,
+ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+li {
+  margin-bottom: var(--space-2);
+}
+
+blockquote {
+  border-left: 3px solid var(--color-tertiary);
+  padding: var(--space-4) var(--space-6);
+  margin: var(--space-6) 0;
+  font-style: italic;
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
+}
+
+hr {
+  border: none;
+  border-top: 1.5px solid var(--color-border);
+  margin: var(--space-12) 0;
+  opacity: 0.4;
+}
+
+/* --------------------------------------------------------------------------
+   5. Skip Link
+   -------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-4);
   z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-gold);
-  color: var(--color-ink);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-surface);
   font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: var(--tracking-ui);
-  border-radius: var(--radius-md);
+  font-weight: 600;
   text-decoration: none;
-  transition: top 0.2s ease;
+  border-radius: var(--radius-md);
+  transition: top var(--transition-base);
 }
-
 .skip-link:focus {
   top: var(--space-4);
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* ── Focus styles ── */
+/* --------------------------------------------------------------------------
+   6. Focus Visible Ring — gold leaf on vellum
+   -------------------------------------------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
-/* ── Text selection ── */
+/* --------------------------------------------------------------------------
+   7. Selection
+   -------------------------------------------------------------------------- */
 ::selection {
-  background: var(--color-secondary);
-  color: var(--color-mist);
+  background: color-mix(in srgb, var(--color-tertiary) 25%, transparent);
+  color: var(--color-text);
 }
 
-/* ── Scrollbar (webkit) ── */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-peat);
-  border-radius: var(--radius-pill);
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Reduced motion ── */
+/* --------------------------------------------------------------------------
+   8. Reduced Motion
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -231,95 +404,3 @@ h6 {
     scroll-behavior: auto !important;
   }
 }
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cinzel Decorative';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-decorative-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cinzel Decorative';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/cinzel-decorative-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'DM Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/dm-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'DM Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/dm-mono-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/eb-garamond-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/eb-garamond-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/eb-garamond-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

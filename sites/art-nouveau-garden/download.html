@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Download — Phlix</title>
+    <title>Step Inside — Phlix</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix Server on Ubuntu or Debian with a single command. Then download clients for Roku, Samsung Tizen, Windows, or Mobile."
     />
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/art-nouveau-garden/download.html"
     />
 
-    <meta property="og:title" content="Download — Phlix" />
+    <meta property="og:title" content="Step Inside — Phlix" />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix Server on Ubuntu or Debian with a single command. Then download clients for Roku, Samsung Tizen, Windows, or Mobile."
     />
     <meta
       property="og:image"
@@ -30,10 +30,10 @@
     <meta property="og:site_name" content="Phlix" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Download — Phlix" />
+    <meta name="twitter:title" content="Step Inside — Phlix" />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Install Phlix Server on Ubuntu or Debian with a single command."
     />
     <meta
       name="twitter:image"
@@ -68,10 +68,12 @@
           <svg
             width="24"
             height="24"
-            viewBox="0 0 24 24"
+            viewBox="0 0 32 32"
             fill="none"
-            stroke="currentColor"
+            stroke="#2C3D28"
             stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
             aria-hidden="true"
           >
             <path d="M16 6c-1-2-3-2-4 0 1-2 3-3 4-2" />
@@ -79,7 +81,7 @@
             <path d="M16 6v6" />
             <path d="M10 16c-2-1-4 0-4 2 2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2" />
             <path d="M10 16h6" />
-            <path d="M22 16c2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2-2-1-4 0-4 2" />
+            <path d="M22 16c2-1 4 0 4 2-2-1-4 0-4 2 2-1 4 0 4 2-2-1 4 0 4 2" />
             <path d="M16 16h6" />
             <path d="M16 22v4" />
             <path d="M13 26c-2 1-3 3-2 4 1-2 3-3 4-2" />
@@ -87,14 +89,12 @@
           </svg>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html" aria-current="page">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./">The Salon</a></li>
+          <li><a href="features.html">The Gallery</a></li>
+          <li><a href="clients.html">The Rooms</a></li>
+          <li><a href="download.html" aria-current="page">Step Inside</a></li>
+          <li><a href="hub.html">The Relay</a></li>
+          <li><a href="about.html" class="muted">The Story</a></li>
         </ul>
       </nav>
     </header>
@@ -102,136 +102,174 @@
     <main id="main-content" tabindex="-1">
       <div class="page-header">
         <div class="page-header-inner layout-inner">
-          <h1>Download</h1>
-          <p class="page-lead">
-            Install the server, grab a client, and step through the gilded gate into your garden of
-            media.
-          </p>
+          <h1>Three small steps to your opening night</h1>
+          <p class="page-lead">Light the lantern. Choose your room. Begin the show.</p>
         </div>
       </div>
 
       <div class="content-section">
         <div class="layout-inner">
-          <h2>Server</h2>
-          <div class="download-block">
+          <!-- Server installation — the admission ticket -->
+          <div class="download-block" id="server">
+            <h2>The Server — Light the Lantern</h2>
             <p>
-              Requires PHP 8.3+ and
-              <a href="https://github.com/detain/phlix-server">phlix-server</a>.
+              Requires PHP 8.3+, MySQL, and ffmpeg. The installer targets a fresh Ubuntu/Debian
+              host.
             </p>
-            <pre class="code-block"><code>composer require detain/phlix-server
-# or clone from https://github.com/detain/phlix-server</code></pre>
+            <p class="install-label">One line, on a fresh Ubuntu or Debian host:</p>
+            <div class="code-block">
+              <code
+                >curl -fsSL
+                https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh |
+                sudo bash</code
+              >
+            </div>
+            <p class="install-note">
+              Prompts for install path, database credentials and hostname when run in a terminal;
+              runs fully unattended when piped or given -y.
+            </p>
+
+            <details class="jargon-details">
+              <summary>What this does (plain terms)</summary>
+              <p>
+                This single command installs system packages, creates a dedicated user, sets up a
+                MySQL database, generates a secret key, runs migrations, installs a background
+                service, and sets up a reverse proxy with free HTTPS — all automatic.
+              </p>
+            </details>
+
+            <p class="install-from-source">
+              <strong>From source</strong> (development checkout — not an install):
+            </p>
+            <div class="code-block">
+              <code
+                >git clone https://github.com/detain/phlix-server.git cd phlix-server composer
+                install</code
+              >
+            </div>
+            <p class="install-note">
+              This is a development checkout only. It does not create a database, a service, or run
+              migrations. Never present it as the way to install Phlix.
+            </p>
           </div>
 
-          <h2>Clients</h2>
-          <div class="download-cards">
-            <div class="download-card" id="download-roku">
-              <h3>Roku</h3>
-              <p>Native Roku channel</p>
-              <a
-                href="https://github.com/detain/phlix-roku-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Roku</a
-              >
-            </div>
-
-            <div class="download-card" id="download-tizen">
-              <h3>Samsung Tizen</h3>
-              <p>Smart TV app</p>
-              <a
-                href="https://github.com/detain/phlix-tizen-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Tizen</a
-              >
-            </div>
-
-            <div class="download-card" id="download-windows">
-              <h3>Windows</h3>
-              <p>Native desktop</p>
-              <a
-                href="https://github.com/detain/phlix-windows-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Windows</a
-              >
-            </div>
-
-            <div class="download-card" id="download-mobile">
-              <h3>Mobile (iOS + Android)</h3>
-              <p>React Native app — beta</p>
-              <a
-                href="https://github.com/detain/phlix-mobile-client"
-                class="btn btn-primary"
-                rel="noopener noreferrer"
-                >Get Mobile</a
-              >
-            </div>
-
-            <div class="download-card" id="download-dlna">
-              <h3>Any DLNA device</h3>
-              <p>No install required</p>
-              <span class="badge">Built in</span>
+          <!-- Clients — the lounge choices -->
+          <div class="download-block">
+            <h2>The Clients — Choose Your Room</h2>
+            <p>Pick the client that fits each screen in your home.</p>
+            <div class="download-cards">
+              <article class="download-card">
+                <h3>Roku</h3>
+                <p>Native Roku channel — install directly from the Roku store.</p>
+                <a
+                  href="https://github.com/detain/phlix-roku-client"
+                  class="btn btn-secondary btn-small"
+                  rel="noopener noreferrer"
+                  >View source</a
+                >
+              </article>
+              <article class="download-card">
+                <h3>Samsung Tizen</h3>
+                <p>Smart TV app for Samsung Tizen televisions.</p>
+                <a
+                  href="https://github.com/detain/phlix-tizen-client"
+                  class="btn btn-secondary btn-small"
+                  rel="noopener noreferrer"
+                  >View source</a
+                >
+              </article>
+              <article class="download-card">
+                <h3>Windows</h3>
+                <p>Native desktop app with system tray and media key support.</p>
+                <a
+                  href="https://github.com/detain/phlix-windows-client"
+                  class="btn btn-secondary btn-small"
+                  rel="noopener noreferrer"
+                  >View source</a
+                >
+              </article>
+              <article class="download-card">
+                <h3>Mobile (beta)</h3>
+                <p>React Native app for iOS and Android.</p>
+                <a
+                  href="https://github.com/detain/phlix-mobile-client"
+                  class="btn btn-secondary btn-small"
+                  rel="noopener noreferrer"
+                  >View source</a
+                >
+              </article>
+              <article class="download-card">
+                <h3>DLNA</h3>
+                <p>No install required — any DLNA device works out of the box.</p>
+              </article>
             </div>
           </div>
 
-          <h2>Ecosystem</h2>
-          <ul class="ecosystem-list">
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >phlix-server</a
-                ></strong
-              >
-              &mdash; The media server itself &mdash; PHP 8.3+, Workerman 5.x
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer"
-                  >phlix-hub</a
-                ></strong
-              >
-              &mdash; Cloud directory + reverse-tunnel relay
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-shared" rel="noopener noreferrer"
-                  >phlix-shared</a
-                ></strong
-              >
-              &mdash; Shared interfaces, DTOs, event types &mdash; Composer package
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-docs" rel="noopener noreferrer"
-                  >phlix-docs</a
-                ></strong
-              >
-              &mdash; End-user, developer, and hub-admin docs (VitePress)
-            </li>
-            <li>
-              <strong
-                ><a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >phlix-plugin-example</a
-                ></strong
-              >
-              &mdash; Reference metadata-provider plugin
-            </li>
-          </ul>
+          <!-- Ecosystem — the reference library -->
+          <div class="download-block">
+            <h2>The Ecosystem — Reference Library</h2>
+            <ul class="ecosystem-list" role="list">
+              <li>
+                <strong>phlix-server</strong>
+                <br /><span>The media server itself — PHP 8.3+, Workerman 5.x</span> <br /><a
+                  href="https://github.com/detain/phlix-server"
+                  rel="noopener noreferrer"
+                  >View on GitHub</a
+                >
+              </li>
+              <li>
+                <strong>phlix-hub</strong>
+                <br /><span>Cloud directory + reverse-tunnel relay</span> <br /><a
+                  href="https://github.com/detain/phlix-hub"
+                  rel="noopener noreferrer"
+                  >View on GitHub</a
+                >
+              </li>
+              <li>
+                <strong>phlix-shared</strong>
+                <br /><span>Shared interfaces, DTOs, event types — Composer package</span> <br /><a
+                  href="https://github.com/detain/phlix-shared"
+                  rel="noopener noreferrer"
+                  >View on GitHub</a
+                >
+              </li>
+              <li>
+                <strong>phlix-docs</strong>
+                <br /><span>End-user, developer, and hub-admin docs (VitePress)</span> <br /><a
+                  href="https://detain.github.io/phlix-docs"
+                  rel="noopener noreferrer"
+                  >Read the docs</a
+                >
+              </li>
+              <li>
+                <strong>phlix-plugin-example</strong>
+                <br /><span>Reference metadata-provider plugin</span> <br /><a
+                  href="https://github.com/detain/phlix-plugin-example"
+                  rel="noopener noreferrer"
+                  >View on GitHub</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <section class="cta-banner" aria-labelledby="cta-dl-heading">
+      <section class="cta-banner" aria-labelledby="download-cta-heading">
         <div class="cta-banner-inner">
-          <h2 id="cta-dl-heading">Need a guiding hand along the path?</h2>
-          <a href="docs.html" class="btn btn-secondary">Read the docs</a>
+          <h2 id="download-cta-heading">Your salon awaits. The lantern is lit.</h2>
+          <a
+            href="https://detain.github.io/phlix-docs"
+            class="btn btn-secondary btn-large"
+            rel="noopener noreferrer"
+            >Read the docs</a
+          >
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <p class="footer-tagline">Cultivate beauty, frame by frame.</p>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
             <h3>Product</h3>
