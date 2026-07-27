@@ -1,9 +1,8 @@
 /* ===========================================================================
    base.css — Manga Studio
    Reset, CSS custom properties (tokens), element defaults
+   @copyright 2026 Joe Huss <detain@interserver.net>
    =========================================================================== */
-
-/* ── Google Fonts loaded via <link> in HTML <head> for non-render-blocking -->
 
 /* ── Modern reset ───────────────────────────────────────────────────────── */
 *,
@@ -33,13 +32,28 @@ select {
   font: inherit;
 }
 
+/* ── Text overflow-wrap (per §19.12 — must be on ALL text in narrow tracks) */
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
@@ -54,7 +68,8 @@ ol[role='list'] {
 :root {
   /* Color system */
   --color-primary: #d0021b; /* Spot Red */
-  --color-secondary: #ffd000; /* Impact Yellow */
+  --color-secondary: #ffd000; /* Impact Yellow — for decorative/badges only; fails 4.5:1 on light bg */
+  --color-secondary-text: #876e00; /* Impact Yellow at 4.5:1 on manga-white — for text use */
   --color-tertiary: #c0c0c0; /* Screentone Gray */
   --color-bg: #f8f8f4; /* Manga White */
   --color-surface: #fff; /* Panel White */
@@ -62,18 +77,23 @@ ol[role='list'] {
   --color-text: #0d0d0d; /* Ink Black */
   --color-neutral: #5a5a5a; /* Panel Gray */
   --color-success: #00a86b; /* Studio Green */
-  --color-warning: #f60; /* Deadline Orange */
+  --color-warning: #ff6600; /* Deadline Orange */
   --color-error: #b30015; /* Urgent Red */
   --color-info: #1a5fb4; /* Blueprint Blue */
   --color-focus: #d0021b; /* Focus Red Ring */
   --color-border: #0d0d0d; /* Panel Border Black */
-  --color-shadow: rgb(13, 13, 13, 0.2); /* Ink Wash Shadow */
-  --color-overlay: rgb(0, 0, 0, 0.72); /* Panel Blackout */
+  --color-shadow: rgba(13, 13, 13, 0.2); /* Ink Wash Shadow */
+  --color-overlay: rgba(0, 0, 0, 0.72); /* Panel Blackout */
+
+  /* Seasonal variant overrides applied via JS */
+  --color-primary-active: #d0021b;
+  --color-secondary-active: #ffd000;
+  --color-bg-active: #f8f8f4;
 
   /* Gradients */
-  --grad-ink-wash: linear-gradient(180deg, rgb(13, 13, 13, 0), rgb(13, 13, 13, 0.55));
-  --grad-speed-burst: radial-gradient(rgb(255, 208, 0, 0.18), rgb(255, 208, 0, 0));
-  --grad-spot-slash: linear-gradient(112deg, #d0021b, #8b0012);
+  --grad-ink-wash: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, rgba(13, 13, 13, 0.55) 100%);
+  --grad-speed-burst: radial-gradient(rgba(255, 208, 0, 0.18) 0%, rgba(255, 208, 0, 0) 70%);
+  --grad-spot-slash: linear-gradient(112deg, #d0021b 0%, #8b0012 100%);
 
   /* Spacing scale */
   --space-1: 4px;
@@ -86,7 +106,7 @@ ol[role='list'] {
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner radius — near-zero on structural elements */
+  /* Corner radius — near-zero on structural elements (per kit) */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 6px;
@@ -94,9 +114,9 @@ ol[role='list'] {
   --radius-pill: 999px;
 
   /* Typography */
-  --font-headline: 'Black Han Sans', 'Anton', 'Impact', sans-serif;
-  --font-display: 'Rampart One', 'Black Han Sans', 'Impact', sans-serif;
-  --font-body: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+  --font-headline: 'Black Han Sans', 'Anton', Impact, sans-serif;
+  --font-display: 'Rampart One', 'Black Han Sans', Impact, sans-serif;
+  --font-body: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', Meiryo, sans-serif;
   --font-ui: 'M PLUS 1p', 'Noto Sans JP', system-ui, sans-serif;
   --font-mono: 'Source Code Pro', 'Courier New', monospace;
 
@@ -124,8 +144,8 @@ ol[role='list'] {
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
 
-  /* Shadows — hard offset, no blur (manga spot art technique) */
-  --shadow-sm: 0 1px 3px rgb(13, 13, 13, 0.16);
+  /* Shadows — hard offset, no blur (manga spot-art technique) */
+  --shadow-sm: 0 1px 3px rgba(13, 13, 13, 0.16);
   --shadow-md: 2px 4px 0px rgb(13, 13, 13, 1);
   --shadow-lg: 4px 6px 0px rgb(13, 13, 13, 1);
 
@@ -139,9 +159,17 @@ ol[role='list'] {
   --max-width: 1440px;
   --content-width: 1200px;
   --gutter: var(--space-6);
-  --font-number: 'Black Han Sans', 'Anton', 'Impact', sans-serif;
+
+  /* Font-number alias */
+  --font-number: 'Black Han Sans', 'Anton', Impact, sans-serif;
   --tracking-number: 0em;
   --lh-number: 1;
+}
+
+/* ── Strong emphasis — use Noto Sans JP 700 (declared + available) ───────── */
+strong,
+b {
+  font-weight: 700;
 }
 
 /* ── Base element styles ─────────────────────────────────────────────────── */
@@ -168,59 +196,73 @@ a:hover {
   text-underline-offset: 3px;
 }
 
-/* ── Skip link ───────────────────────────────────────────────────────────── */
+/* ── Skip link — visually hidden until focused ─────────────────────────── */
 .skip-link {
   position: absolute;
-  top: -9999px;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: var(--space-4);
   left: var(--space-4);
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  clip-path: none;
+  white-space: normal;
   background: var(--color-primary);
   color: var(--color-surface);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
   font-weight: 700;
-  padding: var(--space-2) var(--space-4);
-  text-decoration: none;
-  z-index: 9999;
   letter-spacing: var(--tracking-ui);
+  text-decoration: none;
+  border: 0;
+  box-shadow: var(--shadow-lg);
+  z-index: 10000;
 }
 
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-/* ── Focus styles — 2px Spot Red ring, instant snap ───────────────────── */
+/* ── Focus styles — 2px Spot Red ring, instant snap, no fade ──────────── */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+  /* Both own + focus shadows combined so the control's own shadow doesn't override */
+  box-shadow:
+    var(--shadow-md),
+    2px 2px 0 var(--color-focus);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Reduced motion ──────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
+/* ── Self-hosted WOFF2 fonts from shared pool ─────────────────────────── */
 @font-face {
-  font-family: 'Black Han Sans';
+  font-family: 'Rampart One';
   font-style: normal;
-  font-weight: 900;
+  font-weight: 400;
   font-display: swap;
-  src: url('../../assets/fonts/black-han-sans-400-latin.woff2') format('woff2');
+  src: url('../../assets/fonts/rampart-one-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/noto-sans-jp-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/noto-sans-jp-700-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'M PLUS 1p';
@@ -244,27 +286,6 @@ a:hover {
   src: url('../../assets/fonts/m-plus-1p-800-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Noto Sans JP';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-sans-jp-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Noto Sans JP';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-sans-jp-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Rampart One';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/rampart-one-400-latin.woff2') format('woff2');
-}
-@font-face {
   font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
@@ -278,4 +299,49 @@ a:hover {
   font-display: swap;
   src: url('../../assets/fonts/source-code-pro-700-latin.woff2') format('woff2');
 }
-/* vendor-fonts:end */
+@font-face {
+  font-family: 'Black Han Sans';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../../assets/fonts/black-han-sans-400-latin.woff2') format('woff2');
+}
+
+/* ── Reduced motion — remove BOTH animation AND transition per §19.20 ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Seasonal variant tokens (inactive by default) ─────────────────────── */
+[data-season='new-year'] {
+  --color-primary-active: #c0021b;
+  --color-secondary-active: #ffd000;
+  --color-bg-active: #f8f8f4;
+}
+
+[data-season='summer'] {
+  --color-primary-active: #d0021b;
+  --color-secondary-active: #ff8c00;
+  --color-bg-active: #f8f8f4;
+}
+
+[data-season='deadline'] {
+  --color-primary-active: #8b0012;
+  --color-secondary-active: #ffd000;
+  --color-bg-active: #f8f8f4;
+}
+
+/* ── Calm / intensity toggle ─────────────────────────────────────────── */
+[data-intensity='calm'] .speed-line-effect,
+[data-intensity='calm'] .scroll-panel-flash,
+[data-intensity='calm'] .ink-flash-transition {
+  animation: none !important;
+  transition: none !important;
+}

@@ -1,101 +1,74 @@
-# SITE.md — Manga Studio (Phlix brand kit)
+# SITE.md — Manga Studio
 
 ## Concept & Vision
 
-Manga Studio dresses Phlix in the energy of a professional manga artist's desk at 2 AM — N-pens lined up by nib size, screentone sheets half-applied, speed lines sketched in blue pencil before being inked. Every decision is committed: stark ink-black on brilliant manga-white, spot red and impact yellow used as weapons of emphasis, never decoration. The site should feel like opening a graphic novel — editorial, panel-based, and completely confident.
+Manga Studio is the energy of a professional manga artist's desk at 2 AM — N-pens lined up by nib size, screentone sheets half-applied, speed lines sketched in blue pencil before being inked. Stark ink-black on bright manga white, punched through with spot red and impact yellow. Bold, expressive, passionate, and beautifully hand-crafted.
+
+Every page is a panel from an elite manga title. Every section is a chapter that earns its space. The site carries the same devotion to craft that a mangaka brings to a single perfect brushstroke.
 
 ## Aesthetic Direction
 
-**Layout archetype:** `editorial` — panel-grid based, high-contrast ink on manga-white, bold Black Han Sans headlines, speed-line radial header motif, spot-color CTA blocks.
+High-contrast ink editorial. Manga panel compositions with decisive 2px ink borders. Hard-offset shadows (2–4px) rather than blurred drop shadows. Spot color (red, yellow) arrives like a slap to the face — used for emphasis, not decoration. White space is structural tension between panels, not emptiness.
 
-The aesthetic draws from Weekly Shōnen Jump page layouts, Osamu Tezuka's compositional mastery, Junji Ito's meticulous ink texture, and the raw energy of a working mangaka's atelier. Every page is a panel; every section is a frame.
+## Color Table
 
-## Color Palette
-
-| Role | Name | Hex | Usage |
+| Role | Name | Hex | Notes |
 |------|------|-----|-------|
-| Primary | Spot Red | `#D0021B` | CTAs, danger, critical emphasis |
-| Secondary | Impact Yellow | `#FFD000` | Accents, badges, highlights |
-| Tertiary | Screentone Gray | `#C0C0C0` | Mid-tone fills, dividers |
-| Background | Manga White | `#F8F8F4` | Page background (never pure white) |
+| Primary | Spot Red | `#D0021B` | CTAs, critical emphasis, active states. 5.32:1 on manga-white |
+| Secondary | Impact Yellow | `#FFD000` | Decorative/badges only; fails 4.5:1 small-text contrast |
+| Secondary text | Impact Yellow (safe) | `#876e00` | For yellow text on light backgrounds |
+| Background | Manga White | `#F8F8F4` | Never pure #fff |
 | Surface | Panel White | `#FFFFFF` | Card interiors |
-| Surface Alt | Light Screentone | `#EBEBEB` | Alternate rows, inactive states |
-| Text | Ink Black | `#0D0D0D` | All text and borders |
-| Neutral | Panel Gray | `#5A5A5A` | Secondary body, captions |
-| Success | Studio Green | `#00A86B` | Success states |
-| Warning | Deadline Orange | `#FF6600` | Warning states |
-| Error | Urgent Red | `#B30015` | Errors, destructive actions |
-| Info | Blueprint Blue | `#1A5FB4` | Informational banners |
+| Surface alt | Light Screentone | `#EBEBEB` | Alternate rows, code blocks |
+| Text | Ink Black | `#0D0D0D` | 18.26:1 on manga-white — AAA |
+| Border | Panel Border Black | `#0D0D0D` | 2px default, 3px featured |
+| Tertiary | Screentone Gray | `#C0C0C0` | Mid-tone fills |
+| Success | Studio Green | `#00A86B` | |
+| Warning | Deadline Orange | `#FF6600` | |
+| Error | Urgent Red | `#B30015` | |
+| Info | Blueprint Blue | `#1A5FB4` | |
 
-**CSS gradients:**
-- `--grad-ink-wash` — Ink Wash: `linear-gradient(180deg, rgba(13,13,13,0.0), rgba(13,13,13,0.55))`
-- `--grad-speed-burst` — Speed Burst: `radial-gradient(rgba(255,208,0,0.18), rgba(255,208,0,0.0))`
-- `--grad-spot-slash` — Spot Color Slash: `linear-gradient(112deg, #D0021B, #8B0012)`
+Seasonal variants (live-js date gate):
+- New Year (Jan 1–15): primary `#C0021B`, secondary `#FFD000`
+- Summer (Aug 1–31): secondary `#FF8C00` (safe text: `#ab5e00`)
+- Deadline (Dec 15–31): primary `#8B0012`, secondary `#FFD000`
 
-## Typography
+## Typography Roles
 
-| Role | Font | Fallback | Notes |
-|------|------|----------|-------|
-| Headline | Black Han Sans 900 | Anton, Impact | Chapter titles, hero headlines |
-| Display | Rampart One 400 | Black Han Sans, Impact | Oversized display text |
-| Body | Noto Sans JP 400/700 | Hiragino Kaku Gothic Pro | Body copy, captions |
-| UI | M PLUS 1p 400/700/800 | Noto Sans JP, system-ui | Buttons, labels, nav |
-| Mono | Source Code Pro 400/700 | Courier New | Code, technical |
+| Role | Family | Weight | Notes |
+|------|--------|--------|-------|
+| Headline | Black Han Sans | 400* | Kit asks 900; only 400 file exists in pool |
+| Display | Rampart One | 400 | |
+| Body | Noto Sans JP | 400, 700 | `<strong>` uses 700 |
+| UI | M PLUS 1p | 400, 700, 800 | |
+| Mono | Source Code Pro | 400, 700 | |
 
-**Typography rules (from kit):**
-- Headlines use Black Han Sans at 900 weight — never reduced below 900
-- ALL CAPS only on button labels and short impact callouts
-- Body line-length: 58–72 characters
-- Dramatic size jumps between hierarchy levels (no timid gradations)
-- Negative tracking on headlines for dense manga-title energy
+All fonts self-hosted WOFF2 from `../../assets/fonts/`.
 
 ## Spatial System
 
-Spacing scale (4px increments): `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96` px
-
-Max content width: `1440px`; inner text column: `1200px`
+Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96px. Corner radius near-zero (2–6px) on structural elements. Content max-width 1200px; site max-width 1440px.
 
 ## Motion Philosophy
 
-Manga pacing is sharp cuts and impact moments — slow motion reads as weakness. All motion is **snappy** and **deliberate**:
-- Transitions: cut, panel wipe, speed-line push, flash cut, scale impact
-- Speed: fast (≤150ms)
-- Easing: `ease-out`, `cubic-bezier(0.22, 1, 0.36, 1)`
-- Card hover: 3px diagonal translate + hard shadow snap (no scale)
-- Focus ring: Spot Red, 2px, instant snap (no fade)
-- `prefers-reduced-motion`: honor with instant cuts / fades
+Snappy, impact-driven. Panel-wipe transitions. Speed-line bursts. 150ms or less. Instant cuts under reduced-motion. No bouncy spring animations.
+
+`prefers-reduced-motion` respected: both `animation-duration` and `transition-duration` set to `0.01ms`, plus `change` listener so visitors can toggle mid-session.
 
 ## Visual Assets
 
-- **Logo** (`img/logo.svg`): Black Han Sans wordmark in Ink Black on Manga White, inside a hard-edged rectangular panel with Spot Red top accent bar and pen nib mark
-- **Favicon** (`img/favicon.svg`): Square Spot Red panel with white inner border and centered white pen nib
-- **OG image** (`img/og.svg`): 1200×630 manga editorial card — speed-line radial, white panel, Spot Red accent bar, Black Han Sans PHLIX wordmark
-- **Feature icons**: Inline stroke-based SVG, 2px stroke, angular (no rounded caps), Ink Black default, Spot Red for active
-- **CSS-only hero effects**: Speed-line radial burst via `repeating-conic-gradient`, ink-wash gradient overlay
+- **Logo**: Black Han Sans wordmark in Ink Black on Manga White inside a hard-edged rectangular badge
+- **Icons**: 2px stroke, angular, square caps — Ink Black default; Spot Red for active/critical
+- **Mascot**: Sen — ink brush character, ink-stained apron, trailing speed lines
+- **Textures**: Screentone dot pattern (8px grid, 8% opacity); ink-wash gradient on heroes
+- **Image prompt style**: Professional manga illustration, stark ink-black linework, screentone halftone shadows
 
-## Do/Don't Checklist
+## Key Implementation Notes
 
-**Do:**
-- Keep backgrounds to Manga White (#F8F8F4)
-- Use Spot Red for exactly one emphasis element per view
-- Let Impact Yellow land like a shock — one hit per screen
-- Use Black Han Sans at 900 weight for all headlines
-- Use hard offset shadows (2–4px) on key UI blocks
-- Corner radii near-zero (2–4px) on structural elements
-
-**Don't:**
-- Use warm-toned backgrounds or pastel fills
-- Mix more than two spot colors in a single panel
-- Use slow, bouncy, or springy motion
-- Use gradient fills in icons
-- Use rounded borders on structural elements beyond 4px
-- Use the kit's avoid_words (leverage, synergy, seamless, robust, cutting-edge, cozy, warm, cuddly, wholesome, delightful)
-
-## Signature Motifs
-
-- Speed line radial burst in hero header
-- 2px ink-black panel borders everywhere
-- Spot Red top accent bar on cards/panels
-- Hard offset drop shadows (no blur)
-- Screentone dot pattern overlay (CSS `radial-gradient`)
-- Impact Yellow star burst on key CTAs
+- All grid tracks use `minmax(0, 1fr)` — bare `1fr` can overflow at 320px with unbreakable tokens
+- `overflow-wrap: anywhere` on all body text (p, li, dt, dd, a, span, code, kdm, samp, pre)
+- Headings use `hyphens: auto; overflow-wrap: break-word` — NOT `anywhere` (mid-word breaks look like errors)
+- Focus ring combines own box-shadow + outline in one rule so control's own shadow doesn't override it
+- `@copyright` notice inside `/* … */` comment block on every css/js file
+- Install command copied verbatim from `content.json.install.primary.command` — never retyped
+- Footer uses mirror-nav index row + 3 content.json columns verbatim

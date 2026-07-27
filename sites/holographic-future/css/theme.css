@@ -1,518 +1,271 @@
 /* ==========================================================================
    THEME.CSS — Holographic Future
-   Typography scale, layout containers, page structure
+   Typography scale, layout containers, page structure.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ==========================================================================
-   TYPOGRAPHY SCALE
-   ========================================================================== */
-
-.text-display {
-  font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: 0.04em;
-  line-height: 0.95;
-}
-
-.text-headline {
+/* --------------------------------------------------------------------------
+   1. Typography scale
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-headline);
   font-weight: 700;
-  letter-spacing: 0.08em;
   line-height: 1.05;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+h4 {
+  font-size: 1.125rem;
+}
+h5 {
+  font-size: 1rem;
+}
+h6 {
+  font-size: 0.875rem;
+}
+
+.display-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.text-body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  line-height: 1.65;
-}
-
-.text-ui {
+.section-eyebrow {
   font-family: var(--font-ui);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-}
-
-.text-mono {
-  font-family: var(--font-mono);
-  font-weight: 300;
-  line-height: 1.6;
-}
-
-.text-number {
-  font-family: var(--font-number);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1;
-}
-
-.text-eyebrow {
-  font-family: var(--font-ui);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.75rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-primary);
+  margin-bottom: var(--space-3);
 }
 
-.text-muted {
-  color: var(--color-text-muted);
+p {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
 }
 
-/* ==========================================================================
-   LAYOUT CONTAINERS
-   ========================================================================== */
-
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+/* --------------------------------------------------------------------------
+   2. Layout containers
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
 }
 
-.main-content {
-  flex: 1;
-  padding-top: var(--header-height);
+.container--wide {
+  max-width: var(--max-width);
 }
 
-/* ==========================================================================
-   SECTION STRUCTURE
-   ========================================================================== */
+.container--narrow {
+  max-width: 800px;
+}
 
 .section {
-  padding-block: var(--space-16);
+  padding: var(--space-16) 0;
 }
 
-.section-lg {
-  padding-block: var(--space-24);
+.section--lg {
+  padding: var(--space-24) 0;
 }
 
-/* ==========================================================================
-   HERO SECTION — .hero
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   3. Glassmorphism surfaces
+   -------------------------------------------------------------------------- */
+.glass {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
 
-.hero {
+.glass--heavy {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass-heavy);
+  -webkit-backdrop-filter: var(--blur-glass-heavy);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* --------------------------------------------------------------------------
+   4. Backgrounds
+   -------------------------------------------------------------------------- */
+.bg-midnight {
+  background-color: var(--color-bg);
+  background-image: linear-gradient(180deg, var(--color-bg) 0%, #1a2233 100%);
+}
+
+.bg-surface-light {
+  background-color: var(--color-surface-light);
+}
+
+/* --------------------------------------------------------------------------
+   5. Cards (shared glassmorphism pattern)
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------------------------------
+   6. Code blocks
+   -------------------------------------------------------------------------- */
+.code-block {
   position: relative;
-  min-height: calc(100vh - var(--header-height));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
-  padding-block: var(--space-16);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(0, 150, 255, 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 70% 80%, rgb(139, 92, 246, 0.1) 0%, transparent 50%),
-    var(--gradient-midnight-depth);
-  z-index: 0;
-}
-
-.hero-spectrum-sweep {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 4px;
-  background: var(--gradient-spectrum);
-  animation: spectrum-sweep 8s ease-in-out infinite;
-  opacity: 0.8;
-}
-
-@keyframes spectrum-sweep {
-  0% {
-    left: -100%;
-    top: 0;
-  }
-  50% {
-    left: 100%;
-    top: 0;
-  }
-  51% {
-    left: 100%;
-    top: calc(100vh - 4px);
-  }
-  100% {
-    left: -100%;
-    top: calc(100vh - 4px);
-  }
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  padding-inline: var(--space-6);
-}
-
-.hero-eyebrow {
-  display: inline-block;
-  margin-bottom: var(--space-4);
-  padding: var(--space-1) var(--space-4);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  box-shadow: 0 0 16px rgb(0, 150, 255, 0.3);
-}
-
-.hero-title {
-  margin-bottom: var(--space-6);
-  background: linear-gradient(
-    135deg,
-    var(--color-text) 0%,
-    var(--color-primary) 50%,
-    var(--color-secondary) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 300;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-8);
-  max-width: 65ch;
-  margin-inline: auto;
-  line-height: 1.7;
-}
-
-.hero-cta-group {
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* ==========================================================================
-   PITCH SECTION — .pitch
-   ========================================================================== */
-
-.pitch {
-  padding-block: var(--space-16);
-  background: linear-gradient(180deg, var(--color-bg) 0%, rgb(13, 17, 23, 0.95) 100%);
-}
-
-.pitch-header {
-  text-align: center;
-  margin-bottom: var(--space-12);
-}
-
-.pitch-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-6);
-  list-style: none;
-}
-
-.pitch-item {
-  position: relative;
-  padding-left: var(--space-8);
-  font-family: var(--font-body);
-  font-weight: 300;
-  color: var(--color-text-muted);
+.code-block pre {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--color-text);
   line-height: 1.6;
 }
 
-.pitch-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.5em;
-  width: 6px;
-  height: 6px;
-  background: var(--gradient-chrome-aurora);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--color-glow);
+.code-block code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
 }
 
-/* ==========================================================================
-   FEATURES OVERVIEW — .features-overview
-   ========================================================================== */
-
-.features-overview {
-  padding-block: var(--space-16);
-  background: rgb(13, 17, 23, 0.8);
+.install-command {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--color-tertiary);
+  word-break: break-all;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: var(--space-12);
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-6);
-  margin-top: var(--space-8);
-}
-
-/* ==========================================================================
-   CTA BANNER — .cta-banner
-   ========================================================================== */
-
-.cta-banner {
-  padding-block: var(--space-16);
-  text-align: center;
-  background: linear-gradient(180deg, rgb(0, 150, 255, 0.05) 0%, transparent 100%);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.cta-banner-title {
-  margin-bottom: var(--space-6);
-}
-
-.cta-banner-subtitle {
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-8);
-  max-width: 60ch;
-  margin-inline: auto;
-}
-
-/* ==========================================================================
-   PAGE HEADER — .page-header
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   7. Page header pattern
+   -------------------------------------------------------------------------- */
 .page-header {
-  padding-block: var(--space-16) var(--space-12);
+  padding: var(--space-16) 0 var(--space-12);
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.page-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 40% at 50% 0%,
-    rgb(0, 150, 255, 0.12) 0%,
-    transparent 60%
-  );
-  z-index: 0;
-}
-
-.page-header-content {
-  position: relative;
-  z-index: 1;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-12);
 }
 
 .page-header h1 {
   margin-bottom: var(--space-4);
 }
 
-.page-lead {
-  font-family: var(--font-body);
+.page-header .lead {
   font-size: 1.125rem;
-  font-weight: 300;
   color: var(--color-text-muted);
-  max-width: 65ch;
-  margin-inline: auto;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-/* ==========================================================================
-   CONTENT SECTION — .content-section
-   ========================================================================== */
-
-.content-section {
-  padding-block: var(--space-16);
+/* --------------------------------------------------------------------------
+   8. CTA banner pattern
+   -------------------------------------------------------------------------- */
+.cta-banner {
+  text-align: center;
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-12);
 }
 
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: var(--space-8);
+.cta-banner h2 {
+  margin-bottom: var(--space-6);
 }
 
-/* ==========================================================================
-   FEATURE DETAIL — .feature-detail
-   ========================================================================== */
-
-.feature-detail {
-  padding: var(--space-8);
-  background: var(--color-surface);
-  backdrop-filter: var(--blur-glass);
-  -webkit-backdrop-filter: var(--blur-glass);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  transition:
-    border-color 0.3s ease-out,
-    box-shadow 0.3s ease-out;
+/* --------------------------------------------------------------------------
+   9. Section dividers
+   -------------------------------------------------------------------------- */
+.prismatic-divider {
+  height: 1px;
+  background: var(--gradient-spectrum);
+  border: none;
+  margin: var(--space-12) 0;
+  opacity: 0.6;
 }
 
-.feature-detail:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-md);
+/* --------------------------------------------------------------------------
+   10. Utility classes
+   -------------------------------------------------------------------------- */
+.text-center {
+  text-align: center;
 }
-
-.feature-detail-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: var(--space-4);
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-primary {
   color: var(--color-primary);
 }
-
-.feature-detail h2 {
-  font-size: 1.25rem;
-  margin-bottom: var(--space-3);
+.text-secondary {
+  color: var(--color-secondary);
 }
-
-.feature-detail p {
-  color: var(--color-text-muted);
-  font-size: 0.9375rem;
-}
-
-/* ==========================================================================
-   CLIENT CARDS — .client-cards
-   ========================================================================== */
-
-.client-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-6);
-}
-
-/* ==========================================================================
-   DOWNLOAD SECTION — .download-section
-   ========================================================================== */
-
-.download-section {
-  padding-block: var(--space-16);
-}
-
-.download-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-6);
-}
-
-/* ==========================================================================
-   CODE BLOCK — .code-block
-   ========================================================================== */
-
-.code-block {
-  background: rgb(0, 0, 0, 0.6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  overflow-x: auto;
-  margin-block: var(--space-4);
-}
-
-.code-block code {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+.text-tertiary {
   color: var(--color-tertiary);
 }
 
-/* ==========================================================================
-   FAQ LIST — .faq-list
-   ========================================================================== */
-
-.faq-list {
-  display: grid;
-  gap: var(--space-4);
+.mt-4 {
+  margin-top: var(--space-4);
+}
+.mt-6 {
+  margin-top: var(--space-6);
+}
+.mt-8 {
+  margin-top: var(--space-8);
+}
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+.mb-6 {
+  margin-bottom: var(--space-6);
+}
+.mb-8 {
+  margin-bottom: var(--space-8);
 }
 
-.faq-item {
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-.faq-item dt {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-}
-
-.faq-item dd {
-  color: var(--color-text-muted);
-  font-weight: 300;
-  line-height: 1.65;
-}
-
-/* ==========================================================================
-   ECOSYSTEM LIST — .ecosystem-list
-   ========================================================================== */
-
-.ecosystem-list {
-  display: grid;
-  gap: var(--space-4);
-}
-
-.ecosystem-item {
-  padding: var(--space-4) var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-.ecosystem-item strong {
-  font-family: var(--font-mono);
-  color: var(--color-primary);
-}
-
-.ecosystem-item p {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  margin-top: var(--space-1);
-}
-
-/* ==========================================================================
-   MEDIA QUERIES
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-
-@media (width <= 768px) {
-  .hero {
-    min-height: auto;
-    padding-block: var(--space-12);
-  }
-
-  .section {
-    padding-block: var(--space-12);
-  }
-
-  .section-lg {
-    padding-block: var(--space-16);
-  }
-
-  .pitch-list {
-    grid-template-columns: 1fr;
-  }
-
-  .feature-grid,
-  .content-grid,
-  .client-cards,
-  .download-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-cta-group {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (width <= 480px) {
-  .container {
-    padding-inline: var(--space-4);
-  }
-}
+/* @copyright 2026 Joe Huss <detain@interserver.net> */

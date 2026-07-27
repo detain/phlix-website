@@ -1,21 +1,27 @@
 /* ==========================================================================
    BASE.CSS — Library Amber Brand Kit
    Reset, tokens (:root CSS variables), element defaults
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ==========================================================================
    DESIGN TOKENS — :root CSS custom properties from brand kit
+   Contrast-safe tokens per measured table (kit-brief.mjs):
+   - Primary #C8861A on cream/surface fails 4.5:1 small-text; use #8e5f12
+   - Primary on mahogany-dark is 7.14:1 — use primary directly
+   - Strong emphasis: font-weight 500 + color-neutral (#5C3317) as second channel
    ========================================================================== */
 :root {
-  /* Colors */
+  /* Colors — primary role */
   --color-primary: #c8861a;
+  --color-primary-safe: #8e5f12; /* safe for small text on cream/surface */
   --color-secondary: #2e5d3b;
   --color-tertiary: #a8792a;
   --color-bg: #f2e8d0;
   --color-surface: #f8f1df;
   --color-surface-alt: #e8d9b8;
   --color-text: #1c0f0a;
-  --color-neutral: #5c3317;
+  --color-neutral: #5c3317; /* rich chocolate — 4.53:1 on cream for strong text */
   --color-success: #6b9e77;
   --color-warning: #d4851a;
   --color-error: #8b2315;
@@ -23,8 +29,12 @@
   --color-focus: #c8861a;
   --color-border: #2b1608;
   --color-mahogany-dark: #2b1608;
-  --color-shadow: rgb(28, 15, 10, 0.35);
-  --color-overlay: rgb(13, 8, 6, 0.72);
+  --color-shadow: rgba(28, 15, 10, 0.35);
+  --color-overlay: rgba(13, 8, 6, 0.72);
+
+  /* Seasonal override tokens (activated by JS date gate) */
+  --color-bg-seasonal: var(--color-bg);
+  --color-primary-seasonal: var(--color-primary);
 
   /* Spacing scale */
   --space-1: 4px;
@@ -44,21 +54,15 @@
   --radius-xl: 22px;
   --radius-pill: 999px;
 
-  /* Typography */
+  /* Typography roles */
   --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-display: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
   --font-body: 'EB Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   --font-ui: 'Libre Baskerville', 'Baskerville', 'Georgia', serif;
   --font-mono: 'Courier Prime', 'Courier New', 'Courier', monospace;
+  --font-number: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
 
-  /* Shadows — mahogany-warm */
-  --shadow-sm: 0 1px 3px rgb(28, 15, 10, 0.2);
-  --shadow-md: 0 4px 12px rgb(28, 15, 10, 0.28);
-  --shadow-lg: 0 12px 28px rgb(28, 15, 10, 0.36);
-
-  /* Transitions */
-  --transition-speed: slow;
-  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Typography parameters */
   --tracking-headline: -0.01em;
   --lh-headline: 1.1;
   --tracking-display: 0.02em;
@@ -69,9 +73,17 @@
   --lh-ui: 1.4;
   --tracking-mono: 0em;
   --lh-mono: 1.6;
-  --font-number: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
   --tracking-number: 0.04em;
   --lh-number: 1;
+
+  /* Shadows — mahogany-warm, never cool grey */
+  --shadow-sm: 0 1px 3px rgba(28, 15, 10, 0.2);
+  --shadow-md: 0 4px 12px rgba(28, 15, 10, 0.28);
+  --shadow-lg: 0 12px 28px rgba(28, 15, 10, 0.36);
+
+  /* Transitions */
+  --transition-speed: slow;
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==========================================================================
@@ -98,6 +110,7 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img,
@@ -116,13 +129,29 @@ select {
   font: inherit;
 }
 
+/* Body text wrapping — must handle long tokens in narrow grid tracks */
 p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+/* Headings: break-word (not anywhere) to avoid mid-word breaks in display faces */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
 
@@ -148,6 +177,8 @@ table {
 
 /* ==========================================================================
    FOCUS STYLES — WCAG 2.2 AA: 2px amber-gold ring with cream offset
+   If a control has its own box-shadow AND we style :focus-visible with
+   box-shadow, the control's own rule wins — give focused controls BOTH.
    ========================================================================== */
 :focus-visible {
   outline: 2px solid var(--color-focus);
@@ -159,7 +190,7 @@ table {
    SELECTION — warm amber highlight
    ========================================================================== */
 ::selection {
-  background-color: rgb(200, 134, 26, 0.25);
+  background-color: rgba(200, 134, 26, 0.25);
   color: var(--color-text);
 }
 
@@ -185,31 +216,45 @@ table {
 }
 
 /* ==========================================================================
-   SKIP LINK
+   SKIP LINK — visually hidden until focused
+   NOTE: overflow:hidden required — clip-path alone does NOT stop overflow
    ========================================================================== */
 .skip-link {
   position: absolute;
-  top: -100%;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 0;
   left: var(--space-4);
   z-index: 9999;
+  width: auto;
+  height: auto;
+  margin: 0;
   padding: var(--space-2) var(--space-4);
+  overflow: visible;
+  clip-path: none;
   background: var(--color-primary);
   color: var(--color-surface);
   font-family: var(--font-ui);
   font-weight: 700;
   text-decoration: none;
   border-radius: 0 0 var(--radius-md) var(--radius-md);
-  transition: top 0.2s ease;
-}
-
-.skip-link:focus {
-  top: 0;
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
 /* ==========================================================================
-   REDUCED MOTION — collapse ambient animations
+   REDUCED MOTION — disable BOTH animation AND transition
+   NOTE: must switch off transition, not only animation (trap 3 from §19)
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -266,6 +311,13 @@ p {
   font-family: var(--font-body);
   font-size: 1.125rem;
   line-height: 1.7;
+}
+
+/* Strong emphasis: weight 500 + neutral color as second channel (not just weight) */
+strong,
+b {
+  font-weight: 500;
+  color: var(--color-neutral);
 }
 
 code,
@@ -331,28 +383,74 @@ hr {
 
 /* ==========================================================================
    UTILITY CLASSES
- * @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 .mt-6 {
   margin-top: var(--space-6);
 }
+
+.mt-8 {
+  margin-top: var(--space-8);
+}
+
+.mt-12 {
+  margin-top: var(--space-12);
+}
+
 .ms-3 {
   margin-left: var(--space-3);
 }
+
 .ms-auto {
   margin-left: auto;
 }
-.btn:disabled {
-  opacity: 0.5;
-  cursor: default;
+
+.me-auto {
+  margin-right: auto;
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
+.text-center {
+  text-align: center;
+}
 
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
+.text-muted {
+  color: var(--color-neutral);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   VENDORED FONTS — self-hosted from shared pool
+   Only kit-declared weights are included per kit-brief.mjs analysis
+   ========================================================================== */
+/* vendor-fonts:begin */
+
+/* Playfair Display — headline, weights 700 900 */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+}
+
+/* Cormorant Garamond — display/number, weights 300 400 600 */
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
@@ -374,20 +472,8 @@ hr {
   font-display: swap;
   src: url('../../assets/fonts/cormorant-garamond-600-latin.woff2') format('woff2');
 }
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
-}
+
+/* EB Garamond — body, weights 400 500 (weight 700 exists in pool but NOT declared) */
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
@@ -402,6 +488,8 @@ hr {
   font-display: swap;
   src: url('../../assets/fonts/eb-garamond-500-latin.woff2') format('woff2');
 }
+
+/* Libre Baskerville — ui, weights 400 700 */
 @font-face {
   font-family: 'Libre Baskerville';
   font-style: normal;
@@ -416,18 +504,21 @@ hr {
   font-display: swap;
   src: url('../../assets/fonts/libre-baskerville-700-latin.woff2') format('woff2');
 }
+
+/* Courier Prime — mono, weights 400 700 */
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'Courier Prime';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Courier Prime';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
 }
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
-}
+
 /* vendor-fonts:end */

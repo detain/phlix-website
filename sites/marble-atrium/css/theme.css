@@ -283,7 +283,7 @@ p {
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, minmax(0, 1fr)));
   gap: var(--space-8);
 }
 
@@ -322,7 +322,7 @@ p {
    -------------------------------------------------------------------------- */
 .client-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, minmax(0, 1fr)));
   gap: var(--space-8);
 }
 
@@ -375,11 +375,15 @@ p {
   font-size: 0.875rem;
   overflow-x: auto;
   margin-block: var(--space-6);
+  max-width: 100%;
 }
 
 .code-block code {
   font-family: var(--font-mono);
   font-weight: 300;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 /* --------------------------------------------------------------------------
@@ -400,10 +404,10 @@ p {
   position: absolute;
   width: 1px;
   height: 1px;
-  padding: 0;
   margin: -1px;
+  padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
@@ -430,9 +434,455 @@ p {
   animation: marble-vein-reveal var(--duration-deliberate) var(--easing-default) both;
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* ==========================================================================
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Nav Emphasis Levels — from kit site_architecture.nav
+   3 distinct levels: default / primary (gold) / muted (veining-grey)
+   -------------------------------------------------------------------------- */
+.nav-link-primary {
+  color: var(--color-text);
+  font-weight: 400;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: calc(var(--space-2) - 2px);
+}
+
+.nav-link-primary:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.nav-link-muted {
+  color: var(--color-neutral);
+}
+
+.nav-link-muted:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+/* --------------------------------------------------------------------------
+   Visitor Paths Fork — self-select near the hero
+   -------------------------------------------------------------------------- */
+.visitor-paths {
+  padding-block: var(--space-16);
+  background: var(--color-surface);
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+}
+
+.visitor-paths-heading {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.visitor-paths-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.path-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-bg);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-base) var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default);
+}
+
+.path-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.path-label {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.path-arrow {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-inline-start: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Why Curate Section — story section
+   -------------------------------------------------------------------------- */
+.why-curate {
+  padding-block: var(--space-24);
+  border-top: var(--border-hairline);
+}
+
+.why-curate-inner {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.why-curate-inner .section-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin-bottom: var(--space-8);
+}
+
+.why-curate-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  opacity: 0.85;
+  margin-bottom: var(--space-6);
+}
+
+.why-curate-body:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   The Library — feature_casting hero panels
+   Two polished marble panels for Library + SyncPlay
+   -------------------------------------------------------------------------- */
+.the-library {
+  padding-block: var(--space-24);
+  background: var(--gradient-marble-wash);
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+}
+
+.library-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-8);
+}
+
+.library-panel {
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  transition:
+    border-color 200ms var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default);
+}
+
+.library-panel:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.library-panel-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.library-panel-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.library-panel-title {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+}
+
+.library-panel-body {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   The Case — proof_strategy
+   Spec placard + GitHub link + verbatim quote
+   -------------------------------------------------------------------------- */
+.the-case {
+  padding-block: var(--space-24);
+  background: var(--color-surface);
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+}
+
+.proof-placard {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.proof-specs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+.proof-divider {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: var(--color-neutral);
+  border-radius: 50%;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.proof-github {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--duration-base) var(--easing-default),
+    color var(--duration-base) var(--easing-default);
+}
+
+.github-link:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.proof-quote {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-8);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-bg);
+}
+
+.proof-quote p {
+  font-family: var(--font-headline);
+  font-weight: 300;
+  font-size: 1.125rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  line-height: 1.65;
+  color: var(--color-text);
+  opacity: 0.9;
+}
+
+/* --------------------------------------------------------------------------
+   Your Library CTA — conversion_funnel closing
+   -------------------------------------------------------------------------- */
+.your-library .cta-sub {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin-bottom: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   Footer Utility Row — intensity toggle
+   -------------------------------------------------------------------------- */
+.footer-utility {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-hairline);
+  margin-bottom: var(--space-6);
+}
+
+.intensity-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-neutral);
+  background: transparent;
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--easing-default),
+    border-color var(--duration-base) var(--easing-default);
+  min-height: 36px;
+}
+
+.intensity-toggle:hover {
+  color: var(--color-text);
+  border-color: var(--color-neutral);
+}
+
+.intensity-toggle[aria-pressed='true'] {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.intensity-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Calm / Intensity Mode — disables hover lifts and gradients
+   -------------------------------------------------------------------------- */
+html.intensity-calm .feature-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--color-border);
+}
+
+html.intensity-calm .library-panel:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--color-border);
+}
+
+html.intensity-calm .hero::before {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Easter Egg — Logo click counter + marble-vein pulse
+   -------------------------------------------------------------------------- */
+@keyframes marble-pulse {
+  0% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.marquee-vein {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 150;
+  background-image:
+    linear-gradient(var(--color-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-primary) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--easing-default);
+}
+
+.marquee-vein.active {
+  animation: marble-pulse 800ms ease-in-out 3;
+  opacity: 0.25;
+}
+
+/* --------------------------------------------------------------------------
+   Visually Hidden — accessible screen-reader text
+   Per §19.15: needs overflow:hidden AND clip-path
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Grid track fix — per §19.12
+   minmax(0, 1fr) not bare 1fr — prevents overflow from unbreakable tokens
+   -------------------------------------------------------------------------- */
+.features-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, minmax(0, 1fr)));
+  gap: var(--space-8);
+}
+
+.library-panels {
+  grid-template-columns: repeat(auto-fit, minmax(300px, minmax(0, 1fr)));
+  gap: var(--space-8);
+}
+
+.visitor-paths-options {
+  grid-template-columns: repeat(auto-fit, minmax(240px, minmax(0, 1fr)));
+  gap: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Text overflow wrap — per §19.12
+   Body text uses anywhere; headings use break-word (not anywhere)
+   -------------------------------------------------------------------------- */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
 /* Fade-in on scroll (optional) */
 .fade-in {
   opacity: 0;
@@ -454,4 +904,371 @@ p {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ==========================================================================
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Download Step Layout — two-steps template
+   -------------------------------------------------------------------------- */
+.download-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-8);
+  padding-block: var(--space-8);
+  border-bottom: var(--border-hairline);
+}
+
+.download-step:last-of-type {
+  border-bottom: none;
+}
+
+.step-marker {
+  display: flex;
+  align-items: flex-start;
+  padding-top: var(--space-2);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-primary);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.step-content h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  margin-bottom: var(--space-4);
+}
+
+.step-description {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  opacity: 0.85;
+  margin-bottom: var(--space-6);
+  max-width: 600px;
+}
+
+.install-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-block: var(--space-6);
+}
+
+.install-option {
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.install-option > summary {
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  background: var(--color-surface);
+  list-style: none;
+  transition: background-color var(--duration-base) var(--easing-default);
+}
+
+.install-option > summary:hover {
+  background: var(--color-surface-alt);
+}
+
+.install-option > summary::-webkit-details-marker {
+  display: none;
+}
+
+.install-option[open] > summary {
+  border-bottom: var(--border-hairline);
+}
+
+.install-note {
+  font-size: 0.8125rem;
+  color: var(--color-neutral);
+  margin-top: var(--space-4);
+}
+
+.install-note a {
+  color: var(--color-primary);
+}
+
+@media (width <= 640px) {
+  .download-step {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .step-marker {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Docs Link Cards
+   -------------------------------------------------------------------------- */
+.docs-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+}
+
+.docs-link-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-base) var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default);
+}
+
+.docs-link-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.docs-link-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.docs-link-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.docs-link-text h3 {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.docs-link-text p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* --------------------------------------------------------------------------
+   Error Page — 404 "Wrong Floor" concierge elevator concept
+   -------------------------------------------------------------------------- */
+.error-page {
+  min-height: calc(100vh - 144px);
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-24);
+}
+
+.error-content {
+  text-align: center;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+/* Brass elevator door motif */
+.elevator-doors {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: var(--space-12);
+  height: 80px;
+  overflow: hidden;
+}
+
+.elevator-door {
+  width: 60px;
+  background: linear-gradient(180deg, #c8c4bc 0%, #a0a09a 100%);
+  border-radius: 2px 2px 0 0;
+  position: relative;
+}
+
+.elevator-door::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.elevator-door-left::before {
+  right: 8px;
+}
+
+.elevator-door-right::before {
+  left: 8px;
+}
+
+.error-eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.error-headline {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: var(--space-6);
+}
+
+.error-body {
+  font-size: 1rem;
+  line-height: 1.75;
+  opacity: 0.85;
+  margin-bottom: var(--space-8);
+}
+
+.error-recovery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   About chapter sections
+   -------------------------------------------------------------------------- */
+.about-chapter {
+  padding-bottom: var(--space-12);
+  border-bottom: var(--border-hairline);
+}
+
+.about-chapter:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Extra FAQ items (mapped to canonical answers)
+   -------------------------------------------------------------------------- */
+.faq-extra dt {
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Content block — semantic wrapper, no specific styles needed
+   -------------------------------------------------------------------------- */
+.content-block {
+  /* Inherits from section/article styling */
+}
+
+/* --------------------------------------------------------------------------
+   Ecosystem section variant
+   -------------------------------------------------------------------------- */
+.ecosystem-section {
+  border-top: var(--border-hairline);
+}
+
+/* --------------------------------------------------------------------------
+   Client note text
+   -------------------------------------------------------------------------- */
+.client-note {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-top: calc(-1 * var(--space-2));
+}
+
+/* --------------------------------------------------------------------------
+   Seasonal Banner — seasonal_activation (kit §20a)
+   A dismissible date-gated announcement for Winter Gala, Spring Bloom,
+   and Midsummer Terrace. Motif SVGs are img/seasonal/ references;
+   they are generated separately and may not yet exist at build time.
+   -------------------------------------------------------------------------- */
+.seasonal-banner {
+  position: relative;
+  display: none;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-surface);
+  border-bottom: var(--border-hairline);
+  text-align: center;
+}
+
+.seasonal-banner.visible {
+  display: block;
+}
+
+.seasonal-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.seasonal-banner-motif {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+.seasonal-banner-motif img,
+.seasonal-banner-motif svg {
+  width: 100%;
+  height: 100%;
+}
+
+.seasonal-banner-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+.seasonal-banner-dismiss {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--color-neutral);
+  transition:
+    color var(--duration-base) var(--easing-default),
+    border-color var(--duration-base) var(--easing-default);
+}
+
+.seasonal-banner-dismiss:hover {
+  color: var(--color-text);
+  border-color: var(--color-neutral);
 }

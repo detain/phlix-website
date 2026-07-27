@@ -1,144 +1,96 @@
-# Library Amber — Brand-Kit Site Design Document
+# SITE.md — Library Amber Brand Kit Site
 
 ## Concept & Vision
 
-**Library Amber** is the visual identity of a private gentleman's library — floor-to-ceiling mahogany bookshelves, amber reading lamps casting pools of warm gold across herringbone parquet, Chesterfield leather chairs, and the settled knowledge that the room holds more wonders than any one evening could exhaust. Phlix inherits that ambition for the moving image: your media collection is not a backlog, it is a library, curated by taste and tended with care.
-
-The site should feel like stepping into that room — warm, scholarly, quietly prestigious, never flashy. Every surface is crafted, not generated. The warmth comes from amber lamplight, not from fire or neon.
-
----
+Library Amber channels the atmosphere of a distinguished private gentleman's library — floor-to-ceiling mahogany bookshelves, amber reading lamps casting warm pools of gold across herringbone parquet, Chesterfield leather chairs, and the scent of old paper. The site feels like entering a room you never want to leave. Every element carries the weight and warmth of a curated, permanent collection.
 
 ## Aesthetic Direction
 
-**Archetype: Editorial / Sage** — asymmetric reading-room composition with strong vertical bookshelf rhythm, warm lamplight depth, and restrained brass accents that feel precious because they are rare.
+**Archetype:** editorial — the site reads like a well-typeset volume, not a startup landing page.
 
-**Visual style tags:** Old-world engraving with warm wash · Tooled leather texture overlays · Golden lamplight gradient grounds · Fine serif lettering and ligature details · Paper grain and engraving rendering.
+**Mood:** Scholarly, warm, quietly prestigious. Not flashy, not cold, not casual. The confidence of someone who has nothing to prove.
 
-**Art direction prose:** Deep mahogany and hunter-green grounds lit from within by amber lamplight. Compositions feel still and settled — no motion blur, no dynamic angles. Textures are tactile: the woven grain of fine paper, the embossed dimple of a leather binding, the cold weight of a brass fitting. Shadows are long, warm, and intentional. Highlights are amber gold, never white or cool.
+**Reference:** Victorian private library meets 21st-century media server. Think: The Reform Club reading room, a first-edition dust jacket, amber oil lamp glow.
 
----
+## Color Palette (role → name → hex)
 
-## Color Palette
+| Role | Name | Hex |
+|---|---|---|
+| Primary | Amber Gold | `#C8861A` |
+| Secondary | Hunter Green | `#2E5D3B` |
+| Tertiary | Burnished Brass | `#A8792A` |
+| Background | Antique Cream | `#F2E8D0` |
+| Surface | Warm Vellum | `#F8F1DF` |
+| Surface Alt | Aged Ivory | `#E8D9B8` |
+| Text | Mahogany Ink | `#1C0F0A` |
+| Neutral | Rich Chocolate | `#5C3317` |
+| Border | Dark Mahogany Line | `#2B1608` |
+| Mahogany Dark | — | `#2B1608` |
+| Error | Wax Seal Red | `#8B2315` |
+| Success | Library Sage | `#6B9E77` |
 
-| Role            | Name              | Hex       | Usage                                            |
-|-----------------|-------------------|-----------|--------------------------------------------------|
-| Primary         | Amber Gold        | `#C8861A` | CTAs, active states, focus highlights            |
-| Secondary       | Hunter Green      | `#2E5D3B` | Secondary actions, nav accents                    |
-| Tertiary        | Burnished Brass  | `#A8792A` | Badges, decorative rules, icon accents            |
-| Background      | Antique Cream    | `#F2E8D0` | Default page background — the vellum ground      |
-| Surface         | Warm Vellum      | `#F8F1DF` | Card and panel surfaces                          |
-| Surface Alt     | Aged Ivory       | `#E8D9B8` | Alternate surfaces, dividers                    |
-| Text            | Mahogany Ink     | `#1C0F0A` | Primary body and headline text                    |
-| Border          | Dark Mahogany    | `#2B1608` | Card edges, panel borders, rule lines             |
-| Success         | Library Sage     | `#6B9E77` | Success toasts, confirmations                     |
-| Warning         | Lamp Flame       | `#D4851A` | Warning states, caution banners                   |
-| Error           | Wax Seal Red     | `#8B2315` | Errors, destructive actions                       |
-| Info            | Ink Well Blue    | `#2A4A6B` | Informational banners                            |
-
-### Gradients
-- **Amber Lamp Glow** — `radial-gradient(ellipse, #C8861A, #7A4E10, #1C0F0A)` — hero backdrop radial glow
-- **Mahogany to Cream** — `linear-gradient(180deg, #2B1608, #F2E8D0)` — section dividers and hero-to-content transitions
-- **Brass Shimmer** — `linear-gradient(90deg, #A8792A, #C8861A, #E8B84B, #A8792A)` — decorative rule lines, badge borders
-
----
+**Contrast notes:** Amber gold (`#C8861A`) on antique cream (`#F2E8D0`) is only 2.50:1 — **fails WCAG AA for small text**. Small-text uses of primary on cream/surface use the safe variant `#8e5f12`. Primary on mahogany-dark passes 7.14:1 — used directly for UI on dark backgrounds.
 
 ## Typography
 
-| Role      | Font                  | Weight(s)  | Usage                                |
-|-----------|-----------------------|------------|--------------------------------------|
-| Headline  | Playfair Display      | 700, 900   | Page titles, hero headlines          |
-| Display   | Cormorant Garamond    | 300, 400   | Oversized display text, pull quotes  |
-| Body      | EB Garamond           | 400, 500   | Paragraphs, long-form reading        |
-| UI        | Libre Baskerville     | 400, 700   | Buttons, labels, navigation          |
-| Mono      | Courier Prime         | 400, 700   | Code, tokens, technical readouts     |
-| Number    | Cormorant Garamond    | 600        | Stats, counters, dashboard figures   |
+| Role | Font | Weights |
+|---|---|---|
+| Headline | Playfair Display | 700, 900 |
+| Display | Cormorant Garamond | 300, 400, 600 |
+| Body | EB Garamond | 400, 500 |
+| UI | Libre Baskerville | 400, 700 |
+| Mono | Courier Prime | 400, 700 |
+| Number | Cormorant Garamond | 600 |
 
-**Typography rules applied:** Old-style numerals preferred; body measure 60–70 chars; generous leading in body, tighter in display; Playfair Display for all headlines; EB Garamond for all body copy; no sans-serifs in the type hierarchy.
+**Strong emphasis:** `<strong>` uses `font-weight: 500` AND `color: var(--color-neutral)` (Rich Chocolate, 4.53:1 on cream) — two channels because a single 100-unit step in EB Garamond is not perceptible at body size.
 
----
-
-## Spacing System
-
-Only these steps are used throughout: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96px`
-
----
-
-## Motion Philosophy
-
-**Style: Measured, Deliberate, Elegant, Unhurried.** Heavy things move slowly.
-
-- **Transitions:** Cross-fade dissolve, slow scale from center, depth pull on scroll
-- **Speed:** Slow (300–500ms for major transitions)
-- **Easing:** `cubic-bezier(0.4, 0, 0.2, 1)`, `ease-in-out`
-- **Ambient animation:** Amber lamp glow pulse (4s ease-in-out infinite) on hero
-- **Hover microinteraction:** Cards rise 3px + deepened mahogany shadow + faint brass highlight traces top edge over 200ms
-- **Focus:** Amber gold 2px ring with 2px cream offset, 150ms fade-in
-
-**Reduced motion:** All ambient animations collapse to instant fades via `prefers-reduced-motion: reduce`.
-
----
+**No undeclared weights** — `eb-garamond-700` exists in the pool but is NOT declared by this kit and was not vendored.
 
 ## Spatial System
 
-Max content width: **1400px**, centered. Generous vertical rhythm (section padding `96px`). Negative space treated as mahogany panelling — purposeful and dignified.
+8-step scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96px. Max content width: 1400px.
 
----
+**Reading width:** 60–70 characters (body text max-width: `70ch`).
+
+## Motion Philosophy
+
+Measured and deliberate — like turning a page in a leather-bound volume. No bouncy springs. Ambient lamp-glow pulse at 4s intervals. Scroll reveals with 500ms fade+lift. All motion collapses to instant under `prefers-reduced-motion` (including transitions, not just animations — per trap 3, §19).
 
 ## Visual Assets
 
-### Logo
-Playfair Display "Phlix" wordmark in amber gold, set inside a mahogany cartouche frame with brass corner ornaments and an open-book silhouette. The open book references the library theme without being literal.
+- **logo.svg:** Playfair Display 'Phlix' wordmark in amber gold, optionally inside a cartouche frame
+- **favicon.svg:** Square amber-gold mark on mahogany
+- **og.svg / og.png:** Hero headline on mahogany background with amber lamp glow
+- **Mascot:** The Librarian — scholarly great horned owl with amber spectacles, wing-back chair, brass lamp beside
+- **Icons:** Fine-line outlined, 1.5px stroke, amber gold or mahogany ink, old-world engraving aesthetic
+- **Decorative:** Brass shimmer gradient as section divider ornaments, herringbone pattern in hero
 
-### Favicon
-Square mark: amber gold open-book on deep mahogany, brass border, Victorian engraving aesthetic.
+## Layout & Structure
 
-### OG image (1200×630 SVG)
-Deep mahogany background with amber radial lamp glow, herringbone texture, bookplate cartouche frame, Phlix wordmark + "Your Collection, Curated." tagline.
+- **Home:** Five editorial chapters — hero → two-paths feature showcase → brand story → provenance trust band → conversion funnel
+- **Interior pages:** Page header (h1 + lead) → content grid → CTA banner
+- **Nav:** Cream topbar with Playfair Display wordmark, Libre Baskerville small-caps links, amber gold active underline, brass bottom rule. Mobile: full-screen mahogany panel
+- **Footer:** Mirror-nav index row → tagline → 3 content.json columns
+- **Grid tracks:** Always `minmax(0, 1fr)` (not bare `1fr`) to prevent overflow at 320px / 200% zoom
+- **Text wrapping:** `overflow-wrap: anywhere` on body text elements; `break-word` on headings
 
-### Feature icons
-7 inline SVGs — library, syncplay, transcode, shield, antenna, broadcast, puzzle. Fine-line outlined (1.5px stroke), amber gold color, slightly rounded ends, old-world engraving aesthetic.
+## Interaction Details
 
-### Signature decorative elements
-- Brass shimmer rule dividers between major sections
-- Mahogany sidebar as structural anchor
-- Amber lamp glow radial in hero backdrop
+- **Mascot (The Librarian):** Fixed bottom-right; appears on Home, Features, Download after 1.2s; 5 click → bow animation; 2s hover-hold → section-specific tip; dismiss → localStorage. Below 768px: in-flow above footer. Disabled under reduced-motion.
+- **Easter egg — logo-clicks:5:** Amber page flash on 5 rapid logo clicks (all pages)
+- **Easter egg — typed-word:collection:** Typing "collection" anywhere highlights all instances in amber gradient; disabled in inputs; Esc clears
+- **Seasonal activation:** JS date gate switches `data-season` attribute on `<html>`: winter 11-15..01-15, autumn 09-22..11-14, spring 03-20..05-31; activates `--color-bg` and `--color-primary` seasonal overrides
+- **Hero parallax:** Scroll + pointer-driven lamp glow position shift; disabled under reduced-motion
+- **FAQ accordion:** One open at a time, aria-expanded toggle, no JS dependency for basic reveal
 
----
+## Component Inventory
 
-## Responsive Behavior
+- **Buttons:** Primary (amber gold), Secondary (hunter green), Danger (wax-seal red), Ghost (mahogany outline), Link (brass, underline on hover), FAB (amber pill). All ≥44px touch target, 2px amber focus ring with cream offset.
+- **Cards:** Warm vellum surface, 1.5px mahogany border, generous padding (24px), hover lift with deepened shadow
+- **Code blocks:** Mahogany background, vellum text, brass label tag, fade-in copy button
+- **FAQ items:** Aged ivory background, 3px amber left border, question as accessible `<button>`, smooth expand
+- **Badges:** Small-caps, 1.5px border, role-colored background tint — stable (green), beta (amber), deprecated (red)
 
-| Breakpoint | Layout                                                    |
-|------------|-----------------------------------------------------------|
-| Desktop    | 240px mahogany sidebar + antique-cream content; multi-column poster grid; hover states active |
-| Tablet     | Sidebar collapses to icon rail; 2–3 column grids; touch targets ≥48px; topbar on portrait |
-| TV         | 10-foot UI: Playfair Display 48px+; 4px amber focus ring; D-pad-navigable; no hover dependency |
-| Mobile     | Single column; mahogany bottom tab bar; full-width cards; sticky amber-gold play bar |
+## Technical Approach
 
----
-
-## Brand Opposites (anti-checklist)
-
-The site must never feel:
-- Neon or electric
-- Playfully cartoonish
-- Corporate-cold or minimalist-grey
-- Futuristic or sci-fi
-- Loud or maximalist-garish
-- Pastel or saccharine
-- Casual or disposable
-
----
-
-## Seasonal Variants (documented, not applied)
-
-The kit defines three seasonal variants (Winter Reading Season, Autumn Catalogue, Spring Collection Opening) with CSS custom property overrides. These are not applied by default but documented here for future implementation.
-
----
-
-## Accessibility Commitments
-
-- WCAG 2.2 AA minimum: 4.5:1 for body text, 3:1 for large text and UI components
-- 2px amber-gold focus ring with 2px antique-cream offset, never hidden
-- Minimum 48×48px touch targets on mobile/tablet; 56×56px on TV
-- All ambient animations respect `prefers-reduced-motion`
-- All layouts fully functional at 200% text zoom
+Pure static HTML + CSS + vanilla JS. No framework, no build step, no CDN fonts. Self-hosted WOFF2 from the shared pool. CSS custom properties as design tokens. `defer`-loaded JS with passive event listeners. All 9 pages + CSS/JS/img/assets in `sites/library-amber/`.

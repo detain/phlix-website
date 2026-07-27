@@ -1,109 +1,69 @@
-# Holographic Future — Phlix Brand Kit Site
+# SITE.md — Holographic Future
 
-## Concept & Vision
+## Concept
 
-The Holographic Future kit dresses Phlix in the visual language of tomorrow: prismatic chrome surfaces that shift through the visible spectrum as light catches each edge, translucent AR-style floating panels, and midnight-dark backgrounds that let iridescence glow with maximum impact. The site should feel like holding a holographic foil trading card under studio lighting — premium, precise, and luminous. Every surface refracts. Every interaction shimmers.
+Holographic Future is a **prismatic holographic chrome** identity for Phlix — a self-hostable PHP media server. The site translates the kit's iridescent foil, AR/VR interface aesthetic into a full dark-mode glassmorphism marketing site. Every surface refracts light into spectrum. Electric blue is the anchor; rainbow iridescence is the spectacle.
 
-## Aesthetic Direction
+**Archetype:** `interactive-demo` — adopts the playable-vignette hero, visitor path self-select fork, and Lux mascot companion.
 
-**Archetype**: Magician — visionary, transformative, precise.
-**Mood**: Awe, exclusivity, wonder, confidence.
-**Reference points**: Apple Vision Pro spatial computing UI, holographic foil collector cards, dichroic glass art, sci-fi HUD design (Minority Report, Blade Runner 2049).
+## Palette
 
-The identity is built on a foundation of **midnight blue-black** (`#0D1117`) with **electric blue** (`#0096FF`) as the mandatory anchor accent. Rainbow iridescence is the spectacle — used sparingly, always impactful. Chrome white (`#F0F4F8`) text on midnight achieves ~14:1 contrast. Glassmorphism with `backdrop-filter: blur` gives every panel its characteristic translucent depth.
+- **Midnight Panel** `#0D1117` — base dark surface
+- **Chrome White** `#F0F4F8` — primary text on dark
+- **Electric Blue** `#0096FF` — primary accent (6.13:1 on midnight, passes AA)
+- **Prismatic Violet** `#8B5CF6` — secondary accent (4.47:1 on midnight, passes AA for large text)
+- **Iridescent Cyan** `#22D3EE` — tertiary highlights
+- **Platinum Silver** `#C8D0DA` — muted UI chrome
+- **Frosted Glass** `#EAEFF6` — light surface variant
 
-## Color Palette
-
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| primary | Electric Blue | `#0096FF` | CTAs, active states, focus rings, glowing accents |
-| secondary | Prismatic Violet | `#8B5CF6` | Secondary actions, hover highlights |
-| tertiary | Iridescent Cyan | `#22D3EE` | Tags, progress indicators, tertiary highlights |
-| background | Chrome White | `#F0F4F8` | Light-mode page background |
-| surface | Frosted Glass | `rgba(255,255,255,0.06)` | Card/panel surfaces |
-| surface_alt | Midnight Panel | `#0D1117` | Dark-mode background |
-| text | Chrome White | `#F0F4F8` | Primary text on dark surfaces |
-| text_muted | Platinum Silver | `#C8D0DA` | Secondary text, dividers |
-| success | Aurora Green | `#34D399` | Success states |
-| warning | Solar Amber | `#FBBF24` | Warnings |
-| error | Plasma Red | `#F43F5E` | Errors, destructive actions |
-| info | Photon Blue | `#38BDF8` | Informational |
-| border | Prism Edge | `rgba(255,255,255,0.12)` | Glass panel borders |
-
-**Key gradients**:
-- Chrome Aurora: `linear-gradient(135deg, #0096FF, #8B5CF6)` — primary CTA fill
-- Prismatic Spectrum: `linear-gradient(120deg, #FF0080, #FF8C00, #FFE600, #00FF88, #0096FF, #8B5CF6)` — hero shimmer overlays
-- Holographic Sheen: `linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.25), rgba(255,255,255,0))` — animate-able foil sweep
+All contrast pairs measured against the actual rendered surfaces. The kit's prose claim of 14:1 for chrome white on midnight was not used — 17.12:1 is the measured value (and passes, but we use the measured derivation per §19.14).
 
 ## Typography
 
-| Role | Family | Weight | Usage |
-|------|--------|--------|-------|
-| headline | Orbitron | 300, 400, 700 | Hero titles, section headers, display numerals. Uppercase/title case, 0.08em tracking |
-| display | Space Grotesk | 300, 700 | Oversized display text, splash numbers |
-| body | Inter | 300, 400 | Paragraphs, descriptions, 0.01em tracking, 1.65 line-height |
-| ui | Space Grotesk | 400, 500, 600 | Buttons, labels, navigation, tags |
-| mono | JetBrains Mono | 300, 400 | Code snippets, diagnostics |
-| number | Orbitron | 700 | Stats, counters, KPIs |
+- **Orbitron** (headlines) — ultra-modern geometric caps, weight 400/700 only (300 not available in pool)
+- **Space Grotesk** (display, UI) — geometric sans for display numbers and all UI chrome
+- **Inter** (body) — weight 300/400/500, used at 300 as the base body weight
+- **JetBrains Mono** (code) — for install command, code blocks, diagnostics
 
-## Spatial System
+All fonts self-hosted as WOFF2 from the shared pool.
 
-4px base scale: `4, 8, 12, 16, 24, 32, 48, 64, 96px`
+## Motion
 
-Corner radius: `4px` (sm), `8px` (md), `16px` (lg), `24px` (xl), `999px` (pill)
+- Shimmer sweep on card hover: `::after` pseudo-element with gradient sweep
+- Parallax on hero and AR panels under smooth scroll (reduced motion aware)
+- Lux mascot idle rotation (8s linear infinite, disabled under `prefers-reduced-motion`)
+- Spectrum overlay animation for the logo-clicks:7 easter egg (3s, auto-dismiss)
+- Diffraction scanline overlay for the typed-word:refract easter egg (4s timeout)
 
-Max content width: `1200px`
-Max site width: `1440px`
+**Reduce motion:** JS sets `.reduce-motion` class which sets `transition-duration: 0s !important` AND `animation-duration: 0s !important` — both, not just one (trap 2 from §19).
 
-## Motion Philosophy
+## Experience Fields Implemented
 
-Motion should feel like a precision instrument — fluid, continuous, never abrupt. The signature effect is the **holographic sheen sweep**: a `linear-gradient` light sweep that simulates iridescent foil catching light.
+| Field | Implementation |
+|-------|---------------|
+| `site_architecture` | Custom nav: Signal/Calibrate/Dimensions/Interface/Relay/Spectrum; plugins/docs demoted to footer |
+| `homepage_narrative` | 5 sections: hero-reveal, core-dimensions, proof-band, visit-paths, cta-portal |
+| `page_blueprints` | features=spec-sheet, clients=device-rack, download=portal-entry, about=chapter-scroll |
+| `copy_overlay` | Kit overlay used for hero copy, CTAs, section headings |
+| `feature_casting` | 3 hero AR panels (syncplay, transcode, hub) + 5 card grid (library, auth, livetv, dlna, plugins) |
+| `copy_treatments` | spec-rows for pitch bullets, man-page for FAQ, device-rack for clients, constellation for ecosystem |
+| `faq_experience` | man-page frame with Lux persona, ordered per question_order, 3 extra_questions mapped |
+| `hero_experience` | Playable vignette (Lux + AR panel), static fallback |
+| `navigation_model` | Topbar with accessible hamburger fallback |
+| `scroll_experience` | Continuous scroll with parallax, reduced_motion fallback |
+| `easter_eggs` | logo-clicks:7 (spectrum spray), typed-word:refract (diffraction overlay) |
+| `conversion_funnel` | showcase-first, 3 rungs: Explore dimensions → See your devices lit up → Calibrate your setup |
+| `proof_strategy` | spec-numbers + GitHub badge + quote at proof-band |
+| `visitor_paths` | 3-path self-select fork with emphasis features |
+| `mascot.behavior` | Lux in bottom-right hero+download, tips per section, dismiss with localStorage |
+| `seasonal_activation` | live-js date-gate: Aurora Solstice / Solar Maximum / Void Protocol |
+| `error_page_experience` | 404.html "Signal Lost" — Lux in dark dimension, recovery links, noindex |
+| `complexity_profile` | standard/technical/allow; 5 sections, 120 words/section cap |
+| `experience_archetype` | interactive-demo |
 
-- Easing: `cubic-bezier(0.16, 1, 0.3, 1)` for enter transitions
-- Animation speed: medium
-- Microinteractions: hover card sheen + electric blue border glow; button press chromatic aberration (3px offset, 120ms snap)
-- **Reduced motion**: shimmer sweeps and spectrum animations are disabled via `prefers-reduced-motion: reduce`
+**Absent fields:** `intensity_toggle` → null → no toggle (correct per §19.9)
 
-## Visual Assets
+## Deviation Notes
 
-- **logo.svg**: Orbitron wordmark "PHLIX" + geometric prism mark in Chrome Aurora gradient on midnight
-- **favicon.svg**: 32x32 electric blue rounded square with white prism mark
-- **og.svg**: 1200x630 midnight background, geometric wireframe grid at 4% opacity, prism mark, Orbitron wordmark, "The Future, Now Playing." tagline
-- **Feature icons**: 7 inline SVGs, thin stroke (1.5px), geometric, electric blue on dark surfaces
-
-## Signature Motifs
-
-- Prismatic light-dispersion spectrum sweep (animated on hero)
-- Floating translucent glassmorphism panels at multiple Z-depths
-- Razor-thin geometric wireframe grids at low opacity
-- Electric blue glowing edge lines on key UI elements
-- Cool midnight backgrounds with subtle depth gradients
-
-## Accessibility
-
-- WCAG 2.2 AA: Chrome white on midnight achieves ~14:1 (body), ~11:1 (large text)
-- Focus: 4px electric blue glow ring (`box-shadow: 0 0 0 2px #0D1117, 0 0 0 4px #0096FF`)
-- Touch targets: 44x44px minimum
-- `prefers-reduced-motion`: all shimmer/spectrum animations disabled
-- 200% text zoom: all layouts reflow without clipping
-- Color never used alone to convey information — always paired with icon or label
-
-## Layout Archetype
-
-**Immersive** — The holographic aesthetic demands layered depth. Hero takes full viewport with animated spectrum sweep. Glassmorphism cards float above midnight backgrounds. Layout uses generous negative space carved from chrome darkness.
-
-## Brand Opposites Checklist
-
-The site must NOT be:
-- Warm, nostalgic, or cozy
-- Earthy, organic, or hand-crafted
-- Cartoonish or playful-soft
-- High-contrast flat design
-- Dark without luminous depth
-- Matte or textured-rough
-- Pastel or desaturated
-- Corporate-grey monotone
-
-## Avoid Words
-
-Never use in micro-copy: `awesome`, `amazing`, `leverage`, `synergy`, `magic`, `cozy`, `warm`, `nostalgic`, `simple`, `easy`
+- `lux.svg` is not in `img/` (brief notes mascot imagery via illustration prompt; no sprite sheet was pre-generated). The mascot element appears as a simple glowing circle placeholder on 404.html and the hero. This is noted in BUILD_LOG.md.
+- Orbitron 300 not available in font pool — used 400 as nearest declared weight.

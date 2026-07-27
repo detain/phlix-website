@@ -3,49 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Download — Phlix</title>
+    <title>Install — Phlix</title>
     <meta
       name="description"
-      content="Download Phlix — PHP 8.3+ required. Install on any server, NAS, or local machine. Server + clients + ecosystem."
+      content="Bring the Library Home. Install Phlix in one line on a fresh Ubuntu or Debian host. PHP 8.3+, MySQL, ffmpeg required. Self-hosted media server with native apps and SyncPlay."
     />
-    <meta name="keywords" content="phlix, download, install, PHP 8.3, media server" />
+    <meta
+      name="keywords"
+      content="phlix install, self-hosted media server, Ubuntu install, media server, PHP media server"
+    />
     <link
       rel="canonical"
       href="https://detain.github.io/phlix-website/library-amber/download.html"
     />
     <meta name="theme-color" content="#C8861A" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
     <meta
       property="og:url"
       content="https://detain.github.io/phlix-website/library-amber/download.html"
     />
-    <meta property="og:title" content="Download — Phlix" />
+    <meta property="og:title" content="Install — Phlix" />
     <meta
       property="og:description"
-      content="Download Phlix — PHP 8.3+ required. Server + native clients + ecosystem."
+      content="Bring the Library Home. Install Phlix in one line on a fresh Ubuntu or Debian host."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/library-amber/img/og.png"
     />
-    <meta property="og:image:type" content="image/svg+xml" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Download — Phlix" />
+    <meta name="twitter:title" content="Install — Phlix" />
     <meta
       name="twitter:description"
-      content="Download Phlix — PHP 8.3+ required. Server + native clients + ecosystem."
+      content="Bring the Library Home. Install Phlix in one line on a fresh Ubuntu or Debian host."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/library-amber/img/og.png"
     />
     <meta name="twitter:creator" content="@detain" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
@@ -56,7 +66,7 @@
     <header class="site-header">
       <div class="container">
         <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" loading="lazy" />
+          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" loading="eager" />
         </a>
         <nav class="nav-primary" aria-label="Primary navigation">
           <button
@@ -82,170 +92,214 @@
             </svg>
           </button>
           <ul class="nav-menu" id="nav-menu">
-            <li><a href="./">Home</a></li>
-            <li><a href="features.html">Features</a></li>
-            <li><a href="clients.html">Clients</a></li>
-            <li><a href="download.html" aria-current="page">Download</a></li>
-            <li><a href="plugins.html">Plugins</a></li>
-            <li><a href="docs.html">Docs</a></li>
-            <li><a href="hub.html">Hub</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="./" class="nav-empha-default">Home</a></li>
+            <li><a href="features.html" class="nav-empha-primary">The Collection</a></li>
+            <li><a href="clients.html" class="nav-empha-default">Devices</a></li>
+            <li>
+              <a href="download.html" aria-current="page" class="nav-empha-primary">Install</a>
+            </li>
+            <li><a href="hub.html" class="nav-empha-default">Hub</a></li>
+            <li><a href="about.html" class="nav-empha-muted">About</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
+      <!-- Page header -->
+      <header class="page-header">
         <div class="container">
-          <h1>Download</h1>
+          <h1>Bring the Library Home</h1>
           <p class="lead">
-            Phlix runs on PHP 8.3+ with Workerman 5.x. Clone the server, point it at your media, and
-            it catalogues everything.
+            The foundation of your collection begins here. One line on a fresh host.
           </p>
         </div>
-      </div>
+      </header>
 
-      <section class="content-section" aria-labelledby="server-req">
+      <!-- Server install — reading-room-setup per page_blueprint -->
+      <section class="download-section" id="server" aria-labelledby="server-heading">
         <div class="container">
-          <h2 id="server-req">Requirements</h2>
-          <div class="code-block">
-            <span class="code-block-label">Server</span>
-            <pre><code>PHP 8.3+
-Workerman 5.x
-FFmpeg (for transcoding)
-2 GB RAM minimum
-Storage for your media library</code></pre>
+          <!-- Step 1: Prepare the space — server install -->
+          <div class="download-step">
+            <div class="download-step-num" aria-hidden="true">1</div>
+            <div>
+              <h3 id="server-heading">Prepare the space</h3>
+              <p>
+                Requirements: PHP 8.3+, MySQL, FFmpeg. The installer targets a fresh Ubuntu or
+                Debian host and also compiles the Swoole and php-uv extensions from source, skipping
+                the build when they already load.
+              </p>
+            </div>
           </div>
-          <h2 id="server-install">Install the server</h2>
+
           <div class="code-block">
-            <span class="code-block-label">Terminal</span>
-            <pre><code>git clone https://github.com/detain/phlix-server.git
+            <span class="code-block-label">One line, on a fresh Ubuntu or Debian host</span>
+            <pre><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
+            <button type="button" class="copy-btn" aria-label="Copy install command">Copy</button>
+          </div>
+
+          <p class="text-muted" style="font-size: 0.9375rem; margin-bottom: var(--space-8)">
+            Prompts for install path, database credentials and hostname when run in a terminal; runs
+            fully unattended when piped or given -y. Default ports: HTTP on :8096 behind HAProxy on
+            :80/:443, DLNA discovery on 1900/udp.
+          </p>
+
+          <!-- HTTPS variant -->
+          <details style="margin-bottom: var(--space-8)">
+            <summary
+              style="
+                cursor: pointer;
+                font-family: var(--font-ui);
+                font-size: 0.9375rem;
+                color: var(--color-neutral);
+              "
+            >
+              Provision HTTPS in the same run
+            </summary>
+            <div class="code-block" style="margin-top: var(--space-4)">
+              <pre><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \
+  | sudo bash -s -- --domain phlix.example.com --admin-email you@example.com</code></pre>
+              <button type="button" class="copy-btn" aria-label="Copy install command">Copy</button>
+            </div>
+          </details>
+
+          <!-- Not-an-install: from source -->
+          <details style="margin-bottom: var(--space-8)">
+            <summary
+              style="
+                cursor: pointer;
+                font-family: var(--font-ui);
+                font-size: 0.9375rem;
+                color: var(--color-neutral);
+              "
+            >
+              Build from source (development, not an install)
+            </summary>
+            <div class="code-block" style="margin-top: var(--space-4)">
+              <pre><code>git clone https://github.com/detain/phlix-server.git
 cd phlix-server
-composer install
-php server.php start</code></pre>
-          </div>
-        </div>
-      </section>
+composer install</code></pre>
+              <button type="button" class="copy-btn" aria-label="Copy command">Copy</button>
+            </div>
+            <p style="font-size: 0.875rem; color: var(--color-neutral); margin-top: var(--space-3)">
+              This is a development checkout only. It does not create a database, a service, or run
+              migrations. Never present it as the way to install Phlix.
+            </p>
+          </details>
 
-      <section class="content-section" aria-labelledby="clients-install">
-        <div class="container">
-          <h2 id="clients-install">Clients</h2>
+          <hr class="brass-divider" aria-hidden="true" style="margin: var(--space-8) 0" />
+
+          <!-- Step 2: Furnish your rooms — device downloads -->
+          <div class="download-step">
+            <div class="download-step-num" aria-hidden="true">2</div>
+            <div>
+              <h3>Furnish your rooms</h3>
+              <p>
+                Choose your devices. Native clients on Roku, Samsung Tizen, Windows, and mobile
+                (beta). Plus any DLNA device you already own.
+              </p>
+            </div>
+          </div>
+
           <div class="download-cards">
             <div class="download-card">
               <h3>Roku</h3>
-              <p>Native channel. Sideload for now — channel store listing pending.</p>
+              <p>Native Roku channel</p>
               <a
                 href="https://github.com/detain/phlix-roku-client"
                 class="btn btn-ghost btn-sm"
                 rel="noopener noreferrer"
+                target="_blank"
                 >View source</a
               >
             </div>
-
             <div class="download-card">
               <h3>Samsung Tizen</h3>
-              <p>Smart TV app. Build with Tizen Studio and deploy to your set.</p>
+              <p>Smart TV app</p>
               <a
                 href="https://github.com/detain/phlix-tizen-client"
                 class="btn btn-ghost btn-sm"
                 rel="noopener noreferrer"
+                target="_blank"
                 >View source</a
               >
             </div>
-
             <div class="download-card">
               <h3>Windows</h3>
-              <p>Electron + React + TypeScript. Pre-built releases coming soon.</p>
+              <p>Native desktop</p>
               <a
                 href="https://github.com/detain/phlix-windows-client"
                 class="btn btn-ghost btn-sm"
                 rel="noopener noreferrer"
+                target="_blank"
                 >View source</a
               >
             </div>
-
             <div class="download-card">
-              <h3>Mobile (iOS + Android)</h3>
-              <p>React Native, currently in beta. TestFlight / Play Store beta coming.</p>
+              <h3>Mobile</h3>
+              <p>React Native (iOS + Android, beta)</p>
               <a
                 href="https://github.com/detain/phlix-mobile-client"
                 class="btn btn-ghost btn-sm"
                 rel="noopener noreferrer"
+                target="_blank"
                 >View source</a
               >
             </div>
           </div>
-        </div>
-      </section>
 
-      <section class="content-section" aria-labelledby="ecosystem-heading">
-        <div class="container">
-          <h2 id="ecosystem-heading">Ecosystem</h2>
+          <hr class="brass-divider" aria-hidden="true" style="margin: var(--space-8) 0" />
+
+          <!-- Step 3: Stock the shelves — ecosystem -->
+          <div class="download-step">
+            <div class="download-step-num" aria-hidden="true">3</div>
+            <div>
+              <h3>Stock the shelves</h3>
+              <p>
+                The ecosystem around Phlix &mdash; the server, the Hub, shared libraries,
+                documentation, and the reference plugin.
+              </p>
+            </div>
+          </div>
+
           <ul class="ecosystem-list">
             <li>
               <span class="eco-name">phlix-server</span>
-              <span class="eco-what">The media server itself — PHP 8.3+, Workerman 5.x</span>
-              <a
-                href="https://github.com/detain/phlix-server"
-                class="btn btn-ghost btn-sm ms-auto"
-                rel="noopener noreferrer"
-                >Source</a
-              >
+              <span class="eco-what">The media server itself &mdash; PHP 8.3+, Workerman 5.x</span>
             </li>
             <li>
               <span class="eco-name">phlix-hub</span>
               <span class="eco-what">Cloud directory + reverse-tunnel relay</span>
-              <a
-                href="https://github.com/detain/phlix-hub"
-                class="btn btn-ghost btn-sm ms-auto"
-                rel="noopener noreferrer"
-                >Source</a
-              >
             </li>
             <li>
               <span class="eco-name">phlix-shared</span>
-              <span class="eco-what">Shared interfaces, DTOs, event types — Composer package</span>
-              <a
-                href="https://github.com/detain/phlix-shared"
-                class="btn btn-ghost btn-sm ms-auto"
-                rel="noopener noreferrer"
-                >Source</a
+              <span class="eco-what"
+                >Shared interfaces, DTOs, event types &mdash; Composer package</span
               >
             </li>
             <li>
               <span class="eco-name">phlix-docs</span>
               <span class="eco-what">End-user, developer, and hub-admin docs (VitePress)</span>
-              <a
-                href="https://github.com/detain/phlix-docs"
-                class="btn btn-ghost btn-sm ms-auto"
-                rel="noopener noreferrer"
-                >Source</a
-              >
             </li>
             <li>
               <span class="eco-name">phlix-plugin-example</span>
               <span class="eco-what">Reference metadata-provider plugin</span>
-              <a
-                href="https://github.com/detain/phlix-plugin-example"
-                class="btn btn-ghost btn-sm ms-auto"
-                rel="noopener noreferrer"
-                >Source</a
-              >
             </li>
           </ul>
         </div>
       </section>
 
-      <section class="cta-banner" aria-labelledby="download-cta-heading">
+      <!-- CTA Banner -->
+      <section class="cta-banner" aria-labelledby="cta-heading">
         <div class="container">
           <div class="cta-banner-content">
-            <h2 id="download-cta-heading">Ready to begin?</h2>
-            <p>The full documentation covers installation, configuration, and advanced tuning.</p>
+            <h2 id="cta-heading">Ready to settle in?</h2>
+            <p>Explore the full documentation for install guides, configuration, and usage.</p>
             <a
               href="https://detain.github.io/phlix-docs"
-              class="btn btn-primary btn-lg"
+              class="btn btn-ghost btn-lg"
               rel="noopener noreferrer"
+              target="_blank"
               >Read the docs</a
             >
           </div>
@@ -255,7 +309,15 @@ php server.php start</code></pre>
 
     <footer class="site-footer">
       <div class="container">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <nav class="footer-index" aria-label="Footer navigation index">
+          <a href="./">Home</a>
+          <a href="features.html">The Collection</a>
+          <a href="clients.html">Devices</a>
+          <a href="download.html">Install</a>
+          <a href="hub.html">Hub</a>
+          <a href="about.html">About</a>
+        </nav>
+        <p class="footer-tagline">A private library. Your collection, curated.</p>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div>
             <h3>Product</h3>
@@ -319,6 +381,35 @@ php server.php start</code></pre>
         </p>
       </div>
     </footer>
+
+    <!-- The Librarian mascot -->
+    <div class="mascot" aria-hidden="true" style="display: none">
+      <div class="mascot-body" role="button" tabindex="0" aria-label="The Librarian">
+        <svg class="mascot-owl" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="32" cy="56" rx="18" ry="6" fill="#2B1608" opacity="0.6" />
+          <ellipse cx="32" cy="44" rx="14" ry="16" fill="#5C3317" />
+          <ellipse cx="32" cy="46" rx="10" ry="12" fill="#E8D9B8" />
+          <circle cx="32" cy="28" r="13" fill="#5C3317" />
+          <path d="M22 18 L26 26" stroke="#5C3317" stroke-width="3" stroke-linecap="round" />
+          <path d="M42 18 L38 26" stroke="#5C3317" stroke-width="3" stroke-linecap="round" />
+          <ellipse cx="32" cy="30" rx="10" ry="9" fill="#E8D9B8" />
+          <circle cx="27" cy="28" r="4" stroke="#C8861A" stroke-width="1.5" fill="none" />
+          <circle cx="37" cy="28" r="4" stroke="#C8861A" stroke-width="1.5" fill="none" />
+          <path d="M31 28 L33 28" stroke="#C8861A" stroke-width="1.5" />
+          <circle cx="27" cy="28" r="2" fill="#1C0F0A" />
+          <circle cx="37" cy="28" r="2" fill="#1C0F0A" />
+          <path d="M30 32 L32 35 L34 32" fill="#A8792A" />
+          <rect x="18" y="54" width="28" height="6" rx="2" fill="#8B2315" opacity="0.8" />
+          <rect x="20" y="52" width="24" height="3" fill="#1C0F0A" />
+          <rect x="52" y="38" width="4" height="18" rx="1" fill="#A8792A" />
+          <ellipse cx="54" cy="36" rx="5" ry="3" fill="#C8861A" opacity="0.9" />
+        </svg>
+        <div class="mascot-tip" role="tooltip"></div>
+      </div>
+      <button class="mascot-dismiss" aria-label="Dismiss The Librarian" type="button">
+        &times;
+      </button>
+    </div>
 
     <script src="js/main.js" defer></script>
   </body>

@@ -92,7 +92,7 @@ small,
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: #427775;
 }
 
 /* ==========================================================================
@@ -124,7 +124,7 @@ small,
   align-items: center;
   padding-block: var(--space-16) var(--space-12);
   overflow: hidden;
-  background: var(--gradient-ocean-to-sky);
+  background: linear-gradient(160deg, #1b3a5c 0%, #2d7a78 50%, #3d8885 100%);
 }
 
 .hero::before {
@@ -132,6 +132,14 @@ small,
   position: absolute;
   inset: 0;
   background: var(--gradient-lighthouse-sweep);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(27, 58, 92, 0.3);
   pointer-events: none;
 }
 
@@ -150,7 +158,7 @@ small,
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(245, 241, 232, 0.8);
+  color: #fff;
   margin-bottom: var(--space-4);
   display: block;
 }
@@ -165,7 +173,7 @@ small,
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   line-height: 1.7;
-  color: rgb(245, 241, 232, 0.9);
+  color: #fff;
   max-width: 60ch;
   margin-bottom: var(--space-8);
 }
@@ -263,7 +271,7 @@ small,
 /* --- PAGE HEADER (inner pages) --- */
 .page-header {
   padding-block: var(--space-16) var(--space-12);
-  background: var(--gradient-ocean-to-sky);
+  background: linear-gradient(160deg, #1b3a5c 0%, #2d7a78 50%, #3d8885 100%);
   position: relative;
   overflow: hidden;
 }
@@ -287,7 +295,7 @@ small,
 }
 
 .page-header .lead {
-  color: rgb(245, 241, 232, 0.85);
+  color: #fff;
   max-width: 55ch;
 }
 
@@ -455,7 +463,6 @@ small,
 
 /* ==========================================================================
    5. Animations (respects reduced motion)
- * @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 @keyframes lighthouse-sweep {
   0% {
@@ -521,3 +528,544 @@ small,
     opacity: 1;
   }
 }
+
+/* ==========================================================================
+   6. Narrative-Scroll Sections
+   ========================================================================== */
+
+/* --- Lighthouse Beam (hero-beacon) --- */
+.lighthouse-beam {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 200px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(253, 250, 244, 0.15) 30%,
+    rgba(253, 250, 244, 0.25) 50%,
+    rgba(253, 250, 244, 0.15) 70%,
+    transparent 100%
+  );
+  transform: rotate(-15deg);
+  transform-origin: top center;
+  pointer-events: none;
+  opacity: 0.5;
+  animation: lighthouse-beam-sweep 8s ease-in-out infinite;
+}
+
+@keyframes lighthouse-beam-sweep {
+  0% {
+    left: 5%;
+    opacity: 0.3;
+    transform: rotate(-15deg);
+  }
+  50% {
+    left: 65%;
+    opacity: 0.6;
+    transform: rotate(5deg);
+  }
+  100% {
+    left: 5%;
+    opacity: 0.3;
+    transform: rotate(-15deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lighthouse-beam {
+    animation: none;
+    opacity: 0.2;
+  }
+}
+
+/* --- Visitor Paths --- */
+.visitor-paths {
+  padding-block: var(--space-16);
+  background-color: var(--color-bg);
+  border-top: 1.5px solid var(--color-border);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.visitor-paths h2 {
+  margin-bottom: var(--space-12);
+}
+
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-6);
+}
+
+.path-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    transform var(--transition-medium) var(--ease-swell),
+    box-shadow var(--transition-medium),
+    border-color var(--transition-fast);
+}
+
+.path-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.path-card-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: var(--space-4);
+  color: var(--color-secondary);
+}
+
+.path-card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.path-card strong {
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.path-card-sub {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+}
+
+/* --- Feature Hero Cards (the-fleet) --- */
+.features-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+.feature-hero-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition:
+    transform var(--transition-medium) var(--ease-swell),
+    box-shadow var(--transition-medium);
+}
+
+.feature-hero-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-hero-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-6);
+  color: var(--color-secondary);
+}
+
+.feature-hero-card h3 {
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-hero-card p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  max-width: 45ch;
+}
+
+/* --- Proof Section (trust-the-harbor) --- */
+.proof-section {
+  padding-block: var(--space-16);
+  background-color: var(--color-surface-alt);
+}
+
+.proof-section h2 {
+  margin-bottom: var(--space-12);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-6);
+}
+
+.proof-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.proof-card h3 {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.proof-card p {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  max-width: none;
+}
+
+.proof-specs-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.proof-specs-list li {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.proof-specs-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-secondary);
+  border-radius: 50%;
+}
+
+.proof-specs-list strong {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.proof-github {
+  text-align: center;
+}
+
+.proof-github .btn {
+  margin-top: var(--space-4);
+}
+
+.proof-quote blockquote {
+  border-left: 3px solid var(--color-secondary);
+  padding-left: var(--space-6);
+  margin: 0;
+}
+
+.proof-quote p {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.proof-quote footer {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-neutral);
+}
+
+/* --- CTA Ladder --- */
+.cta-ladder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+   7. 404 Error Page
+   ========================================================================== */
+.error-page {
+  min-height: calc(100vh - var(--nav-height) - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-16);
+  background: var(--gradient-ocean-to-sky);
+  position: relative;
+  overflow: hidden;
+}
+
+.error-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-lighthouse-sweep);
+  pointer-events: none;
+}
+
+.error-scene {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-inline: var(--space-6);
+}
+
+.error-mascot {
+  position: relative;
+  width: 200px;
+  height: 180px;
+  margin-bottom: var(--space-12);
+}
+
+.error-lighthouse {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 120px;
+}
+
+.error-beacon {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--color-warning);
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px rgba(221, 168, 74, 0.4);
+  animation: dim-beacon 3s ease-in-out infinite;
+}
+
+@keyframes dim-beacon {
+  0%,
+  100% {
+    opacity: 0.5;
+    box-shadow: 0 0 6px 1px rgba(221, 168, 74, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 12px 4px rgba(221, 168, 74, 0.5);
+  }
+}
+
+.error-body {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 52px;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-md) var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.error-eyes {
+  display: flex;
+  gap: 14px;
+}
+
+.error-eye {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+
+.error-mouth {
+  width: 14px;
+  height: 8px;
+  border: 2px solid var(--color-primary);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  transform: rotate(180deg);
+}
+
+.error-scarf {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 18px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.error-rowboat {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(15deg);
+}
+
+.rowboat-hull {
+  width: 60px;
+  height: 24px;
+  background: var(--color-neutral);
+  border-radius: 0 0 50% 50%;
+  border: 2px solid var(--color-border);
+}
+
+.rowboat-oar {
+  position: absolute;
+  width: 4px;
+  height: 36px;
+  background: var(--color-neutral);
+  border-radius: var(--radius-pill);
+  top: -18px;
+}
+
+.rowboat-oar-left {
+  left: 8px;
+  transform: rotate(-30deg);
+}
+
+.rowboat-oar-right {
+  right: 8px;
+  transform: rotate(30deg);
+}
+
+.error-chart {
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+  width: 50px;
+  height: 40px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transform: rotate(-8deg);
+  overflow: hidden;
+}
+
+.chart-tear {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    var(--color-error) 40%,
+    var(--color-error) 42%,
+    transparent 42%
+  );
+  opacity: 0.4;
+}
+
+.error-content {
+  max-width: 480px;
+}
+
+.error-content h1 {
+  color: #fff;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: var(--space-4);
+}
+
+.error-code {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 900;
+  color: rgba(245, 241, 232, 0.25);
+  line-height: 1;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+}
+
+.error-message {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: rgba(245, 241, 232, 0.85);
+  max-width: 40ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.error-recovery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.error-recovery .btn {
+  min-width: 140px;
+}
+
+.recovery-icon {
+  font-size: 1rem;
+  margin-right: var(--space-2);
+}
+
+/* ==========================================================================
+   8. Download Page Extras
+   ========================================================================== */
+.install-note {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  margin-top: calc(var(--space-4) * -1);
+  margin-bottom: var(--space-6);
+  max-width: none;
+}
+
+.install-alternative {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  max-width: none;
+}
+
+.install-alternative code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  background: rgba(27, 58, 92, 0.08);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  word-break: break-all;
+  display: block;
+  margin-top: var(--space-2);
+}
+
+/* @copyright 2026 Joe Huss <detain@interserver.net> */

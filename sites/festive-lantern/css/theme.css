@@ -1,6 +1,7 @@
 /* ==========================================================================
-   theme.css — Festive Lantern Typography + Layout
-   Kit: festive-lantern | Layout archetype: immersive (lantern-festival glow)
+   THEME.CSS — Festive Lantern Typography + Layout
+   Kit: festive-lantern | Layout archetype: narrative-scroll
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ─── Font imports (self-hosted WOFF2 via Google Fonts download) ─────────── */
@@ -75,6 +76,38 @@ main {
   padding-inline: var(--space-6);
 }
 
+/* ─── Screen-reader only ─────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Seasonal banner ─────────────────────────────────────────────────────── */
+.seasonal-banner {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-primary);
+  padding: var(--space-2) 0;
+}
+.seasonal-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+}
+.seasonal-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
 /* ─── Hero section ────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
@@ -87,38 +120,88 @@ main {
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
+.hero-decor {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse 3px 6px at 20% 30%, rgb(212, 160, 23, 0.4) 0%, transparent 100%),
-    radial-gradient(ellipse 4px 8px at 35% 15%, rgb(212, 160, 23, 0.3) 0%, transparent 100%),
-    radial-gradient(ellipse 3px 7px at 50% 20%, rgb(212, 160, 23, 0.35) 0%, transparent 100%),
-    radial-gradient(ellipse 4px 6px at 65% 25%, rgb(212, 160, 23, 0.3) 0%, transparent 100%),
-    radial-gradient(ellipse 3px 8px at 80% 35%, rgb(212, 160, 23, 0.4) 0%, transparent 100%),
-    radial-gradient(ellipse 2px 5px at 25% 45%, rgb(192, 57, 43, 0.35) 0%, transparent 100%),
-    radial-gradient(ellipse 3px 6px at 45% 40%, rgb(212, 160, 23, 0.25) 0%, transparent 100%),
-    radial-gradient(ellipse 2px 5px at 75% 50%, rgb(192, 57, 43, 0.3) 0%, transparent 100%);
-  animation: lanternRise 8s ease-out infinite;
   pointer-events: none;
+  overflow: hidden;
 }
 
-@keyframes lanternRise {
+.lantern-dot {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: var(--color-secondary);
+  box-shadow:
+    0 0 8px rgb(212, 160, 23, 0.5),
+    0 0 20px rgb(212, 160, 23, 0.2);
+  animation: lanternFloat var(--duration, 6s) ease-in-out var(--delay, 0s) infinite;
+  opacity: 0;
+}
+
+.lantern-dot--1 {
+  left: 12%;
+  top: 70%;
+  --duration: 7s;
+  --delay: 0s;
+}
+.lantern-dot--2 {
+  left: 28%;
+  top: 80%;
+  --duration: 9s;
+  --delay: 1.2s;
+}
+.lantern-dot--3 {
+  left: 50%;
+  top: 75%;
+  --duration: 8s;
+  --delay: 0.5s;
+}
+.lantern-dot--4 {
+  left: 72%;
+  top: 85%;
+  --duration: 10s;
+  --delay: 2s;
+}
+.lantern-dot--5 {
+  left: 88%;
+  top: 72%;
+  --duration: 7.5s;
+  --delay: 1.8s;
+}
+
+@keyframes lanternFloat {
   0% {
-    transform: translateY(20px);
+    transform: translateY(0) rotate(0deg);
     opacity: 0;
   }
-  20% {
-    opacity: 1;
+  10% {
+    opacity: 0.7;
   }
-  80% {
-    opacity: 1;
+  50% {
+    opacity: 0.5;
   }
   100% {
-    transform: translateY(-30px);
+    transform: translateY(-80vh) rotate(15deg);
     opacity: 0;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lantern-dot {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-16);
+  text-align: center;
+  max-width: 800px;
+  margin-inline: auto;
 }
 
 .hero-inner {
@@ -558,7 +641,7 @@ main {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-primary);
+  border-left: 3px solid var(--color-secondary);
   transition: border-color 200ms ease-out;
 }
 
@@ -598,20 +681,555 @@ main {
   opacity: 0.9;
 }
 
+/* ─── Section eyebrow / intro ─────────────────────────────────────────────── */
+.section-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.section-intro {
+  font-size: 1.0625rem;
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  opacity: 0.8;
+  max-width: 52ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+/* ─── Attraction stage (hero features) ────────────────────────────────────── */
+.content-section {
+  padding-block: var(--space-16);
+  background: var(--color-bg);
+}
+
+.content-section-inner {
+  padding-block: var(--space-8);
+}
+
+.content-section h2 {
+  text-align: center;
+  margin-bottom: var(--space-4);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.hero-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+
+.hero-feature {
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.hero-feature:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-lantern-glow);
+}
+
+.hero-feature-icon {
+  width: 72px;
+  height: 72px;
+  margin-inline: auto;
+  margin-bottom: var(--space-4);
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-feature h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.hero-feature p {
+  font-size: 0.9375rem;
+  line-height: var(--lh-body);
+  opacity: 0.8;
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+/* ─── Gathering warmth ─────────────────────────────────────────────────────── */
+.gathering-warmth {
+  padding-block: var(--space-16);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.gathering-warmth-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-12);
+  align-items: center;
+  padding-block: var(--space-8);
+}
+
+.gathering-warmth h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin-bottom: var(--space-6);
+  color: var(--color-secondary);
+}
+
+.gathering-warmth p {
+  font-size: 1.0625rem;
+  line-height: var(--lh-body);
+  opacity: 0.85;
+  max-width: 54ch;
+  margin-bottom: var(--space-4);
+}
+
+.gathering-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gathering-lantern {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lantern-body {
+  width: 60px;
+  height: 80px;
+  background: var(--color-primary);
+  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+  position: relative;
+  box-shadow:
+    var(--shadow-lantern-glow),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.lantern-glow {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(245, 239, 224, 0.6) 0%, transparent 70%);
+}
+
+.lantern-tassel {
+  width: 4px;
+  height: 32px;
+  background: var(--color-secondary);
+  border-radius: 2px;
+  margin-top: -2px;
+  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.4);
+}
+
+/* ─── Proof section ───────────────────────────────────────────────────────── */
+.proof-section {
+  padding-block: var(--space-16);
+  background: var(--color-bg);
+}
+
+.proof-section-inner {
+  padding-block: var(--space-8);
+  text-align: center;
+}
+
+.proof-section .pitch-bullets {
+  max-width: 680px;
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+  counter-reset: pitch;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.proof-section .pitch-bullets li {
+  position: relative;
+  padding-left: var(--space-8);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  opacity: 0.9;
+  text-align: left;
+}
+
+.proof-section .pitch-bullets li::before {
+  counter-increment: pitch;
+  content: counter(pitch);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.proof-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+}
+
+.proof-stat {
+  text-align: center;
+}
+
+.proof-number {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-secondary);
+  line-height: 1;
+  text-shadow: var(--shadow-gold-glow);
+}
+
+.proof-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  opacity: 0.6;
+  margin-top: var(--space-2);
+}
+
+.proof-link a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms ease-out;
+}
+.proof-link a:hover {
+  border-color: var(--color-secondary);
+}
+
+/* ─── Install blocks (download page) ─────────────────────────────────────── */
+.install-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-gold-glow);
+}
+
+.install-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.install-block .install-command {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  overflow-x: auto;
+}
+
+.install-block .install-command code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+
+.install-alt {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.install-alt h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.install-alt .install-command {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  overflow-x: auto;
+}
+
+.install-alt .install-command code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  white-space: pre;
+}
+
+.install-note {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  opacity: 0.6;
+  max-width: 70ch;
+}
+
+.install-note code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: var(--color-surface-alt);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+.not-a-tag {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-warning);
+  opacity: 0.8;
+}
+
+.install-requirements {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.install-requirements h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-3);
+}
+
+.install-requirements p {
+  font-size: 0.9375rem;
+  opacity: 0.8;
+}
+
+/* ─── Ecosystem list ──────────────────────────────────────────────────────── */
+.ecosystem-list {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.ecosystem-item {
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  border-left: 3px solid var(--color-secondary);
+}
+
+.ecosystem-item strong a {
+  color: var(--color-secondary);
+}
+
+/* ─── CTA section (conversion funnel) ────────────────────────────────────── */
+.cta-section {
+  padding-block: var(--space-16);
+  background:
+    var(--gradient-lantern-sky),
+    radial-gradient(ellipse at 50% 100%, rgba(192, 57, 43, 0.25) 0%, transparent 60%),
+    var(--color-bg);
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.cta-section-inner {
+  position: relative;
+  padding-block: var(--space-8);
+}
+
+.cta-lantern-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cta-lantern {
+  position: absolute;
+  bottom: -20px;
+  width: 24px;
+  height: 36px;
+  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+  opacity: 0.3;
+  animation: ctaLanternRise 4s ease-in-out infinite;
+}
+
+.cta-lantern--1 {
+  left: 15%;
+  background: var(--color-primary);
+  animation-delay: 0s;
+}
+.cta-lantern--2 {
+  left: 50%;
+  background: var(--color-secondary);
+  animation-delay: 0.8s;
+}
+.cta-lantern--3 {
+  left: 80%;
+  background: var(--color-primary);
+  animation-delay: 1.6s;
+}
+
+@keyframes ctaLanternRise {
+  0% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+}
+
+.cta-section h2 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+}
+
+.cta-sub {
+  position: relative;
+  z-index: 1;
+  font-size: 1.0625rem;
+  color: var(--color-text);
+  opacity: 0.8;
+  margin-bottom: var(--space-8);
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+.install-command {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-8);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.install-command code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-secondary);
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+}
+
+.install-copy {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  opacity: 0.5;
+  padding: var(--space-1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: opacity 150ms ease-out;
+}
+.install-copy:hover {
+  opacity: 1;
+  color: var(--color-secondary);
+}
+
+.cta-ladder {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (width <= 768px) {
   .container,
   .hero-inner,
-  .pitch-inner,
-  .features-overview-inner,
-  .page-header-inner,
   .content-section-inner,
-  .cta-banner-inner {
+  .proof-section-inner,
+  .cta-section-inner,
+  .page-header-inner {
     padding-inline: var(--space-4);
   }
 
   .hero {
     min-height: 80vh;
+  }
+
+  .gathering-warmth-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .gathering-figure {
+    display: none;
+  }
+
+  .proof-stats {
+    gap: var(--space-8);
+  }
+
+  .hero-cta,
+  .cta-ladder {
+    flex-direction: column;
+    align-items: center;
   }
 
   .feature-detail {
@@ -623,29 +1241,105 @@ main {
     align-items: flex-start;
     gap: var(--space-2);
   }
-
-  .hero-cta {
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 @media (width <= 480px) {
-  .feature-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .download-cards {
+  .hero-features {
     grid-template-columns: 1fr;
   }
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* ─── Error page ─────────────────────────────────────────────────────────── */
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    var(--gradient-lantern-sky),
+    radial-gradient(ellipse at 50% 80%, rgba(192, 57, 43, 0.15) 0%, transparent 60%),
+    var(--color-bg);
+  text-align: center;
+}
+
+.error-inner {
+  padding-block: var(--space-16);
+}
+
+.error-lantern {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.error-lantern-body {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 64px;
+  background: var(--color-primary);
+  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+  opacity: 0.5;
+  box-shadow: 0 0 24px rgba(192, 57, 43, 0.3);
+}
+
+.error-lantern-glow {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(245, 239, 224, 0.4) 0%, transparent 70%);
+  z-index: -1;
+}
+
+.error-lantern-tassel {
+  width: 3px;
+  height: 24px;
+  background: var(--color-secondary);
+  border-radius: 2px;
+  opacity: 0.4;
+  margin-top: -2px;
+}
+
+.error-code {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+  text-shadow: var(--shadow-lantern-glow);
+  opacity: 0.3;
+  margin-bottom: var(--space-4);
+}
+
+.error-message {
+  font-size: 1.125rem;
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  opacity: 0.75;
+  max-width: 48ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.error-recovery {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
 /* ─── Reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .hero::before {
     animation: none;
+  }
+  .lantern-dot {
+    animation: none;
+    opacity: 0.3;
+  }
+  .cta-lantern {
+    animation: none;
+    opacity: 0.2;
   }
 }

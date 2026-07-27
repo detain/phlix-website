@@ -6,7 +6,7 @@
     <title>Phlix — Your Library, Elevated.</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted media server built with the precision of a grand hotel concierge. Arrange your collection once, stream to every room, every device."
     />
     <meta
       name="keywords"
@@ -27,7 +27,7 @@
     <meta property="og:title" content="Phlix — Your Library, Elevated." />
     <meta
       property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted media server built with the precision of a grand hotel concierge."
     />
     <meta
       property="og:image"
@@ -39,7 +39,7 @@
     <meta name="twitter:title" content="Phlix — Your Library, Elevated." />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows &amp; mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="A self-hosted media server built with the precision of a grand hotel concierge."
     />
     <meta
       name="twitter:image"
@@ -72,6 +72,44 @@
     <link rel="stylesheet" href="css/components.css" />
   </head>
   <body>
+    <!-- Seasonal Banner — seasonal_activation (kit §20a)
+         Visible only during: Winter Gala (Dec), Spring Bloom (Mar 20–May 31), Midsummer Terrace (Jun 21–Sep 21)
+         Motif SVG assets are img/seasonal/ references; they may not yet exist at build time. -->
+    <div
+      class="seasonal-banner"
+      id="seasonal-banner"
+      role="region"
+      aria-label="Seasonal announcement"
+      aria-live="polite"
+    >
+      <div class="seasonal-banner-inner">
+        <span class="seasonal-banner-motif" id="seasonal-banner-motif" aria-hidden="true"></span>
+        <span class="seasonal-banner-text" id="seasonal-banner-text"
+          >The atrium is dressed for the season — enjoy the transformation.</span
+        >
+        <button
+          class="seasonal-banner-dismiss"
+          id="seasonal-banner-dismiss"
+          aria-label="Dismiss seasonal announcement"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="14"
+            height="14"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header" role="banner">
@@ -101,107 +139,153 @@
             </svg>
           </button>
           <ul class="nav-menu" id="nav-menu" role="list">
-            <li><a href="./" aria-current="page">Home</a></li>
-            <li><a href="features.html">Features</a></li>
-            <li><a href="clients.html">Clients</a></li>
-            <li><a href="download.html">Download</a></li>
-            <li><a href="plugins.html">Plugins</a></li>
-            <li><a href="docs.html">Docs</a></li>
-            <li><a href="hub.html">Hub</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="./" aria-current="page" class="nav-link-default">The Atrium</a></li>
+            <li><a href="features.html" class="nav-link-primary">The Collection</a></li>
+            <li><a href="clients.html" class="nav-link-default">Every Screen</a></li>
+            <li><a href="download.html" class="nav-link-primary">Your Copy</a></li>
+            <li><a href="hub.html" class="nav-link-default">Everywhere</a></li>
+            <li><a href="about.html" class="nav-link-muted">Our Craft</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <!-- HERO — Glass-ceiling geometry, editorial headline, marble-vein reveal -->
-      <section class="hero">
+      <!-- ===================================================================
+           SECTION 1: entrance — copy_overlay.hero
+           Full-bleed marble-white atrium hero with glass-ceiling grid geometry
+           =================================================================== -->
+      <section class="hero" id="entrance" aria-labelledby="hero-headline">
         <div class="container">
           <div class="hero-inner">
-            <p class="hero-eyebrow">Self-hosted media server</p>
-            <h1 class="hero-headline reveal-vein">Your Library, Elevated.</h1>
+            <p class="hero-eyebrow">Five-star media curation</p>
+            <h1 class="hero-headline" id="hero-headline">Your Library, Elevated.</h1>
             <p class="hero-subheadline">
-              An open-source PHP media server that streams to your Roku, Samsung TV, Windows
-              desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub
-              that follows you anywhere.
+              A self-hosted media server built with the precision of a grand hotel concierge.
+              Arrange your collection once, stream to every room, every device. Pure luxury, pure
+              control.
             </p>
             <div class="hero-cta">
-              <a href="download.html" class="btn btn-primary">Get Phlix</a>
-              <a
-                href="https://detain.github.io/phlix-docs"
-                class="btn btn-secondary"
-                rel="noopener noreferrer"
-                >Read the docs</a
-              >
+              <a href="download.html" class="btn btn-primary">Arrange Your Library</a>
+              <a href="features.html" class="btn btn-secondary">Tour the Atrium</a>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- PITCH — Why Phlix? -->
-      <section class="pitch" aria-labelledby="pitch-heading">
+      <!-- ===================================================================
+           VISITOR PATHS — self-select fork
+           =================================================================== -->
+      <section class="visitor-paths" aria-labelledby="paths-heading">
         <div class="container">
-          <h2 id="pitch-heading" class="section-title">Why Phlix?</h2>
-          <ul class="pitch-list">
-            <li>100% self-hostable — your library never leaves your hardware unless you say so</li>
-            <li>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</li>
-            <li>
-              Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync
-            </li>
-            <li>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</li>
-            <li>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</li>
-            <li>Live TV with DVR + EPG guide integration</li>
-            <li>Plugin system with a versioned manifest contract</li>
-          </ul>
+          <h2 class="visitor-paths-heading" id="paths-heading">
+            What draws you to your own library?
+          </h2>
+          <div class="visitor-paths-options">
+            <a href="features.html#library" class="path-card">
+              <span class="path-label">I have a collection I've spent years arranging</span>
+              <span class="path-arrow">→</span>
+            </a>
+            <a href="features.html#syncplay" class="path-card">
+              <span class="path-label">We watch together — across rooms and houses</span>
+              <span class="path-arrow">→</span>
+            </a>
+            <a href="clients.html" class="path-card">
+              <span class="path-label">I want my media on every device I own</span>
+              <span class="path-arrow">→</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      <!-- FEATURES OVERVIEW -->
-      <section class="features-overview" aria-labelledby="features-overview-heading">
+      <!-- ===================================================================
+           SECTION 2: why-curate — story
+           The Marble Atrium story: concierge elegance meets personal curation
+           =================================================================== -->
+      <section class="why-curate" id="why-curate" aria-labelledby="why-curate-heading">
         <div class="container">
-          <h2 id="features-overview-heading" class="section-title">Everything in its place</h2>
+          <div class="why-curate-inner">
+            <h2 id="why-curate-heading" class="section-title">Why does your media deserve this?</h2>
+            <p class="why-curate-body">
+              There is a moment every guest remembers: stepping through the revolving doors of a
+              great hotel and feeling the cool hush of the atrium close around you. The scale is
+              immense — marble floors stretching to infinity, a glass ceiling flooding the space
+              with diffused light — yet somehow everything feels intimate, attended to, perfectly
+              considered.
+            </p>
+            <p class="why-curate-body">
+              Your media library deserves the same treatment: every title curated, every detail
+              legible at a glance, every interaction smooth and unhurried. No clutter, no noise —
+              only the quiet confidence of impeccable service.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 3: the-library — feature_casting hero
+           Two hero features: Library + SyncPlay as polished marble panels
+           =================================================================== -->
+      <section class="the-library" id="the-library" aria-labelledby="the-library-heading">
+        <div class="container">
+          <h2 id="the-library-heading" class="sr-only">The Collection</h2>
+          <div class="library-panels">
+            <article class="library-panel fade-in">
+              <div class="library-panel-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+              </div>
+              <h3 class="library-panel-title">Every title arranged</h3>
+              <p class="library-panel-body">
+                Your collection, perfectly curated and instantly discoverable. Folder-watcher hashes
+                mtimes, scanner parses S01E02 / (2020) titles, metadata from TMDB, TVDB, Fanart.tv,
+                and local NFO — add a file, see it appear.
+              </p>
+            </article>
+            <article class="library-panel fade-in">
+              <div class="library-panel-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polygon points="10 8 16 12 10 16 10 8" />
+                </svg>
+              </div>
+              <h3 class="library-panel-title">Stay in sync across the house</h3>
+              <p class="library-panel-body">
+                One play button, every screen, the same frame. Weighted-mean NTP offset over 5
+                samples keeps every device locked to the same frame — play, pause, seek, everyone
+                moves together.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 4: more-features — support features
+           Supporting features arranged in a tidy editorial grid on Carrara Surface
+           =================================================================== -->
+      <section class="more-features" id="more-features" aria-labelledby="more-features-heading">
+        <div class="container">
+          <h2 id="more-features-heading" class="section-title">The Refined Collection</h2>
           <div class="features-grid">
-            <article class="feature-card fade-in">
-              <svg
-                class="feature-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-              </svg>
-              <h3>Library that organizes itself</h3>
-              <p>
-                Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
-                hydrates metadata_json. Add a file, see it appear.
-              </p>
-            </article>
-            <article class="feature-card fade-in">
-              <svg
-                class="feature-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polygon points="10 8 16 12 10 16 10 8" />
-              </svg>
-              <h3>SyncPlay across the room or across the country</h3>
-              <p>
-                Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
-                Play, pause, seek — everyone moves together.
-              </p>
-            </article>
             <article class="feature-card fade-in">
               <svg
                 class="feature-icon"
@@ -239,6 +323,28 @@
               <p>
                 JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user,
                 4- or 6-digit PINs, rating filter from G to NC-17.
+              </p>
+            </article>
+            <article class="feature-card fade-in">
+              <svg
+                class="feature-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"
+                />
+              </svg>
+              <h3>Phlix Hub — reach any server from anywhere</h3>
+              <p>
+                Sign in once. Reverse-tunnel relay handles NAT traversal. Self-hostable, or use the
+                public hub — your library, available everywhere.
               </p>
             </article>
             <article class="feature-card fade-in">
@@ -301,63 +407,107 @@
               <h3>Plugin system with a real contract</h3>
               <p>
                 LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
-                phlix-plugin-example.
-              </p>
-            </article>
-            <article class="feature-card fade-in">
-              <svg
-                class="feature-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="12" r="3" />
-                <path
-                  d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"
-                />
-              </svg>
-              <h3>Phlix Hub — reach any of your servers from anywhere</h3>
-              <p>
-                Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
-                hub.
+                phlix-plugin-example for the smallest working starter.
               </p>
             </article>
           </div>
-          <a href="features.html" class="btn btn-link">See all features →</a>
+          <a href="features.html" class="btn btn-link">See the full Collection →</a>
         </div>
       </section>
 
-      <!-- CTA BANNER -->
-      <section class="cta-banner" aria-label="Download Phlix">
+      <!-- ===================================================================
+           SECTION 5: the-case — proof_strategy
+           Trust signals: spec placard, GitHub link, verbatim pitch_bullet quote
+           =================================================================== -->
+      <section class="the-case" id="the-case" aria-labelledby="the-case-heading">
         <div class="container">
-          <h2>The finest details, always in place.</h2>
-          <p
-            class="text-muted"
-            style="margin-bottom: var(--space-8); max-width: 520px; margin-inline: auto"
-          >
-            Curated. Considered. Yours. — Every frame, every file, every device, handled with the
-            quiet confidence of a five-star concierge.
-          </p>
-          <a href="download.html" class="btn btn-primary">Get Phlix</a>
+          <h2 id="the-case-heading" class="sr-only">Why trust Phlix</h2>
+          <div class="proof-placard fade-in">
+            <div class="proof-specs">
+              <span class="proof-spec">5 native clients</span>
+              <span class="proof-divider" aria-hidden="true"></span>
+              <span class="proof-spec">SyncPlay time-sync</span>
+              <span class="proof-divider" aria-hidden="true"></span>
+              <span class="proof-spec">HLS + FFmpeg</span>
+              <span class="proof-divider" aria-hidden="true"></span>
+              <span class="proof-spec">Multi-profile auth</span>
+              <span class="proof-divider" aria-hidden="true"></span>
+              <span class="proof-spec">LiveTV + DVR</span>
+            </div>
+          </div>
+          <div class="proof-github fade-in">
+            <a
+              href="https://github.com/detain/phlix-server"
+              class="github-link"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              <span>phlix-server on GitHub</span>
+            </a>
+          </div>
+          <blockquote class="proof-quote fade-in">
+            <p>"100% self-hostable — your library never leaves your hardware unless you say so."</p>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SECTION 6: your-library — conversion_funnel closing CTA
+           Closing band: "Your Library, Elevated" with single gold download CTA
+           =================================================================== -->
+      <section class="cta-banner your-library" id="your-library" aria-labelledby="cta-heading">
+        <div class="container">
+          <h2 id="cta-heading">Your Library, Elevated — One Step Away.</h2>
+          <p class="cta-sub">Arrange Your Library → Pick Your Viewing Room → Elevate Your Setup</p>
+          <a href="download.html" class="btn btn-primary">Arrange Your Library</a>
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="container">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <!-- Intensity toggle — "Dim the lights" -->
+        <div class="footer-utility">
+          <button class="intensity-toggle" id="intensity-toggle" aria-pressed="false">
+            <svg
+              class="intensity-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <span class="intensity-label">Dim the lights</span>
+          </button>
+        </div>
+
+        <p class="footer-tagline">Curated. Considered. Yours.</p>
+
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
             <h4>Product</h4>
             <ul>
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
+              <li><a href="features.html">The Collection</a></li>
+              <li><a href="clients.html">Every Screen</a></li>
+              <li><a href="download.html">Your Copy</a></li>
+              <li><a href="plugins.html">Extensions</a></li>
             </ul>
           </div>
           <div class="footer-col">
@@ -389,6 +539,23 @@
         </p>
       </div>
     </footer>
+
+    <!-- Toast container for easter egg -->
+    <div class="toast" id="concierge-toast" role="status" aria-live="polite">
+      <svg
+        class="toast-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      <span class="toast-message">Well noticed — welcome to the inner lobby.</span>
+    </div>
 
     <script src="js/main.js" defer></script>
   </body>

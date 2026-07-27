@@ -96,6 +96,7 @@ Every token from `design_tokens` block (§17) is mapped to a CSS custom property
 - [ ] Self-host WOFF2 fonts: Cormorant Garamond, Cormorant, Jost, DM Mono — currently using system serif/sans fallbacks (acceptable per kit spec fallbacks; WOFF2 subset + @font-face to be added at deploy time)
 - [ ] Rasterize `img/og.svg` → `img/og.png` (1200×630): SVG is canonical source; PNG required for social sharing. Generate with: `rsvg-convert -w 1200 -h 630 img/og.svg > img/og.png` or via browser screenshot at 1200×630
 - [ ] Logo SVG uses Georgia serif fallback (acceptable per kit fallbacks); true brand font requires path-converted text or embedded font
+- [ ] Seasonal motif SVG assets (img/seasonal/atrium-winter-garland.svg, img/seasonal/marble-vein-spring.svg, img/seasonal/terrace-shade-summer.svg) are referenced in seasonal_activation JS but do not yet exist; banner shows text-only until assets are generated
 
 ---
 

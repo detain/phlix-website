@@ -1,71 +1,66 @@
-# SITE.md — Midnight Jazz for Phlix
+# Midnight Jazz — Site Design Rationale
 
 ## Concept & Vision
 
-Midnight Jazz is a late-night jazz club translated into a media interface. It is dark, warm in the right places, and never loud — deep navy and charcoal hold the stage, amber spotlights illuminate what matters, cool blue-gray recedes into shadow. Every session is a private late-night set; every title card is a record sleeve; every play is the needle finding its groove.
+Midnight Jazz is a late-night jazz club for your media library. The experience is dark, warm where it counts, and never loud — like a basement club where the real music starts after last call. Every design decision echoes a Blue Note Records album cover: deep navy backgrounds, amber spotlights cutting through shadow, bold condensed type, and fine film grain.
 
 ## Aesthetic Direction
 
-The visual identity draws from 1950s–60s Blue Note Records album covers — stark geometric compositions on near-black backgrounds, a single amber or warm-gold spotlight illuminating a subject, cool blue-gray shadows filling the void. Typography is large, condensed, and authoritative like club marquee lettering. Grain is always present — fine and filmic. The mood is soulful, sophisticated, intimate, and timeless.
+Art direction references:
+- 1950s and 60s Blue Note Records album covers (Reid Miles graphic design)
+- Harlem jazz clubs of the bebop era
+- Film noir cinematography — chiaroscuro, smoke, wet streets
+- Miles Davis "Kind of Blue" liner notes
+- West Village basement clubs — low ceilings, candlelit tables
 
-## Color Palette
+Key visual motifs: amber spotlight cones cutting through dark backgrounds, upright bass and trumpet silhouettes, brushed-metal textures in UI surfaces, bold condensed lettering like a club marquee, worn piano key dividers, vinyl record label shapes as avatar frames, and fine horizontal score-line rules between sections.
+
+## Color Table
 
 | Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| `--color-primary` | Amber Spotlight | `#E8961F` | CTAs, focal points, active states |
-| `--color-secondary` | Cool Slate | `#7A9BB5` | Secondary actions, links, hover states |
-| `--color-tertiary` | Muted Brass | `#C4A45A` | Badges, decorative accents |
-| `--color-neutral` | Blue-Gray Smoke | `#4A5A6B` | Muted UI chrome, dividers |
-| `--color-bg` | Midnight Navy | `#0D1117` | Page backgrounds |
-| `--color-surface` | Stage Charcoal | `#1A2230` | Cards, panels |
-| `--color-surface-alt` | Deep Indigo | `#222E42` | Hover rows, nested panels |
-| `--color-text` | Linen White | `#EDE8DF` | Primary text |
-| `--color-border` | Slate Hairline | `#2E3D52` | Borders, dividers |
-| `--color-success` | Verdant Green | `#4CAF82` | Success states |
-| `--color-warning` | Burnt Ochre | `#D4832A` | Warnings |
-| `--color-error` | Crimson Mute | `#B03A3A` | Errors |
-| `--color-focus` | Amber Focus Ring | `#E8961F` | Focus indicators |
-| Gradient | Spotlight Fall-Off | radial | Hero backgrounds |
-| Gradient | Stage Curtain Fade | linear | Card-to-background fade |
+| Primary | Amber Spotlight | #E8961F | Primary CTAs, active states, the single focal spotlight |
+| Secondary | Cool Slate | #7A9BB5 | Links, hover states, secondary text, icons |
+| Tertiary | Muted Brass | #C4A45A | Decorative accents only, badges |
+| Background | Midnight Navy | #0D1117 | Page background — the dark stage |
+| Surface | Stage Charcoal | #1A2230 | Card and panel surfaces |
+| Surface Alt | Deep Indigo | #222E42 | Hover rows, nested panels |
+| Text | Linen White | #EDE8DF | All body and headline text |
+| Border | Slate Hairline | #2E3D52 | Card borders, dividers |
+| Success | Verdant Green | #4CAF82 | Confirmations |
+| Warning | Burnt Ochre | #D4832A | Warnings (seasonal override Dec-Jan) |
+| Error | Crimson Mute | #B03A3A | Errors |
 
 ## Typography
 
-| Role | Family | Weights | Usage |
-|------|--------|---------|-------|
-| `--font-headline` | Barlow Condensed | 700, 800 | Headlines, marquee display |
-| `--font-display` | Playfair Display | 700, 900 | Editorial pull-quotes |
-| `--font-body` | Inter | 400, 500 | Paragraphs, long-form |
-| `--font-ui` | Barlow | 400, 500, 600 | Buttons, labels, nav |
-| `--font-mono` | JetBrains Mono | 400, 600 | Code, technical metadata |
-| `--font-number` | Barlow Condensed | 700 | Stats, counters |
+| Role | Family | Weight | Notes |
+|------|--------|--------|-------|
+| Headline | Barlow Condensed | 700 | Page and section headlines, marquee text |
+| Display | Playfair Display | 700, 900 italic | Editorial pull-quotes, liner-note moments |
+| Body | Inter | 400, 500 | Prose, descriptions, metadata |
+| UI | Barlow | 400, 500, 600 | Buttons, labels, navigation, chips |
+| Mono | JetBrains Mono | 400, 600 | Code blocks, timestamps |
+| Number | Barlow Condensed | 700 | Stats, counters |
 
-Key rules: Headlines always Barlow Condensed. Playfair Display italic is editorial only. Never use pure `#FFFFFF` text — always Linen White. Body line-height ≥ 1.6 on dark backgrounds.
+**Strong emphasis:** Uses `<strong>` at Inter 500 weight + Cool Slate color (#7A9BB5) — a second channel since 500 is only 100 units heavier than body 400.
 
 ## Spatial System
 
-Spacing scale: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96` px only.
-
-Max content width: `1400px`. Card padding: `24px`. Border radius scale: `3 / 6 / 12 / 20 / 999` px.
+- Spacing scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96px
+- Corner radius: 3 (sm), 6 (md), 12 (lg), 20 (xl), 999 (pill)
+- Max content width: 1400px
+- Shadows are cool indigo-black (#080D14), never warm
 
 ## Motion Philosophy
 
-Slow, deliberate, cinematic. Transitions are 300–500ms cross-dissolves and fade-to-dark. The spotlight is the only warm motion — it pulses slowly (4–6s) to suggest a stage light warming up. All animation respects `prefers-reduced-motion`. No bouncy springs, no jitter, no strobes.
+Slow, deliberate transitions (300–500ms). Cross-dissolves and fade-to-dark between states. Page content reveals with subtle scroll-driven fade-ins. Marquee warmup: amber border pulses on hero entry. No bounce, no spring, no aggressive translate. Reduced motion: instant cuts only, no animation.
 
-Hero motif: slow-drift smoke particle animation rising through an amber spotlight (disabled for reduced-motion users).
-
-Micro-interactions: cards lift 1px with indigo shadow + faint amber border glow on hover; buttons press to 0.98 scale; focus ring fades in over 200ms.
+The `intensity_toggle` ("House lights up") switches off all decorative animation via a body class and localStorage persistence.
 
 ## Visual Assets
 
-- **Logo**: "PHLIX" wordmark (Barlow Condensed 800 all-caps) in Linen White, with an amber spotlight vinyl-circle glyph to the left and an amber underline rule. No box.
-- **Favicon**: Square mark — amber spotlight vinyl circle on Midnight Navy.
-- **OG card**: Midnight Navy bg, radial amber spotlight glow, large "PHLIX" wordmark + tagline.
-- **Icons**: 1.5px stroke outlined icons, Cool Slate default, Amber on active/selected.
-- **Mascot (Miles)**: Stylized art-deco trumpet character. Used for empty states and onboarding — not built yet.
-- **Signature elements**: Amber spotlight cones, vinyl record label circles, worn piano key dividers, score-line horizontal rules, upright bass/trumpet silhouettes.
-
-## Layout Archetype
-
-**Immersive** — the dark stage with spotlight focal points. Full-bleed hero with radial amber glow, generous negative space, score-line section dividers, sparse card grids. The darkness does the work; spotlight is precious and concentrated.
-
-Landing pattern: Full-bleed dark hero with spotlight illustration → alternating dark/surface feature rows → amber CTA at the base.
+- **Logo:** Wordmark "MIDNIGHT JAZZ" in Barlow Condensed 800 all-caps with amber underline
+- **Mascot:** Miles — stylized trumpet silhouette with long valves for legs, a bell that opens into a gentle smile
+- **Icons:** Outlined, 1.5px stroke, Cool Slate default / Amber Spotlight active
+- **Grain:** Fine film grain overlay on hero backgrounds
+- All assets in `img/` are existing and correct — not regenerated

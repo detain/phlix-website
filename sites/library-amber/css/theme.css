@@ -1,6 +1,7 @@
 /* ==========================================================================
    THEME.CSS — Library Amber Brand Kit
    Typography, layout containers, page structure, editorial layout archetype
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ==========================================================================
@@ -55,7 +56,7 @@
 }
 
 .font-number {
-  font-family: var(--font-display);
+  font-family: var(--font-number);
   font-weight: 600;
   font-variant-numeric: oldstyle-nums;
   letter-spacing: 0.04em;
@@ -69,7 +70,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--color-primary-safe);
 }
 
 /* Display numerals (stats, counters) */
@@ -94,17 +95,19 @@
   background: var(--color-mahogany-dark);
 }
 
+/* Inset ~14% to prevent rotating element from growing box by ~1.37x (trap 3, §19) */
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 14%;
   background: radial-gradient(
     ellipse at 40% 60%,
-    rgb(200, 134, 26, 0.22) 0%,
-    rgb(122, 78, 16, 0.12) 35%,
-    rgb(28, 15, 10, 0) 70%
+    rgba(200, 134, 26, 0.22) 0%,
+    rgba(122, 78, 16, 0.12) 35%,
+    rgba(28, 15, 10, 0) 70%
   );
   pointer-events: none;
+  border-radius: 50%;
 }
 
 .hero-pattern {
@@ -116,15 +119,15 @@
       45deg,
       transparent,
       transparent 20px,
-      rgb(200, 134, 26, 0.3) 20px,
-      rgb(200, 134, 26, 0.3) 21px
+      rgba(200, 134, 26, 0.3) 20px,
+      rgba(200, 134, 26, 0.3) 21px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent,
       transparent 20px,
-      rgb(200, 134, 26, 0.3) 20px,
-      rgb(200, 134, 26, 0.3) 21px
+      rgba(200, 134, 26, 0.3) 20px,
+      rgba(200, 134, 26, 0.3) 21px
     );
 }
 
@@ -146,13 +149,13 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--color-primary-safe);
 }
 
 .hero h1 {
   margin-bottom: var(--space-6);
   color: var(--color-surface);
-  text-shadow: 0 2px 20px rgb(28, 15, 10, 0.5);
+  text-shadow: 0 2px 20px rgba(28, 15, 10, 0.5);
 }
 
 .hero-sub {
@@ -160,7 +163,7 @@
   font-family: var(--font-body);
   font-size: 1.25rem;
   line-height: 1.65;
-  color: rgb(242, 232, 208, 0.82);
+  color: rgba(242, 232, 208, 0.82);
   max-width: 58ch;
 }
 
@@ -187,7 +190,8 @@
 }
 
 /* ==========================================================================
-   PAGE STRUCTURE — PITCH
+   PAGE STRUCTURE — PITCH (SPEC-ROWS treatment per copy_treatments)
+   Rendered as library catalog index entries
    ========================================================================== */
 .pitch {
   padding: var(--space-16) 0;
@@ -207,7 +211,8 @@
 
 .pitch-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Use minmax(0, 1fr) to prevent grid track from exceeding viewport (trap 2, §19.12) */
+  grid-template-columns: repeat(auto-fit, minmax(300px, minmax(0, 1fr)));
   gap: var(--space-6);
   list-style: none;
 }
@@ -239,7 +244,8 @@
 }
 
 /* ==========================================================================
-   PAGE STRUCTURE — FEATURES OVERVIEW
+   PAGE STRUCTURE — FEATURES OVERVIEW (home page)
+   Two hero features as illuminated book spines, then grid of all 8
    ========================================================================== */
 .features-overview {
   padding: var(--space-16) 0;
@@ -263,9 +269,68 @@
   margin-inline: auto;
 }
 
+/* Two hero features as illuminated book spines (two-paths section) */
+.two-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.path-card {
+  position: relative;
+  padding: var(--space-8);
+  background: var(--color-mahogany-dark);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200, 134, 26, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.path-card-icon {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  margin-bottom: var(--space-6);
+  color: var(--color-primary);
+}
+
+.path-card h3 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  color: var(--color-surface);
+  margin-bottom: var(--space-3);
+}
+
+.path-card p {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: rgba(242, 232, 208, 0.75);
+  line-height: 1.65;
+}
+
+@media (width <= 768px) {
+  .two-paths-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Feature card grid */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, minmax(0, 1fr)));
   gap: var(--space-6);
   margin-bottom: var(--space-12);
 }
@@ -328,6 +393,115 @@
 }
 
 /* ==========================================================================
+   WHY THIS LIBRARY — brand story section
+   ========================================================================== */
+.story-section {
+  padding: var(--space-16) 0;
+  background: var(--color-surface);
+}
+
+.story-content {
+  max-width: 65ch;
+  margin-inline: auto;
+}
+
+.story-content p {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  text-align: justify;
+  hyphens: auto;
+  margin-bottom: var(--space-6);
+}
+
+.story-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   PROOF / COLLECTORS-PROOF — Provenance & Trust band
+   ========================================================================== */
+.proof-section {
+  padding: var(--space-16) 0;
+  background: var(--color-bg);
+  border-top: 1.5px solid var(--color-border);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.proof-placard {
+  padding: var(--space-6) var(--space-8);
+  background: var(--color-surface-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.proof-placard p {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+.proof-quote {
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-8);
+}
+
+.proof-quote blockquote {
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+.proof-quote cite {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  font-style: normal;
+}
+
+.proof-github {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.proof-github-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+.proof-github-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-neutral);
+}
+
+.proof-github-text strong {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* ==========================================================================
    CTA BANNER
    ========================================================================== */
 .cta-banner {
@@ -342,7 +516,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgb(200, 134, 26, 0.18) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 100%, rgba(200, 134, 26, 0.18) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -359,10 +533,43 @@
 .cta-banner p {
   font-family: var(--font-body);
   font-size: 1.1875rem;
-  color: rgb(242, 232, 208, 0.78);
+  color: rgba(242, 232, 208, 0.78);
   max-width: 52ch;
   margin-inline: auto;
   margin-bottom: var(--space-8);
+}
+
+/* CTA ladder — guided steps */
+.cta-ladder {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+}
+
+.cta-ladder-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: rgba(242, 232, 208, 0.6);
+}
+
+.cta-ladder-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--color-tertiary);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -400,18 +607,30 @@
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, minmax(0, 1fr)));
   gap: var(--space-8);
 }
 
 /* ==========================================================================
-   FEATURE DETAIL (features.html)
+   FEATURE DETAIL (features.html) — gallery-plaques per page_blueprint
+   Brass-framed detail cards with engraved medal icon
    ========================================================================== */
 .feature-detail {
   padding: var(--space-8);
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.feature-detail::before {
+  content: '';
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--color-tertiary), transparent);
 }
 
 .feature-detail-icon {
@@ -435,11 +654,12 @@
 }
 
 /* ==========================================================================
-   CLIENT CARDS (clients.html)
+   CLIENT CARDS (clients.html) — family-of-devices per copy_treatments
+   Rendered as devices on a mahogany shelf
    ========================================================================== */
 .client-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, minmax(0, 1fr)));
   gap: var(--space-6);
   margin-bottom: var(--space-12);
 }
@@ -497,11 +717,52 @@
 }
 
 /* ==========================================================================
-   DOWNLOAD CARDS (download.html)
+   DOWNLOAD PAGE — reading-room-setup per page_blueprint
+   Step-by-step reading room setup guide
    ========================================================================== */
+.download-section {
+  padding: var(--space-16) 0;
+}
+
+.download-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-8);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.download-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.download-step-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.download-step h3 {
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  margin-bottom: var(--space-2);
+}
+
+.download-step p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-neutral);
+  max-width: 60ch;
+}
+
 .download-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, minmax(0, 1fr)));
   gap: var(--space-6);
   margin-bottom: var(--space-12);
 }
@@ -525,12 +786,8 @@
   margin-bottom: var(--space-6);
 }
 
-.download-card .code-block {
-  margin-top: var(--space-4);
-}
-
 /* ==========================================================================
-   CODE BLOCK
+   CODE BLOCK — mahogany ledger style
    ========================================================================== */
 .code-block {
   position: relative;
@@ -551,10 +808,10 @@
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--color-tertiary);
-  background: rgb(43, 22, 8, 0.8);
+  background: rgba(43, 22, 8, 0.8);
   padding: 2px 8px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgb(168, 121, 42, 0.3);
+  border: 1px solid rgba(168, 121, 42, 0.3);
 }
 
 .copy-btn {
@@ -583,11 +840,13 @@
 }
 
 /* ==========================================================================
-   ECOSYSTEM LIST (download.html / docs.html)
+   ECOSYSTEM LIST (download.html / docs.html) — bookshelf treatment
+   Repos as books on the shelf with spine labels
    ========================================================================== */
 .ecosystem-list {
   list-style: none;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, minmax(0, 1fr)));
   gap: var(--space-4);
   margin-bottom: var(--space-12);
 }
@@ -600,6 +859,7 @@
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
 }
 
 .ecosystem-list .eco-name {
@@ -608,6 +868,7 @@
   font-weight: 700;
   color: var(--color-primary);
   white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .ecosystem-list .eco-what {
@@ -617,7 +878,8 @@
 }
 
 /* ==========================================================================
-   FAQ LIST (about.html)
+   FAQ LIST (about.html) — letters-column treatment per copy_treatments
+   Letters to The Librarian from curious patrons
    ========================================================================== */
 .faq-list {
   list-style: none;
@@ -627,6 +889,11 @@
 
 .faq-list > li {
   display: grid;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
 }
 
 .faq-list button {
@@ -634,17 +901,15 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-text);
-  padding: var(--space-4) var(--space-6);
-  background: var(--color-surface-alt);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  border-bottom: none;
+  background: transparent;
+  border: none;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   text-align: left;
+  padding: 0;
 }
 
 .faq-list button::after {
@@ -653,6 +918,7 @@
   font-size: 1.5rem;
   color: var(--color-primary);
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .faq-list button[aria-expanded='true']::after {
@@ -664,12 +930,155 @@
   font-size: 1.0625rem;
   line-height: 1.7;
   color: var(--color-neutral);
-  padding: var(--space-6);
+  padding-top: var(--space-4);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ==========================================================================
+   ABOUT PAGE — chapter-scroll per page_blueprint
+   Three philosophical chapters + FAQ as docent Q&A
+   ========================================================================== */
+.chapter {
+  padding: var(--space-12) 0;
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.chapter:last-of-type {
+  border-bottom: none;
+}
+
+.chapter-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.chapter h2 {
+  margin-bottom: var(--space-4);
+}
+
+.chapter p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-neutral);
+  max-width: 65ch;
+}
+
+/* ==========================================================================
+   HUB PAGE — reverse-tunnel relay diagram
+   ========================================================================== */
+.hub-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
-  border-top: none;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  margin: 0;
+  border-radius: var(--radius-lg);
+  margin: var(--space-8) 0;
+}
+
+.hub-node {
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.hub-node-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--space-3);
+  color: var(--color-primary);
+}
+
+.hub-node h4 {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.hub-node p {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.hub-arrow {
+  color: var(--color-tertiary);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+@media (width <= 768px) {
+  .hub-diagram {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hub-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   PLUGINS PAGE — model diagram
+   ========================================================================== */
+.plugin-model {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin: var(--space-8) 0;
+}
+
+.plugin-step {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.plugin-step-num {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+}
+
+.plugin-step h4 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+
+.plugin-step p {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-neutral);
+  max-width: 100%;
+}
+
+@media (width <= 768px) {
+  .plugin-model {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==========================================================================
@@ -691,25 +1100,25 @@
 .badge-stable {
   color: var(--color-secondary);
   border-color: var(--color-secondary);
-  background: rgb(46, 93, 59, 0.08);
+  background: rgba(46, 93, 59, 0.08);
 }
 
 .badge-beta {
   color: var(--color-warning);
   border-color: var(--color-warning);
-  background: rgb(212, 133, 26, 0.08);
+  background: rgba(212, 133, 26, 0.08);
 }
 
 .badge-deprecated {
   color: var(--color-error);
   border-color: var(--color-error);
-  background: rgb(139, 35, 21, 0.08);
+  background: rgba(139, 35, 21, 0.08);
 }
 
 .badge-quality {
   color: var(--color-tertiary);
   border-color: var(--color-tertiary);
-  background: rgb(168, 121, 42, 0.08);
+  background: rgba(168, 121, 42, 0.08);
 }
 
 /* ==========================================================================
@@ -731,13 +1140,105 @@
 }
 
 /* ==========================================================================
-   RESPONSIVE
- * @copyright 2026 Joe Huss <detain@interserver.net>
+   VISITOR PATHS — self-select fork
+   ========================================================================== */
+.visitor-paths {
+  padding: var(--space-12) 0;
+  text-align: center;
+}
+
+.visitor-paths-prompt {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-6);
+}
+
+.path-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, minmax(0, 1fr)));
+  gap: var(--space-4);
+}
+
+.path-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.path-option:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.path-option-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-primary);
+}
+
+.path-option h4 {
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   AMBIENT LAMP GLOW ANIMATION
+   ========================================================================== */
+@keyframes lamp-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.lamp-glow {
+  animation: lamp-glow-pulse 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lamp-glow {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+.lamp-glow--hero {
+  position: absolute;
+  right: 8%;
+  top: 20%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 134, 26, 0.15) 0%, transparent 70%);
+}
+
+/* ==========================================================================
+   RESPONSIVE OVERRIDES
    ========================================================================== */
 @media (width <= 1024px) {
   .features-grid,
   .content-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

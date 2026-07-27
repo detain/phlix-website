@@ -6,7 +6,7 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Extend Phlix with a versioned plugin contract. LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up."
+      content="Phlix's plugin system has a real contract — LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up."
     />
     <link
       rel="canonical"
@@ -15,7 +15,7 @@
     <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="Extend Phlix with a versioned plugin contract. Drop a plugin in, the loader picks it up."
+      content="Phlix's plugin system has a real contract. Drop a plugin in, the loader picks it up."
     />
     <meta
       property="og:image"
@@ -31,13 +31,12 @@
     <meta name="twitter:title" content="Plugins — Phlix" />
     <meta
       name="twitter:description"
-      content="Extend Phlix with a versioned plugin contract. Drop a plugin in, the loader picks it up."
+      content="Phlix's plugin system has a real contract. Drop a plugin in, the loader picks it up."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/festive-lantern/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
     <meta name="theme-color" content="#C0392B" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
@@ -48,14 +47,14 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body data-page="plugins">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header" role="banner">
       <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home"
-          ><img src="img/logo.svg" alt="Phlix logo" width="140" height="40"
-        /></a>
+        <a class="nav-logo" href="./" aria-label="Phlix home">
+          <img src="img/logo.svg" alt="Phlix" width="140" height="40" />
+        </a>
         <button
           class="nav-toggle"
           aria-label="Toggle navigation"
@@ -80,68 +79,108 @@
           </svg>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./" class="nav-link nav-link--default">Gathering Square</a></li>
+          <li>
+            <a href="features.html" class="nav-link nav-link--primary">Festival Attractions</a>
+          </li>
+          <li><a href="clients.html" class="nav-link nav-link--default">Viewing Pavilions</a></li>
+          <li><a href="download.html" class="nav-link nav-link--primary">Light a Lantern</a></li>
+          <li>
+            <a href="gathering-guide.html" class="nav-link nav-link--default">Gathering Guide</a>
+          </li>
+          <li><a href="hub.html" class="nav-link nav-link--default">Distant Glow</a></li>
+          <li><a href="about.html" class="nav-link nav-link--muted">Festival Story</a></li>
         </ul>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
+      <section class="page-header">
         <div class="page-header-inner container">
-          <h1>Plugins</h1>
+          <p class="hero-eyebrow">Plugins</p>
+          <h1>A real contract, not a suggestion</h1>
           <p class="page-lead">
-            Extend Phlix with a versioned plugin contract. Every plugin ships a manifest and
-            implements LifecycleInterface.
+            Phlix's plugin system is built on LifecycleInterface + manifest schema. Drop a plugin
+            in, the loader picks it up. See phlix-plugin-example for the smallest working starter.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div class="content-section">
+      <section class="content-section" aria-labelledby="plugins-heading">
         <div class="content-section-inner container">
-          <h2>Plugin model</h2>
-          <p>
-            Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in
-            the <code>plugins/</code> directory and the loader picks it up automatically.
-          </p>
-          <div class="download-block">
-            <p>See the reference plugin:</p>
-            <pre
-              class="code-block"
-            ><code><a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">github.com/detain/phlix-plugin-example</a></code></pre>
+          <h2 id="plugins-heading">How plugins work</h2>
+          <div class="content-grid">
+            <div>
+              <h3>The contract</h3>
+              <p>
+                Every plugin implements LifecycleInterface and ships a manifest.json. The loader
+                reads the manifest, validates the contract, and registers the plugin's hooks.
+              </p>
+              <p>
+                Plugins live in the <code>plugins/</code> directory. Add one, restart the server —
+                it lights up like a lantern at a festival.
+              </p>
+            </div>
+            <div>
+              <h3>The manifest</h3>
+              <div class="code-block">
+                <code
+                  >{ "name": "my-metadata-provider", "version": "1.0.0", "lifecycle":
+                  "IMetadataProvider", "hooks": ["metadata.resolve"] }</code
+                >
+              </div>
+            </div>
           </div>
 
-          <h2>Write your own</h2>
+          <h3>Getting started</h3>
           <p>
-            Start from
+            See
             <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
               >phlix-plugin-example</a
             >
-            for the smallest working starter. The plugin contract makes it easy to add metadata
-            providers, transcode pipelines, or anything else you can imagine.
+            for the reference implementation — a minimal working metadata-provider plugin you can
+            fork and adapt.
           </p>
-          <p>
-            Phlix supports plugins for: metadata providers, transcode pipelines, authentication
-            backends, storage adapters, and more.
-          </p>
+          <div class="docs-links">
+            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+                />
+              </svg>
+              Plugin example on GitHub
+            </a>
+            <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              Full documentation
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
+      <section class="cta-banner" aria-labelledby="plugins-cta-heading">
         <div class="cta-banner-inner container">
-          <h2 id="cta-banner-heading">Build something great</h2>
-          <a
-            href="https://github.com/detain/phlix-plugin-example"
-            class="btn btn-primary btn-large"
-            rel="noopener noreferrer"
-            >Get the example plugin</a
-          >
+          <h2 id="plugins-cta-heading">Ready to light your lantern?</h2>
+          <a href="download.html" class="btn btn-primary btn-large">Light a Lantern</a>
         </div>
       </section>
     </main>
@@ -149,14 +188,25 @@
     <footer class="site-footer" role="contentinfo">
       <div class="footer-inner container">
         <p class="footer-tagline">Open-source media, on your terms.</p>
+        <nav class="footer-mirror-nav" aria-label="Site navigation">
+          <a href="./">Gathering Square</a>
+          <a href="features.html">Festival Attractions</a>
+          <a href="clients.html">Viewing Pavilions</a>
+          <a href="download.html">Light a Lantern</a>
+          <a href="gathering-guide.html">Gathering Guide</a>
+          <a href="hub.html">Distant Glow</a>
+          <a href="about.html">Festival Story</a>
+        </nav>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div class="footer-col">
             <h3>Product</h3>
             <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
+              <li><a href="features.html">Festival Attractions</a></li>
+              <li><a href="clients.html">Viewing Pavilions</a></li>
+              <li><a href="download.html">Light a Lantern</a></li>
+              <li><a href="gathering-guide.html">Gathering Guide</a></li>
               <li><a href="plugins.html">Plugins</a></li>
+              <li><a href="docs.html">Docs</a></li>
             </ul>
           </div>
           <div class="footer-col">

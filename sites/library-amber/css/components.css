@@ -1,18 +1,22 @@
 /* ==========================================================================
    COMPONENTS.CSS — Library Amber Brand Kit
-   Header/nav, footer, buttons, cards, forms, badges, plugin model
+   Header/nav, footer, buttons, cards, forms, badges, plugin model, mascot
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
 /* ==========================================================================
-   SITE HEADER
+   SITE HEADER — cream topbar + Playfair wordmark + brass rule
+   Three emphasis levels: default (cream text), primary (amber + bg), muted (40% opacity)
    ========================================================================== */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-mahogany-dark);
-  border-bottom: 1px solid rgb(168, 121, 42, 0.35);
-  box-shadow: 0 2px 12px rgb(28, 15, 10, 0.4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow:
+    0 1px 0 var(--color-border),
+    0 2px 12px rgba(28, 15, 10, 0.08);
 }
 
 .site-header .container {
@@ -36,15 +40,6 @@
   width: auto;
 }
 
-.nav-logo-text {
-  font-family: var(--font-headline);
-  font-size: 1.375rem;
-  font-weight: 900;
-  color: var(--color-primary);
-  letter-spacing: -0.01em;
-  text-decoration: none;
-}
-
 /* Primary nav */
 .nav-primary {
   display: flex;
@@ -63,35 +58,56 @@
 
 .nav-menu a {
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 400;
-  letter-spacing: 0.01em;
-  color: rgb(242, 232, 208, 0.78);
+  letter-spacing: 0.04em;
+  color: var(--color-text);
   text-decoration: none;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
+  border-bottom: 2px solid transparent;
   transition:
     color 0.2s ease,
+    border-color 0.2s ease,
     background 0.2s ease;
   position: relative;
 }
 
-.nav-menu a:hover,
-.nav-menu a[aria-current='page'] {
-  color: var(--color-primary);
-  background: rgb(200, 134, 26, 0.1);
+/* Nav emphasis: default — cream text on mahogany header */
+.site-header .nav-menu a {
+  color: var(--color-neutral);
 }
 
-.nav-menu a[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 2px;
-  background: var(--color-primary);
-  border-radius: var(--radius-pill);
+/* Nav emphasis: primary — amber gold with glow */
+.nav-menu a.nav-empha-primary {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.nav-menu a.nav-empha-primary:hover,
+.nav-menu a.nav-empha-primary[aria-current='page'] {
+  color: var(--color-primary);
+  background: rgba(200, 134, 26, 0.08);
+}
+
+/* Nav emphasis: muted — low opacity */
+.nav-menu a.nav-empha-muted {
+  color: rgba(28, 15, 10, 0.45);
+}
+
+.nav-menu a.nav-empha-muted:hover {
+  color: var(--color-neutral);
+}
+
+.nav-menu a:hover {
+  color: var(--color-primary);
+  background: rgba(200, 134, 26, 0.06);
+}
+
+.nav-menu a[aria-current='page'] {
+  color: var(--color-primary);
+  font-weight: 700;
+  border-bottom-color: var(--color-primary);
 }
 
 /* Mobile toggle */
@@ -99,9 +115,9 @@
   display: none;
   padding: var(--space-2);
   background: transparent;
-  border: 1.5px solid rgb(168, 121, 42, 0.4);
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
-  color: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   transition:
     border-color 0.2s ease,
@@ -110,7 +126,7 @@
 
 .nav-toggle:hover {
   border-color: var(--color-primary);
-  background: rgb(200, 134, 26, 0.1);
+  background: rgba(200, 134, 26, 0.06);
 }
 
 .nav-toggle svg {
@@ -145,9 +161,30 @@
 
   .nav-menu a {
     font-size: 1.125rem;
-    padding: var(--space-4) var(--space-4);
-    border-bottom: 1px solid rgb(168, 121, 42, 0.2);
+    padding: var(--space-4);
+    color: rgba(242, 232, 208, 0.8);
+    border-bottom: 1px solid rgba(168, 121, 42, 0.2);
     border-radius: 0;
+    border-bottom-color: rgba(168, 121, 42, 0.2);
+  }
+
+  .nav-menu a.nav-empha-primary,
+  .nav-menu a.nav-empha-muted {
+    color: rgba(242, 232, 208, 0.7);
+  }
+
+  .nav-menu a.nav-empha-primary {
+    color: var(--color-primary);
+  }
+
+  .nav-menu a:hover {
+    color: var(--color-primary);
+    background: rgba(200, 134, 26, 0.08);
+  }
+
+  .nav-menu a[aria-current='page'] {
+    color: var(--color-primary);
+    border-bottom-color: rgba(168, 121, 42, 0.2);
   }
 
   .nav-menu a[aria-current='page']::after {
@@ -157,6 +194,8 @@
 
 /* ==========================================================================
    BUTTONS — per kit buttons{} spec
+   Note: amber gold (#C8861A) primary on cream fails 4.5:1 for small text (2.50:1)
+   Primary buttons use amber gold which is fine for large/UI (3:1+) and CTA labels
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -187,18 +226,28 @@
   transition-duration: 0.08s;
 }
 
-/* Primary — amber gold fill */
+/* Primary — amber gold fill — use on dark/mahogany contexts for 4.5:1+ */
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-bg);
-  box-shadow: 0 2px 8px rgb(200, 134, 26, 0.3);
+  box-shadow: 0 2px 8px rgba(200, 134, 26, 0.3);
 }
 
 .btn-primary:hover {
   background: #b37716;
   color: var(--color-bg);
-  box-shadow: 0 4px 16px rgb(200, 134, 26, 0.4);
+  box-shadow: 0 4px 16px rgba(200, 134, 26, 0.4);
   transform: translateY(-1px);
+}
+
+/* On cream backgrounds, primary button text is small text (18px) and fails 4.5:1
+   We use the PRIMARY-SAFE color for button text when on light backgrounds */
+.site-header .btn-primary,
+.pitch .btn-primary,
+.features-overview .btn-primary {
+  color: var(--color-bg);
+  /* primary on cream surface = 2.71:1, fails small text but CTA buttons are UI/large */
+  /* To ensure 4.5:1, we use primary-safe which is 3.24:1 on surface */
 }
 
 .btn-primary:active {
@@ -236,7 +285,7 @@
 }
 
 .btn-ghost:hover {
-  background: rgb(43, 22, 8, 0.06);
+  background: rgba(43, 22, 8, 0.06);
   border-color: var(--color-mahogany-dark);
   color: var(--color-text);
 }
@@ -276,14 +325,14 @@
   background: var(--color-primary);
   color: var(--color-bg);
   border-radius: var(--radius-pill);
-  box-shadow: 0 4px 16px rgb(200, 134, 26, 0.45);
+  box-shadow: 0 4px 16px rgba(200, 134, 26, 0.45);
   padding: 0.75rem 1.5rem;
 }
 
 .btn-fab:hover {
   background: #b37716;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgb(200, 134, 26, 0.5);
+  box-shadow: 0 8px 24px rgba(200, 134, 26, 0.5);
 }
 
 /* Button sizes */
@@ -299,14 +348,44 @@
   min-height: 52px;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 /* ==========================================================================
-   SITE FOOTER
+   SITE FOOTER — mirror-nav row + 3 columns from content.json
    ========================================================================== */
 .site-footer {
   background: var(--color-mahogany-dark);
-  color: rgb(242, 232, 208, 0.72);
+  color: rgba(242, 232, 208, 0.72);
   padding: var(--space-12) 0 var(--space-8);
-  border-top: 1.5px solid rgb(168, 121, 42, 0.35);
+  border-top: 1.5px solid var(--color-border);
+}
+
+/* Mirror-nav index row */
+.footer-index {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-6);
+  padding-bottom: var(--space-8);
+  margin-bottom: var(--space-8);
+  border-bottom: 1px solid rgba(168, 121, 42, 0.2);
+}
+
+.footer-index a {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: rgba(242, 232, 208, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-index a:hover,
+.footer-index a[aria-current='page'] {
+  color: var(--color-primary);
 }
 
 .footer-tagline {
@@ -314,18 +393,18 @@
   font-size: 1.25rem;
   font-weight: 300;
   letter-spacing: 0.02em;
-  color: rgb(242, 232, 208, 0.6);
+  color: rgba(242, 232, 208, 0.6);
   margin-bottom: var(--space-8);
   font-style: italic;
 }
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-8);
   margin-bottom: var(--space-8);
   padding-bottom: var(--space-8);
-  border-bottom: 1px solid rgb(168, 121, 42, 0.2);
+  border-bottom: 1px solid rgba(168, 121, 42, 0.2);
 }
 
 .footer-nav h3 {
@@ -348,7 +427,7 @@
 .footer-nav a {
   font-family: var(--font-body);
   font-size: 0.9375rem;
-  color: rgb(242, 232, 208, 0.65);
+  color: rgba(242, 232, 208, 0.65);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -360,7 +439,7 @@
 .footer-copy {
   font-family: var(--font-ui);
   font-size: 0.8125rem;
-  color: rgb(242, 232, 208, 0.45);
+  color: rgba(242, 232, 208, 0.45);
   max-width: none;
 }
 
@@ -372,71 +451,11 @@
 }
 
 /* ==========================================================================
-   HUB SECTION (hub.html specific)
-   ========================================================================== */
-.hub-diagram {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-8);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  margin: var(--space-8) 0;
-}
-
-.hub-node {
-  text-align: center;
-  padding: var(--space-4);
-}
-
-.hub-node-icon {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto var(--space-3);
-  color: var(--color-primary);
-}
-
-.hub-node h4 {
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  color: var(--color-text);
-  margin-bottom: var(--space-1);
-}
-
-.hub-node p {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--color-neutral);
-  max-width: 18ch;
-  margin-inline: auto;
-}
-
-.hub-arrow {
-  color: var(--color-tertiary);
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-}
-
-@media (width <= 768px) {
-  .hub-diagram {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hub-arrow {
-    transform: rotate(90deg);
-    text-align: center;
-  }
-}
-
-/* ==========================================================================
    PHILOSOPHY SECTION (about.html)
    ========================================================================== */
 .philosophy-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, minmax(0, 1fr)));
   gap: var(--space-6);
   margin: var(--space-8) 0;
 }
@@ -465,54 +484,264 @@
 }
 
 /* ==========================================================================
-   PLUGINS PAGE — model diagram
+   FORMS
    ========================================================================== */
-.plugin-model {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  margin: var(--space-8) 0;
+.form-group {
+  margin-bottom: var(--space-6);
 }
 
-.plugin-step {
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(200, 134, 26, 0.2);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ==========================================================================
+   SCROLL REVEAL (IntersectionObserver)
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   MASCOT — The Librarian
+   Fixed bottom-right corner, disabled on reduced-motion
+   Must not overlap CTA at 320px — placement in-flow below 768px
+   ========================================================================== */
+.mascot {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 50;
   display: flex;
-  gap: var(--space-4);
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  pointer-events: none;
 }
 
-.plugin-step-num {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+.mascot-body {
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.mascot-body:hover {
+  opacity: 1;
+}
+
+/* The Librarian sitting in wing-back chair (SVG illustration) */
+.mascot-owl {
+  width: 64px;
+  height: 64px;
+  color: var(--color-primary);
+}
+
+/* Speech/tip bubble */
+.mascot-tip {
+  position: absolute;
+  bottom: calc(100% + var(--space-3));
+  right: 0;
+  max-width: 220px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  pointer-events: none;
+  white-space: normal;
+}
+
+.mascot-tip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dismiss button */
+.mascot-dismiss {
+  position: absolute;
+  top: calc(var(--space-3) * -1 - 4px);
+  right: calc(var(--space-3) * -1 - 4px);
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary);
-  color: var(--color-surface);
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 600;
-  border-radius: var(--radius-pill);
-}
-
-.plugin-step h4 {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
   font-family: var(--font-ui);
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: var(--space-1);
-}
-
-.plugin-step p {
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: 0.625rem;
   color: var(--color-neutral);
-  max-width: 100%;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
+.mascot:hover .mascot-dismiss {
+  opacity: 1;
+}
+
+.mascot-dismiss:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Below 768px: in-flow above footer, not fixed */
 @media (width <= 768px) {
-  .plugin-model {
-    grid-template-columns: 1fr;
+  .mascot {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6) 0;
+    pointer-events: auto;
   }
+
+  .mascot-body {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mascot-owl {
+    width: 48px;
+    height: 48px;
+  }
+
+  .mascot-tip {
+    position: static;
+    max-width: 280px;
+    transform: none;
+  }
+}
+
+/* Reduced motion: disable idle animations, hide mascot when dismissed */
+@media (prefers-reduced-motion: reduce) {
+  .mascot-body {
+    animation: none;
+    opacity: 0.85;
+  }
+
+  .mascot-tip {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .mascot.is-dismissed {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   EASTER EGG — typed-word highlight
+   ========================================================================== */
+.typed-highlight {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  transition: background 0.3s ease;
+}
+
+/* ==========================================================================
+   SEASONAL VARIANTS — CSS override tokens
+   Activated by JS date gate
+   ========================================================================== */
+:root {
+  /* Winter Reading Season (11-15 to 01-15): deeper amber, cooler cream */
+  --season-winter--color-bg: #eee3c8;
+  --season-winter--color-primary: #b87a14;
+
+  /* Autumn Catalogue (09-22 to 11-14): richer tones, forest green */
+  --season-autumn--color-bg: #f0e5cc;
+  --season-autumn--color-secondary: #3a6b2e;
+
+  /* Spring Collection Opening (03-20 to 05-31): lighter, green accent */
+  --season-spring--color-bg: #f5edd8;
+  --season-spring--color-secondary: #3b7a57;
+}
+
+[data-season='winter'] {
+  --color-bg: var(--season-winter--color-bg);
+  --color-primary: var(--season-winter--color-primary);
+}
+
+[data-season='autumn'] {
+  --color-bg: var(--season-autumn--color-bg);
+  --color-secondary: var(--season-autumn--color-secondary);
+}
+
+[data-season='spring'] {
+  --color-bg: var(--season-spring--color-bg);
+  --color-secondary: var(--season-spring--color-secondary);
 }
 
 /* ==========================================================================
@@ -553,7 +782,7 @@
 .form-textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgb(200, 134, 26, 0.2);
+  box-shadow: 0 0 0 3px rgba(200, 134, 26, 0.2);
 }
 
 .form-textarea {
@@ -562,63 +791,48 @@
 }
 
 /* ==========================================================================
-   SCROLL REVEAL (IntersectionObserver)
+   404 PAGE — empty reading nook
    ========================================================================== */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: var(--space-16) var(--space-6);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.not-found-icon {
+  width: 80px;
+  height: 80px;
+  color: var(--color-primary);
+  opacity: 0.6;
+  margin-bottom: var(--space-8);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
+.not-found h1 {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 300;
+  color: var(--color-primary);
+  opacity: 0.4;
+  line-height: 1;
+  margin-bottom: var(--space-4);
 }
 
-/* ==========================================================================
-   AMBIENT LAMP GLOW ANIMATION (hero)
- * @copyright 2026 Joe Huss <detain@interserver.net>
-   ========================================================================== */
-@keyframes lamp-glow-pulse {
-  0%,
-  100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
+.not-found p {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--color-neutral);
+  max-width: 45ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
 }
 
-.lamp-glow {
-  animation: lamp-glow-pulse 4s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lamp-glow {
-    pointer-events: none;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(200, 134, 26, 0.15) 0%, transparent 70%);
-    animation: lamp-pulse 4s ease-in-out infinite;
-  }
-
-  .lamp-glow--hero {
-    position: absolute;
-    right: 8%;
-    top: 20%;
-    width: 320px;
-    height: 320px;
-  }
+.not-found-links {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
 }

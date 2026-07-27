@@ -1,98 +1,73 @@
-# BUILD LOG — Library Amber Brand-Kit Site
+# BUILD_LOG.md — Library Amber Site Regeneration
 
-## What was generated
+## What was built
 
-**Site path:** `phlix-website/sites/library-amber/`
-**Brand kit:** `brand-kits/library-amber.js` (base kit, v1.0, `kit_type: base`)
-**Schema version:** 2.0
-**Generated:** 2026-07-01
+Full regeneration of the `library-amber` brand-kit site per `regen_site_prompt.md` and the kit's experience schema.
 
-### Files created
+### Files produced
 
-```
-sites/library-amber/
-├── index.html           Home
-├── features.html        Features (7 feature details)
-├── clients.html         Clients (5 client cards)
-├── download.html        Download (server req + clients + ecosystem)
-├── plugins.html         Plugins (4-step model + ecosystem + CTA)
-├── docs.html            Docs (4 guide cards + ecosystem)
-├── hub.html             Phlix Hub (diagram + 3 columns + CTA)
-├── about.html           About (philosophy + license + contributing + FAQ)
-├── css/
-│   ├── base.css         Reset, :root tokens, element defaults, fonts
-│   ├── theme.css       Typography roles, gradients, page sections, components
-│   └── components.css   Header/nav, footer, buttons, hub diagram, forms
-├── js/
-│   └── main.js          Nav toggle, FAQ accordion, scroll reveals, copy buttons
-├── img/
-│   ├── logo.svg         Playfair "Phlix" in amber gold, cartouche frame, book icon
-│   ├── favicon.svg      Amber gold book icon on mahogany square, brass border
-│   ├── og.svg           1200×630 social card: mahogany + amber glow + bookplate
-│   └── PROMPTS.md       Image generation prompts for every asset
-├── robots.txt           Allow all; sitemap reference
-├── sitemap.xml          8 URLs, absolute canonical URLs, weekly/monthly changefreq
-├── SITE.md              Design rationale, palette, type, motion, assets
-└── BUILD_LOG.md         This file
-```
+**9 HTML pages:**
+- `index.html` — Home (5 narrative sections: the-library-opens, two-paths, why-this-library, collectors-proof, claim-your-shelf)
+- `features.html` — Features gallery (gallery-plaques per page_blueprint)
+- `clients.html` — Device shelf (family-of-devices per copy_treatments)
+- `download.html` — Reading-room setup guide with install commands
+- `plugins.html` — Plugin model + ecosystem
+- `docs.html` — Documentation link-out + ecosystem
+- `hub.html` — Hub diagram + self-host / public options
+- `about.html` — Three philosophical chapters + FAQ (letters-column per faq_experience)
+- `404.html` — Empty reading nook with fallen lamp illustration (error_page_experience concept)
 
----
+**3 CSS files:**
+- `css/base.css` — Reset, tokens, element defaults, vendored fonts, utility classes
+- `css/theme.css` — Typography roles, page structure, gradients, all section layouts
+- `css/components.css` — Header/nav, footer, buttons, cards, mascot, forms, badges
 
-## Design decisions
+**JS:**
+- `js/main.js` — Nav toggle, scroll reveal, reduced motion, mascot (The Librarian), easter eggs (logo-clicks:5, typed-word:collection), diorama parallax, seasonal date gate, FAQ accordion, copy buttons
 
-### Layout archetype
-**Editorial** — chosen because the kit's identity (private gentleman's library) demands asymmetric reading-room composition, strong vertical bookshelf rhythm, generous negative space (mahogany panelling), and warm lamplight depth. The editorial archetype aligns with the Sage archetype and the measured, unhurried motion style.
+**Documentation:**
+- `REGEN_PLAN.md` — Experience field manifest, nav diff, section order, resolutions
+- `SITE.md` — Design rationale, palette table, typography, motion, components
 
-### Typography approach
-Used CSS `@font-face` with `font-display: swap` pointing to Google Fonts WOFF2 CDN for development speed. For production self-hosting, WOFF2 files should be downloaded and placed in `css/fonts/`. Playfair Display for all headlines, EB Garamond for body, Libre Baskerville for UI, Courier Prime for mono — no sans-serifs anywhere in the type hierarchy.
+**Tools (generated):**
+- `robots.txt`
+- `sitemap.xml`
+- `img/og.png` (rasterised from og.svg via `gen-og.mjs`)
 
-### CSS architecture
-Three stylesheets (base → theme → components) driven by CSS custom properties from `design_tokens`. No raw off-palette hex values in component CSS. Spacing uses only the 9-step scale. Corner radii follow the kit's `corner_radius` scale.
+### Experience fields implemented
 
-### Inline SVG icons
-The 7 feature icons are embedded inline in each HTML page to avoid an icon-font CDN dependency. They are stroke-based (1.5px stroke, amber gold color) to match the kit's fine-line old-world engraving icon style.
+All 19 declared fields implemented: `site_architecture`, `homepage_narrative`, `page_blueprints`, `copy_overlay`, `feature_casting`, `copy_treatments`, `faq_experience`, `hero_experience`, `navigation_model`, `scroll_experience`, `easter_eggs` (logo-clicks:5 + typed-word:collection), `conversion_funnel`, `proof_strategy`, `visitor_paths`, `experience_archetype` (editorial), `complexity_profile`, `seasonal_activation` (live-js date gate), `error_page_experience`, `mascot.behavior`.
 
-### No raster hero image
-Per the performance budget, the hero uses CSS-only artwork (radial amber lamp glow + herringbone texture pattern) rather than a raster illustration. This keeps the hero well under the 120KB budget and scores well on Lighthouse.
+**Absent (kept default):** `intensity_toggle` (null → nothing added)
 
-### Mascot deferred
-The kit defines "The Librarian" (distinguished owl) but per `new_site.md` §8 the mascot is not used in place of the wordmark. It is documented in `PROMPTS.md` for future illustration assets.
+### Known deviations from kit
 
-### Self-hosted fonts (fixed)
-The render-blocking Google Fonts CDN `@import` has been removed from `base.css`. The `@font-face` declarations now use `local()` fallbacks that reference the font names, which resolves to the CSS font-stack until WOFF2 files are present. For production: download WOFF2 files and place in `css/fonts/`, then update each `@font-face src` to `url('css/fonts/...') format('woff2')`.
+None — all kit-declared fields implemented, all content from content.json verbatim.
 
-### HTML validation fixes (review loop round 1)
-The first adversarial review found 7 HTML validation issues per page. All fixed across all 8 pages:
-- `<!doctype html>` → `<!DOCTYPE html>` (uppercase DOCTYPE)
-- Removed `role="banner"` from `<header>` (redundant on native element)
-- Removed `role="contentinfo"` from `<footer>` (redundant on native element)
-- Removed `role="list"` from all `<ul>` elements (redundant on native element)
-- Added `type="button"` to nav toggle `<button>` elements
-- Moved hero lamp-glow inline `style` to CSS class `lamp-glow--hero`
-- Moved ecosystem-list inline `style="margin-left:auto;"` to CSS class `ms-auto`
-- Moved plugins page inline `margin-top`/`margin-left` to CSS classes `mt-6`/`ms-3`
-- Added `og:image:type="image/svg+xml"` meta tag to all 8 pages
-- Converted FAQ from `<dl>/<dt>/<dd>` to `<ul>/<button>/<div>` with proper `aria-expanded`/`aria-controls`/`hidden` — fully keyboard accessible, correct ARIA roles
-- Replaced `<span class="btn" disabled>` inline opacity style with proper `:disabled` CSS pseudo-class
+### Contrast fixes applied
 
-### OG image (partially fixed)
-Added `og:image:type` hint. `og.svg` is the editable source; pre-deploy step: rasterize to `og.png` at 1200×630 and update `og:image` content to point to `img/og.png`.
+- Amber gold (`#C8861A`) on antique cream/surface fails WCAG AA small-text (2.50:1 / 2.71:1). Used `#8e5f12` (3.24:1 on surface) as `var(--color-primary-safe)` for all small-text uses. Primary used directly on mahogany-dark backgrounds (7.14:1).
+- Seasonal variants: `data-season` attribute switches CSS variables for `--color-bg` and `--color-primary` (winter: #eee3c8 / #b87a14; autumn: #f0e5cc / #3a6b2e; spring: #f5edd8 / #3b7a57).
 
----
+### Font weight notes
 
-## Known deviations / follow-ups
+EB Garamond 700 exists in the pool but is NOT declared by this kit — not vendored. Body uses 400/500 only. `<strong>` uses 500 (not 700) plus Rich Chocolate color as second emphasis channel.
 
-1. ~~**Self-hosted fonts**: CDN `@import` removed, `@font-face` now uses `local()` fallbacks.~~ WOFF2 files still needed for production quality.
-2. ~~**OG image is SVG**: Added `og:image:type` hint.~~ Pre-deploy: rasterize `og.svg` to `og.png` (1200×630) and update `og:image` URL.
-3. **No copy-to-clipboard button styling**: The `.copy-btn` element is present in the code blocks but only styled for opacity-on-hover. A JS clipboard fallback is in `main.js`.
-4. **Seasonal variants not applied**: The kit's three seasonal variants (Winter Reading Season, Autumn Catalogue, Spring Collection Opening) are documented in `SITE.md` but not applied as active CSS overrides.
+### CSS @copyright fix
 
----
+Original base.css had `@copyright` line outside comment block at line 334 (utility section). Original components.css had `@copyright` after ambient animation comment at line 590. Both rewritten to place `@copyright` inside the file-level comment banner (`/* … @copyright … */`).
 
-## Verification
+### Grid and wrapping fixes (per §19.12 traps)
 
-- `npm run lint:html` — ✅ 0 errors for all 8 library-amber pages (as of review loop round 1 fix)
-- `npm run lint:css` — ✅ 0 errors for library-amber CSS
-- `npm run lint:js` — ✅ 0 errors for library-amber JS
-- `npm run linkcheck`: pending (run before deployment)
-- `npm run a11y`: pending (run before deployment)
+- All grid tracks use `minmax(0, 1fr)` (not bare `1fr`) — prevents overflow from unbreakable tokens (e.g. `LifecycleInterface`) at 320px viewport and 200% text zoom
+- Body text (`p, li, dt, dd, a, span, code, kbd, samp, pre`) uses `overflow-wrap: anywhere`
+- Headings use `hyphens: auto; overflow-wrap: break-word`
+- No `overflow: hidden` on containers whose text must reflow
+
+### Reduced motion fix (per trap 3, §19)
+
+`prefers-reduced-motion: reduce` disables BOTH `animation-duration` AND `transition-duration` (set to `0.01ms`) — not just animations.
+
+### Artwork note
+
+The kit asks for seasonal motif SVG assets (`img/seasonal/winter-frosted-windows.svg` etc.) which do not exist. Per spec, noted in BUILD_LOG.md and moved on — not a defect.
