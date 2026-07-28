@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phlix — Your Library. Your Arena. Your Fight.</title>
+    <meta
+      name="description"
+      content="A self-hosted PHP media toolkit styled for the digital arena — streams to Roku, Samsung TV, Windows, and mobile with SyncPlay, Live TV, and a hub that follows you anywhere."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, self-hosted streaming, digital combat zone, action arena, syncplay, php media server"
+    />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/digital-combat-zone/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/digital-combat-zone/" />
+    <meta property="og:title" content="Phlix — Your Library. Your Arena. Your Fight." />
+    <meta
+      property="og:description"
+      content="A self-hosted PHP media toolkit styled for the digital arena — stream to Roku, Tizen, Windows, and mobile."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/digital-combat-zone/img/og.svg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Phlix — Your Library. Your Arena. Your Fight." />
+    <meta
+      name="twitter:description"
+      content="A self-hosted PHP media toolkit styled for the digital arena — stream to Roku, Tizen, Windows, and mobile."
+    />
+    <meta
+      name="twitter:image"
+      content="https://detain.github.io/phlix-website/digital-combat-zone/img/og.svg"
+    />
+    <meta name="twitter:creator" content="@detain" />
+    <meta name="theme-color" content="#16213E" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Phlix",
+        "description": "Self-hosted PHP media server that streams to Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "PHP 8.3+",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "license": "https://www.mozilla.org/en-US/MPL/2.0/"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- Seasonal activation banner slot -->
+    <div id="season-slot" hidden></div>
+
+    <!-- Second season slot for redundancy -->
+    <div id="season-slot-2" hidden></div>
+
+    <!-- ── SVG Icon Sprite ──────────────────────────────────────────────────── -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-library" viewBox="0 0 24 24">
+        <rect
+          x="3"
+          y="3"
+          width="7"
+          height="18"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <rect
+          x="14"
+          y="3"
+          width="7"
+          height="11"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <path d="M6 8h4M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="i-syncplay" viewBox="0 0 24 24">
+        <path
+          d="M9 12l-4 4 4 4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M15 4v4M15 16v4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <circle cx="9" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="15" cy="8" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="15" cy="16" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-transcode" viewBox="0 0 24 24">
+        <path
+          d="M12 3v18M3 12h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path
+          d="M7 7l10 10M17 7L7 17"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path
+          d="M12 3l8 3v6c0 4.4-3.4 8.5-8 10C7.4 20.5 4 16.4 4 12V6l8-3z"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M9 12l2 2 4-4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-antenna" viewBox="0 0 24 24">
+        <path
+          d="M4 12h16M12 4v16"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path
+          d="M8 8l8 8M16 8l-8 8"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+        <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-broadcast" viewBox="0 0 24 24">
+        <path
+          d="M12 12m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <path
+          d="M8.5 8.5c2.5-2.5 6.5-2.5 9 0s2.5 6.5 0 9"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          fill="none"
+        />
+        <path
+          d="M5.5 5.5c4-4 10-4 14 0s4 10 0 14"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          fill="none"
+          opacity="0.6"
+        />
+      </symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path
+          d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-hub" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75" fill="none" />
+        <circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <path
+          d="M7 6.5L9.5 10M16.5 10L19 6.5M7 17.5L9.5 14M16.5 14L19 17.5"
+          stroke="currentColor"
+          stroke-width="1.25"
+          stroke-linecap="round"
+          opacity="0.6"
+        />
+      </symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24">
+        <path
+          d="M6 9l6 6 6-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path
+          d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect
+          x="9"
+          y="9"
+          width="13"
+          height="13"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <path
+          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path
+          d="M3 12h18M3 6h18M3 18h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path
+          d="M18 6L6 18M6 6l12 12"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </symbol>
+    </svg>
+
+    <!-- ── Header / Topbar ──────────────────────────────────────────────────── -->
+    <header class="site-header" role="banner">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home"> Phlix </a>
+
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html" aria-current="page">The Arena</a></li>
+            <li><a href="features.html" class="nav-primary">Evidence Files</a></li>
+            <li><a href="clients.html">The Network</a></li>
+            <li><a href="download.html" class="nav-primary">Get Access</a></li>
+            <li><a href="hub.html">Reach Anywhere</a></li>
+            <li><a href="about.html" class="nav-muted">Combat Logs</a></li>
+          </ul>
+        </nav>
+
+        <button
+          class="nav-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          <svg aria-hidden="true" focusable="false"><use href="#i-menu" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+    <main id="main-content">
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 1: OPENER — hero                                         ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="opener" aria-label="Hero">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-content container">
+          <p class="hero-eyebrow">The archive is live</p>
+          <h1 class="hero-headline">
+            Your Library.<br />Your Arena.<br /><span class="highlight">Your Fight.</span>
+          </h1>
+          <p class="hero-subheadline">
+            Phlix is the combat toolkit for a self-hosted library. Streams to Roku, TV,
+            Windows, mobile. Synced. Transcoded. Always yours. Every frame throws down.
+          </p>
+          <div class="hero-actions">
+            <a href="download.html" class="btn btn-primary btn-fab shake-on-interaction">Enter the Arena</a>
+            <a href="features.html" class="btn btn-secondary">Study the Fight Card</a>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 2: THE BRIEFING — story / why Phlix wins the fight       ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="the-briefing" class="section section--surface" aria-labelledby="the-briefing-title">
+        <div class="container">
+          <div class="section-label reveal">The Briefing</div>
+          <h2 id="the-briefing-title" class="section-title reveal">
+            In the arena, there is no second place.
+          </h2>
+          <p class="section-subtitle reveal">
+            Media doesn't just stream — it fights for screen time. Phlix was built for the viewer
+            who cranks the volume, leans forward, and demands their content fight back. Every frame
+            is a knockout. Every transition is an uppercut.
+          </p>
+
+          <!-- Pitch bullets — combat style -->
+          <ul
+            class="pitch-list reveal"
+            style="
+              margin-top: var(--space-8);
+              display: flex;
+              flex-direction: column;
+              gap: var(--space-3);
+            "
+          >
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >01</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >100% self-hostable — your library never leaves your hardware unless you say
+                so</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >02</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >03</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Real-time SyncPlay with NTP-style time sync so movie night actually stays in
+                sync</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >04</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour
+                cache</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >05</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >06</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Live TV with DVR + EPG guide integration</span
+              >
+            </li>
+            <li
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--color-surface-alt);
+                border-left: 4px solid var(--color-primary);
+                border-radius: var(--radius-md);
+              "
+            >
+              <span
+                style="
+                  color: var(--color-primary);
+                  font-family: var(--font-mono);
+                  font-size: 0.75rem;
+                  flex-shrink: 0;
+                  margin-top: 2px;
+                "
+                >07</span
+              >
+              <span
+                style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text)"
+                >Plugin system with a versioned manifest contract</span
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 3: KNOCKOUT FEATURES — feature casting as fight card    ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="knockout-features" class="section" aria-labelledby="knockout-features-title">
+        <div class="container">
+          <div class="section-label reveal">Knockout Moves</div>
+          <h2 id="knockout-features-title" class="section-title reveal">
+            Two finishes that end the debate.
+          </h2>
+
+          <!-- Two flagship features as combat cards -->
+          <div
+            class="combat-board reveal"
+            style="
+              margin-top: var(--space-8);
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+              gap: var(--space-6);
+            "
+          >
+            <!-- SyncPlay -->
+            <article class="card-combat">
+              <p class="card-number">FIGHT NO. 01 / SYNCPLAY</p>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: var(--space-3);
+                  margin-bottom: var(--space-3);
+                "
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  style="width: 32px; height: 32px; color: var(--color-tertiary); flex-shrink: 0"
+                >
+                  <use href="#i-syncplay" />
+                </svg>
+                <h3
+                  style="
+                    font-family: var(--font-ui);
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--color-text);
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em;
+                  "
+                >
+                  SyncPlay across the room or across the country
+                </h3>
+              </div>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.9rem;
+                  color: var(--color-neutral);
+                  line-height: 1.65;
+                "
+              >
+                Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
+                Play, pause, seek — everyone moves together.
+              </p>
+              <p
+                style="
+                  margin-top: var(--space-3);
+                  font-family: var(--font-mono);
+                  font-size: 0.7rem;
+                  color: var(--color-secondary);
+                  opacity: 0.7;
+                "
+              >
+                Every device locked to the same frame — no lag, no drift, pure synchronization.
+              </p>
+            </article>
+
+            <!-- Library -->
+            <article class="card-combat">
+              <p class="card-number">FIGHT NO. 02 / LIBRARY</p>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: var(--space-3);
+                  margin-bottom: var(--space-3);
+                "
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  style="width: 32px; height: 32px; color: var(--color-tertiary); flex-shrink: 0"
+                >
+                  <use href="#i-library" />
+                </svg>
+                <h3
+                  style="
+                    font-family: var(--font-ui);
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--color-text);
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em;
+                  "
+                >
+                  Library that organizes itself
+                </h3>
+              </div>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.9rem;
+                  color: var(--color-neutral);
+                  line-height: 1.65;
+                "
+              >
+                Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
+                hydrates metadata_json. Add a file, see it appear.
+              </p>
+              <p
+                style="
+                  margin-top: var(--space-3);
+                  font-family: var(--font-mono);
+                  font-size: 0.7rem;
+                  color: var(--color-secondary);
+                  opacity: 0.7;
+                "
+              >
+                Your archive, organized by the machine, searchable from anywhere, always live.
+              </p>
+            </article>
+          </div>
+
+          <!-- See all evidence -->
+          <div class="reveal" style="margin-top: var(--space-8); text-align: center">
+            <a href="features.html" class="btn btn-ghost"
+              >View All Evidence <span style="color: var(--color-tertiary)">→</span></a
+            >
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 4: PROOF — stats and social proof                        ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="proof" class="trust-band" aria-labelledby="proof-title">
+        <div class="container">
+          <!-- Spec numbers as arena stats -->
+          <div class="trust-stats reveal">
+            <div class="trust-stat">
+              <div class="trust-stat-number">5</div>
+              <div class="trust-stat-label">Native Clients</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">NTP</div>
+              <div class="trust-stat-label">Sync Style</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">HLS</div>
+              <div class="trust-stat-label">+ FFmpeg</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">5</div>
+              <div class="trust-stat-label">User Profiles</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">DVR</div>
+              <div class="trust-stat-label">+ Live TV</div>
+            </div>
+          </div>
+
+          <!-- GitHub link -->
+          <div class="trust-github reveal">
+            <a
+              href="https://github.com/detain/phlix-server"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                style="
+                  width: 16px;
+                  height: 16px;
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin-right: 4px;
+                "
+              >
+                <use href="#i-github" />
+              </svg>
+              From the archive — phlix-server on GitHub
+            </a>
+          </div>
+
+          <!-- Quote as championship statement -->
+          <div class="trust-quote reveal" style="margin-top: var(--space-6)">
+            <blockquote>
+              "Phlix is the archivist's tool that brings the library into the light — a self-hosted
+              PHP media server that streams to every screen you own."
+            </blockquote>
+            <cite>— Phlix Documentation</cite>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 5: FINAL CTA — conversion funnel as championship       ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section
+        id="final-cta"
+        class="section section--surface"
+        aria-labelledby="final-cta-title"
+      >
+        <div class="container">
+          <div class="section-label reveal">The Championship</div>
+          <h2 id="final-cta-title" class="section-title reveal">
+            The pieces fit. Now get in the ring.
+          </h2>
+          <p class="section-subtitle reveal">
+            You know what you came for. One line gets the server running. Pick a client. Own the
+            archive.
+          </p>
+
+          <!-- CTA Ladder — 3 rungs -->
+          <div
+            class="reveal"
+            style="
+              margin-top: var(--space-8);
+              display: flex;
+              flex-direction: column;
+              gap: var(--space-3);
+              max-width: 480px;
+            "
+          >
+            <div style="display: flex; align-items: center; gap: var(--space-3)">
+              <span
+                style="
+                  font-family: var(--font-display);
+                  font-size: 1.5rem;
+                  color: var(--color-primary);
+                  width: 32px;
+                  flex-shrink: 0;
+                "
+                >01</span
+              >
+              <a
+                href="download.html"
+                class="btn btn-primary"
+                style="flex: 1; justify-content: center"
+                >Enter the Arena</a
+              >
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3)">
+              <span
+                style="
+                  font-family: var(--font-display);
+                  font-size: 1.5rem;
+                  color: var(--color-primary);
+                  width: 32px;
+                  flex-shrink: 0;
+                "
+                >02</span
+              >
+              <a href="clients.html" class="btn btn-ghost" style="flex: 1; justify-content: center"
+                >Pick Your Weapon</a
+              >
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-3)">
+              <span
+                style="
+                  font-family: var(--font-display);
+                  font-size: 1.5rem;
+                  color: var(--color-primary);
+                  width: 32px;
+                  flex-shrink: 0;
+                "
+                >03</span
+              >
+              <a
+                href="download.html#server"
+                class="btn btn-ghost"
+                style="flex: 1; justify-content: center"
+                >Run the Server</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-tagline">Your library. Your arena. Your fight.</p>
+
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+              <li>
+                <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+              <li>
+                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                  >License (MPL-2.0)</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-legal">
+            &copy; 2026 Joe Huss. Site built on the
+            <a
+              href="https://www.mozilla.org/en-US/MPL/2.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >MPL-2.0</a
+            >
+            licence. Phlix Server and the Hub are open source; modify a Phlix file and it stays
+            open.
+          </p>
+          <div class="footer-utility">
+            <!-- Intensity toggle — "calm mode" -->
+            <button
+              class="intensity-toggle"
+              aria-label="Toggle arena calm mode"
+              aria-pressed="false"
+            >
+              <span class="toggle-track" aria-hidden="true">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label">Arena calm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
