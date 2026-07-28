@@ -1,0 +1,633 @@
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
+
+/* ===========================================================================
+   THEME.CSS — Typography, Layout, Page Structure
+   Velocity Rush — Night Racing / Speed Kit
+   =========================================================================== */
+
+/* ── Skip link (a11y) ─────────────────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Seasonal banner slot ──────────────────────────────────────────────────── */
+
+#season-slot,
+#season-slot-2 {
+  position: relative;
+  z-index: 10;
+}
+
+#season-slot:not([hidden]),
+#season-slot-2:not([hidden]) {
+  display: block;
+}
+
+.season-banner {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-6);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.season-banner a {
+  color: var(--color-primary);
+}
+
+/* ── Site wrapper ──────────────────────────────────────────────────────────── */
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Topbar / Navigation ───────────────────────────────────────────────────── */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  /* Racing stripe accent */
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 10%,
+    rgb(0 245 255 / 0.03) 10%,
+    rgb(0 245 255 / 0.03) 11%,
+    transparent 11%,
+    transparent 90%,
+    rgb(0 245 255 / 0.03) 90%,
+    rgb(0 245 255 / 0.03) 91%,
+    transparent 91%
+  );
+  background-size: 100% 100%;
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.site-wordmark {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 20px rgb(0 245 255 / 0.3);
+  flex-shrink: 0;
+  /* Angular parallelogram treatment */
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%);
+  padding-right: var(--space-4);
+}
+
+.site-wordmark:hover {
+  color: var(--color-text);
+  text-shadow: 0 0 30px rgb(0 245 255 / 0.6);
+}
+
+.site-wordmark:focus-visible {
+  outline-color: var(--color-focus);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+}
+
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+}
+
+.main-nav li {
+  display: flex;
+}
+
+.main-nav a {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-neutral);
+  letter-spacing: 0.02em;
+  border-left: 2px solid transparent;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    text-shadow var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.main-nav a:hover {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgb(0 245 255 / 0.4);
+}
+
+.main-nav a[aria-current='page'] {
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+  text-shadow: 0 0 8px rgb(0 245 255 / 0.4);
+}
+
+.main-nav a.nav-primary {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.main-nav a.nav-muted {
+  color: var(--color-neutral);
+  opacity: 0.75;
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  padding: var(--space-2);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentcolor;
+}
+
+/* ── Mobile navigation ─────────────────────────────────────────────────────── */
+
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-4);
+    display: none;
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .main-nav a {
+    padding: var(--space-3) var(--space-4);
+    border-left: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .main-nav a[aria-current='page'] {
+    border-left: none;
+    border-bottom-color: var(--color-primary);
+    background: rgb(0 245 255 / 0.05);
+  }
+
+  .header-inner {
+    position: relative;
+  }
+}
+
+/* ── Main content ──────────────────────────────────────────────────────────── */
+
+main {
+  flex: 1;
+}
+
+.section {
+  padding: var(--space-16) var(--space-6);
+}
+
+.section--tight {
+  padding: var(--space-12) var(--space-6);
+}
+
+.section--dark {
+  background: var(--color-bg);
+}
+
+.section--surface {
+  background: var(--color-surface);
+}
+
+.section--alt {
+  background: var(--color-surface-alt);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.container--content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+/* ── Racing-stripe section divider ─────────────────────────────────────── */
+
+.section-divider {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0,
+    var(--color-border) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+  margin: 0;
+  border: none;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* ── Hero / Opener section ────────────────────────────────────────────────── */
+
+#opener {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--color-bg);
+  padding: var(--space-24) var(--space-6);
+  overflow: hidden;
+}
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Speed streaks radiating from center */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgb(0 245 255 / 0.04) 0,
+      rgb(0 245 255 / 0.04) 1px,
+      transparent 1px,
+      transparent 80px
+    ),
+    repeating-linear-gradient(
+      -90deg,
+      rgb(255 45 85 / 0.03) 0,
+      rgb(255 45 85 / 0.03) 1px,
+      transparent 1px,
+      transparent 120px
+    ),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgb(0 245 255 / 0.08) 0%, transparent 70%),
+    var(--color-bg);
+  /* Animated speed streaks */
+  animation: speed-streaks 8s linear infinite;
+}
+
+@keyframes speed-streaks {
+  0% { background-position: 0 0, 0 0, 50% 50%, 0 0; }
+  100% { background-position: 160px 0, -240px 0, 50% 50%, 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop {
+    animation: none;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+  opacity: 0;
+  animation: blur-reveal 0.6s var(--ease-out) 0.2s forwards;
+}
+
+.hero-headline {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  opacity: 0;
+  animation: blur-reveal 0.6s var(--ease-out) 0.4s forwards;
+}
+
+.hero-headline .highlight {
+  color: var(--color-primary);
+  text-shadow: 0 0 40px rgb(0 245 255 / 0.5);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: var(--color-neutral);
+  line-height: 1.6;
+  max-width: 560px;
+  margin-bottom: var(--space-8);
+  opacity: 0;
+  animation: blur-reveal 0.6s var(--ease-out) 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  opacity: 0;
+  animation: blur-reveal 0.6s var(--ease-out) 0.8s forwards;
+}
+
+/* Blur-to-focus reveal animation */
+@keyframes blur-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(8px);
+  }
+  60% {
+    opacity: 0.7;
+    filter: blur(4px);
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* ── Section headings ─────────────────────────────────────────────────────── */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.section-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-neutral);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+/* ── Lap-time HUD display ─────────────────────────────────────────────────── */
+
+.lap-display {
+  font-family: var(--font-mono);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: inline-block;
+}
+
+.lap-display-label {
+  font-size: 0.65rem;
+  color: var(--color-neutral);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.lap-display-time {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-shadow: 0 0 12px rgb(0 245 255 / 0.4);
+  line-height: 1;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-12) var(--space-6) var(--space-8);
+  position: relative;
+}
+
+/* Racing stripe footer accent */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-primary) 20%,
+    var(--color-secondary) 50%,
+    var(--color-tertiary) 80%,
+    transparent 100%
+  );
+  opacity: 0.4;
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.footer-tagline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-8);
+  font-style: italic;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.footer-col a:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-legal {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-neutral);
+  opacity: 0.6;
+}
+
+.footer-legal a {
+  color: var(--color-neutral);
+}
+
+.footer-legal a:hover {
+  color: var(--color-primary);
+}
+
+.footer-utility {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ── Scroll reveal ─────────────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out),
+    filter var(--duration-slow) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .hero-eyebrow,
+  .hero-headline,
+  .hero-subheadline,
+  .hero-actions {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  @keyframes blur-reveal {
+    0% {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+}

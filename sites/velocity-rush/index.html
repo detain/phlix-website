@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phlix — Zero to Play. Zero Wait.</title>
+    <meta
+      name="description"
+      content="Velocity Rush: an open-source PHP media server styled for speed. Streams to Roku, Samsung TV, Windows, mobile — with SyncPlay, Live TV, and a hub that follows you anywhere."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, self-hosted streaming, velocity rush, speed, syncplay, php media server"
+    />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/velocity-rush/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/velocity-rush/" />
+    <meta property="og:title" content="Phlix — Zero to Play. Zero Wait." />
+    <meta
+      property="og:description"
+      content="Velocity Rush: an open-source PHP media server built for speed. Zero wait, full throttle."
+    />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/velocity-rush/img/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Phlix — Zero to Play. Zero Wait." />
+    <meta
+      name="twitter:description"
+      content="Velocity Rush: an open-source PHP media server built for speed. Zero wait, full throttle."
+    />
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/velocity-rush/img/og.svg" />
+    <meta name="twitter:creator" content="@detain" />
+    <meta name="theme-color" content="#1C1C1E" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Phlix",
+        "description": "Open-source PHP media server that streams to Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "PHP 8.3+",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "license": "https://www.mozilla.org/en-US/MPL/2.0/"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- Seasonal activation banner slot -->
+    <div id="season-slot" hidden></div>
+    <div id="season-slot-2" hidden></div>
+
+    <!-- ── SVG Icon Sprite ──────────────────────────────────────────────────── -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-library" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="18" rx="1" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <rect x="14" y="3" width="7" height="11" rx="1" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <path d="M6 8h4M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-syncplay" viewBox="0 0 24 24">
+        <path d="M9 12l-4 4 4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M15 4v4M15 16v4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <circle cx="9" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="15" cy="8" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="15" cy="16" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </symbol>
+      <symbol id="i-transcode" viewBox="0 0 24 24">
+        <path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 3l8 3v6c0 4.4-3.4 8.5-8 10C7.4 20.5 4 16.4 4 12V6l8-3z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" fill="none"/>
+        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-antenna" viewBox="0 0 24 24">
+        <path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </symbol>
+      <symbol id="i-broadcast" viewBox="0 0 24 24">
+        <path d="M12 12m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <path d="M8.5 8.5c2.5-2.5 6.5-2.5 9 0s2.5 6.5 0 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M5.5 5.5c4-4 10-4 14 0s4 10 0 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+      </symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </symbol>
+      <symbol id="i-hub" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M7 6.5L9.5 10M16.5 10L19 6.5M7 17.5L9.5 14M16.5 14L19 17.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity="0.6"/>
+      </symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24">
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" fill="none"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-timer" viewBox="0 0 24 24">
+        <circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.75" fill="none"/>
+        <path d="M12 9v4l2.5 2.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M9 3h6M12 3v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-lightning" viewBox="0 0 24 24">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" fill="none"/>
+      </symbol>
+    </svg>
+
+    <!-- ── Header / Topbar ──────────────────────────────────────────────────── -->
+    <header class="site-header" role="banner">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home"> Phlix </a>
+
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html" aria-current="page">LAUNCH</a></li>
+            <li><a href="features.html" class="nav-primary">SPEED GRID</a></li>
+            <li><a href="clients.html">PIT CREW</a></li>
+            <li><a href="download.html" class="nav-primary">GET IN</a></li>
+            <li><a href="hub.html">RELAY</a></li>
+            <li><a href="about.html" class="nav-muted">DATA</a></li>
+          </ul>
+        </nav>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+    <main id="main-content">
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 1: LAUNCH — hero with blur-to-focus + speed streaks      ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="launch" aria-label="Hero">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <!-- Racing stripe overlays -->
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden" aria-hidden="true">
+          <div style="position:absolute;top:20%;left:-10%;width:120%;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.15),transparent);transform:skewX(-20deg)"></div>
+          <div style="position:absolute;top:40%;left:-5%;width:110%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,85,0.1),transparent);transform:skewX(-15deg)"></div>
+          <div style="position:absolute;top:65%;left:-15%;width:130%;height:3px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.08),transparent);transform:skewX(-25deg)"></div>
+        </div>
+        <div class="hero-content container">
+          <p class="hero-eyebrow">// LAUNCH SEQUENCE INITIATED</p>
+          <h1 class="hero-headline">
+            Zero to Play.<br /><span class="highlight">Zero Wait.</span>
+          </h1>
+          <p class="hero-subheadline">
+            Phlix is the open-source PHP media server built for speed. Streams to Roku, Samsung TV, Windows, mobile, any DLNA device. SyncPlay, Live TV, transcoding. Your library loads before you finish pressing play.
+          </p>
+          <div class="hero-actions">
+            <a href="download.html" class="btn btn-primary btn-fab">
+              <svg aria-hidden="true" focusable="false" style="width:16px;height:16px"><use href="#i-lightning"/></svg>
+              Hit the Gas
+            </a>
+            <a href="features.html" class="btn btn-secondary">Read the Specs</a>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 2: SPEED GRID — features as live lap-time readouts      ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="speed-grid" class="section" aria-labelledby="speed-grid-title">
+        <div class="container">
+          <div class="section-label reveal">// SPEED GRID</div>
+          <h2 id="speed-grid-title" class="section-title reveal">Two features that break the clock.</h2>
+
+          <div class="speed-grid reveal" style="margin-top:var(--space-8)">
+            <!-- SyncPlay — Lead readout -->
+            <div class="lap-readout">
+              <svg class="lap-readout-icon" aria-hidden="true" focusable="false"><use href="#i-syncplay"/></svg>
+              <div class="lap-readout-data">
+                <div class="lap-readout-title">SyncPlay across every device</div>
+                <div class="lap-readout-body">NTP-style time sync keeps every screen locked to the same frame. Play, pause, seek — everyone moves together.</div>
+              </div>
+              <div class="lap-readout-stat">
+                <div class="lap-readout-value">0.3s</div>
+                <div class="lap-readout-label">avg drift</div>
+              </div>
+            </div>
+
+            <!-- Library — Lead readout -->
+            <div class="lap-readout">
+              <svg class="lap-readout-icon" aria-hidden="true" focusable="false"><use href="#i-library"/></svg>
+              <div class="lap-readout-data">
+                <div class="lap-readout-title">Library that loads instantly</div>
+                <div class="lap-readout-body">Folder-watcher tracks mtimes. Scanner parses S01E02 titles. Add a file, see it appear — no manual refresh.</div>
+              </div>
+              <div class="lap-readout-stat">
+                <div class="lap-readout-value">0.1s</div>
+                <div class="lap-readout-label">per 1K files</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- All features row -->
+          <div class="reveal" style="margin-top:var(--space-6)">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(0,1fr));gap:var(--space-4)">
+              <div class="card-speed">
+                <div class="card-number">// 03 / TRANSCODE</div>
+                <h3 style="font-family:var(--font-ui);font-size:0.95rem;font-weight:600;color:var(--color-text);margin-bottom:var(--space-2)">Adaptive HLS + FFmpeg</h3>
+                <p style="font-family:var(--font-body);font-size:0.8rem;color:var(--color-neutral);line-height:1.55">Per-device quality profiles. HEVC, VP9, AV1. Transcode on the fly or passthrough.</p>
+              </div>
+              <div class="card-speed">
+                <div class="card-number">// 04 / AUTH</div>
+                <h3 style="font-family:var(--font-ui);font-size:0.95rem;font-weight:600;color:var(--color-text);margin-bottom:var(--space-2)">Multi-user with PIN lock</h3>
+                <p style="font-family:var(--font-body);font-size:0.8rem;color:var(--color-neutral);line-height:1.55">5 user profiles, local PIN protection, shareable library links without account creation.</p>
+              </div>
+              <div class="card-speed">
+                <div class="card-number">// 05 / LIVETV</div>
+                <h3 style="font-family:var(--font-ui);font-size:0.95rem;font-weight:600;color:var(--color-text);margin-bottom:var(--space-2)">Live TV + DVR</h3>
+                <p style="font-family:var(--font-body);font-size:0.8rem;color:var(--color-neutral);line-height:1.55">DVR-ready with EPG guide integration. Schedule recordings, pause live TV, skip commercials.</p>
+              </div>
+              <div class="card-speed">
+                <div class="card-number">// 06 / HUB</div>
+                <h3 style="font-family:var(--font-ui);font-size:0.95rem;font-weight:600;color:var(--color-text);margin-bottom:var(--space-2)">Hub that follows you</h3>
+                <p style="font-family:var(--font-body);font-size:0.8rem;color:var(--color-neutral);line-height:1.55">Connect to your server from anywhere. Web interface, mobile-ready, always in sync.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal" style="margin-top:var(--space-8);text-align:center">
+            <a href="features.html" class="btn btn-ghost">View All Specs <span style="color:var(--color-primary)">→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 3: LAP RECORDS — trust band as HUD telemetry             ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="lap-records" class="trust-band" aria-labelledby="lap-records-title">
+        <div class="container">
+          <div class="section-label reveal" style="text-align:center;color:var(--color-tertiary)">// LAP RECORDS</div>
+          <h2 id="lap-records-title" class="section-title reveal" style="text-align:center;font-size:clamp(1.5rem,3vw,2rem);margin-bottom:var(--space-8)">The numbers don't lie.</h2>
+
+          <div class="trust-stats reveal">
+            <div class="trust-stat">
+              <div class="trust-stat-number">5</div>
+              <div class="trust-stat-label">Native Clients</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">0.3s</div>
+              <div class="trust-stat-label">Avg Sync Drift</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">HLS</div>
+              <div class="trust-stat-label">+ FFmpeg</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">5</div>
+              <div class="trust-stat-label">User Profiles</div>
+            </div>
+            <div class="trust-stat">
+              <div class="trust-stat-number">DVR</div>
+              <div class="trust-stat-label">+ Live TV</div>
+            </div>
+          </div>
+
+          <div class="trust-github reveal">
+            <a href="https://github.com/detain/phlix-server" target="_blank" rel="noopener noreferrer">
+              <svg aria-hidden="true" focusable="false" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px"><use href="#i-github"/></svg>
+              From the garage — phlix-server on GitHub
+            </a>
+          </div>
+
+          <div class="trust-quote reveal" style="margin-top:var(--space-6)">
+            <blockquote>
+              "Phlix is media that keeps up — zero to play in milliseconds, every library sync a lap record."
+            </blockquote>
+            <cite>— Phlix Documentation</cite>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <!-- ╔═══════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  SECTION 4: FULL THROTTLE — conversion CTA                         ║ -->
+      <!-- ╚═══════════════════════════════════════════════════════════════════╝ -->
+      <section id="full-throttle" class="section section--surface" aria-labelledby="full-throttle-title">
+        <div class="container">
+          <div class="section-label reveal">// READY TO LAUNCH</div>
+          <h2 id="full-throttle-title" class="section-title reveal">Hit the gas — get Phlix.</h2>
+          <p class="section-subtitle reveal">One line gets the server running. Pick a client. Own the library.</p>
+
+          <div class="reveal" style="margin-top:var(--space-8);display:flex;flex-direction:column;gap:var(--space-3);max-width:480px">
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <span style="font-family:var(--font-display);font-size:1.5rem;color:var(--color-primary);width:32px;flex-shrink:0">01</span>
+              <a href="download.html" class="btn btn-primary" style="flex:1;justify-content:center">Hit the Gas</a>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <span style="font-family:var(--font-display);font-size:1.5rem;color:var(--color-primary);width:32px;flex-shrink:0">02</span>
+              <a href="clients.html" class="btn btn-ghost" style="flex:1;justify-content:center">Choose Your Ride</a>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <span style="font-family:var(--font-display);font-size:1.5rem;color:var(--color-primary);width:32px;flex-shrink:0">03</span>
+              <a href="download.html#server" class="btn btn-ghost" style="flex:1;justify-content:center">Run the Server</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-tagline">Open-source media, full throttle.</p>
+
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+              <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+              <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-legal">
+            &copy; 2026 Joe Huss. Site built on the
+            <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">MPL-2.0</a>
+            licence. Phlix Server and the Hub are open source; modify a Phlix file and it stays open.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ── Mascot: Rush — bottom-right speed companion ──────────────────── -->
+    <div id="mascot-rush" aria-hidden="true">
+      <div class="mascot-body" role="img" aria-label="Rush, the speed streak mascot">
+        <!-- Rush: a bolt/speed-line figure in cyan -->
+        <svg class="mascot-rush-figure" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Speed bolt body -->
+          <path d="M30 4L12 38h12L20 66l20-30H28L30 4z" fill="currentColor" opacity="0.8"/>
+          <!-- Motion lines -->
+          <path d="M8 20h6M6 30h8M10 40h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <path d="M38 20h4M40 30h2M36 40h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <!-- Glow core -->
+          <path d="M28 18L18 38h8l-4 16 14-20h-8l4-16z" fill="white" opacity="0.15"/>
+        </svg>
+        <!-- Tip bubble -->
+        <div class="mascot-tip" role="tooltip"></div>
+        <!-- Dismiss button -->
+        <button class="mascot-close" aria-label="Dismiss Rush">&#x2715;</button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
