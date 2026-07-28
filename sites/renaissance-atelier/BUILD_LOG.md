@@ -1,109 +1,61 @@
-# BUILD LOG — Renaissance Atelier brand kit site
-
-**Site**: `sites/renaissance-atelier/`
-**Kit**: `brand-kits/renaissance-atelier.js` (version 1.0, kit_type: base)
-**Built**: 2026-07-01
-**Layout archetype**: immersive (full-bleed/cinematic/glow — per kit's `layout_patterns.landing`, `visual_style`, `depth: layered`, `texture_level: heavy`)
-
----
+# BUILD_LOG.md — Renaissance Atelier
 
 ## What was built
 
-### File inventory (all 8 pages + assets)
+Full static site for the `renaissance-atelier` brand kit — 9 pages, 3 CSS files, 1 JS file, supporting assets.
 
-```
-sites/renaissance-atelier/
-├── index.html           Home — hero, pitch, features overview, CTA
-├── features.html         All 8 feature details in a content grid
-├── clients.html          5 client cards with status badges
-├── download.html          Server block + client download cards + ecosystem
-├── plugins.html          Plugin model + ecosystem + write your own
-├── docs.html             Link-out to docs + ecosystem list
-├── hub.html              Hub description + self-host / public relay info
-├── about.html            Philosophy + license + contributing + FAQ
-├── css/
-│   ├── base.css          Reset, :root token block, base elements, skip-link, focus
-│   ├── theme.css         Typography scale, layout containers, page structures
-│   └── components.css    Header/nav, footer, buttons, cards, badges, forms, code
-├── js/
-│   └── main.js           Nav toggle, reduced-motion gate, scroll reveals
-├── img/
-│   ├── logo.svg          Wordmark in ochre-gold tondo frame, lapis on parchment
-│   ├── favicon.svg        Lapis square with ochre "P" initial
-│   ├── og.svg             1200×630 chiaroscuro OG card
-│   └── PROMPTS.md         Full prompt library for every asset
-├── robots.txt
-├── sitemap.xml
-├── SITE.md               Design rationale
-└── BUILD_LOG.md          This file
-```
+### Pages
+| Page | Path | Notes |
+|------|------|-------|
+| Home | `index.html` | 5-section editorial narrative; visitor paths fork; proof band; Piero mascot |
+| Features | `features.html` | Illuminated folio layout; all 8 features with headings one level below page h1 |
+| Clients | `clients.html` | Portrait gallery treatment; 5 client cards with status badges |
+| Download | `download.html` | 3-step guided funnel; install command verbatim from content.json |
+| Plugins | `plugins.html` | LifecycleInterface + manifest contract explanation |
+| Docs | `docs.html` | Summary + link-out to 4 external doc sections + ecosystem list |
+| Hub | `hub.html` | NAT relay explanation; self-hosted vs public diagram; client compatibility |
+| About | `about.html` | Philosophy + License (MPL-2.0 per content.json) + Contributing + FAQ |
+| 404 | `404.html` | Piero with dimmed lamp; empty canvas; noindex; relative paths |
+| Curation Guide | `curation-guide.html` | `extra_pages` — folio-style 4-chapter guide from pitch_bullets + features |
 
----
+### CSS
+| File | Purpose |
+|------|---------|
+| `css/base.css` | Reset, tokens (:root CSS variables), font-face declarations, base elements, skip link, focus, visually-hidden, reduced-motion |
+| `css/theme.css` | Typography scale, editorial layout containers, page structure, hero, pitch/manifesto-cards, features-grid, proof-band, cta-banner, interior page structures |
+| `css/components.css` | Header, nav (topbar + mobile drawer), footer, all button variants, badges, mascot companion, intensity toggle, easter eggs, seasonal variants, 404 page, form elements |
 
-## Brand kit → site mapping decisions
+### JS
+- `js/main.js` — Mobile nav toggle, scroll reveals (IntersectionObserver), reduced-motion listener, Studio Calm intensity toggle (localStorage), seasonal date-gate, FAQ accordion, Piero mascot tips/dismissal, logo-clicks:5 lantern flare, typed-word:pigment brush cursor, easter toast helper
 
-| Kit field | Site decision |
-|-----------|---------------|
-| `name: "Renaissance Atelier"` | Visual theme / `<title>` flavour |
-| `tagline_primary: "Your Library. Illuminated."` | Tagline, hero sub-overlay (via CSS), OG headline |
-| `colors.primary: Lapis Lazuli` | Primary CTA buttons, active nav, hero accents |
-| `colors.background: Ivory Parchment` | `:root --color-bg` — all page backgrounds |
-| `colors.surface: Vellum` | All card surfaces |
-| `colors.border: Underdrawing Brown` | All 1.5px borders |
-| `fonts.headline: Cormorant Garamond` | All `<h1>`–`<h3>` + display text |
-| `fonts.body: EB Garamond` | All paragraph text |
-| `fonts.ui: Libre Baskerville` | Nav links, buttons, labels, captions |
-| `corner_radius.medium: 6px` | Cards, buttons |
-| `corner_radius.sm: 3px` | Small buttons, inputs |
-| `shadows.md: umber 0 4px 12px` | Cards, nav, component shadows |
-| `motion_style: sfumato-smooth` | 350–600ms cross-dissolve transitions; candle-bloom hero |
-| `microinteractions.hover` | Ochre inner glow + 3px lift + umber shadow over 200ms |
-| `microinteractions.focus` | 2px ochre gold focus ring with 2px parchment offset |
-| `design_principles` | All 8 applied literally throughout CSS |
-| `brand_opposites` | Monitored in review loop (no Swiss, cyberpunk, neon, etc.) |
-| `signature_elements` | Cross-hatch borders, lapis ground, gold leaf rules, marble tile grid |
-| `archetype: "Creator"` | Hero framing and micro-copy tone |
-| `voice: Erudite, Warm, Precise` | Section eyebrows, empty states, alt text (from `content.json` facts intact) |
-| `avoid_words: binge/stream/disrupt…` | Zero instances in output |
-| `accessibility.focus_style` | 2px #C8971A ring with 2px #FAF4E4 offset — exact match |
-| `responsive_behavior` | Desktop multi-column → mobile single-column with 48px→24px margins |
-
----
+### Assets
+- `robots.txt` — references sitemap.xml
+- `sitemap.xml` — 9 canonical pages (excludes 404.html), absolute URLs
+- `SITE.md` — design rationale, color table with contrast ratios, typography roles, spatial system, motion, assets
+- `BUILD_LOG.md` — this file
 
 ## Intentional deviations from spec
 
-None. All new_site.md requirements followed verbatim.
+1. **`og:image`**: The kit does not provide a specific illustration prompt for `og.png`. The OG image uses a standard sfumato + headline composition matching the site's visual language, not a per-page differentiated image.
 
----
+2. **Font `Cormorant SC` weight**: The pool has only weight 600 for Cormorant SC (per `font-sources.json`). The kit asks for `[600]` and the pool delivers it. No substitution needed.
 
-## Build tooling note (per new_site.md §17)
+3. **`<strong>` emphasis**: The kit's body face is EB Garamond at [400, 500]; weight 700 is undeclared. Per §19.17 fix: `font-weight: 700` + `color: var(--color-secondary)` (Burnt Sienna on vellum = 4.9:1). This is a deliberate departure from a single-channel 500-weight approach.
 
-The current `tools/build.mjs` and `tools/dev-server.mjs` scan the legacy `variants/`
-directory. The site was built to `sites/renaissance-atelier/` per new_site.md §1
-and §17. Tooling should be updated to scan `sites/` (or build the folder list from
-`brand-kits/`). No regressions introduced to existing tooling.
+4. **Intensity toggle default**: `intensity_toggle.default = "full"` (not "calm"), so by default animations run. Calm mode is opt-in.
 
----
+5. **Mascot desktop-only fixed**: Per §19.11 + §2A, Piero is `position: static` below 768px (in-flow above footer) and `position: fixed` only above 768px.
 
-## Review loop status
+6. **`proof_strategy` signals**: Kit asks for real GitHub star/issue counts — these are links to the live pages, not printed numbers (fabrication rule §19.7).
 
-**Round 1**: All 12 dimensions under adversarial review.
-See `reviews/renaissance-atelier/` for per-dimension reports.
-Loop exits when: no ❌, no spelling/grammar errors, no dimension <90.
+7. **FAQ extra questions**: These map to canonical `content.json` answers verbatim, not new facts.
 
----
+## Known follow-ups
 
-## Accessibility notes
+1. **Seasonal motif SVGs** (`img/seasonal/advent-holly-border.svg`, etc.) — the date gate JS is shipped but the motif asset files are not yet generated. The seasonal variant token overrides and date-gate logic are fully functional.
 
-- WCAG 2.2 AA throughout; contrast ratios verified:
-  - Lapis (#2B4A8C) on parchment (#F4ECD8) = 5.2:1 ✅
-  - Rich umber (#2C1A0E) on vellum (#FAF4E4) = 8.9:1 ✅
-  - Carmine lake (#8C1F28) on parchment = 4.8:1 ✅
-- Focus style: 2px #C8971A ring with 2px #FAF4E4 offset — exact match to kit spec
-- `prefers-reduced-motion: reduce` replaces all sfumato fades with instant opacity
-- Touch targets: min 44×44px on mobile; 48×48px recommended for TV breakpoint
-- All layouts survive 200% text zoom without clipping
+2. **`tools/gen-og.mjs`** should be run to rasterise `img/og.svg` to `img/og.png` (required for `og:image` to be PNG format per selfcheck rule 5). The og.svg placeholder exists but `gen-og.mjs` must be run separately.
 
----
+3. **`img/PROMPTS.md`** exists from the predecessor site — it should be reviewed against the kit's `image_prompt_prefix` + `image_prompt_suffix` + `prompt_library` and updated to reflect the Renaissance Atelier prompts.
 
-*Last updated: 2026-07-01*
+4. **Prettier**: Run `npx prettier --write "sites/renaissance-atelier/**"` before commit to normalise formatting.

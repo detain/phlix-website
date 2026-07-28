@@ -1,247 +1,949 @@
 /* ==========================================================================
-   THEME.CSS — Pixel Dungeon brand kit
-   Typography scale, layout containers, page structure, landing archetype
+   THEME.CSS — Pixel Dungeon
+   Component layer: header, nav, hero, sections, footer, cards, badges.
+   Transcribes: navigation_model, layout_patterns, cards, component_styles,
+   component_styles.dialog, ui_style, dashboard_style, page_generation_rules.
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* ── Layout containers ── */
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-4);
-}
-
-.container--narrow {
-  max-width: 720px;
-  margin-inline: auto;
-  padding-inline: var(--space-4);
-}
-
-/* ── Section spacing ── */
-.section {
-  padding-block: var(--space-12);
-}
-.section--lg {
-  padding-block: var(--space-16);
-}
-.section--sm {
-  padding-block: var(--space-8);
-}
-
-/* ── Grid systems ── */
-.grid {
-  display: grid;
-  gap: var(--space-4);
-}
-.grid--2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-.grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-.grid--4 {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-@media (width <= 1024px) {
-  .grid--4 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (width <= 768px) {
-  .grid--3,
-  .grid--4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (width <= 480px) {
-  .grid--2,
-  .grid--3,
-  .grid--4 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ── Typography scale ── */
-.text-display {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 5vw, 2rem);
-  letter-spacing: 0.08em;
-  line-height: 1.8;
-}
-
-.text-headline {
-  font-family: var(--font-headline);
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  letter-spacing: 0.05em;
-  line-height: 2;
-}
-
-.text-body {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  line-height: 1.8;
-  letter-spacing: 0.02em;
-}
-
-.text-ui {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.text-mono {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  line-height: 2;
-}
-
-/* ── Eyebrow label ── */
-.eyebrow {
-  display: inline-block;
-  font-family: var(--font-ui);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-tertiary);
-  margin-bottom: var(--space-2);
-  /* NES cartridge sticker style */
-  border: 2px solid var(--color-tertiary);
-  padding: var(--space-1) var(--space-2);
-  background: transparent;
-}
-
-/* ── Page header ── */
-.page-header {
-  padding-block: var(--space-12) var(--space-8);
-  text-align: center;
-  background: var(--gradient-dungeon-depth);
+/* --------------------------------------------------------------------------
+   1. SITE HEADER / NAVIGATION (topbar mode)
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
   border-bottom: 2px solid var(--color-border);
 }
 
-.page-header__title {
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  margin-bottom: var(--space-3);
-}
-
-.page-header__lead {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--color-neutral);
-  max-width: 600px;
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  max-width: var(--max-width);
   margin-inline: auto;
-  line-height: 1.8;
+  position: relative;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
-/* ── CTA Banner ── */
-.cta-banner {
-  background: var(--gradient-hero-entrance);
-  border-top: 2px solid var(--color-secondary);
-  border-bottom: 2px solid var(--color-secondary);
-  padding-block: var(--space-12);
-  text-align: center;
+/* Score counter (right-aligned library count) */
+.nav-score {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-tertiary);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
-.cta-banner__title {
-  font-size: clamp(0.875rem, 3vw, 1.125rem);
-  margin-bottom: var(--space-6);
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nav-logo img {
+  height: 32px;
+  width: auto;
+  image-rendering: pixelated;
+}
+
+.nav-logo-wordmark {
+  font-family: var(--font-headline);
+  font-size: 10px;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
+}
+
+/* Nav menu — desktop */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu a {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  position: relative;
+  transition: none;
+}
+
+/* Blinking cursor before active item */
+.nav-menu a[data-active]::before {
+  content: '▶';
+  font-size: 0.5rem;
+  color: var(--color-primary);
+  animation: blink-cursor 500ms steps(1) infinite;
+}
+
+.nav-menu a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-menu a[data-emphasis="primary"] {
   color: var(--color-text);
 }
 
-/* ── Content grid ── */
-.content-grid {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+.nav-menu a[data-emphasis="primary"]:hover,
+.nav-menu a[aria-current="page"] {
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: calc(var(--space-2) - 2px);
 }
 
-/* ── Content section ── */
-.content-section {
-  padding-block: var(--space-12);
+.nav-menu a[data-emphasis="muted"] {
+  color: var(--color-neutral);
 }
 
-/* ── Code block ── */
-.code-block {
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-2);
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   2. MAIN CONTENT
+   -------------------------------------------------------------------------- */
+main {
+  min-height: 60vh;
+}
+
+/* --------------------------------------------------------------------------
+   3. HERO SECTION (level-start)
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-3);
+  background: linear-gradient(180deg, var(--color-secondary) 0%, var(--color-bg) 100%);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-tertiary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.hero-headline {
+  font-family: var(--font-headline);
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  line-height: 2.0;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  max-width: 700px;
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  max-width: 560px;
+  margin-bottom: var(--space-6);
+  opacity: 0.9;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Blip pixel mascot in hero */
+.hero-mascot {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-4);
+  font-size: 8px;
+  line-height: 1;
+  color: var(--color-tertiary);
+  opacity: 0.7;
+  pointer-events: none;
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. CONTENT SECTIONS
+   -------------------------------------------------------------------------- */
+.section {
+  padding: var(--space-12) var(--space-3);
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.section-title {
+  font-family: var(--font-headline);
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+/* Section divider with pixel pattern */
+.section-divider {
+  width: 100%;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-primary) 0,
+    var(--color-primary) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  margin: var(--space-8) 0;
+}
+
+/* Story / pitch section */
+.quest-log {
   background: var(--color-surface);
   border: 2px solid var(--color-border);
-  padding: var(--space-4);
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  line-height: 2;
-  letter-spacing: 0.05em;
-  color: var(--color-tertiary);
-  /* hard pixel border + drop shadow */
-  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  max-width: 720px;
+  margin-inline: auto;
+  position: relative;
 }
 
-/* ── FAQ list ── */
-.faq-list {
+.quest-log::before {
+  content: 'SCROLL';
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  position: absolute;
+  top: -10px;
+  left: var(--space-3);
+  background: var(--color-surface);
+  padding: 0 var(--space-1);
+  color: var(--color-tertiary);
+  letter-spacing: 0.1em;
+}
+
+/* Feature power-up cards */
+.feature-chest {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.feature-chest-item {
+  background: var(--color-surface);
+  border: 2px solid var(--color-tertiary);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-pixel-coin);
+  position: relative;
+}
+
+.feature-chest-item::before {
+  content: '✦';
+  position: absolute;
+  top: -12px;
+  left: var(--space-3);
+  background: var(--color-bg);
+  padding: 0 var(--space-1);
+  color: var(--color-tertiary);
+  font-size: 0.75rem;
+}
+
+.feature-chest-item h3 {
+  font-family: var(--font-headline);
+  font-size: 0.625rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.05em;
+}
+
+.feature-chest-item p {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* Trophy case / proof section */
+.trophy-case {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: var(--space-6);
+  max-width: 720px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.trophy-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trophy-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.trophy-label {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trophy-github {
+  grid-column: 1 / -1;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-info);
+}
+
+/* CTA Banner / begin-adventure */
+.cta-banner {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  box-shadow: var(--shadow-pixel-red);
   max-width: 720px;
   margin-inline: auto;
 }
 
-.faq-list dt {
+.cta-banner-title {
+  font-family: var(--font-headline);
+  font-size: clamp(0.625rem, 2vw, 0.875rem);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.08em;
+}
+
+/* --------------------------------------------------------------------------
+   5. FOOTER
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-border);
+  padding: var(--space-8) var(--space-3) var(--space-4);
+  margin-top: var(--space-12);
+}
+
+.footer-mirror-nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.footer-mirror-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+.footer-mirror-nav a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  max-width: 900px;
+  margin-inline: auto;
+  margin-bottom: var(--space-6);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-3);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col li a {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.footer-col li a:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  max-width: 900px;
+  margin-inline: auto;
+  padding-top: var(--space-4);
+  border-top: 2px solid var(--color-border);
+}
+
+.footer-tagline {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  letter-spacing: 0.05em;
+}
+
+.footer-legal {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.footer-legal a {
+  color: var(--color-neutral);
+  text-decoration: none;
+}
+
+.footer-legal a:hover {
+  color: var(--color-text);
+}
+
+.intensity-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+}
+
+.intensity-toggle input[type="checkbox"] {
+  appearance: none;
+  width: 32px;
+  height: 16px;
+  background: var(--color-neutral);
+  border: 2px solid var(--color-border);
+  position: relative;
+  cursor: pointer;
+}
+
+.intensity-toggle input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--color-text);
+  top: 2px;
+  left: 2px;
+  transition: none;
+}
+
+.intensity-toggle input[type="checkbox"]:checked {
+  background: var(--color-tertiary);
+}
+
+.intensity-toggle input[type="checkbox"]:checked::before {
+  left: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   6. CARDS (game UI)
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  transition: none;
+}
+
+.card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.card.featured {
+  border-color: var(--color-primary);
+}
+
+.card.reward {
+  border-color: var(--color-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   7. BUTTONS (pixel game UI)
+   -------------------------------------------------------------------------- */
+.btn {
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text);
-  margin-bottom: var(--space-1);
+  letter-spacing: 0.02em;
+  padding: var(--space-2) var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid transparent;
+  position: relative;
+  transition: none;
+  /* min-width: 0 allows the button to shrink below its content size */
+  min-width: 0;
+  /* Allow text to wrap inside the button at high zoom */
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
 }
 
-.faq-list dd {
+.btn:hover {
+  text-decoration: none;
+}
+
+/* Primary — Mario Red */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+  color: var(--color-text);
+}
+
+/* Secondary — Game Blue */
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-pixel-blue);
+}
+
+.btn-secondary:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+  color: var(--color-text);
+}
+
+/* Ghost — outlined */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+/* Link */
+.btn-link {
+  background: transparent;
+  color: var(--color-info);
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* Danger */
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-pixel-red);
+}
+
+.btn-danger:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   8. BADGES / LABELS (pixel game style)
+   -------------------------------------------------------------------------- */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border: 2px solid;
+  display: inline-block;
+}
+
+.badge-quality {
+  color: var(--color-tertiary);
+  border-color: var(--color-tertiary);
+  background: transparent;
+}
+
+.badge-status {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: transparent;
+}
+
+.badge-progress {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  background: transparent;
+}
+
+.badge-success {
+  color: var(--color-success);
+  border-color: var(--color-success);
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   9. MEDIA / POSTER GRID
+   -------------------------------------------------------------------------- */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+
+.poster-item {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: 0;
+  position: relative;
+  aspect-ratio: 2/3;
+  display: flex;
+  align-items: flex-end;
+}
+
+.poster-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.poster-item-info {
+  position: relative;
+  background: var(--color-surface);
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+}
+
+.poster-item-title {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   10. FORMS (game UI)
+   -------------------------------------------------------------------------- */
+.form-input {
   font-family: var(--font-body);
   font-size: 0.875rem;
-  line-height: 1.8;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
+  transition: none;
+}
+
+.form-input::placeholder {
   color: var(--color-neutral);
-  margin-bottom: var(--space-4);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--color-border);
 }
 
-/* ── Feature detail articles (features page) ── */
-.feature-detail {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-md);
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  animation: blink-cursor 500ms steps(1) infinite;
 }
 
-.feature-detail h3 {
+.form-label {
+  font-family: var(--font-ui);
   font-size: 0.75rem;
-  margin-bottom: var(--space-3);
-  margin-top: var(--space-4);
+  color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ── Download / client cards ── */
-.download-card {
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-hint {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  margin-top: var(--space-1);
+}
+
+.form-error {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-error);
+  margin-top: var(--space-1);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect fill='%23f5f5f0' width='8' height='8'/%3E%3Crect fill='%23f5f5f0' x='3' y='0' width='2' height='8'/%3E%3Crect fill='%23f5f5f0' x='0' y='3' width='8' height='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-2) center;
+  padding-right: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   11. TABLES (game HUD style)
+   -------------------------------------------------------------------------- */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table-game {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+}
+
+.table-game th {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.625rem;
+  color: var(--color-neutral);
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 2px solid var(--color-primary);
+  background: var(--color-surface-alt);
+}
+
+.table-game td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: top;
+}
+
+.table-game tr:nth-child(even) td {
+  background: var(--color-surface-alt);
+}
+
+.table-game tr:hover td {
   background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-md);
+  box-shadow: inset 3px 0 0 var(--color-tertiary);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Responsive helpers ── */
-@media (width <= 768px) {
-  .section {
-    padding-block: var(--space-8);
+/* --------------------------------------------------------------------------
+   12. CALLOUT / NOTE (pixel style)
+   -------------------------------------------------------------------------- */
+.callout {
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  padding: var(--space-4);
+  position: relative;
+}
+
+.callout-tip {
+  border-color: var(--color-tertiary);
+}
+
+.callout-tip::before {
+  content: 'TIP';
+}
+
+.callout-warning {
+  border-color: var(--color-warning);
+}
+
+.callout::before {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  position: absolute;
+  top: -10px;
+  left: var(--space-3);
+  background: var(--color-surface);
+  padding: 0 var(--space-1);
+  color: var(--color-tertiary);
+  letter-spacing: 0.1em;
+}
+
+.callout p {
+  font-size: 0.75rem;
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   13. SEASONAL BANNER
+   -------------------------------------------------------------------------- */
+.seasonal-banner {
+  background: var(--color-secondary-safe);
+  color: var(--color-text);
+  text-align: center;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   14. RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 2px solid var(--color-border);
+    padding: var(--space-3);
+    z-index: 99;
   }
-  .section--lg {
-    padding-block: var(--space-12);
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-score {
+    display: none;
+  }
+
+  /* Hide wordmark on mobile — logo image alone identifies the site */
+  .nav-logo-wordmark {
+    display: none;
+  }
+
+  /* Ensure the hero section never exceeds viewport width */
+  .hero {
+    overflow-x: hidden;
+  }
+
+  .hero-headline {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .trophy-case {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-chest {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-mirror-nav {
+    gap: var(--space-2);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* Ensure no element exceeds viewport */
+  .section {
+    overflow-x: hidden;
+  }
+
+  .site-header {
+    min-width: 0;
   }
 }
-@media (width <= 480px) {
-  .container {
-    padding-inline: var(--space-3);
+
+@media (min-width: 769px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
   }
 }

@@ -1,142 +1,87 @@
-# Renaissance Atelier — Site Design Rationale
+# SITE.md — Renaissance Atelier
 
-## 1. Concept & Vision
+## Concept & Vision
 
-Renaissance Atelier is the private studio of the discerning media collector — warm
-candlelight, lapis lazuli, burnt sienna, and gold on ivory. Every interface element is
-placed with the deliberation of a master applying a final glaze. The site is not a
-streaming service — it is a patron's private collection, catalogued by a master's hand.
+A painter's studio at the height of the Florentine Renaissance — candlelit vaults, pigment-dusted oak tables, da Vinci folios unfurled beside a lapis lazuli ground stone. Phlix becomes a grand atelier where every piece of media is a masterwork and every library is a curated collection worthy of a Medici patron. The visitor does not browse; they **curate**.
 
-The visual language draws from Italian Renaissance painting: sfumato chiaroscuro lighting,
-layered oil glazes, and decisive burnt-sienna underdrawing. Gold leaf is used sparingly
-and with reverence. The overall impression is of a grand Florentine bottega — warm,
-cultured, meticulous, and timeless.
+## Aesthetic Direction
 
----
+**Visual style:** Old master oil painting, illuminated manuscript, Renaissance chalk and ink study. Chiaroscuro from a single warm candlelight source. Deep cool lapis shadows, warm ochre highlights, ivory parchment ground.
 
-## 2. Aesthetic Direction
+**Signature elements:**
+- Sfumato radial glows behind hero content (candle-bloom)
+- Double-rule card frames evoking manuscript chapter headings
+- Lapis lazuli accent rules and gold leaf drop caps on key text
+- Verdigris patina on metalwork details
+- Florentine marble floor tile grid patterns
 
-- **Style**: Old master oil painting + illuminated manuscript + Renaissance chalk study
-- **Mood**: Masterful, contemplative, reverent, cultured, meticulous, humanist
-- **Reference**: Da Vinci's Codex Atlanticus, Botticelli compositional studies, Florentine
-  quattrocento workshops (bottega), illuminated manuscripts (Book of Kells)
-- **Art direction**: All artwork feels as though it was prepared in a Florentine bottega —
-  layered oil glazes over a warm ground, chiaroscuro modelling from a single candlelight
-  source, decisive burnt-sienna underdrawing visible beneath the final layer.
+**Color role → name → hex:**
 
----
+| Role | Name | Hex |
+|------|------|-----|
+| Primary | Lapis Lazuli | `#2B4A8C` |
+| Primary hover | Deep Lapis | `#1E3568` |
+| Secondary | Burnt Sienna | `#A0522D` |
+| Tertiary | Ochre Gold | `#C8971A` |
+| Neutral | Verdigris | `#4A7C6F` |
+| Background | Ivory Parchment | `#F4ECD8` |
+| Surface | Vellum | `#FAF4E4` |
+| Surface alt | Aged Linen | `#EDE1C6` |
+| Text | Rich Umber | `#2C1A0E` |
+| Text muted | Umber 60% | `rgba(44,26,14,0.60)` |
+| Success | Verdant Glaze | `#5A8A5E` |
+| Warning | Saffron | `#D4961A` |
+| Error | Carmine Lake | `#8C1F28` |
+| Info | Cerulean Fresco | `#2A5FA5` |
+| Focus | Gold Leaf | `#C8971A` |
+| Border | Underdrawing Brown | `#3D1F0A` |
+| Shadow | Raw Umber | `rgba(44,26,14,0.35)` |
+| Overlay | Deep Shadow Veil | `rgba(14,10,6,0.72)` |
 
-## 3. Color Palette (semantic role → name → hex)
+**Contrast notes:** Lapis Lazuli (`#2B4A8C`) on Ivory Parchment (`#F4ECD8`) = **5.2:1** (AA). Burnt Sienna (`#A0522D`) on Vellum (`#FAF4E4`) = **4.9:1** (AA small text). Rich Umber on Vellum = **8.9:1**. Gold Leaf (`#C8971A`) is reserved for large display text, focus rings, and icons only — not for body text below 18px.
 
-| Role          | Name             | Hex       | Usage |
-|---------------|------------------|-----------|-------|
-| primary       | Lapis Lazuli     | #2B4A8C   | Primary CTAs, active nav states, key hero accents |
-| secondary     | Burnt Sienna     | #A0522D   | Secondary actions, links, underdrawing outlines |
-| tertiary      | Ochre Gold       | #C8971A   | Gold leaf accents — used sparingly, always luminous |
-| neutral       | Verdigris        | #4A7C6F   | Muted dividers, secondary labels, patina details |
-| background    | Ivory Parchment  | #F4ECD8   | Default page background — never pure white |
-| surface       | Vellum           | #FAF4E4   | Card/panel surfaces, one step lighter than parchment |
-| surface_alt   | Aged Linen       | #EDE1C6   | Table stripes, nested panels, sidebar insets |
-| text          | Rich Umber       | #2C1A0E   | Primary body text and headlines on light surfaces |
-| success       | Verdant Glaze    | #5A8A5E   | Success toasts, confirmations |
-| warning       | Saffron          | #D4961A   | Warnings, caution states |
-| error         | Carmine Lake     | #8C1F28   | Errors, destructive actions |
-| info          | Cerulean Fresco  | #2A5FA5   | Informational banners, tips |
-| focus         | Gold Leaf Focus  | #C8971A   | Keyboard focus ring (2px gold, 2px offset) |
-| border        | Underdrawing Brown | #3D1F0A | Card borders, dividers — the visible underdrawing |
-| shadow        | Raw Umber Shadow | rgba(44,26,14,0.35) | All drop shadows — warm, never cool |
-| overlay       | Deep Shadow Veil | rgba(14,10,6,0.72) | Modal scrims, video overlays |
+## Typography
 
-### Color gradients
-- **Chiaroscuro Veil** `linear 160deg`: #2C1A0E → #A0522D → #C8971A — hero backdrop
-- **Lapis Ground** `radial`: #2B4A8C → #1A2D5A — dark hero/splash sections
-- **Candle Bloom** `radial`: rgba(200,151,26,0.45) → transparent — warm glow behind hero art
-- **Gold Illumination** `linear 45deg`: #C8971A → #F0CC6A → #C8971A — drop caps, premium accents
+| Role | Face | Weights | Notes |
+|------|------|---------|-------|
+| Headline | Cormorant Garamond | 600, 700 | Grand display, authoritative |
+| Display / small-caps | Cormorant SC | 600 | Section labels, numerals |
+| Body | EB Garamond | 400, 500 | Long-form reading, 1.7 leading |
+| UI / labels | Libre Baskerville | 400, 700 | Navigation, buttons, form labels |
+| Mono / code | Courier Prime | 400, 700 | Code blocks, file paths |
+| Number | Cormorant Garamond | 600 | Oldstyle numerals in context |
 
-### Color rules (non-negotiable)
-- Parchment ivory is the only permitted background — never pure white, never grey
-- Lapis lazuli anchors primary actions; must never appear as a background wash
-- Gold leaf (ochre gold) used for no more than two focal elements per screen
-- All shadows warm umber-tinted; never use cool grey or desaturated black
-- Verdigris is muted supporting tone; never dominant
-- Burnt sienna outlines but does not fill large areas
-- Maximum three accent colours per view
+**Strong emphasis:** `<strong>` uses `font-weight: 700` + `color: var(--color-secondary)` (Burnt Sienna). Two-channel emphasis because the kit caps the body face at 500 and 700 is undeclared; Burnt Sienna on Vellum clears **4.9:1** for small text.
 
----
+## Spatial System
 
-## 4. Typography
+- 8pt spacing scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96px
+- Max content width: 1400px; hero centred within 960px
+- Desktop lateral margins: 48px; tablet: 32px; mobile: 20px
+- Generous section rhythm: 48px sections with 32px internal padding
 
-| Role      | Font               | Weight   | Usage |
-|-----------|--------------------|----------|-------|
-| headline  | Cormorant Garamond | 600, 700 | Grand display headlines, hero titles, chapter headings |
-| display   | Cormorant SC      | 600      | Oversized numerals, small-caps section labels |
-| body      | EB Garamond       | 400, 500 | Long-form reading, descriptions, metadata |
-| ui        | Libre Baskerville | 400, 700 | Buttons, labels, navigation, chips, table headers |
-| mono      | Courier Prime     | 400, 700 | Code samples, API tokens, file paths |
-| number    | Cormorant Garamond | 600     | Dashboard statistics, counters |
+## Motion Philosophy
 
-### Typography rules
-- Headlines use Cormorant Garamond exclusively — never a sans-serif headline
-- Body copy always EB Garamond; never set body in a display weight
-- Small caps (Cormorant SC) for section labels, not ALL CAPS
-- Line length: 55–70 characters for body; headlines may run wider
-- Never set body copy below 16px / 1rem on screen
-- Leading (line-height): 1.7 for body; 1.35 for UI labels
+- **Sfumato smooth:** cross-dissolve transitions, 350–600ms ease-in-out
+- Hero: slow bloom-in on load (`bloom-in`, 600ms)
+- Section reveals: gentle fade-up via IntersectionObserver
+- Hover states: 200ms ease-out, ochre inner glow + 2px lift
+- **Reduced motion:** all animations freeze; opacity transitions become instant
 
----
+## Visual Assets
 
-## 5. Spatial System
+- **Logo:** SVG wordmark in Cormorant Garamond semibold, lapis blue on ivory, enclosed in an ochre-gold tondo frame with fine double-rule border
+- **Favicon:** Square lapis lazuli (`#2B4A8C`) mark with a quill-pen motif
+- **OG image:** 1200×630 — lapis ground with sfumato, "Your Library. Illuminated." in Cormorant Garamond ivory, ochre gold rule, Piero silhouette
+- **Piero mascot:** SVG garzone figure — young apprentice in linen apron holding a candle lantern; used on hero, features, download, about; dismissed to localStorage
+- **Feature icons:** Inline stroke SVG, 1.5px burnt-sienna stroke, slightly imperfect, matching the quill-drawn icon rule
 
-The 8-point spacing scale (from kit `spacing_scale`):
-`4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 px`
+## Seasonal Variants
 
-- Maximum content width: 1400px; hero content centred within 960px
-- Generous margins: 48px minimum on desktop, 24px on mobile
-- Vertical rhythm: sections alternate between parchment and vellum grounds
-- Hero: full-bleed with 90vh minimum height
+Four seasonal variants are date-gated via live-JS:
+- **Advent Illumination** (Dec 1–31): deeper lapis, warmer gold, parchment shifted lighter
+- **Carnivale Veneziano** (Feb 1–28): crimson secondary, gilded palette
+- **Estate Summer Study** (Jun 21–Sep 22): bleached parchment, warmer surface
+- **Autunno Harvest Studio** (Sep 23–Nov 30): terracotta-warmed secondary, deepened background
 
----
-
-## 6. Motion Philosophy
-
-**Overall character**: Deliberate, stately, sfumato-smooth, weighty. Motion feels like
-a master lifting a veil from a canvas — slow, intentional, revealing something worth the wait.
-
-- **Transitions**: Cross-dissolve (sfumato fade), slow reveal from darkness (candle-bloom),
-  page-turn curl, gold-leaf shimmer wipe, vignette iris open
-- **Speed**: Slow (350–600ms ease-in-out)
-- **Easing**: `cubic-bezier(0.4, 0, 0.2, 1)`, `ease-in-out`, `ease-out`
-- **Entrance**: Hero content fades in with a 200ms delay and a 20px upward translate
-- **Hover states**: Cards gain a warm ochre inner glow + 3px lift + deep umber shadow over 200ms
-- **Reduced motion**: All animations replace with `opacity 0→1 instant` via
-  `prefers-reduced-motion: reduce` media query
-
----
-
-## 7. Visual Assets
-
-| Asset         | Description |
-|---------------|-------------|
-| `logo.svg`    | Phlix wordmark in Cormorant Garamond semibold, ochre-gold double-rule oval tondo frame, lapis on parchment |
-| `favicon.svg`  | Lapis lazuli square with ochre tondo + "P" initial |
-| `og.svg`      | 1200×630 chiaroscuro lapis-to-ochre gradient, headline in ivory/ochre Cormorant Garamond |
-| `PROMPTS.md`  | Full prompt library for every asset |
-| Hero bg       | CSS-only via `gradient-lapis` + `gradient-chiaroscuro` + `gradient-candle-bloom` |
-
-Feature icons are inline SVG, 1.5px stroke, burnt-sienna underdrawing brown, outlined,
-slightly imperfect quill-pen quality, rounded caps.
-
----
-
-## 8. Layout Archetype
-
-**Immersive** — full-bleed/cinematic/glow. Full-bleed chiaroscuro hero (lapis-to-ochre
-gradient + sfumato atmosphere) → parchment features section → testimonial panel →
-ochre-gold CTA strip.
-
-This archetype was chosen because:
-- `layout_patterns.landing` in the kit explicitly calls for "Full-bleed chiaroscuro hero"
-- `visual_style` includes "Old master oil painting", "Sfumato gradient atmosphere"
-- `depth: "layered"` and `texture_level: "heavy"` reinforce a rich, immersive first impression
-- The `immersive` archetype best honours the `design_principles` — "One master element per
-  page; support it, never compete with it"
+Motif assets (`img/seasonal/*.svg`) are decorative and not yet generated — the date gate, token overrides, and variant CSS are all shipped.

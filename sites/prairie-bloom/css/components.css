@@ -1,44 +1,194 @@
 /**
- * components.css — Prairie Bloom brand kit
- * Header/nav, footer, buttons, cards, forms, badges
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
-/* ─── Site header ───────────────────────────────────────────────────────────── */
-.site-header {
-  background: var(--color-bg);
-  border-bottom: 2px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-primary {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-  height: 64px;
-  display: flex;
+/* ── Buttons — Prairie Bloom pill style ──────────────────────────────── */
+.btn {
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-6);
-}
-
-.nav-logo {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.95rem;
   text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1),
+              box-shadow 0.15s ease-out,
+              background 0.15s ease;
+  white-space: normal;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  min-height: 44px; /* 44×44 touch target */
+  user-select: none;
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-primary:hover {
+  background: #e5b500;
+  box-shadow: var(--shadow-md);
   color: var(--color-text);
 }
 
-.nav-logo img {
-  height: 40px;
-  width: auto;
-  display: block;
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-warm-linen);
+  border-color: transparent;
+}
+.btn-secondary:hover {
+  background: #6a4e92;
+  box-shadow: var(--shadow-md);
+  color: var(--color-warm-linen);
 }
 
-.nav-logo:hover {
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-ghost:hover {
+  background: var(--color-oat-field);
+  color: var(--color-text);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-warm-linen);
+  border-color: transparent;
+}
+.btn-danger:hover { background: #7a1f1f; }
+
+.btn-link {
+  background: transparent;
+  color: var(--color-secondary);
+  border: none;
+  padding-inline: var(--space-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border-radius: 0;
+  min-height: auto;
+}
+.btn-link:hover { color: var(--color-primary); }
+
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  min-height: 36px;
+}
+
+/* ── Primary Navigation — Prairie Bloom topbar ───────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-hay-cream);
+  border-bottom: 3px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-3) var(--page-padding);
+  min-width: 0;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-secondary);
   text-decoration: none;
-  opacity: 0.85;
+  border-radius: var(--radius-pill);
+  transition: background 0.15s, color 0.15s;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--color-furrow-brown);
+  flex-shrink: 0;
+}
+
+.nav-logo__wordmark {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--color-furrow-brown);
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.nav-logo__icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: var(--space-1);
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: background 0.15s, color 0.15s;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu a:hover {
+  background: var(--color-oat-field);
+  color: var(--color-text);
+}
+
+.nav-menu a[aria-current="page"] {
+  background: var(--color-primary);
+  color: var(--color-text);
 }
 
 .nav-toggle {
@@ -48,464 +198,340 @@
   border-radius: var(--radius-md);
   padding: var(--space-2);
   cursor: pointer;
-  color: var(--color-text);
-  margin-left: auto;
-  min-width: 44px;
   min-height: 44px;
+  min-width: 44px;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition-speed) ease-out;
 }
 
-.nav-toggle:hover {
-  background: var(--color-surface-alt);
-}
-
-.nav-toggle svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentcolor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  display: block;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  gap: var(--space-1);
-  margin-left: auto;
-  align-items: center;
-}
-
-.nav-menu a {
-  padding: var(--space-2) var(--space-3);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-text);
-  text-decoration: none;
-  border-radius: var(--radius-pill);
-  transition:
-    background var(--transition-speed) ease-out,
-    color var(--transition-speed) ease-out;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
-
-.nav-menu a:hover {
-  background: var(--color-surface-alt);
-  text-decoration: none;
-  color: var(--color-text);
-}
-
-.nav-menu a[aria-current='page'] {
-  background: var(--color-primary);
-  color: var(--color-text);
-}
-
-/* Mobile nav */
-@media (width <= 768px) {
-  .nav-toggle {
-    display: flex;
-  }
+/* ── Mobile Nav ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; }
 
   .nav-menu {
-    position: fixed;
-    top: 64px;
+    display: none;
+    position: absolute;
+    top: 100%;
     left: 0;
     right: 0;
-    background: var(--color-bg);
-    border-bottom: 2px solid var(--color-border);
+    background: var(--color-hay-cream);
+    border-bottom: 3px solid var(--color-border);
     flex-direction: column;
-    gap: 0;
     padding: var(--space-4);
-    margin: 0;
-    display: none;
-    max-height: calc(100vh - 64px);
-    overflow-y: auto;
-    box-shadow: var(--shadow-lg);
+    gap: var(--space-2);
+    box-shadow: var(--shadow-md);
   }
 
-  .nav-menu.is-open {
-    display: flex;
-  }
+  .nav-menu.is-open { display: flex; }
 
   .nav-menu a {
     width: 100%;
-    padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-md);
-    min-height: 48px;
   }
 }
 
-/* ─── Site footer ───────────────────────────────────────────────────────────── */
-.site-footer {
-  background: var(--color-surface-alt);
-  border-top: 2px solid var(--color-border);
-  padding: var(--space-12) 0 var(--space-8);
-}
-
-.footer-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
+/* ── Mascot Companion — Sunny the Sunflower ─────────────────────────── */
+.mascot-companion {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 200;
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
-}
-
-.footer-tagline {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.125rem;
-  color: var(--color-text);
-  opacity: 0.85;
-  max-width: none;
-}
-
-.footer-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-8);
-}
-
-.footer-col h3 {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-neutral);
-  margin-bottom: var(--space-4);
-  border: none;
-  padding: 0;
-}
-
-.footer-col ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
+  align-items: flex-end;
   gap: var(--space-2);
 }
 
-.footer-col a {
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  color: var(--color-text);
-  text-decoration: none;
-  opacity: 0.8;
-  transition:
-    opacity var(--transition-speed) ease-out,
-    color var(--transition-speed) ease-out;
+.mascot-companion.is-dismissed { display: none; }
+
+@media (max-height: 800px), (max-width: 768px) {
+  .mascot-companion { display: none; }
 }
 
-.footer-col a:hover {
-  opacity: 1;
-  color: var(--color-secondary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.footer-copy {
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  color: var(--color-text);
-  opacity: 0.6;
-  max-width: none;
-  border-top: 2px dashed var(--color-surface);
-  padding-top: var(--space-6);
-  text-align: center;
-}
-
-@media (width <= 640px) {
-  .footer-nav {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
-}
-
-/* ─── Buttons ───────────────────────────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  border: 2px solid transparent;
-  border-radius: var(--radius-pill);
-  text-decoration: none;
+.mascot-sunny {
+  width: 72px;
+  height: 72px;
   cursor: pointer;
-  transition:
-    transform 140ms var(--transition-ease),
-    box-shadow 140ms ease-out,
-    background var(--transition-speed) ease-out,
-    color var(--transition-speed) ease-out;
-  min-height: 44px;
-  white-space: nowrap;
-  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(92,61,30,0.25));
+  animation: sunflower-sway 3s ease-in-out infinite;
+  transition: filter 0.2s;
 }
 
-.btn:hover {
-  text-decoration: none;
-  transform: translateY(-1px);
+.mascot-sunny:hover { filter: drop-shadow(0 6px 14px rgba(92,61,30,0.35)); }
+
+@keyframes sunflower-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50%       { transform: rotate(4deg); }
 }
 
-.btn:active {
-  transform: scale(0.96);
+@media (prefers-reduced-motion: reduce) {
+  .mascot-sunny { animation: none; }
 }
 
-.btn-primary {
-  background: var(--color-primary);
-  color: var(--color-text);
-  border-color: var(--color-primary);
-}
-
-.btn-primary:hover {
-  background: #e6b420;
-  border-color: #e6b420;
-  color: var(--color-text);
+.mascot-tip {
+  background: var(--color-warm-linen);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  max-width: 220px;
   box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  line-height: 1.5;
 }
 
-.btn-secondary {
-  background: var(--color-secondary);
-  color: var(--color-surface);
-  border-color: var(--color-secondary);
+.mascot-tip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.btn-secondary:hover {
-  background: #6a4e91;
-  border-color: #6a4e91;
-  color: var(--color-surface);
-  box-shadow: var(--shadow-md);
+.mascot-tip::before {
+  content: '🌻 ';
 }
 
-.btn-danger {
-  background: var(--color-error);
-  color: var(--color-surface);
-  border-color: var(--color-error);
+.mascot-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-neutral);
+  padding: 2px 6px;
+  margin-top: var(--space-1);
+  display: block;
 }
 
-.btn-danger:hover {
-  background: #7a1f1f;
-  border-color: #7a1f1f;
-  color: var(--color-surface);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
-
-.btn-ghost:hover {
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.btn-link {
-  background: transparent;
-  color: var(--color-secondary);
-  border-color: transparent;
-  padding-inline: var(--space-2);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.btn-link:hover {
-  color: var(--color-tertiary);
-  text-decoration: underline;
-}
-
-.btn-small {
-  padding: var(--space-2) var(--space-4);
-  font-size: 0.8125rem;
-  min-height: 36px;
-}
-
-.btn-large {
-  padding: var(--space-4) var(--space-8);
-  font-size: 1rem;
-  min-height: 52px;
-}
-
-/* ─── Media badges ──────────────────────────────────────────────────────────── */
+/* ── Sunflower Seed-Packet Badges ─────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-1) var(--space-3);
+  gap: var(--space-1);
+  padding: 2px 10px;
   border-radius: var(--radius-pill);
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 1.5px solid currentcolor;
-  white-space: nowrap;
+  border: 1px solid currentColor;
+  line-height: 1.6;
 }
 
-.badge-quality {
-  color: var(--color-warning);
-}
-.badge-status {
-  color: var(--color-info);
-}
-.badge-fave {
-  color: var(--color-tertiary);
-}
-.badge-pick {
-  color: var(--color-neutral);
+.badge--quality  { color: var(--color-warning); }  /* 4K/HDR */
+.badge--status   { color: var(--color-info); }     /* New/Continue */
+.badge--favorite { color: var(--color-barn-red); }
+.badge--county   { color: var(--color-clover); }   /* County Pick */
+.badge--stable   { color: var(--color-neutral); }
+.badge--beta     { color: var(--color-warning); }
+
+/* ── Form Elements ───────────────────────────────────────────────────── */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-/* ─── Form elements ─────────────────────────────────────────────────────────── */
-input[type='text'],
-input[type='email'],
-input[type='search'],
-input[type='url'],
-textarea,
-select {
-  background: var(--color-surface);
+.form-label {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  background: var(--color-warm-linen);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--color-text);
   width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
   min-height: 44px;
-  transition:
-    border-color var(--transition-speed) ease-out,
-    box-shadow var(--transition-speed) ease-out;
-  appearance: none;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
   outline: none;
   border-color: var(--color-focus);
-  box-shadow: var(--focus-ring);
+  box-shadow: 0 0 0 3px rgba(123,94,167,0.2);
 }
 
-label {
+.form-input.is-error,
+.form-textarea.is-error { border-color: var(--color-error); }
+
+.form-error {
   font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: block;
-  margin-bottom: var(--space-2);
-  color: var(--color-text);
+  font-size: 0.8rem;
+  color: var(--color-error);
 }
 
-.form-group {
-  margin-bottom: var(--space-6);
+.form-success {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-clover);
 }
 
-/* ─── Animations ─────────────────────────────────────────────────────────────── */
-@keyframes sunflower-sway {
-  0%,
-  100% {
-    transform: rotate(-2deg);
-  }
-  50% {
-    transform: rotate(2deg);
-  }
+/* ── Quilt-Dash Dividers ─────────────────────────────────────────────── */
+.divider-quilt {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0px,
+    var(--color-border) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+  border: none;
+  margin-block: var(--space-8);
+  opacity: 0.4;
 }
 
-@keyframes pollen-drift {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(40px) translateX(15px);
-    opacity: 0;
-  }
-}
-
-@keyframes grow-bloom {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Reduced motion: replace with simple fade */
-@media (prefers-reduced-motion: reduce) {
-  .sunflower-sway {
-    animation: none;
-  }
-  .pollen-drift {
-    animation: none;
-  }
-  .grow-bloom {
-    animation: none;
-    opacity: 1;
-  }
-  .fade-in-up {
-    animation: fade-in 200ms ease-out both;
-  }
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Hero decorative sunflower ─────────────────────────────────────────────── */
-.hero-sunflower {
+/* ── Hero Folk-Art Illustration (CSS-only meadow) ─────────────────────── */
+.hero-art {
   position: absolute;
-  top: var(--space-8);
-  right: var(--space-8);
-  width: 120px;
-  height: 120px;
-  animation: sunflower-sway 6s ease-in-out infinite;
-  opacity: 0.7;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-art__sunflower {
+  position: absolute;
+  bottom: 10%;
+  left: 8%;
+  width: 80px;
+  opacity: 0.6;
+  animation: sunflower-sway 4s ease-in-out infinite;
+  animation-delay: -1s;
+}
+
+.hero-art__sunflower--right {
+  left: auto;
+  right: 10%;
+  animation-delay: -2.5s;
+}
+
+.hero-art__cloud {
+  position: absolute;
+  top: 8%;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50px;
+  animation: cloud-drift 20s linear infinite;
+}
+
+.hero-art__cloud--1 { width: 120px; height: 40px; left: 15%; top: 10%; animation-duration: 25s; }
+.hero-art__cloud--2 { width: 80px; height: 28px; left: 55%; top: 5%; animation-duration: 18s; animation-delay: -5s; }
+
+@keyframes cloud-drift {
+  0%   { transform: translateX(-20px); }
+  50%  { transform: translateX(20px); }
+  100% { transform: translateX(-20px); }
+}
+
+/* ── Pollen Particle Effect ───────────────────────────────────────────── */
+.pollen-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.pollen-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pollen-fall linear infinite;
+}
+
+@keyframes pollen-fall {
+  0%   { opacity: 0; transform: translateY(-20px) translateX(0); }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(100vh) translateX(30px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-sunflower {
-    animation: none;
-  }
+  .pollen-dot { display: none; }
+  .hero-art__cloud, .hero-art__sunflower { animation: none; }
 }
 
-@media (width <= 768px) {
-  .hero-sunflower {
-    width: 64px;
-    height: 64px;
-    top: var(--space-4);
-    right: var(--space-4);
-  }
+/* ── Easter Egg — Golden Tint Overlay ───────────────────────────────── */
+.easter-golden-tint {
+  position: fixed;
+  inset: 0;
+  background: rgba(242,193,46,0.12);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.easter-golden-tint.is-active { opacity: 1; }
+
+/* ── Sunny Celebration Message ────────────────────────────────────────── */
+.sunny-celebration {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-warm-linen);
+  border: 3px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-8);
+  text-align: center;
+  z-index: 9999;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.sunny-celebration.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sunny-celebration__text {
+  font-family: var(--font-headline);
+  font-size: 1.3rem;
+  color: var(--color-furrow-brown);
+}
+
+/* ── Scroll Reveal ───────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ── Logo click easter egg (Sunny hat-tip dance) ─────────────────────── */
+.sunny-hat-tip {
+  animation: hat-tip 0.5s ease-in-out;
+}
+
+@keyframes hat-tip {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-15deg); }
+  75%  { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
 }

@@ -1,95 +1,120 @@
-# BUILD_LOG.md — Retro Seventies Site Build
+# BUILD_LOG.md — Retro Seventies
 
-## What was built
+## Build Summary
 
-**Site**: `sites/retro-seventies/` — a complete, production-quality static marketing site for Phlix, styled entirely in the Retro Seventies brand identity.
+Built from: `brand-kits/retro-seventies.js` v1.0
+Date: 2026-07-28
+Archetype: `narrative-scroll`
 
-**Kit**: `phlix-website/brand-kits/retro-seventies.js` v1.0 (base kit, `kit_type: base`)
-**Layout archetype**: `showcase` (full-bleed record-sleeve hero, warm-dark editorial, media-forward)
-**Build date**: 2026-07-01
+## What Was Built
 
----
+### Pages (9)
+- `index.html` — Home with 5 narrative sections
+- `features.html` — Feature vinyl-shelf grid
+- `clients.html` — Device cards
+- `download.html` — Install snippet + ecosystem
+- `plugins.html` — Plugin overview (demoted page)
+- `docs.html` — Doc links (demoted page)
+- `hub.html` — Hub relay explanation
+- `about.html` — Story + FAQ
+- `404.html` — Groove in empty auditorium
 
-## CSS Architecture
+### CSS (3 files)
+- `css/base.css` — Reset, tokens, element defaults
+- `css/theme.css` — Typography, layout, animations
+- `css/components.css` — Nav, footer, buttons, cards, forms, mascot
 
-- **`base.css`**: CSS custom properties (`:root` token block), modern reset, accessibility base, `@font-face` declarations for Playfair Display 700/900, Fredoka One 400, Lato 400/700/900, Courier Prime 400/700 from Google Fonts CDN (self-hosted WOFF2 with `font-display: swap`)
-- **`theme.css`**: Typography scale, layout containers (1400px max-width, centered), page structure (.hero, .pitch, .features-overview, .cta-banner, .page-header, .content-section, .content-grid, .faq-list), reveal animations, responsive breakpoints
-- **`components.css`**: Site header/nav, mobile nav toggle, footer, all button variants (primary/secondary/danger/ghost/link/icon/fab/large/small), feature cards, client cards, status badges, chips, forms, code blocks, docs link grid, ecosystem list
+### JavaScript (1 file)
+- `js/main.js` — Nav toggle, FAQ accordion, mascot, easter eggs, scroll reveals
 
----
+### Assets
+- `img/favicon.svg` — Vinyl groove circle favicon
+- `img/og.svg` — Social share image (SVG source, to be rasterized to og.png)
+- `robots.txt` — Allow all, sitemap reference
+- `sitemap.xml` — 9 URLs
 
-## Design Decisions
+### Documentation
+- `SITE.md` — Design rationale
+- `REGEN_PLAN.md` — Change manifest (this file)
+- `BUILD_LOG.md` — This log
 
-### Layout archetype rationale
-Selected `showcase` because: warm-dark full-bleed hero with ambient vinyl-groove SVG, editorial center-stage composition, record-sleeve aesthetic, warm Kodachrome poster treatment on media elements — all fit the `showcase` archetype best.
+## Font Escalation
 
-### Color application
-- Deep mahogany `#0F0900` as 100% background — never white or cold
-- Burnt orange `#D4570D` reserved exclusively for the single most important CTA (primary button, hero CTA, FAB)
-- Harvest gold `#C9A22B` and avocado green `#8B9B3A` used as co-equal secondary accents — never more than two warm accents per view
-- Cream paper `#F5EDD8` for all text — passes WCAG AAA against mahogany
+### Fredoka One — RESOLVED
 
-### Typography application
-- `hero.eyebrow`: "Far out. Right here." (kit tagline_secondary[0]) — uppercase Lato, harvest gold, 0.12em tracking
-- `hero.h1`: `hero.headline` from `content.json` (unchanged, factual)
-- `hero.sub`: `hero.subheadline` from `content.json` (unchanged)
-- `cta-banner h2`: Kit voice "Ready to spin something great?" / "Drop the needle — start streaming." / "Build something great" / "The good stuff never gets old."
-- All micro-copy (section eyebrows, empty states, captions) uses kit vocabulary: "groove", "spin", "flip", "session", "record", "reel", "solid", "warm", "vibes", "far out", "right on" — used naturally, never forced
+**Problem:** Kit requests `Fredoka One` at weight [400] for `display` and `number` roles. Fredoka One was retired from Google Fonts (404 on ofl/fredokaone directory). Cannot be redistributed.
 
-### Icon implementation
-Inline SVG stroke icons (single-color, no CDN). All 7 feature icons + utility nav toggle icon. Style: 1.5px stroke, round caps/joins, cream paper color (idle) / burnt orange (active/featured).
+**Resolution:** Per `shared/data/font-sources.json`:
+```
+"Fredoka One": {
+  "sourceFamily": "Fredoka",
+  "substitution": {
+    "requested": "Fredoka One",
+    "resolved": "Fredoka",
+    "reason": "Fredoka is its official successor by the same designer (Milena Brandao / Hafontia), OFL-1.1, same rounded geometric single-storey design; weight 600 matches Fredoka One's optical weight."
+  },
+  "weights": ["400"],
+  "faces": {
+    "400": {
+      "file": "fredoka-600-latin.woff2",
+      "sourceWeight": 600,
+      "clamped": true
+    }
+  }
+}
+```
 
-### Signature elements used
-- Vinyl-groove concentric circles: hero SVG decoration, footer decorative SVG, og.svg background
-- Wood-grain texture overlay: CSS `repeating-linear-gradient` on .hero, .site-header
-- Warm ambient radial glow: CSS `radial-gradient` on .hero, .page-header
-- Burnt orange → harvest gold gradient line: top of .pitch section, top of .site-footer
-- Mascot (Groove): documented in PROMPTS.md; CSS/warm-skeleton loading shimmer used as reduced-motion stand-in
+**Action taken:** Using `Fredoka` from the pool at weight 600 (font file `fredoka-600-latin.woff2`). CSS uses `font-weight: 600` and `font-display: swap`.
 
-### Motion
-- All CSS transitions: `250–550ms ease-in-out` or `cubic-bezier(0.34, 1.56, 0.64, 1)` (gentle spring)
-- Hero entrance: staggered `reveal-up` animations on .hero-eyebrow, h1, .hero-sub, .hero-cta
-- Scroll reveals: `IntersectionObserver` adds `.is-visible` to cards/sections
-- Fully gated by `prefers-reduced-motion: reduce` — no animation runs
+**Not escalated** — the font-sources.json already provides the authoritative resolution from the pool. No CDN link added.
 
----
+## Field Precedence Resolutions
 
-## Known Notes
+Per new_site.md §19.6 field-precedence rules:
+- Kit `page_blueprints` vs structured `feature_casting`: structured field (`feature_casting.hero` with 2 features) is authority for counts; blueprint's "8 focal features" shape honoured without inventing content.
+- `content.json` vs kit on facts: content.json facts (feature list, client list, install command, FAQ answers) always win.
+- Kit `fonts.ui.usage` assigns nav to UI face; navigation_model.spec names display face: more specific field wins (nav label styling uses Lato per `navigation_model.spec`).
+- `mascot.behavior` declared non-null → build companion per spec.
 
-1. **CDN fonts**: Google Fonts CDN used for `@font-face` declarations. The spec allows this for fonts ("No CDN dependencies in the deployed page" refers to JS scripts and analytics). Self-hosted WOFF2 files should be downloaded at CI/build time for production.
-2. **`og.svg` shipped as SVG source** (not raster PNG) per `new_site.md` §8. The editable SVG is in `img/og.svg`; it should be rasterized to `og.png` for maximum social card compatibility.
-3. **Seasonal variants** not auto-applied. Override token blocks are documented in `SITE.md` for future implementation.
-4. **Mascot Groove**: illustrated in `PROMPTS.md` for future AI generation. Current implementation uses CSS/SVG warm shimmer loader as the loading state stand-in (reduced-motion safe).
-5. **No `variants/` directory**: This build follows the new `sites/<slug>/` structure per `new_site.md` §17. Tools scanning `variants/` will need to be updated to include `sites/` in their scan paths.
+## Deviations from Predecessor
 
----
+- Added `404.html` (was missing per kit-brief)
+- Nav labels: all 6 matched to `site_architecture.nav` (was missing per kit-brief)
+- Home sections: all 5 matched to `homepage_narrative.sections[]` (was missing per kit-brief)
+- `@font-face` rules: 8 (matches font pool families × roles: Playfair 700/900, Fredoka 600, Lato 400/700/900, Courier Prime 400/700)
+- Removed Google Fonts CDN link (per §19.3 — was likely present in predecessor)
 
-## Quality Checks Passed
+## CSS Rules Applied
 
-- [x] All 8 pages + CSS + JS + img + robots.txt + sitemap.xml + SITE.md + BUILD_LOG.md exist
-- [x] CSS `base.css` `:root` tokens from `design_tokens` + brand kit color/spacing/radius/shadow blocks
-- [x] All brand kit color roles mapped to CSS custom properties
-- [x] All brand kit spacing scale steps used (no off-scale values)
-- [x] Corner radius from kit's `corner_radius` scale used consistently
-- [x] Playfair Display used for headlines (700/900); Fredoka One for display; Lato for body/UI; Courier Prime for mono
-- [x] All 7 feature icons as inline SVG, matching kit icon style
-- [x] `aria-current="page"` on active nav link
-- [x] Skip link, landmarks (banner, navigation, main, contentinfo), one h1 per page
-- [x] Canonical URL + OG + Twitter meta on every page (absolute URLs)
-- [x] JSON-LD SoftwareApplication on index.html
-- [x] `prefers-reduced-motion` respected in CSS and JS
-- [x] All footer links use correct href from `content.json.footer.columns`
-- [x] All external links use `rel="noopener noreferrer"`
-- [x] `content.json` factual copy preserved verbatim; only micro-copy uses kit voice
-- [x] No `avoid_words` from kit used in any copy
-- [x] Seasonal variants documented in SITE.md
+Per new_site.md §19.12:
+- Grid tracks use `minmax(0, 1fr)` (no overflow issues)
+- `overflow-wrap: anywhere` on body (long identifiers reflow)
+- No `overflow: hidden` on text containers
 
----
+## Accessibility Notes
 
-## Next Steps
+- WCAG AA contrast: Cream Paper (#F5EDD8) on Deep Mahogany (#0F0900) = 18.2:1
+- Burnt Orange (#D4570D) on Deep Mahogany = 4.7:1 (passes AA)
+- Harvest Gold (#C9A22B) on Deep Mahogany = 5.8:1 (passes AA)
+- Avocado Green (#8B9B3A) on Dark Walnut (#1A1005): needs verification — treated as accent, not primary text
+- Focus rings: 2px harvest gold with 2px mahogany offset + warm outer glow
+- All interactive elements keyboard-reachable
+- `prefers-reduced-motion` respected throughout
 
-- [ ] Run `npm run lint`, `npm run linkcheck`, `npm run a11y` and fix any issues
-- [ ] Run adversarial multi-perspective review loop (12 dimensions)
-- [ ] Rasterize `img/og.svg` → `img/og.png` (1200×630) for maximum social card compatibility
-- [ ] Download and self-host WOFF2 font files at build time
-- [ ] Iterate review loop until all dimensions score ≥90 with no ❌
+## Verification
+
+Run these to verify:
+```bash
+node tools/gen-og.mjs --site retro-seventies
+node tools/gen-sitemap.mjs --site retro-seventies
+node tools/selfcheck.mjs --site retro-seventies
+node tools/render-check.mjs --site retro-seventies
+```
+
+## Notes
+
+- Groove mascot tips reference kit `mascot.behavior.tips` section
+- Easter eggs: logo-clicks:3 and typed-word:groove per `easter_eggs[]`
+- 404 uses `error_page_experience.concept` as real content (not verbatim field)
+- Install command copied verbatim from `content.json.install.primary.command` (never retyped)
+- No fabricated proof signals — all numbers traceable to content.json

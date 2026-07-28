@@ -14,9 +14,11 @@
 **Why `showcase` fits the kit:**
 
 The kit's `layout_patterns.landing` pattern reads:
+
 > "Full-bleed dark hero with animated pulse line → three-column features → technical specs → CTA."
 
 This maps precisely to the **`showcase`** archetype — the most immersive and cinematic layout option in the Phlix scaffold system. The `showcase` archetype demands:
+
 - Full-viewport dark hero (obsidian background) as the visual anchor
 - Centered architectural compositions with extreme negative space on all four sides
 - A single bold visual motif (the animated pulse scan line) as the hero's only ornament
@@ -36,22 +38,22 @@ The site is structurally sound — colors, spacing, typography roles, motion, an
 
 ## Dimension Scores
 
-| Dimension | Score | Status |
-|-----------|-------|--------|
-| Color tokens | 95/100 | ✅ |
-| Font families | 40/100 | ❌ |
-| Border radius | 100/100 | ✅ |
-| Spacing scale | 100/100 | ✅ |
-| Shadows | 100/100 | ✅ |
-| Motion speed/easing | 95/100 | ⚠️ |
-| Single Pulse Blue accent | 95/100 | ⚠️ |
-| Obsidian background | 100/100 | ✅ |
-| Hairline dividers | 100/100 | ✅ |
-| No mascot | 100/100 | ✅ |
-| Voice / avoid_words | 80/100 | ⚠️ |
-| Primary CTA | 100/100 | ✅ |
-| Layout archetype | 100/100 | ✅ |
-| CDN/font self-hosting | 0/100 | ❌ |
+| Dimension                | Score   | Status |
+| ------------------------ | ------- | ------ |
+| Color tokens             | 95/100  | ✅     |
+| Font families            | 40/100  | ❌     |
+| Border radius            | 100/100 | ✅     |
+| Spacing scale            | 100/100 | ✅     |
+| Shadows                  | 100/100 | ✅     |
+| Motion speed/easing      | 95/100  | ⚠️     |
+| Single Pulse Blue accent | 95/100  | ⚠️     |
+| Obsidian background      | 100/100 | ✅     |
+| Hairline dividers        | 100/100 | ✅     |
+| No mascot                | 100/100 | ✅     |
+| Voice / avoid_words      | 80/100  | ⚠️     |
+| Primary CTA              | 100/100 | ✅     |
+| Layout archetype         | 100/100 | ✅     |
+| CDN/font self-hosting    | 0/100   | ❌     |
 
 ---
 
@@ -71,6 +73,7 @@ The site is structurally sound — colors, spacing, typography roles, motion, an
 ```
 
 **Spec rule:** `new_site.md` §6 explicitly states:
+
 > "No CDN dependencies in the deployed page (no Google Fonts `<link>` to `fonts.googleapis.com`, no script CDNs). **Self-host fonts** as WOFF2 and declare them with `@font-face` + `font-display: swap`."
 
 This is a hard requirement, not a preference. The BUILD_LOG.md acknowledges this deviation ("Noted for production build step") but the site shipped with it unresolved.
@@ -85,6 +88,7 @@ This is a hard requirement, not a preference. The BUILD_LOG.md acknowledges this
 **File:** `css/fonts/` (directory exists, 0 files inside)
 
 The `base.css:7-93` declares `@font-face` rules referencing:
+
 - `fonts/dm-sans-300.woff2` (base.css:12)
 - `fonts/dm-sans-400.woff2` (base.css:20)
 - `fonts/dm-sans-500.woff2` (base.css:28)
@@ -98,6 +102,7 @@ The `base.css:7-93` declares `@font-face` rules referencing:
 - `fonts/jetbrains-mono-500.woff2` (base.css:92)
 
 None of these files exist. The CDN link in HTML is the only thing preventing a font-stack fallback. The `BUILD_LOG.md:72` explicitly calls this out:
+
 > "No WOFF2 font files in css/fonts/ — The spec expects actual font files. These would be populated at build time from Google Fonts."
 
 **Fix:** Populate `css/fonts/` with WOFF2 font files for all 11 declared faces. The site's visual fidelity depends on these being present — without them, the layout will fall back to system sans-serif/monospace stacks, destroying the kit's typographic precision.
@@ -115,6 +120,7 @@ None of these files exist. The CDN link in HTML is the only thing preventing a f
 Additionally, "in minutes" violates the kit's preference for **numbers over adjectives** (`obsidian-pulse.js:678` — "Technical accuracy over marketing warmth. Numbers over adjectives.").
 
 **Fix:** Replace with precise, factual language. Options:
+
 - `"Download Phlix and begin."` (direct, no time claim)
 - `"Ready to run."` (minimal, technical)
 - `"Begin setup."` (precise verb, no casual framing)
@@ -172,39 +178,39 @@ The primary CTA button on download cards should use the secondary/ghost style (`
 
 ## ✅ Findings — Correctly Implemented
 
-| Check | Status | Reference |
-|-------|--------|-----------|
-| CSS color tokens all from kit | ✅ | `base.css:98-115` — all tokens match `design_tokens.color` |
-| No off-palette hex values in CSS | ✅ | All color values trace to `var(--color-*)` |
-| Font families from kit roles | ✅ | DM Sans / Space Grotesk / Inter / JetBrains Mono only |
-| Border radius ≤ 4px (kit max) | ✅ | `base.css:135-139`; 2px/4px used in components |
-| Spacing scale only allowed values | ✅ | `base.css:123-132`; all values from kit scale |
-| Shadows pure cool black, no warm tones | ✅ | `base.css:181-184`; all `rgba(0, 0, 0, …)` |
-| Motion speed 300-500ms | ✅ | `base.css:192` `--duration-slow: 400ms`; `main.js:65` `400ms` |
-| Easing `cubic-bezier(0.25, 0.0, 0.0, 1.0)` | ✅ | `base.css:191` `--ease-out: cubic-bezier(0.25, 0.0, 0.0, 1.0)` |
-| Obsidian background (#0A0B0E) | ✅ | `base.css:102` `--color-bg: #0A0B0E` |
-| Hairline dividers (#2A2E38) | ✅ | `base.css:111` `--color-border: #2A2E38` |
-| No mascot (`mascot: null`) | ✅ | No mascot present anywhere in site |
-| Primary CTA: Pulse Blue fill + obsidian text | ✅ | `components.css:161-165` — `background: var(--color-primary); color: var(--color-bg)` |
-| Layout archetype `showcase` | ✅ | Correctly implemented: full-viewport hero, centered, extreme negative space |
-| Pulse scan line animation | ✅ | `theme.css:159-176` — `@keyframes pulse-scan` 4s, `cubic-bezier(0.25, 0.0, 0.0, 1.0)`, infinite |
-| Reduced motion respected | ✅ | `theme.css:178-183`, `base.css:325-332`, `main.js:38-42` |
-| Logo per kit `logo_rules` | ✅ | `img/logo.svg` — Space Grotesk 300, optical white wordmark, single Pulse Blue bar beneath |
-| Favicon: obsidian square, Pulse Blue bar | ✅ | `img/favicon.svg` — correct kit symbols |
-| No banned avoid_words | ✅ | No "amazing", "incredible", "magic", "seamless", "easy", "beautiful", "exciting", "awesome", "powerful", "revolutionize", "cutting-edge", "next-generation", "industry-leading" found in copy |
-| Headline font weights light/regular only | ✅ | `base.css:162-165` — `--weight-light: 300`, `--weight-regular: 400`; `theme.css:15, 23` apply these to h1/h2 |
-| Scroll reveal animation correct | ✅ | `main.js:65` — `opacity 400ms cubic-bezier(0.25, 0.0, 0.0, 1.0), transform 400ms …` |
-| Focus ring: 1px Pulse Blue + glow | ✅ | `base.css:293-297` — `outline: 1px solid var(--color-focus); box-shadow: 0 0 8px var(--color-primary-glow)` |
+| Check                                        | Status | Reference                                                                                                                                                                                     |
+| -------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CSS color tokens all from kit                | ✅     | `base.css:98-115` — all tokens match `design_tokens.color`                                                                                                                                    |
+| No off-palette hex values in CSS             | ✅     | All color values trace to `var(--color-*)`                                                                                                                                                    |
+| Font families from kit roles                 | ✅     | DM Sans / Space Grotesk / Inter / JetBrains Mono only                                                                                                                                         |
+| Border radius ≤ 4px (kit max)                | ✅     | `base.css:135-139`; 2px/4px used in components                                                                                                                                                |
+| Spacing scale only allowed values            | ✅     | `base.css:123-132`; all values from kit scale                                                                                                                                                 |
+| Shadows pure cool black, no warm tones       | ✅     | `base.css:181-184`; all `rgba(0, 0, 0, …)`                                                                                                                                                    |
+| Motion speed 300-500ms                       | ✅     | `base.css:192` `--duration-slow: 400ms`; `main.js:65` `400ms`                                                                                                                                 |
+| Easing `cubic-bezier(0.25, 0.0, 0.0, 1.0)`   | ✅     | `base.css:191` `--ease-out: cubic-bezier(0.25, 0.0, 0.0, 1.0)`                                                                                                                                |
+| Obsidian background (#0A0B0E)                | ✅     | `base.css:102` `--color-bg: #0A0B0E`                                                                                                                                                          |
+| Hairline dividers (#2A2E38)                  | ✅     | `base.css:111` `--color-border: #2A2E38`                                                                                                                                                      |
+| No mascot (`mascot: null`)                   | ✅     | No mascot present anywhere in site                                                                                                                                                            |
+| Primary CTA: Pulse Blue fill + obsidian text | ✅     | `components.css:161-165` — `background: var(--color-primary); color: var(--color-bg)`                                                                                                         |
+| Layout archetype `showcase`                  | ✅     | Correctly implemented: full-viewport hero, centered, extreme negative space                                                                                                                   |
+| Pulse scan line animation                    | ✅     | `theme.css:159-176` — `@keyframes pulse-scan` 4s, `cubic-bezier(0.25, 0.0, 0.0, 1.0)`, infinite                                                                                               |
+| Reduced motion respected                     | ✅     | `theme.css:178-183`, `base.css:325-332`, `main.js:38-42`                                                                                                                                      |
+| Logo per kit `logo_rules`                    | ✅     | `img/logo.svg` — Space Grotesk 300, optical white wordmark, single Pulse Blue bar beneath                                                                                                     |
+| Favicon: obsidian square, Pulse Blue bar     | ✅     | `img/favicon.svg` — correct kit symbols                                                                                                                                                       |
+| No banned avoid_words                        | ✅     | No "amazing", "incredible", "magic", "seamless", "easy", "beautiful", "exciting", "awesome", "powerful", "revolutionize", "cutting-edge", "next-generation", "industry-leading" found in copy |
+| Headline font weights light/regular only     | ✅     | `base.css:162-165` — `--weight-light: 300`, `--weight-regular: 400`; `theme.css:15, 23` apply these to h1/h2                                                                                  |
+| Scroll reveal animation correct              | ✅     | `main.js:65` — `opacity 400ms cubic-bezier(0.25, 0.0, 0.0, 1.0), transform 400ms …`                                                                                                           |
+| Focus ring: 1px Pulse Blue + glow            | ✅     | `base.css:293-297` — `outline: 1px solid var(--color-focus); box-shadow: 0 0 8px var(--color-primary-glow)`                                                                                   |
 
 ---
 
 ## Summary
 
-| Severity | Count |
-|----------|-------|
-| ❌ Critical (must fix) | **3** |
-| ⚠️ Warning (should fix) | **4** |
-| ✅ Compliant | **22** |
+| Severity                | Count  |
+| ----------------------- | ------ |
+| ❌ Critical (must fix)  | **3**  |
+| ⚠️ Warning (should fix) | **4**  |
+| ✅ Compliant            | **22** |
 
 ### Critical defects requiring immediate fix:
 

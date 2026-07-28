@@ -1,74 +1,18 @@
-# img/PROMPTS.md — Pastel Dreamscape Image Generation Prompts
+# img/PROMPTS.md — Pastel Dreamscape image generation prompts
 
-All prompts built from:
-- **Prefix**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition,`
-- **Suffix**: `, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-- **Negative**: `neon, cyberpunk, dark, moody, harsh lighting, shadows hard, horror, scary, violent, gritty, realistic photo, HDR, sharp angles, stark black outlines, cold colors, grey, brown earth tones, futuristic HUD, lens flare, chrome, gloss`
+This file records the exact prompts used to (re)generate every image asset in this kit's `img/` directory.
 
----
+## Favicon (`favicon.svg`)
+**Prompt:** Design a Pastel Dreamscape favicon: bubbly cloud shape in petal-white (#FEFCE8) on cloud-cream (#FEF9F5) background, soft lilac outline (#DDD6FE), with a small candy-pink sparkle dot accent. Simple, rounded, no sharp edges. 32×32 viewBox.
 
-## Logo
+## OG Image (`og.svg` → `og.png`)
+**Prompt:** Kawaii dreamy pastel social graphic for Phlix media server: Baloo 2 bold headline "Your media. Your library. Your Phlix." in candy pink (#F9A8D4) on cloud-cream background with cotton-candy sky gradient at the top (pink → lavender → sky blue), a small kawaii cloud illustration with a pastel wand, rainbow sparkle accents, and a soft vignette. 1200×630.
 
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition, Design a Pastel Dreamscape logo: bubbly Baloo 2 / Comfortaa wordmark in candy pink on cloud-cream, inside a soft cloud shape, sparkle star accent, no sharp edges, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
+## Hero illustration (inline SVG in index.html)
+**Prompt:** Soft dreamy cloud world illustration: cotton-candy gradient sky (pink → lavender → sky blue), big fluffy cloud shapes at the bottom in white with soft lavender outlines, a small unicorn silhouette sitting on a cloud in soft purple, a pastel rainbow arc, and small sparkle stars scattered. Dreamy, kawaii, no harsh lines.
 
-**Forbidden elements**: neon, cyberpunk, dark, moody, sharp angles, stark black outlines, cold colors, grey
+## Dreamscape brand scene (inline SVG in index.html)
+**Prompt:** Dreamy kawaii media landing page header: full-bleed cotton-candy sky, fluffy cloud base layers in white with lavender outlines, a small pastel unicorn on a cloud, iridescent bubble accents, rainbow arc, and floating sparkle stars. Dreamy aesthetic, watercolor style, soft and sweet.
 
----
-
-## Hero Illustration (Dreamscape)
-
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition, A dreamy kawaii media landing page hero: full-bleed cloud-world illustration with Dreamy mascot (kawaii cloud fairy with iridescent pastel wings, rosy cheeks, cotton-candy pink and lavender hair, soft mint dress with star embroidery) floating among fluffy cumulus clouds, unicorn cloud in the background, pastel rainbow arc, floating stars and iridescent bubbles scattered gently, sunrise gradient sky, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-
-**Forbidden**: dark, moody, harsh lighting, horror, scary, violent, gritty, realistic photo, sharp angles, stark black outlines
-
----
-
-## Feature Icons (7 icons)
-
-Each icon follows: `{prefix} Rounded kawaii icon of {subject}, soft pastel fill, thin lavender stroke, no sharp corners, friendly and cute, sparkle highlight. {suffix}`
-
-| Feature | Icon Subject | Notes |
-|---------|-------------|-------|
-| library | Cloud with film reel or stacked media tiles | Kawaii cloud shape, pastel fill |
-| syncplay | Two connected circles with clock hands | Duotone pink + lavender |
-| transcode | Stacked quality layers or transcoding arrows | Soft gradient fill |
-| shield | Rounded kawaii shield with star | Mint/pink duotone |
-| antenna | Antenna with signal waves | Pastel fill, sparkles |
-| broadcast / DLNA | Wifi/radio waves from a soft circle | Lavender/pink duotone |
-| puzzle | Kawaii puzzle piece with star | Mint/pink |
-| hub | Connected nodes with star center | Pastel gradient |
-
----
-
-## Background Pattern
-
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition, Soft cloud-cream background with a subtle cotton-candy sky gradient at the top, floating iridescent bubbles scattered gently, no harsh light, dreamy pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-
----
-
-## Marketing Social Graphic Template
-
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition, A dreamy pastel social graphic for {topic}: Baloo 2 headline in candy pink, kawaii illustration, cloud-cream border, rainbow sparkle accents, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-
----
-
-## Empty State Illustration
-
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, cloud-cream background, thin lavender outlines, iridescent bubble accents, baby pink and lavender and mint color palette, floating and airy composition, Dreamy mascot (kawaii cloud fairy) floating happily among gentle bubbles, looking curious and encouraging, empty cloud sky below, gentle sparkle accents, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-
----
-
-## OG Card (1200×630)
-
-The `img/og.svg` is the hand-crafted SVG source. For rasterized generation:
-
-**Prompt**: `Kawaii dreamy pastel illustration, soft watercolor with cel-shading, 1200x630 wide format, cloud-cream background fading into cotton-candy sky gradient (pink to lavender to sky blue at top), iridescent bubbles floating, soft cloud puffs at bottom edges, Phlix wordmark in bubbly font in soft plum, "Where every story floats on clouds." tagline in dreamy pastel headline, sparkle star accents, no text overlaid on bubbles, dreamlike pastel quality, rounded shapes, sparkle details, cohesive cotton-candy palette, gentle diffuse lighting, high quality.`
-
----
-
-## Seasonal Variants (not active by default — document in SITE.md)
-
-- **Winter Snowglobe** (Dec 1–Jan 10): Snowflakes drift, icy-blue shimmer, Dreamy wears snowflake crown
-- **Spring Blossom** (Mar 20–May 15): Cherry blossom petals fall, Dreamy holds sakura branch
-- **Summer Rainbow** (Jun 15–Aug 31): Bold pastel rainbows arc behind hero, Dreamy wears tiny sunglasses
-- **Autumn Harvest Moon** (Sep 22–Nov 14): Peach leaves drift, Dreamy sits on pastel pumpkin
+## Hub diagram (inline SVG in hub.html)
+**Prompt:** Simple network diagram for Phlix Hub: shows home network (left) with Phlix Server inside, a cloud labeled "Phlix Hub" (right) connected by a dashed tunnel line, and a phone (top right) connecting to the Hub. Uses pastel lavender for the tunnel, mint green for relay arrows. Soft cloud shapes for the Hub. Clean, minimal, kawaii-style.

@@ -9,20 +9,20 @@
 
 ## Score: 65 / 100
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
-| SEO tags (<title>, meta desc, canonical) | 17/20 | Minor: page-specific titles could be punchier |
-| Heading structure (h1, hierarchy, no skips) | 7/10 | features.html CTA h2 follows article h2s ambiguously |
-| Semantic landmarks | 8/8 | banner/navigation/main/contentinfo — one each, all present |
-| Descriptive anchor text | 8/8 | No "click here" / "read more" found |
-| JSON-LD (home only) | 8/8 | Present on index, correct fields |
-| sitemap.xml | 8/8 | 8 pages, all absolute canonical URLs, valid XML |
-| robots.txt | 5/5 | References sitemap correctly |
-| Social metadata (og tags) | 4/8 | Missing absolute URL (relative path); wrong format (SVG not PNG) |
-| Twitter card | 8/8 | All 5 required fields present on every page |
-| theme-color | 8/8 | Correctly set to #00B4FF on all pages |
-| Favicon | 8/8 | Present, SVG, on all pages |
-| Font loading (CDN ban) | 0/8 | **All 8 pages load Google Fonts from CDN** |
+| Dimension                                   | Score | Notes                                                            |
+| ------------------------------------------- | ----- | ---------------------------------------------------------------- |
+| SEO tags (<title>, meta desc, canonical)    | 17/20 | Minor: page-specific titles could be punchier                    |
+| Heading structure (h1, hierarchy, no skips) | 7/10  | features.html CTA h2 follows article h2s ambiguously             |
+| Semantic landmarks                          | 8/8   | banner/navigation/main/contentinfo — one each, all present       |
+| Descriptive anchor text                     | 8/8   | No "click here" / "read more" found                              |
+| JSON-LD (home only)                         | 8/8   | Present on index, correct fields                                 |
+| sitemap.xml                                 | 8/8   | 8 pages, all absolute canonical URLs, valid XML                  |
+| robots.txt                                  | 5/5   | References sitemap correctly                                     |
+| Social metadata (og tags)                   | 4/8   | Missing absolute URL (relative path); wrong format (SVG not PNG) |
+| Twitter card                                | 8/8   | All 5 required fields present on every page                      |
+| theme-color                                 | 8/8   | Correctly set to #00B4FF on all pages                            |
+| Favicon                                     | 8/8   | Present, SVG, on all pages                                       |
+| Font loading (CDN ban)                      | 0/8   | **All 8 pages load Google Fonts from CDN**                       |
 
 **❌ Critical: 3** | **⚠️ Warnings: 2** | **✅ Passes: many**
 
@@ -36,18 +36,24 @@
 **Pages:** `index.html:33-35`, `features.html:33-35`, `clients.html:33-35`, `download.html:33-35`, `plugins.html:33-35`, `docs.html:33-35`, `hub.html:33-35`, `about.html:33-35`
 
 Every page contains:
+
 ```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 `new_site.md §1` is unambiguous:
+
 > "No CDN dependencies in the deployed page (no Google Fonts `<link>` to `fonts.googleapis.com`, no script CDNs). **Self-host fonts** as WOFF2 and declare them with `@font-face` + `font-display: swap`."
 
 `base.css` already declares `@font-face` with `font-display: swap` for all 5 font families — the infrastructure is in place. The HTML just needs the 3 Google Fonts `<link>` lines removed. The CSS custom properties (`--font-headline`, `--font-body`, etc.) and the existing `@font-face` blocks will take over.
 
 **Suggested fix (diff, per page):**
+
 ```diff
 -  <link rel="preconnect" href="https://fonts.googleapis.com">
 -  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,6 +68,7 @@ Every page contains:
 **Pages:** All 8 (`index.html:14`, `features.html:14`, `clients.html:14`, `download.html:14`, `plugins.html:14`, `docs.html:14`, `hub.html:14`, `about.html:14`)
 
 Every page points to `og:image` as:
+
 ```
 https://detain.github.io/phlix-website/sites/obsidian-pulse/img/og.svg
 ```
@@ -75,6 +82,7 @@ The editable SVG source is fine; the `<meta property="og:image">` must reference
 **B. Path is absolute but format is wrong:** Path is correctly absolute (`https://.../og.svg`), which is better than the common relative-path bug. The fix is to rename the reference to `og.png`.
 
 **Suggested fix (diff, per page):**
+
 ```diff
 -  <meta property="og:image" content="https://detain.github.io/phlix-website/sites/obsidian-pulse/img/og.svg">
 +  <meta property="og:image" content="https://detain.github.io/phlix-website/sites/obsidian-pulse/img/og.png">
@@ -111,6 +119,7 @@ The CTA banner's `<h2>Get started in minutes</h2>` at line 181 follows 8 consecu
 **Suggested fix — add a section boundary heading or wrap in a section with `aria-labelledby`:**
 
 Option A (preferred — `features.html:179`):
+
 ```diff
 -    <section class="cta-banner">
 +    <section class="cta-banner" aria-labelledby="cta-banner-heading">
@@ -120,10 +129,12 @@ Option A (preferred — `features.html:179`):
 ```
 
 Option B — change the CTA h2 to h3 to make it a clear sub-element of the `.cta-banner` section:
+
 ```diff
 -        <h2>Get started in minutes</h2>
 +        <h3>Get started in minutes</h3>
 ```
+
 (And update CSS selectors accordingly if using `.cta-banner h3` for styling.)
 
 ---
@@ -141,6 +152,7 @@ Option B — change the CTA h2 to h3 to make it a clear sub-element of the `.cta
 The `new_site.md §1` rule for external links is: "External links use absolute `https://` URLs and `rel="noopener noreferrer"`." This link is missing the `rel` attribute. All other external links on the site (footer columns, CTA buttons, ecosystem list items) correctly carry `rel="noopener noreferrer"`.
 
 **Suggested fix:**
+
 ```diff
 -  <p>Requires PHP 8.3+ and <a href="https://github.com/detain/phlix-server">phlix-server</a>.</p>
 +  <p>Requires PHP 8.3+ and <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer">phlix-server</a>.</p>
@@ -153,12 +165,13 @@ The `new_site.md §1` rule for external links is: "External links use absolute `
 **File:** `features.html:179`
 
 ```html
-<section class="cta-banner">
+<section class="cta-banner"></section>
 ```
 
 On `index.html:199`, the same element correctly carries `aria-labelledby="cta-banner-heading"`. The features page CTA omits it. Not critical for WCAG 2.2 AA compliance (the heading is programmatically associated as a label), but it is an inconsistency that reduces the robustness of assistive-technology navigation between pages.
 
 **Suggested fix (included in the critical fix #3 above):**
+
 ```diff
 -  <section class="cta-banner">
 +  <section class="cta-banner" aria-labelledby="cta-banner-heading">
@@ -170,31 +183,32 @@ On `index.html:199`, the same element correctly carries `aria-labelledby="cta-ba
 
 ### Per-page checks (all 8 pages)
 
-| Check | index | features | clients | download | plugins | docs | hub | about |
-|-------|-------|----------|--------|---------|---------|------|-----|-------|
-| `<title>` ≤ 60 chars | ✅ 23 | ✅ 15 | ✅ 14 | ✅ 16 | ✅ 14 | ✅ 11 | ✅ 10 | ✅ 13 |
-| `<meta name="description">` ≤ 160 chars | ✅ 131 | ✅ 131 | ✅ 131 | ✅ 131 | ✅ 131 | ✅ 131 | ✅ 131 | ✅ 131 |
-| Exactly one `<h1>` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Canonical absolute URL | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `role="banner"` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `role="navigation"` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `role="main"` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `role="contentinfo"` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Descriptive anchor text | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `og:type=website` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `og:site_name=Phlix` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `og:url` absolute | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `og:title` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `og:description` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `twitter:card=summary_large_image` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `twitter:title` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `twitter:description` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `twitter:image` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `twitter:creator=@detain` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `meta name="theme-color"=#00B4FF` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `<link rel="icon" type="image/svg+xml">` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Check                                    | index  | features | clients | download | plugins | docs   | hub    | about  |
+| ---------------------------------------- | ------ | -------- | ------- | -------- | ------- | ------ | ------ | ------ |
+| `<title>` ≤ 60 chars                     | ✅ 23  | ✅ 15    | ✅ 14   | ✅ 16    | ✅ 14   | ✅ 11  | ✅ 10  | ✅ 13  |
+| `<meta name="description">` ≤ 160 chars  | ✅ 131 | ✅ 131   | ✅ 131  | ✅ 131   | ✅ 131  | ✅ 131 | ✅ 131 | ✅ 131 |
+| Exactly one `<h1>`                       | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| Canonical absolute URL                   | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `role="banner"`                          | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `role="navigation"`                      | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `role="main"`                            | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `role="contentinfo"`                     | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| Descriptive anchor text                  | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `og:type=website`                        | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `og:site_name=Phlix`                     | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `og:url` absolute                        | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `og:title`                               | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `og:description`                         | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `twitter:card=summary_large_image`       | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `twitter:title`                          | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `twitter:description`                    | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `twitter:image`                          | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `twitter:creator=@detain`                | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `meta name="theme-color"=#00B4FF`        | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
+| `<link rel="icon" type="image/svg+xml">` | ✅     | ✅       | ✅      | ✅       | ✅      | ✅     | ✅     | ✅     |
 
 **Title character counts (all well within 60):**
+
 - `index.html` — "Signal. Refined. — Phlix" (23 chars)
 - `features.html` — "Features — Phlix" (15 chars)
 - `clients.html` — "Clients — Phlix" (14 chars)
@@ -254,13 +268,13 @@ Correct. Sitemap URL is absolute.
 
 ## Summary table
 
-| # | Severity | Finding | File(s) |
-|---|----------|---------|---------|
-| 1 | ❌ CRITICAL | Google Fonts CDN — 3 `<link>` tags per page, all 8 pages | `index.html:33-35`, `features.html:33-35`, `clients.html:33-35`, `download.html:33-35`, `plugins.html:33-35`, `docs.html:33-35`, `hub.html:33-35`, `about.html:33-35` |
-| 2 | ❌ CRITICAL | `og:image` is SVG, not PNG at 1200×630 | All 8 pages, `index.html:14` et al. |
-| 3 | ❌ CRITICAL | features.html CTA h2 follows article h2s without section boundary | `features.html:181` |
-| 4 | ⚠️ WARNING | External link without `rel="noopener noreferrer"` | `download.html:81` |
-| 5 | ⚠️ WARNING | features.html CTA banner missing `aria-labelledby` | `features.html:179` |
+| #   | Severity    | Finding                                                           | File(s)                                                                                                                                                               |
+| --- | ----------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ❌ CRITICAL | Google Fonts CDN — 3 `<link>` tags per page, all 8 pages          | `index.html:33-35`, `features.html:33-35`, `clients.html:33-35`, `download.html:33-35`, `plugins.html:33-35`, `docs.html:33-35`, `hub.html:33-35`, `about.html:33-35` |
+| 2   | ❌ CRITICAL | `og:image` is SVG, not PNG at 1200×630                            | All 8 pages, `index.html:14` et al.                                                                                                                                   |
+| 3   | ❌ CRITICAL | features.html CTA h2 follows article h2s without section boundary | `features.html:181`                                                                                                                                                   |
+| 4   | ⚠️ WARNING  | External link without `rel="noopener noreferrer"`                 | `download.html:81`                                                                                                                                                    |
+| 5   | ⚠️ WARNING  | features.html CTA banner missing `aria-labelledby`                | `features.html:179`                                                                                                                                                   |
 
 **Total: 3 ❌ critical · 2 ⚠️ warnings**
 
@@ -268,4 +282,4 @@ Correct. Sitemap URL is absolute.
 
 ---
 
-*Review produced by adversarial SEO & social metadata auditor. All findings cite file:line. Suggested diffs are advisory — no code was modified.*
+_Review produced by adversarial SEO & social metadata auditor. All findings cite file:line. Suggested diffs are advisory — no code was modified._

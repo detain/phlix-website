@@ -8,11 +8,11 @@
 
 ## Summary
 
-| Dimension | Score | ❌ | ⚠️ | ✅ |
-|-----------|-------|----|----|----|
-| **Responsive Behavior** | 70/100 | 1 | 2 | 9 |
-| **Performance** | 60/100 | 1 | 2 | 4 |
-| **Overall** | **65/100** | **2** | **4** | **13** |
+| Dimension               | Score      | ❌    | ⚠️    | ✅     |
+| ----------------------- | ---------- | ----- | ----- | ------ |
+| **Responsive Behavior** | 70/100     | 1     | 2     | 9      |
+| **Performance**         | 60/100     | 1     | 2     | 4      |
+| **Overall**             | **65/100** | **2** | **4** | **13** |
 
 ---
 
@@ -28,9 +28,12 @@
 
 ```html
 <!-- All pages have this: -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 Additionally, `css/base.css:7-93` declares `@font-face` src URLs pointing to `fonts/dm-sans-300.woff2` etc., but the `css/fonts/` directory is **completely empty**. The self-hosted font files were never generated/shipped.
@@ -43,7 +46,7 @@ Additionally, `css/base.css:7-93` declares `@font-face` src URLs pointing to `fo
 
 ### ⚠️ Google Fonts CDN — Spec Violation, Not Render-Blocking
 
-The Google Fonts link is `preconnect` + stylesheet — it is render-*adjacent*, not render-*blocking* (browsers handle it asynchronously). However, the spec explicitly forbids it (new_site.md §1: "No CDN dependencies in the deployed page...self-host fonts as WOFF2"). Marked ⚠️ not ❌ because it doesn't block rendering.
+The Google Fonts link is `preconnect` + stylesheet — it is render-_adjacent_, not render-_blocking_ (browsers handle it asynchronously). However, the spec explicitly forbids it (new_site.md §1: "No CDN dependencies in the deployed page...self-host fonts as WOFF2"). Marked ⚠️ not ❌ because it doesn't block rendering.
 
 **File:** `index.html:33-35`
 
@@ -111,6 +114,7 @@ No raster images present. All inline SVGs are stroke-based, matching the kit's i
 **File:** `components.css:129-248`
 
 **Suggested fix:**
+
 ```css
 /* Increase vertical padding to hit 44px minimum height */
 .btn {
@@ -132,6 +136,7 @@ No raster images present. All inline SVGs are stroke-based, matching the kit's i
 **File:** `components.css:44-50`
 
 **Suggested fix:**
+
 ```css
 .nav-toggle {
   padding: 10px; /* 10+24+10 = 44px */
@@ -163,6 +168,7 @@ Fluid typography deployed correctly throughout.
 ### ✅ Single Column on Mobile, Multi-Column on Desktop
 
 Responsive breakpoints verified:
+
 - **768px** (`theme.css:594-638`): pitch grid → 1 column; content grid → 1 column
 - **480px** (`theme.css:640-654`): feature cards → 1 column
 - **900px** (`components.css:93`): nav collapses to hamburger
@@ -192,6 +198,7 @@ Grid layouts use `auto-fill` / `auto-fit` with `minmax()` for fluid multi-column
 ### ⚠️ Horizontal Scroll — Not Directly Verifiable Without Browser
 
 Cannot confirm zero horizontal scroll at 320px, 375px, 414px, 768px, 1024px, 1280px, 1920px without live browser testing. CSS analysis shows:
+
 - All containers use fluid widths + `max-width`
 - `overflow-x: hidden` not present on body/html (correct — should not be needed if layout is fluid)
 - Risk: the `pitch-bullets` grid at `theme.css:204` uses `minmax(300px, 1fr)` which could cause overflow at very narrow viewports if a single column wider than 300px is forced

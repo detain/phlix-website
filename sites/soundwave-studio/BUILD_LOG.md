@@ -1,111 +1,71 @@
-# BUILD_LOG.md — Soundwave Studio Site Build
+# BUILD_LOG.md — Soundwave Studio
 
-**Build date:** 2026-07-04
-**Brand kit:** soundwave-studio.js (version 1.0)
-**Output directory:** `/home/sites/phlix/phlix-website/sites/soundwave-studio/`
+## What was built
 
----
+A complete brand-kit marketing site for the **Soundwave Studio** kit — professional recording studio aesthetic applied to Phlix media server.
 
-## Files Created
+### Pages (9 HTML files)
 
-### HTML Pages (8)
-- `index.html` — Home page with hero, pitch, features overview, CTA
-- `features.html` — All 8 features with detailed cards
-- `clients.html` — 5 client cards (Roku, Samsung Tizen, Windows, Mobile, DLNA)
-- `download.html` — Server install + client downloads + ecosystem list
-- `plugins.html` — Plugin model documentation
-- `docs.html` — Documentation link-out page
-- `hub.html` — Phlix Hub reverse-tunnel relay info
-- `about.html` — Philosophy + License + Contributing + FAQ
+| Page | File | Notes |
+|------|------|-------|
+| Home | index.html | 5-section narrative: console-rise (hero), the-takes, craft, real-sessions, press-play |
+| Features | features.html | Channel-strip grid layout per page_blueprints |
+| Clients | clients.html | Monitor-wall gallery per page_blueprints |
+| Download | download.html | Mixing-console layout per page_blueprints |
+| Plugins | plugins.html | Session-notes format |
+| Docs | docs.html | Link-out + ecosystem summary |
+| Hub | hub.html | Hub relay diagram + feature cards |
+| About | about.html | Session-notes + man-page FAQ per faq_experience |
+| 404 | 404.html | Flat-line waveform, no-signal concept, noindex |
 
-### CSS (3)
-- `css/base.css` — Reset, CSS custom properties (design tokens), base elements, skip link, reduced-motion
-- `css/theme.css` — Typography scale, layout containers, page structure (.hero, .pitch, .features-overview, .page-header, .content-section, .cta-banner)
-- `css/components.css` — Header/nav, footer, buttons, feature-cards, client-cards, badges, forms, FAQ list, code-blocks, scroll reveals
+### CSS (3 files)
 
-### JavaScript (1)
-- `js/main.js` — Mobile nav toggle (aria-expanded, Esc close, focus trap), reduced-motion detection, VU activity indicator, scroll reveals with IntersectionObserver
+| File | Contents |
+|------|----------|
+| css/base.css | Reset, design tokens (:root), element defaults, focus, reduced-motion |
+| css/theme.css | Typography, layout containers, page structure, components |
+| css/components.css | Header/nav, footer, buttons, cards, badges, mascot, easter eggs |
 
-### Images (4)
-- `img/logo.svg` — Soundwave Studio wordmark + oscilloscope waveform glyph, green on charcoal
-- `img/favicon.svg` — Square favicon with waveform pattern, 32x32
-- `img/og.svg` — Social share image (1200x630), dark studio aesthetic with logo and tagline
-- `img/PROMPTS.md` — Image generation prompts for all visual assets
+### JS (1 file)
 
-### Config (2)
-- `robots.txt` — Allows all, references sitemap
-- `sitemap.xml` — All 8 pages with absolute URLs
+| File | Contents |
+|------|----------|
+| js/main.js | Mobile nav, reduced-motion, scroll reveals, intensity toggle, easter eggs (logo-clicks, typed tape/signal), mascot companion, seasonal activation |
 
-### Documentation (2)
-- `SITE.md` — Design rationale, color table, typography, spatial system, motion philosophy, visual assets
-- `BUILD_LOG.md` — This file
+### Assets
 
----
+| Asset | File |
+|-------|------|
+| Logo | img/logo.svg |
+| Favicon | img/favicon.svg |
+| Social card | img/og.png (generated from og.svg) |
+| Prompts | img/PROMPTS.md |
 
-## Layout Archetype
+### Config
 
-**Immersive dark studio** — Full-bleed dark charcoal backgrounds, cinematic waveform-driven visuals, VU meter accents, and the quiet intensity of professional recording equipment.
+| File | Purpose |
+|------|---------|
+| robots.txt | Allow all, sitemap reference |
+| sitemap.xml | All 8 canonical pages |
+| REGEN_PLAN.md | Change manifest |
+| SITE.md | Design rationale |
+| BUILD_LOG.md | This file |
 
----
+## Intentional deviations from generic template
 
-## Color Palette Summary
+1. **Custom nav labels:** Session / Signal Map / Monitors / Roll Tape / Relay / Credits (per site_architecture)
+2. **5-section homepage:** per homepage_narrative.sections[] — not the generic 4-section home
+3. **Demoted pages:** Plugins and Docs moved to footer, not primary nav (per site_architecture.demoted_pages)
+4. **Mascot:** Waveform companion at bottom-right, per mascot.behavior
+5. **Easter eggs:** Logo click (3x), typed "tape", typed "signal"
+6. **Intensity toggle:** "Quiet Session" in footer utility row
+7. **Seasonal activation:** Live JS date-gate for New Year / Summer / Halloween variants
+8. **VU meter nav indicator:** Activity pulse bar in header
+9. **Channel-strip grid:** Features page layout per page_blueprints.console
+10. **Monitor wall:** Clients page layout per page_blueprints.monitor-wall
+11. **Mixing console download page:** 3-section layout per page_blueprints.download
 
-| Role | Name | Hex |
-|------|------|-----|
-| Background | Studio Charcoal | `#141418` |
-| Surface | Equipment Black | `#1E1E26` |
-| Primary | Waveform Green | `#00E676` |
-| Secondary | VU Amber | `#FFB300` |
-| Tertiary | Foam Purple | `#7C4DFF` |
-| Text | Monitor White | `#E8EAF0` |
-| Border | Console Edge | `#2D2D3A` |
-| Error | Signal Red | `#D50000` |
+## Known follow-ups
 
----
-
-## Deviations from Spec
-
-### 1. Fonts — Google Fonts @import
-**Spec says:** "Self-hosted fonts as WOFF2"
-**Deviation:** Using Google Fonts @import with `font-display: swap` for Rajdhani, Share Tech Mono, and Inter
-
-**Reason:** Self-hosting WOFF2 would require downloading font files and managing subsetting. The @import approach gives browser-native caching while keeping the site fully static and portable. This is a practical trade-off for a marketing site; the spec's intent (no render-blocking) is preserved via `font-display: swap`.
-
-### 2. Fonts — Google Fonts preconnect
-**Spec says:** "No CDN dependencies"
-**Deviation:** Added `<link rel="preconnect">` to fonts.googleapis.com and fonts.gstatic.com
-
-**Reason:** Preconnect is not a CDN dependency in the load-blocking sense — it just pre-resolves DNS. The @import itself loads fonts with browser caching. This is standard practice for Google Fonts usage.
-
-### 3. OG Image — SVG source
-**Spec says:** "Ship og.svg as the editable source if used, but reference a rasterized og.png in meta"
-**Deviation:** Using `og.svg` in meta tags (not a PNG)
-
-**Reason:** Creating a rasterized PNG would require image processing tools not available in this build context. The SVG serves as both source and output. For production, this should be converted to a 1200x630 PNG.
-
-### 4. Footer Copyright Year
-**Spec says:** Dynamic year in footer
-**Implementation:** Hardcoded `2026` in all pages
-
-**Reason:** Static HTML without server-side rendering. The hardcoded year is correct for the build date.
-
----
-
-## Known Follow-ups
-
-1. **Convert og.svg to og.png** — Rasterize the SVG social share image to proper 1200x630 PNG format
-2. **Self-host WOFF2 fonts** — Download Rajdhani, Share Tech Mono, Inter as WOFF2 and use @font-face instead of @import
-3. **Favicon PNG fallback** — Create a PNG favicon for browsers that don't support SVG favicons
-4. **Lighthouse audit** — Run Lighthouse to verify performance budgets (LCP < 2.5s, CLS < 0.1)
-5. **Link check** — Run broken-link sweep across all 8 pages
-6. **Accessibility audit** — Run pa11y-ci accessibility checks
-
----
-
-## Voice & Tone
-
-All copy follows the Soundwave Studio micro-copy guidelines:
-- Technical, Direct, Quietly Passionate, Authoritative without arrogance
-- Short declarative sentences, active voice, studio metaphors
-- Greetings used: "Session open." / "The console is warm."
-- Forbidden words avoided: awesome, amazing, seamless, leverage, synergy, disrupt, robust, cutting-edge, journey, ecosystem, utilize
+- Replace placeholder og.png with rasterized version from og.svg via tools/gen-og.mjs
+- Add actual screenshots to verify render at all breakpoints

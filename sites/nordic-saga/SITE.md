@@ -1,133 +1,130 @@
-# SITE.md — Nordic Saga Design Rationale
+# SITE.md — Nordic Saga
 
-## Concept & Vision
+## Concept
 
-Nordic Saga dresses Phlix in the visual and narrative language of Norse mythology and the Viking Age. The brand is forge fire burning against winter dark — the single most important contrast in the Norse visual world. Every screen should feel like the hall before the feast, the moment before the saga is told. The brand name (Nordic Saga) is the identity Phlix is dressed in; the product is still Phlix.
+Nordic Saga is the Norse mythology and Viking Age brand kit for Phlix. The experience is designed to feel like stepping into a torchlit mead hall before the skald begins a tale — powerful, ancient, and carved rather than printed. Every frame feels like it was illuminated on parchment or carved into stone.
 
-The brand DNA is: *"Nordic Saga is forge fire against winter dark — the single most important contrast in the Norse visual world. Fjord Night backgrounds swallow all casual light; Forge Fire orange cuts through only where the action demands it."*
+## Design Language
 
----
+### Palette
 
-## Aesthetic Direction
+| Name | Hex | Usage |
+|------|-----|-------|
+| Forge Fire | `#C8700A` | Primary CTA, active states — the hammer blow |
+| Fjord Steel | `#4A8FB5` | Secondary actions, links, cold-sea accents |
+| Rune Violet | `#8B6DC8` | Mystical accents — seidr, prophecy |
+| Fjord Night | `#060C12` | Default page background — winter dark |
+| Storm Sea | `#0A1320` | Card and panel surfaces |
+| Deep Current | `#101C2C` | Alternate surface, striped rows |
+| Bone White | `#E8E0D0` | Primary text — carved bone / aged parchment |
+| Iron Dust | `#5A6070` | Muted UI chrome, dividers |
 
-**Archetype:** Hero — epic, declarative, weighty
+### Typography
 
-**Moodboard anchors:**
-- Oseberg ship burial — intricate knotwork carved into oak
-- Runestones of Scandinavia — painted runes on ancient granite
-- Yggdrasil, the world-ash tree binding the Nine Worlds
-- Odin's ravens Huginn and Muninn — thought and memory
-- Thor's hammer Mjolnir — the thunderstrike of divine craft
-- Valhalla's mead-hall — eternal feast lit by torchlight
+| Role | Font | Weights |
+|------|------|---------|
+| Headline | Cinzel | 700, 900 |
+| Display | Uncial Antiqua | 400 |
+| Body | Merriweather | 400, 700 |
+| UI / Nav | Cinzel | 400, 600 |
+| Mono | Source Code Pro | 400, 600 |
 
-**Visual style tags:** Norse mythology and Viking Age, Runestone aesthetic, Nordic knotwork and interlace, Saga epic illustration, Forge and iron craft
+**Strong tag**: `font-weight: 700` — Merriweather declares [400,700] and 700 is available.
 
-**Art direction:** Dark winter backgrounds — the deep blue-black of a fjord at night — split by the orange-red heat of a forge fire or the cold blue gleam of a drawn blade. Bold, symmetrical compositions anchored by mythological subjects. Line work feels carved, not drawn. Knotwork interlace appears in borders and texture, never as wallpaper.
+### Motion
 
-**Rendering style:** woodcut, linocut, vector, illuminated manuscript — semi-realistic, heavy texture, layered depth
+- **Animation speed**: Slow / deliberate / epic / weighty
+- **Easing**: `cubic-bezier(0.4, 0, 0.2, 1)` and `cubic-bezier(0.7, 0, 0.3, 1)`
+- **Entrance**: Rune-burn reveal — opacity + translateY, 600ms weight easing
+- **Hover**: Cards lift 4px with forge-warm glow shadow
+- **Hero wordmark**: Subtle ember-glow pulse animation
 
-**Lighting:** Forge-fire warm practicals against cold ambient winter blue. Deep and directional shadows cast by torchlight and forge glow. High contrast. The world is winter, dusk, or deep night — the fire is everything.
+### Shape Language
 
----
+- Heavy rectangles with carved-edge feel
+- Shield shapes (rounded top, pointed base) for featured cards
+- Chevron and ship-prow angles in section dividers
+- Knotwork border insets on panels
+- Corner radius: 2px (small), 4px (medium), 8px (large)
 
-## Color Palette
+## Layout & Structure
 
-| Token | Name | Hex | Usage |
-|-------|------|-----|-------|
-| `--color-primary` | Forge Fire | `#C8700A` | Primary CTAs, active states, the dominant forge-warm accent |
-| `--color-secondary` | Fjord Steel | `#4A8FB5` | Secondary actions, links, cold-sea and blade accents |
-| `--color-tertiary` | Rune Violet | `#8B6DC8` | Mystical accents — seidr, prophecy, rune magic |
-| `--color-bg` | Fjord Night | `#060C12` | Default page background |
-| `--color-surface` | Storm Sea | `#0A1320` | Card and panel surfaces |
-| `--color-surface-alt` | Deep Current | `#101C2C` | Alternate surface for nested panels, hover states |
-| `--color-text` | Bone White | `#E8E0D0` | Primary body and headline text |
-| `--color-neutral` | Iron Dust | `#5A6070` | Muted UI chrome, dividers |
-| `--color-border` | Cold Iron | `#1E2D3E` | Card borders, dividers |
-| `--color-focus` | Forge Focus | `#C8700A` | Keyboard focus ring |
-| `--color-success` | Verdant Moss | `#4A9B6F` | Success states |
-| `--color-warning` | Amber Ember | `#E08B20` | Warnings |
-| `--color-error` | Blood Iron | `#C0392B` | Errors, destructive actions |
+### Navigation
 
-**Gradients:**
-- `Forge Horizon`: linear 160deg, #C8700A → #8B6DC8 — hero backdrops, dramatic section breaks
-- `Forge Halo`: radial, rgba(200,112,10,0.32) → rgba(6,12,18,0.0) — warm radial behind hero/CTA
-- `Sea Depth`: linear 180deg, #0A1320 → #060C12 — subtle depth fade in panels/cards
+Thematic labels that replace generic ones:
+- The Hall (home)
+- The Arsenal (features, primary emphasis)
+- The Realms (clients)
+- The Forge (download, primary emphasis)
+- The Relay (hub)
+- The Lore (about, muted emphasis)
 
----
+### Homepage Narrative
 
-## Typography
+Six sections in order:
+1. **opening-rune** — Full-bleed hero with torchlit wordmark glow and ember-glow pulse on the title
+2. **the-saga** — Brand story told as ancient wisdom on storm-sea surface
+3. **featured-halls** — Two hero features (SyncPlay, Library) as forge-glow cards
+4. **full-arsenal** — Six remaining features as carved stone plaques
+5. **proof-and-honor** — Proof points (MPL-2.0, 100% self-hostable, 5+ clients)
+6. **the-summons** — CTA with install command and forge glow backdrop
 
-| Role | Family | Weights | Tracking | Usage |
-|------|--------|---------|---------|-------|
-| Headline | Cinzel | 700, 900 | 0.05em | Dramatic page titles, saga chapter headings |
-| Display | Uncial Antiqua | 400 | 0.08em | Oversized display text, splash title cards, runestone-style labels |
-| Body | Merriweather | 400, 700 | 0em | Descriptions, synopses, long-form reading |
-| UI | Cinzel | 400, 600 | 0.06em | Buttons, labels, navigation |
-| Mono | Source Code Pro | 400, 600 | 0.02em | Code, tokens, runtime counters |
-| Number | Cinzel | 700 | 0.04em | Stats, watch counts, dashboard figures |
+### Responsive Strategy
 
-**Typography rules enforced:**
-- Cinzel headlines and UI labels must be heavy (600+) — the rune demands weight
-- Uncial Antiqua display text used sparingly: hero moments only
-- Body copy (Merriweather) never set in all-caps
-- Headline tracking is open (0.05em) — the carved letter needs space
-- Avoid centered body copy blocks; left-align for saga-scroll readability
-- Never use geometric sans-serif fonts — the brand is rooted in ancient letterforms
+- Desktop: Multi-column poster rails, full forge/fjord glow effects
+- Tablet: 2-3 column grids, 48px touch targets
+- Mobile: Single column, bottom tab bar on storm-sea, no hover states
 
----
+## Mascot — Huginn
 
-## Spatial System
+Odin's raven appears in the top-right corner on Home, Features, and Download pages.
 
-**Spacing scale (9 steps, only these values):** 4, 8, 12, 16, 24, 32, 48, 64, 96 px
+- **Idle behavior**: Wings ruffle gently, head watches viewer; disabled under `prefers-reduced-motion`
+- **Tips**: Contextual tips appear after 3s delay on relevant sections
+- **Easter interactions**: Click 5 times triggers wing-spread animation
+- **Dismissal**: "Huginn, rest" button persists to localStorage; hidden on mobile
 
-**Corner radius scale:** 2px (sm), 4px (md), 8px (lg), 16px (xl), 999px (pill)
+## Easter Eggs
 
----
+1. `logo-clicks:5` — Logo click 5 times triggers Huginn wing-spread animation
+2. `typed-word:odin` — Type "odin" anywhere triggers flash effect + tip
+3. `typed-word:rune` — Type "rune" anywhere triggers flash effect + tip
 
-## Motion Philosophy
+## Seasonal Variants (live-js mode)
 
-Motion is **elemental and deliberate** — it moves like water, iron, or stone. Bouncy animation destroys the mythic weight.
+- **Yule Night** (Dec 21 – Jan 6): Amber Ember primary, purple secondary, rune tertiary
+- **Midsummer Saga** (Jun 20 – Jun 24): Forge Fire primary, Verdant Moss secondary
+- **Ragnarok Eve** (Oct 28 – Nov 1): Rune Violet primary, Blood Iron secondary, violet surfaces
 
-- **Style:** Weighty, deliberate, epic, elemental
-- **Speed:** Slow — transitions run 300–600ms
-- **Easing:** `cubic-bezier(0.4, 0, 0.2, 1)`, `cubic-bezier(0.7, 0, 0.3, 1)`, `ease-in-out`
-- **Transitions:** slow horizontal wipe (longship parting fog), stone-door fade, rune-burn reveal, forge-spark scatter, deep cross-fade
-- **Hover microinteraction:** cards gain 1px Forge Fire border and lift 4px with forge-warm glow shadow over 250ms
-- **Button press:** dims to 80% brightness then rebounds over 180ms
-- **Loading:** rune sequence trace animation in Forge Fire
-- **Focus:** 2px Forge Fire ring with 4px forge amber outer glow
+All via `prefers-color-scheme` media query (Yule/Ragnarok) and date-based detection (Midsummer).
 
-**Reduced motion:** Honor `prefers-reduced-motion: reduce` — replace rune-burn reveals with instant opacity fades, weight-easing transitions with standard cross-fades.
+## Accessibility
 
----
+- WCAG AA minimum: 4.5:1 normal text, 3:1 large text/UI
+- Bone White on Fjord Night = 14.97:1 (AAA)
+- Forge Fire on Fjord Night = 5.4:1 (AA)
+- Fjord Steel on Fjord Night = 5.51:1 (AA)
+- `prefers-reduced-motion` honored: all animations replaced with instant opacity fades
+- 2px Forge Fire focus ring with 4px forge-amber outer glow
+- 48px minimum touch targets on mobile
 
-## Visual Assets
+## Technical Notes
 
-- **Logo:** Cinzel bold wordmark "Phlix" in bone-white on fjord-night, ship-prow chevron accents in cold iron, forge-fire glow halo, Yggdrasil branch motif, knotwork terminal dots on runestone-underline. No play button, no Celtic imagery.
-- **Favicon:** Square fjord-night with forge-fire ship-prow chevron, fjord-steel accent line, rune-violet dot accents
-- **OG image (1200×630):** Dark fjord scene, ship-prow corner decorations, Nordic Saga eyebrow, large Cinzel "Phlix" wordmark with forge-glow text-shadow, "The Story Is Not Over. Neither Are You." tagline in forge fire
-- **Feature icons:** 2px stroke, sharp caps and mitered joins (no rounded joins), bone-white at rest, forge fire for active state, angular corners, minimal knotwork terminal details — matching the icon_rules exactly
-- **Signature elements:** Norse knotwork interlace borders, runestone-style typography accents, forge-fire radial glow behind hero and primary CTAs, Yggdrasil branch motif in navigation, Huginn raven silhouettes in empty states, ship-prow chevrons in section dividers
+- Grid tracks use `minmax(0, 1fr)` not bare `1fr`
+- `overflow-wrap: anywhere` on all body-weight text (p, li, dt, dd, a, span, code, kbd, samp, pre)
+- No `overflow: hidden` on content containers
+- All CSS/JS files include `@copyright 2026 Joe Huss <detain@interserver.net>` in banner comment
+- Fonts self-hosted from shared pool at `../../assets/fonts/`
+- Seasonal variants implemented via CSS media queries, not JS
 
----
+## Files
 
-## Component Design
-
-- **Cards:** Heavy dark storm-sea cards with cold-iron borders (1px #1E2D3E). Featured cards gain 1px Forge Fire border and `forge_glow` shadow on hover. Border-radius 4px (medium).
-- **Buttons:** Primary = Forge Fire (#C8700A) on fjord-night text, 2px radius. Secondary = transparent with Fjord Steel border. Ghost = transparent with Cold Iron border. Danger = Blood Iron. No rounded pill buttons in this brand.
-- **Forms:** Storm-sea fill, 1px cold-iron border, 2px radius, 14px padding. Focus = 1px Forge Fire border + amber outer glow.
-- **Navigation:** Storm-sea topbar with cold-iron bottom border, Cinzel wordmark with faint forge-fire amber text-shadow glow. Active nav link = Forge Fire bottom border (2px) on storm-sea.
-- **Toasts:** Sharp-edged, anchored bottom-right, 2px left-edge color bar, slides in from right with stone-door weight easing.
-- **Badges:** Rounded-rectangle (2px radius), Cinzel 600 weight uppercase, 10–11px. Quality badges = Forge Fire; status badges = Fjord Steel; favorite = Rune Violet.
-
----
-
-## Layout Archetype
-
-**Chosen: `showcase`** — dramatic, monumental, lets content breathe against vast dark negative space.
-
-The showcase archetype is the right fit because:
-1. The Nordic Saga brand DNA demands "vast negative space — it is winter, and winter is vast"
-2. The design principle "create epic scale — let the content feel as large as the myths it carries" maps directly to showcase behavior
-3. The hero section fills the full viewport with a forge-fire radial glow, making the first impression mythic and weighty
-4. The landing page pattern from the kit: "Full-bleed saga hero illustration with Cinzel headline over Forge Horizon gradient → feature sections alternating fjord-night/storm-sea → Forge Fire CTA"
+- `index.html` — Homepage with 6 narrative sections
+- `features.html` — All 8 features with two-column alternating layout
+- `clients.html` — 5 clients (Roku, Tizen, Windows, Mobile beta, DLNA)
+- `download.html` — Install commands (primary, HTTPS, from-source)
+- `plugins.html` — Plugin system with manifest example (demoted, links to features)
+- `docs.html` — Link-out to VitePress docs (demoted)
+- `hub.html` — Phlix Hub description with how-it-works
+- `about.html` — Brand story, values, FAQ
+- `404.html` — Runestone empty state with noindex, relative paths only

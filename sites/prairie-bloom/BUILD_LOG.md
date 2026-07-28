@@ -1,131 +1,54 @@
-# BUILD_LOG.md — Prairie Bloom Site Build
+# BUILD_LOG.md — Prairie Bloom
 
-## Build Summary
+## What was built
 
-| Field | Value |
-|-------|-------|
-| **Kit** | Prairie Bloom (base kit, v1.0) |
-| **Slug** | `prairie-bloom` |
-| **Built** | 2026-07-01 |
-| **Layout archetype** | `showcase` |
-| **Schema version** | 2.0 |
-| **Kit type** | `base` |
+Full regeneration of the Prairie Bloom brand-kit site per `regen_site_prompt.md` and `new_site.md` rules.
 
----
+### Pages (10 total)
+- `index.html` — narrative-scroll homepage: 5 sections (porch-welcome hero, why-gather pitch, signature-moments feature showcase, good-neighbors proof band, join-the-harvest CTA)
+- `features.html` — seed-packet wall layout: 8 feature-detail articles
+- `clients.html` — device family scene: 5 client cards (Roku, Tizen, Windows, Mobile, DLNA)
+- `download.html` — farmer-setup: install one-liner + client cards + ecosystem list
+- `plugins.html` — plugin model + write-your-own + example link
+- `docs.html` — link-out to 4 VitePress doc sections + ecosystem list
+- `hub.html` — what the Hub does, self-hosted vs. public, client support
+- `about.html` — philosophy + license (MPL-2.0/MIT split) + contributing + FAQ
+- `gathering-guide.html` — extra_page: 5-step family movie night walkthrough
+- `404.html` — "Lost in the Meadow" with confused Sunny SVG
 
-## What Was Built
+### CSS (3 files)
+- `css/base.css` — reset, design tokens, @font-face (self-hosted WOFF2), base elements
+- `css/theme.css` — typography, page structure, all component layouts
+- `css/components.css` — buttons, nav, mascot companion, badges, seasonal, Easter eggs
 
-### File Inventory (all paths relative to `sites/prairie-bloom/`)
+### JS
+- `js/main.js` — mobile nav toggle, reduced motion guard, scroll reveals, pollen particles, mascot companion (5 tips, dismissal to localStorage), logo click Easter egg (3× → celebration), typed-word Easter egg ("sunflower" → golden tint), seasonal activation (live-js date gate), code block copy button
 
-```
-prairie-bloom/
-├── index.html           Home — hero, pitch, features overview, CTA
-├── features.html        Features — 8 feature detail cards
-├── clients.html         Clients — 5 client cards with status badges
-├── download.html        Download — server, clients, ecosystem
-├── plugins.html         Plugins — plugin model, ecosystem, write your own
-├── docs.html            Docs — link-out to external docs, ecosystem list
-├── hub.html             Hub — what it does, self-host vs public, client support
-├── about.html           About — philosophy, license, contributing, FAQ (6 items)
-├── css/
-│   ├── base.css         Reset, :root token variables, element defaults
-│   ├── theme.css        Typography, layout containers, page sections, animations
-│   └── components.css   Header/nav, footer, buttons, cards, badges, forms
-├── js/
-│   └── main.js          Mobile nav toggle, reduced-motion, scroll reveals
-├── img/
-│   ├── logo.svg         Folk-art sunflower wordmark (inline SVG)
-│   ├── favicon.svg      Sunflower hex-rosette 32×32 favicon
-│   ├── og.svg           1200×630 folk-art prairie meadow OG card
-│   └── PROMPTS.md       Exact image generation prompts for all assets
-├── robots.txt           Sitemap reference
-├── sitemap.xml          8 pages, absolute canonical URLs
-├── SITE.md              Design rationale (concept, palette, type, motion, assets)
-└── BUILD_LOG.md         This file
-```
+### Assets
+- `img/logo.svg` — folk-art sunflower + Prairie Bloom wordmark
+- `img/sunny.svg` — Sunny the sunflower mascot (straw hat, wildflower basket)
+- `img/og.svg` — OG card source (meadow scene, sunflower cluster, tagline)
+- `robots.txt` — allow all, sitemap reference
+- `sitemap.xml` — all 10 pages (canonical + extra_page; 404 excluded)
 
----
+## Intentional deviations from new_site.md generic spec
 
-## Layout Archetype Rationale
+- Homepage uses 5-section narrative-scroll structure per `homepage_narrative.sections[]` (not the generic 4-section)
+- Nav is 6 links (Plugins + Docs demoted to footer) per kit `site_architecture.demoted_pages`
+- Prairie Bloom folk-art color system (not the generic blue/teal)
+- Prairie Bloom typography: Zilla Slab / Playfair Display / Lora / Nunito (not the default sans stack)
+- Seed-packet one-sheets for feature casting heroes (not generic cards)
+- County-fair / farmer-setup copy framing throughout
+- Extra page `gathering-guide.html` included per `extra_pages`
 
-**Chosen:** `showcase`
+## Kit fields implemented
 
-Prairie Bloom's design principles explicitly call for "every screen to feel as open and unhurried as a meadow." The `showcase` archetype is the natural fit because it uses:
-- Full-bleed hero sections with centered content on generous hay ground
-- Single botanical focal points (never competing heroes)
-- Maximum breathing room between sections
-- Quilt-block grid dividers between content blocks
-- The "landing" layout pattern from `layout_patterns.landing`: "Full-bleed meadow illustration → features → social proof → CTA (sunflower bloom)"
+All 19 declared experience fields: site_architecture, homepage_narrative, page_blueprints, copy_overlay, feature_casting, copy_treatments, faq_experience, hero_experience (diorama-parallax fallback), navigation_model (topbar), scroll_experience (chaptered), easter_eggs, conversion_funnel, proof_strategy, visitor_paths, experience_archetype (narrative-scroll), complexity_profile, seasonal_activation (live-js), error_page_experience (Lost in the Meadow), persona_vignettes (3).
 
-Alternative considered: `editorial` — rejected because it implies dense columns and dark type, which conflicts with the kit's "never corporate" and "spaciousness is core to the prairie feeling" principles.
+## Kit fields NOT implemented (absent)
 
----
+- `intensity_toggle` — null in kit, not built (§19.9: absence is never a defect)
 
-## Design Decisions
+## Verification
 
-### Colors
-All 15 semantic color roles from the kit are mapped directly to CSS custom properties in `base.css`. The `design_tokens` block from the kit was used as the canonical source. The `--color-primary` is sunflower yellow `#F2C12E` and is used exclusively for the primary CTA button and the sunflower favicon. Backgrounds are always `var(--color-bg)` (hay cream `#F7F0DC`) — white is forbidden.
-
-### Typography
-- Headlines: Zilla Slab 700 (folk-art slab-serif weight)
-- Display: Playfair Display 700/900 italic for the hero tagline
-- Body: Lora 400/600 (warm humanist serif)
-- UI: Nunito 400/600/700 (friendly rounded sans)
-- Mono: Fira Code 400/500
-
-### Animations
-- `sunflower-sway` keyframe animation on the hero sunflower SVG (gentle ±2° rotation, 6s period)
-- `pollen-drift` keyframe for future particle use
-- `grow-bloom` keyframe for loading states
-- All animations respect `prefers-reduced-motion: reduce`
-
-### Hero
-The hero uses an inline SVG sunflower with petal elements and a sway animation. This follows the kit's `header_motif: "Sunflower swaying animation with drifting pollen-dot particles"`. The hero background is the `Prairie Sky` gradient.
-
-### No mascot
-The kit includes a mascot definition (Sunny the sunflower), but the new_site.md rulebook says "if `null`, **do not invent a mascot**". The mascot is present in the kit but was not made interactive or prominent — it was used only as inspiration for the folk-art SVG sunflower in the hero. No new mascot character was invented.
-
----
-
-## Intentional Deviations from new_site.md
-
-1. **Fonts CDN:** The new_site.md requires self-hosted WOFF2 fonts. The current build uses `@import url('https://fonts.googleapis.com/css2/...')` in `base.css` as a placeholder. Follow-up: download WOFF2 files for Zilla Slab, Playfair Display, Lora, Nunito, Fira Code and replace with `@font-face` declarations.
-
-2. **`og.png`:** new_site.md requires `og.png` (1200×630 raster). The build ships `og.svg` (vector, which renders correctly on most platforms). Follow-up: rasterize `og.svg` to `og.png` at 1200×630 for maximum compatibility with all Twitter clients.
-
----
-
-## Known Follow-ups
-
-| Item | Severity | Notes |
-|------|----------|-------|
-| Self-host WOFF2 fonts | Medium | Replace Google Fonts CDN link with local WOFF2 + @font-face |
-| Rasterize og.svg → og.png | Low | SVG OG works on most platforms; PNG is insurance |
-| Review button contrast (primary CTA on sunflower yellow) | Low | `#F2C12E` bg + `#2C1D0E` text = ~7.2:1 contrast — passes AA |
-| Verify prefers-reduced-motion on all animations | Low | All keyframe animations have reduced-motion overrides in components.css |
-| Check all 8 pages for 200% zoom | Low | Layout uses fluid widths; expected to pass |
-
----
-
-## Quality Gates
-
-| Gate | Status |
-|------|--------|
-| All 8 pages exist + validate | ✅ Pending lint |
-| `npm run lint` zero warnings | ⏳ Pending |
-| `npm run linkcheck` clean | ⏳ Pending |
-| `npm run a11y` WCAG 2.2 AA | ⏳ Pending |
-| Brand fidelity review | ⏳ Pending |
-| All 12 review dimensions ≥90 | ⏳ Pending |
-
----
-
-## Metadata
-
-| Field | Value |
-|-------|-------|
-| `kit.metadata.author` | Phlix Design |
-| `kit.metadata.created` | 2026-06-30 |
-| `kit.metadata.license` | Proprietary — Phlix internal use |
-| `kit.metadata.schema_version` | 2.0 |
-| `kit.metadata.kit_type` | base |
+Run: `node tools/selfcheck.mjs --site prairie-bloom` and `node tools/render-check.mjs --site prairie-bloom`

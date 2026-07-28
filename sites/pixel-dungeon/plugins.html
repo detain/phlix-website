@@ -2,212 +2,115 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plugins — Phlix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Mods — Pixel Dungeon</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="The plugin system with a versioned manifest contract. Implement LifecycleInterface, ship a manifest, drop it in."
     />
-    <meta
-      name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
-    />
-
-    <link
-      rel="canonical"
-      href="https://detain.github.io/phlix-website/pixel-dungeon/plugins.html"
-    />
-    <meta name="theme-color" content="#E8001A" />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/pixel-dungeon/plugins.html" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0a" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
-    <meta
-      property="og:url"
-      content="https://detain.github.io/phlix-website/pixel-dungeon/plugins.html"
-    />
-    <meta property="og:title" content="Plugins — Phlix" />
-    <meta
-      property="og:description"
-      content="Extend Phlix with the versioned plugin contract. LifecycleInterface + manifest schema."
-    />
-    <meta
-      property="og:image"
-      content="https://detain.github.io/phlix-website/pixel-dungeon/img/og.png"
-    />
+    <meta property="og:site_name" content="Pixel Dungeon — Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/pixel-dungeon/plugins.html" />
+    <meta property="og:title" content="Advanced Mods — Pixel Dungeon" />
+    <meta property="og:description" content="The plugin system with a versioned manifest contract." />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/pixel-dungeon/img/og.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Plugins — Phlix" />
-    <meta
-      name="twitter:description"
-      content="Extend Phlix with the versioned plugin contract. LifecycleInterface + manifest schema."
-    />
-    <meta
-      name="twitter:image"
-      content="https://detain.github.io/phlix-website/pixel-dungeon/img/og.png"
-    />
-    <meta name="twitter:creator" content="@detain" />
+    <meta name="twitter:title" content="Advanced Mods — Pixel Dungeon" />
+    <meta name="twitter:description" content="The plugin system with a versioned manifest contract." />
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/pixel-dungeon/img/og.png" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
-  <body>
+  <body data-page="plugins">
     <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <header class="site-header" role="banner">
-      <div class="site-header__inner">
-        <a class="nav-logo" href="./" aria-label="Phlix home"
-          ><img src="img/logo.svg" alt="Phlix logo" width="120" height="40"
-        /></a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          MENU
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Pixel Dungeon home">
+          <img src="img/logo.svg" alt="Pixel Dungeon" width="120" height="40" />
+          <span class="nav-logo-wordmark">PIXEL DUNGEON</span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
         </button>
         <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./" data-emphasis="default">Lobby</a></li>
+          <li><a href="features.html" data-emphasis="primary">Armory</a></li>
+          <li><a href="clients.html" data-emphasis="primary">Device Roster</a></li>
+          <li><a href="download.html" data-emphasis="primary">Insert Coin</a></li>
+          <li><a href="hub.html" data-emphasis="default">Remote Tunnel</a></li>
+          <li><a href="about.html" data-emphasis="muted">Adventurer's Log</a></li>
         </ul>
-      </div>
+        <span class="nav-score">♜ PHANTOM MEDIA</span>
+      </nav>
     </header>
 
-    <main id="main-content" tabindex="-1">
+    <main id="main-content">
       <div class="page-header">
-        <div class="container">
-          <h1 class="page-header__title">Plugin Contract — Drop & Play</h1>
-          <p class="page-header__lead">
-            Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. The
-            loader picks it up automatically.
-          </p>
-        </div>
+        <h1>ADVANCED MODS</h1>
+        <p>Drop a plugin in, the loader picks it up. A versioned manifest contract means no surprises.</p>
       </div>
 
-      <section class="content-section" aria-labelledby="model-title">
-        <div class="container container--narrow">
-          <div class="plugin-model">
-            <h2 class="plugin-model__title" id="model-title">Plugin Model</h2>
-            <div class="plugin-step">
-              <span class="plugin-step__number">1</span>
-              <div class="plugin-step__body">
-                <strong>Implement LifecycleInterface</strong> in your plugin class. Phlix calls
-                <code>onInstall()</code>, <code>onEnable()</code>, <code>onDisable()</code>, and
-                <code>onUninstall()</code> at the appropriate lifecycle moments.
-              </div>
-            </div>
-            <div class="plugin-step">
-              <span class="plugin-step__number">2</span>
-              <div class="plugin-step__body">
-                <strong>Create a manifest.json</strong> declaring the plugin name, version,
-                compatibility range, and any service provider registrations.
-              </div>
-            </div>
-            <div class="plugin-step">
-              <span class="plugin-step__number">3</span>
-              <div class="plugin-step__body">
-                <strong>Drop the plugin folder</strong> into <code>plugins/</code>. The auto-loader
-                scans on startup and registers all valid manifests.
-              </div>
-            </div>
-            <div class="plugin-step">
-              <span class="plugin-step__number">4</span>
-              <div class="plugin-step__body">
-                <strong>Enable in the admin UI.</strong> Phlix admin shows the plugin with its
-                status badge. Click to enable, configure, or disable.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section class="section" aria-label="Plugin system">
+        <div class="plugin-list" style="max-width:720px;margin-inline:auto">
 
-      <section class="content-section" aria-labelledby="write-title">
-        <div class="container container--narrow">
-          <h2
-            class="text-center mb-8"
-            id="write-title"
-            style="font-size: clamp(0.75rem, 2.5vw, 1rem)"
-          >
-            Write Your Own
-          </h2>
-          <div class="plugin-model">
-            <h3 class="plugin-model__title">Start from phlix-plugin-example</h3>
-            <p class="feature-card__body">
-              The reference plugin demonstrates a minimal working plugin: a metadata provider that
-              fetches from TMDB. Clone it, rename it, implement your interface, and you have a
-              working starter.
-            </p>
-            <a
-              href="https://github.com/detain/phlix-plugin-example"
-              class="btn btn-secondary mt-4"
-              rel="noopener noreferrer"
-              >View plugin example</a
-            >
-          </div>
-        </div>
-      </section>
+          <article class="plugin-card">
+            <h3>LIFECYCLEINTERFACE</h3>
+            <p>Every plugin implements LifecycleInterface. The loader calls install(), activate(), deactivate(), and uninstall() at the right moments. If your plugin throws during activate(), the server logs the error and skips it — no crash.</p>
+          </article>
 
-      <section class="cta-banner" aria-label="Explore Phlix Hub">
-        <div class="container">
-          <h2 class="cta-banner__title">The dungeon has loot. Level up your server.</h2>
-          <a href="download.html" class="btn btn-primary">Get Phlix</a>
+          <article class="plugin-card">
+            <h3>VERSIONED MANIFEST</h3>
+            <p>Each plugin ships a manifest.json with name, version, and a phlix version constraint. The loader rejects plugins that don't declare compatibility. Upgrade Phlix, and incompatible plugins are logged, not loaded.</p>
+          </article>
+
+          <article class="plugin-card">
+            <h3>METADATA PROVIDER EXAMPLE</h3>
+            <p>phlix-plugin-example is the smallest working plugin — it implements a metadata provider that runs during the scan phase. Use it as a template to build TMDB extensions, custom catalogue scrapers, or subtitle fetchers.</p>
+          </article>
+
+          <article class="plugin-card">
+            <h3>EVENTS SYSTEM</h3>
+            <p>Plugins can register for server events: onLibraryUpdate, onPlaybackStart, onUserAuthenticate, and more. Dispatch events from your plugin code or hook into the existing Phlix event bus.</p>
+          </article>
+
+        </div>
+
+        <div style="text-align:center;margin-top:var(--space-8);display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap">
+          <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-secondary" target="_blank" rel="noopener">View Plugin Example</a>
+          <a href="https://detain.github.io/phlix-docs" class="btn btn-ghost" target="_blank" rel="noopener">Plugin Docs</a>
         </div>
       </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
-      <p class="footer-tagline">
-        Open-source media, on your terms. <span>No continues required.</span>
-      </p>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <div class="footer-nav__columns">
-          <div class="footer-nav__col">
-            <h3>Product</h3>
-            <ul>
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
-            </ul>
-          </div>
-          <div class="footer-nav__col">
-            <h3>Developers</h3>
-            <ul>
-              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
-              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
-              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
-              <li><a href="https://detain.github.io/phlix-docs/reference">API reference</a></li>
-            </ul>
-          </div>
-          <div class="footer-nav__col">
-            <h3>Project</h3>
-            <ul>
-              <li><a href="https://github.com/detain">GitHub org</a></li>
-              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
-              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  >License (MPL-2.0)</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+      <nav class="footer-mirror-nav" aria-label="Footer navigation">
+        <a href="./">Lobby</a>
+        <a href="features.html">Armory</a>
+        <a href="clients.html">Device Roster</a>
+        <a href="download.html">Insert Coin</a>
+        <a href="hub.html">Remote Tunnel</a>
+        <a href="about.html">Adventurer's Log</a>
       </nav>
-      <p class="footer-copy">
-        &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins and
-        clients are MIT.
-      </p>
+      <div class="footer-bottom">
+        <p class="footer-tagline">Press Start to Continue.</p>
+        <p class="footer-legal">
+          Phlix Server and Hub are MPL-2.0.
+          <a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License</a>
+          ·
+          <a href="https://github.com/detain/phlix-server">GitHub</a>
+        </p>
+      </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

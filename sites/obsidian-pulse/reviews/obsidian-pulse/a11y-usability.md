@@ -3,6 +3,7 @@
 **Reviewing the built site at:** `/home/sites/phlix/phlix-website/sites/obsidian-pulse/`
 
 **Ground-truth references:**
+
 - `brand-kits/obsidian-pulse.js` §21 (accessibility), §12 (motion)
 - `new_site.md` §12 (accessibility baseline, WCAG 2.2 AA hard gate)
 - `shared/content.json` (shared copy contract)
@@ -13,14 +14,14 @@
 
 **72 / 100** — One blocking WCAG failure + two spec violations
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
-| WCAG 2.2 AA Contrast | ✅ pass | All text/UI ≥ 4.5:1 or 3:1 |
-| WCAG 2.2 AA Keyboard & Focus | ⚠️  partial | Focus ring correct; touch target below min |
-| WCAG 2.2 AA Touch Targets | ❌ fail | Nav toggle ~40×40px, below 44×44px min |
-| WCAG 2.2 AA Other Criteria | ✅ pass | Skip link, ARIA, forms, alt text, reduced motion |
-| Nielsen Usability Heuristics | ✅ pass | All 5 pass |
-| Spec Compliance (new_site.md) | ❌ fail | CDN font links; empty font directory |
+| Dimension                     | Score      | Notes                                            |
+| ----------------------------- | ---------- | ------------------------------------------------ |
+| WCAG 2.2 AA Contrast          | ✅ pass    | All text/UI ≥ 4.5:1 or 3:1                       |
+| WCAG 2.2 AA Keyboard & Focus  | ⚠️ partial | Focus ring correct; touch target below min       |
+| WCAG 2.2 AA Touch Targets     | ❌ fail    | Nav toggle ~40×40px, below 44×44px min           |
+| WCAG 2.2 AA Other Criteria    | ✅ pass    | Skip link, ARIA, forms, alt text, reduced motion |
+| Nielsen Usability Heuristics  | ✅ pass    | All 5 pass                                       |
+| Spec Compliance (new_site.md) | ❌ fail    | CDN font links; empty font directory             |
 
 **Count: 1 ❌ critical, 1 ⚠️ spec violation, 0 ❌ accessibility (other)**
 
@@ -35,7 +36,7 @@
 ```css
 .nav-toggle {
   display: none;
-  padding: var(--space-2);   /* = 8px */
+  padding: var(--space-2); /* = 8px */
   /* ... */
 }
 ```
@@ -45,11 +46,12 @@
 **Brand kit reference:** `obsidian-pulse.js:898` — `"touch_target": "Minimum 48×48px on mobile and TV; 44×44px on desktop."`
 
 **Suggested fix (components.css):**
+
 ```css
 /* Mobile nav toggle — increase touch target */
 @media (max-width: 900px) {
   .nav-toggle {
-    padding: var(--space-4);  /* was var(--space-2) = 8px → 16px; 24+16+16 = 56px */
+    padding: var(--space-4); /* was var(--space-2) = 8px → 16px; 24+16+16 = 56px */
     min-width: 44px;
     min-height: 44px;
   }
@@ -63,9 +65,12 @@
 **File:** All 8 HTML pages — e.g. `index.html:33-35`
 
 ```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **Problem:** `new_site.md §1` explicitly forbids "No Google Fonts `<link>` to `fonts.googleapis.com`" and §13 requires self-hosted WOFF2 fonts with `font-display: swap`. The site currently ships with CDN font links on every page.
@@ -82,13 +87,13 @@ Additionally, `css/base.css:7-93` declares `@font-face` for all fonts pointing t
 
 Verified against brand-kit color system:
 
-| Foreground | Background | Ratio | WCAG Target | Status |
-|------------|------------|-------|-------------|--------|
-| `#F0F2F5` (Optical White) | `#0A0B0E` (Obsidian) | ~18:1 | ≥4.5:1 body | ✅ |
-| `#F0F2F5` (Optical White) | `#111317` (Surface) | ~15:1 | ≥4.5:1 body | ✅ |
-| `#C8CDD6` (Platinum Silver) | `#0A0B0E` (Obsidian) | ~7:1 | ≥4.5:1 body | ✅ |
-| `#00B4FF` (Pulse Blue) | `#0A0B0E` (Obsidian) | ~8:1 | ≥3:1 large/UI | ✅ |
-| `#F0F2F5` on gradient hero | `#0A0B0E` base | ≥15:1 | ≥4.5:1 body | ✅ |
+| Foreground                  | Background           | Ratio | WCAG Target   | Status |
+| --------------------------- | -------------------- | ----- | ------------- | ------ |
+| `#F0F2F5` (Optical White)   | `#0A0B0E` (Obsidian) | ~18:1 | ≥4.5:1 body   | ✅     |
+| `#F0F2F5` (Optical White)   | `#111317` (Surface)  | ~15:1 | ≥4.5:1 body   | ✅     |
+| `#C8CDD6` (Platinum Silver) | `#0A0B0E` (Obsidian) | ~7:1  | ≥4.5:1 body   | ✅     |
+| `#00B4FF` (Pulse Blue)      | `#0A0B0E` (Obsidian) | ~8:1  | ≥3:1 large/UI | ✅     |
+| `#F0F2F5` on gradient hero  | `#0A0B0E` base       | ≥15:1 | ≥4.5:1 body   | ✅     |
 
 ---
 
@@ -98,9 +103,9 @@ Verified against brand-kit color system:
 
 ```css
 :focus-visible {
-  outline: 1px solid var(--color-focus);    /* 1px Pulse Blue ring */
+  outline: 1px solid var(--color-focus); /* 1px Pulse Blue ring */
   outline-offset: 2px;
-  box-shadow: 0 0 8px var(--color-primary-glow);  /* 4px glow spread */
+  box-shadow: 0 0 8px var(--color-primary-glow); /* 4px glow spread */
 }
 ```
 
@@ -137,7 +142,12 @@ Properly applied. No other ARIA misuse detected.
 **File:** `index.html:68`
 
 ```html
-<button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+<button
+  class="nav-toggle"
+  aria-label="Toggle navigation"
+  aria-expanded="false"
+  aria-controls="nav-menu"
+></button>
 ```
 
 Correct. `aria-expanded` is kept in sync by JS (`js/main.js:15-17`). ✅
@@ -150,7 +160,9 @@ Correct. `aria-expanded` is kept in sync by JS (`js/main.js:15-17`). ✅
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -165,7 +177,7 @@ Correct. `aria-expanded` is kept in sync by JS (`js/main.js:15-17`). ✅
 @media (prefers-reduced-motion: reduce) {
   .hero::after {
     animation: none;
-    opacity: 0.5;  /* static indicator instead */
+    opacity: 0.5; /* static indicator instead */
   }
 }
 ```
@@ -220,18 +232,18 @@ No error states on this static marketing site. Toast component (`.toast`, `compo
 
 ## Defect Summary
 
-| # | Severity | Location | Issue |
-|---|----------|----------|-------|
-| 1 | ❌ CRITICAL | `css/components.css:44-50` | Mobile nav toggle touch target ~40×40px, below 44×44px WCAG 2.2 AA minimum |
-| 2 | ⚠️ SPEC | All 8 HTML pages:33-35 | Google Fonts CDN `<link>` violates `new_site.md §1` "no CDN dependencies" |
-| 3 | ⚠️ SPEC | `css/base.css:7-93` | `@font-face` declarations point to empty `css/fonts/` directory — dead code |
-| 4 | ✅ PASS | Global | Contrast ratios all meet WCAG AA |
-| 5 | ✅ PASS | Global | Focus indicators visible and spec-compliant |
-| 6 | ✅ PASS | Global | Skip link present and functional |
-| 7 | ✅ PASS | Global | ARIA attributes correct throughout |
-| 8 | ✅ PASS | Global | `prefers-reduced-motion` fully honored |
-| 9 | ✅ PASS | Global | 200% text zoom survives reflow |
-| 10 | ✅ PASS | Global | Nielsen heuristics all satisfied |
+| #   | Severity    | Location                   | Issue                                                                       |
+| --- | ----------- | -------------------------- | --------------------------------------------------------------------------- |
+| 1   | ❌ CRITICAL | `css/components.css:44-50` | Mobile nav toggle touch target ~40×40px, below 44×44px WCAG 2.2 AA minimum  |
+| 2   | ⚠️ SPEC     | All 8 HTML pages:33-35     | Google Fonts CDN `<link>` violates `new_site.md §1` "no CDN dependencies"   |
+| 3   | ⚠️ SPEC     | `css/base.css:7-93`        | `@font-face` declarations point to empty `css/fonts/` directory — dead code |
+| 4   | ✅ PASS     | Global                     | Contrast ratios all meet WCAG AA                                            |
+| 5   | ✅ PASS     | Global                     | Focus indicators visible and spec-compliant                                 |
+| 6   | ✅ PASS     | Global                     | Skip link present and functional                                            |
+| 7   | ✅ PASS     | Global                     | ARIA attributes correct throughout                                          |
+| 8   | ✅ PASS     | Global                     | `prefers-reduced-motion` fully honored                                      |
+| 9   | ✅ PASS     | Global                     | 200% text zoom survives reflow                                              |
+| 10  | ✅ PASS     | Global                     | Nielsen heuristics all satisfied                                            |
 
 ---
 

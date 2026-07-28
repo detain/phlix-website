@@ -1,263 +1,201 @@
-/*
+/**
  * @copyright 2026 Joe Huss <detain@interserver.net>
+ * @license MPL-2.0
  */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-}
+/* ─────────────────────────────────────────────────────────────────────────────
+   PASTEL DREAMSCAPE — BASE STYLES
+   Reset, typography, spacing, layout utilities, motion base
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html {
-  text-size-adjust: 100%;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
+
+body {
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-input,
-button,
-textarea,
-select {
-  font: inherit;
+
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; }
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+
+/* ── Text wrapping — §19.12 ────────────────────────────────────────────────── */
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+  overflow-wrap: anywhere;
 }
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
   overflow-wrap: break-word;
 }
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
+
+/* ── Visually hidden — §19.15 ──────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
   padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-a {
-  color: inherit;
-  text-decoration: none;
-}
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
 :root {
-  --color-primary: #f9a8d4;
-  --color-secondary: #c4b5fd;
-  --color-tertiary: #a7f3d0;
-  --color-neutral: #fbcba9;
-  --color-bg: #fef9f5;
-  --color-surface: #fefce8;
-  --color-surface-alt: #f3effe;
-  --color-text: #4b3f6b;
-  --color-success: #6ee7b7;
-  --color-warning: #fcd34d;
-  --color-error: #fda4af;
-  --color-info: #93c5fd;
-  --color-focus: #a78bfa;
-  --color-border: #ddd6fe;
-  --color-shadow: rgb(196, 181, 253, 0.3);
-  --color-overlay: rgb(45, 27, 105, 0.55);
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
+  --font-headline: 'Baloo 2', 'Nunito', sans-serif;
+  --font-display: 'Comfortaa', 'Quicksand', sans-serif;
+  --font-body: 'Nunito', 'Quicksand', sans-serif;
+  --font-ui: 'Quicksand', 'Nunito', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+
+  --text-xs:   clamp(0.75rem,  1.5vw, 0.8125rem);
+  --text-sm:   clamp(0.875rem, 2vw, 0.9375rem);
+  --text-base: clamp(1rem,     2.5vw, 1.0625rem);
+  --text-lg:   clamp(1.125rem, 3vw, 1.25rem);
+  --text-xl:   clamp(1.25rem,  3.5vw, 1.5rem);
+  --text-2xl:  clamp(1.5rem,   4vw, 2rem);
+  --text-3xl:  clamp(1.875rem, 5vw, 2.75rem);
+  --text-4xl:  clamp(2.25rem,  6vw, 3.5rem);
+  --text-5xl:  clamp(2.75rem,   7vw, 4.5rem);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+strong, b { font-weight: 600; }
+em, i { font-style: italic; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  line-height: 1.1;
+  color: var(--color-text);
+}
+h1 { font-size: var(--text-5xl); font-weight: 700; }
+h2 { font-size: var(--text-4xl); font-weight: 700; }
+h3 { font-size: var(--text-3xl); font-weight: 700; }
+h4 { font-size: var(--text-2xl); font-weight: 700; }
+h5 { font-size: var(--text-xl); font-weight: 600; }
+h6 { font-size: var(--text-lg); font-weight: 600; }
+
+a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 200ms ease;
+}
+a:hover { color: var(--color-primary); }
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ── Spacing scale ──────────────────────────────────────────────────────────── */
+:root {
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 28px;
-  --radius-xl: 40px;
-  --radius-pill: 999px;
-  --font-headline: 'Baloo 2', 'Nunito', 'Poppins', sans-serif;
-  --font-display: 'Comfortaa', 'Nunito', 'Quicksand', sans-serif;
-  --font-body: 'Nunito', 'Quicksand', 'Segoe UI', 'Arial', sans-serif;
-  --font-ui: 'Quicksand', 'Nunito', system-ui, sans-serif;
-  --font-mono: 'Fira Code', 'Courier New', monospace;
-  --tracking-headline: 0.01em;
-  --tracking-display: 0.02em;
-  --tracking-body: 0em;
-  --tracking-ui: 0.01em;
-  --lh-headline: 1.1;
-  --lh-display: 1.05;
-  --lh-body: 1.7;
-  --lh-ui: 1.35;
-  --lh-mono: 1.6;
-  --shadow-sm: 0 2px 6px rgb(196, 181, 253, 0.25);
-  --shadow-md: 0 6px 16px rgb(196, 181, 253, 0.3);
-  --shadow-lg: 0 14px 32px rgb(196, 181, 253, 0.35);
-  --max-width: 1280px;
-  --gutter: var(--space-6);
-  --duration-fast: 180ms;
-  --duration-medium: 320ms;
-  --duration-slow: 500ms;
-  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --easing-soft: ease-out;
-  --tracking-mono: 0em;
-  --font-number: 'Baloo 2', 'Nunito', sans-serif;
-  --tracking-number: 0.02em;
-  --lh-number: 1;
-}
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 0.875rem;
-  border-radius: var(--radius-pill);
-  transition: top var(--duration-fast) var(--easing-soft);
-}
-.skip-link:focus {
-  top: var(--space-2);
-  outline: 2.5px solid var(--color-focus);
-  outline-offset: 2px;
-}
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: var(--lh-body);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-:focus-visible {
-  outline: 2.5px solid var(--color-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
 }
 
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.grid-auto   { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: var(--space-6); }
+.grid-2      { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+.grid-3      { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
+.grid-4      { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); }
+
+@media (max-width: 860px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 540px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+.flex        { display: flex; }
+.flex-col     { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-2  { gap: var(--space-2); }
+.gap-3  { gap: var(--space-3); }
+.gap-4  { gap: var(--space-4); }
+.gap-6  { gap: var(--space-6); }
+.gap-8  { gap: var(--space-8); }
+
+/* ── Motion ─────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
+
+/* ── Focus ring ─────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2.5px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── Scroll margin ──────────────────────────────────────────────────────────── */
+[id] { scroll-margin-top: 80px; }
+
+/* ── Selection ──────────────────────────────────────────────────────────────── */
 ::selection {
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   color: var(--color-text);
 }
-::-webkit-scrollbar {
-  width: 10px;
-}
-:-webkit-scrollbar-track {
-  background: var(--color-surface-alt);
-}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
-  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-focus);
-}
-.container {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
+
+/* ── Section padding ─────────────────────────────────────────────────────────── */
+.section { padding-block: var(--space-16); }
+.section-sm { padding-block: var(--space-8); }
+
+/* ── Dividers ───────────────────────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1.5px solid var(--color-border);
+  margin-block: var(--space-8);
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Baloo 2';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/baloo-2-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Baloo 2';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('../../assets/fonts/baloo-2-800-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Comfortaa';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/comfortaa-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Fira Code';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/fira-code-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Fira Code';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/fira-code-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/quicksand-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/quicksand-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/quicksand-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */
+/* ── Lists ──────────────────────────────────────────────────────────────────── */
+ul, ol { padding-left: var(--space-6); }
+li { margin-bottom: var(--space-2); }

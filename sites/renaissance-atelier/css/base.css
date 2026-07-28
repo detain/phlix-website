@@ -1,273 +1,334 @@
-/* ============================================================================
-   base.css — Reset, tokens, and base element defaults
-   Renaissance Atelier brand kit — phlix-website/sites/renaissance-atelier/
-   ============================================================================ */
+/* ==========================================================================
+   BASE.CSS — Renaissance Atelier
+   Token block: color, spacing, radius, shadow, typography variables.
+   Fonts: Cormorant Garamond (headline/number), Cormorant SC (display),
+          EB Garamond (body), Libre Baskerville (ui), Courier Prime (mono).
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
-/* ─── Font-face declarations (self-hosted WOFF2) ─────────────────────────── */
-
-/* Fonts sourced from Google Fonts, downloaded and self-hosted for perf */
-
-/* ─── Modern reset ────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* --------------------------------------------------------------------------
+   1. Reset & box-sizing
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
-  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
 }
 
-/* ─── Design tokens — CSS custom properties ─────────────────────────────── */
+/* --------------------------------------------------------------------------
+   2. Design tokens — CSS custom properties
+   -------------------------------------------------------------------------- */
 :root {
-  /* Colors — semantic roles from brand kit §6 / design_tokens §17 */
-  --color-primary: #2b4a8c;
-  --color-primary-hover: #1e3568;
-  --color-secondary: #a0522d;
-  --color-secondary-hover: #7a3d21;
-  --color-tertiary: #c8971a;
-  --color-tertiary-light: #f0cc6a;
-  --color-neutral: #4a7c6f;
-  --color-bg: #f4ecd8;
-  --color-surface: #faf4e4;
-  --color-surface-alt: #ede1c6;
-  --color-text: #2c1a0e;
-  --color-text-muted: rgb(44, 26, 14, 0.55);
-  --color-success: #5a8a5e;
-  --color-warning: #d4961a;
-  --color-error: #8c1f28;
-  --color-info: #2a5fa5;
-  --color-focus: #c8971a;
-  --color-border: #3d1f0a;
-  --color-shadow: rgb(44, 26, 14, 0.35);
-  --color-overlay: rgb(14, 10, 6, 0.72);
+  /* Colors */
+  --color-primary:       #2B4A8C;
+  --color-primary-hover: #1E3568;
+  --color-secondary:     #A0522D;
+  --color-secondary-hover: #7A3D21;
+  --color-tertiary:      #C8971A;
+  --color-neutral:       #4A7C6F;
+  --color-bg:            #F4ECD8;
+  --color-surface:       #FAF4E4;
+  --color-surface-alt:   #EDE1C6;
+  --color-text:          #2C1A0E;
+  --color-text-muted:    rgba(44, 26, 14, 0.60);
+  --color-success:       #5A8A5E;
+  --color-warning:       #D4961A;
+  --color-error:         #8C1F28;
+  --color-info:          #2A5FA5;
+  --color-focus:         #C8971A;
+  --color-border:        #3D1F0A;
+  --color-shadow:        rgba(44, 26, 14, 0.35);
+  --color-overlay:       rgba(14, 10, 6, 0.72);
 
-  /* Gradient CSS custom properties (from brand kit gradients) */
-  --gradient-chiaroscuro: linear-gradient(160deg, #2c1a0e, #a0522d, #c8971a);
-  --gradient-lapis: radial-gradient(ellipse at center, #2b4a8c, #1a2d5a);
-  --gradient-candle-bloom: radial-gradient(
-    ellipse at center,
-    rgb(200, 151, 26, 0.45),
-    rgb(244, 236, 216, 0) 70%
-  );
-  --gradient-gold-shimmer: linear-gradient(45deg, #c8971a, #f0cc6a, #c8971a);
-
-  /* Spacing scale (8-point, from kit spacing_scale) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
+  /* Spacing — 8pt scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner radius scale */
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 12px;
-  --radius-xl: 24px;
+  /* Border radius */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   24px;
   --radius-pill: 999px;
   --radius-arch: 50% 50% 0 0;
 
-  /* Typography roles */
-  --font-headline: 'Cormorant Garamond', 'IM Fell English', 'Garamond', 'Times New Roman', serif;
-  --font-display: 'Cormorant SC', 'Cormorant Garamond', 'Garamond', serif;
-  --font-body: 'EB Garamond', 'Garamond', 'Palatino Linotype', 'Georgia', serif;
-  --font-ui: 'Libre Baskerville', 'Baskerville', 'Book Antiqua', 'Georgia', serif;
-  --font-mono: 'Courier Prime', 'Courier New', monospace;
-  --font-number: 'Cormorant Garamond', 'Garamond', serif;
-  --font-size-base: 17px;
+  /* Shadows — warm umber-tinted */
+  --shadow-sm: 0 1px 3px rgba(44, 26, 14, 0.20);
+  --shadow-md: 0 4px 12px rgba(44, 26, 14, 0.28);
+  --shadow-lg: 0 12px 32px rgba(44, 26, 14, 0.36);
+  --shadow-xl: 0 24px 64px rgba(44, 26, 14, 0.44);
+
+  /* Typography */
+  --font-headline:    'Cormorant Garamond', 'Garamond', serif;
+  --font-display:     'Cormorant SC', 'Cormorant Garamond', serif;
+  --font-body:        'EB Garamond', 'Garamond', serif;
+  --font-ui:          'Libre Baskerville', 'Baskerville', serif;
+  --font-mono:        'Courier Prime', 'Courier New', monospace;
+  --font-number:      'Cormorant Garamond', serif;
+
+  --font-size-base:   17px;
   --line-height-body: 1.7;
-  --line-height-ui: 1.35;
+  --line-height-ui:   1.35;
   --line-height-headline: 1.1;
+
   --tracking-headline: -0.01em;
-  --tracking-display: 0.05em;
-  --tracking-ui: 0.02em;
+  --tracking-display:  0.05em;
+  --tracking-ui:       0.02em;
 
-  /* Shadow tokens — warm umber-tinted */
-  --shadow-sm: 0 1px 3px rgb(44, 26, 14, 0.2);
-  --shadow-md: 0 4px 12px rgb(44, 26, 14, 0.28);
-  --shadow-lg: 0 12px 32px rgb(44, 26, 14, 0.36);
-  --shadow-xl: 0 24px 64px rgb(44, 26, 14, 0.44);
-
-  /* Animation / motion */
-  --duration-fast: 150ms;
-  --duration-base: 200ms;
-  --duration-slow: 350ms;
-  --duration-sfumato: 600ms;
-  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --easing-out: ease-out;
-  --easing-in-out: ease-in-out;
+  /* Animation */
+  --duration-fast:     150ms;
+  --duration-base:     200ms;
+  --duration-slow:     350ms;
+  --duration-sfumato:  600ms;
+  --easing-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-out:         ease-out;
+  --easing-in-out:      ease-in-out;
 
   /* Borders */
-  --border-width: 1.5px;
-  --border-style: solid;
-  --border-color: #3d1f0a;
-  --border-default: 1.5px solid #3d1f0a;
+  --border-width:      1.5px;
+  --border-style:      solid;
+  --border-color:      #3D1F0A;
+  --border-default:    1.5px solid #3D1F0A;
   --border-double-gap: 4px;
 
   /* Layout */
   --max-width: 1400px;
-  --max-content: 960px;
-  --gutter: var(--space-12);
-  --lh-headline: 1.1;
-  --lh-display: 0.95;
-  --tracking-body: 0.01em;
-  --lh-body: 1.7;
-  --lh-ui: 1.35;
-  --tracking-mono: 0.01em;
-  --lh-mono: 1.6;
-  --tracking-number: 0em;
-  --lh-number: 1;
+  --gutter:    48px;
 }
 
-/* ─── Base element defaults ───────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   3. Font-face declarations — self-hosted WOFF2 from shared pool
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../../assets/fonts/cormorant-garamond-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../../assets/fonts/cormorant-garamond-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant SC';
+  src: url('../../assets/fonts/cormorant-sc-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../../assets/fonts/eb-garamond-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../../assets/fonts/eb-garamond-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('../../assets/fonts/libre-baskerville-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('../../assets/fonts/libre-baskerville-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   4. Base element styles
+   -------------------------------------------------------------------------- */
 body {
   font-family: var(--font-body);
   font-size: var(--font-size-base);
   line-height: var(--line-height-body);
   color: var(--color-text);
   background-color: var(--color-bg);
-  font-feature-settings:
-    'kern' 1,
-    'liga' 1,
-    'onum' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* ─── Parchment grain texture — texture_level: heavy ─────────────────────── */
-/* Subtle noise overlay on entire page for Renaissance tactile feel */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.038;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-headline);
   line-height: var(--line-height-headline);
   letter-spacing: var(--tracking-headline);
-  color: var(--color-text);
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-weight: 600;
 }
 
-p {
-  line-height: var(--line-height-body);
-  letter-spacing: 0.01em;
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+  overflow-wrap: anywhere;
 }
 
 a {
   color: var(--color-primary);
   text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
   transition: color var(--duration-fast) var(--easing-standard);
 }
+a:hover { color: var(--color-primary-hover); }
 
-a:hover {
-  color: var(--color-primary-hover);
+img, video, svg { display: block; max-width: 100%; height: auto; }
+
+ul, ol { list-style: none; }
+
+button {
+  font-family: var(--font-ui);
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+input, textarea, select {
+  font-family: var(--font-ui);
+  font-size: 1rem;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
-code,
-pre,
-kbd,
-samp {
+code, pre, kbd {
   font-family: var(--font-mono);
   font-size: 0.9em;
 }
 
-/* ─── Skip link ───────────────────────────────────────────────────────────── */
+code {
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--color-border);
+}
+
+pre {
+  background: var(--color-surface-alt);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. Skip link
+   -------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
   top: -100%;
-  inset-inline-start: var(--space-4);
+  left: var(--space-4);
   z-index: 9999;
   padding: var(--space-2) var(--space-4);
   background: var(--color-surface);
-  color: var(--color-text);
+  color: var(--color-primary);
   border: var(--border-default);
   border-radius: var(--radius-md);
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: var(--shadow-md);
-  transition: top var(--duration-fast) var(--easing-out);
+  transition: top var(--duration-fast) var(--easing-standard);
 }
-
 .skip-link:focus {
   top: var(--space-4);
   outline: 2px solid var(--color-focus);
-  outline-offset: 0;
-  box-shadow: 0 0 0 4px var(--color-surface);
+  outline-offset: 2px;
 }
 
-/* ─── Focus visible — gold leaf halo ──────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   6. Focus styles — gold leaf focus ring with parchment offset
+   -------------------------------------------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-focus);
-  outline-offset: 0;
-  box-shadow: 0 0 0 4px var(--color-surface);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
-/* ─── Text selection — warm parchment tones ───────────────────────────────── */
+/* --------------------------------------------------------------------------
+   7. Text selection — lapis on parchment
+   -------------------------------------------------------------------------- */
 ::selection {
-  background: rgb(200, 151, 26, 0.25);
-  color: var(--color-text);
+  background: var(--color-primary);
+  color: var(--color-surface);
 }
 
-/* ─── Scrollbar styling (webkit) ─────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface-alt);
-}
-
+/* --------------------------------------------------------------------------
+   8. Scrollbar — styled to match parchment theme
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-surface-alt); }
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: var(--radius-pill);
   border: 2px solid var(--color-surface-alt);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
+/* --------------------------------------------------------------------------
+   9. Visually hidden (accessibility)
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+/* --------------------------------------------------------------------------
+   10. Reduced motion
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -275,73 +336,14 @@ samp {
   }
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/cormorant-garamond-600-latin.woff2') format('woff2');
+/* --------------------------------------------------------------------------
+   11. Intensity toggle (calm mode)
+   -------------------------------------------------------------------------- */
+[data-calm="true"] .animate-sfumato,
+[data-calm="true"] .animate-fade-in,
+[data-calm="true"] .animate-slide-up,
+[data-calm="true"] .animate-bloom {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/cormorant-garamond-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant SC';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/cormorant-sc-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/eb-garamond-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/eb-garamond-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/libre-baskerville-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/libre-baskerville-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

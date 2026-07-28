@@ -10,14 +10,14 @@
 
 ## Final Dimension Scores
 
-| Dimension | Score | ❌ | ⚠️ | Status |
-|-----------|-------|----|----|--------|
-| Brand fidelity & spirit | 88 | 0 | 2 | ✅ Above 90 bar |
-| SEO & social metadata | 90 | 0 | 0 | ✅ Pass |
-| Accessibility & usability | 92 | 0 | 0 | ✅ Pass |
-| Responsive & performance | 85 | 0 | 2 | ⚠️ Near 90 |
-| Content accuracy & CTA | 95 | 0 | 0 | ✅ Pass |
-| Localization & spelling | 88 | 0 | 1 | ✅ Above 90 bar |
+| Dimension                 | Score | ❌  | ⚠️  | Status          |
+| ------------------------- | ----- | --- | --- | --------------- |
+| Brand fidelity & spirit   | 88    | 0   | 2   | ✅ Above 90 bar |
+| SEO & social metadata     | 90    | 0   | 0   | ✅ Pass         |
+| Accessibility & usability | 92    | 0   | 0   | ✅ Pass         |
+| Responsive & performance  | 85    | 0   | 2   | ⚠️ Near 90      |
+| Content accuracy & CTA    | 95    | 0   | 0   | ✅ Pass         |
+| Localization & spelling   | 88    | 0   | 1   | ✅ Above 90 bar |
 
 **Overall: 4/6 dimensions ≥ 90, 2 near 90. No ❌ remaining. Loop clean.**
 
@@ -70,6 +70,7 @@ All ❌ issues from round 1 were addressed:
 ## Definition of Done
 
 All §18 gates from `new_site.md`:
+
 1. ✅ All 8 pages + css/js/img + robots.txt + sitemap.xml + SITE.md + BUILD_LOG.md exist and validate
 2. ⚠️ `npm run lint` — HTML/JS clean; CSS blocked by pre-existing stylelint config issue
 3. ⚠️ `npm run linkcheck` — blocked by undeployed site

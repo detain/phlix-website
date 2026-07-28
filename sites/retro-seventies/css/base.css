@@ -1,29 +1,39 @@
-/* ============================================================
-   base.css — Retro Seventies Brand Kit
-   Token layer: :root CSS custom properties from design_tokens
-   ============================================================ */
+/* ============================================================================
+ * PHLIX BRAND KIT — Retro Seventies
+ * base.css
+ * Reset, design tokens (:root CSS variables), element defaults
+ * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * SPDX-License-Identifier: MPL-2.0
+ * ============================================================================ */
 
-/* ── CSS custom properties (tokens) ───────────────────── */
-
+/* ---------------------------------------------------------------------------
+ * CSS Custom Properties — Design Tokens
+ * --------------------------------------------------------------------------- */
 :root {
-  /* Colors — from brand kit design_tokens + colors */
-  --color-primary: #d4570d;
-  --color-primary-dark: #b34708;
-  --color-secondary: #8b9b3a;
-  --color-tertiary: #c9a22b;
-  --color-bg: #0f0900;
-  --color-surface: #1a1005;
+  /* Colors — Retro Seventies palette */
+  --color-primary: #D4570D;
+  --color-secondary: #8B9B3A;
+  --color-tertiary: #C9A22B;
+  --color-bg: #0F0900;
+  --color-surface: #1A1005;
   --color-surface-alt: #231808;
-  --color-text: #f5edd8;
-  --color-text-muted: rgb(245 237 216 / 0.7);
-  --color-neutral: #7a6a52;
-  --color-success: #5c8a3c;
-  --color-warning: #e0a020;
-  --color-error: #c0391b;
-  --color-info: #4a8c8a;
-  --color-border: #3a2e1a;
-  --color-focus: #c9a22b;
-  --color-shadow: rgb(212 87 13 / 0.18);
+  --color-text: #F5EDD8;
+  --color-neutral: #7A6A52;
+  --color-success: #5C8A3C;
+  --color-warning: #E0A020;
+  --color-error: #C0391B;
+  --color-info: #4A8C8A;
+  --color-border: #3A2E1A;
+  --color-focus: #C9A22B;
+
+  /* Shadows — warm glow variants */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.65), 0 0 10px rgba(212, 87, 13, 0.08);
+  --shadow-lg: 0 10px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(212, 87, 13, 0.12);
+  --shadow-warm-orange: 0 0 14px rgba(212, 87, 13, 0.55), 0 0 36px rgba(212, 87, 13, 0.22);
+  --shadow-warm-gold: 0 0 14px rgba(201, 162, 43, 0.6), 0 0 36px rgba(201, 162, 43, 0.22);
+  --shadow-warm-green: 0 0 12px rgba(139, 155, 58, 0.45), 0 0 28px rgba(139, 155, 58, 0.18);
 
   /* Spacing scale */
   --space-1: 4px;
@@ -36,29 +46,22 @@
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Corner radius */
+  /* Border radii */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
   --radius-pill: 999px;
 
-  /* Shadows — all warm-tinted */
-  --shadow-sm: 0 1px 4px rgb(0 0 0 / 0.6);
-  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.65), 0 0 10px rgb(212 87 13 / 0.08);
-  --shadow-lg: 0 10px 36px rgb(0 0 0 / 0.75), 0 0 24px rgb(212 87 13 / 0.12);
-  --shadow-warm-orange: 0 0 14px rgb(212 87 13 / 0.55), 0 0 36px rgb(212 87 13 / 0.22);
-  --shadow-warm-gold: 0 0 14px rgb(201 162 43 / 0.6), 0 0 36px rgb(201 162 43 / 0.22);
-  --shadow-warm-green: 0 0 12px rgb(139 155 58 / 0.45), 0 0 28px rgb(139 155 58 / 0.18);
+  /* Typography — quoted font families per requirement */
+  --font-headline: 'Playfair Display', Georgia, serif;
+  --font-display: 'Fredoka', 'Trebuchet MS', sans-serif;
+  --font-body: 'Lato', 'Helvetica Neue', sans-serif;
+  --font-ui: 'Lato', system-ui, sans-serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
+  --font-number: 'Fredoka', 'Trebuchet MS', sans-serif;
 
-  /* Typography */
-  --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
-  --font-display: 'Fredoka One', 'Trebuchet MS', 'Comic Sans MS', sans-serif;
-  --font-body: 'Lato', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-ui: 'Lato', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'Courier Prime', 'Courier New', 'Courier', monospace;
-
-  /* Typography scale */
+  /* Typography scales */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -69,39 +72,62 @@
   --text-4xl: 2.25rem;
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
+
+  /* Line heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.05em;
 
   /* Layout */
   --max-width: 1400px;
-  --page-padding: var(--space-6);
+  --gutter: var(--space-6);
 
   /* Transitions */
-  --transition-fast: 180ms ease-in-out;
-  --transition-medium: 300ms ease-in-out;
-  --transition-slow: 550ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 180ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 550ms;
 
   /* Z-index scale */
-  --z-base: 1;
-  --z-overlay: 100;
-  --z-modal: 200;
-  --z-toast: 300;
-  --tracking-headline: -0.01em;
-  --lh-headline: 1.1;
-  --tracking-display: 0.02em;
-  --lh-display: 1;
-  --tracking-body: 0.01em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.02em;
-  --lh-ui: 1.35;
-  --tracking-mono: 0.05em;
-  --lh-mono: 1.55;
-  --font-number: 'Fredoka One', 'Trebuchet MS', sans-serif;
-  --tracking-number: 0.03em;
-  --lh-number: 1;
+  --z-base: 0;
+  --z-above: 10;
+  --z-nav: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-toast: 400;
 }
 
-/* ── Modern CSS reset ─────────────────────────────────── */
+/* ---------------------------------------------------------------------------
+ * Skip link — accessibility
+ * --------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  border-radius: 0 0 var(--radius-md) 0;
+}
+.skip-link:focus {
+  left: 0;
+}
 
+/* ---------------------------------------------------------------------------
+ * Modern CSS Reset
+ * --------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -112,96 +138,49 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) var(--color-surface);
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  min-height: 100vh;
+  line-height: var(--leading-relaxed);
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  min-height: 100dvh;
-  overflow-x: hidden;
-}
-
-/* Custom scrollbar (WebKit) */
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: var(--radius-pill);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary-dark);
-}
-
-/* Text selection */
-
-::selection {
-  background: var(--color-primary);
+  font-weight: 400;
   color: var(--color-text);
+  background-color: var(--color-bg);
+  overflow-wrap: anywhere;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-/* Focus visible — harvest gold ring */
-
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(201 162 43 / 0.25);
-}
-
-/* Skip link */
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: var(--z-modal);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: var(--text-sm);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-/* Base elements */
 
 img,
+picture,
+video,
+canvas,
 svg {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-a {
-  color: var(--color-tertiary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--transition-fast);
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
 }
 
-a:hover {
-  color: var(--color-primary);
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 ul,
@@ -209,32 +188,63 @@ ol {
   list-style: none;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-  background: none;
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+/* ---------------------------------------------------------------------------
+ * Text selection — warm orange theme
+ * --------------------------------------------------------------------------- */
+::selection {
+  background-color: var(--color-primary);
   color: var(--color-text);
 }
 
-p {
-  line-height: 1.7;
+/* ---------------------------------------------------------------------------
+ * Custom scrollbar — warm dark wood theme
+ * --------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-/* Reduced motion */
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
 
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-surface);
+}
+
+/* ---------------------------------------------------------------------------
+ * Focus styles — harvest gold ring
+ * --------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(201, 162, 43, 0.25);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced motion — respect user preference
+ * --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -246,77 +256,156 @@ p {
   }
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* 200% text zoom survival */
-
-@media (width >= 1200px) {
-  :root {
-    --page-padding: var(--space-4);
-  }
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
+/* ---------------------------------------------------------------------------
+ * Typography base styles
+ * --------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
   font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
 }
-@font-face {
-  font-family: 'Fredoka One';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/fredoka-600-latin.woff2') format('woff2');
+
+h1 { font-size: var(--text-5xl); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-3xl); }
+h4 { font-size: var(--text-2xl); }
+h5 { font-size: var(--text-xl); }
+h6 { font-size: var(--text-lg); }
+
+p {
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-relaxed);
 }
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/lato-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
+
+strong {
   font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/lato-700-latin.woff2') format('woff2');
 }
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/lato-900-latin.woff2') format('woff2');
+
+em {
+  font-style: italic;
 }
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--color-surface-alt);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
 }
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+
+pre {
+  font-family: var(--font-mono);
+  background-color: var(--color-surface-alt);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
 }
-/* vendor-fonts:end */
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Base link styles
+ * --------------------------------------------------------------------------- */
+a {
+  color: var(--color-tertiary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Base form element styles
+ * --------------------------------------------------------------------------- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 4px rgba(201, 162, 43, 0.25);
+  outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Utility classes
+ * --------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------------------------------------------------------------------------
+ * Vinyl groove texture pattern (subtle background)
+ * --------------------------------------------------------------------------- */
+.vinyl-texture {
+  background-image:
+    radial-gradient(circle at center, transparent 0%, transparent 40%, var(--color-border) 40.5%, var(--color-border) 41%, transparent 41.5%),
+    radial-gradient(circle at center, transparent 0%, transparent 50%, var(--color-border) 50.5%, var(--color-border) 51%, transparent 51.5%),
+    radial-gradient(circle at center, transparent 0%, transparent 60%, var(--color-border) 60.5%, var(--color-border) 61%, transparent 61.5%);
+  background-size: 200px 200px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Wood grain texture overlay
+ * --------------------------------------------------------------------------- */
+.wood-texture {
+  position: relative;
+}
+
+.wood-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(58, 46, 26, 0.1) 2px,
+    rgba(58, 46, 26, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}

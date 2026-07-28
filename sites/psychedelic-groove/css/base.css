@@ -1,202 +1,274 @@
-/* ==========================================================================
-   BASE.CSS — Psychedelic Groove
-   Modern CSS reset + design tokens as CSS custom properties
-   ========================================================================== */
+/**
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * MPL-2.0
+ */
 
-/* Box sizing + reset */
+/* ─────────────────────────────────────────────────────────────
+   1. Modern reset
+   ───────────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-* {
   margin: 0;
-}
-
-html {
-  text-size-adjust: 100%;
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-p,
-h1,
-h2,
-h3,
-h4 {
-  overflow-wrap: break-word;
-}
-
-ul[role='list'] {
-  list-style: none;
   padding: 0;
 }
 
-/* ── CSS Custom Properties (Design Tokens) ─────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   2. Design tokens — color (all from kit design_tokens.color)
+   ───────────────────────────────────────────────────────────── */
 :root {
-  /* Colors */
-  --color-primary: #9b00ff;
-  --color-secondary: #f50;
-  --color-tertiary: #cf0;
-  --color-bg: #0a0018;
-  --color-surface: #120825;
-  --color-surface-alt: #1a1030;
-  --color-text: #f5f0ff;
-  --color-neutral: #6b5080;
-  --color-success: #39ff14;
-  --color-warning: #f90;
-  --color-error: #f24;
-  --color-info: #00cfff;
-  --color-border: #2d1a4a;
-  --color-focus: #cf0;
+  /* Core palette */
+  --color-primary:    #9B00FF;  /* Ultra Violet */
+  --color-secondary:  #FF5500;  /* Cosmic Orange */
+  --color-tertiary:   #CCFF00;  /* Acid Lime */
 
-  /* RGB components for alpha-enabled gradients */
-  --color-primary-rgb: 155, 0, 255;
-  --color-secondary-rgb: 255, 85, 0;
-  --color-tertiary-rgb: 204, 255, 0;
-  --color-bg-rgb: 10, 0, 24;
-  --color-surface-rgb: 18, 8, 37;
-  --color-text-rgb: 245, 240, 255;
-  --color-neutral-rgb: 107, 80, 128;
-  --color-success-rgb: 57, 255, 20;
-  --color-error-rgb: 255, 34, 68;
-  --color-warning-rgb: 255, 153, 0;
+  /* Backgrounds */
+  --color-bg:         #0A0018;  /* Blacklight Indigo */
+  --color-surface:    #120825;  /* Deep Purple Haze */
+  --color-surface-alt:#1A1030;  /* Violet Dark */
 
-  /* Spacing scale (px) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
+  /* Text */
+  --color-text:       #F5F0FF;  /* Lysergic White */
+
+  /* UI chrome */
+  --color-neutral:    #6B5080;  /* Muted Mauve */
+  --color-border:     #2D1A4A;  /* Dim Violet */
+
+  /* Semantic */
+  --color-success:    #39FF14;  /* Groovy Green */
+  --color-warning:    #FF9900;  /* Solar Flare */
+  --color-error:      #FF2244;  /* Lava Red */
+  --color-info:       #00CFFF;  /* Aquarius Blue */
+  --color-focus:      #CCFF00;  /* Acid Lime (focus ring) */
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
 
-  /* Border radius tokens */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 40px;
+  /* Border radius */
+  --radius-sm:   8px;
+  --radius-md:   16px;
+  --radius-lg:   24px;
+  --radius-xl:   40px;
   --radius-pill: 999px;
 
-  /* Font families */
-  --font-headline: 'Lobster', 'Pacifico', 'Righteous', cursive;
-  --font-display: 'Fredoka One', 'Righteous', 'Pacifico', sans-serif;
-  --font-body: 'Nunito', 'Varela Round', system-ui, sans-serif;
-  --font-ui: 'Nunito', 'Varela Round', system-ui, sans-serif;
-  --font-mono: 'Space Mono', 'Courier New', 'Courier', monospace;
-
-  /* Font sizes (fluid scale) */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
-
-  /* Font weights */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-
-  /* Line heights */
-  --leading-tight: 1.1;
-  --leading-snug: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.7;
-
-  /* Letter spacing */
-  --tracking-tight: -0.01em;
-  --tracking-normal: 0;
-  --tracking-wide: 0.01em;
-  --tracking-wider: 0.02em;
-  --tracking-widest: 0.03em;
-
   /* Shadows */
-  --shadow-sm: 0 2px 6px rgb(0, 0, 0, 0.6);
-  --shadow-md: 0 4px 16px rgb(0, 0, 0, 0.7), 0 0 12px rgb(var(--color-primary-rgb), 0.12);
-  --shadow-lg: 0 10px 40px rgb(0, 0, 0, 0.8), 0 0 30px rgb(var(--color-primary-rgb), 0.18);
-  --shadow-uv-bloom:
-    0 0 16px rgb(var(--color-primary-rgb), 0.6), 0 0 40px rgb(var(--color-primary-rgb), 0.25);
-  --shadow-lime-shock:
-    0 0 14px rgb(var(--color-tertiary-rgb), 0.7), 0 0 36px rgb(var(--color-tertiary-rgb), 0.25);
-  --shadow-orange-radiance:
-    0 0 14px rgb(var(--color-secondary-rgb), 0.55), 0 0 36px rgb(var(--color-secondary-rgb), 0.2);
+  --shadow-sm:          0 2px 6px rgba(0,0,0,0.6);
+  --shadow-md:          0 4px 16px rgba(0,0,0,0.7), 0 0 12px rgba(155,0,255,0.12);
+  --shadow-lg:          0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(155,0,255,0.18);
+  --shadow-uv-bloom:    0 0 16px rgba(155,0,255,0.6), 0 0 40px rgba(155,0,255,0.25);
+  --shadow-lime-shock:  0 0 14px rgba(204,255,0,0.7), 0 0 36px rgba(204,255,0,0.25);
+  --shadow-orange:      0 0 14px rgba(255,85,0,0.55), 0 0 36px rgba(255,85,0,0.2);
 
-  /* Z-index scale */
-  --z-base: 0;
-  --z-above: 10;
-  --z-nav: 100;
-  --z-overlay: 200;
-  --z-modal: 300;
-  --z-toast: 400;
+  /* Typography — font families quoted */
+  --font-headline: "Fredoka One", "Pacifico", "Righteous", cursive;
+  --font-display:  "Fredoka One", "Pacifico", "Righteous", cursive;
+  --font-body:     "Nunito", "Varela Round", system-ui, sans-serif;
+  --font-ui:       "Nunito", "Varela Round", system-ui, sans-serif;
+  --font-mono:     "Space Mono", "Courier New", Courier, monospace;
 
-  /* Layout */
-  --max-width: 1400px;
-  --header-height: 72px;
-  --tracking-headline: 0.01em;
-  --lh-headline: 1.1;
-  --tracking-display: 0.02em;
-  --lh-display: 1;
-  --tracking-body: 0.01em;
-  --lh-body: 1.7;
-  --tracking-ui: 0.02em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0.03em;
-  --lh-mono: 1.6;
-  --font-number: 'Fredoka One', 'Righteous', sans-serif;
-  --tracking-number: 0.03em;
-  --lh-number: 1;
+  /* Content width */
+  --max-width: 1440px;
+  --content-width: 1200px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3. Self-hosted fonts (no CDN — from shared/assets/fonts/)
+   ───────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Fredoka One';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/fredoka-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../../assets/fonts/nunito-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../../assets/fonts/nunito-600-latin.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../../assets/fonts/nunito-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("../../assets/fonts/space-mono-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("../../assets/fonts/space-mono-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   4. Base element defaults
+   ───────────────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-body);
-  font-weight: var(--font-normal);
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--color-text);
   background-color: var(--color-bg);
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* ── Skip link ───────────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   5. Text overflow wrapping (prevents grid overflow — §19.12)
+   ───────────────────────────────────────────────────────────── */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   6. Typography scale
+   ───────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p { max-width: 72ch; }
+
+strong { font-weight: 600; }
+
+a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.25s ease;
+  word-break: break-word;
+}
+
+a:hover { color: var(--color-tertiary); }
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface-alt);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--color-tertiary);
+}
+
+pre {
+  font-family: var(--font-mono);
+  background: var(--color-surface-alt);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+ul, ol {
+  padding-left: var(--space-6);
+}
+
+li { margin-block-start: var(--space-2); }
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: var(--font-ui);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   7. Skip link
+   ───────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
-  top: -100%;
+  top: -100vh;
   left: var(--space-4);
-  z-index: var(--z-toast);
+  z-index: 9999;
   padding: var(--space-3) var(--space-6);
   background: var(--color-primary);
   color: var(--color-text);
   border-radius: var(--radius-pill);
   font-family: var(--font-ui);
-  font-weight: var(--font-bold);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wider);
-  transition: top 0.2s ease;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
 }
 
 .skip-link:focus {
@@ -205,43 +277,18 @@ body {
   outline-offset: 2px;
 }
 
-/* ── Focus visible ───────────────────────────────────────────────────────────── */
-:focus {
-  outline: none;
-}
-
+/* ─────────────────────────────────────────────────────────────
+   8. Focus visible ring — acid-lime double halo per kit spec
+   ───────────────────────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgb(var(--color-primary-rgb), 0.35);
+  box-shadow: 0 0 0 4px rgba(155, 0, 255, 0.35);
 }
 
-/* ── Text selection ──────────────────────────────────────────────────────────── */
-::selection {
-  background: var(--color-primary);
-  color: var(--color-text);
-}
-
-/* ── Custom scrollbar ────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: var(--radius-pill);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
-}
-
-/* ── Reduced motion ─────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   9. Reduced motion
+   ───────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -253,170 +300,32 @@ body {
   }
 }
 
-/* ── Typography base ─────────────────────────────────────────────────────────── */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-wide);
+/* ─────────────────────────────────────────────────────────────
+   10. Selection
+   ───────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
   color: var(--color-text);
 }
 
-h1 {
-  font-size: var(--text-5xl);
+/* ─────────────────────────────────────────────────────────────
+   11. Scrollbar — violet-dark with UV thumb
+   ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-h2 {
-  font-size: var(--text-4xl);
-}
-
-h3 {
-  font-size: var(--text-3xl);
-}
-
-h4 {
-  font-size: var(--text-2xl);
-}
-
-h5 {
-  font-size: var(--text-xl);
-}
-
-h6 {
-  font-size: var(--text-lg);
-}
-
-p {
-  line-height: var(--leading-relaxed);
-}
-
-a {
-  color: var(--color-secondary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-tertiary);
-}
-
-a:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-
-/* ── Code / pre ──────────────────────────────────────────────────────────────── */
-code,
-pre {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-}
-
-pre {
+::-webkit-scrollbar-track {
   background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  overflow-x: auto;
 }
 
-code {
-  color: var(--color-tertiary);
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-surface);
 }
 
-pre code {
-  color: inherit;
-  background: none;
-  padding: 0;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-tertiary);
 }
-
-/* ── Lists ───────────────────────────────────────────────────────────────────── */
-ul,
-ol {
-  padding-inline-start: var(--space-6);
-}
-
-li {
-  line-height: var(--leading-relaxed);
-  margin-bottom: var(--space-2);
-}
-
-/* ── Images ──────────────────────────────────────────────────────────────────── */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ── Horizontal rule ─────────────────────────────────────────────────────────── */
-hr {
-  border: none;
-  border-top: 2px solid var(--color-border);
-  margin: var(--space-12) 0;
-}
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Fredoka One';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/fredoka-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lobster';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/lobster-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/space-mono-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

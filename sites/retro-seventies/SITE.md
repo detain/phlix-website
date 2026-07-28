@@ -1,156 +1,111 @@
-# SITE.md — Retro Seventies Brand Kit Site
+# SITE.md — Retro Seventies
 
-## Concept & Vision
+## Concept
 
-**Retro Seventies** is a warm, groovy celebration of an era that never really left — harvest gold kitchens, avocado green appliances, shag carpet, lava lamps, and vinyl records that demanded you make a choice and commit. The site feels like settling into a beanbag chair, dropping the needle on a favourite LP, and letting the good times roll. This is not a streaming app wearing bell bottoms — it is genuine analog warmth translated into pixels.
+Retro Seventies channels the warm, groovy soul of 1970s analog culture — harvest gold kitchens, avocado green appliances, shag carpet, lava lamp glow, and vinyl records. Watching on Phlix in this kit feels like settling into a beanbag chair, dropping the needle on a favourite LP, and letting the good times roll.
 
-The tagline, *Rewind. Replay. Relive.*, anchors the emotional promise: media is a ritual to be savoured, not a feed to be scrolled.
+This is **not** a streaming app wearing bell bottoms. It is a genuine celebration of the era when movies were an event and television was magic.
 
----
+## Design Language
 
-## Aesthetic Direction
+### Aesthetic Direction
+Warm 1970s editorial — record sleeve art meets Kodachrome photography. Earth tones dominate: burnt orange, harvest gold, and avocado green on a deep mahogany ground. Compositions lean into bold, symmetrical or sunburst-radial geometry. Typography is bold and editorial.
 
-- **Archetype**: `showcase` — full-bleed record-sleeve hero, warm-dark mahogany surfaces, media-forward poster grid, editorial center-stage composition
-- **Mood**: Warm, nostalgic, playful, soulful — never cold, never clinical, never sleek-minimalist
-- **Reference**: 1970s film one-sheets, vinyl record sleeves, lava lamp glow, Kodachrome film, wood paneling, psychedelic geometric patterns, silkscreen illustration
+### Color Palette
 
----
+| Token | Hex | Usage |
+|---|---|---|
+| `--color-primary` | `#D4570D` | Burnt Orange — primary CTAs, hero warmth |
+| `--color-secondary` | `#8B9B3A` | Avocado Green — secondary accents |
+| `--color-tertiary` | `#C9A22B` | Harvest Gold — highlights, badges |
+| `--color-bg` | `#0F0900` | Deep Mahogany — page background |
+| `--color-surface` | `#1A1005` | Dark Walnut — card surfaces |
+| `--color-surface-alt` | `#231808` | Warm Espresso — alternate surfaces |
+| `--color-text` | `#F5EDD8` | Cream Paper — all text |
+| `--color-border` | `#3A2E1A` | Tobacco Line — borders, dividers |
+| `--color-focus` | `#C9A22B` | Focus Gold — focus rings |
 
-## Color Palette
+### Typography
 
-| Token                  | Role             | Hex       | Usage |
-|------------------------|------------------|-----------|-------|
-| `--color-primary`      | Burnt Orange     | `#D4570D` | Primary CTA, active states, hero warmth |
-| `--color-secondary`    | Avocado Green    | `#8B9B3A` | Secondary accents, nature callbacks |
-| `--color-tertiary`     | Harvest Gold     | `#C9A22B` | Warm gold highlights, vinyl accents, star ratings |
-| `--color-bg`           | Deep Mahogany    | `#0F0900` | Default page background — warm near-black |
-| `--color-surface`      | Dark Walnut      | `#1A1005` | Card and panel surfaces |
-| `--color-surface-alt`  | Warm Espresso    | `#231808` | Alternate surface, hover states |
-| `--color-text`         | Cream Paper      | `#F5EDD8` | Primary body and headline text |
-| `--color-text-muted`   | Cream Paper 70%  | rgba(245,237,216,0.7) | Secondary body text |
-| `--color-neutral`      | Walnut Brown     | `#7A6A52` | Muted UI chrome, dividers |
-| `--color-success`      | Fern Green       | `#5C8A3A` | Success states |
-| `--color-warning`      | Mustard Yellow   | `#E0A020` | Warnings |
-| `--color-error`        | Sienna Red       | `#C0391B` | Errors, destructive |
-| `--color-info`         | Dusty Teal       | `#4A8C8A` | Informational |
-| `--color-border`       | Tobacco Line     | `#3A2E1A` | Card borders, dividers |
-| `--color-focus`        | Focus Gold Pulse | `#C9A22B` | Keyboard focus ring |
+| Role | Family | Weights |
+|---|---|---|
+| Headline | Playfair Display | 700, 900 |
+| Display | Fredoka | 600 (from pool) |
+| Body | Lato | 400, 700 |
+| UI | Lato | 400, 700, 900 |
+| Mono | Courier Prime | 400, 700 |
+| Number | Fredoka | 600 (from pool) |
 
-**Gradients**:
-- `Sunrise Groove` (hero backdrops): `linear-gradient(135deg, #D4570D, #C9A22B)`
-- `Avocado Fade` (secondary panels): `linear-gradient(180deg, #8B9B3A, transparent)`
-- `Wood Depth` (surface-to-bg): `linear-gradient(180deg, #231808, #0F0900)`
+**Note:** Fredoka One is not in the font pool (retired from Google Fonts). The official successor `Fredoka` at weight 600 is used per `shared/data/font-sources.json` resolution. See BUILD_LOG.md for details.
 
----
+### Motion
 
-## Typography
+- **Slow and warm** — 300–550ms transitions with `ease-in-out` or `cubic-bezier(0.34, 1.56, 0.64, 1)`
+- **Vinyl groove reveal** — concentric circles animate outward on hero
+- **Lava blob wobble** — mascot Groove has gentle organic pulsing
+- **Prefers-reduced-motion** — all animations collapse to instant cross-fades
 
-| Role      | Font               | Weight   | Size range         | Notes |
-|-----------|--------------------|----------|--------------------|-------|
-| Headline  | Playfair Display   | 700, 900 | 1.875rem – 5.5rem  | Editorial gravitas, hero h1, section heads |
-| Display   | Fredoka One        | 400      | 1.25rem – 4rem     | Groovy numerals, CTA headings, mascots |
-| Body      | Lato               | 400, 700 | 0.875rem – 1.125rem| Descriptions, synopses, long-form |
-| UI        | Lato               | 400,700,900 | 0.75rem – 1rem   | Buttons, labels, nav, chips |
-| Mono      | Courier Prime      | 400, 700 | 0.875rem          | Timecodes, runtimes, code |
+### Visual Assets
 
-**Typography rules** (from kit):
-- Playfair Display headlines must always be bold (700+)
-- Fredoka One display type is always sentence-case or title-case — never all-caps
-- Body copy (Lato) never lighter than 400 weight on dark backgrounds
-- Avoid justified text; left-align for readability
+- **Vinyl groove patterns** — concentric circles as section backgrounds
+- **Sunburst dividers** — conic gradient rays between sections
+- **Lava blob mascot** — Groove the lava lamp character in bottom-right
+- **Wood grain texture** — subtle horizontal lines on select surfaces
 
----
+### Layout
 
-## Spatial System
+- Max content width: 1400px
+- Generous rounded corners (12px+)
+- Dark warm backgrounds throughout
+- Single dominant burnt-orange CTA per screen
 
-**Spacing scale** (8px-base with 4/12/24/48/96 steps): 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96px
+## Pages
 
-**Corner radius**: `--radius-sm: 6px` · `--radius-md: 12px` · `--radius-lg: 20px` · `--radius-xl: 32px` · `--radius-pill: 999px`
+1. **The Lobby** (`index.html`) — Narrative-scroll hero + feature shelf + story + proof + CTA
+2. **Now Spinning** (`features.html`) — Vinyl-shelf feature grid with two featured highlights
+3. **The Equipment** (`clients.html`) — Device cards: Roku, Tizen, Windows, Mobile, DLNA
+4. **Get Groovy** (`download.html`) — Install snippet star + client cards + ecosystem
+5. **Plugins** (`plugins.html`) — Plugin system overview, demoted from primary nav
+6. **Docs** (`docs.html`) — Doc links, demoted from primary nav
+7. **The Relay** (`hub.html`) — Hub reverse-tunnel explanation
+8. **The Story** (`about.html`) — Brand story + license + FAQ (Groove's questions)
+9. **404** (`404.html`) — Groove in empty auditorium, `noindex`
 
-**Max content width**: 1400px
+## Navigation
 
----
+Nav labels from `site_architecture.nav`:
 
-## Motion Philosophy
+| id | label | emphasis |
+|---|---|---|
+| home | The Lobby | default |
+| features | Now Spinning | primary |
+| clients | The Equipment | default |
+| download | Get Groovy | primary |
+| hub | The Relay | default |
+| about | The Story | muted |
 
-The Retro Seventies motion vocabulary is analog and unhurried — like a record winding up or a lava lamp blob slowly rising. Motion is warm, organic, and never mechanical.
+Demoted to footer: plugins, docs.
 
-- **Speed**: slow (300–550ms transitions)
-- **Easing**: `ease-in-out` and `cubic-bezier(0.34, 1.56, 0.64, 1)` (gentle spring)
-- **Entrance**: `reveal-up` — opacity 0→1 + translateY(24px→0), 550ms
-- **Hover cards**: lift 4px + warm orange glow on 2px burnt-orange border, 250ms ease-in-out
-- **Button press**: brief 15% darken → gentle bounce, 150ms spring
-- **Loading**: Groove the mascot blob pulsing/wobbling (replaced by shimmer on reduced-motion)
-- **Reduced motion**: All animations replaced by instant state changes or opacity-only fades
+## Home Page Sections
 
----
+Per `homepage_narrative.sections[]`:
 
-## Visual Assets
+1. `needle-drop` — Full-bleed vinyl-groove hero with animated grooves
+2. `the-features` — 8-card vinyl shelf grid
+3. `why-retro` — Story section with blob mascot
+4. `proof-placard` — Stats band + quote
+5. `spin-it-up` — Orange-to-gold gradient CTA with install snippet
 
-### Inline SVG Icons
-Seven feature icons (library, syncplay, transcode, shield, antenna, broadcast/dlna, puzzle, hub) rendered as single-color stroke SVGs in the warm folk style: 2px rounded stroke, round caps/joins, cream paper color idle, burnt orange active.
+## Easter Eggs
 
-### Decorative Elements
-- **Vinyl-groove concentric circles**: Used in hero SVG, footer accent, and section breaks
-- **Wood-grain texture**: Subtle repeating-linear-gradient overlay on hero and header
-- **Warm ambient radial glow**: Radial gradient emanating from hero focal point
-- **Sunburst/sunrise accent lines**: Burnt orange → harvest gold gradient lines at section tops
-- **Lava-blob amoeba shapes**: CSS/SVG organic shapes as framing devices
+1. **Logo clicks:3** — Groove does a spin-dance celebration
+2. **Typed word: "groove"** — Cursor gets a vinyl spin overlay
 
-### Mascot: Groove
-A friendly anthropomorphic lava lamp blob in burnt orange with harvest gold lamp base. Poses: floating with outstretched arms, drooped/waiting, holding a vinyl record. Used in loading states, empty states, and onboarding flows.
+## Mascot
 
-### Photo/Art Treatment
-Any photography used is warm Kodachrome-graded: amber/gold shadows, cream highlights, subtle 35mm grain. Never cold blue, never desaturated. Illustrations follow the 1970s silkscreen/letterpress flat-color style.
+**Groove** — friendly lava lamp blob character, appears on home/features/download/hub. Fades in after 2s. Dismissable to localStorage.
 
----
+## License
 
-## Accessibility
-
-- **Contrast**: Cream paper (#F5EDD8) on deep mahogany (#0F0900) = 18.2:1 (AAA). Burnt orange on mahogany = 4.7:1 (AA). All pairs pass WCAG AA.
-- **Focus style**: 2px harvest-gold ring + 2px mahogany offset + 4px warm gold outer glow (`rgba(201,162,43,0.25)`)
-- **Touch targets**: 44×44px minimum desktop, 48×48px mobile
-- **Motion**: `prefers-reduced-motion: reduce` honored — all animations replaced by static states
-- **Zoom**: 200% browser text zoom survives without clipping or horizontal scroll
-- **Fonts**: Degrade gracefully — Playfair Display → Georgia, Fredoka One → Trebuchet MS, Lato → system-ui
-
----
-
-## Seasonal Variants (documented, not applied)
-
-1. **Funky New Year** (12-28..01-03): harvest gold primary, rotating disco ball motif, vinyl confetti particles
-2. **Harvest Halloween** (10-01..10-31): pumpkin orange primary, macramé spider-web overlay
-3. **Valentine Groove** (02-10..02-14): warm rose + gold, heart-shaped vinyl record motif
-
-Each is documented in `theme.css` as commented-out override token blocks for future use.
-
----
-
-## File Inventory
-
-```
-sites/retro-seventies/
-├── index.html          Home
-├── features.html       Features
-├── clients.html        Clients
-├── download.html       Download
-├── plugins.html        Plugins
-├── docs.html           Docs (link-out)
-├── hub.html            Phlix Hub
-├── about.html          About + FAQ
-├── css/
-│   ├── base.css        :root token layer
-│   ├── theme.css       Typography + layout
-│   └── components.css  Shell + UI components
-├── js/
-│   └── main.js         Nav toggle + scroll reveals
-├── img/
-│   ├── logo.svg        Wordmark + vinyl-groove
-│   ├── favicon.svg      32px vinyl record mark
-│   ├── og.svg           1200×630 social share card
-│   └── PROMPTS.md      Exact image generation prompts
-├── robots.txt
-├── sitemap.xml
-├── SITE.md             (this file)
-└── BUILD_LOG.md        What was built
-```
+- Phlix Server and Hub: **MPL-2.0**
+- Shared libraries, plugins, clients: **MIT**

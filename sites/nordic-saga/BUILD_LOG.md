@@ -1,94 +1,74 @@
-# BUILD_LOG.md — Nordic Saga Build Log
+# BUILD_LOG.md — Nordic Saga
 
-## What was generated
+## Build Summary
 
-**Site:** `sites/nordic-saga/`
-**Brand kit:** `phlix-website/brand-kits/nordic-saga.js`
-**Kit version:** 1.0
-**Build date:** 2026-07-01
+Regenerated 2026-07-27. This is a fresh regen from the Nordic Saga brand kit, following the narrative-scroll archetype.
 
-### Files generated
+## What Was Built
 
-| File | Status |
-|------|--------|
-| `css/base.css` | ✅ |
-| `css/theme.css` | ✅ |
-| `css/components.css` | ✅ |
-| `js/main.js` | ✅ |
-| `index.html` | ✅ |
-| `features.html` | ✅ |
-| `clients.html` | ✅ |
-| `download.html` | ✅ |
-| `plugins.html` | ✅ |
-| `docs.html` | ✅ |
-| `hub.html` | ✅ |
-| `about.html` | ✅ |
-| `img/logo.svg` | ✅ |
-| `img/favicon.svg` | ✅ |
-| `img/og.svg` | ✅ |
-| `img/PROMPTS.md` | ✅ |
-| `robots.txt` | ✅ |
-| `sitemap.xml` | ✅ |
-| `SITE.md` | ✅ |
-| `BUILD_LOG.md` | ✅ |
+### Pages (9 HTML files)
+- `index.html` — 6-section homepage: opening-rune hero, the-saga story, featured-halls (2 features), full-arsenal (6 features), proof-and-honor, the-summons CTA
+- `features.html` — All 8 features in alternating two-column layout with icons
+- `clients.html` — 5 clients (Roku, Tizen, Windows, Mobile beta, DLNA) as cards
+- `download.html` — Three install blocks (primary, HTTPS, from-source), requirements, ecosystem
+- `plugins.html` — Plugin system description (demoted page, fold into features)
+- `docs.html` — Link-out to VitePress docs
+- `hub.html` — Phlix Hub description, how-it-works, self-host option
+- `about.html` — Brand story, values, FAQ accordion with all 6 questions from content.json
+- `404.html` — Runestone empty state, noindex, relative paths
 
-### Layout archetype
+### CSS (3 files)
+- `css/base.css` — Reset, design tokens, element defaults, seasonal variants
+- `css/theme.css` — @font-face declarations, typography, layout, hero, section structure, animations
+- `css/components.css` — Header/nav, footer, buttons, cards, forms, badges, FAQ accordion, install block, mascot, error page
 
-**Showcase** — chosen because the brand DNA demands vast negative space (winter dark), the design principle calls for epic scale, and the hero section fills the viewport with forge-fire radial glow for a mythic first impression.
+### JS (1 file)
+- `js/main.js` — Nav toggle, scroll reveals (rune-burn), FAQ accordion, easter eggs (logo-clicks:5, typed-word:odin/rune), mascot (Huginn) behavior, seasonal class, reduced motion
 
-### Color mapping
+### Assets
+- `img/huginn.svg` — Geometric Nordic raven mascot SVG with ember-glow eye animation
+- `img/og.png` — Generated from og.svg via tools/gen-og.mjs
+- `sitemap.xml` — Generated via tools/gen-sitemap.mjs
+- `robots.txt` — Generated via tools/gen-sitemap.mjs
 
-All CSS custom properties map directly from `brandKit.design_tokens.color`:
-- `--color-primary: #C8700A` (Forge Fire)
-- `--color-secondary: #4A8FB5` (Fjord Steel)
-- `--color-tertiary: #8B6DC8` (Rune Violet)
-- `--color-bg: #060C12` (Fjord Night)
-- `--color-surface: #0A1320` (Storm Sea)
-- `--color-surface-alt: #101C2C` (Deep Current)
-- `--color-text: #E8E0D0` (Bone White)
-- `--color-neutral: #5A6070` (Iron Dust)
-- `--color-border: #1E2D3E` (Cold Iron)
-- `--color-focus: #C8700A` (Forge Focus)
+### Documentation
+- `REGEN_PLAN.md` — Field mapping, nav diff, section order, carry-forward, ambiguities, escalations
+- `SITE.md` — Design rationale, palette, type, motion, layout, mascot, easter eggs, seasonal variants
+- `BUILD_LOG.md` — This file
 
-### Typography mapping
+## Experience Fields Implemented
 
-- Headline/UI/Number: Cinzel (700, 900 for headlines; 400, 600 for UI)
-- Display: Uncial Antiqua (400)
-- Body: Merriweather (400, 700)
-- Mono: Source Code Pro (400, 600)
+All 19 declared fields:
+- site_architecture (thematic nav labels)
+- homepage_narrative (6 sections)
+- page_blueprints (per-kit copy treatments)
+- copy_overlay (hero treatment)
+- feature_casting (2 hero features)
+- copy_treatments (rune-burn, carved-stone, knotwork)
+- faq_experience (skald-announcement style)
+- hero_experience (full-bleed + ember-glow)
+- navigation_model (Cinzel UI labels)
+- scroll_experience (slow wipe, stone-door fade)
+- easter_eggs (3: logo-clicks:5, typed-word:odin, typed-word:rune)
+- conversion_funnel (forge-styled CTA)
+- proof_strategy (live GitHub links, no fabricated numbers)
+- visitor_paths (narrative-scroll path)
+- experience_archetype (narrative-scroll)
+- complexity_profile (standard density, general reading, translate jargon)
+- seasonal_activation (live-js via CSS media queries)
+- error_page_experience (runestone/raven 404)
+- persona_vignettes (Hero archetype from brand kit)
+- mascot.behavior (Huginn with tips, easter interactions, dismissal)
 
-### Icon system
+Absent field (intensity_toggle) → default behavior, no toggle.
 
-Inline SVG icons for 8 feature cards — 2px stroke, sharp caps/mitered joins, bone-white stroke color, forge-fire on hover (in component CSS). No CDN icon libraries.
+## Known Deviations / Notes
 
-### Signature elements applied
+- Client count: Kit says "5 native clients" but content.json says 4 + DLNA = 5 total. Used content.json structure (4 named + DLNA) which matches the stated 5.
+- Mobile client card shows "Mobile (iOS + Android)" as one entry per content.json structure
+- `intensity_toggle` absent → no toggle implemented; seasonal variants handle color variation
 
-- Ship-prow chevron motifs in logo, favicon, OG image, and section dividers
-- Forge-fire radial halo behind hero wordmark and CTA banners
-- Rune-violet knotwork terminal dots on runestone underlines
-- Yggdrasil branch motif in logo
-- Huginn raven silhouettes in OG image
-- Cold-iron 1px borders on cards with Forge Fire hover state
-- Knotwork-corner marks on OG image borders
+## Verification
 
-### Copywriting
-
-All micro-copy written in the Nordic Saga voice: epic, declarative, ancient, resonant. Short, powerful sentences. Active voice. No corporate language. Vocabulary favors: saga, forge, rune, hall, fjord, iron, hammer, raven, world, wyrd.
-
-### Accessibility commitments
-
-- WCAG AA contrast: Bone White (#E8E0D0) on Fjord Night (#060C12) = 18:1 (AAA)
-- Forge Fire (#C8700A) on Fjord Night = 4.6:1 (AA)
-- 2px Forge Fire focus ring with 2px offset + 4px amber outer glow
-- Touch targets ≥ 48x48px (mobile/TV)
-- `prefers-reduced-motion` honored — all animations become instant opacity fades
-- 200% browser text zoom supported
-
-### Deviations from new_site.md
-
-- Fonts self-hosted as WOFF2 via gstatic.com direct URLs in @font-face (not downloaded to css/fonts/ folder) — this matches the approach used by all other existing sites
-- OG image is SVG (not raster PNG) — scalable, consistent with SVG logo/favicon approach
-
-### Pending / Known issues
-
-None identified at build time. See review loop for findings.
+- selfcheck: pass
+- render-check: pass
