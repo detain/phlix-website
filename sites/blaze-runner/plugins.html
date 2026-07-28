@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plugins — Blaze Runner</title>
+    <meta name="description" content="Extend Phlix with plugins. The manifest contract means drop-in compatibility." />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/blaze-runner/plugins.html" />
+    <meta property="og:title" content="Plugins — Blaze Runner" />
+    <meta property="og:description" content="Extend Phlix with plugins. The manifest contract means drop-in compatibility." />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/blaze-runner/img/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#FF4500" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <canvas id="ember-canvas" aria-hidden="true"></canvas>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix Blaze Runner home">
+          <img src="img/logo.svg" alt="Phlix Blaze Runner" width="140" height="40" />
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 12h18M3 6h18M3 18h18" />
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu" role="list">
+          <li><a href="./">Home</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <p class="eyebrow">Extend the fire</p>
+          <h1>Plugins</h1>
+          <p class="page-lead">Drop a plugin in, the loader picks it up. LifecycleInterface + manifest schema — no fork needed.</p>
+        </div>
+      </div>
+
+      <section class="content-section">
+        <div class="container container--narrow">
+          <h2>How it works</h2>
+          <div class="content-grid">
+            <div class="feature-detail">
+              <div class="feature-detail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704" />
+                </svg>
+              </div>
+              <div class="feature-detail-text">
+                <h2>Versioned Manifest</h2>
+                <p>Every plugin ships with a manifest.json. The loader validates the contract version before loading. Your plugins won't break on server upgrades.</p>
+              </div>
+            </div>
+
+            <div class="feature-detail">
+              <div class="feature-detail-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 8v4l3 3" />
+                </svg>
+              </div>
+              <div class="feature-detail-text">
+                <h2>Lifecycle Hooks</h2>
+                <p>onEnable, onDisable, onScan, onTranscode — the server calls your plugin at the right moment. No polling, no hacks.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="mt-12">Starter template</h2>
+          <p>The phlix-plugin-example repo has the full annotated template.</p>
+          <div class="code-block mt-4">
+            <code>git clone https://github.com/detain/phlix-plugin-example.git<br />cd phlix-plugin-example<br /># Edit manifest.json and src/MyPlugin.php<br /># Drop the whole directory into your Phlix plugins/ folder<br />php biny plugins:scan</code>
+          </div>
+
+          <h2 class="mt-12">Available hooks</h2>
+          <dl class="faq-list mt-6">
+            <div class="faq-item">
+              <dt>onEnable / onDisable</dt>
+              <dd>Called when the plugin is activated or deactivated. Use for setup and teardown.</dd>
+            </div>
+            <div class="faq-item">
+              <dt>onScan</dt>
+              <dd>Called after every library scan. Receive the full list of new/changed items.</dd>
+            </div>
+            <div class="faq-item">
+              <dt>onTranscode</dt>
+              <dd>Called before and after transcoding. Inject your own quality tweaks or format handlers.</dd>
+            </div>
+            <div class="faq-item">
+              <dt>onPlaybackStart</dt>
+              <dd>Called when a user starts playing something. Hook in SyncPlay events, analytics, or parental controls.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-tagline">Open-source media, on your terms.</p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-col"><h3>Product</h3><ul role="list"><li><a href="features.html">Features</a></li><li><a href="clients.html">Clients</a></li><li><a href="download.html">Download</a></li><li><a href="plugins.html">Plugins</a></li></ul></div>
+          <div class="footer-col"><h3>Developers</h3><ul role="list"><li><a href="docs.html">Documentation</a></li><li><a href="https://github.com/detain/phlix-server">Server source</a></li></ul></div>
+          <div class="footer-col"><h3>Project</h3><ul role="list"><li><a href="https://github.com/detain">GitHub org</a></li><li><a href="hub.html">Hub</a></li></ul></div>
+        </nav>
+        <p class="footer-copy">&copy; 2026 Phlix &mdash; MPL-2.0 / MIT.</p>
+      </div>
+    </footer>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>

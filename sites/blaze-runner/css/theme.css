@@ -1,0 +1,604 @@
+/* ============================================================================
+   THEME.CSS — Blaze Runner
+   Typography scale, layout containers, page structure, fire immersive archetype
+   ============================================================================ */
+
+/* ─── Layout containers ────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container--narrow {
+  max-width: 900px;
+}
+
+/* ─── Typography scale ─────────────────────────────────────────────────────── */
+.font-headline  { font-family: var(--font-headline); }
+.font-display   { font-family: var(--font-display); }
+.font-body      { font-family: var(--font-body); }
+.font-ui        { font-family: var(--font-ui); }
+.font-mono      { font-family: var(--font-mono); }
+.font-number    { font-family: var(--font-number); }
+
+h1, .h1 {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h2, .h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  line-height: 0.90;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h4, .h4 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.text-muted     { color: var(--color-text-muted); font-family: var(--font-ui); }
+.text-primary   { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-tertiary  { color: var(--color-tertiary); }
+
+/* ─── Immersive Hero — ember particle field + heat shimmer ──────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+/* Flame column gradient behind hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,69,0,0.2) 0%, rgba(26,10,0,0) 50%, rgba(255,107,0,0.1) 100%);
+  pointer-events: none;
+}
+
+/* Ember radial glow from below */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,69,0,0.3) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-24) var(--space-6);
+  max-width: 1440px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-4);
+  animation: flame-flicker 3s ease-in-out infinite;
+}
+
+.hero h1 {
+  max-width: 14ch;
+  margin-bottom: var(--space-6);
+  /* Gradient text — white-hot core to flame orange edges */
+  background: linear-gradient(135deg, #FFF5E6 0%, #FF4500 50%, #FFD700 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Heat shimmer on headline */
+  animation: heat-shimmer 4s ease-in-out infinite;
+}
+
+.hero-sub {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin-bottom: var(--space-8);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+/* ─── Flame flicker keyframe ───────────────────────────────────────────────── */
+@keyframes flame-flicker {
+  0%, 100% { opacity: 1; }
+  10%  { opacity: 0.85; }
+  20%  { opacity: 1; }
+  35%  { opacity: 0.9; }
+  50%  { opacity: 1; }
+  65%  { opacity: 0.88; }
+  80%  { opacity: 0.95; }
+}
+
+/* ─── Heat shimmer distortion ──────────────────────────────────────────────── */
+@keyframes heat-shimmer {
+  0%, 100% {
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+  25% {
+    filter: blur(0.5px);
+    transform: translateY(-0.5px);
+  }
+  50% {
+    filter: blur(0px);
+    transform: translateY(0.5px);
+  }
+  75% {
+    filter: blur(0.3px);
+    transform: translateY(-0.3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 {
+    animation: none;
+    filter: none;
+  }
+  .hero-eyebrow {
+    animation: none;
+  }
+}
+
+/* ─── Pitch section ────────────────────────────────────────────────────────── */
+.pitch {
+  padding: var(--space-24) 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* Charred left accent */
+.pitch::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gradient-flame-column);
+}
+
+.pitch-inner {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.pitch h2 {
+  margin-bottom: var(--space-8);
+}
+
+.pitch-bullets {
+  display: grid;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.pitch-bullets li {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  /* Burn-reveal on hover */
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.pitch-bullets li:hover {
+  border-color: var(--color-tertiary);
+  box-shadow: var(--shadow-ember-glow);
+}
+
+/* ─── Features overview ─────────────────────────────────────────────────────── */
+.features-overview {
+  padding: var(--space-24) 0;
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* Subtle ember particle atmosphere */
+.features-overview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(255,69,0,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.features-overview-inner {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.features-overview h2 {
+  margin-bottom: var(--space-8);
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.features-more {
+  text-align: center;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ─── Trending cards — the blaze twist: ember gold glow ────────────────────── */
+.trending-card {
+  position: relative;
+  overflow: visible;
+}
+
+.trending-card::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: var(--gradient-gold-halo);
+  border-radius: calc(var(--radius-lg) + 4px);
+  z-index: -1;
+  opacity: 0.7;
+  animation: ember-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes ember-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 0.85; transform: scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trending-card::before {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* ─── CTA banner — flame stripe ────────────────────────────────────────────── */
+.cta-banner {
+  padding: var(--space-24) 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Flame stripe at top */
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-flame-column);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-6);
+}
+
+/* ─── Page header (non-home pages) ────────────────────────────────────────── */
+.page-header {
+  padding: var(--space-24) 0 var(--space-16);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,69,0,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-header-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-4);
+  background: linear-gradient(135deg, #FFF5E6 0%, #FF4500 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+/* ─── Content section ─────────────────────────────────────────────────────── */
+.content-section {
+  padding: var(--space-24) 0;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.content-section h2 {
+  margin-bottom: var(--space-6);
+  color: var(--color-text);
+}
+
+.content-section p {
+  margin-bottom: var(--space-4);
+  max-width: 70ch;
+}
+
+.content-section a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.content-section a:hover {
+  color: var(--color-tertiary);
+}
+
+/* ─── Content grid ────────────────────────────────────────────────────────── */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+/* ─── Client cards grid ───────────────────────────────────────────────────── */
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+/* ─── Download cards ──────────────────────────────────────────────────────── */
+.download-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+/* ─── Ecosystem list ──────────────────────────────────────────────────────── */
+.project-stack {
+  list-style: none;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.project-stack li {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  /* Charred edge effect */
+  box-shadow: inset 0 0 0 1px rgba(255,107,0,0.05), var(--shadow-sm);
+}
+
+/* ─── Code block ──────────────────────────────────────────────────────────── */
+.code-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+  margin-bottom: var(--space-6);
+  /* Charred left edge glow */
+  border-left: 3px solid var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* ─── FAQ list ────────────────────────────────────────────────────────────── */
+.faq-list {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.faq-item {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item dt {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.faq-item dd {
+  font-family: var(--font-body);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Docs links ─────────────────────────────────────────────────────────── */
+.docs-links {
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.docs-links li a {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ─── Eyebrow ──────────────────────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+  animation: flame-flicker 3s ease-in-out infinite;
+}
+
+/* ─── Fire divider ─────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--gradient-charred-edge);
+  border: none;
+  margin: var(--space-12) 0;
+}
+
+/* ─── 404 page ─────────────────────────────────────────────────────────────── */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  background: var(--color-bg);
+  position: relative;
+}
+
+.error-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(255,69,0,0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.error-page-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.error-code {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 20vw, 14rem);
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(180deg, #FF4500 0%, #8B0000 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-4);
+  animation: flame-flicker 2s ease-in-out infinite;
+}
+
+.error-tagline {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+/*
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+/* ─── Utilities ─────────────────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+
+.mt-4  { margin-top: var(--space-4); }
+.mt-6  { margin-top: var(--space-6); }
+.mt-8  { margin-top: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
+.mb-4  { margin-bottom: var(--space-4); }
+.mb-6  { margin-bottom: var(--space-6); }
+.mb-8  { margin-bottom: var(--space-8); }
+.mb-12 { margin-bottom: var(--space-12); }

@@ -1,0 +1,657 @@
+/* ============================================================================
+   COMPONENTS.CSS — Blaze Runner
+   Navigation, footer, buttons, cards, forms, charred-edge treatment
+   ============================================================================ */
+
+/* ─── Site Header — fire HUD style ────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26, 10, 0, 0.92);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  /* Flame strip at bottom */
+  box-shadow: 0 1px 0 0 rgba(255,69,0,0.3);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
+  gap: var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 150ms ease-out, color 150ms ease-out;
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: color 150ms ease-out, background-color 150ms ease-out;
+}
+
+.nav-menu a:hover,
+.nav-menu a[aria-current='page'] {
+  color: var(--color-primary);
+  background: var(--color-surface);
+}
+
+.nav-menu a[aria-current='page'] {
+  color: var(--color-primary);
+  /* Flame underline accent */
+  box-shadow: inset 0 -2px 0 0 var(--color-primary);
+}
+
+/* ─── Site Footer ──────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-16) 0 var(--space-8);
+  position: relative;
+}
+
+/* Charred top edge */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
+}
+
+.footer-inner {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.footer-tagline {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.footer-col h3 {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition: color 150ms ease-out;
+}
+
+.footer-col a:hover {
+  color: var(--color-text);
+}
+
+.footer-copy {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ─── Buttons — flame fire style ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 80ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 44px;
+  min-width: 44px;
+  user-select: none;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  /* THE primary ignition point — Flame Orange */
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: #E63E00;
+  color: var(--color-bg);
+  box-shadow: var(--shadow-ember-glow);
+  animation: flame-flicker 200ms ease-in-out;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-ember-glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-text);
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background: #6B0000;
+}
+
+.btn-small {
+  font-size: 0.75rem;
+  padding: var(--space-2) var(--space-4);
+  min-height: 44px;
+}
+
+.btn-large {
+  font-size: 1rem;
+  padding: var(--space-4) var(--space-8);
+  min-height: 52px;
+}
+
+@keyframes flame-flicker {
+  0%   { opacity: 1; }
+  15%  { opacity: 0.85; }
+  30%  { opacity: 1; }
+  45%  { opacity: 0.9; }
+  60%  { opacity: 1; }
+}
+
+/* ─── Feature Cards — charred edge treatment ───────────────────────────────── */
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  /* Charred edge layered box-shadow */
+  box-shadow:
+    var(--shadow-md),
+    inset 0 0 0 1px rgba(255,107,0,0.04);
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px rgba(255,69,0,0.2),
+    0 0 20px rgba(255,69,0,0.15);
+  border-color: rgba(255,69,0,0.3);
+  /* Flame flicker on icon */
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  transition: color 200ms ease-out;
+}
+
+.feature-card:hover .feature-icon {
+  color: var(--color-secondary);
+  animation: flame-flicker 300ms ease-in-out;
+}
+
+.feature-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.5;
+}
+
+.feature-card h3 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  flex-grow: 1;
+}
+
+/* ─── Feature Detail ──────────────────────────────────────────────────────── */
+.feature-detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-detail-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.feature-detail-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+.feature-detail-text h2 {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.feature-detail-text p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Client Cards ────────────────────────────────────────────────────────── */
+.client-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-md);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.client-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,69,0,0.15);
+  border-color: rgba(255,69,0,0.2);
+}
+
+.client-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.client-card h2 {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.client-tagline {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.client-highlights {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.client-highlights li {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+}
+
+/* ─── Status Badge ─────────────────────────────────────────────────────────── */
+.client-status {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.status-stable {
+  background: rgba(76,175,80,0.15);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.status-beta {
+  background: rgba(255,193,7,0.15);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.status-deprecated {
+  background: rgba(139,0,0,0.15);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+/* ─── Download Cards ───────────────────────────────────────────────────────── */
+.download-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.download-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.download-card h3 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.download-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* ─── Media badges ─────────────────────────────────────────────────────────── */
+.badge {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  display: inline-block;
+}
+
+.badge-quality {
+  color: var(--color-tertiary);
+  border-color: var(--color-tertiary);
+  background: rgba(255,215,0,0.1);
+}
+
+.badge-status {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(255,69,0,0.1);
+}
+
+/* ─── Forms ────────────────────────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+  min-height: 44px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(255,69,0,0.2), var(--shadow-ember-glow);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* ─── Ember particle canvas ────────────────────────────────────────────────── */
+#ember-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/*
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+    gap: var(--space-2);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+  }
+
+  .hero-inner {
+    padding: var(--space-16) var(--space-6);
+  }
+
+  .feature-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-detail-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .feature-detail-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .client-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 480px) {
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-cta .btn {
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+  }
+}
