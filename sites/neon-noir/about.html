@@ -1,457 +1,463 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Closed Cases — About Phlix</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Closed Cases — Phlix</title>
     <meta
       name="description"
-      content="Why Phlix exists, what its two licences let you do — MPL-2.0 for the server and Hub, MIT for the shared libraries, plugins and clients — and how to contribute."
+      content="The founding philosophy, licence terms, and community notes for Phlix — a self-hosted PHP media server built in the open."
     />
     <meta
       name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+      content="phlix, about, philosophy, licence, MPL-2.0, open source, contributing"
     />
     <link rel="canonical" href="https://detain.github.io/phlix-website/neon-noir/about.html" />
-    <meta name="theme-color" content="#f5a623" />
-
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
     <meta property="og:url" content="https://detain.github.io/phlix-website/neon-noir/about.html" />
-    <meta property="og:title" content="Closed Cases — About Phlix" />
+    <meta property="og:title" content="Closed Cases — Phlix" />
     <meta
       property="og:description"
-      content="Why Phlix exists, what its two licences let you do — MPL-2.0 for the server and Hub, MIT for the shared libraries, plugins and clients — and how to contribute."
+      content="The founding philosophy, licence terms, and community notes for Phlix."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Phlix on void black: a neon-noir title card reading “Every Frame, a Mystery.” over the words SELF-HOSTED MEDIA SERVER, cyan halo at the upper left, one amber rule under the tagline."
-    />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Closed Cases — About Phlix" />
+    <meta name="twitter:title" content="Closed Cases — Phlix" />
     <meta
       name="twitter:description"
-      content="Why Phlix exists, what its two licences let you do — MPL-2.0 for the server and Hub, MIT for the shared libraries, plugins and clients — and how to contribute."
+      content="The founding philosophy, licence terms, and community notes for Phlix."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
-
-    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0A0C10" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="icon" href="img/favicon-16.png" sizes="16x16" type="image/png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180" />
-
-    <script src="js/boot.js"></script>
-
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="season-slot" hidden></div>
+    <div id="season-slot-2" hidden></div>
 
-    <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix" width="240" height="80" />
-        </a>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <span class="nav-toggle__bars" aria-hidden="true"></span>
-          Menu
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path
+          d="M12 3l8 3v6c0 4.4-3.4 8.5-8 10C7.4 20.5 4 16.4 4 12V6l8-3z"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M9 12l2 2 4-4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-library" viewBox="0 0 24 24">
+        <rect
+          x="3"
+          y="3"
+          width="7"
+          height="18"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <rect
+          x="14"
+          y="3"
+          width="7"
+          height="11"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path
+          d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-syncplay" viewBox="0 0 24 24">
+        <path
+          d="M9 12l-4 4 4 4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24">
+        <path
+          d="M6 9l6 6 6-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path
+          d="M3 12h18M3 6h18M3 18h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path
+          d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+    </svg>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home">Phlix</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html">The Case</a></li>
+            <li><a href="features.html" class="nav-primary">Evidence Files</a></li>
+            <li><a href="clients.html">The Network</a></li>
+            <li><a href="download.html" class="nav-primary">Get Access</a></li>
+            <li><a href="hub.html">Reach Anywhere</a></li>
+            <li><a href="about.html" class="nav-muted" aria-current="page">Closed Cases</a></li>
+          </ul>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg aria-hidden="true"><use href="#i-menu" /></svg>
         </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li>
-            <a class="nav-menu__link" href="./"
-              >The Case<span class="nav-menu__gloss">Home</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="features.html"
-              >Evidence Files<span class="nav-menu__gloss">Features</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="clients.html"
-              >The Network<span class="nav-menu__gloss">Clients</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="download.html"
-              >Get Access<span class="nav-menu__gloss">Download</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="hub.html"
-              >Reach Anywhere<span class="nav-menu__gloss">Phlix Hub</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--muted" href="about.html" aria-current="page"
-              >Closed Cases<span class="nav-menu__gloss">About &amp; FAQ</span></a
-            >
-          </li>
-        </ul>
-      </nav>
+      </div>
     </header>
 
-    <div data-season-slot></div>
+    <main id="main-content">
+      <!-- Case-closed chapters: Philosophy -->
+      <section class="section section--dark" aria-labelledby="philosophy-title">
+        <div class="container container--content">
+          <div class="section-label reveal">Case File</div>
+          <h1
+            id="philosophy-title"
+            class="section-title reveal"
+            style="margin-bottom: var(--space-12)"
+          >
+            Closed Cases
+          </h1>
 
-    <main id="main-content" tabindex="-1">
-      <section class="page-header">
-        <span class="page-header__blinds" aria-hidden="true"></span>
-        <div class="container">
-          <div class="page-header__inner">
-            <p class="t-eyebrow">Closed cases</p>
-            <h1>Closed Cases</h1>
-            <p class="t-lead">
-              Three chapters and a transcript. Why Phlix exists, what the licence actually lets you
-              do, and how to get your name on the file.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="band band--navy" aria-labelledby="chapters-title">
-        <div class="container container--read">
-          <h2 class="visually-hidden" id="chapters-title">The chapters</h2>
-
-          <div class="chapter">
-            <div class="chapter__mark">
-              <span class="t-num" aria-hidden="true">I</span>
-              <span class="t-serial">Philosophy</span>
-            </div>
-            <div class="chapter__body">
-              <h3>The library should answer to you</h3>
+          <div class="about-chapter">
+            <p class="chapter-number">Chapter 01</p>
+            <h2 class="chapter-title" id="philosophy">The Philosophy</h2>
+            <div class="chapter-body">
               <p>
-                A collection you cannot reach is not a collection. Phlix exists so the drive in the
-                other room behaves like a service — indexed, searchable, playable on any screen —
-                without handing the catalogue to anybody else.
+                Every great city has a side that only comes alive after dark. Down rain-slicked
+                alleys and beneath flickering neon signs, stories unfold that the daylight would
+                rather forget. Phlix was built for that half-light — the electric glow on wet
+                pavement, a saxophone drifting from an open window, a silhouette pausing under a
+                pink marquee.
               </p>
               <p>
-                100% self-hostable: your library never leaves your hardware unless you say so. It is
-                built in PHP 8.3+ on Workerman, async from the socket up, and every part of it is
-                open to read.
+                Phlix built Neon Noir for the viewer who wants more than content: they want
+                atmosphere. The interface, the card, the transition — each is a scene from a film
+                that hasn't been made yet. Taut. Cinematic. Unforgettable.
+              </p>
+              <p>
+                The goal is transformation, not just delivery. Phlix transforms watching into an
+                experience — giving every film and series the atmospheric weight it deserves.
               </p>
             </div>
           </div>
 
-          <div class="chapter">
-            <div class="chapter__mark">
-              <span class="t-num" aria-hidden="true">II</span>
-              <span class="t-serial">License</span>
-            </div>
-            <div class="chapter__body">
-              <h3>Two licences, on purpose</h3>
+          <div class="about-chapter">
+            <p class="chapter-number">Chapter 02</p>
+            <h2 class="chapter-title" id="licensing">The Licence</h2>
+            <div class="chapter-body">
               <p>
-                Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them
-                commercially. If you modify a Phlix file, that file stays open; anything you add
-                alongside it is yours. The shared libraries, plugins, and clients are MIT so you can
-                build on them freely.
+                Phlix Server and the Hub are <strong>MPL-2.0</strong> — open source, and you can
+                build on them commercially. If you modify a Phlix file, that file stays open;
+                anything you add alongside it is yours. The shared libraries, plugins, and clients
+                are <strong>MIT</strong> so you can build on them freely.
               </p>
               <p>
+                MPL is weak copyleft. The one condition: modify a Phlix file and that file stays
+                open. Never say "no strings attached" or claim endorsement — the licence is the only
+                contract. Footer links go to
                 <a
                   href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  >Read the licence in the server repository</a
-                >
+                  >the repository LICENCE</a
+                >.
               </p>
             </div>
           </div>
 
-          <div class="chapter">
-            <div class="chapter__mark">
-              <span class="t-num" aria-hidden="true">III</span>
-              <span class="t-serial">Contributing</span>
-            </div>
-            <div class="chapter__body">
-              <h3>The work happens in the open</h3>
+          <div class="about-chapter">
+            <p class="chapter-number">Chapter 03</p>
+            <h2 class="chapter-title" id="contributing">The Archive</h2>
+            <div class="chapter-body">
               <p>
-                Every repository lives under the detain organisation on GitHub — server, hub, shared
-                library, docs, the five clients and the reference plugin. Issues are public, and the
-                plugin example exists so a first patch does not have to be a large one.
+                Phlix is open source, and contributions are welcome. The plugin system provides a
+                versioned manifest contract: implement LifecycleInterface, ship a manifest, drop the
+                plugin in the plugins directory, and the loader picks it up.
               </p>
-              <ul class="spec-list" role="list">
-                <li>
-                  <a href="https://github.com/detain" rel="noopener noreferrer"
-                    >The detain organisation on GitHub</a
-                  >
-                </li>
-                <li>
-                  <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
-                    >Open issues on phlix-server</a
-                  >
-                </li>
-                <li>
-                  <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                    >The reference plugin, for a first patch</a
-                  >
-                </li>
-              </ul>
+              <p>
+                Start with
+                <a
+                  href="https://github.com/detain/phlix-plugin-example"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >phlix-plugin-example</a
+                >, the smallest working reference implementation.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <hr class="rule-venetian" data-wipe aria-hidden="true" />
+      <hr class="section-divider" aria-hidden="true" />
 
-      <section class="band" id="faq" aria-labelledby="faq-title">
-        <div class="container container--read">
-          <div class="section-head">
-            <p class="t-eyebrow">Interrogation transcript</p>
-            <h2 id="faq-title">Lux answers the room</h2>
-            <p class="t-typed">
-              TRANSCRIPT · questions put to Lux, the night archivist. Some were asked more than one
-              way; the answer did not change.
-            </p>
-          </div>
-          <dl class="faq-list transcript cut">
-            <div class="transcript__entry">
-              <dt>Is Phlix like Plex / Jellyfin / Emby?</dt>
-              <dd>
+      <!-- FAQ — Interrogation transcript style -->
+      <section id="faq" class="section section--surface" aria-labelledby="faq-title">
+        <div class="container container--content">
+          <div class="section-label reveal">Evidence Room</div>
+          <h2 id="faq-title" class="section-title reveal">Questions from the archive</h2>
+          <p class="section-subtitle reveal" style="margin-bottom: var(--space-8)">
+            Lux, the night-owl archivist, answers what the case files don't say.
+          </p>
+
+          <div class="faq-list" role="list">
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                Is Phlix like Plex / Jellyfin / Emby?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
                 Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman, ships with
                 a versioned plugin contract, and includes a hub for accessing remote servers behind
                 NAT without a third-party tunnel.
-              </dd>
+              </div>
             </div>
-            <div class="transcript__entry">
-              <dt>Do I need to expose my server to the internet?</dt>
-              <dt>Is my library really safe from the internet?</dt>
-              <dt>What if I move or travel?</dt>
-              <dd>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                Do I need to expose my server to the internet?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
                 No. Run Phlix on your LAN and use the Phlix Hub's reverse-tunnel relay to reach it
                 from your phone or Roku at a friend's house. You can self-host the hub, or use the
                 public one.
-              </dd>
+              </div>
             </div>
-            <div class="transcript__entry">
-              <dt>What formats are supported?</dt>
-              <dt>Can I watch on any device?</dt>
-              <dd>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                What formats are supported?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
                 Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS
                 otherwise. Per-device quality profiles pick the right bitrate automatically.
-              </dd>
+              </div>
             </div>
-            <div class="transcript__entry">
-              <dt>Is there a mobile app?</dt>
-              <dd>Yes — React Native, available on iOS and Android. Currently in beta.</dd>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                Is there a mobile app?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
+                Yes — React Native, available on iOS and Android. Currently in beta.
+              </div>
             </div>
-            <div class="transcript__entry">
-              <dt>Can I write plugins?</dt>
-              <dd>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                Can I write plugins?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
                 Yes. Implement LifecycleInterface, ship a manifest, drop it in the plugins
                 directory. See phlix-plugin-example for the smallest working starter.
-              </dd>
+              </div>
             </div>
-            <div class="transcript__entry">
-              <dt>What's the license?</dt>
-              <dd>
+
+            <div class="faq-item" role="listitem">
+              <button class="faq-question" aria-expanded="false">
+                What's the licence?
+                <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer" aria-hidden="true">
                 Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them
                 commercially. If you modify a Phlix file, that file stays open; anything you add
                 alongside it is yours. The shared libraries, plugins, and clients are MIT so you can
                 build on them freely.
-              </dd>
+              </div>
             </div>
-          </dl>
-        </div>
-      </section>
+          </div>
 
-      <section class="band cta-banner" aria-labelledby="cta-about">
-        <div class="container">
-          <h2 class="cta-banner__title" id="cta-about">Case closed. Yours is still open.</h2>
-          <p class="cta-banner__sub">
-            The server is one line away, and the transcript will still be here afterwards.
+          <p
+            class="reveal"
+            style="
+              margin-top: var(--space-6);
+              font-family: var(--font-ui);
+              font-size: 0.8rem;
+              color: var(--color-neutral);
+              font-style: italic;
+            "
+          >
+            Still have questions? The
+            <a
+              href="https://github.com/detain/phlix-server/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              >issue tracker</a
+            >
+            is open.
           </p>
-          <p><a class="btn btn-primary btn--lg" href="download.html">Unlock the Archive</a></p>
         </div>
       </section>
     </main>
 
-    <!-- mascot.behavior — Lux, a document-level companion (sibling of <main>, like
-         .egg-note below). Tip keyed to #faq on this page. -->
-    <aside class="lux" data-tip-for="faq" aria-labelledby="lux-name">
-      <button class="lux__figure" type="button" aria-label="Nudge Lux">
-        <svg viewBox="0 0 60 96" aria-hidden="true" focusable="false">
-          <path d="M14 96V38l8-13h16l8 13v58z" fill="#0a0c10" stroke="#2a3650" stroke-width="1" />
-          <path d="M22 25h16V12a8 8 0 0 0-16 0z" fill="#0a0c10" stroke="#2a3650" stroke-width="1" />
-          <path d="M10 13h40v4H10z" fill="#1c2333" />
-          <path d="M17 12h26l-5-8H22z" fill="#1c2333" />
-          <path d="M12 15h36" stroke="#00e5ff" stroke-width="1.5" opacity="0.8" />
-          <g fill="#f5a623">
-            <rect x="24" y="19" width="4" height="3" />
-            <rect x="33" y="19" width="4" height="3" />
-          </g>
-          <path d="M30 40v34" stroke="#2a3650" stroke-width="1" />
-        </svg>
-      </button>
-      <div class="lux__col">
-        <span class="lux__name" id="lux-name">Lux · night archivist</span>
-        <details class="lux__tip">
-          <summary>Ask Lux<span class="lux__cue"> · note ready</span></summary>
-          <div class="lux__panel">
-            <p>Questions? I've seen this case a hundred times. Ask away.</p>
-            <p class="lux__react" role="status"></p>
-            <button class="lux__dismiss" type="button" hidden>Lux, take five</button>
-          </div>
-        </details>
-      </div>
-    </aside>
-
-    <div class="egg-note" role="status" hidden>
-      <span class="egg-note__body"></span>
-      <span class="egg-note__exit">Press Esc to clear.</span>
-    </div>
-
-    <footer class="site-footer" role="contentinfo">
-      <div class="container">
+    <footer class="site-footer">
+      <div class="footer-inner">
         <p class="footer-tagline">The city's media, yours to command.</p>
-
-        <div class="footer-index">
-          <h2 class="visually-hidden">Case index</h2>
-          <ul class="footer-index__list" role="list">
-            <li><a href="./">The Case</a></li>
-            <li><a href="features.html">Evidence Files</a></li>
-            <li><a href="clients.html">The Network</a></li>
-            <li><a href="download.html">Get Access</a></li>
-            <li><a href="hub.html">Reach Anywhere</a></li>
-            <li><a href="about.html">Closed Cases</a></li>
-            <li>
-              <a href="plugins.html"
-                >Plugins<span class="footer-index__note">Filed under Evidence Files</span></a
-              >
-            </li>
-            <li>
-              <a href="docs.html"
-                >Docs<span class="footer-index__note">Technical reference</span></a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Product</h3>
-            <ul class="footer-nav__list" role="list">
-              <li><a class="footer-nav__link" href="features.html">Features</a></li>
-              <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
-              <li><a class="footer-nav__link" href="download.html">Download</a></li>
-              <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Developers</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs"
-                  rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server"
-                  rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-plugin-example"
-                  rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs/reference/api.html"
-                  rel="noopener noreferrer"
-                  >API reference</a
-                >
+                <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
               </li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Project</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain"
-                  rel="noopener noreferrer"
-                  >GitHub org</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/issues"
-                  rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-hub"
-                  rel="noopener noreferrer"
-                  >Hub</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
+                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   >License (MPL-2.0)</a
                 >
               </li>
             </ul>
           </div>
-        </nav>
-
-        <div class="footer-utility">
-          <button class="intensity-toggle" type="button" aria-pressed="false">
-            <span class="intensity-toggle__track" aria-hidden="true"></span>
-            Case closed (calm mode)
-            <span class="intensity-toggle__state">Neon on</span>
-          </button>
-          <button class="lux-recall btn btn-ghost btn--sm" type="button" hidden>
-            Bring Lux back
-          </button>
         </div>
-
-        <p class="footer-copy">
-          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins
-          and clients are MIT.
-        </p>
+        <div class="footer-bottom">
+          <p class="footer-legal">
+            &copy; 2026 Joe Huss.
+            <a
+              href="https://www.mozilla.org/en-US/MPL/2.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >MPL-2.0</a
+            >
+          </p>
+          <div class="footer-utility">
+            <button
+              class="intensity-toggle"
+              aria-label="Toggle case-closed calm mode"
+              aria-pressed="false"
+            >
+              <span class="toggle-track" aria-hidden="true"
+                ><span class="toggle-thumb"></span
+              ></span>
+              <span class="toggle-label">Case closed</span>
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
-    <script src="js/experience.js" defer></script>
+    <div id="mascot-lux" aria-hidden="true">
+      <div class="mascot-body" role="img" aria-label="Lux, the night-owl archivist mascot">
+        <svg
+          class="mascot-silhouette"
+          viewBox="0 0 60 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 18 Q30 5 50 18"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <rect x="8" y="15" width="44" height="5" rx="1" fill="currentColor" opacity="0.8" />
+          <path d="M5 22 L55 22" stroke="currentColor" stroke-width="1.5" opacity="0.6" />
+          <ellipse cx="30" cy="32" rx="12" ry="10" fill="currentColor" opacity="0.7" />
+          <path d="M18 40 L14 78 L46 78 L42 40 Z" fill="currentColor" opacity="0.5" />
+          <circle cx="25" cy="31" r="2" fill="#F5A623" opacity="0.9" />
+          <circle cx="35" cy="31" r="2" fill="#F5A623" opacity="0.9" />
+          <text
+            x="30"
+            y="65"
+            text-anchor="middle"
+            font-family="'Bebas Neue', sans-serif"
+            font-size="20"
+            fill="currentColor"
+            opacity="0.6"
+            letter-spacing="2"
+          >
+            X
+          </text>
+        </svg>
+        <div class="mascot-tip" role="tooltip"></div>
+        <button class="mascot-close" aria-label="Dismiss Lux">✕</button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
   </body>
 </html>

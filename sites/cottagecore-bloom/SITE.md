@@ -1,208 +1,96 @@
 # SITE.md — Cottagecore Bloom
 
-The Phlix marketing site rendered in the **Cottagecore Bloom** brand kit
-(`brand-kits/cottagecore-bloom.js`, schema 2.0, base kit, LIGHT background).
+## Concept & Vision
 
-Regenerated 2026-07-25 to implement the kit's declared **experience** schema
-rather than the generic template. The change manifest is `REGEN_PLAN.md`; what
-was built and every deviation is in `BUILD_LOG.md`.
+Cottagecore Bloom is the warmth of a country kitchen window in late June — sunlight through hand-stitched curtains, a jam jar stuffed with foxgloves and sweet peas on the sill, the hum of a bumble bee in the lavender outside. The site should feel like stepping through a garden gate and being welcomed by name. Every page breathes. Nothing is urgent, nothing is stark.
 
----
+The experience archetype is **narrative-scroll** — a story-first homepage with six sections that carry the visitor from the garden gate through to a conversion CTA. The layout adapts the cottage garden metaphor structurally: the hero is the gate opening, the pitch is garden signposts along a path, features are seed catalog entries, clients are guest rooms, proof is a keeper's placard, and the CTA is the planting bed.
 
-## Concept & vision
+## Aesthetic Direction
 
-The warmth of a country kitchen window in late June — sunlight through
-hand-stitched curtains, a jam jar stuffed with foxgloves and sweet peas on the
-sill, the hum of a bumble bee in the lavender outside.
+English cottagecore with Edwardian botanical illustration. Warm ivory ground, soft watercolour washes of Garden Rose, Sage Green, and Lavender Mist. Generous linen-white space that reads as garden air, not emptiness. Botanical border and motif accents frame sections. Motion is petal-slow — a gentle drift, never urgent. The overall impression should be *abundant warmth*, not manicured perfection.
 
-The site is **one continuous walk through a garden**. That is not a metaphor
-applied to a template: the kit declares
-`experience_archetype: "narrative-scroll"`, and the home page is six ordered
-narrative beats — the gate opens, why this garden, what blooms, the guest rooms,
-a word from the keeper, and finally the bed where you plant your own. Each beat
-has its own ground tint and is separated from the next by a hand-drawn botanical
-rule rather than a hard edge.
+## Color Palette
 
-A soft aesthetic is **not** a soft information architecture. Every fact on every
-page is traceable to `shared/content.json`; the garden only changes the voice and
-the order of the walk.
+### Core Tokens
+| Token | Name | Hex | Usage |
+|-------|------|-----|-------|
+| `--color-primary` | Garden Rose | `#C8556A` | Primary CTAs, active states, mascot |
+| `--color-primary-safe` | Garden Rose (small text) | `#ba4f63` | WCAG 4.5:1+ small text on ivory (#C8556A at 4.02:1 fails small, safe passes) |
+| `--color-secondary` | Sage Green | `#7A9E6B` | Secondary actions, links, tags |
+| `--color-secondary-safe` | Sage Green (small text) | `#5e7a52` | WCAG 4.5:1+ small text on ivory (#7A9E6B at 2.88:1 fails, safe passes) |
+| `--color-tertiary` | Lavender Mist | `#8B7AB5` | Badges, tertiary accents |
+| `--color-bg` | Warm Ivory | `#FFF8F2` | Page background — never cold white |
+| `--color-surface` | Garden Cream | `#FFF3E8` | Card/panel surfaces |
+| `--color-surface-alt` | Butter Soft | `#FDEEDE` | Alternate surfaces, hover tints |
+| `--color-text` | Bark Brown | `#2A1A10` | All body/headline text — 15.92:1 on ivory |
+| `--color-neutral` | Warm Taupe | `#B0A090` | Muted UI chrome, secondary text |
+| `--color-border` | Petal Blush | `#E8D5C4` | Card borders, dividers |
+| `--color-strong` | Dark Rose | `#6b2a1a` | `<strong>` text — 5.2:1 on ivory (Lora 500 at 100-unit step + ink colour per §19.17) |
+| `--color-focus` | Rose Focus Ring | `#C8556A` | Keyboard focus, same as primary |
 
-## Aesthetic direction
+### Seasonal Overrides
+| Season | Active | Primary | Secondary | Surface |
+|--------|--------|---------|-----------|---------|
+| Harvest Home | Sep 15–Oct 31 | `#B8621A` | `#7A9E6B` | `#FFF0DC` |
+| Midwinter Hearth | Dec 1–Jan 6 | `#8B4A5A` | `#5A7A4A` | `#FFF0EA` |
+| Spring Awakening | Mar 15–May 15 | `#D46A82` | `#8AB878` | (default) |
 
-**Visual style:** English cottagecore · hand-painted botanical watercolour ·
-Edwardian botanical illustration plate · abundant floral editorial.
+## Typography Roles
 
-**Art direction:** a page from a beloved Edwardian botanical journal. Warm ivory
-ground, soft washes of rose, sage and lavender, loose and slightly imperfect
-linework. Compositions are lush and overflowing, never sparse. Light is warm and
-diffused — golden hour filtered through garden foliage, never harsh, never cold.
+| Role | Face | Weight | Usage |
+|------|------|--------|-------|
+| Headline | Playfair Display | 700, 900 | H1–H3, feature titles |
+| Display | Dancing Script | 700 | Hero taglines, section eyebrows (display moments only) |
+| Body | Lora | 400, 500 | Paragraphs, descriptions (never below 15px) |
+| UI | Nunito | 400, 500, 600 | Buttons, labels, nav, chips |
+| Mono | Courier Prime | 400, 700 | Timestamps, technical metadata |
+| Number | Playfair Display | 700 | Stats, counts |
 
-**Lighting:** highlights warm to cream; shadows warm to taupe. No cold grey, no
-pure black, no dark surfaces anywhere.
+Note: Lora 600/700 files exist in pool but are **not vendored** — declared weights are 400 and 500 only. Nunito 700 not vendored. Playfair Display 900 for number role not vendored (weight 900 declared for headline only). Courier Prime is used for genuine technical data, never decoration.
 
-## Colour palette
+## Spatial System
 
-| Role        | Name          | Hex       | Use here                                                                                                                                                                                                                                                |
-| ----------- | ------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Primary     | Garden Rose   | `#C8556A` | Display type ≥24px, the nav active state, the focus ring, card hover borders, botanical fills, glows — **never a static border or a secondary UI edge** (`color_rules` reserves it for the one most important CTA per screen; those edges are Sage Ink) |
-| Secondary   | Sage Green    | `#7A9E6B` | **Decorative botanicals only** — 2.88:1, never text or icons                                                                                                                                                                                            |
-| Tertiary    | Lavender Mist | `#8B7AB5` | Large/UI accents only — 3.60:1                                                                                                                                                                                                                          |
-| Background  | Warm Ivory    | `#FFF8F2` | Page ground, and the label colour on rose buttons                                                                                                                                                                                                       |
-| Surface     | Garden Cream  | `#FFF3E8` | Cards, panels, the topbar                                                                                                                                                                                                                               |
-| Surface alt | Butter Soft   | `#FDEEDE` | Striped rows, the proof band, the footer                                                                                                                                                                                                                |
-| Text        | Bark Brown    | `#2A1A10` | All body and headline text — 15.92:1 on Warm Ivory                                                                                                                                                                                                      |
-| Neutral     | Warm Taupe    | `#B0A090` | **Decorative only** — 2.41:1 (bookshelf edge, plane strokes)                                                                                                                                                                                            |
-| Border      | Petal Blush   | `#E8D5C4` | Card borders, dividers, rules                                                                                                                                                                                                                           |
-| Error       | Briar Red     | `#B53040` | Available and text-safe at 5.77:1; not needed on this site                                                                                                                                                                                              |
+Spacing scale (px): 4, 8, 12, 16, 24, 32, 48, 64, 96
+Corner radii: sm=4px, md=8px, lg=16px, xl=24px, pill=999px
+Max content width: 1400px
+Content width (narrow): 860px
 
-**Gradients** (kit `colors.gradients`): _Morning Light_ — the warm rose radial
-glow behind the hero and the page headers. _Cream Fade_ — the surface-to-ground
-fade on the closing CTA band. _Garden Path_ (rose → lavender) is documented but
-not used: two accents per view is a kit rule, and the CTA band already carries
-rose.
+## Motion Philosophy
 
-### Derived ink scale — why it exists
+Motion should feel like petals falling or a bee drifting — no urgency, no snap. All transitions use `cubic-bezier(0.25, 0.46, 0.45, 0.94)` or `cubic-bezier(0.34, 1.02, 0.64, 1)`. Durations are slow (300–500ms) to match the unhurried brand voice. `prefers-reduced-motion` is unconditionally respected: all animations drop to instant opacity transitions or plain scroll.
 
-`accessibility.minimum_contrast` in the kit asserts Garden Rose on Warm Ivory is
-**4.8:1**. Measured, it is **4.02:1** — and so is Warm Ivory on Garden Rose, i.e.
-the primary button label. Sage Green measures 2.88:1 (below even the 3:1 non-text
-floor) and Warm Taupe 2.41:1. Trap §19.1 exists for precisely this, and §12 is a
-hard gate that a wrong claim in a kit does not lower.
+Key animations:
+- **Petal drift** — hero background, 6 particles drifting slowly downward and across
+- **Scroll reveal** — `IntersectionObserver` fade-up (16px translate → 0, 400ms)
+- **Mascot idle** — slow vertical float with gentle rotation (±8px, 4s, infinite)
+- **Petal shower** — easter egg burst, 16–20 petals fall from top of viewport
+- **Scale bloom** — sections/content entrance, scale 0.96→1.0 with opacity
 
-The fix is **not** a new palette. Each ink token below is a mix of one of the
-kit's own pigments with the kit's own Bark Brown — a deeper version of the same
-hue, not a different one. All ratios measured against Warm Ivory / Garden Cream /
-Butter Soft:
+## Visual Assets
 
-| Token               | Mix                      | Hex       | ivory / cream / butter |
-| ------------------- | ------------------------ | --------- | ---------------------- |
-| `--color-rose-ink`  | Garden Rose ⊕ 30% Bark   | `#99434F` | 6.10 / 5.88 / 5.65     |
-| `--color-sage-ink`  | Sage Green ⊕ 40% Bark    | `#5A6947` | 5.63 / 5.42 / 5.21     |
-| `--color-lav-ink`   | Lavender Mist ⊕ 35% Bark | `#69587B` | 6.08 / 5.86 / 5.62     |
-| `--color-taupe-ink` | Warm Taupe ⊕ 40% Bark    | `#7A6A5D` | 4.93 / 4.75 / 4.57     |
-| `--color-herb-ink`  | Herb Green ⊕ 20% Bark    | `#44684A` | 6.00 / 5.79 / 5.55     |
-| `--color-honey-ink` | Honey Gold ⊕ 35% Bark    | `#8E5922` | 5.54 / 5.34 / 5.12     |
-| button hover fill   | Garden Rose ⊕ 45% Bark   | `#7F3742` | 7.63 / 7.35 / 7.05     |
+- **Logo**: Playfair Display italic wordmark "Phlix" paired with a Primrose (bumble bee) silhouette. Garden Rose or Bark Brown on Warm Ivory.
+- **Mascot**: Primrose — a plump, watercolour-style bumble bee with amber-striped fuzz, rounded wings, and a tiny flower crown (primrose, forget-me-not, lavender). Appears on Home, Features, Download, About pages. Fixed bottom-right (desktop), in-flow on mobile (320px).
+- **Icons**: Outlined, rounded, 1.5–2px stroke, round caps/joins. Garden Rose for active states, Bark Brown for default. Single botanical accent detail per icon where space allows.
+- **Dividers**: Thin 1px botanical rule lines between sections, warm petal-blush colour.
+- **Empty states**: Mismatched vintage china teacup SVG silhouettes (404 page)
+- **Seasonal motify**: SVG illustration motifs per season — harvest berries/leaves, midwinter holly/mistletoe, spring blossoms
 
-The pure brand hues keep everything that only needs 3:1 — the Dancing Script
-display lines, the focus ring, section rules, card borders, icon botanicals and
-the shadow glows — so the identity is unchanged to the eye.
+## Component Notes
 
-Two further rules follow from the same measurement work:
+- **Feature cards**: Garden cream background, 1px petal-blush border, hover lifts 2px with rose glow shadow and primary border
+- **Client cards**: Same card system with sage green hover glow (guest room theme)
+- **FAQ**: Native `<details>`/`<summary>` — fully functional without JS
+- **Nav**: Topbar with garden-gate post dividers (thin 1px lines between items); active link gets 2px rose underline with soft rose box-shadow
+- **Intensity toggle**: "Quiet the Garden" in footer — switches off all animations via `body.quiet-mode` class and localStorage preference
+- **Seasonal activation**: `live-js` date gate in `main.js` — applies `data-season` attribute to `<html>` which triggers CSS seasonal token overrides
 
-1. **No text ever sits on a semi-transparent background.** Every surface behind
-   text is an opaque palette colour; alpha is reserved for shadows, glows and
-   decorative washes.
-2. `colors.info` (Cornflower `#5B7FC4`) is **not used at all** — 3.78:1, and the
-   kit's own `color_rules` forbid cold tones.
+## Accessibility
 
-## Typography
-
-| Role     | Family           | Weights  | Where                                                        |
-| -------- | ---------------- | -------- | ------------------------------------------------------------ |
-| Headline | Playfair Display | 700, 900 | `h1`–`h6`; 900 for the hero and page-header `h1`             |
-| Display  | Dancing Script   | 700      | Taglines, the visitor-path prompt, FAQ rephrasings, rewards  |
-| Body     | Lora             | 400, 500 | All reading copy, at a 17px base                             |
-| UI       | Nunito           | 400–600  | Nav, buttons, labels, chips, badges, plant-label summaries   |
-| Mono     | Courier Prime    | 400, 700 | Install snippets, journal dates, plate numbers, swatch hexes |
-| Number   | Playfair Display | 700      | Room numerals, step numerals, the proof placard              |
-
-All five are self-hosted WOFF2 from `shared/assets/fonts/` with
-`font-display: swap`; ten `@font-face` rules, zero external requests.
-
-**Dancing Script is never set below 1.7rem.** It carries only short accent
-phrases — a tagline, a six-word prompt, a rephrased question — because a script
-face at label size is a legibility problem, not a flourish: a cursive x-height at
-22px reads like an 11–12px roman, so the three FAQ rephrasings (real questions a
-reader must parse) are set at 1.7rem in Rose Ink rather than 1.4rem in the
-lowest-contrast token. It is never used for body copy, buttons or navigation,
-per the kit's own `typography_rules`.
-
-**Emphasis.** `fonts.body.weight` caps Lora at `[400, 500]`, so `<strong>` is 500
-**plus a colour channel** (`--color-rose-ink`, ≥4.5:1 on all three surfaces): a
-single 100-unit step in a serif at 17px is not perceptible on its own, and 700
-would be an undeclared weight even though the shared pool carries a `lora-700`
-file. The two undeclared pool faces (Lora 700, Nunito 700) are deliberately not
-`@font-face`d.
-
-## Spatial system
-
-Kit spacing scale, in **px** (`4 8 12 16 24 32 48 64 96`) — px deliberately, so
-that a 200% text zoom cannot multiply structural gutters into horizontal
-overflow. Radii `4 / 8 / 16 / 24 / 999px`. Max content width **1400px**, with a
-1040px narrow measure for the reading-first beats.
-
-Every grid uses `minmax(min(<n>rem, 100%), 1fr)` and every grid/flex item that
-holds prose carries `min-width: 0`, so no track can be widened past the viewport
-by a long technical token.
-
-## Motion philosophy
-
-Motion is the breeze through a cottage window: present, gentle, never demanding.
-Durations 250–550ms on `cubic-bezier(0.25, 0.46, 0.45, 0.94)` and
-`cubic-bezier(0.34, 1.02, 0.64, 1)`.
-
-- **Hero** — `diorama-parallax`: five layered garden planes (sky wash and a
-  pressed-flower field, canopy and thatched cottage, gate piers and climbing
-  roses, the foreground border, Primrose) drift on pointer position and scroll
-  offset. Each plane places its art as framing pieces — top, both sides, bottom —
-  sized in CSS with percentage heights and px `min-height`s, so the garden
-  surrounds the copy at every viewport instead of lining the bottom edge.
-- **Scroll** — `petal-unfold`: each beat blooms in (opacity, 12px drift,
-  0.985 → 1 scale); beats already walked past settle to `saturate(0.72)`. The
-  kit asks for "soft sepia", but `sepia()` shifts luminance and would drop
-  measured contrast, so the luminance-preserving `saturate()` carries the same
-  reading. §12 wins over a field (§19.6).
-- **Primrose** — drifts up and down as if riding an air current; a delighted
-  loop-de-loop and curtsy after five clicks. Fixed bottom-right at ≥900px only
-  (the nav's breakpoint), her tips arrive on first engagement rather than on
-  load, her dismiss pill appears only while she is hovered/focused/tapped, and
-  "Wake Primrose" in the footer brings her back.
-- **Reduced motion** — the petal-unfold, the parallax and Primrose's drift all
-  stop; sections are full colour and full opacity from the start.
-- **"Quiet the Garden"** — the kit's `intensity_toggle`, in the footer utility
-  row, does the same on demand and remembers the choice.
-
-## Visual assets
-
-- `img/logo.svg` — Playfair-italic-styled wordmark in Bark Brown beside a
-  climbing-rose sprig in Garden Rose, Sage and Lavender. Carried forward from the
-  July-4 build. Set in Georgia because an `<img>`-referenced SVG cannot use the
-  page's `@font-face` — that is the kit's own declared fallback.
-- `img/favicon.svg` — Primrose the bumble bee on a Garden Rose tile. Carried
-  forward unchanged; it was already the strongest asset on the old site.
-- `img/og.svg` → `img/og.png` — 1200×630, re-authored for the new headline: warm
-  ivory ground, linen grain, the gate standing open under climbing roses,
-  Primrose mid-flight, "Grow Your Garden." and the tagline. The meta references
-  the **PNG** (§19.5).
-- `img/seasonal/*.svg` — three new motif marks (harvest berries and rosehips,
-  midwinter holly and dried orange, spring blossom and tulips) swapped in by the
-  `seasonal_activation` date gate and shown on `seasons.html`.
-- **Icons** — one inline `<symbol>` sprite per page: twelve outlined marks at
-  1.75px stroke with round caps, plus Primrose. Same-document `<use>`, so it
-  works from `file://` and costs no request. No icon fonts, no CDNs.
-- **All artwork is SVG or CSS.** There is no raster imagery beyond the rasterised
-  OG card, so the hero costs nothing to load and the linen grain is two repeating
-  gradients rather than a texture file.
-
-## Layout archetype
-
-**Narrative-scroll** (declared by the kit). Home is a walk; interior pages are
-themed rooms of the same cottage — `features.html` is a numbered garden-room
-tour, `clients.html` is five made-up guest rooms, `download.html` is a
-three-step planting guide, `about.html` is three pages torn from a garden
-journal, and `seasons.html` is the year's four moods.
-
-## Signature elements in use
-
-Trailing botanical rules between sections · pressed-flower spot marks · a bee
-and leaf accent on every guidepost · the seed-catalog plate metaphor for the two
-hero features · linen paper grain on every surface · the ecosystem rendered as a
-shelf of mismatched, hand-collected volumes · Primrose as an on-page companion.
-
-## Deliberately not implemented
-
-`sound_identity` — a marketing page that plays audio is a WCAG 1.4.2 hazard, so
-the startup chime, notification, click, success and error sounds are recorded
-here as identity rather than shipped. `responsive_behavior.tv` (10-foot UI,
-D-pad) describes the product's TV clients, not a web page.
+- All text/background pairs verified against WCAG AA (4.5:1 normal, 3:1 large/UI)
+- Primary (#C8556A) fails small text on ivory — safe variant #ba4f63 used where small text is required
+- Secondary (#7A9E6B) fails both — safe variant #5e7a52 used
+- Keyboard navigation with visible 2px rose focus ring + 4px rose outer halo
+- Touch targets minimum 44×44px throughout
+- Layout survives 200% text zoom with no clipping or horizontal scroll
+- `prefers-reduced-motion` respected unconditionally

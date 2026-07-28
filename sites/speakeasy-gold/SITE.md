@@ -2,68 +2,71 @@
 
 ## Concept & Vision
 
-Speakeasy Gold is the thrill of the hidden room made digital: midnight black lacquer, champagne gold ornament, bourbon amber light, and the low pulse of a phonograph needle finding the groove. Every screen should feel like stepping through a velvet curtain into gold light. The product is Phlix; the identity is the most glamorous decade in modern history.
+Speakeasy Gold evokes the hidden backroom bars of the 1920s Prohibition era: champagne-gold chandeliers, Art Deco geometric panels, the crackle of a phonograph, and the thrill of having the password. Your private media library, dressed to the nines.
 
 ## Aesthetic Direction
 
-**Art Deco geometric illustration** — gilded line engraving on lacquered midnight black, warm amber candlelight, stepped-arch silhouettes, sunburst rays, champagne bubble particles. Everything feels as if it was printed on thick cream card stock and gilded by hand.
+Art Deco geometric illustration with gilded line engraving on lacquered midnight black. Compositions favor symmetry and stepped-arch framing. Gold rules, outlines, and Art Deco fan patterns divide space. Light sources are warm amber and soft gold: candelabra, back-lit frosted glass, phonograph lamplight.
 
-**Mood:** Glamorous, clandestine, celebratory, refined, roaring, mysterious.
-
-## Color Palette
+## Color Table
 
 | Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| Primary | Champagne Gold | `#C9A84C` | CTAs, active states, headlines, Art Deco rule lines |
-| Secondary | Art Deco Emerald | `#2E7D5E` | Featured/premium accents |
-| Tertiary | Bourbon Amber | `#B86C2C` | Warm glows, ratings, progress |
-| Neutral | Smoked Pewter | `#6B6560` | Muted UI chrome, dividers |
-| Background | Midnight Black | `#0A0806` | Page backgrounds |
-| Surface | Lacquered Ebony | `#15110D` | Card/panel surfaces |
-| Surface Alt | Dark Mahogany | `#1F1812` | Hover states, alternate surfaces |
-| Text | Ivory Cream | `#F2E8D9` | Body prose text |
-| Border | Gold Filigree | `#8A6E2E` | Card borders, dividers |
-| Shadow | Deep Bourbon Shadow | `rgba(10,5,0,0.55)` | Warm-tinted drop shadows |
+| Primary | Champagne Gold | #C9A84C | CTAs, active states, headline accents |
+| Secondary | Art Deco Emerald | #2E7D5E | Featured item highlights, premium badges |
+| Tertiary | Bourbon Amber | #B86C2C | Warm accent glows, ratings, progress |
+| Background | Midnight Black | #0A0806 | Default page background |
+| Surface | Lacquered Ebony | #15110D | Card and panel surfaces |
+| Surface Alt | Dark Mahogany | #1F1812 | Alternate surfaces, hover states |
+| Text | Ivory Cream | #F2E8D9 | Primary body text |
+| Text Muted | Smoked Pewter | #6B6560 | Secondary labels, dividers |
+| Border | Gold Filigree | #8A6E2E | Card borders, decorative rules |
+| Error | Velvet Crimson | #8B1C2A | Errors, destructive actions |
+| Success | Speakeasy Sage | #5A8C6E | Success states |
+| Warning | Gilt Warning | #C9951A | Warnings, caution |
+| Info | Phonograph Blue | #3A6B8A | Informational banners |
+
+**Contrast-safe substitutes (for small text on bg):**
+- Secondary safe: #3b8568 (was #2E7D5E, measured 4.01:1 → needed AA 4.5:1)
+- Text muted safe: #7d7773 (was #6B6560, measured 3.48:1 → needed AA 4.5:1)
+- Error safe: #af626c (was #8B1C2A, measured 2.19:1 → needed AA 4.5:1)
 
 ## Typography Roles
 
-| Role | Font | Usage |
-|------|------|-------|
-| Headline | Poiret One 400 | Main headlines, hero titles, ALL CAPS, 0.12em tracking |
-| Display | Cinzel Decorative 400/700 | Oversized numerals, section dividers, 0.18em tracking |
-| Body | Cormorant Garamond 400/500/600 | Paragraphs, descriptions — never for UI |
-| UI | Josefin Sans 300/400/600/700 | Buttons, nav, labels, chips — ALL CAPS 0.08em tracking |
-| Mono | Share Tech Mono 400 | Timestamps, code, file paths |
+| Role | Font | Weights | Notes |
+|------|------|---------|-------|
+| Headline | Poiret One | 400 | ALL CAPS, 0.12em tracking |
+| Display | Cinzel Decorative | 400, 700 | ALL CAPS, 0.18em tracking |
+| Body | Cormorant Garamond | 400, 500, 600 | Mixed-case, 0.01em tracking |
+| UI | Josefin Sans | 300, 400, 600, 700 | ALL CAPS, 0.08em tracking |
+| Mono | Share Tech Mono | 400 | Teletype/timestamps |
+
+**Strong emphasis:** Cormorant Garamond at 600 (200-unit step from body 400).
 
 ## Spatial System
 
-Spacing scale (the only allowed steps): `4, 8, 12, 16, 24, 32, 48, 64, 96px`
-
-Radius scale: `2px (sm) / 4px (md) / 8px (lg) / 14px (xl) / 999px (pill)`
-
-Max content width: `1400px` | Inner column width: `960px`
+- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96px
+- Border radius: sm=2px, md=4px, lg=8px, xl=14px, pill=999px
+- Max content width: 1400px; inner columns max 960px
+- Shadows use warm amber-black (never cool grey)
 
 ## Motion Philosophy
 
-- **Speed:** medium (200–350ms ease-in-out)
-- **Character:** Stately, rhythmic, deliberate — like a Charleston step
-- **Transitions:** Slow crossfade, Art Deco iris wipe (hexagon/diamond expand), vertical curtain raise
-- **Micro:** Cards lift 3px with bourbon shadow; button press scale 0.97 with gold shimmer; focus ring fade 150ms
-- **Reduced motion:** Swaps to instantaneous crossfades, no bubble particles
+Motion should feel like a Charleston step: precise, rhythmic, with a confident finish. Medium ease-in-out at 200–350ms. Champagne bubble particles for success moments. Art Deco iris wipe for major scene transitions. Under `prefers-reduced-motion`, all motion drops to instantaneous crossfades.
 
 ## Visual Assets
 
-- **Logo:** PHLIX wordmark in Poiret One champagne gold inside a stepped-arch Art Deco badge frame with double gold rule borders
-- **Favicon:** Art Deco hexagonal badge with P letterform
-- **OG image:** 1200×630 — PHLIX headline, Art Deco sunburst, stepped-arch framing, midnight black ground, all Speakeasy Gold palette
-- **Icons:** 7 feature icons as inline SVG — 1.5px stroke, Art Deco geometric, champagne gold on dark
-- **Hero decoration:** CSS-only Art Deco sunburst (repeating conic-gradient) + herringbone pattern overlay + gilded-candelabra radial glow
+- Logo: Wordmark "PHLIX" in Poiret One champagne gold, inside a stepped-arch Art Deco badge
+- Favicon: Simple sunburst mark in primary gold on midnight black
+- Art Deco sunburst pattern background at 6% opacity
+- Mascot: "Gilda" — Art Deco illustrated woman in gold beaded evening gown
 
-## Key Brand Decisions
+## Install Command
 
-- **Layout archetype:** immersive — full-bleed cinematic hero with gilded candelabra radial glow
-- **Backgrounds:** Always midnight black or lacquered ebony — never light
-- **Gold:** The primary visual signal; reserved for CTAs, headlines, and key emphasis
-- **Emerald:** Sparingly — featured/premium contexts only
-- **Shadows:** Always warm amber-black, never cool grey
-- **No mascot on site** (null in kit) — brand is the identity, not a character
+From `content.json` — never invented:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
+```
+
+One line on a fresh Ubuntu or Debian host.

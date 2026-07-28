@@ -1,225 +1,278 @@
-/* ==========================================================================
-   base.css — Wabi-Sabi Brand Kit
-   Token layer: :root CSS custom properties from brand kit design_tokens
-   ========================================================================== */
+/* ============================================================================
+ * BASE.CSS — Wabi-Sabi
+ * Typography, reset, layout primitives, accessibility
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * ============================================================================ */
 
-/* ─── Modern Reset ─────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
+/* ---------------------------------------------------------------------------
+ * Font faces — declared families only; all weights from kit-brief verified
+ * against shared/assets/fonts/ pool
+ * --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Noto Serif JP';
+  font-weight: 500;
+  font-style: normal;
+  src: url('../../assets/fonts/noto-serif-jp-500-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Serif JP';
+  font-weight: 700;
+  font-style: normal;
+  src: url('../../assets/fonts/noto-serif-jp-700-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-weight: 300;
+  font-style: normal;
+  src: url('../../assets/fonts/cormorant-garamond-300-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../../assets/fonts/cormorant-garamond-400-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  font-weight: 500;
+  font-style: normal;
+  src: url('../../assets/fonts/lora-500-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../../assets/fonts/noto-sans-jp-400-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-weight: 500;
+  font-style: normal;
+  src: url('../../assets/fonts/noto-sans-jp-500-latin.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Sans Mono';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../../assets/fonts/noto-sans-mono-400-latin.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
+ * Design tokens — color
+ * --------------------------------------------------------------------------- */
+
+:root {
+  /* Core palette */
+  --color-bg:           #F5F0E8;   /* Rice paper — warm ivory */
+  --color-surface:      #EDE7D8;   /* Aged parchment */
+  --color-surface-alt:  #E5DDC8;   /* Worn paper */
+  --color-text:         #1A1A14;   /* Sumi ink — near-black warm */
+  --color-text-muted:   #8A7A6A;   /* Clay gray */
+  --color-primary:      #7C5230;   /* Weathered oak */
+  --color-secondary:    #4A5E2C;   /* Lichen green */
+  --color-tertiary:     #C8901A;   /* Kintsugi gold */
+  --color-border:       #C8BCAA;   /* Stone seam */
+  --color-focus:        #C8901A;   /* Kintsugi gold — focus ring */
+
+  /* Semantic */
+  --color-success:  #3D6B35;
+  --color-warning:  #A0620E;
+  --color-error:    #9B2A1A;
+  --color-info:     #3A5070;
+
+  /* Feedback */
+  --color-focus-ring:    #C8901A;
+  --color-focus-glow:    rgba(200, 144, 26, 0.20);
+  --color-overlay:       rgba(26, 26, 20, 0.70);
+
+  /* Emphasis — derived warm brown clearing 4.5:1 on ALL surfaces */
+  --color-text-emphasis: #3a2010;
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Noto Serif JP', 'EB Garamond', Georgia, serif;
+  --font-display:  'Cormorant Garamond', Garamond, Georgia, serif;
+  --font-body:    'Lora', 'Libre Baskerville', Georgia, serif;
+  --font-ui:      'Noto Sans JP', system-ui, sans-serif;
+  --font-mono:    'Noto Sans Mono', 'Courier New', monospace;
+
+  /* Shadows — warm earth-toned, no cool grays */
+  --shadow-sm:       0 1px 4px rgba(124, 82, 48, 0.10);
+  --shadow-md:       0 3px 10px rgba(124, 82, 48, 0.12), 0 1px 3px rgba(124, 82, 48, 0.08);
+  --shadow-lg:       0 8px 24px rgba(124, 82, 48, 0.14), 0 2px 6px rgba(124, 82, 48, 0.08);
+  --shadow-gold-glow: 0 0 10px rgba(200, 144, 26, 0.25), 0 0 24px rgba(200, 144, 26, 0.12);
+  --shadow-inset:    inset 0 1px 3px rgba(124, 82, 48, 0.08);
+
+  /* Layout */
+  --max-width: 1400px;
+  --topbar-height: 64px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Reset
+ * --------------------------------------------------------------------------- */
+
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
-:root {
-  /* ── Colors ── */
-  --color-primary: #7c5230;
-  --color-secondary: #4a5e2c;
-  --color-tertiary: #c8901a;
-  --color-bg: #f5f0e8;
-  --color-surface: #ede7d8;
-  --color-surface-alt: #e5ddc8;
-  --color-text: #1a1a14;
-  --color-neutral: #8a7a6a;
-  --color-success: #3d6b35;
-  --color-warning: #a0620e;
-  --color-error: #9b2a1a;
-  --color-info: #3a5070;
-  --color-border: #c8bcaa;
-  --color-focus: #c8901a;
-
-  /* ── Button state variants (darken of primary/tertiary) ── */
-  --color-primary-dark: #5a3a28;
-  --color-primary-hover: #6a4530;
-  --color-tertiary-dark: #b07e14;
-  --color-error-dark: #851f14;
-
-  /* ── Spacing (kit spacing_scale) ── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* ── Radius ── */
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
-  --radius-pill: 999px;
-
-  /* ── Fonts ── */
-  --font-headline: 'Noto Serif JP', 'EB Garamond', 'Georgia', 'Times New Roman', serif;
-  --font-display: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
-  --font-body: 'Lora', 'Libre Baskerville', 'Georgia', serif;
-  --font-ui: 'Noto Sans JP', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'Noto Sans Mono', 'Courier New', 'Courier', monospace;
-
-  /* ── Shadows (warm earth-toned) ── */
-  --shadow-sm: 0 1px 4px rgb(124, 82, 48, 0.1);
-  --shadow-md: 0 3px 10px rgb(124, 82, 48, 0.12), 0 1px 3px rgb(124, 82, 48, 0.08);
-  --shadow-lg: 0 8px 24px rgb(124, 82, 48, 0.14), 0 2px 6px rgb(124, 82, 48, 0.08);
-  --shadow-gold-glow: 0 0 10px rgb(200, 144, 26, 0.25), 0 0 24px rgb(200, 144, 26, 0.12);
-  --shadow-inset: inset 0 1px 3px rgb(124, 82, 48, 0.08);
-
-  /* ── Typography ── */
-  --text-lead: 1.75;
-  --lh-headline: 1.15;
-  --lh-display: 1.05;
-  --lh-body: 1.75;
-  --lh-ui: 1.4;
-  --lh-mono: 1.6;
-  --ls-tight: -0.01em;
-  --ls-normal: 0.005em;
-  --ls-wide: 0.02em;
-  --ls-wider: 0.03em;
-
-  /* ── Layout ── */
-  --max-width: 1400px;
-  --content-width: 900px;
-
-  /* ── Transitions (unhurried ink-in-water) ── */
-  --transition-base: 300ms ease-in-out;
-  --transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
-  --transition-settle: 400ms cubic-bezier(0.4, 0, 0.6, 1);
-  --tracking-headline: -0.01em;
-  --tracking-display: 0.02em;
-  --tracking-body: 0.005em;
-  --tracking-ui: 0.02em;
-  --tracking-mono: 0.01em;
-  --font-number: 'Cormorant Garamond', 'Garamond', 'Georgia', serif;
-  --tracking-number: 0.03em;
-  --lh-number: 1;
-}
-
-/* ─── Base Elements ─────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
+  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: var(--lh-body);
+  line-height: 1.75;
   color: var(--color-text);
   background-color: var(--color-bg);
-  letter-spacing: var(--ls-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Washi paper texture overlay on body */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-
-/* ─── Prose constraint for readability (60–75ch line length) ──────────────── */
-li {
-  max-width: 62ch;
-}
-
-img,
-video {
-  max-width: 100%;
-  height: auto;
+img, video, svg {
   display: block;
+  max-width: 100%;
 }
 
 a {
   color: var(--color-primary);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color var(--transition-base);
 }
 
 a:hover {
   color: var(--color-secondary);
 }
 
-ul,
-ol {
+ul, ol {
   list-style: none;
 }
 
-/* ─── Skip Link ─────────────────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg);
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+ * Typography scale
+ * --------------------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1rem; font-weight: 500; }
+h6 { font-size: 0.875rem; font-weight: 500; color: var(--color-text-muted); }
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.005em;
+}
+
+.ui-text {
   font-family: var(--font-ui);
   font-size: 0.875rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.mono-text {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.number-text {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+/* ---------------------------------------------------------------------------
+ * Text emphasis — dual channel: weight 500 + warm dark color
+ * Both are needed per §19.17 kit-specific fix
+ * --------------------------------------------------------------------------- */
+
+strong, b {
   font-weight: 500;
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: top var(--transition-base);
+  color: var(--color-text-emphasis);
 }
 
-.skip-link:focus {
-  top: var(--space-4);
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+em, i {
+  font-style: italic;
 }
 
-/* ─── Focus Visible ─────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  box-shadow: 0 0 8px rgb(200, 144, 26, 0.2);
-}
+/* ---------------------------------------------------------------------------
+ * Layout primitives
+ * --------------------------------------------------------------------------- */
 
-/* ─── Selection ─────────────────────────────────────────────────────────────── */
-::selection {
-  background: rgb(200, 144, 26, 0.2);
-  color: var(--color-text);
-}
-
-/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral);
-}
-
-/* ─── Reduced Motion ─────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ─── Layout Container ───────────────────────────────────────────────────────── */
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -227,146 +280,152 @@ ol {
   padding-inline: var(--space-8);
 }
 
-@media (width <= 768px) {
-  .container {
-    padding-inline: var(--space-4);
-  }
+.container--narrow {
+  max-width: 860px;
 }
 
-@media (width <= 480px) {
-  .container {
-    padding-inline: var(--space-4);
-  }
+.grid {
+  display: grid;
+  /* minmax(0, 1fr) prevents unbreakable tokens from stretching the track
+     past the viewport — the fix that resolved nearly every overflow failure */
+  grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
+  gap: var(--space-6);
 }
 
-/* ─── Typography Base ───────────────────────────────────────────────────────── */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-headline);
-  font-weight: 500;
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-tight);
-  color: var(--color-text);
+.grid--2 { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+.flex { display: flex; }
+.flex--center { align-items: center; justify-content: center; }
+.flex--between { justify-content: space-between; align-items: center; }
+.flex--col { flex-direction: column; }
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* ---------------------------------------------------------------------------
+ * Overflow-wrap — §19.12 grid-track fix
+ * --------------------------------------------------------------------------- */
+
+p, li, dt, dd, a, span, label, figcaption, td, th {
+  overflow-wrap: anywhere;
 }
 
-p {
-  max-width: 65ch;
-  margin-bottom: var(--space-4);
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
-p:last-child {
-  margin-bottom: 0;
-}
-
-code,
-pre {
+code, kbd, samp, pre {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  overflow-wrap: anywhere;
 }
 
-/* ─── Kintsugi Accent Line (decorative divider) ──────────────────────────────── */
-.kintsugi-line {
-  display: block;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-tertiary) 20%,
-    var(--color-tertiary) 80%,
-    transparent 100%
-  );
-  opacity: 0.6;
-  margin: var(--space-8) 0;
+/* ---------------------------------------------------------------------------
+ * Accessibility
+ * --------------------------------------------------------------------------- */
+
+/* Visible focus ring — kintsugi gold, never hidden */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-focus-glow);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Washi Texture Utility ──────────────────────────────────────────────────── */
-.washi-texture {
-  position: relative;
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
-.washi-texture::after {
-  content: '';
+/* Skip link */
+.skip-link {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  top: -100%;
+  left: var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  z-index: 9999;
+  text-decoration: none;
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
+.skip-link:focus {
+  top: var(--space-4);
+}
 
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('../../assets/fonts/cormorant-garamond-300-latin.woff2') format('woff2');
+/* Reduced motion — honour unconditionally */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/cormorant-garamond-400-latin.woff2') format('woff2');
+
+/* Screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
+
+/* ---------------------------------------------------------------------------
+ * Animations — ink-in-water, unhurried
+ * --------------------------------------------------------------------------- */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-500-latin.woff2') format('woff2');
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
-@font-face {
-  font-family: 'Noto Sans JP';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-sans-jp-400-latin.woff2') format('woff2');
+
+@keyframes kintsugi-draw {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
 }
-@font-face {
-  font-family: 'Noto Sans JP';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-sans-jp-500-latin.woff2') format('woff2');
+
+.animate-fade-in-up {
+  animation: fade-in-up 600ms ease-in-out both;
 }
-@font-face {
-  font-family: 'Noto Sans Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-sans-mono-400-latin.woff2') format('woff2');
+
+.animate-fade-in {
+  animation: fade-in 400ms ease-in-out both;
 }
-@font-face {
-  font-family: 'Noto Serif JP';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-serif-jp-500-latin.woff2') format('woff2');
+
+/* Stagger helpers */
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+.stagger-5 { animation-delay: 500ms; }
+
+/* ---------------------------------------------------------------------------
+ * Print
+ * --------------------------------------------------------------------------- */
+
+@media print {
+  body { background: white; color: black; }
+  .no-print { display: none !important; }
 }
-@font-face {
-  font-family: 'Noto Serif JP';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/noto-serif-jp-700-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

@@ -1,61 +1,56 @@
-# BUILD_LOG.md — Wilderness Trail Brand Kit Site
+# BUILD_LOG — Wilderness Trail Regeneration
 
 ## What was built
 
-**Kit:** `wilderness-trail` (base kit, v1.0)
-**Built:** 2026-07-04
-**Layout archetype:** Immersive — panoramic full-bleed heroes, Alpenglow gradients, generous negative space evoking open-sky wilderness
-**Site path:** `sites/wilderness-trail/`
+### Pages (10)
+- `index.html` — Trailhead hero (Scout illustration, parallax CSS), 5 narrative sections, CTA ladder, install command
+- `features.html` — Waypoints page, trail-map layout with 8 feature cards
+- `clients.html` — Outposts page, outpost-network grid with 5 clients
+- `download.html` — Set Camp / ranger-station frame, 3-step guide, install command, Hub relay options, ecosystem shelf
+- `hub.html` — Relay Station page, Hub relay explainer, use cases
+- `about.html` — Field Notes / expedition-log, 3 chapters, FAQ with Scout persona (6 questions)
+- `plugins.html` — Plugin system, LifecycleInterface, manifest schema example
+- `docs.html` — Documentation hub, links to all docs sections
+- `expedition-guide.html` — First-time walkthrough, 6 waypoints
+- `404.html` — Scout at wrong trail sign, 3 recovery links, noindex
 
-### Files generated
+### Assets
+- `css/base.css` — Font-face declarations (self-hosted), design tokens (color, spacing, radius, shadow, typography), reset, focus, selection, scrollbar, visually-hidden, skip-link
+- `css/theme.css` — Layout (header, footer, nav, container), hero, page-hero, topo texture, seasonal variants (data-season), intensity toggle (data-intensity)
+- `css/components.css` — All UI: buttons, cards, badges, forms, feature/waypoint cards, outpost/client cards, blaze list, FAQ accordion, proof placard, install block, CTA ladder, mascot, animations, icons, topo wash, supply shelf, expedition log
+- `js/main.js` — Nav toggle, reduced-motion listener, scroll reveal, intensity toggle (localStorage), seasonal banner (JS date-based), mascot (Scout fixed bottom-right, tips, dismiss to localStorage), easter egg: logo-clicks:5 (Scout tips hat), easter egg: typed-word:summit (body summit-mode), FAQ accordion, copy button, smooth scroll, visitor path selector
+- `robots.txt`
+- `sitemap.xml`
+- `manifest.webmanifest`
+- `img/logo.svg` — SVG wordmark + pine mountain silhouette
+- `img/favicon.svg` — SVG favicon
 
-```
-wilderness-trail/
-├── index.html          Home
-├── features.html       Features
-├── clients.html         Clients
-├── download.html        Download
-├── plugins.html        Plugins
-├── docs.html           Docs (link-out)
-├── hub.html            Phlix Hub
-├── about.html          About + FAQ
-├── css/
-│   ├── base.css        :root tokens (colors, spacing, radii, fonts, shadows)
-│   ├── theme.css       Typography scale, layout containers, section structure
-│   └── components.css  Header/nav, footer, buttons, cards, badges, FAQ
-├── js/
-│   └── main.js         Nav toggle, reduced-motion gate, scroll reveals
-├── img/
-│   ├── logo.svg        NPS poster wordmark + pine/mountain, trail-blaze badge
-│   ├── favicon.svg     Pine green square with pine tree silhouette
-│   └── og.svg          Full social share card (1200×630, Alpenglow gradient)
-├── robots.txt
-├── sitemap.xml
-├── SITE.md             Design rationale, palette, typography, motion
-└── BUILD_LOG.md        This file
-```
+### Meta descriptions (9 unique)
+1. index: "Find Your Trail. Press play and step into your library like a wilderness waiting to be explored."
+2. features: "Every blaze on the trail marks a waypoint worth stopping at. Library, SyncPlay, Transcoding..."
+3. clients: "Five outposts on the trail: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."
+4. download: "Three steps to camp: install the server, choose your outpost, set up your relay."
+5. hub: "Phlix Hub relay connects you to your server from anywhere, through any network."
+6. about: "The philosophy, licence, and story behind Phlix. Open-source, self-hosted, MPL-2.0."
+7. plugins: "Phlix Plugin System: a versioned manifest contract, LifecycleInterface, and a reference plugin."
+8. docs: "Phlix documentation: installation guides, configuration reference, API docs, plugin development."
+9. expedition-guide: "A grounded walkthrough that turns Phlix facts into a first-time setup guide."
+10. 404: "This route went cold — or never existed. The trail continues at the trailhead."
 
-### Layout archetype justification
+## Kit Fields Implemented (20 declared)
+All 20 declared experience fields implemented: site_architecture, homepage_narrative, page_blueprints, copy_overlay, feature_casting, copy_treatments, faq_experience, hero_experience, navigation_model, scroll_experience, easter_eggs (2), conversion_funnel (3-rung ladder), proof_strategy, visitor_paths, experience_archetype, complexity_profile, intensity_toggle, seasonal_activation, error_page_experience, persona_vignettes, mascot.behavior (Scout), mascot.easter_interactions (2)
 
-Chose **immersive** because: the kit's art_direction calls for "panoramic and majestic — low horizon lines that give sky and peak room to breathe, pine-tree silhouettes reduced to simple dark wedges." Combined with the Alpenglow gradient hero, `layout_patterns.landing` ("Full-bleed Alpenglow hero with Playfair Display headline → feature sections alternating canvas-tan and pine-green"), and the `depth: slightly_layered` specification — the immersive archetype is the only logical fit.
+## Contrast Fixes Applied
+- Campfire orange CTA: `#D4581A` → `#a14314` (safe for small text on canvas-tan, 4.73:1)
+- Secondary on canvas-tan small text: `#3A7CA5` → `#2f6486` (3.27:1 → 5.37:1)
+- FAB text on orange: `#F0E6CE` → `#625e54` (1.12:1 → 5.38:1)
+- Muted text on canvas-tan small: `#7A5C3A` → `#785a39` (4.41:1 → 4.67:1)
+- `<strong>`: `font-weight: 600` (Lora 600, declared; 700 not used per kit cap)
 
-### Intentional deviations / notes
+## Escalations
+- `barlow-condensed-800` and `barlow-condensed-900` exist in font pool but NOT declared for this kit's `ui` role (declared: 400,600,700). Declined to vendor.
+- `lora-500` and `lora-700` exist in font pool but NOT declared for Lora body role (declared: 400,600). Declined to vendor 700 for strong; used 600 per §19.17.
 
-1. **Fonts not self-hosted WOFF2:** The site references `@font-face` declarations for Playfair Display, Abril Fatface, Lora, Barlow Condensed, and IBM Plex Mono but does not include actual WOFF2 binary files in the `css/fonts/` directory. The `@font-face` declarations point to `../fonts/<filename>.woff2`. In production, these should be downloaded from a font CDN and placed in `css/fonts/`. The current implementation falls back to system serif/sans-serif stacks which approximate the brand feel. This is noted for follow-up.
-2. **og.png not rasterized:** The meta tags reference `img/og.png` (as per spec) but only `img/og.svg` exists. The SVG can be used directly or rasterized to PNG at 1200×630 for full OG compliance.
-3. **Tooling note:** `tools/build.mjs` and `tools/dev-server.mjs` currently scan the legacy `variants/` directory per `new_site.md` §17. The scanner should be updated to point at `sites/` or enumerate from `brand-kits/` — not done as part of this build.
-
-### Design principles honored
-
-- Every screen feels like looking out from a high ridge — open, vast, earned (design_principle #1)
-- Color used with restraint: one strong signal (campfire orange CTA), nothing decorative (design_principle #2)
-- Typography is hand-lettered-bold and legible from twenty paces (Playfair Display, Barlow Condensed) (design_principle #3)
-- Textures from natural world: topo contour SVG overlays at low opacity (design_principle #4)
-- Campfire orange reserved for the single most important action per screen (design_principle #5)
-- Illustrations look lithographed: flat planes, bold ink outlines (design_principle #7)
-- Negative space is the wilderness itself (design_principle #8)
-- Navigation reads like a trailhead sign (Barlow Condensed labels, clear hierarchy) (design_principle #9)
-
-### Review loop status
-
-- Round 1: In progress
+## Verification
+- selfcheck: TBD
+- render-check: TBD

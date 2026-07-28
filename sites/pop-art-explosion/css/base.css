@@ -1,45 +1,88 @@
 /* ==========================================================================
    BASE.CSS — Pop Art Explosion
-   Reset, the :root token block transcribed from the kit's `design_tokens`,
-   element defaults, the skip link, the yellow/black focus ring from
-   `accessibility.focus_style`, the Ben-Day dot fields that `signature_elements`
-   calls the brand's only texture, and the reduced-motion reset.
-   Loaded first; theme.css and components.css depend on every token here.
+   Core resets, typography scale, grid system, layout shell, animations.
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Design tokens — verbatim from brand-kits/pop-art-explosion.js
-      §17 design_tokens, plus two DERIVED ink mixes (see the comment at the
-      bottom of this block) and the typographic metrics from §7 fonts{}.
-   -------------------------------------------------------------------------- */
+/* ── Font faces (self-hosted only) ─────────────────────────────────────── */
+@font-face {
+  font-family: 'Bangers';
+  src: url('../../assets/fonts/bangers-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Anton';
+  src: url('../../assets/fonts/anton-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../../assets/fonts/barlow-condensed-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../../assets/fonts/barlow-condensed-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../assets/fonts/barlow-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../assets/fonts/barlow-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Share Tech Mono';
+  src: url('../../assets/fonts/share-tech-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── CSS Custom Properties ─────────────────────────────────────────────── */
 :root {
-  /* colour — design_tokens.color */
+  /* Colors */
   --color-primary: #ff1a1a;
   --color-secondary: #ffe600;
   --color-tertiary: #0028dc;
   --color-orange: #ff6b00;
-  --color-bg: #fff;
+  --color-bg: #ffffff;
   --color-surface: #fafafa;
   --color-surface-alt: #fffbe0;
   --color-text: #0a0a0a;
   --color-success: #ffe600;
   --color-warning: #ff6b00;
-  --color-error: #c00;
+  --color-error: #cc0000;
   --color-info: #0028dc;
   --color-border: #0a0a0a;
   --color-focus: #ffe600;
-  --color-overlay: rgb(10 10 10 / 0.72);
+  /* Safe yellow for small text on light backgrounds */
+  --color-yellow-safe: #807300;
 
-  /* DERIVED ink. Kapow Red measures 3.88:1 on white and 3.72:1 on both card
-     surfaces, so it fails AA for small text; this is the deeper mix of the
-     kit's own pigment that tools/kit-brief.mjs pre-derived. Grounds, rules,
-     borders and display type keep the pure hues (they need only 3:1).
-     Soup Orange never carries small text on this site, so no orange ink token
-     is declared: a token nothing references is an inert rule (§19.17). */
-  --color-primary-ink: #e31717; /* red TEXT on white/#fafafa/#fffbe0 — 4.5:1+ */
+  /* Typography */
+  --font-headline: 'Bangers', 'Boogaloo', Impact, sans-serif;
+  --font-display: 'Anton', Impact, 'Arial Black', sans-serif;
+  --font-body: 'Barlow Condensed', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --font-ui: 'Barlow', 'Roboto', Helvetica, Arial, sans-serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
 
-  /* spacing — design_tokens.spacing / spacing_scale */
+  /* Spacing */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -50,80 +93,40 @@
   --space-16: 64px;
   --space-24: 96px;
 
-  /* radius — design_tokens.radius. corner_radius.small is genuinely 0px:
-     "No border-radius over 8px on any non-pill element" (ui_generation_rules) */
+  /* Radius */
   --radius-sm: 0px;
   --radius-md: 4px;
   --radius-lg: 8px;
   --radius-xl: 16px;
   --radius-pill: 999px;
 
-  /* type — design_tokens.typography + fonts{} fallback stacks */
-  --font-headline: 'Bangers', 'Boogaloo', 'Impact', 'Arial Black', sans-serif;
-  --font-display: 'Anton', 'Impact', 'Arial Black', 'Haettenschweiler', sans-serif;
-  --font-body: 'Barlow Condensed', 'Oswald', 'Roboto Condensed', 'Arial Narrow', sans-serif;
-  --font-ui: 'Barlow', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
-  --font-number: 'Anton', 'Impact', 'Arial Black', sans-serif;
-
-  /* per-role tracking + leading, fonts{}.<role>.tracking / .line_height */
-  --tracking-headline: 0.05em;
-  --lh-headline: 0.9;
-  --tracking-display: 0.02em;
-  --lh-display: 0.85;
-  --tracking-body: 0.01em;
-  --lh-body: 1.5;
-  --tracking-ui: 0.03em;
-  --lh-ui: 1.2;
-  --tracking-mono: 0em;
-  --lh-mono: 1.5;
-  --tracking-number: 0.02em;
-  --lh-number: 1;
-
-  /* shadows — HARD OFFSET only, zero blur (shadows.notes) */
-  --shadow-sm: 2px 2px 0 #0a0a0a;
-  --shadow-md: 4px 4px 0 #0a0a0a;
-  --shadow-lg: 6px 6px 0 #0a0a0a;
-
-  /* borders — design_tokens.border */
+  /* Borders */
   --border-default: 3px solid #0a0a0a;
   --border-feature: 4px solid #0a0a0a;
   --border-subtle: 2px solid #0a0a0a;
 
-  /* the comic-panel gutter. accessibility.font_scaling: "gutters must not
-     collapse below 2px" — so this never goes lower than 3px. */
+  /* Shadows — hard offset, zero blur */
+  --shadow-sm: 2px 2px 0px #0a0a0a;
+  --shadow-md: 4px 4px 0px #0a0a0a;
+  --shadow-lg: 6px 6px 0px #0a0a0a;
+
+  /* Layout */
+  --max-width: 1280px;
   --gutter: 4px;
-
-  /* motion — animation_speed "fast", easing[] */
-  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-stamp: steps(4, end);
-  --dur-press: 80ms;
-  --dur-wipe: 120ms;
-  --dur-burst: 180ms;
-
-  /* max content width — ui_generation_rules "Max content width 1280px" */
-  --measure: 1280px;
-
-  /* The sticky topbar is 79px tall at 375px and 83px at desktop sizes, so every
-     in-page anchor target has to reserve more than that or it lands UNDER the
-     header — on a panel that means the panel__tag orientation stamp is what
-     gets hidden. One token, used by every anchor target (see theme.css). */
-  --anchor-offset: 100px;
-
-  /* Ben-Day dot fields, as inline SVG data URIs. do_dont.performance: "Use SVG
-   for all Ben-Day dot patterns"; "Don't ship raster Ben-Day dot background
-   images". Each is a single circle tiled by background-repeat. */
-  --dots-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='2.6' fill='%230A0A0A' fill-opacity='0.16'/%3E%3C/svg%3E");
-  --dots-white: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='2.6' fill='%23FFFFFF' fill-opacity='0.22'/%3E%3C/svg%3E");
-  --dots-yellow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='3.2' fill='%23FFE600' fill-opacity='0.55'/%3E%3C/svg%3E");
-  --dots-red: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='3.2' fill='%23FF1A1A' fill-opacity='0.4'/%3E%3C/svg%3E");
-  --dots-blue: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='3.2' fill='%230028DC' fill-opacity='0.35'/%3E%3C/svg%3E");
-  --dots-rosette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='4' cy='4' r='2.4' fill='%23FF1A1A' fill-opacity='0.5'/%3E%3Ccircle cx='12' cy='9' r='2.4' fill='%230028DC' fill-opacity='0.4'/%3E%3Ccircle cx='6' cy='12' r='2.4' fill='%23FFE600' fill-opacity='0.8'/%3E%3C/svg%3E");
 }
 
-/* --------------------------------------------------------------------------
-   2. Reset
-   -------------------------------------------------------------------------- */
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Base reset ─────────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -133,88 +136,53 @@
 }
 
 html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
   scroll-behavior: smooth;
-  background: var(--color-bg);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 1.0625rem;
-  line-height: var(--lh-body);
-  letter-spacing: var(--tracking-body);
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--color-text);
+  background-color: var(--color-bg);
+  /* Ben-Day dot pattern as ambient texture */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='1.5' fill='%230A0A0A' fill-opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  overflow-x: hidden;
+}
+
+/* ── Text selection ────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
   background: var(--color-bg);
-  min-height: 100vh;
-  /* deliberately NO overflow-x:hidden — it would absorb real overflow and hide
-     it from render-check as well as from nobody's benefit (new_site.md §19.13) */
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
+/* ── Focus styles ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 3px 3px 0 var(--color-border);
 }
 
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  color: inherit;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-/* §19.12 rule 1+2. Body-weight text gets `anywhere`, because these sit in
-   narrow grid tracks and at 200% zoom a footer column is ~130px wide — plenty
-   of ordinary words are longer than that. */
-p,
-li,
-dt,
-dd,
-a,
-span,
-figcaption,
-code,
-kbd,
-samp,
-pre,
-th,
-td,
-summary,
-label {
-  overflow-wrap: anywhere;
-}
-
-/* Headings deliberately get `break-word`, NOT `anywhere`: an unmarked mid-word
-   break in Bangers at 5rem looks like a rendering fault, and break-word leaves
-   min-content intact so a real overflow still surfaces in render-check. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-blockquote {
-  hyphens: auto;
-  overflow-wrap: break-word;
-}
-
-/* --------------------------------------------------------------------------
-   3. Element defaults
-      typography_rules: headlines ALWAYS Bangers, ALL CAPS encouraged, never
-      thin. Only the declared weights are used anywhere: Bangers 400,
-      Anton 400, Barlow Condensed 400/600, Barlow 600/700, Share Tech Mono 400.
-   -------------------------------------------------------------------------- */
+/* ── Typography base ───────────────────────────────────────────────────── */
 h1,
 h2,
 h3,
@@ -223,136 +191,356 @@ h5,
 h6 {
   font-family: var(--font-headline);
   font-weight: 400;
-  letter-spacing: var(--tracking-headline);
-  line-height: var(--lh-headline);
+  line-height: 0.9;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  text-wrap: balance;
+  color: var(--color-text);
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 h1 {
-  font-size: clamp(2.6rem, 9vw, 5.5rem);
+  font-size: clamp(2.5rem, 8vw, 5rem);
 }
 h2 {
-  font-size: clamp(2rem, 5.5vw, 3.4rem);
+  font-size: clamp(1.8rem, 5vw, 3rem);
 }
 h3 {
-  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  font-size: clamp(1.3rem, 3vw, 2rem);
 }
 h4 {
-  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  font-size: 1.2rem;
+}
+h5 {
+  font-size: 1rem;
+}
+h6 {
+  font-size: 0.875rem;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
 }
 
 p {
-  max-width: 68ch; /* typography_rules: 55–70 characters */
+  line-height: 1.6;
 }
 
-/* Link ink travels as a custom property, so every ground (and every paper
-   surface sitting inside a coloured ground) can re-point it once and have every
-   descendant link follow. A descendant selector could not do that: it would
-   colour links inside a white card from the blue panel around the card. */
 a {
-  color: var(--link, var(--color-tertiary));
-  text-decoration-thickness: 2px;
+  color: var(--color-tertiary);
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
-
-/* buttons.link: "Blue text, thick underline on hover" — the hover feedback is
-   the stroke weight, not a colour change. A colour shift would have to clear
-   4.5:1 against all eight grounds in all three palette states; the underline
-   does the job with none of that risk. */
 a:hover {
-  text-decoration-thickness: 4px;
+  color: var(--color-primary);
 }
 
-/* Emphasis. Barlow Condensed is declared at [400, 600] by this kit and body
-   copy renders at 400, so 600 is a full 200-unit step — the widest move the
-   kit permits. No colour change: restating the body colour would make the rule
-   inert (new_site.md §19.17). */
 strong,
 b {
-  font-weight: 600;
+  font-weight: 600; /* +200 step from body 400; Barlow Condensed 600 declared by kit */
 }
 
 em,
 i {
-  font-style: normal;
-  font-weight: 600;
-  /* comic lettering italicises by boxing a word, not by slanting it */
-  box-shadow: inset 0 -0.42em 0 var(--color-secondary);
+  font-style: italic;
 }
 
+/* ── Lists ─────────────────────────────────────────────────────────────── */
+ul,
+ol {
+  padding-left: var(--space-6);
+}
+li {
+  margin-bottom: var(--space-1);
+}
+
+/* ── Code ──────────────────────────────────────────────────────────────── */
 code,
 kbd,
 samp {
   font-family: var(--font-mono);
-  letter-spacing: var(--tracking-mono);
-  font-size: 0.94em;
+  font-size: 0.9em;
+  background: var(--color-surface-alt);
+  border: var(--border-subtle);
+  padding: 1px 5px;
 }
-
-blockquote {
-  font-family: var(--font-headline);
-  text-transform: none;
-}
-
-hr {
-  border: 0;
-  border-top: var(--border-feature);
-}
-
-::selection {
-  background: var(--color-secondary);
-  color: var(--color-text);
-}
-
-/* --------------------------------------------------------------------------
-   4. Skip link + focus ring
-      accessibility.focus_style: "3px solid yellow (#FFE600) ring with 2px
-      black offset; always visible against both white and red backgrounds."
-   -------------------------------------------------------------------------- */
-.skip-link {
-  position: absolute;
-  top: -200px;
-  left: var(--space-4);
-  z-index: 200;
-  display: inline-block;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-secondary);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  text-decoration: none;
+pre {
+  font-family: var(--font-mono);
+  background: var(--color-text);
+  color: var(--color-bg);
   border: var(--border-default);
+  padding: var(--space-4);
+  overflow-x: auto;
   border-radius: var(--radius-md);
+}
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+/* ── Layout shell ──────────────────────────────────────────────────────── */
+.site-wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+/* ── Grid system (minmax(0,1fr) to prevent overflow) ────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+@media (max-width: 860px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 540px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Main content ──────────────────────────────────────────────────────── */
+main {
+  padding-block: var(--space-8);
+}
+
+/* ── Section spacing ───────────────────────────────────────────────────── */
+section {
+  padding-block: var(--space-12);
+}
+
+section + section {
+  border-top: var(--border-default);
+}
+
+/* ── Ben-Day dot pattern utilities ─────────────────────────────────────── */
+.benday-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%230A0A0A' fill-opacity='0.1'/%3E%3C/svg%3E");
+}
+.benday-red {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23FF1A1A' fill-opacity='0.15'/%3E%3C/svg%3E");
+}
+.benday-blue {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%230028DC' fill-opacity='0.1'/%3E%3C/svg%3E");
+}
+
+/* ── Starburst / POW! burst effect ─────────────────────────────────────── */
+.starburst {
+  position: relative;
+  display: inline-block;
+}
+.starburst::before {
+  content: '';
+  position: absolute;
+  inset: -15%;
+  background: var(--color-secondary);
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  z-index: -1;
+  animation: starburst-pulse 3s ease-in-out infinite;
+}
+@keyframes starburst-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08) rotate(5deg);
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starburst::before {
+    animation: none;
+  }
+}
+
+/* ── Speech bubble ─────────────────────────────────────────────────────── */
+.speech-bubble {
+  position: relative;
+  background: var(--color-bg);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
   box-shadow: var(--shadow-md);
 }
-
-.skip-link:focus {
-  top: var(--space-2);
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 14px solid var(--color-border);
+}
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 26px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid var(--color-bg);
+  z-index: 1;
 }
 
-/* The ring is yellow-on-black, so it has to carry its black backing everywhere:
-   Zap Yellow against a Zap Yellow ground is 1:1 and the ring simply vanishes.
-   Because this selector is only (0,1,0), any component that declares its own
-   box-shadow later in the cascade would wipe the backing out — see the
-   "focus ring vs. own shadow" block at the end of components.css, which
-   restores `0 0 0 5px #0a0a0a` alongside each control's own hard offset. Any
-   NEW component that declares box-shadow must be added there too. */
-:focus-visible {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 2px;
-  /* the 2px black offset the kit asks for, drawn as a hard ring not a blur */
-  box-shadow: 0 0 0 5px #0a0a0a;
+/* ── Comic panel card ─────────────────────────────────────────────────── */
+.panel-card {
+  background: var(--color-surface);
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+  cursor: pointer;
+}
+.panel-card:hover {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+.panel-card h3 {
+  border-bottom: var(--border-default);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   5. Utilities
-   -------------------------------------------------------------------------- */
+/* ── Section headings ──────────────────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
 
-/* §19.15: clip-path affects painting only — without overflow:hidden this box
-   still contributes its full width and can add hundreds of px of scrollWidth. */
+/* ── Tag / badge ───────────────────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+}
+.tag-red {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-border);
+}
+.tag-yellow {
+  background: var(--color-secondary);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.tag-blue {
+  background: var(--color-tertiary);
+  color: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+/* ── Dividers ──────────────────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: var(--border-default);
+  margin-block: var(--space-8);
+}
+
+/* ── Image handling ────────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Table base ─────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+}
+th {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--color-secondary);
+  color: var(--color-text);
+  border-bottom: var(--border-default);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+}
+td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+tr:nth-child(even) td {
+  background: var(--color-surface-alt);
+}
+tr:hover td {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* ── Visually hidden (clip + overflow hidden) ─────────────────────────── */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -365,91 +553,82 @@ hr {
   border: 0;
 }
 
-/* Several components (the nav toggle, Dotty's tip panel, the copy button) ship
-   `hidden` and are unhidden by script once the behaviour behind them exists.
-   Without this, a component whose own rule sets `display` would defeat the
-   attribute and render anyway. */
-[hidden] {
-  display: none !important;
+/* ── Prose ─────────────────────────────────────────────────────────────── */
+.prose p {
+  margin-bottom: var(--space-4);
+}
+.prose ul,
+.prose ol {
+  margin-bottom: var(--space-4);
+}
+.prose h2 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+.prose h3 {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   6. Reduced motion
-      accessibility.motion_reduction: panel-wipes become instant cuts, KAPOW!
-      animations collapse to static, offset-shadow hover suppressed.
-      §19.20: this removes MOTION only. No content, reward or feature is gated
-      on it anywhere in this site — see js/main.js `motionOff()`.
-   -------------------------------------------------------------------------- */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
-  }
+/* ── Quote / blockquote ─────────────────────────────────────────────────── */
+blockquote {
+  border-left: 6px solid var(--color-primary);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-block: var(--space-6);
 }
 
-/* --------------------------------------------------------------------------
-   7. Self-hosted brand typography.
-      Latin-subset WOFF2 from the shared pool (shared/assets/fonts, published
-      at /assets/fonts by tools/build.mjs). ONLY the weights fonts{} declares:
-      Bangers 400, Anton 400, Barlow Condensed 400+600, Barlow 600+700,
-      Share Tech Mono 400. The pool also holds Barlow Condensed 700/800/900 —
-      this kit does not declare them, and existence is not permission (§19.17).
-   -------------------------------------------------------------------------- */
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-@font-face {
-  font-family: 'Anton';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/anton-400-latin.woff2') format('woff2');
+/* ── Forms ─────────────────────────────────────────────────────────────── */
+input,
+textarea,
+select {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color 120ms,
+    box-shadow 120ms;
+  width: 100%;
 }
-@font-face {
-  font-family: 'Bangers';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/bangers-400-latin.woff2') format('woff2');
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-focus);
+  box-shadow: 3px 3px 0 var(--color-border);
+  outline: none;
 }
-@font-face {
-  font-family: 'Barlow';
-  font-style: normal;
+label {
+  font-family: var(--font-ui);
   font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-600-latin.woff2') format('woff2');
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-1);
 }
-@font-face {
-  font-family: 'Barlow';
-  font-style: normal;
+
+/* ── Skip link ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
   font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-700-latin.woff2') format('woff2');
+  text-decoration: none;
+  z-index: 9999;
+  border: var(--border-feature);
 }
-@font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-condensed-400-latin.woff2') format('woff2');
+.skip-link:focus {
+  top: var(--space-4);
 }
-@font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/barlow-condensed-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Share Tech Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/share-tech-mono-400-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

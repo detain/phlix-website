@@ -1,20 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="The Phlix plugin contract: LifecycleInterface, a versioned manifest schema, and a loader that picks up whatever you drop in. Start from phlix-plugin-example."
+      content="Extend Phlix with a versioned plugin contract. Implement LifecycleInterface, ship a manifest, drop the plugin in the directory — the loader picks it up."
     />
     <meta
       name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+      content="phlix plugins, phlix-plugin-example, LifecycleInterface, plugin manifest, PHP media server plugins"
     />
     <link rel="canonical" href="https://detain.github.io/phlix-website/neon-noir/plugins.html" />
-    <meta name="theme-color" content="#f5a623" />
-
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
     <meta
@@ -24,359 +22,292 @@
     <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="The Phlix plugin contract: LifecycleInterface, a versioned manifest schema, and a loader that picks up whatever you drop in. Start from phlix-plugin-example."
+      content="Extend Phlix with a versioned plugin contract. Drop in, the loader picks it up."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Phlix on void black: a neon-noir title card reading “Every Frame, a Mystery.” over the words SELF-HOSTED MEDIA SERVER, cyan halo at the upper left, one amber rule under the tagline."
-    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Plugins — Phlix" />
-    <meta
-      name="twitter:description"
-      content="The Phlix plugin contract: LifecycleInterface, a versioned manifest schema, and a loader that picks up whatever you drop in. Start from phlix-plugin-example."
-    />
+    <meta name="twitter:description" content="Extend Phlix with a versioned plugin contract." />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
-
-    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0A0C10" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="icon" href="img/favicon-16.png" sizes="16x16" type="image/png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180" />
-
-    <script src="js/boot.js"></script>
-
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="season-slot" hidden></div>
+    <div id="season-slot-2" hidden></div>
 
-    <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix" width="240" height="80" />
-        </a>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <span class="nav-toggle__bars" aria-hidden="true"></span>
-          Menu
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path
+          d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path
+          d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path
+          d="M3 12h18M3 6h18M3 18h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </symbol>
+    </svg>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home">Phlix</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html">The Case</a></li>
+            <li><a href="features.html" class="nav-primary">Evidence Files</a></li>
+            <li><a href="clients.html">The Network</a></li>
+            <li><a href="download.html" class="nav-primary">Get Access</a></li>
+            <li><a href="hub.html">Reach Anywhere</a></li>
+            <li><a href="about.html" class="nav-muted">Closed Cases</a></li>
+          </ul>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg aria-hidden="true"><use href="#i-menu" /></svg>
         </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li>
-            <a class="nav-menu__link" href="./"
-              >The Case<span class="nav-menu__gloss">Home</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="features.html"
-              >Evidence Files<span class="nav-menu__gloss">Features</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="clients.html"
-              >The Network<span class="nav-menu__gloss">Clients</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="download.html"
-              >Get Access<span class="nav-menu__gloss">Download</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="hub.html"
-              >Reach Anywhere<span class="nav-menu__gloss">Phlix Hub</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--muted" href="about.html"
-              >Closed Cases<span class="nav-menu__gloss">About &amp; FAQ</span></a
-            >
-          </li>
-        </ul>
-      </nav>
+      </div>
     </header>
 
-    <div data-season-slot></div>
-
-    <main id="main-content" tabindex="-1">
-      <section class="page-header">
-        <span class="page-header__blinds" aria-hidden="true"></span>
-        <div class="container">
-          <div class="page-header__inner">
-            <p class="t-serial">Evidence Files › Plugins</p>
-            <h1>Plugins</h1>
-            <p class="t-lead">
-              A versioned contract, a manifest, and a loader that picks up whatever you drop in.
-              This is the back of the evidence room — most visitors never need it.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="band band--navy" aria-labelledby="model-title">
-        <div class="container container--read">
-          <div class="section-head">
-            <p class="t-eyebrow">The contract</p>
-            <h2 id="model-title">The plugin model</h2>
-          </div>
-          <p class="t-lead">
-            LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
-            phlix-plugin-example.
+    <main id="main-content">
+      <section class="section section--dark" aria-labelledby="plugins-title">
+        <div class="container container--content">
+          <div class="section-label reveal">Plugin System</div>
+          <h1 id="plugins-title" class="section-title reveal">
+            A real contract. Not a suggestion.
+          </h1>
+          <p class="section-subtitle reveal">
+            Phlix ships with a versioned LifecycleInterface and manifest schema. Drop a plugin in
+            the plugins directory — the loader picks it up automatically.
           </p>
-          <div class="code-block code-block--quiet">
-            <div class="code-block__bar">
-              <span class="t-serial">plugin contract</span>
-            </div>
-            <pre><code>plugins/my-plugin/
-  plugin.json        # the versioned manifest
-  src/Plugin.php     # implements LifecycleInterface</code></pre>
-          </div>
-          <p class="t-typed">
-            The manifest is versioned on purpose: the loader refuses what it cannot understand
-            rather than guessing.
-          </p>
-        </div>
-      </section>
 
-      <section class="band" aria-labelledby="eco-title">
-        <div class="container">
-          <div class="section-head">
-            <p class="t-eyebrow">On the shelf</p>
-            <h2 id="eco-title">Ecosystem repositories</h2>
+          <!-- Contract overview -->
+          <div
+            class="reveal"
+            style="
+              margin-top: var(--space-8);
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
+              gap: var(--space-4);
+            "
+          >
+            <div class="card-evidence">
+              <p class="card-number">CONTRACT / 01</p>
+              <h2
+                style="
+                  font-family: var(--font-ui);
+                  font-size: 1rem;
+                  font-weight: 600;
+                  color: var(--color-text);
+                  margin: var(--space-3) 0 var(--space-2);
+                "
+              >
+                LifecycleInterface
+              </h2>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.875rem;
+                  color: var(--color-neutral);
+                  line-height: 1.65;
+                "
+              >
+                A versioned interface that every plugin must implement. Boot, activate, deactivate,
+                shutdown — the server drives these states.
+              </p>
+            </div>
+            <div class="card-evidence">
+              <p class="card-number">CONTRACT / 02</p>
+              <h2
+                style="
+                  font-family: var(--font-ui);
+                  font-size: 1rem;
+                  font-weight: 600;
+                  color: var(--color-text);
+                  margin: var(--space-3) 0 var(--space-2);
+                "
+              >
+                Manifest Schema
+              </h2>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.875rem;
+                  color: var(--color-neutral);
+                  line-height: 1.65;
+                "
+              >
+                A JSON manifest declares the plugin's name, version, required interfaces, and any
+                service bindings. The loader validates it against the schema.
+              </p>
+            </div>
+            <div class="card-evidence">
+              <p class="card-number">CONTRACT / 03</p>
+              <h2
+                style="
+                  font-family: var(--font-ui);
+                  font-size: 1rem;
+                  font-weight: 600;
+                  color: var(--color-text);
+                  margin: var(--space-3) 0 var(--space-2);
+                "
+              >
+                Auto-discovery
+              </h2>
+              <p
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.875rem;
+                  color: var(--color-neutral);
+                  line-height: 1.65;
+                "
+              >
+                Place a plugin directory in <code>plugins/</code>. On restart, Phlix scans the
+                directory, validates the manifest, and registers the plugin automatically.
+              </p>
+            </div>
           </div>
-          <div class="toolkit">
-            <div class="toolkit__row">
-              <p class="toolkit__name">
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >phlix-server</a
-                >
-              </p>
-              <p class="toolkit__what">The media server itself — PHP 8.3+, Workerman 5.x</p>
-            </div>
-            <div class="toolkit__row">
-              <p class="toolkit__name">
-                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer"
-                  >phlix-hub</a
-                >
-              </p>
-              <p class="toolkit__what">Cloud directory + reverse-tunnel relay</p>
-            </div>
-            <div class="toolkit__row">
-              <p class="toolkit__name">
-                <a href="https://github.com/detain/phlix-shared" rel="noopener noreferrer"
-                  >phlix-shared</a
-                >
-              </p>
-              <p class="toolkit__what">Shared interfaces, DTOs, event types — Composer package</p>
-            </div>
-            <div class="toolkit__row">
-              <p class="toolkit__name">
-                <a href="https://github.com/detain/phlix-docs" rel="noopener noreferrer"
-                  >phlix-docs</a
-                >
-              </p>
-              <p class="toolkit__what">End-user, developer, and hub-admin docs (VitePress)</p>
-            </div>
-            <div class="toolkit__row">
-              <p class="toolkit__name">
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >phlix-plugin-example</a
-                >
-              </p>
-              <p class="toolkit__what">Reference metadata-provider plugin</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="band band--navy" aria-labelledby="own-title">
-        <div class="container container--read">
-          <div class="section-head">
-            <p class="t-eyebrow">Your own tool</p>
-            <h2 id="own-title">Write your own</h2>
-          </div>
-          <p class="t-lead">
-            Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. The
-            reference plugin is a metadata provider and the smallest working starter there is.
-          </p>
-          <p>
+          <!-- Reference link -->
+          <div class="reveal" style="margin-top: var(--space-8)">
             <a
-              class="btn btn-secondary"
               href="https://github.com/detain/phlix-plugin-example"
+              class="btn btn-secondary"
+              target="_blank"
               rel="noopener noreferrer"
-              >Read phlix-plugin-example</a
             >
-          </p>
-        </div>
-      </section>
+              View phlix-plugin-example
+              <svg
+                aria-hidden="true"
+                style="width: 14px; height: 14px; display: inline; margin-left: 4px"
+              >
+                <use href="#i-external" />
+              </svg>
+            </a>
+          </div>
 
-      <section class="band cta-banner" aria-labelledby="cta-plugins">
-        <div class="container">
-          <h2 class="cta-banner__title" id="cta-plugins">
-            Nothing to extend yet? Start with the server.
-          </h2>
-          <p class="cta-banner__sub">
-            Get Phlix running first. The plugin directory is waiting inside it.
-          </p>
-          <p><a class="btn btn-primary btn--lg" href="download.html">Unlock the Archive</a></p>
+          <div class="cta-banner reveal" style="margin-top: var(--space-8)">
+            <div class="cta-banner-text">
+              <h2>Ready to build the archive?</h2>
+              <p>
+                Install the server and open the plugins directory. Everything else is in the docs.
+              </p>
+            </div>
+            <div class="cta-banner-actions">
+              <a href="download.html" class="btn btn-primary">Get Access</a>
+              <a
+                href="https://detain.github.io/phlix-docs"
+                class="btn btn-ghost"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Documentation
+                <svg
+                  aria-hidden="true"
+                  style="width: 12px; height: 12px; display: inline; margin-left: 4px"
+                >
+                  <use href="#i-external" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <div class="egg-note" role="status" hidden>
-      <span class="egg-note__body"></span>
-      <span class="egg-note__exit">Press Esc to clear.</span>
-    </div>
-
-    <footer class="site-footer" role="contentinfo">
-      <div class="container">
+    <footer class="site-footer">
+      <div class="footer-inner">
         <p class="footer-tagline">The city's media, yours to command.</p>
-
-        <div class="footer-index">
-          <h2 class="visually-hidden">Case index</h2>
-          <ul class="footer-index__list" role="list">
-            <li><a href="./">The Case</a></li>
-            <li><a href="features.html">Evidence Files</a></li>
-            <li><a href="clients.html">The Network</a></li>
-            <li><a href="download.html">Get Access</a></li>
-            <li><a href="hub.html">Reach Anywhere</a></li>
-            <li><a href="about.html">Closed Cases</a></li>
-            <li>
-              <a href="plugins.html"
-                >Plugins<span class="footer-index__note">Filed under Evidence Files</span></a
-              >
-            </li>
-            <li>
-              <a href="docs.html"
-                >Docs<span class="footer-index__note">Technical reference</span></a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Product</h3>
-            <ul class="footer-nav__list" role="list">
-              <li><a class="footer-nav__link" href="features.html">Features</a></li>
-              <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
-              <li><a class="footer-nav__link" href="download.html">Download</a></li>
-              <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Developers</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs"
-                  rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server"
-                  rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-plugin-example"
-                  rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs/reference/api.html"
-                  rel="noopener noreferrer"
-                  >API reference</a
-                >
+                <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
               </li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Project</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain"
-                  rel="noopener noreferrer"
-                  >GitHub org</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/issues"
-                  rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-hub"
-                  rel="noopener noreferrer"
-                  >Hub</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
+                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   >License (MPL-2.0)</a
                 >
               </li>
             </ul>
           </div>
-        </nav>
-
-        <div class="footer-utility">
-          <button class="intensity-toggle" type="button" aria-pressed="false">
-            <span class="intensity-toggle__track" aria-hidden="true"></span>
-            Case closed (calm mode)
-            <span class="intensity-toggle__state">Neon on</span>
-          </button>
         </div>
-
-        <p class="footer-copy">
-          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins
-          and clients are MIT.
-        </p>
+        <div class="footer-bottom">
+          <p class="footer-legal">
+            &copy; 2026 Joe Huss.
+            <a
+              href="https://www.mozilla.org/en-US/MPL/2.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >MPL-2.0</a
+            >
+          </p>
+          <div class="footer-utility">
+            <button
+              class="intensity-toggle"
+              aria-label="Toggle case-closed calm mode"
+              aria-pressed="false"
+            >
+              <span class="toggle-track" aria-hidden="true"
+                ><span class="toggle-thumb"></span
+              ></span>
+              <span class="toggle-label">Case closed</span>
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
-    <script src="js/experience.js" defer></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

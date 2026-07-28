@@ -1,412 +1,435 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Wilderness Trail — Find Your Trail.</title>
-    <meta
-      name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server, roku, samsung tv, syncplay, live tv, dvr, dlna"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wilderness Trail — Find Your Trail. Phlix.</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Find Your Trail. Press play and step into your library like a wilderness waiting to be explored. Self-host on your own hardware — no subscriptions, no tracking."
     />
+    <meta name="keywords" content="phlix, media server, self-hosted, wilderness, streaming, SyncPlay" />
     <link rel="canonical" href="https://detain.github.io/phlix-website/wilderness-trail/" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Wilderness Trail — Find Your Trail." />
-    <meta
-      property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      property="og:image"
-      content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png"
-    />
-    <meta property="og:url" content="https://detain.github.io/phlix-website/wilderness-trail/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
-
-    <!-- Twitter Card -->
+    <meta property="og:url" content="https://detain.github.io/phlix-website/wilderness-trail/" />
+    <meta property="og:title" content="Wilderness Trail — Find Your Trail. Phlix." />
+    <meta
+      property="og:description"
+      content="Press play and step into your library like a wilderness waiting to be explored. Self-host on your own hardware."
+    />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Wilderness Trail — Find Your Trail." />
+    <meta name="twitter:title" content="Wilderness Trail — Find Your Trail. Phlix." />
     <meta
       name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Press play and step into your library like a wilderness waiting to be explored."
     />
-    <meta
-      name="twitter:image"
-      content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png"
-    />
-    <meta name="twitter:creator" content="@detain" />
-
-    <!-- Theme color -->
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png" />
     <meta name="theme-color" content="#2D5A27" />
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
-
-    <!-- Styles -->
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
-
-    <!-- JSON-LD -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Phlix",
-        "description": "Self-hostable PHP media server that streams to Roku, Samsung TV, Windows, mobile, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
+        "description": "Self-hosted PHP media server that streams to Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub.",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "PHP 8.3+",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "license": "https://www.mozilla.org/en-US/MPL/2.0/"
       }
     </script>
   </head>
-  <body>
+  <body data-page="index">
+
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
+    <!-- Seasonal banner slot -->
+    <div id="season-slot" hidden>
+      <div class="seasonal-banner" id="season-banner-text"></div>
+    </div>
+
+    <!-- ── Site Header ─────────────────────────────────────────────────── -->
     <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="140" height="40" />
+      <div class="site-header__inner">
+        <a class="nav-logo logo-easter" href="./" aria-label="Wilderness Trail — home">
+          <img class="nav-logo__img" src="img/logo.svg" alt="Wilderness Trail" width="36" height="36" />
+          <span class="nav-logo__wordmark">Wilderness Trail</span>
         </a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./" aria-current="page">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html">Hub</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
+
+        <nav aria-label="Primary navigation">
+          <ul class="nav-menu" id="nav-menu" role="list">
+            <li><a class="nav-link nav-link--default" href="./" aria-current="page">Trailhead</a></li>
+            <li><a class="nav-link nav-link--primary" href="features.html">Waypoints</a></li>
+            <li><a class="nav-link nav-link--default" href="clients.html">Outposts</a></li>
+            <li><a class="nav-link nav-link--primary" href="download.html">Set Camp</a></li>
+            <li><a class="nav-link nav-link--default" href="hub.html">Relay Station</a></li>
+            <li><a class="nav-link nav-link--muted" href="about.html">Field Notes</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <!-- Hero — full-bleed Alpenglow with NPS poster spirit -->
-      <section class="hero" aria-labelledby="hero-heading">
-        <div class="hero-inner">
-          <p class="hero-eyebrow">Self-hosted media server</p>
-          <h1 id="hero-heading">Your media. Your library. Your Phlix.</h1>
-          <p class="hero-sub">
-            An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop,
-            phone, and any DLNA device &mdash; with SyncPlay, Live TV, transcoding, and a hub that
-            follows you anywhere.
+
+      <!-- ── Section 1: trailhead-call — Hero ─────────────────────────── -->
+      <section id="trailhead-call" class="hero" aria-labelledby="hero-heading">
+        <div class="hero__bg" aria-hidden="true"></div>
+        <div class="hero__topo" aria-hidden="true"></div>
+        <div class="hero__ridgeline" aria-hidden="true"></div>
+
+        <div class="hero__content">
+          <div class="hero__text">
+            <span class="eyebrow">Adventure begins here</span>
+            <h1 id="hero-heading">Find Your Trail.</h1>
+            <p class="subheadline">Press play and step into your library like a wilderness waiting to be explored. Scout's got the map, the fire's burning, and the summit's always worth it.</p>
+            <div class="hero__ctas">
+              <a href="download.html" class="btn btn--primary btn--lg">Lace Up and Begin</a>
+              <a href="about.html#faq" class="btn btn--ghost-light btn--lg">Scout's Field Notes</a>
+            </div>
+          </div>
+          <div class="hero__scout" aria-hidden="true">
+            <!-- Scout: ranger pointing right toward peaks -->
+            <svg viewBox="0 0 120 180" width="120" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scout the ranger mascot">
+              <!-- Body -->
+              <ellipse cx="60" cy="165" rx="22" ry="8" fill="#1A3318" opacity="0.3"/>
+              <rect x="46" y="100" width="28" height="45" rx="6" fill="#2D5A27"/>
+              <!-- Hat -->
+              <ellipse cx="60" cy="88" rx="24" ry="8" fill="#1A3318"/>
+              <rect x="40" y="62" width="40" height="28" rx="4" fill="#2D5A27"/>
+              <ellipse cx="60" cy="62" rx="20" ry="7" fill="#2D5A27"/>
+              <!-- Head -->
+              <circle cx="60" cy="48" r="16" fill="#D8C89A"/>
+              <!-- Eyes -->
+              <circle cx="55" cy="45" r="2" fill="#1A3318"/>
+              <circle cx="65" cy="45" r="2" fill="#1A3318"/>
+              <!-- Smile -->
+              <path d="M54 52 Q60 57 66 52" stroke="#1A3318" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Right arm pointing -->
+              <path d="M74 108 Q85 100 95 95" stroke="#D8C89A" stroke-width="8" fill="none" stroke-linecap="round"/>
+              <path d="M74 108 Q85 100 95 95" stroke="#1A3318" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.3"/>
+              <!-- Left arm -->
+              <path d="M46 108 Q36 115 32 125" stroke="#D8C89A" stroke-width="8" fill="none" stroke-linecap="round"/>
+              <path d="M46 108 Q36 115 32 125" stroke="#1A3318" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.3"/>
+              <!-- Campfire (small, bottom right) -->
+              <g transform="translate(90, 150)">
+                <ellipse cx="0" cy="8" rx="10" ry="4" fill="#7A5C3A" opacity="0.4"/>
+                <path d="M-5 8 Q-8 0 0 -10 Q4 -4 5 8" fill="#D4581A" class="campfire-pulse"/>
+                <path d="M-3 8 Q-5 2 0 -5 Q3 -1 3 8" fill="#C87A1A" opacity="0.8"/>
+                <path d="M-1 8 Q0 3 0 -2" stroke="#F0E6CE" stroke-width="0.75" opacity="0.6"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Section 2: key-waypoints — Feature Waypoints ─────────────── -->
+      <section id="key-waypoints" class="section section--lg features-overview" aria-labelledby="waypoints-heading">
+        <div class="container">
+          <div class="section__header">
+            <span class="section__eyebrow">Waypoints</span>
+            <h2 id="waypoints-heading" class="section__title">The trail has two best summits.</h2>
+            <p class="section__subtitle">Everything Phlix does is built around these two peaks. Everything else is optional terrain.</p>
+          </div>
+
+          <div class="feature-grid">
+            <div class="card card--waypoint waypoint fade-in-up" style="animation-delay:0.1s">
+              <div class="waypoint__peak">
+                <svg class="waypoint__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="6" width="5" height="14" rx="1"/>
+                  <rect x="9.5" y="4" width="5" height="16" rx="1"/>
+                  <path d="M16.6 7.4l3.7 1-2.8 11.1-3.7-1"/>
+                </svg>
+              </div>
+              <h3 class="waypoint__title">Your Library</h3>
+              <p class="waypoint__body">Your entire collection becomes the wilderness — terrain worth exploring. Folder-watcher hashes mtimes, scanner parses S01E02 titles, and metadata hydrates automatically.</p>
+            </div>
+
+            <div class="card card--waypoint waypoint fade-in-up" style="animation-delay:0.25s">
+              <div class="waypoint__peak">
+                <svg class="waypoint__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="2.5" y="5" width="8" height="7" rx="2"/>
+                  <rect x="13.5" y="12" width="8" height="7" rx="2"/>
+                  <path d="M10.5 8.5l3 2-3 2"/>
+                  <path d="M17.5 15.5l-3-2 3-2"/>
+                </svg>
+              </div>
+              <h3 class="waypoint__title">SyncPlay</h3>
+              <p class="waypoint__body">Expedition together — every device stays locked to the same frame, no matter the distance. Play, pause, seek: everyone moves together, automatically.</p>
+            </div>
+          </div>
+
+          <div class="topo-divider">
+            <svg class="topo-divider__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 2L8 8H4l4 6-4 6h4l4 6 4-6h4l-4-6 4-6h-4L12 2z"/>
+            </svg>
+          </div>
+
+          <p style="font-family:var(--font-body);color:var(--color-text-muted);font-size:var(--text-sm);letter-spacing:0.03em;text-align:center">
+            Also on the trail: Transcoding · Auth + Profiles · Live TV + DVR · DLNA · Plugin System · Hub Relay
           </p>
-          <div class="hero-cta">
-            <a href="download.html" class="btn btn-primary btn-large">Get Phlix</a>
-            <a
-              href="https://detain.github.io/phlix-docs"
-              class="btn btn-secondary btn-large"
-              rel="noopener noreferrer"
-              >Read the docs</a
-            >
+        </div>
+      </section>
+
+      <!-- ── Section 3: why-this-trail — Trail Blazes ─────────────────── -->
+      <section id="why-this-trail" class="section" aria-labelledby="blazes-heading">
+        <div class="container">
+          <div class="section__header">
+            <span class="section__eyebrow">Why this trail?</span>
+            <h2 id="blazes-heading" class="section__title">Seven reasons to lace up.</h2>
           </div>
-          <p class="hero-tagline" aria-hidden="true">Find Your Trail.</p>
-        </div>
-      </section>
 
-      <!-- Pitch — Why Phlix? -->
-      <section class="pitch" aria-labelledby="pitch-heading">
-        <div class="pitch-inner">
-          <h2 id="pitch-heading">Why Phlix?</h2>
-          <ul class="pitch-bullets" role="list">
-            <li>
-              100% self-hostable &mdash; your library never leaves your hardware unless you say so
-            </li>
-            <li>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</li>
-            <li>
-              Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync
-            </li>
-            <li>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</li>
-            <li>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</li>
-            <li>Live TV with DVR + EPG guide integration</li>
-            <li>Plugin system with a versioned manifest contract</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Features overview -->
-      <section class="features-overview" aria-labelledby="features-overview-heading">
-        <div class="features-overview-inner">
-          <h2 id="features-overview-heading">Everything your library needs</h2>
-          <div class="feature-cards">
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M4 6h16M4 12h16M4 18h12" />
-                </svg>
-              </div>
-              <h3>Library that organizes itself</h3>
-              <p>
-                Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository
-                hydrates metadata_json. Add a file, see it appear.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 8v4l3 3" />
-                </svg>
-              </div>
-              <h3>SyncPlay across the room or across the country</h3>
-              <p>
-                Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame.
-                Play, pause, seek &mdash; everyone moves together.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
-                  />
-                </svg>
-              </div>
-              <h3>Transcoding that picks the right quality</h3>
-              <p>
-                QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28
-                libx264/libx265 with HLS master and variant playlists.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-              </div>
-              <h3>Multi-user, multi-profile, parental controls</h3>
-              <p>
-                JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user,
-                4- or 6-digit PINs, rating filter from G to NC-17.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M4.93 4.93l14.14 14.14M6.34 17.66l11.31 11.31M2 12l4-4 4 4M12 2l4 4-4 4M22 12l-4 4-4-4M12 22v-4"
-                  />
-                </svg>
-              </div>
-              <h3>Live TV with DVR + EPG</h3>
-              <p>
-                ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide
-                that doesn't make you click through menus.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M7 16.5c3-3 7.5-3.5 10.5-1.5M9 9.5c3.5-3.5 9-3.5 12.5 0M12 5c3 0 5.5 2.5 5.5 5.5S15 16 12 16 6.5 13.5 6.5 10.5 9 5 12 5z"
-                  />
-                </svg>
-              </div>
-              <h3>DLNA for the devices you already own</h3>
-              <p>
-                ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't
-                need a new app.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 01-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 10-3.214 3.214c.446.166.855.497.925.968a.979.979 0 01-.276.837l-1.61 1.61a2.404 2.404 0 01-1.705.707 2.402 2.402 0 01-1.704-.706l-1.568-1.568a1.026 1.026 0 00-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 11-3.214-3.214c.464-.18.894-.527.967-1.02a1.026 1.026 0 00-.289-.877l-1.568-1.568A2.402 2.402 0 013.455 10.5c0-.617.236-1.234.706-1.704L5.773 7.185a.98.98 0 01.837-.276c.47.07.802.48.968.925a2.501 2.501 0 113.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 01.276-.837l1.61-1.61a2.404 2.404 0 011.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 013.214 3.214c-.464.18-.894.527-.967 1.02z"
-                  />
-                </svg>
-              </div>
-              <h3>Plugin system with a real contract</h3>
-              <p>
-                LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See
-                phlix-plugin-example.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="3" />
-                  <path
-                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
-                  />
-                </svg>
-              </div>
-              <h3>Phlix Hub &mdash; reach any of your servers from anywhere</h3>
-              <p>
-                Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
-                hub.
-              </p>
-            </article>
+          <div class="blaze-list">
+            <div class="blaze fade-in-up">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M12 22V12M12 12C12 12 7 9 7 5a5 5 0 0 1 10 0c0 4-5 7-5 7z"/>
+              </svg>
+              <p class="blaze__text">100% self-hostable — your library never leaves your hardware unless you say so.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.05s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2.5" y="5" width="8" height="7" rx="2"/><rect x="13.5" y="12" width="8" height="7" rx="2"/>
+                <path d="M10.5 8.5l3 2-3 2M17.5 15.5l-3-2 3-2"/>
+              </svg>
+              <p class="blaze__text">Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.1s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/>
+              </svg>
+              <p class="blaze__text">Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.15s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polygon points="5,3 19,12 5,21"/>
+                <line x1="2" y1="19" x2="22" y2="5"/>
+              </svg>
+              <p class="blaze__text">Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.2s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <path d="M8 11h2M14 11h2M6 19l3-3 2 2 4-4 3 3"/>
+              </svg>
+              <p class="blaze__text">Live TV with DVR and EPG guide integration.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.25s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6L12 2z"/>
+              </svg>
+              <p class="blaze__text">Plugin system with a versioned manifest contract.</p>
+            </div>
+            <div class="blaze fade-in-up" style="animation-delay:0.3s">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+              </svg>
+              <p class="blaze__text">Hub relay for reaching your server from anywhere — self-hostable, or use the public relay.</p>
+            </div>
           </div>
-          <p class="features-more"><a href="features.html">See all features &rarr;</a></p>
         </div>
       </section>
 
-      <!-- CTA banner -->
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">Ready to blaze your trail?</h2>
-          <a href="download.html" class="btn btn-secondary btn-large">Download Phlix</a>
+      <!-- ── Section 4: trail-proven — Ranger Placard ─────────────────── -->
+      <section id="trail-proven" class="section topo-wash" aria-labelledby="proof-heading">
+        <div class="container">
+          <div class="proof-placard">
+            <p class="proof-placard__title">Proven trails, honest ranger</p>
+            <div class="proof-grid">
+              <div class="proof-stat">
+                <span class="proof-stat__number">5</span>
+                <span class="proof-stat__label">Native outposts</span>
+              </div>
+              <div class="proof-stat">
+                <span class="proof-stat__number">2</span>
+                <span class="proof-stat__label">SyncPlay modes</span>
+              </div>
+              <div class="proof-stat">
+                <span class="proof-stat__number">3</span>
+                <span class="proof-stat__label">Transcode quality tiers</span>
+              </div>
+              <div class="proof-stat">
+                <span class="proof-stat__number">5</span>
+                <span class="proof-stat__label">User profiles</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:var(--space-6);flex-wrap:wrap;margin-top:var(--space-6);align-items:center">
+            <a href="https://github.com/detain/phlix-server" class="proof-link" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              phlix-server
+            </a>
+            <a href="https://github.com/detain/phlix-server/stargazers" class="proof-link" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+              </svg>
+              Live star count
+            </a>
+            <a href="https://github.com/detain/phlix-server/issues" class="proof-link" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Open issues
+            </a>
+          </div>
+
+          <blockquote style="margin-top:var(--space-8);padding:var(--space-5) var(--space-6);border-left:3px solid var(--color-tertiary);background:var(--color-surface);border-radius:0 var(--radius-md) var(--radius-md) 0;font-family:var(--font-body);font-size:var(--text-base);font-style:italic;color:var(--color-text-muted);max-width:56ch;line-height:1.7">
+            "The first ranger station at the trailhead opened with a hand-painted wooden sign, a pot of coffee, and a topographic map pinned above the door."
+          </blockquote>
         </div>
       </section>
+
+      <!-- ── Section 5: start-hiking — CTA Ladder ─────────────────────── -->
+      <section id="start-hiking" class="section section--lg" aria-labelledby="cta-heading">
+        <div class="container" style="max-width:720px">
+          <div class="section__header">
+            <span class="section__eyebrow">The fire's ready</span>
+            <h2 id="cta-heading" class="section__title">Start your expedition.</h2>
+          </div>
+
+          <div class="cta-ladder" style="margin-bottom:var(--space-8)">
+            <div class="cta-rung">
+              <span class="cta-rung__step">1</span>
+              <div class="cta-rung__body">
+                <span class="cta-rung__label">Lace Up and Begin</span>
+                <a href="download.html" class="btn btn--primary">Set Camp</a>
+              </div>
+            </div>
+            <div class="cta-rung">
+              <span class="cta-rung__step">2</span>
+              <div class="cta-rung__body">
+                <span class="cta-rung__label">Choose Your Outpost</span>
+                <a href="clients.html" class="btn btn--ghost">Browse Outposts</a>
+              </div>
+            </div>
+            <div class="cta-rung">
+              <span class="cta-rung__step">3</span>
+              <div class="cta-rung__body">
+                <span class="cta-rung__label">Set Camp (Install)</span>
+                <a href="download.html#server" class="btn btn--secondary">Install the Server</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-block">
+            <p class="install-block__label">One line, on a fresh Ubuntu or Debian host</p>
+            <div class="install-command">
+              <code id="install-cmd">curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code>
+              <button class="copy-btn" aria-label="Copy install command">Copy</button>
+            </div>
+            <p class="install-note">Installs PHP 8.3+, MySQL, ffmpeg, creates a dedicated phlix system user, sets up a MySQL database, runs migrations, and starts a systemd service with an auto-renewing Let's Encrypt certificate via HAProxy. Prompts for install path, database credentials, and hostname when run in a terminal; runs fully unattended with <code>-y</code>.</p>
+          </div>
+        </div>
+      </section>
+
     </main>
 
+    <!-- ── Site Footer ─────────────────────────────────────────────────── -->
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-col">
+      <div class="site-footer__inner">
+        <div class="site-footer__grid">
+          <div class="site-footer__col">
             <h3>Product</h3>
-            <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
+            <ul>
+              <li><a href="features.html">Waypoints</a></li>
+              <li><a href="clients.html">Outposts</a></li>
+              <li><a href="download.html">Set Camp</a></li>
+              <li><a href="plugins.html">Tools</a></li>
             </ul>
           </div>
-          <div class="footer-col">
+          <div class="site-footer__col">
             <h3>Developers</h3>
-            <ul role="list">
-              <li>
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
-                  >API reference</a
-                >
-              </li>
+            <ul>
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+              <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
             </ul>
           </div>
-          <div class="footer-col">
+          <div class="site-footer__col">
             <h3>Project</h3>
-            <ul role="list">
-              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
-                  >License (MPL-2.0)</a
-                >
-              </li>
+            <ul>
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+              <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
             </ul>
           </div>
-        </nav>
-        <p class="footer-copy">
-          &copy; 2026 Phlix &mdash; Phlix Server and the Hub are MPL-2.0; the shared libraries,
-          plugins and clients are MIT.
-        </p>
+        </div>
+
+        <div class="site-footer__bottom">
+          <div>
+            <p class="site-footer__tagline">Adventure never closes.</p>
+            <p class="site-footer__license">
+              Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially.
+              If you modify a Phlix file, that file stays open; anything you add alongside it is yours.
+              The shared libraries, plugins, and clients are MIT so you can build on them freely.
+            </p>
+          </div>
+          <div class="site-footer__utils">
+            <label class="intensity-toggle" aria-label="Dim the Campfire">
+              <input type="checkbox" id="intensity-toggle" />
+              <span class="intensity-toggle__track"></span>
+              <span class="intensity-toggle__thumb"></span>
+              <span>Dim the fire</span>
+            </label>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
+    <!-- ── Mascot: Scout ───────────────────────────────────────────────── -->
+    <div class="mascot" aria-hidden="true" id="mascot-scout">
+      <div class="mascot__tip" role="status"></div>
+      <div class="mascot__figure">
+        <!-- Scout: ranger figure -->
+        <svg viewBox="0 0 72 100" width="72" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scout the ranger">
+          <!-- Shadow -->
+          <ellipse cx="36" cy="96" rx="18" ry="5" fill="#1A3318" opacity="0.25"/>
+          <!-- Body -->
+          <rect x="24" y="52" width="24" height="36" rx="5" fill="#2D5A27"/>
+          <!-- Hat brim -->
+          <ellipse cx="36" cy="44" rx="20" ry="6" fill="#1A3318"/>
+          <!-- Hat crown -->
+          <rect x="18" y="26" width="36" height="20" rx="4" fill="#2D5A27"/>
+          <!-- Hat top -->
+          <ellipse cx="36" cy="26" rx="18" ry="6" fill="#2D5A27"/>
+          <!-- Head -->
+          <circle cx="36" cy="16" r="13" fill="#D8C89A"/>
+          <!-- Eyes -->
+          <circle cx="32" cy="14" r="2" fill="#1A3318"/>
+          <circle cx="40" cy="14" r="2" fill="#1A3318"/>
+          <!-- Smile -->
+          <path d="M31 20 Q36 24 41 20" stroke="#1A3318" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Left arm with tin mug -->
+          <path d="M24 55 Q14 60 10 68" stroke="#D8C89A" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <ellipse cx="9" cy="70" rx="5" ry="4" fill="#7A5C3A"/>
+          <!-- Right arm -->
+          <path d="M48 55 Q56 52 60 48" stroke="#D8C89A" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <button class="mascot__close" aria-label="Dismiss Scout">✕</button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
   </body>
 </html>

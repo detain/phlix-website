@@ -1,488 +1,522 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The Network — Phlix Clients</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Network — Phlix</title>
     <meta
       name="description"
-      content="Every screen in the house on one wire — native Phlix clients for Roku, Samsung Tizen, Windows and mobile, plus any DLNA device you already own."
+      content="Five access points into the archive — Roku, Samsung Tizen, Windows, Mobile, and any DLNA device. Each a node in the network, all pointing back to your server."
     />
     <meta
       name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+      content="phlix, roku client, samsung tv, windows app, mobile app, dlna, media server clients"
     />
     <link rel="canonical" href="https://detain.github.io/phlix-website/neon-noir/clients.html" />
-    <meta name="theme-color" content="#f5a623" />
-
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
     <meta
       property="og:url"
       content="https://detain.github.io/phlix-website/neon-noir/clients.html"
     />
-    <meta property="og:title" content="The Network — Phlix Clients" />
+    <meta property="og:title" content="The Network — Phlix" />
     <meta
       property="og:description"
-      content="Every screen in the house on one wire — native Phlix clients for Roku, Samsung Tizen, Windows and mobile, plus any DLNA device you already own."
+      content="Five access points into the archive — Roku, Samsung Tizen, Windows, Mobile, and any DLNA device."
     />
     <meta
       property="og:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Phlix on void black: a neon-noir title card reading “Every Frame, a Mystery.” over the words SELF-HOSTED MEDIA SERVER, cyan halo at the upper left, one amber rule under the tagline."
-    />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="The Network — Phlix Clients" />
+    <meta name="twitter:title" content="The Network — Phlix" />
     <meta
       name="twitter:description"
-      content="Every screen in the house on one wire — native Phlix clients for Roku, Samsung Tizen, Windows and mobile, plus any DLNA device you already own."
+      content="Five access points into the archive — Roku, Samsung Tizen, Windows, Mobile, and any DLNA device."
     />
     <meta
       name="twitter:image"
       content="https://detain.github.io/phlix-website/neon-noir/img/og.png"
     />
-    <meta name="twitter:creator" content="@detain" />
-
-    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0A0C10" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="icon" href="img/favicon-16.png" sizes="16x16" type="image/png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180" />
-
-    <script src="js/boot.js"></script>
-
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="season-slot" hidden></div>
+    <div id="season-slot-2" hidden></div>
 
-    <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix" width="240" height="80" />
-        </a>
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <span class="nav-toggle__bars" aria-hidden="true"></span>
-          Menu
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-library" viewBox="0 0 24 24">
+        <rect
+          x="3"
+          y="3"
+          width="7"
+          height="18"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <rect
+          x="14"
+          y="3"
+          width="7"
+          height="11"
+          rx="1"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <path d="M6 8h4M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="i-syncplay" viewBox="0 0 24 24">
+        <path
+          d="M9 12l-4 4 4 4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M15 4v4M15 16v4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <circle cx="9" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="15" cy="8" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="15" cy="16" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-transcode" viewBox="0 0 24 24">
+        <path
+          d="M12 3v18M3 12h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path
+          d="M7 7l10 10M17 7L7 17"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          opacity="0.5"
+        />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path
+          d="M12 3l8 3v6c0 4.4-3.4 8.5-8 10C7.4 20.5 4 16.4 4 12V6l8-3z"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M9 12l2 2 4-4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="i-antenna" viewBox="0 0 24 24">
+        <path
+          d="M4 12h16M12 4v16"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-broadcast" viewBox="0 0 24 24">
+        <path
+          d="M12 12m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0"
+          stroke="currentColor"
+          stroke-width="1.75"
+          fill="none"
+        />
+        <path
+          d="M8.5 8.5c2.5-2.5 6.5-2.5 9 0s2.5 6.5 0 9"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path
+          d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </symbol>
+      <symbol id="i-hub" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75" fill="none" />
+        <circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+        <path
+          d="M7 6.5L9.5 10M16.5 10L19 6.5M7 17.5L9.5 14M16.5 14L19 17.5"
+          stroke="currentColor"
+          stroke-width="1.25"
+          stroke-linecap="round"
+          opacity="0.6"
+        />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path
+          d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path
+          d="M3 12h18M3 6h18M3 18h18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path
+          d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+      </symbol>
+    </svg>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home">Phlix</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html">The Case</a></li>
+            <li><a href="features.html" class="nav-primary">Evidence Files</a></li>
+            <li><a href="clients.html" aria-current="page">The Network</a></li>
+            <li><a href="download.html" class="nav-primary">Get Access</a></li>
+            <li><a href="hub.html">Reach Anywhere</a></li>
+            <li><a href="about.html" class="nav-muted">Closed Cases</a></li>
+          </ul>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg aria-hidden="true"><use href="#i-menu" /></svg>
         </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li>
-            <a class="nav-menu__link" href="./"
-              >The Case<span class="nav-menu__gloss">Home</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="features.html"
-              >Evidence Files<span class="nav-menu__gloss">Features</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="clients.html" aria-current="page"
-              >The Network<span class="nav-menu__gloss">Clients</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--primary" href="download.html"
-              >Get Access<span class="nav-menu__gloss">Download</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link" href="hub.html"
-              >Reach Anywhere<span class="nav-menu__gloss">Phlix Hub</span></a
-            >
-          </li>
-          <li>
-            <a class="nav-menu__link nav-menu__link--muted" href="about.html"
-              >Closed Cases<span class="nav-menu__gloss">About &amp; FAQ</span></a
-            >
-          </li>
-        </ul>
-      </nav>
+      </div>
     </header>
 
-    <div data-season-slot></div>
-
-    <main id="main-content" tabindex="-1">
-      <section class="page-header">
-        <span class="page-header__blinds" aria-hidden="true"></span>
+    <main id="main-content">
+      <section class="section section--dark" aria-labelledby="clients-title">
         <div class="container">
-          <div class="page-header__inner">
-            <p class="t-eyebrow">The network · five nodes</p>
-            <h1>The Network</h1>
-            <p class="t-lead">
-              Every screen in the house is a node on the same wire. Four native clients, plus the
-              set you already own. One archive behind all of them.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="band" id="network" aria-labelledby="network-title">
-        <div class="container">
-          <div class="section-head">
-            <p class="t-eyebrow">Trunk line</p>
-            <h2 id="network-title">Five ways into the archive</h2>
-            <p class="t-typed">
-              TRUNK · phlix-server — every node below taps the same library, the same accounts, the
-              same playback position.
-            </p>
-          </div>
-          <div class="cut">
-            <ol class="netmap client-cards" role="list">
-              <li class="netmap__node">
-                <article class="client-card">
-                  <div class="evidence__head">
-                    <svg
-                      class="card__icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="square"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="4" width="18" height="12" />
-                      <line x1="8" y1="20" x2="16" y2="20" />
-                      <line x1="12" y1="16" x2="12" y2="20" />
-                    </svg>
-                    <h3 class="feature-card__title">Roku</h3>
-                    <span class="client-status status-stable">Stable</span>
-                  </div>
-                  <p class="t-muted">Native Roku channel</p>
-                  <ul class="spec-list" role="list">
-                    <li>HLS playback</li>
-                    <li>Hub mode</li>
-                    <li>Skip intro/outro</li>
-                    <li>SyncPlay</li>
-                  </ul>
-                  <p>
-                    <a
-                      class="btn btn-secondary btn--sm"
-                      href="https://github.com/detain/phlix-roku-client"
-                      rel="noopener noreferrer"
-                      >View source</a
-                    >
-                  </p>
-                </article>
-              </li>
-              <li class="netmap__node">
-                <article class="client-card">
-                  <div class="evidence__head">
-                    <svg
-                      class="card__icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="square"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="4" width="18" height="12" />
-                      <line x1="8" y1="20" x2="16" y2="20" />
-                      <line x1="12" y1="16" x2="12" y2="20" />
-                    </svg>
-                    <h3 class="feature-card__title">Samsung Tizen</h3>
-                    <span class="client-status status-stable">Stable</span>
-                  </div>
-                  <p class="t-muted">Smart TV app</p>
-                  <ul class="spec-list" role="list">
-                    <li>Vanilla JS + webpack</li>
-                    <li>Direct play + HLS transcoded</li>
-                    <li>Remote-optimized UI</li>
-                  </ul>
-                  <p>
-                    <a
-                      class="btn btn-secondary btn--sm"
-                      href="https://github.com/detain/phlix-tizen-client"
-                      rel="noopener noreferrer"
-                      >View source</a
-                    >
-                  </p>
-                </article>
-              </li>
-              <li class="netmap__node">
-                <article class="client-card">
-                  <div class="evidence__head">
-                    <svg
-                      class="card__icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="square"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="4" width="18" height="12" />
-                      <line x1="8" y1="20" x2="16" y2="20" />
-                      <line x1="12" y1="16" x2="12" y2="20" />
-                    </svg>
-                    <h3 class="feature-card__title">Windows</h3>
-                    <span class="client-status status-stable">Stable</span>
-                  </div>
-                  <p class="t-muted">Native desktop</p>
-                  <ul class="spec-list" role="list">
-                    <li>Electron + React + TypeScript</li>
-                    <li>System tray</li>
-                    <li>Media keys</li>
-                    <li>Hub mode</li>
-                  </ul>
-                  <p>
-                    <a
-                      class="btn btn-secondary btn--sm"
-                      href="https://github.com/detain/phlix-windows-client"
-                      rel="noopener noreferrer"
-                      >View source</a
-                    >
-                  </p>
-                </article>
-              </li>
-              <li class="netmap__node">
-                <article class="client-card">
-                  <div class="evidence__head">
-                    <svg
-                      class="card__icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="square"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="4" width="18" height="12" />
-                      <line x1="8" y1="20" x2="16" y2="20" />
-                      <line x1="12" y1="16" x2="12" y2="20" />
-                    </svg>
-                    <h3 class="feature-card__title">Mobile (iOS + Android)</h3>
-                    <span class="client-status status-beta">Beta</span>
-                  </div>
-                  <p class="t-muted">React Native app</p>
-                  <ul class="spec-list" role="list">
-                    <li>Movies, TV, Music, Photos</li>
-                    <li>Offline downloads</li>
-                    <li>Token refresh</li>
-                  </ul>
-                  <p>
-                    <a
-                      class="btn btn-secondary btn--sm"
-                      href="https://github.com/detain/phlix-mobile-client"
-                      rel="noopener noreferrer"
-                      >View source</a
-                    >
-                  </p>
-                </article>
-              </li>
-              <li class="netmap__node">
-                <article class="client-card">
-                  <div class="evidence__head">
-                    <svg
-                      class="card__icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="square"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="4" width="18" height="12" />
-                      <line x1="8" y1="20" x2="16" y2="20" />
-                      <line x1="12" y1="16" x2="12" y2="20" />
-                    </svg>
-                    <h3 class="feature-card__title">Any DLNA device</h3>
-                    <span class="client-status status-stable">Stable</span>
-                  </div>
-                  <p class="t-muted">No install required</p>
-                  <ul class="spec-list" role="list">
-                    <li>ContentDirectory</li>
-                    <li>AvTransport</li>
-                    <li>Discovery via SSDP</li>
-                  </ul>
-                  <p class="t-typed">No install. The set already speaks the protocol.</p>
-                </article>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <hr class="rule-venetian" data-wipe aria-hidden="true" />
-
-      <section class="band band--navy" aria-labelledby="reach-title">
-        <div class="container">
-          <div class="section-head">
-            <p class="t-eyebrow">Off the wire</p>
-            <h2 id="reach-title">And when you leave the building</h2>
-          </div>
-          <p class="t-lead">
-            Sign in once and the Hub's reverse-tunnel relay handles NAT, so a phone on someone
-            else's network still reaches your server. Self-hostable, or use the public hub.
+          <div class="section-label reveal">The Network</div>
+          <h1 id="clients-title" class="section-title reveal">
+            Five nodes. One archive. All yours.
+          </h1>
+          <p class="section-subtitle reveal">
+            Every device in the house, and the phone in your pocket — all dialling into the same
+            server. No account juggling, no separate libraries. Just the network, lit up.
           </p>
-          <p>
-            <a class="more-link" href="hub.html"
-              >How the relay works <span aria-hidden="true">→</span></a
-            >
-          </p>
-        </div>
-      </section>
 
-      <section class="band cta-banner" aria-labelledby="cta-clients">
-        <div class="container">
-          <h2 class="cta-banner__title" id="cta-clients">Pick a node. Then feed it.</h2>
-          <p class="cta-banner__sub">The clients are ready. The server is one line away.</p>
-          <p><a class="btn btn-primary btn--lg" href="download.html">Unlock the Archive</a></p>
+          <!-- Network diagram -->
+          <div class="hub-diagram reveal" style="margin-top: var(--space-12)">
+            <div class="hub-nodes">
+              <!-- Server node -->
+              <div class="hub-node">
+                <div
+                  class="hub-node-icon"
+                  style="border-color: var(--color-primary); box-shadow: var(--shadow-neon-amber)"
+                >
+                  <svg
+                    aria-hidden="true"
+                    style="width: 32px; height: 32px; color: var(--color-primary)"
+                  >
+                    <use href="#i-hub" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Phlix Server</div>
+                <div class="hub-node-sub">Your hardware</div>
+              </div>
+
+              <div class="hub-connector" aria-hidden="true"></div>
+
+              <!-- Client nodes -->
+              <div class="hub-node">
+                <div class="hub-node-icon">
+                  <svg aria-hidden="true" style="width: 28px; height: 28px">
+                    <use href="#i-library" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Roku</div>
+                <div class="hub-node-sub">Native Channel</div>
+              </div>
+
+              <div class="hub-connector" aria-hidden="true"></div>
+
+              <div class="hub-node">
+                <div class="hub-node-icon">
+                  <svg aria-hidden="true" style="width: 28px; height: 28px">
+                    <use href="#i-syncplay" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Samsung Tizen</div>
+                <div class="hub-node-sub">Smart TV App</div>
+              </div>
+
+              <div class="hub-connector" aria-hidden="true"></div>
+
+              <div class="hub-node">
+                <div class="hub-node-icon">
+                  <svg aria-hidden="true" style="width: 28px; height: 28px">
+                    <use href="#i-shield" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Windows</div>
+                <div class="hub-node-sub">Desktop Client</div>
+              </div>
+
+              <div class="hub-connector" aria-hidden="true"></div>
+
+              <div class="hub-node">
+                <div class="hub-node-icon">
+                  <svg aria-hidden="true" style="width: 28px; height: 28px">
+                    <use href="#i-broadcast" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Mobile</div>
+                <div class="hub-node-sub">iOS + Android</div>
+              </div>
+
+              <div class="hub-connector" aria-hidden="true"></div>
+
+              <div class="hub-node">
+                <div class="hub-node-icon">
+                  <svg aria-hidden="true" style="width: 28px; height: 28px">
+                    <use href="#i-transcode" />
+                  </svg>
+                </div>
+                <div class="hub-node-label">Any DLNA</div>
+                <div class="hub-node-sub">No Install</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Client cards grid -->
+          <div class="network-grid reveal" style="margin-top: var(--space-12)">
+            <!-- Roku -->
+            <article class="client-card">
+              <div class="client-card-header">
+                <h2 class="client-card-name">Roku</h2>
+                <span class="badge badge-stable">Stable</span>
+              </div>
+              <p class="client-card-tagline">Native Roku channel</p>
+              <div class="client-card-highlights">
+                <span class="client-card-highlight">HLS playback</span>
+                <span class="client-card-highlight">Hub mode</span>
+                <span class="client-card-highlight">Skip intro/outro</span>
+                <span class="client-card-highlight">SyncPlay</span>
+              </div>
+              <a
+                href="https://github.com/detain/phlix-roku-client"
+                class="client-card-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+                <svg aria-hidden="true" style="width: 12px; height: 12px; display: inline">
+                  <use href="#i-external" />
+                </svg>
+              </a>
+            </article>
+
+            <!-- Samsung Tizen -->
+            <article class="client-card">
+              <div class="client-card-header">
+                <h2 class="client-card-name">Samsung Tizen</h2>
+                <span class="badge badge-stable">Stable</span>
+              </div>
+              <p class="client-card-tagline">Smart TV app</p>
+              <div class="client-card-highlights">
+                <span class="client-card-highlight">Vanilla JS + webpack</span>
+                <span class="client-card-highlight">Direct play + HLS</span>
+                <span class="client-card-highlight">Remote-optimized UI</span>
+              </div>
+              <a
+                href="https://github.com/detain/phlix-tizen-client"
+                class="client-card-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+                <svg aria-hidden="true" style="width: 12px; height: 12px; display: inline">
+                  <use href="#i-external" />
+                </svg>
+              </a>
+            </article>
+
+            <!-- Windows -->
+            <article class="client-card">
+              <div class="client-card-header">
+                <h2 class="client-card-name">Windows</h2>
+                <span class="badge badge-stable">Stable</span>
+              </div>
+              <p class="client-card-tagline">Native desktop</p>
+              <div class="client-card-highlights">
+                <span class="client-card-highlight">Electron + React + TS</span>
+                <span class="client-card-highlight">System tray</span>
+                <span class="client-card-highlight">Media keys</span>
+                <span class="client-card-highlight">Hub mode</span>
+              </div>
+              <a
+                href="https://github.com/detain/phlix-windows-client"
+                class="client-card-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+                <svg aria-hidden="true" style="width: 12px; height: 12px; display: inline">
+                  <use href="#i-external" />
+                </svg>
+              </a>
+            </article>
+
+            <!-- Mobile -->
+            <article class="client-card">
+              <div class="client-card-header">
+                <h2 class="client-card-name">Mobile (iOS + Android)</h2>
+                <span class="badge badge-beta">Beta</span>
+              </div>
+              <p class="client-card-tagline">React Native app</p>
+              <div class="client-card-highlights">
+                <span class="client-card-highlight">Movies, TV, Music, Photos</span>
+                <span class="client-card-highlight">Offline downloads</span>
+                <span class="client-card-highlight">Token refresh</span>
+              </div>
+              <a
+                href="https://github.com/detain/phlix-mobile-client"
+                class="client-card-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+                <svg aria-hidden="true" style="width: 12px; height: 12px; display: inline">
+                  <use href="#i-external" />
+                </svg>
+              </a>
+            </article>
+
+            <!-- DLNA -->
+            <article class="client-card">
+              <div class="client-card-header">
+                <h2 class="client-card-name">Any DLNA device</h2>
+                <span class="badge badge-stable">Stable</span>
+              </div>
+              <p class="client-card-tagline">No install required</p>
+              <div class="client-card-highlights">
+                <span class="client-card-highlight">ContentDirectory</span>
+                <span class="client-card-highlight">AvTransport</span>
+                <span class="client-card-highlight">Discovery via SSDP</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- CTA -->
+          <div class="cta-banner reveal" style="margin-top: var(--space-12)">
+            <div class="cta-banner-text">
+              <h2>The network is live. Pick your entry point.</h2>
+              <p>Install the server first, then add a client for every screen you own.</p>
+            </div>
+            <div class="cta-banner-actions">
+              <a href="download.html" class="btn btn-primary">Get Access</a>
+              <a href="hub.html" class="btn btn-ghost">About Phlix Hub</a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <div class="egg-note" role="status" hidden>
-      <span class="egg-note__body"></span>
-      <span class="egg-note__exit">Press Esc to clear.</span>
-    </div>
-
-    <footer class="site-footer" role="contentinfo">
-      <div class="container">
+    <footer class="site-footer">
+      <div class="footer-inner">
         <p class="footer-tagline">The city's media, yours to command.</p>
-
-        <div class="footer-index">
-          <h2 class="visually-hidden">Case index</h2>
-          <ul class="footer-index__list" role="list">
-            <li><a href="./">The Case</a></li>
-            <li><a href="features.html">Evidence Files</a></li>
-            <li><a href="clients.html">The Network</a></li>
-            <li><a href="download.html">Get Access</a></li>
-            <li><a href="hub.html">Reach Anywhere</a></li>
-            <li><a href="about.html">Closed Cases</a></li>
-            <li>
-              <a href="plugins.html"
-                >Plugins<span class="footer-index__note">Filed under Evidence Files</span></a
-              >
-            </li>
-            <li>
-              <a href="docs.html"
-                >Docs<span class="footer-index__note">Technical reference</span></a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Product</h3>
-            <ul class="footer-nav__list" role="list">
-              <li><a class="footer-nav__link" href="features.html">Features</a></li>
-              <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
-              <li><a class="footer-nav__link" href="download.html">Download</a></li>
-              <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Developers</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs"
-                  rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server"
-                  rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-plugin-example"
-                  rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://detain.github.io/phlix-docs/reference/api.html"
-                  rel="noopener noreferrer"
-                  >API reference</a
-                >
+                <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
               </li>
             </ul>
           </div>
-          <div class="footer-nav__column">
-            <h3 class="footer-nav__heading">Project</h3>
-            <ul class="footer-nav__list" role="list">
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
               <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain"
-                  rel="noopener noreferrer"
-                  >GitHub org</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/issues"
-                  rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-hub"
-                  rel="noopener noreferrer"
-                  >Hub</a
-                >
-              </li>
-              <li>
-                <a
-                  class="footer-nav__link"
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
+                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
                   >License (MPL-2.0)</a
                 >
               </li>
             </ul>
           </div>
-        </nav>
-
-        <div class="footer-utility">
-          <button class="intensity-toggle" type="button" aria-pressed="false">
-            <span class="intensity-toggle__track" aria-hidden="true"></span>
-            Case closed (calm mode)
-            <span class="intensity-toggle__state">Neon on</span>
-          </button>
         </div>
-
-        <p class="footer-copy">
-          &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins
-          and clients are MIT.
-        </p>
+        <div class="footer-bottom">
+          <p class="footer-legal">
+            &copy; 2026 Joe Huss.
+            <a
+              href="https://www.mozilla.org/en-US/MPL/2.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >MPL-2.0</a
+            >
+            — Phlix Server and the Hub stay open.
+          </p>
+          <div class="footer-utility">
+            <button
+              class="intensity-toggle"
+              aria-label="Toggle case-closed calm mode"
+              aria-pressed="false"
+            >
+              <span class="toggle-track" aria-hidden="true"
+                ><span class="toggle-thumb"></span
+              ></span>
+              <span class="toggle-label">Case closed</span>
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
-    <script src="js/experience.js" defer></script>
+    <!-- Note: No Lux on Clients page per kit spec -->
+    <script src="js/main.js"></script>
   </body>
 </html>

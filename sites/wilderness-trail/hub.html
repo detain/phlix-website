@@ -1,47 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hub — Phlix</title>
-    <meta
-      name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server, roku, samsung tv, syncplay, live tv, dvr, dlna"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relay Station — Phlix Wilderness Trail</title>
     <meta
       name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+      content="Phlix Hub relay connects you to your server from anywhere, through any network. No port forwarding, no dynamic DNS. Sign in once, reach every server."
     />
+    <meta name="keywords" content="phlix, hub, relay, remote access, NAT, reverse tunnel, self-hosted" />
     <link rel="canonical" href="https://detain.github.io/phlix-website/wilderness-trail/hub.html" />
-
-    <meta property="og:title" content="Hub — Phlix" />
-    <meta
-      property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      property="og:image"
-      content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png"
-    />
-    <meta
-      property="og:url"
-      content="https://detain.github.io/phlix-website/wilderness-trail/hub.html"
-    />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
-
+    <meta property="og:url" content="https://detain.github.io/phlix-website/wilderness-trail/hub.html" />
+    <meta property="og:title" content="Relay Station — Phlix Wilderness Trail" />
+    <meta property="og:description" content="Phlix Hub relay connects you to your server from anywhere, through any network." />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Hub — Phlix" />
-    <meta
-      name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      name="twitter:image"
-      content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png"
-    />
-    <meta name="twitter:creator" content="@detain" />
-
+    <meta name="twitter:title" content="Relay Station — Phlix Wilderness Trail" />
+    <meta name="twitter:description" content="Phlix Hub relay connects you to your server from anywhere." />
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/wilderness-trail/img/og.png" />
     <meta name="theme-color" content="#2D5A27" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
@@ -51,151 +29,207 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/components.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Phlix Hub",
+        "description": "Phlix Hub — cloud directory and reverse-tunnel relay for remote access to your Phlix server.",
+        "applicationCategory": "NetworkingApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "license": "https://www.mozilla.org/en-US/MPL/2.0/"
+      }
+    </script>
   </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+  <body data-page="hub">
 
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="season-slot" hidden><div class="seasonal-banner" id="season-banner-text"></div></div>
+
+    <!-- ── Header ─────────────────────────────────────────────────────── -->
     <header class="site-header" role="banner">
-      <nav class="nav-primary" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home">
-          <img src="img/logo.svg" alt="Phlix logo" width="140" height="40" />
+      <div class="site-header__inner">
+        <a class="nav-logo logo-easter" href="./" aria-label="Wilderness Trail — home">
+          <img class="nav-logo__img" src="img/logo.svg" alt="Wilderness Trail" width="36" height="36" />
+          <span class="nav-logo__wordmark">Wilderness Trail</span>
         </a>
-        <button
-          class="nav-toggle"
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./">Home</a></li>
-          <li><a href="features.html">Features</a></li>
-          <li><a href="clients.html">Clients</a></li>
-          <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
-          <li><a href="docs.html">Docs</a></li>
-          <li><a href="hub.html" aria-current="page">Hub</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
+        <nav aria-label="Primary navigation">
+          <ul class="nav-menu" id="nav-menu" role="list">
+            <li><a class="nav-link nav-link--default" href="./">Trailhead</a></li>
+            <li><a class="nav-link nav-link--primary" href="features.html">Waypoints</a></li>
+            <li><a class="nav-link nav-link--default" href="clients.html">Outposts</a></li>
+            <li><a class="nav-link nav-link--primary" href="download.html">Set Camp</a></li>
+            <li><a class="nav-link nav-link--default" href="hub.html" aria-current="page">Relay Station</a></li>
+            <li><a class="nav-link nav-link--muted" href="about.html">Field Notes</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <main id="main-content" tabindex="-1">
-      <div class="page-header">
-        <div class="page-header-inner">
-          <h1>Phlix Hub</h1>
-          <p class="page-lead">Reach your server from anywhere.</p>
+
+      <!-- ── Page Hero ───────────────────────────────────────────────── -->
+      <div class="page-hero">
+        <div class="page-hero__bg" aria-hidden="true"></div>
+        <div class="page-hero__topo" aria-hidden="true"></div>
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">Phlix Hub</p>
+          <h1 class="page-hero__title">Your server, anywhere.</h1>
+          <p class="page-hero__subtitle">No port forwarding. No dynamic DNS. Sign in once and reach any of your servers from any network, through any device.</p>
         </div>
       </div>
 
-      <div class="content-section">
-        <h2>What the Hub does</h2>
-        <p>
-          Sign in once. The Hub's reverse-tunnel relay handles NAT traversal so you can access your
-          server from your phone, your Roku at a friend's house, or any device anywhere in the
-          world.
-        </p>
+      <!-- ── How it works ─────────────────────────────────────────────── -->
+      <section class="section section--lg" aria-labelledby="how-heading">
+        <div class="container" style="max-width:860px">
+          <div class="section__header">
+            <span class="section__eyebrow">How it works</span>
+            <h2 id="how-heading" class="section__title">The relay station.</h2>
+          </div>
 
-        <h2>Self-host or use the public hub</h2>
-        <p>
-          You can run your own
-          <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">phlix-hub</a>
-          instance, or use the public relay &mdash; no configuration required.
-        </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, minmax(0, 1fr)));gap:var(--space-8)">
 
-        <h2>Hub mode in clients</h2>
-        <p>
-          Every official client supports Hub mode. When enabled, the client connects through the Hub
-          relay instead of directly to your LAN server.
-        </p>
-      </div>
+            <div class="card fade-in-up">
+              <div style="width:48px;height:48px;background:var(--color-primary);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-bg)" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                </svg>
+              </div>
+              <h3 style="font-family:var(--font-headline);font-size:var(--text-xl);margin-bottom:var(--space-3)">Your server connects out</h3>
+              <p style="font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text-muted);line-height:1.65">
+                Phlix Server opens an outbound connection to the Hub relay. It works through NAT, CG-NAT, and firewalls — because it only needs to reach one address.
+              </p>
+            </div>
 
-      <section class="cta-banner" aria-labelledby="cta-banner-heading">
-        <div class="cta-banner-inner">
-          <h2 id="cta-banner-heading">Find your way to your server</h2>
-          <a href="download.html" class="btn btn-primary btn-large">Get started</a>
+            <div class="card fade-in-up" style="animation-delay:0.1s">
+              <div style="width:48px;height:48px;background:var(--color-primary);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-bg)" stroke-width="2" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <h3 style="font-family:var(--font-headline);font-size:var(--text-xl);margin-bottom:var(--space-3)">Your device connects in</h3>
+              <p style="font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text-muted);line-height:1.65">
+                Any Phlix client signs into the Hub with the same account. The relay routes your session to the correct server — no manual tunnel management.
+              </p>
+            </div>
+
+            <div class="card fade-in-up" style="animation-delay:0.2s">
+              <div style="width:48px;height:48px;background:var(--color-tertiary-safe);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-surface)" stroke-width="2" aria-hidden="true">
+                  <path d="M12 2L8 8H4l4 6-4 6h4l4 6 4-6h4l-4-6 4-6h-4L12 2z"/>
+                </svg>
+              </div>
+              <h3 style="font-family:var(--font-headline);font-size:var(--text-xl);margin-bottom:var(--space-3)">Full self-host option</h3>
+              <p style="font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text-muted);line-height:1.65">
+                Run <code style="font-family:var(--font-mono);font-size:0.9em">phlix-hub</code> on any VPS. The protocol is open. You get the relay without the third party.
+              </p>
+            </div>
+
+          </div>
         </div>
       </section>
+
+      <!-- ── Use Cases ───────────────────────────────────────────────── -->
+      <section class="section topo-wash" aria-labelledby="usecases-heading">
+        <div class="container">
+          <div class="section__header">
+            <span class="section__eyebrow">Real trails</span>
+            <h2 id="usecases-heading" class="section__title">Use it from the trail.</h2>
+          </div>
+
+          <div class="blaze-list">
+            <div class="blaze">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+              </svg>
+              <p class="blaze__text">Reach your home server from a friend's house — no router config needed.</p>
+            </div>
+            <div class="blaze">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <path d="M8 11h2M14 11h2M6 19l3-3 2 2 4-4 3 3"/>
+              </svg>
+              <p class="blaze__text">Watch Live TV from a hotel on your phone, through your home server's guide.</p>
+            </div>
+            <div class="blaze">
+              <svg class="blaze__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2.5" y="5" width="8" height="7" rx="2"/>
+                <rect x="13.5" y="12" width="8" height="7" rx="2"/>
+                <path d="M10.5 8.5l3 2-3 2M17.5 15.5l-3-2 3-2"/>
+              </svg>
+              <p class="blaze__text">SyncPlay works through the relay — everyone stays locked, wherever they are.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Get Started ─────────────────────────────────────────────── -->
+      <section class="section" aria-labelledby="hub-cta-heading">
+        <div class="container" style="max-width:640px;text-align:center">
+          <h2 id="hub-cta-heading" class="section__title" style="margin-bottom:var(--space-6)">Connect the relay.</h2>
+          <p style="font-family:var(--font-body);font-size:var(--text-lg);color:var(--color-text-muted);margin-bottom:var(--space-8);line-height:1.6">
+            The Hub is configured from the Phlix Server settings panel. One address, one sign-in, always connected.
+          </p>
+          <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap">
+            <a href="https://github.com/detain/phlix-hub" class="btn btn--primary btn--lg" target="_blank" rel="noopener">
+              phlix-hub on GitHub
+            </a>
+            <a href="https://detain.github.io/phlix-docs" class="btn btn--ghost btn--lg" target="_blank" rel="noopener">
+              Hub docs
+            </a>
+          </div>
+        </div>
+      </section>
+
     </main>
 
+    <!-- ── Footer ────────────────────────────────────────────────────── -->
     <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <p class="footer-tagline">Open-source media, on your terms.</p>
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-col">
-            <h3>Product</h3>
-            <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
-            </ul>
+      <div class="site-footer__inner">
+        <div class="site-footer__grid">
+          <div class="site-footer__col"><h3>Product</h3><ul>
+            <li><a href="features.html">Waypoints</a></li><li><a href="clients.html">Outposts</a></li>
+            <li><a href="download.html">Set Camp</a></li><li><a href="plugins.html">Tools</a></li>
+          </ul></div>
+          <div class="site-footer__col"><h3>Developers</h3><ul>
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+          </ul></div>
+          <div class="site-footer__col"><h3>Project</h3><ul>
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+          </ul></div>
+        </div>
+        <div class="site-footer__bottom">
+          <div>
+            <p class="site-footer__tagline">Adventure never closes.</p>
+            <p class="site-footer__license">
+              Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially.
+              If you modify a Phlix file, that file stays open; anything you add alongside it is yours.
+              The shared libraries, plugins, and clients are MIT so you can build on them freely.
+            </p>
           </div>
-          <div class="footer-col">
-            <h3>Developers</h3>
-            <ul role="list">
-              <li>
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer"
-                  >Documentation</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer"
-                  >Server source</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer"
-                  >Plugin example</a
-                >
-              </li>
-              <li>
-                <a href="https://detain.github.io/phlix-docs/reference" rel="noopener noreferrer"
-                  >API reference</a
-                >
-              </li>
-            </ul>
+          <div class="site-footer__utils">
+            <label class="intensity-toggle" aria-label="Dim the Campfire">
+              <input type="checkbox" id="intensity-toggle" /><span class="intensity-toggle__track"></span>
+              <span class="intensity-toggle__thumb"></span><span>Dim the fire</span>
+            </label>
           </div>
-          <div class="footer-col">
-            <h3>Project</h3>
-            <ul role="list">
-              <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer"
-                  >Issues</a
-                >
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
-                  >License (MPL-2.0)</a
-                >
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <p class="footer-copy">
-          &copy; 2026 Phlix &mdash; Phlix Server and the Hub are MPL-2.0; the shared libraries,
-          plugins and clients are MIT.
-        </p>
+        </div>
       </div>
     </footer>
 
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

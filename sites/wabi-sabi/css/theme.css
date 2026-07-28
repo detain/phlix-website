@@ -1,457 +1,605 @@
-/* ==========================================================================
-   theme.css — Wabi-Sabi Brand Kit
-   Typography scale, layout archetype, page structure
-   ========================================================================== */
+/* ============================================================================
+ * THEME.CSS — Wabi-Sabi
+ * Brand surfaces, gradients, shadows, decorative elements, motion
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * ============================================================================ */
 
-/* ─── Typography Scale ──────────────────────────────────────────────────────── */
+/* ---------------------------------------------------------------------------
+ * Page surfaces
+ * --------------------------------------------------------------------------- */
 
-/* Headlines — Noto Serif JP 500/700 */
-h1 {
+body {
+  background-color: var(--color-bg);
+  /* Subtle washi-fiber texture via SVG noise filter — very light, applied once */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------------------------------------
+ * Washi-fade gradient — hero sections and panel transitions
+ * --------------------------------------------------------------------------- */
+
+.grad-washi-fade {
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-surface) 100%);
+}
+
+.grad-ink-horizon {
+  background: linear-gradient(160deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+/* ---------------------------------------------------------------------------
+ * Topbar navigation
+ * --------------------------------------------------------------------------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+}
+
+.topbar__wordmark {
   font-family: var(--font-headline);
-  font-size: clamp(2rem, 5vw, 3.25rem);
   font-weight: 500;
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-tight);
+  font-size: 1.25rem;
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.topbar__wordmark:hover {
+  color: var(--color-primary);
+}
+
+.topbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
+}
+
+@media (max-width: 767px) {
+  .topbar__nav {
+    gap: var(--space-3);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+  .topbar__nav::-webkit-scrollbar { display: none; }
+  .topbar__nav a {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+}
+
+.topbar__nav a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding-block: var(--space-2);
+  border-bottom: 2px solid transparent;
+  transition: color 300ms ease, border-color 300ms ease;
+}
+
+.topbar__nav a:hover {
   color: var(--color-text);
 }
 
-h2 {
-  font-family: var(--font-headline);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+.topbar__nav a[aria-current="page"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* Nav emphasis levels */
+.topbar__nav .nav--primary a {
+  color: var(--color-primary);
   font-weight: 500;
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-tight);
+}
+
+.topbar__nav .nav--muted a {
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+/* ---------------------------------------------------------------------------
+ * Hero section — kintsugi crack motif
+ * --------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  padding-block: var(--space-24) var(--space-16);
+  text-align: center;
+}
+
+.hero__kintsugi-line {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__kintsugi-line svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Scale the SVG viewBox content to fit the hero's actual width */
+  transform: translateX(0);
+}
+
+.hero__kintsugi-line path {
+  stroke: var(--color-tertiary);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  opacity: 0.6;
+}
+
+/* Reduced motion: draw the crack instantly */
+@media (prefers-reduced-motion: reduce) {
+  .hero__kintsugi-line path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 760px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  box-sizing: border-box;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.hero__headline {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--color-text);
   margin-bottom: var(--space-6);
 }
 
-h3 {
+.hero__subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--color-text);
+  max-width: 600px;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+/* ---------------------------------------------------------------------------
+ * Section styles
+ * --------------------------------------------------------------------------- */
+
+.section {
+  padding-block: var(--space-16);
+}
+
+.section--surface {
+  background-color: var(--color-surface);
+}
+
+.section--surface-alt {
+  background-color: var(--color-surface-alt);
+}
+
+.section__header {
+  margin-bottom: var(--space-12);
+}
+
+.section__header--center {
+  text-align: center;
+}
+
+.section__heading {
   font-family: var(--font-headline);
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: 500;
-  line-height: 1.3;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.section__subheading {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  max-width: 56ch;
+}
+
+.section__heading--display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+}
+
+/* ---------------------------------------------------------------------------
+ * Feature cards — gallery-plaques style
+ * --------------------------------------------------------------------------- */
+
+.feature-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  transition: background-color 300ms ease, border-color 300ms ease,
+              transform 300ms ease, box-shadow 300ms ease;
+}
+
+.feature-card:hover {
+  background-color: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-card__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.feature-card__title {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card__body {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* ---------------------------------------------------------------------------
+ * Feature cards — featured (kintsugi gold accent)
+ * --------------------------------------------------------------------------- */
+
+.feature-card--featured {
+  border-color: var(--color-tertiary);
+  box-shadow: var(--shadow-gold-glow);
+}
+
+.feature-card--featured:hover {
+  border-color: var(--color-tertiary);
+  box-shadow: var(--shadow-gold-glow), var(--shadow-md);
+}
+
+/* ---------------------------------------------------------------------------
+ * Client rows — spec-table style
+ * --------------------------------------------------------------------------- */
+
+.client-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto;
+  gap: var(--space-6);
+  align-items: start;
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.client-row:last-child {
+  border-bottom: none;
+}
+
+.client-row__name {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.client-row__tagline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.client-row__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.client-row__repo-link {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .client-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Ecosystem — bookshelf style
+ * --------------------------------------------------------------------------- */
+
+.bookshelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-6);
+}
+
+.bookshelf__item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+}
+
+.bookshelf__name {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.bookshelf__what {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.bookshelf__link {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Proof / trust-signal band
+ * --------------------------------------------------------------------------- */
+
+.proof-band {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-12);
+  text-align: center;
+}
+
+.proof-band__label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.proof-band__stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.proof-band__stat {
+  text-align: center;
+}
+
+.proof-band__number {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.proof-band__desc {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ---------------------------------------------------------------------------
+ * FAQ — letters-column style
+ * --------------------------------------------------------------------------- */
+
+.faq-list {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.faq-item {
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.faq-item__q {
+  font-family: var(--font-headline);
+  font-weight: 500;
+  font-size: 1.05rem;
   color: var(--color-text);
   margin-bottom: var(--space-3);
 }
 
-h4 {
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: var(--ls-wide);
-  text-transform: none;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-}
-
-/* Display — Cormorant Garamond (used at large sizes 48px+) */
-.text-display {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 300;
-  line-height: var(--lh-display);
-  letter-spacing: 0.02em;
-  color: var(--color-text);
-}
-
-.text-display-large {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  color: var(--color-text);
-}
-
-/* Body — Lora */
-p,
-li,
-td,
-th {
+.faq-item__a {
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: var(--lh-body);
+  font-size: 0.9375rem;
+  line-height: 1.75;
   color: var(--color-text);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
 }
 
-/* UI — Noto Sans JP */
-.btn,
-.nav-link,
-.footer-link,
-.badge,
-.chip,
-label,
-input,
-select,
-textarea,
-.nav-menu a,
-.footer-nav a {
-  font-family: var(--font-ui);
+/* ---------------------------------------------------------------------------
+ * CTA section
+ * --------------------------------------------------------------------------- */
+
+.cta-section {
+  padding-block: var(--space-24);
+  text-align: center;
+  background-color: var(--color-bg);
 }
 
-/* Mono — Noto Sans Mono */
-code,
-pre,
-.mono {
-  font-family: var(--font-mono);
-  letter-spacing: var(--ls-normal);
-  line-height: var(--lh-mono);
-}
-
-/* Numbers — Cormorant Garamond 300 */
-.text-number {
+.cta-section__tagline {
   font-family: var(--font-display);
   font-weight: 300;
-  letter-spacing: var(--ls-wider);
-  line-height: 1;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
 }
 
-/* ─── Layout Archetype: Immersive ──────────────────────────────────────────── */
-/* Wabi-Sabi uses full-bleed rice-paper sections with generous negative space,
-   asymmetric ikebana-style composition, and kintsugi gold as single accent.
-   The layout breathes like ink settling on washi paper. */
+/* ---------------------------------------------------------------------------
+ * Chapter-scroll download section
+ * --------------------------------------------------------------------------- */
 
-/* ─── Page Structure ─────────────────────────────────────────────────────────── */
-
-/* ── Hero ── */
-.hero {
-  position: relative;
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  background-color: var(--color-bg);
-  overflow: hidden;
+.download-chapter {
+  padding-block: var(--space-12);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
+.download-chapter:last-child {
+  border-bottom: none;
 }
 
-.hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding: var(--space-24) var(--space-8);
-  width: 100%;
-}
-
-/* Asymmetric composition — content in lower-left third */
-.hero-eyebrow {
+.download-chapter__label {
   font-family: var(--font-ui);
   font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.download-chapter__heading {
+  font-family: var(--font-headline);
   font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: none;
-  color: var(--color-neutral);
-  margin-bottom: var(--space-4);
-  opacity: 0;
-  animation: inkDissolve 600ms ease-in-out 200ms forwards;
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
 }
 
-.hero h1 {
-  max-width: 18ch;
-  margin-bottom: var(--space-6);
-  opacity: 0;
-  animation: inkSettle 800ms cubic-bezier(0.4, 0, 0.6, 1) 400ms forwards;
-}
-
-.hero-sub {
-  max-width: 55ch;
+.download-chapter__body {
   font-family: var(--font-body);
-  font-size: 1.125rem;
-  line-height: var(--lh-body);
+  font-size: 0.9375rem;
+  line-height: 1.75;
   color: var(--color-text);
-  margin-bottom: var(--space-8);
-  opacity: 0;
-  animation: inkDissolve 800ms ease-in-out 600ms forwards;
+  max-width: 60ch;
 }
 
-.hero-cta {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: inkDissolve 800ms ease-in-out 800ms forwards;
-}
-
-/* Kintsugi radial glow behind hero (single most important element) */
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -10%;
-  right: 5%;
-  width: 60%;
-  height: 80%;
-  background: radial-gradient(ellipse at center, rgb(200, 144, 26, 0.08) 0%, transparent 70%);
-  pointer-events: none;
-  opacity: 0;
-  animation: goldGlow 1.2s ease-out 1s forwards;
-}
-
-/* ── Pitch ── */
-.pitch {
+.download-chapter__command {
+  margin-top: var(--space-4);
   background-color: var(--color-surface);
-  padding: var(--space-24) 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.pitch-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-}
-
-.pitch h2 {
-  margin-bottom: var(--space-8);
-  text-align: center;
-}
-
-.pitch-bullets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-4);
-  max-width: var(--content-width);
-  margin-inline: auto;
-}
-
-.pitch-bullets li {
-  position: relative;
-  padding-left: var(--space-6);
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
   color: var(--color-text);
-  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
 }
 
-.pitch-bullets li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.6em;
-  width: 16px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-tertiary), transparent);
-  opacity: 0.7;
+/* ---------------------------------------------------------------------------
+ * Install block
+ * --------------------------------------------------------------------------- */
+
+.install-block {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-block: var(--space-8);
 }
 
-/* ── Features Overview ── */
-.features-overview {
-  background-color: var(--color-bg);
-  padding: var(--space-24) 0;
-}
-
-.features-overview-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-  text-align: center;
-}
-
-.features-overview h2 {
-  margin-bottom: var(--space-12);
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-6);
-  margin-bottom: var(--space-8);
-}
-
-.features-more {
+.install-block__label {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  margin-top: var(--space-8);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
 }
 
-/* ── CTA Banner ── */
-.cta-banner {
-  background-color: var(--color-surface-alt);
-  padding: var(--space-24) 0;
-  text-align: center;
-  border-top: 1px solid var(--color-border);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Kintsugi gold horizontal line accent */
-.cta-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-tertiary), transparent);
-  opacity: 0.4;
-}
-
-.cta-banner-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-}
-
-.cta-banner h2 {
-  margin-bottom: var(--space-6);
-}
-
-/* ── Page Header (inner pages) ── */
-.page-header {
-  background-color: var(--color-bg);
-  padding: var(--space-16) 0 var(--space-12);
-  border-bottom: 1px solid var(--color-border);
-  position: relative;
-  overflow: hidden;
-}
-
-.page-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
-}
-
-.page-header-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
-  position: relative;
-  z-index: 1;
-}
-
-.page-header h1 {
-  margin-bottom: var(--space-4);
-}
-
-.page-lead {
-  font-family: var(--font-body);
-  font-size: 1.125rem;
+.install-block__command {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
   color: var(--color-text);
-  opacity: 0.8;
-  max-width: 55ch;
-  margin-bottom: 0;
-}
-
-/* ── Content Section ── */
-.content-section {
   background-color: var(--color-bg);
-  padding: var(--space-16) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
+  white-space: pre;
 }
 
-.content-section-inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-8);
+/* ---------------------------------------------------------------------------
+ * Seasonal motif overlay (live-js)
+ * --------------------------------------------------------------------------- */
+
+.seasonal-sakura-petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-8);
-}
-
-/* ─── Animations (ink-in-water / unhurried) ─────────────────────────────────── */
-
-@keyframes inkDissolve {
-  from {
-    opacity: 0;
-    filter: blur(2px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-  }
-}
-
-@keyframes inkSettle {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes goldGlow {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes brushReveal {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .hero-eyebrow,
-  .hero h1,
-  .hero-sub,
-  .hero-cta,
-  .hero::after {
-    animation: none;
-    opacity: 1;
-  }
-}
-
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
-/* ─── Responsive ─────────────────────────────────────────────────────────────── */
-@media (width <= 768px) {
-  .hero-inner {
-    padding: var(--space-16) var(--space-4);
-  }
-
-  .hero {
-    min-height: 80vh;
-  }
-
-  .pitch-inner,
-  .features-overview-inner,
-  .cta-banner-inner,
-  .page-header-inner,
-  .content-section-inner {
-    padding-inline: var(--space-4);
-  }
-
-  .pitch,
-  .features-overview,
-  .cta-banner,
-  .content-section {
-    padding: var(--space-12) 0;
-  }
-}
-
-@media (width <= 480px) {
-  .hero-cta {
-    flex-direction: column;
-  }
-
-  .hero-cta .btn {
-    width: 100%;
-    text-align: center;
-  }
+.seasonal-sakura-petals svg {
+  width: 100%;
+  height: 100%;
 }

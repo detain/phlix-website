@@ -1,86 +1,72 @@
-# Wilderness Trail — Brand Kit Site
+# Wilderness Trail — Site Plan
 
-## Concept & Vision
+## Site Overview
+- **Slug:** wilderness-trail
+- **Archetype:** narrative-scroll
+- **Brand:** Vintage National Park Service poster — pine green, campfire orange, canvas tan, topographic contour overlays, Scout the ranger mascot
+- **Font families:** Playfair Display (headline), Abril Fatface (display), Lora (body), Barlow Condensed (UI), IBM Plex Mono (mono)
+- **License:** MPL-2.0 (Phlix Server + Hub), MIT (shared libs, plugins, clients)
 
-Wilderness Trail is the spirit of a backcountry expedition brought to your living room. Granite peaks, pine-canopied campsites, campfire glow, and the Milky Way overhead — rendered in the bold, hand-lithographed style of golden-era National Park Service travel posters. The site should feel like a well-worn topographic map tacked above a ranger station desk: honest, spacious, and deeply evocative of open sky and hard-won views.
+## Nav Labels (site_architecture.nav)
+| # | id | label | emphasis |
+|---|---|-------|----------|
+| 1 | home | Trailhead | default |
+| 2 | features | Waypoints | primary |
+| 3 | clients | Outposts | default |
+| 4 | download | Set Camp | primary |
+| 5 | hub | Relay Station | default |
+| 6 | about | Field Notes | muted |
 
-## Aesthetic Direction
+Demoted to footer: plugins, docs
 
-**Layout archetype: Immersive** — panoramic full-bleed hero sections with dramatic Alpenglow gradients, generous negative space, and the NPS poster lithography aesthetic. Every screen feels like looking out from a high ridge — open, vast, and earned.
+## Pages (9 total)
+1. `index.html` — Trailhead (home)
+2. `features.html` — Waypoints
+3. `clients.html` — Outposts
+4. `download.html` — Set Camp
+5. `hub.html` — Relay Station
+6. `about.html` — Field Notes
+7. `plugins.html` — Tools (demoted nav)
+8. `docs.html` — Docs (demoted nav)
+9. `expedition-guide.html` — extra_pages
+10. `404.html` — Wrong trail concept
 
-**Visual style:** Vintage National Park Service travel poster lithography (1930s–1950s), WPA woodblock illustration, flat color planes with bold ink outlines, topographic map contour overlays. Nothing airbrushed, digital, or corporate.
+## Homepage Sections (homepage_narrative.sections[])
+| # | id | source | treatment |
+|---|---|--------|-----------|
+| 1 | trailhead-call | copy_overlay.hero | Full-bleed ranger station poster: Scout points to peaks |
+| 2 | key-waypoints | feature_casting | 2 hero features as trail waypoints on topo map |
+| 3 | why-this-trail | story | 7 pitch bullets as trail blazes on a post |
+| 4 | trail-proven | proof_strategy | Ranger placard: specs + live GitHub links |
+| 5 | start-hiking | conversion_funnel | 3-rung CTA ladder + install command |
 
-**Mood:** Rugged, adventurous, grounded, awe-struck, self-reliant. Quietly Epic.
+## Contrast-safe colour overrides (measured, not kit prose)
+- `--color-tertiary-safe: #a14314` — campfire orange safe for small text on canvas
+- `--color-secondary-safe: #2f6486` — sky blue safe for small text on canvas
+- `--color-fab-text-safe: #625e54` — fab label text on campfire orange bg
+- `--color-text-muted-safe: #785a39` — muted text on canvas-tan for small sizes
 
-## Color Palette
+## Experience Features Implemented
+- `hero_experience`: guided-reveal with Scout SVG + parallax (CSS-only fallback)
+- `navigation_model`: topbar with trail-blaze diamond separators, campfire ember active state
+- `scroll_experience`: chaptered sections with `section-reveal` animation + topo texture
+- `easter_eggs`: logo-clicks:5 (Scout tips hat) + typed-word:summit (peak cursor)
+- `mascot.behavior`: Scout fixed bottom-right on home/download/about, dismissible to localStorage
+- `intensity_toggle`: "Dim the Campfire" checkbox in footer, persisted to localStorage
+- `seasonal_activation`: live-js, applies data-season on html, seasonal banner via JS
+- `faq_experience`: campfire-qa frame, 6 questions from content.json, Scout persona
+- `error_page_experience`: Scout at wrong trail sign, 3 recovery links
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| Primary | Pine Green | `#2D5A27` | Navigation, borders, headlines, key UI |
-| Secondary | Sky Blue | `#3A7CA5` | Links, informational states, illustration |
-| Tertiary | Campfire Orange | `#D4581A` | **Single primary CTA only** |
-| Neutral | Trail Brown | `#7A5C3A` | Muted text, dividers, secondary labels |
-| Background | Canvas Tan | `#E8D9BC` | Page background — topographic map feel |
-| Surface | Aged Canvas | `#F0E6CE` | Cards, panels — one step lighter |
-| Surface Alt | Field Parchment | `#D8C89A` | Alternate surfaces, hover states |
-| Text | Granite Dark | `#1E1E1E` | Body and headline text |
-| Border | Ink Pine | `#1A3318` | Card borders, dividers, outlines |
-| Success | Meadow Green | `#4A8B5C` | Success states |
-| Warning | Amber Blaze | `#C87A1A` | Warnings |
-| Error | Wildfire Red | `#A83220` | Errors, destructive |
-| Focus | Summit Signal Orange | `#D4581A` | Focus ring |
+## CSS Rules Applied
+1. `minmax(0, 1fr)` on all grid tracks (not bare `1fr`)
+2. `overflow-wrap: anywhere` on `p, li, dt, dd, a, span, code, kbd, samp, pre`
+3. `overflow-wrap: break-word` + `hyphens: auto` on `h1–h6, blockquote`
+4. No `overflow: hidden` on containers with reflowing text
+5. `.visually-hidden { overflow: hidden; clip-path: inset(50%); }` (§19.15)
+6. `@font-face` self-hosted only — no CDN
 
-**Gradient: Alpenglow** — `linear-gradient(165deg, #D4581A, #3A7CA5)` for hero backdrops.
-
-## Typography
-
-- **Headlines:** Playfair Display Bold/Black, 700/900 weight, tracked +0.03em
-- **Display numerals:** Abril Fatface 400 — poster-style elevation numbers
-- **Body:** Lora 400/600, 1.7 line-height — warm, humanist serif
-- **UI labels:** Barlow Condensed 600/700, tracked +0.06em, ALL CAPS — trail-sign authority
-- **Code:** IBM Plex Mono 400/600
-
-## Spatial System
-
-Spacing scale (only these values): 4, 8, 12, 16, 20, 24, 32, 48, 64, 96px
-
-Max content width: 1400px (lateral breathing room = wilderness negative space)
-Max text content width: 1200px
-
-## Motion Philosophy
-
-- **Transitions:** Dissolve (like smoke drifting through pines), horizontal trail-map slide, contour-line wipe
-- **Timing:** 200–350ms ease-out (unhurried, grounded)
-- **Hover:** Cards lift 3px with trail-shadow and pine-green border brightening
-- **Button press:** 0.96 scale, 100ms, then smooth ease-out return
-- **Micro-interaction:** 2px campfire-orange focus ring, 120ms fade, 3px canvas-tan offset
-- **Reduced motion:** Honor `prefers-reduced-motion` — dissolve fades replace slides
-
-## Visual Assets
-
-- **Logo:** Wordmark "WILDERNESS TRAIL" in Playfair Display Bold, pine green on canvas tan, inside trail-blaze rectangle badge with ink-pine border. Pine tree + mountain peak silhouette above wordmark.
-- **Favicon:** Pine green square with small white pine tree silhouette.
-- **OG card:** Full Alpenglow gradient with pine ridgeline silhouettes, NPS poster-style typography, trail-blaze diamond accent.
-- **Signature elements:** Topographic contour overlays at 8–12% opacity, pine silhouette ridgelines, campfire flame motifs, ranger-station typography.
-
-## Voice & Tone
-
-- **Voice:** Direct, Grounded, Quietly Lyrical, Self-reliant
-- **Tone:** Encouraging, Unhurried, Reverent of the landscape, Matter-of-fact with flashes of wonder
-- **Vocabulary:** trail, summit, trailhead, waypoint, bearing, blaze, camp, elevation, ridge, backcountry, expedition, switchback, terrain, horizon
-- **Avoid:** leverage, synergy, utilize, robust, seamless, content, disruption, epic, crushing it, binge, hack
-
-## Accessibility
-
-- WCAG 2.2 AA minimum
-- Granite-dark on canvas-tan achieves ~9:1 contrast
-- Campfire orange (3.2:1 on canvas tan) — **use only for large/bold interactive elements, never body copy**
-- Focus style: 2px campfire-orange ring, 3px canvas-tan offset
-- Touch targets: minimum 44×44px
-- Honor `prefers-reduced-motion`
-
-## Seasonal Variants (documented for future use)
-
-1. **Winter Backcountry** (Dec 1 – Feb 28): Snowfield white canvas, pale-blue sky, star field more prominent
-2. **Peak Wildflower Season** (Jun 1 – Jul 31): Wildflower meadow foregrounds, pine ridgeline recedes to blue-haze
-3. **Autumn Ridge** (Sep 15 – Nov 15): Aspen gold and russet in backgrounds, topo overlay shifts to amber
+## Install Command (from content.json.install.primary)
+```
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
+```
+(copied verbatim, never retyped)

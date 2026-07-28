@@ -1,470 +1,203 @@
-/* ==========================================================================
-   base.css — Cottagecore Bloom
-   Modern reset · design tokens (:root) · element defaults · self-hosted fonts
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
+/* @license MPL-2.0 */
 
-   Token source: brand-kits/cottagecore-bloom.js §17 design_tokens, verbatim.
-   The "ink" tokens below are DERIVED (see SITE.md § Derived ink scale): each is
-   a mix of one of the kit's own pigments with the kit's own Bark Brown, added
-   because the kit's `accessibility.minimum_contrast` prose overstates several
-   ratios (Garden Rose on Warm Ivory measures 4.02:1, not the claimed 4.8:1).
-   ========================================================================== */
+/* ===========================================================================
+   BASE.CSS — Cottagecore Bloom
+   Modern reset, design tokens (CSS custom properties), base element styles
+   =========================================================================== */
 
-/* ── Modern reset ────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* An explicit OPAQUE background colour on both html and body is load-bearing:
-   the predecessor set none at all, so the "warm ivory" kit shipped on browser
-   white and every contrast probe resolved the backdrop to transparent-black.
-   Texture is applied with the background-image longhand so the colour lives.
-
-   There is deliberately no `scroll-behavior: smooth`: it applies to EVERY
-   in-page fragment navigation, including the skip link, so a keyboard visitor
-   who presses Enter on "Skip to main content" waits out an animation before
-   focus lands. */
 html {
-  /* :root IS html, so the token below resolves here regardless of source order */
-  background-color: var(--color-bg);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  tab-size: 4;
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-/* §19.12 — `anywhere`, not `break-word`, on BODY-WEIGHT text: only `anywhere`
-   also lowers the element's min-content size, and it is min-content that makes
-   a flex/grid track refuse to shrink. Without it a single long token like
-   "ContentDirectory," or even an ordinary word like "transcoding," in a 164px
-   grid column forces a track wider than a 320px viewport once text is zoomed to
-   200% — which is exactly how the reflow gate fails. Neither value breaks a
-   word that fits, so normal rendering is unchanged. Scope this WIDE: the
-   offenders are usually plain prose in a narrow track, not code. */
-p,
-a,
-li,
-dt,
-dd,
-span,
-summary,
-figcaption,
-code,
-kbd,
-samp,
-pre {
-  overflow-wrap: anywhere;
-}
-
-/* Headings and pull quotes are the exception. An unmarked mid-word break in
-   Playfair Display or Dancing Script reads as a rendering fault rather than as
-   a wrap, so they get hyphenation (the pages are `lang="en"`) plus
-   `break-word`, which still breaks a word too long for its line. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-blockquote {
-  hyphens: auto;
-  overflow-wrap: break-word;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-  padding-inline-start: 0;
-}
-
-/* ── Design tokens ──────────────────────────────────────────────────────── */
-:root {
-  /* Kit palette — verbatim from design_tokens.color */
-  --color-primary: #c8556a; /* Garden Rose      — display type, rules, glows  */
-  --color-secondary: #7a9e6b; /* Sage Green     — DECORATIVE ONLY (2.88:1)    */
-  --color-tertiary: #8b7ab5; /* Lavender Mist   — large/UI only (3.60:1)      */
-  --color-bg: #fff8f2; /* Warm Ivory                                          */
-  --color-surface: #fff3e8; /* Garden Cream                                   */
-  --color-surface-alt: #fdeede; /* Butter Soft                                */
-  --color-text: #2a1a10; /* Bark Brown          — 15.92:1 on Warm Ivory       */
-  --color-neutral: #b0a090; /* Warm Taupe        — DECORATIVE ONLY (2.41:1)   */
-  --color-success: #4a7c59; /* Herb Green                                     */
-  --color-warning: #c47b2b; /* Honey Gold                                     */
-  --color-error: #b53040; /* Briar Red           — 5.77:1, text-safe          */
-  --color-border: #e8d5c4; /* Petal Blush                                     */
-  --color-focus: #c8556a; /* Rose Focus Ring                                  */
-
-  /* Derived ink scale — kit pigment ⊕ Bark Brown. All ≥ 4.5:1 on all three
-     kit surfaces. These carry every piece of small coloured TEXT on the site. */
-  --color-rose-ink: #99434f; /* Rose ⊕ 30% Bark   — 6.10 / 5.88 / 5.65        */
-  --color-sage-ink: #5a6947; /* Sage ⊕ 40% Bark   — 5.63 / 5.42 / 5.21        */
-  --color-lav-ink: #69587b; /* Lavender ⊕ 35% Bark — 6.08 / 5.86 / 5.62       */
-  --color-taupe-ink: #7a6a5d; /* Taupe ⊕ 40% Bark — 4.93 / 4.75 / 4.57        */
-  --color-herb-ink: #44684a; /* Herb ⊕ 20% Bark   — 6.00 / 5.79 / 5.55        */
-  --color-honey-ink: #8e5922; /* Honey ⊕ 35% Bark — 5.54 / 5.34 / 5.12        */
-
-  /* Typography */
-  --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
-  --font-display: 'Dancing Script', 'Great Vibes', cursive;
-  --font-body: 'Lora', 'Crimson Text', 'Georgia', serif;
-  --font-ui: 'Nunito', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'Courier Prime', 'Courier New', 'Courier', monospace;
-  --font-number: 'Playfair Display', 'Georgia', serif;
-  --tracking-headline: -0.01em;
-  --lh-headline: 1.15;
-  --tracking-display: 0.01em;
-  --lh-display: 1.2;
-  --tracking-body: 0em; /* kit fonts.body.tracking */
-  --lh-body: 1.75;
-  --tracking-ui: 0.01em;
-  --lh-ui: 1.4;
-  --tracking-mono: 0.02em;
-  --lh-mono: 1.55;
-  --tracking-number: 0.02em;
-  --lh-number: 1.1;
-
-  /* Spacing scale — kit spacing_scale, in px so a 200% text zoom cannot
-     multiply structural gutters into horizontal overflow. */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* Corner radius — kit corner_radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-pill: 999px;
-
-  /* Shadows — kit shadows{}; all warm-tinted from Bark Brown.
-     (§19.18: this comment's close used to arrive three lines late, which meant
-     the --tracking-body declaration that sat inside it was never declared at
-     all. It now lives in the typography block above.) */
-  --shadow-sm: 0 1px 4px rgb(42 26 16 / 8%);
-  --shadow-md: 0 4px 16px rgb(42 26 16 / 10%), 0 1px 4px rgb(200 85 106 / 6%);
-  --shadow-lg: 0 10px 36px rgb(42 26 16 / 12%), 0 4px 12px rgb(200 85 106 / 8%);
-  --shadow-rose-glow: 0 0 16px rgb(200 85 106 / 18%), 0 4px 24px rgb(200 85 106 / 10%);
-  --shadow-sage-glow: 0 0 12px rgb(122 158 107 / 18%), 0 4px 16px rgb(122 158 107 / 10%);
-  --shadow-lavender-glow: 0 0 12px rgb(139 122 181 / 16%), 0 4px 16px rgb(139 122 181 / 10%);
-
-  /* Layout */
-  --max-width: 1400px;
-  --max-width-text: 68ch;
-  --gutter: var(--space-6);
-
-  /* Focus — kit accessibility.focus_style: 2px rose ring, 2px offset, 4px halo */
-  --focus-ring: 2px solid var(--color-focus);
-  --focus-offset: 2px;
-  --focus-halo: 0 0 0 4px rgb(200 85 106 / 18%);
-
-  /* Motion — kit animation_speed "slow", easing[] */
-  --ease-garden: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-bloom: cubic-bezier(0.34, 1.02, 0.64, 1);
-  --dur-quick: 250ms;
-  --dur-calm: 400ms;
-  --dur-slow: 550ms;
-}
-
-/* ── Base elements ──────────────────────────────────────────────────────── */
 body {
   min-height: 100vh;
-  background-color: var(--color-bg);
-
-  /* Linen paper grain — pure CSS, no raster texture (kit performance rules) */
-  background-image:
-    repeating-linear-gradient(90deg, rgb(176 160 144 / 3.5%) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(0deg, rgb(176 160 144 / 3%) 0 1px, transparent 1px 4px);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: 1.0625rem; /* 17px — kit: Lora never below 15px */
-  font-weight: 400;
-  letter-spacing: var(--tracking-body);
-  line-height: var(--lh-body);
-  text-rendering: optimizelegibility;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; }
+p, li, dt, dd, a, span, code, kbd, samp, pre { overflow-wrap: anywhere; }
+
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+ul[role="list"], ol[role="list"] { list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; }
+
+/* ---- Design Tokens ---- */
+:root {
+
+  /* -- Colors (primary palette) -- */
+  --color-primary:       #C8556A;
+  --color-primary-safe:  #ba4f63; /* WCAG 4.5:1+ small text on #fff8f2 */
+  --color-secondary:     #7A9E6B;
+  --color-secondary-safe:#5e7a52; /* WCAG 4.5:1+ small text on #fff8f2 */
+  --color-tertiary:      #8B7AB5;
+  --color-neutral:       #B0A090;
+  --color-bg:            #FFF8F2;
+  --color-surface:       #FFF3E8;
+  --color-surface-alt:   #FDEEDE;
+  --color-text:          #2A1A10;
+  --color-success:       #4A7C59;
+  --color-warning:       #C47B2B;
+  --color-error:         #B53040;
+  --color-info:          #5B7FC4;
+  --color-border:        #E8D5C4;
+  --color-focus:         #C8556A;
+
+  /* -- Strong / emphasis color -- */
+  --color-strong:        #6b2a1a; /* dark rose, 5.2:1 on ivory */
+
+  /* -- Seasonal overrides (applied by js/seasonal.mjs) -- */
+  --season-primary:      #C8556A;
+  --season-secondary:    #7A9E6B;
+  --season-tertiary:     #8B7AB5;
+  --season-surface:      #FFF3E8;
+  --season-bg:           #FFF8F2;
+
+  /* -- Spacing -- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* -- Radius -- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* -- Typography -- */
+  --font-headline: 'Playfair Display', Georgia, serif;
+  --font-display:  'Dancing Script', 'Great Vibes', cursive;
+  --font-body:     'Lora', 'Crimson Text', Georgia, serif;
+  --font-ui:       'Nunito', system-ui, sans-serif;
+  --font-mono:     'Courier Prime', 'Courier New', monospace;
+
+  /* -- Font weights (declared only) -- */
+  --fw-headline: 700;
+  --fw-display:  700;
+  --fw-body:     400;
+  --fw-body-em:  500; /* for <em> and <strong> within body */
+  --fw-ui:       400;
+  --fw-ui-md:    500;
+  --fw-ui-lg:    600;
+  --fw-mono:     400;
+
+  /* -- Shadows -- */
+  --shadow-sm:       0 1px 4px rgba(42,26,16,0.08);
+  --shadow-md:       0 4px 16px rgba(42,26,16,0.10), 0 1px 4px rgba(200,85,106,0.06);
+  --shadow-lg:       0 10px 36px rgba(42,26,16,0.12), 0 4px 12px rgba(200,85,106,0.08);
+  --shadow-rose-glow:0 0 16px rgba(200,85,106,0.18), 0 4px 24px rgba(200,85,106,0.10);
+  --shadow-sage-glow:0 0 12px rgba(122,158,107,0.18), 0 4px 16px rgba(122,158,107,0.10);
+
+  /* -- Transitions -- */
+  --ease-soft:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bloom:   cubic-bezier(0.34, 1.02, 0.64, 1);
+  --dur-slow:     400ms;
+  --dur-medium:   250ms;
+  --dur-fast:     150ms;
+
+  /* -- Layout -- */
+  --max-width:    1400px;
+  --content-width: 860px;
+}
+
+/* ---- Seasonal variant tokens -- */
+[data-season="harvest"] {
+  --color-primary:   #B8621A;
+  --color-secondary: #7A9E6B;
+  --season-primary:  #B8621A;
+  --season-secondary:#7A9E6B;
+  --color-surface:   #FFF0DC;
+  --color-bg:        #FFF8EE;
+}
+[data-season="midwinter"] {
+  --color-primary:   #8B4A5A;
+  --color-secondary: #5A7A4A;
+  --color-tertiary:  #A08DB0;
+  --season-primary:  #8B4A5A;
+  --season-secondary:#5A7A4A;
+  --color-surface:   #FFF0EA;
+}
+[data-season="spring"] {
+  --color-primary:   #D46A82;
+  --color-secondary: #8AB878;
+  --color-tertiary:  #A090CC;
+  --season-primary:  #D46A82;
+  --season-secondary:#8AB878;
+}
+
+/* ---- Base element styles ---- */
+body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-body);
   color: var(--color-text);
-  font-family: var(--font-headline);
-  font-weight: 700;
-  letter-spacing: var(--tracking-headline);
-  line-height: var(--lh-headline);
+  background-color: var(--color-bg);
 }
 
-p {
-  max-width: var(--max-width-text);
+p { line-height: 1.75; }
+
+strong, b {
+  font-weight: var(--fw-body-em);
+  color: var(--color-strong);
 }
 
-a {
-  color: var(--color-rose-ink);
-  text-decoration: underline;
-  text-decoration-color: var(--color-border);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  transition: color var(--dur-quick) var(--ease-garden);
-}
+em { font-style: italic; }
 
-a:hover,
+a:hover { color: var(--color-primary); }
 a:focus-visible {
-  color: var(--color-rose-ink);
-  text-decoration-color: var(--color-primary);
-  text-decoration-thickness: 2px;
-}
-
-/* §19.17 — 400 → 500 in Lora at 17px is about one stem pixel, and the Georgia
-   fallback has no 500 at all, so weight alone is sub-perceptual. The kit caps
-   fonts.body.weight at [400, 500], so 700 would be an UNDECLARED weight even
-   though a lora-700 file exists in the shared pool. The second channel is
-   therefore colour: Rose Ink measures 6.10 / 5.88 / 5.65 against Warm Ivory,
-   Garden Cream and Butter Soft, so it clears 4.5:1 on every surface <strong>
-   can land on. */
-strong {
-  color: var(--color-rose-ink);
-  font-weight: 500;
-}
-
-em {
-  font-style: italic;
-}
-
-code {
-  padding: 0.1em 0.4em;
-  border: 1px solid var(--color-border);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
   border-radius: var(--radius-sm);
-  background: var(--color-surface-alt);
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  letter-spacing: var(--tracking-mono);
-  overflow-wrap: anywhere;
 }
 
-pre {
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-alt);
-  font-family: var(--font-mono);
-  line-height: var(--lh-mono);
-  overflow-x: auto;
-}
-
-pre code {
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: inherit;
-}
-
-ul,
-ol {
-  padding-inline-start: var(--space-6);
-}
-
-li + li {
-  margin-top: var(--space-2);
-}
-
-hr {
-  height: 1px;
-  border: 0;
-  background: var(--color-border);
-}
-
-/* ── Skip link ──────────────────────────────────────────────────────────── */
+/* ---- Skip link ---- */
 .skip-link {
   position: absolute;
-  inset-block-start: -200%;
-  inset-inline-start: var(--space-4);
-  z-index: 200;
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-md);
-
-  /* Opaque rose ink so the label measures 6.10:1, not a translucent guess */
-  background: var(--color-rose-ink);
-  color: var(--color-bg);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  text-decoration: none;
-  transition: inset-block-start 200ms var(--ease-garden);
-}
-
-.skip-link:focus {
-  inset-block-start: var(--space-4);
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
-  box-shadow: var(--focus-halo);
-}
-
-/* ── Focus ring — kit accessibility.focus_style ─────────────────────────── */
-:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--focus-halo);
-}
-
-/* ── Selection & scrollbar ──────────────────────────────────────────────── */
-::selection {
-  background: rgb(200 85 106 / 18%);
-  color: var(--color-text);
-}
-
-::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  border: 2px solid var(--color-surface);
-  border-radius: var(--radius-pill);
-  background: var(--color-neutral);
-}
-
-::-webkit-scrollbar-thumb:hover {
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  transition: top var(--dur-fast) var(--ease-soft);
+}
+.skip-link:focus { top: var(--space-4); }
+
+/* ---- Focus ring ---- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(200,85,106,0.18);
 }
 
-/* ── Visually hidden (kept in the accessibility tree) ───────────────────── *
- * `overflow: hidden` is not decoration here. clip-path visually hides the text
- * but does NOT stop it contributing to document scrollWidth, so a nowrap
- * heading inside a 1px box still reported ~520px of horizontal overflow at
- * 200% text zoom. Without this line the reflow gate fails on every page that
- * carries a visually-hidden heading.                                        */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* ── Reduced motion ─────────────────────────────────────────────────────── *
- * kit accessibility.motion_reduction: petal-fall becomes a cross-fade, the
- * Primrose drift loader becomes static, only opacity survives.              */
+/* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
-
-/* @copyright 2026 Joe Huss <detain@interserver.net> */
-
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
-
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Courier Prime';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Dancing Script';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/dancing-script-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/lora-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
-}
-/* vendor-fonts:end */

@@ -1,125 +1,68 @@
-<!-- Cottagecore Bloom OG card — 1200x630. Editable source; gen-og.mjs rasterises
-     it to og.png, which is what the meta tags reference (new_site.md §19.5).
-     SVG text cannot use the page's @font-face, so the wordmark and headline are
-     set in Georgia — the kit's own declared fallback for Playfair Display. -->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 1200 630"
-  width="1200"
-  height="630"
-  role="img"
-  aria-label="Phlix — Grow Your Garden. Where Every Story Blooms."
->
-  <title>Phlix — Grow Your Garden</title>
-  <desc>
-    Cottagecore Bloom social card for Phlix: a warm ivory ground with a climbing-rose
-    garden gate, the headline "Grow Your Garden." and the tagline "Where Every Story
-    Blooms."
-  </desc>
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
-    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFF8F2" />
-      <stop offset="1" stop-color="#FDEEDE" />
+    <!-- Warm ivory background gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF8F2"/>
+      <stop offset="100%" stop-color="#FFF3E8"/>
     </linearGradient>
-    <radialGradient id="morning" cx="0.22" cy="0.18" r="0.75">
-      <stop offset="0" stop-color="#C8556A" stop-opacity="0.16" />
-      <stop offset="1" stop-color="#FFF8F2" stop-opacity="0" />
+    <!-- Subtle linen texture -->
+    <filter id="linen">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <!-- Rose glow -->
+    <radialGradient id="roseGlow" cx="50%" cy="60%" r="40%">
+      <stop offset="0%" stop-color="#C8556A" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#C8556A" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#ground)" />
-  <rect width="1200" height="630" fill="url(#morning)" />
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
 
-  <!-- linen grain -->
-  <g stroke="#B0A090" stroke-width="1" opacity="0.07">
-    <path d="M0 40h1200M0 90h1200M0 140h1200M0 190h1200M0 240h1200M0 290h1200M0 340h1200M0 390h1200M0 440h1200M0 490h1200M0 540h1200M0 590h1200" />
-  </g>
-
-  <!-- the gate, standing open, framed by climbing roses (right third) -->
-  <g fill="none" stroke="#B0A090" stroke-width="7" stroke-linecap="round">
-    <path d="M840 560V330M1120 560V330" />
-    <path d="M840 330c0-77 63-140 140-140s140 63 140 140" />
-    <path d="M866 560V400h72v160M1094 560V400h-72v160" />
-    <path d="M866 470h72M1022 470h72" />
-  </g>
-  <g fill="none" stroke="#7A9E6B" stroke-width="5" stroke-linecap="round" opacity="0.85">
-    <path d="M840 560c-22-70 6-118 42-155s44-88 22-124" />
-    <path d="M1120 560c22-70-6-118-42-155s-44-88-22-124" />
-    <path d="M884 400c-28-8-42-28-42-50M1076 400c28-8 42-28 42-50" />
-  </g>
-  <g fill="#C8556A" opacity="0.75">
-    <circle cx="874" cy="278" r="19" />
-    <circle cx="912" cy="212" r="15" />
-    <circle cx="1086" cy="286" r="18" />
-    <circle cx="1048" cy="208" r="14" />
-    <circle cx="980" cy="176" r="16" />
-  </g>
-  <g fill="#8B7AB5" opacity="0.55">
-    <circle cx="896" cy="246" r="11" />
-    <circle cx="1064" cy="246" r="11" />
-    <circle cx="1024" cy="184" r="10" />
+  <!-- Botanical corner accent - top left -->
+  <g transform="translate(0,0)" opacity="0.25">
+    <ellipse cx="60" cy="60" rx="55" ry="40" fill="#C8556A" transform="rotate(-20 60 60)"/>
+    <ellipse cx="90" cy="40" rx="40" ry="25" fill="#7A9E6B" transform="rotate(10 90 40)"/>
+    <ellipse cx="40" cy="100" rx="35" ry="20" fill="#8B7AB5" transform="rotate(-40 40 100)"/>
+    <circle cx="100" cy="80" r="15" fill="#C8556A" opacity="0.5"/>
   </g>
 
-  <!-- foreground meadow -->
-  <g fill="#7A9E6B" opacity="0.35">
-    <path d="M0 630c160-58 340-42 440 16H0Z" />
-    <path d="M1200 630c-140-52-300-40-396 12h396Z" />
-  </g>
-  <g fill="none" stroke="#7A9E6B" stroke-width="4" stroke-linecap="round">
-    <path d="M84 630c0-96 22-148 12-200M156 630c0-74-26-126-16-168" />
-  </g>
-  <ellipse cx="94" cy="418" rx="14" ry="21" fill="#C8556A" opacity="0.8" />
-  <ellipse cx="142" cy="450" rx="12" ry="17" fill="#8B7AB5" opacity="0.7" />
-
-  <!-- Primrose the bumble bee -->
-  <g transform="translate(700 96) scale(1.5)">
-    <ellipse cx="20" cy="24" rx="9" ry="5.5" fill="#8B7AB5" opacity="0.4" transform="rotate(-22 20 24)" />
-    <ellipse cx="44" cy="24" rx="9" ry="5.5" fill="#8B7AB5" opacity="0.4" transform="rotate(22 44 24)" />
-    <ellipse cx="32" cy="38" rx="14" ry="11" fill="#C47B2B" />
-    <path d="M20 34h24M19 41h26" stroke="#2A1A10" stroke-width="3.4" stroke-linecap="round" opacity="0.38" />
-    <circle cx="32" cy="23" r="7" fill="#C47B2B" />
-    <circle cx="29.4" cy="22.2" r="1.5" fill="#2A1A10" opacity="0.7" />
-    <circle cx="34.6" cy="22.2" r="1.5" fill="#2A1A10" opacity="0.7" />
-    <circle cx="25" cy="15.5" r="2.6" fill="#C8556A" opacity="0.85" />
-    <circle cx="32" cy="13.2" r="2.8" fill="#8B7AB5" opacity="0.8" />
-    <circle cx="39" cy="15.5" r="2.6" fill="#7A9E6B" opacity="0.85" />
+  <!-- Botanical corner accent - bottom right -->
+  <g transform="translate(1200,630) rotate(180)" opacity="0.2">
+    <ellipse cx="60" cy="60" rx="55" ry="40" fill="#C8556A" transform="rotate(-20 60 60)"/>
+    <ellipse cx="90" cy="40" rx="40" ry="25" fill="#7A9E6B" transform="rotate(10 90 40)"/>
+    <circle cx="100" cy="80" r="15" fill="#C8556A" opacity="0.5"/>
   </g>
 
-  <!-- wordmark + copy -->
-  <g transform="translate(84 150)">
-    <text
-      font-family="Georgia, 'Times New Roman', serif"
-      font-style="italic"
-      font-weight="700"
-      font-size="46"
-      fill="#2A1A10"
-      letter-spacing="-1"
-    >
-      <tspan x="0" y="0">Phlix</tspan>
-    </text>
-    <text
-      font-family="Georgia, 'Times New Roman', serif"
-      font-weight="700"
-      font-size="96"
-      fill="#2A1A10"
-      letter-spacing="-2"
-    >
-      <tspan x="0" y="126">Grow Your Garden.</tspan>
-    </text>
-    <text font-family="Georgia, serif" font-style="italic" font-size="44" fill="#99434F">
-      <tspan x="0" y="196">Where Every Story Blooms.</tspan>
-    </text>
-    <text font-family="Georgia, serif" font-size="27" fill="#7A6A5D">
-      <tspan x="0" y="262">A self-hostable media server for all your stories.</tspan>
-    </text>
-  </g>
+  <!-- Rose radial glow behind center -->
+  <ellipse cx="600" cy="380" rx="500" ry="300" fill="url(#roseGlow)"/>
 
-  <!-- botanical rule under the copy -->
-  <g transform="translate(84 448)">
-    <path d="M0 0h300" stroke="#E8D5C4" stroke-width="2" />
-    <circle cx="322" cy="0" r="7" fill="#C8556A" opacity="0.85" />
-    <circle cx="340" cy="6" r="5" fill="#7A9E6B" opacity="0.7" />
-    <circle cx="340" cy="-6" r="5" fill="#8B7AB5" opacity="0.7" />
+  <!-- Center content -->
+  <!-- Wordmark -->
+  <text x="600" y="260" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="bold" font-style="italic" fill="#2A1A10" letter-spacing="-2">Phlix</text>
+
+  <!-- Tagline -->
+  <text x="600" y="330" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#2A1A10" opacity="0.7">Where Every Story Blooms.</text>
+
+  <!-- Decorative botanical divider -->
+  <line x1="350" y1="370" x2="500" y2="370" stroke="#E8D5C4" stroke-width="1"/>
+  <circle cx="525" cy="370" r="5" fill="#C8556A" opacity="0.6"/>
+  <circle cx="600" cy="370" r="6" fill="#C8556A" opacity="0.8"/>
+  <circle cx="675" cy="370" r="5" fill="#C8556A" opacity="0.6"/>
+  <line x1="700" y1="370" x2="850" y2="370" stroke="#E8D5C4" stroke-width="1"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#B0A090">Self-hosted media server — Roku, Tizen, Windows, Mobile + DLNA</text>
+
+  <!-- Bottom petal decorations -->
+  <g transform="translate(600,520)" opacity="0.2">
+    <ellipse cx="-180" cy="0" rx="30" ry="18" fill="#C8556A" transform="rotate(-15)"/>
+    <ellipse cx="-100" cy="-10" rx="25" ry="15" fill="#7A9E6B" transform="rotate(10)"/>
+    <ellipse cx="0" cy="-15" rx="35" ry="20" fill="#C8556A" transform="rotate(-5)"/>
+    <ellipse cx="100" cy="-10" rx="25" ry="15" fill="#8B7AB5" transform="rotate(15)"/>
+    <ellipse cx="180" cy="0" rx="30" ry="18" fill="#7A9E6B" transform="rotate(-10)"/>
   </g>
 </svg>

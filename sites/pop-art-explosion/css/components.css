@@ -1,1491 +1,589 @@
 /* ==========================================================================
    COMPONENTS.CSS — Pop Art Explosion
-   Every bordered, shouting thing: the topbar from navigation_model, the
-   footer + intensity_toggle utility row, buttons{} in all seven variants,
-   speech/thought bubbles from signature_elements, the hero starburst stage
-   (hero_experience: playable-vignette), Dotty the companion
-   (mascot.behavior), the easter-egg stages, badges{} and the code panel.
-   Everything here obeys the two unbreakable rules: a 3px black ink outline and
-   a HARD 4px offset shadow with zero blur.
+   Feature cards, FAQ accordion, client cards, download sections, hub page,
+   plugins/docs layout, about page, 404.
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Topbar — navigation_model.mode: "topbar"
-      "White bar, 3px bottom black border, Bangers logo in red, nav items in
-      Barlow 700." Active link highlights in yellow with black text.
-   -------------------------------------------------------------------------- */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 60;
-  background: var(--color-bg);
-  border-bottom: var(--border-default);
-}
-
-/* the sequence rail — the `immersive` orientation device, drawn ON the
-   header's own bottom border so it can never sit over a control. JS sets
-   --progress; with no JS it simply stays at 0 width and is invisible. */
-.site-header::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  height: 3px;
-  width: var(--progress, 0%);
-  background: var(--color-primary);
-  pointer-events: none;
-}
-
-.nav-primary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding: var(--space-3) clamp(var(--space-4), 4vw, var(--space-12));
-}
-
-.nav-logo {
-  display: block;
-  flex: none;
-  text-decoration: none;
-  position: relative;
-}
-
-.nav-logo img {
-  width: 132px;
-  height: 43px;
-}
-
-/* header_motif: "Onomatopoeia starburst animation — POW! radiating from the
-   logo". Fires on hover/focus; a static POW badge is what reduced motion and
-   "Dim the lights" leave behind, so the motif is never simply deleted. */
-.nav-logo__pow {
-  position: absolute;
-  top: -10px;
-  right: -22px;
-  z-index: 2;
-  padding: 2px 6px;
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border: var(--border-subtle);
-  font-family: var(--font-headline);
-  font-size: 0.9rem;
-  line-height: 1;
-  transform: rotate(-12deg) scale(0.9);
-  pointer-events: none;
-}
-
-.nav-logo:hover .nav-logo__pow,
-.nav-logo:focus-visible .nav-logo__pow {
-  animation: popthrob 220ms var(--ease-snap) 2;
-}
-
-@keyframes popthrob {
-  0% {
-    transform: rotate(-12deg) scale(0.9);
-  }
-  50% {
-    transform: rotate(6deg) scale(1.28);
-  }
-  100% {
-    transform: rotate(-12deg) scale(0.9);
-  }
-}
-
-.nav-toggle {
-  flex: none;
-  margin-inline-start: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 48px;
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-primary);
-  color: #fff;
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 1.25rem; /* 20px/700 — "large text", so white on red clears 3:1 */
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.nav-toggle__bars {
+/* ── Feature cards (Panel Grid) ────────────────────────────────────────── */
+.features-grid {
   display: grid;
-  gap: 3px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
 }
-
-.nav-toggle__bars span {
-  display: block;
-  width: 22px;
-  height: 3px;
-  background: #fff;
-}
-
-.nav-menu {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  margin-inline-start: auto;
-  padding: 0;
-  list-style: none;
-}
-
-.nav-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-/* site_architecture.nav emphasis — three visibly different treatments. */
-.nav-link--primary {
-  background: var(--color-primary);
-  color: #fff;
-  font-size: 1.25rem; /* 20px/700: white on Kapow Red as large text, 3.88:1 */
-  box-shadow: var(--shadow-sm);
-}
-
-.nav-link--muted {
-  border-color: transparent;
-  background: transparent;
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
-.nav-link[aria-current='page'] {
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.nav-link:hover {
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  text-decoration: none;
-}
-
-.nav-link--primary:hover {
-  background: var(--color-secondary);
-}
-
-/* Mobile. The hamburger is `hidden` in the markup and js/main.js unhides it —
-   so with JS off the menu is simply already open and fully usable, and the
-   ARIA (aria-expanded) only ever appears when real behaviour backs it. */
-@media (width < 60rem) {
-  .nav-menu {
-    flex-basis: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    margin-inline-start: 0;
-  }
-
-  .site-header[data-nav='closed'] .nav-menu {
-    display: none;
-  }
-
-  .nav-link {
-    justify-content: space-between;
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
   }
 }
-
-@media (width >= 60rem) {
-  .nav-toggle {
-    display: none;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   2. Buttons — buttons{} verbatim. All caps Barlow 700, 3px ink border, hard
-      4px offset. microinteractions.button_press: "Hard squash to 0.95 — no
-      bounce, just a crisp 80ms press and release."
-   -------------------------------------------------------------------------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: 48px; /* accessibility.touch_target */
-  padding: var(--space-2) var(--space-6);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
+.feature-panel {
+  border: var(--border-feature);
   box-shadow: var(--shadow-md);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: var(--lh-ui);
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition:
-    transform var(--dur-press) var(--ease-stamp),
-    box-shadow var(--dur-press) var(--ease-stamp);
-}
-
-.btn:active {
-  transform: scale(0.95);
-}
-
-/* microinteractions.hover: the card/button shifts onto its own hard shadow */
-.btn:hover {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 #0a0a0a;
-}
-
-.btn--primary {
-  background: var(--color-primary);
-  color: #fff;
-}
-
-.btn--secondary {
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-}
-
-.btn--ghost {
-  background: transparent;
-  color: var(--color-text);
-}
-
-.btn--paper {
-  background: var(--color-bg);
-  color: var(--color-text);
-}
-
-/* buttons.danger / buttons.icon / buttons.fab are declared by the kit but this
-   site has no destructive action, no icon-only control and no FAB, so no rule
-   for them ships: an unreferenced variant is an inert rule (§19.17). */
-
-.btn-row {
+  padding: var(--space-8);
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
+  flex-direction: column;
+  justify-content: flex-end;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
 }
-
-/* the hero's yellow call-to-action strip (prompt_library.marketing) — this is
-   how a red CTA keeps its declared colours inside a red panel. */
-.cta-strip {
-  margin-top: clamp(var(--space-6), 4vw, var(--space-12));
-  padding: var(--space-6) clamp(var(--space-4), 4vw, var(--space-12));
+.feature-panel:hover {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+.feature-panel:nth-child(1) {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+.feature-panel:nth-child(2) {
+  background: var(--color-tertiary);
+  color: var(--color-bg);
+}
+.feature-panel:nth-child(3) {
   background: var(--color-secondary);
-  background-image: var(--dots-ink);
-  color: var(--ink-on-secondary);
-  border-top: var(--border-feature);
+  color: var(--color-text);
+}
+.feature-panel:nth-child(4) {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+.feature-panel:nth-child(5) {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+.feature-panel:nth-child(6) {
+  background: var(--color-tertiary);
+  color: var(--color-bg);
 }
 
-.cta-strip__inner {
-  width: 100%;
-  max-width: var(--measure);
+.feature-panel h3 {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  margin-bottom: var(--space-3);
+  color: inherit;
+  -webkit-text-stroke: 2px currentColor;
+  paint-order: stroke fill;
+}
+.feature-panel p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  max-width: 40ch;
+}
+.feature-panel .feature-icon {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  font-family: var(--font-display);
+  font-size: 3rem;
+  opacity: 0.25;
+  line-height: 1;
+}
+
+/* ── FAQ accordion ─────────────────────────────────────────────────────── */
+.faq-list {
+  max-width: 720px;
   margin-inline: auto;
 }
-
-/* buttons.link
-   Every link, everywhere, takes --link (see base.css). Ground blocks in
-   theme.css re-point it and paper surfaces reset it, which is what keeps a link
-   inside a white card on a blue panel from taking the blue panel's ink. */
-.link-strong {
+.faq-item {
+  border: var(--border-default);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-3);
+  background: var(--color-bg);
+}
+.faq-question {
+  width: 100%;
+  background: var(--color-bg);
+  border: none;
+  border-bottom: var(--border-default);
+  padding: var(--space-4) var(--space-6);
+  text-align: left;
   font-family: var(--font-ui);
   font-weight: 700;
   font-size: 1rem;
-  letter-spacing: var(--tracking-ui);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--link, var(--color-tertiary));
-}
-
-/* --------------------------------------------------------------------------
-   3. Speech + thought bubbles — signature_elements, component_styles.toast
-   -------------------------------------------------------------------------- */
-.speech {
-  position: relative;
-  padding: var(--space-4);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-feature);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  max-width: 44ch;
-}
-
-.speech::after {
-  content: '';
-  position: absolute;
-  left: 28px;
-  bottom: -18px;
-  width: 0;
-  height: 0;
-  border-left: 18px solid transparent;
-  border-right: 0 solid transparent;
-  border-top: 18px solid #0a0a0a;
-}
-
-.speech::before {
-  content: '';
-  position: absolute;
-  left: 31px;
-  bottom: -11px;
-  z-index: 1;
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 0 solid transparent;
-  border-top: 12px solid var(--color-bg);
-}
-
-.speech--yellow {
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-}
-
-.speech--yellow::before {
-  border-top-color: var(--color-secondary);
-}
-
-.speech p {
-  max-width: none;
-}
-
-/* The chained-circle thought bubble. signature_elements asks for "comic speech
-   AND thought bubbles", and faq_experience.persona has Dotty answering "in
-   thought bubbles and speech bubbles" — so this carries the letters-column
-   answers (.faq-list dd) and her idle KAPOW! pip. The two chained circles
-   inherit their fill from whatever they are attached to, which is why the same
-   rule works on a cream FAQ answer and on a white pip. */
-.thought {
-  position: relative;
-  margin-bottom: var(--space-6);
-}
-
-.thought::after,
-.thought::before {
-  content: '';
-  position: absolute;
-  left: 24px;
-  border-radius: var(--radius-pill);
-  background: inherit;
-  border: var(--border-subtle);
-}
-
-.thought::after {
-  width: 16px;
-  height: 16px;
-  bottom: -20px;
-}
-
-.thought::before {
-  width: 9px;
-  height: 9px;
-  bottom: -34px;
-  left: 18px;
-}
-
-/* --------------------------------------------------------------------------
-   4. Chips + badges — badges{}: "Square with 3px black border — no pills",
-      Bangers ALL CAPS. badges.colors mapping applied to this site's own
-      vocabulary rather than to app capability strings (§19.14).
-   -------------------------------------------------------------------------- */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: 2px var(--space-2);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-subtle);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.badge {
-  display: inline-block;
-  padding: 2px var(--space-2);
-  border: var(--border-default);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg);
-  font-family: var(--font-headline);
-  font-size: 1.05rem;
-  line-height: 1.3;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* stable = informational → blue on white (8.99:1) */
-.status-stable {
-  color: var(--color-tertiary);
-}
-
-/* beta = new/attention → red on white, using the derived 4.5:1 red ink */
-.status-beta {
-  color: var(--color-primary-ink);
-}
-
-/* --------------------------------------------------------------------------
-   5. Starburst — the shape that gives the kit its name. A CSS polygon, so no
-      raster ever ships (do_dont.performance).
-   -------------------------------------------------------------------------- */
-.burst {
-  display: grid;
-  place-items: center;
-  gap: var(--space-2);
-  width: 100%;
-  max-width: 22rem;
-  margin-inline: auto;
-  aspect-ratio: 1;
-  padding: 20% 18%;
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border: 0;
-  text-align: center;
-  clip-path: polygon(
-    50% 0%,
-    61% 16%,
-    79% 8%,
-    82% 27%,
-    100% 32%,
-    88% 47%,
-    100% 65%,
-    81% 70%,
-    79% 90%,
-    61% 83%,
-    50% 100%,
-    39% 83%,
-    21% 90%,
-    19% 70%,
-    0% 65%,
-    12% 47%,
-    0% 32%,
-    18% 27%,
-    21% 8%,
-    39% 16%
-  );
-}
-
-/* The one starburst this site paints (download.html) is the yellow default, so
-   no red/blue recolour rule ships — see §19.17 on inert rules. */
-
-.burst__shout {
-  font-family: var(--font-headline);
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.burst__line {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  max-width: 22ch;
-}
-
-/* --------------------------------------------------------------------------
-   6. hero_experience: playable-vignette
-      "A series of KAPOW! shapes burst from the centre; click or tap to trigger
-      a sequence: red KAPOW → yellow ZAP → blue POW, each rotating around a
-      central motif illustration."
-      FALLBACK (no JS, reduced motion, dimmed): exactly what you see below —
-      all three bursts visible and the headline fully rendered. The script only
-      ever ADDS motion; it never hides a burst that CSS has painted.
-   -------------------------------------------------------------------------- */
-.stage {
-  display: block;
-  width: 100%;
-  padding: var(--space-4);
-  background: var(--color-bg);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
   cursor: pointer;
-  color: var(--color-text);
-  font: inherit;
-  text-align: start;
-}
-
-.stage__ring {
-  position: relative;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  width: 100%;
-  max-width: 380px;
-  margin-inline: auto;
-  background-image: var(--dots-rosette);
-  background-repeat: repeat;
-}
-
-.stage__dotty {
-  width: 48%;
-  height: auto;
-}
-
-/* The counter-rotation here is the other half of `.stage__orbit` below: the
-   orbit turns the arrangement, each burst turns back by the same angle so its
-   lettering stays upright. */
-.stage__burst {
-  position: absolute;
-  width: 40%;
-  aspect-ratio: 1;
-  transform: rotate(calc(-1 * var(--spin, 0deg)));
-  transition: transform 220ms var(--ease-snap);
-}
-
-.stage__burst--1 {
-  top: 0;
-  left: 0;
-}
-
-.stage__burst--2 {
-  top: 4%;
-  right: 0;
-}
-
-.stage__burst--3 {
-  bottom: 0;
-  left: 22%;
-}
-
-.stage__hint {
-  display: block;
-  margin-top: var(--space-3);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* The orbit carries the three bursts around the central motif; each burst
-   counter-rotates by the same angle so its lettering stays upright. Every
-   click advances the arrangement by a third of a turn, which is what
-   hero_experience means by "rotating around a central motif illustration". */
-.stage__orbit {
-  position: absolute;
-  /* 14% is geometry, not taste — see the note below. */
-  inset: 14%;
-  transform: rotate(var(--spin, 0deg));
-  transition: transform 220ms var(--ease-snap);
-}
-
-/* Rotating a square grows its bounding box — at the 120° the vignette steps
-   through, by ~1.37×. The orbit was `inset: 0`, so once it turned it always
-   spilled ~18% past the stage, at EVERY width; it reached the document edge
-   wherever the stage sits close to the viewport. Measured: +34px of horizontal
-   document scroll at 320, +50px at 375, and +8px even at 1280. §19.12 forbids
-   that outright, and it is a real sideways scroll on a phone.
-   The orbit auto-turns about 1.8s after load, which is why the load-time
-   overflow assertion in render-check never saw it (now re-sampled after
-   settling) — and why the inset must be unconditional rather than a phone-only
-   breakpoint, which is what I first mistook this for.
-   14% is the geometry: (1 − 1/1.37) / 2. It makes the turned box fit the stage
-   exactly, so all three bursts stay whole through the rotation. `overflow: clip`
-   on the stage would also stop the scrolling, but by cutting the bursts
-   mid-turn, and hero_experience is the one thing on this page that must not be
-   compromised. */
-
-/* Armed only by JS: each burst stamps in on its own beat. The animation sits on
-   the inner SVG so it cannot fight the counter-rotation above. */
-.stage[data-vignette='ready'].is-playing .stage__burst--1 svg {
-  animation: stamp var(--dur-burst) var(--ease-snap) 0ms 1;
-}
-
-.stage[data-vignette='ready'].is-playing .stage__burst--2 svg {
-  animation: stamp var(--dur-burst) var(--ease-snap) 130ms 1;
-}
-
-.stage[data-vignette='ready'].is-playing .stage__burst--3 svg {
-  animation: stamp var(--dur-burst) var(--ease-snap) 260ms 1;
-}
-
-.stage[data-vignette='ready'].is-playing .stage__dotty {
-  animation: shake 260ms var(--ease-stamp) 1;
-}
-
-@keyframes stamp {
-  0% {
-    transform: scale(0.2) rotate(-25deg);
-  }
-  60% {
-    transform: scale(1.22) rotate(6deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  33% {
-    transform: translate(-4px, 2px);
-  }
-  66% {
-    transform: translate(4px, -2px);
-  }
-}
-
-/* the headline "animates in on the last burst" — an animation, never a
-   visibility gate: the text is painted at full opacity at all times. */
-.hero.is-lit h1 {
-  animation: snapin 200ms var(--ease-snap) 1;
-}
-
-@keyframes snapin {
-  0% {
-    transform: scale(0.94) translateY(6px);
-  }
-  100% {
-    transform: none;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   7. Code panel — component_styles + install{}
-   -------------------------------------------------------------------------- */
-.code-block {
-  margin-top: var(--space-4);
-  background: var(--color-bg);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-}
-
-.code-block__bar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border-bottom: var(--border-default);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.code-block pre {
-  margin: 0;
-  padding: var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 0.9375rem;
-  line-height: var(--lh-mono);
+  align-items: center;
+  gap: var(--space-4);
   color: var(--color-text);
-  /* pre-wrap + anywhere: a 96-character URL must reflow at 320px rather than
-     push the document sideways (§19.12) */
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  transition: background 80ms;
 }
-
-/* accessibility.touch_target: "44x44px on desktop", bumped to 48 below 60rem
-   with the rest of the small controls (see the touch-target block in §11). */
-.copy-btn {
-  min-height: 44px;
-  padding: 2px var(--space-3);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-/* --------------------------------------------------------------------------
-   8. FAQ — faq_experience.frame: "letters-column", Dotty answering fan mail
-   -------------------------------------------------------------------------- */
-.faq-list {
-  display: grid;
-  gap: var(--space-6);
-  margin-top: var(--space-6);
-}
-
-.faq-list dt {
-  font-family: var(--font-headline);
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  line-height: 1.05;
-  text-transform: uppercase;
-}
-
-/* faq_experience.frame: "letters-column". The salutation is real content, so it
-   lives in each <dt> as markup rather than in CSS `content`: generated text is
-   unselectable, invisible to translation tooling, and disappears entirely if the
-   stylesheet fails to load. Only the colour stays here.
-   (.faq-list dt is text-transform: uppercase, so "Dear Dotty:" still prints as
-   DEAR DOTTY: — the letterpress look is unchanged.) */
-.faq-salutation {
-  color: var(--color-primary-ink);
-}
-
-.faq-list dd {
-  margin-top: var(--space-3);
-  padding: var(--space-4);
+.faq-question:hover {
   background: var(--color-surface-alt);
-  border: var(--border-default);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
 }
-
-.faq-alias {
-  margin-top: var(--space-3);
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-
-/* --------------------------------------------------------------------------
-   9. Dotty — mascot.behavior
-      "Bottom-right corner as a permanent hype-person fixture."
-      Below 768px she sits IN FLOW above the footer: at 320px there is nowhere
-      for a floater to go that does not risk the CTA (§19.11 / §19.14).
-   -------------------------------------------------------------------------- */
-.dotty {
-  position: relative;
-  z-index: 55;
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-3);
-  width: fit-content;
-  margin: var(--space-8) auto var(--space-8);
-  padding-inline: var(--space-4);
-}
-
-/* §19.14 sets 768px as the floor for a fixed companion; this site waits until
-   62rem, because between 768 and 991px the hero is still single-column and its
-   playable stage reaches into the bottom-right corner — exactly where a floater
-   would land on top of it (§19.11). Below 62rem Dotty is in flow above the
-   footer, which is also where the mobile layout wants her. */
-@media (width >= 62rem) {
-  .dotty {
-    position: fixed;
-    right: var(--space-4);
-    bottom: var(--space-4);
-    margin: 0;
-    padding-inline: 0;
-  }
-}
-
-/* mascot.idle — "bounces gently side-to-side with her arms pumping" */
-.dotty__figure {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 84px;
-  height: 84px;
-  padding: 0;
-  background: var(--color-secondary);
-  border: var(--border-default);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-  animation: dottybob 1.6s ease-in-out infinite alternate;
-}
-
-.dotty__figure svg {
-  width: 68px;
-  height: 68px;
-}
-
-@keyframes dottybob {
-  from {
-    transform: translateX(-3px) rotate(-3deg);
-  }
-  to {
-    transform: translateX(3px) rotate(3deg);
-  }
-}
-
-/* motion off = "Dotty simply stands still, arms ready" (kit's own words) */
-.motion-off .dotty__figure,
-.motion-off .nav-logo__pow,
-.motion-off .stage__burst svg,
-.motion-off .stage__dotty {
-  animation: none !important;
-}
-
-/* intensity_toggle.affects lists "burst-transitions" and "hero_experience →
-   static", and the orbit/burst rearrangement is a TRANSITION, not an animation.
-   Suppressing `animation` alone left a 220ms 120° sweep running after "Dim the
-   lights" — prefers-reduced-motion only escaped that because base.css §6 zeroes
-   transition-duration globally. js/main.js still re-points --spin, so the trio
-   re-arranges; it just cuts instead of sweeping. */
-.motion-off .stage__orbit,
-.motion-off .stage__burst {
-  transition: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dotty__figure {
-    animation: none;
-  }
-
-  .stage__orbit,
-  .stage__burst {
-    transition: none;
-  }
-}
-
-/* Pow Blue, not Kapow Red: at 12px/700 a white-on-red numeral is 3.88:1, which
-   is below AA for text this small. White on Pow Blue is 8.99:1, and blue is not
-   re-pointed by either seasonal variant's secondary. */
-.dotty__badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 22px;
-  padding: 0 4px;
-  background: var(--color-tertiary);
-  color: #fff;
-  border: var(--border-subtle);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.75rem;
-  line-height: 20px;
-  text-align: center;
-}
-
-.dotty__panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  max-width: min(19rem, calc(100vw - 8rem));
-  padding: var(--space-3);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-feature);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-}
-
-.dotty__say {
+.faq-question::after {
+  content: '+';
   font-family: var(--font-headline);
-  font-size: 1.15rem;
-  line-height: 1.1;
-  text-transform: uppercase;
-  max-width: none;
-}
-
-.dotty__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.dotty__mini {
-  min-height: 44px;
-  padding: 2px var(--space-2);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-/* --------------------------------------------------------------------------
-   10. Easter-egg stages — easter_eggs[]. All three are decoration over the
-       page: pointer-events:none so nothing can ever be blocked, `hidden`
-       until earned, and every one exits on Esc.
-   -------------------------------------------------------------------------- */
-.egg {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  pointer-events: none;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.egg__shout {
-  font-family: var(--font-headline);
-  font-size: clamp(3rem, 18vw, 11rem);
-  line-height: 0.9;
-  text-transform: uppercase;
+  font-size: 1.5rem;
   color: var(--color-primary);
-  -webkit-text-stroke: 4px #0a0a0a;
-  paint-order: stroke fill;
-  animation: snapin 200ms var(--ease-snap) 1;
-}
-
-.egg__dots {
-  position: absolute;
-  inset: 0;
-  background-image: var(--dots-rosette);
-  background-repeat: repeat;
-  animation: driftup 2.4s linear infinite;
-}
-
-@keyframes driftup {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 0 -160px;
-  }
-}
-
-.egg__cursor {
-  position: fixed;
-  width: 148px;
-  height: 148px;
-  margin: -74px 0 0 -74px;
-  pointer-events: none;
-}
-
-.egg--dotty {
-  place-items: start end;
-  padding: var(--space-6);
-}
-
-.egg__card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border: var(--border-feature);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  animation: snapin 200ms var(--ease-snap) 1;
-}
-
-.egg__card svg {
-  width: 56px;
-  height: 56px;
-  flex: none;
-}
-
-.egg__card p {
-  font-family: var(--font-headline);
-  font-size: 1.3rem;
-  line-height: 1.05;
-  text-transform: uppercase;
-  max-width: 16ch;
-}
-
-.motion-off .egg__dots,
-.motion-off .egg__shout,
-.motion-off .egg__card {
-  animation: none !important;
-}
-
-/* --------------------------------------------------------------------------
-   11. Footer — footer_arrangement: "mirror-nav", then the three content.json
-       columns verbatim (§19.14), then the intensity_toggle utility row.
-   -------------------------------------------------------------------------- */
-.site-footer {
-  border-top: var(--border-feature);
-  background: var(--color-bg);
-}
-
-.site-footer__inner {
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding: clamp(var(--space-6), 4vw, var(--space-12)) clamp(var(--space-4), 4vw, var(--space-12));
-}
-
-.footer-tagline {
-  font-family: var(--font-headline);
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  flex-shrink: 0;
   line-height: 1;
-  text-transform: uppercase;
-  max-width: none;
+}
+.faq-item.open .faq-question::after {
+  content: '−';
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 200ms ease;
+  background: var(--color-surface);
+}
+.faq-item.open .faq-answer {
+  max-height: 400px;
+}
+.faq-answer-inner {
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-/* the mirrored index row */
-.footer-index {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  padding: 0;
+/* ── Client cards (spec-sheet) ─────────────────────────────────────────── */
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, minmax(0, 1fr)));
+  gap: var(--space-6);
+}
+.client-card {
+  border: var(--border-feature);
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+  overflow: hidden;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+}
+.client-card:hover {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+.client-header {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  text-align: center;
+  border-bottom: var(--border-default);
+}
+.client-header h3 {
+  font-size: 1.5rem;
+  color: var(--color-bg);
+  margin-bottom: var(--space-1);
+}
+.client-header .tagline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+.client-body {
+  padding: var(--space-4);
+}
+.client-highlights {
   list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-4);
 }
-
-.footer-index a {
-  display: inline-flex;
+.client-highlights li {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.15);
+  display: flex;
   align-items: center;
-  min-height: 44px;
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-surface-alt);
-  color: var(--color-text);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
+  gap: var(--space-2);
+}
+.client-highlights li::before {
+  content: '▸';
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+.client-status {
+  display: inline-block;
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  text-decoration: none;
+  padding: 2px 8px;
+  border: 2px solid var(--color-border);
+}
+.client-status.stable {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+.client-status.beta {
+  background: var(--color-orange);
+  color: var(--color-bg);
+}
+.client-card-actions {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: var(--border-default);
+  background: var(--color-surface-alt);
 }
 
-.footer-index a:hover {
+/* ── Download / Install sections ───────────────────────────────────────── */
+.install-panel {
+  border: var(--border-feature);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-surface);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+.install-panel.starburst-panel {
   background: var(--color-secondary);
 }
-
-.footer-nav {
-  display: grid;
-  gap: var(--space-6);
-  margin-top: var(--space-8);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 44rem) {
-  .footer-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.footer-col h2 {
-  font-size: 1.35rem;
-  margin-bottom: var(--space-3);
-}
-
-.footer-col ul {
-  display: grid;
-  gap: var(--space-1);
-  padding: 0;
-  list-style: none;
-}
-
-.footer-col a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: var(--space-1) 0;
-  color: var(--color-tertiary);
-  font-weight: 600;
-}
-
-/* intensity_toggle.placement: "Footer utility row, next to reduced-motion
-   indicator." */
-.utility-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
-  margin-top: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: var(--border-subtle);
-}
-
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 44px;
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+.install-panel .panel-label {
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  cursor: pointer;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
 }
-
-/* forms.switches: "Rectangular pill, 3px border; off = white/black; on =
-   red/white, snaps with a hard click." */
-.toggle__led {
-  width: 34px;
-  height: 18px;
-  flex: none;
-  padding: 2px;
-  background: var(--color-bg);
-  border: var(--border-subtle);
-  border-radius: var(--radius-sm);
+.install-panel.starburst-panel .panel-label {
+  color: var(--color-text);
 }
-
-.toggle__led::before {
-  content: '';
-  display: block;
-  width: 12px;
-  height: 10px;
+.install-panel h3 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-4);
+}
+.install-panel .install-command {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
   background: var(--color-text);
+  color: var(--color-bg);
+  border: var(--border-default);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+  margin-block: var(--space-4);
+  white-space: pre-wrap;
+  word-break: break-all;
+  hyphens: none;
 }
-
-.toggle[aria-pressed='true'] {
-  background: var(--color-primary);
-  color: #fff;
-  font-size: 1.25rem; /* large text, so white on Kapow Red clears 3:1 */
-}
-
-.toggle[aria-pressed='true'] .toggle__led {
-  background: #fff;
-}
-
-.toggle[aria-pressed='true'] .toggle__led::before {
-  margin-inline-start: auto;
-  background: var(--color-primary);
-}
-
-.utility-note {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.footer-copy {
-  margin-top: var(--space-6);
-  padding: var(--space-4) clamp(var(--space-4), 4vw, var(--space-12));
-  background: var(--color-text);
-  color: #fff;
-  border-top: var(--border-feature);
-  font-size: 0.9375rem;
-}
-
-.footer-copy__inner {
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-}
-
-.footer-copy a {
+.install-panel .install-command::before {
+  content: '$ ';
   color: var(--color-secondary);
 }
-
-/* --------------------------------------------------------------------------
-   12. seasonal_activation motifs. The date gate in js/main.js sets
-       data-season on <html>; these are the visual motifs it turns on.
-       seasonal_variants[1].motif: "silver foil accent stripe at page top".
-   -------------------------------------------------------------------------- */
-.foil-stripe {
-  height: 10px;
-  background-image: url('../img/seasonal/winter-foil-stripe.svg');
-  background-repeat: repeat-x;
-  background-size: auto 10px;
-  border-bottom: var(--border-subtle);
-}
-
-html:not([data-season='factory-winter']) .foil-stripe {
-  display: none;
-}
-
-/* Summer of Love: sunburst rays replace the generic dot rosette behind the
-   hero stage, and Dotty puts her sunglasses on (js swaps the SVG group). */
-html[data-season='summer-of-love'] .stage__ring {
-  background-image: url('../img/seasonal/summer-sunglasses.svg'), var(--dots-rosette);
-  background-repeat: no-repeat, repeat;
-  background-position:
-    center 74%,
-    0 0;
-  background-size:
-    46% auto,
-    auto;
-}
-
-html[data-season='factory-winter'] .panel--dots,
-html[data-season='factory-winter'] .stage__ring {
-  background-image: url('../img/seasonal/winter-snowflake-pattern.svg');
-  background-repeat: repeat;
-}
-
-/* --------------------------------------------------------------------------
-   13. Live region for reward copy + status messages.
-   -------------------------------------------------------------------------- */
-.sr-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* mascot.idle — the occasional tiny KAPOW! thought bubble. Absolutely
-   positioned, so it never changes Dotty's own box, and only ever shown after
-   the visitor's first scroll (see js/dotty.js). */
-.dotty__pip {
-  /* .thought supplies the two chained tail circles; they hang 20px and 34px
-     below the bubble, so the bubble is lifted clear of Dotty's head instead of
-     sitting on it. `position` re-declares absolute because .thought sets
-     relative. */
-  position: absolute;
-  top: -76px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 2px var(--space-2);
-  background: var(--color-bg);
+.copy-btn {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-secondary);
   color: var(--color-text);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
+  border: var(--border-default);
   box-shadow: var(--shadow-sm);
-  font-family: var(--font-headline);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    transform 80ms,
+    box-shadow 80ms;
+}
+.copy-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.install-panel .what-it-does {
   font-size: 0.95rem;
-  line-height: 1.2;
-  white-space: nowrap;
+  color: var(--color-text);
+  max-width: 65ch;
+}
+.install-notes {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-alt);
+  border-left: 4px solid var(--color-primary);
+  font-size: 0.875rem;
 }
 
-/* easter_interactions[1]: the wink. Two eye groups live in the SVG and this
-   swaps which one paints — no motion involved, so it survives reduced motion. */
-.dotty-eye-wink {
-  display: none;
+.ecosystem-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, minmax(0, 1fr)));
+  gap: var(--space-4);
+}
+.ecosystem-list li {
+  border: var(--border-default);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  margin-bottom: 0;
+}
+.ecosystem-list a {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-tertiary);
+  text-decoration: none;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+.ecosystem-list a:hover {
+  color: var(--color-primary);
+}
+.ecosystem-list .ecosystem-what {
+  font-size: 0.85rem;
+  color: #555;
 }
 
-.is-winking .dotty-eye-wink {
-  display: inline;
+/* ── Plugins page ──────────────────────────────────────────────────────── */
+.plugin-card {
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+  padding: var(--space-6);
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+}
+.plugin-card:hover {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+.plugin-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+}
+.plugin-card p {
+  font-size: 0.9rem;
+  color: #444;
 }
 
-.is-winking .dotty-eye-open {
-  display: none;
+/* ── Docs page ──────────────────────────────────────────────────────────── */
+.docs-toc {
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+  padding: var(--space-6);
+  position: sticky;
+  top: calc(60px + var(--space-4));
+}
+.docs-toc h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-4);
+  border-bottom: var(--border-default);
+  padding-bottom: var(--space-2);
+}
+.docs-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.docs-toc li {
+  margin-bottom: var(--space-2);
+}
+.docs-toc a {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-tertiary);
+  text-decoration: none;
+}
+.docs-toc a:hover {
+  color: var(--color-primary);
 }
 
-/* easter_interactions[0]: red/yellow dot confetti. */
-.egg--confetti i {
+/* ── Hub page ──────────────────────────────────────────────────────────── */
+.hub-feature {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin-bottom: var(--space-8);
+}
+@media (max-width: 640px) {
+  .hub-feature {
+    grid-template-columns: 1fr;
+  }
+}
+.hub-feature:nth-child(even) .hub-feature-text {
+  order: -1;
+}
+.hub-feature-text {
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-8);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hub-feature-text h3 {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+.hub-feature-text p {
+  font-size: 1rem;
+  max-width: 45ch;
+}
+.hub-visual {
+  background: var(--color-secondary);
+  border: var(--border-feature);
+  box-shadow: var(--shadow-lg);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--color-text);
+  padding: var(--space-8);
+}
+
+/* ── About page ────────────────────────────────────────────────────────── */
+.about-section {
+  padding-block: var(--space-12);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.about-card {
+  border: var(--border-feature);
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+  padding: var(--space-8);
+}
+.about-card h3 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+  border-bottom: var(--border-default);
+  padding-bottom: var(--space-3);
+}
+.about-card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 55ch;
+}
+
+/* ── 404 page ──────────────────────────────────────────────────────────── */
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-16);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='1.8' fill='%230A0A0A' fill-opacity='0.1'/%3E%3C/svg%3E"),
+    var(--color-primary);
+}
+.error-page h1 {
+  font-size: clamp(3rem, 15vw, 10rem);
+  color: var(--color-bg);
+  -webkit-text-stroke: 4px var(--color-bg);
+  paint-order: stroke fill;
+  line-height: 0.85;
+  margin-bottom: var(--space-6);
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  max-width: 100%;
+}
+.error-page .error-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  max-width: 40ch;
+  margin-bottom: var(--space-8);
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: var(--space-4) var(--space-6);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.error-page .error-subtitle::after {
+  content: '';
   position: absolute;
-  top: -24px;
+  top: -18px;
+  left: 40px;
+  width: 24px;
+  height: 24px;
+  background: var(--color-text);
+  border-radius: 50%;
+}
+.error-page .error-subtitle::before {
+  content: '';
+  position: absolute;
+  top: -34px;
+  left: 32px;
   width: 14px;
   height: 14px;
-  border: 2px solid #0a0a0a;
-  border-radius: var(--radius-pill);
-  animation: confetti 1.4s var(--ease-snap) 1 forwards;
+  background: var(--color-text);
+  border-radius: 50%;
+}
+.error-links {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-@keyframes confetti {
-  to {
-    transform: translateY(100vh) rotate(220deg);
-  }
+/* ── Utilities ──────────────────────────────────────────────────────────── */
+.text-center {
+  text-align: center;
 }
-
-.motion-off .egg--confetti i {
-  animation: none !important;
-  top: 12vh;
+.text-left {
+  text-align: left;
 }
-
-/* --------------------------------------------------------------------------
-   14. Cross-cutting rules that MUST come last in the cascade.
-
-   Everything below depends on being the final word on `box-shadow`,
-   `transform` or `min-height` for controls declared earlier in this file. Put
-   new component rules ABOVE this banner, and if a new component declares its
-   own box-shadow, add it to §14.1.
-   -------------------------------------------------------------------------- */
-
-/* 14.1 — Focus ring vs. a component's own hard shadow.
-   base.css draws the ring as `outline: 3px #FFE600` PLUS `box-shadow: 0 0 0 5px
-   #0A0A0A`, which is the "2px black offset" half of accessibility.focus_style.
-   That selector is only (0,1,0), so every control that declares its own
-   box-shadow — and in this kit that is nearly all of them — used to REPLACE the
-   black backing with its own 2/4/6px offset. Yellow on the Zap Yellow CTA strip
-   is 1:1: the ring became literally invisible on the hero's primary button, and
-   1.27:1 on the red nav CTAs. Both the ring and the component's own shadow are
-   restored here, in one shadow list. */
-.skip-link:focus-visible,
-.btn:focus-visible,
-.dotty__figure:focus-visible {
-  box-shadow:
-    0 0 0 5px #0a0a0a,
-    var(--shadow-md);
+.mt-4 {
+  margin-top: var(--space-4);
 }
-
-.nav-toggle:focus-visible,
-.nav-link--primary:focus-visible,
-.nav-link[aria-current='page']:focus-visible,
-.toggle:focus-visible {
-  box-shadow:
-    0 0 0 5px #0a0a0a,
-    var(--shadow-sm);
+.mt-8 {
+  margin-top: var(--space-8);
 }
-
-.stage:focus-visible {
-  box-shadow:
-    0 0 0 5px #0a0a0a,
-    var(--shadow-lg);
+.mb-4 {
+  margin-bottom: var(--space-4);
 }
-
-/* The hover state collapses a button onto its own shadow, so a hovered+focused
-   control keeps the ring and drops only the offset. */
-.btn:hover:focus-visible {
-  box-shadow: 0 0 0 5px #0a0a0a;
+.mb-8 {
+  margin-bottom: var(--space-8);
 }
-
-/* responsive_behavior.tv asks for a 6px ring with a 3px black offset; theme.css
-   §12 widens the base ring at >= 100rem, and these have to follow it. */
-@media (width >= 100rem) {
-  .skip-link:focus-visible,
-  .btn:focus-visible,
-  .dotty__figure:focus-visible {
-    box-shadow:
-      0 0 0 9px #0a0a0a,
-      var(--shadow-md);
-  }
-
-  .nav-toggle:focus-visible,
-  .nav-link--primary:focus-visible,
-  .nav-link[aria-current='page']:focus-visible,
-  .toggle:focus-visible {
-    box-shadow:
-      0 0 0 9px #0a0a0a,
-      var(--shadow-sm);
-  }
-
-  .stage:focus-visible {
-    box-shadow:
-      0 0 0 9px #0a0a0a,
-      var(--shadow-lg);
-  }
-
-  .btn:hover:focus-visible {
-    box-shadow: 0 0 0 9px #0a0a0a;
-  }
+.mb-12 {
+  margin-bottom: var(--space-12);
 }
-
-/* 14.2 — microinteractions.hover / cards.notes: "Cards have the hard 3px ink
-   border and a 4px/4px black offset shadow to the bottom-right. On hover the
-   card shifts 4px right+down so it sits on the shadow."
-   .pennant, .client-card and .reel own their offset shadow, so they collapse it
-   as they move — the same move .btn already made. .warhol__tile and
-   .feature-detail are gutter-grid CELLS: their "shadow" is the grid's own black
-   background showing through the 4px gutter, so shifting them by exactly one
-   gutter slides the cell onto that black and needs no box-shadow change.
-   Deliberately NOT wrapped in @media (hover: hover): .btn:hover above is not
-   either, and headless Chrome reports `hover: none`, which would make every one
-   of these rules look inert to render-check and to the next reviewer. */
-.pennant,
-.client-card,
-.reel,
-.warhol__tile,
-.feature-detail {
-  transition:
-    transform var(--dur-press) var(--ease-stamp),
-    box-shadow var(--dur-press) var(--ease-stamp);
+.gap-4 {
+  gap: var(--space-4);
 }
-
-.pennant:hover,
-.client-card:hover,
-.reel:hover,
-.warhol__tile:hover,
-.feature-detail:hover {
-  transform: translate(4px, 4px);
+.flex {
+  display: flex;
 }
-
-.pennant:hover,
-.client-card:hover,
-.reel:hover {
-  box-shadow: 0 0 0 #0a0a0a;
+.flex-wrap {
+  flex-wrap: wrap;
 }
-
-/* accessibility.motion_reduction: "offset-shadow hover suppressed". The shift
-   is the offset-shadow hover, so under either motion switch the card and the
-   button stay put and keep the shadow they were drawn with — the hover is not
-   merely accelerated to 1ms. */
-.motion-off .btn:hover,
-.motion-off .pennant:hover,
-.motion-off .client-card:hover,
-.motion-off .reel:hover,
-.motion-off .warhol__tile:hover,
-.motion-off .feature-detail:hover {
-  transform: none;
-  transition: none;
+.items-center {
+  align-items: center;
 }
-
-.motion-off .btn:hover,
-.motion-off .pennant:hover,
-.motion-off .reel:hover {
-  box-shadow: var(--shadow-md);
+.justify-center {
+  justify-content: center;
 }
-
-.motion-off .client-card:hover {
-  box-shadow: var(--shadow-lg);
+.w-full {
+  width: 100%;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .btn:hover,
-  .pennant:hover,
-  .client-card:hover,
-  .reel:hover,
-  .warhol__tile:hover,
-  .feature-detail:hover {
-    transform: none;
-    transition: none;
-  }
-
-  .btn:hover,
-  .pennant:hover,
-  .reel:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  .client-card:hover {
-    box-shadow: var(--shadow-lg);
-  }
+.max-w-prose {
+  max-width: 65ch;
 }
-
-/* 14.3 — accessibility.touch_target: "Minimum 48x48px on mobile and TV;
-   44x44px on desktop." Each control below declares its desktop 44px in its own
-   rule; this is the mobile step, and it has to sit after all of them. */
-@media (width < 60rem) {
-  .nav-link,
-  .footer-col a,
-  .footer-index a,
-  .copy-btn,
-  .dotty__mini,
-  .toggle {
-    min-height: 48px;
-  }
-}
-
-/* TV is the other 48px surface (responsive_behavior.tv, 10-foot viewing). */
-@media (width >= 100rem) {
-  .nav-link,
-  .footer-col a,
-  .footer-index a,
-  .copy-btn,
-  .dotty__mini,
-  .toggle {
-    min-height: 48px;
-  }
+.mx-auto {
+  margin-inline: auto;
 }

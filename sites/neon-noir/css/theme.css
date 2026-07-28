@@ -1,1125 +1,609 @@
-/*
- * theme.css — Neon Noir
- * Typography roles, layout containers, the venetian-blind section rhythm, and
- * the per-page blueprint layouts:
- *   home     → narrative-scroll (opener / case-brief / lead-cases / trust / closing)
- *   features → evidence-board
- *   clients  → network-map
- *   download → interrogation (briefing room)
- *   about    → case-closed (chapters + transcript)
- *   404      → dead-end alley
- *
- * Declared archetype: narrative-scroll. Compositions are deliberately
- * asymmetric — the kit forbids symmetrical centred heroes.
- *
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
 
-/* ==========================================================================
-   1. Typography roles
-   ========================================================================== */
+/* ===========================================================================
+   THEME.CSS — Typography, Layout, Page Structure
+   =========================================================================== */
 
-h1 {
-  font-size: clamp(1.9rem, 6.4vw, 4.25rem);
-  font-weight: 900;
-}
+/* ── Skip link (a11y) ─────────────────────────────────────────────────────── */
 
-h2 {
-  font-size: clamp(1.5rem, 3.6vw, 2.4rem);
-}
-
-h3 {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-}
-
-h4 {
-  font-size: 1rem;
-}
-
-p {
-  max-width: var(--measure-read);
-}
-
-.t-eyebrow {
-  color: var(--color-secondary-text);
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
   font-family: var(--font-ui);
-  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  line-height: 1.3;
-  text-transform: uppercase;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  transition: top var(--duration-fast) var(--ease-cinematic);
 }
 
-/* Bebas Neue has no lowercase — every use of it is uppercase, always.
-   Cyan, not amber: `dashboard_style` wants numerals "lit by neon accent
-   colors", but `color_rules[2]` reserves amber for the primary CTA, and a step
-   numeral is chrome beside one. Large display size, so 3:1 would do; cyan
-   gives 11.53:1 on navy anyway. */
-.t-num {
-  color: var(--color-secondary);
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  text-transform: uppercase;
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
-.t-serial {
-  color: var(--color-neutral);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+/* ── Seasonal banner slot ──────────────────────────────────────────────────── */
+
+#season-slot,
+#season-slot-2 {
+  position: relative;
+  z-index: 10;
 }
 
-.t-lead {
+#season-slot:not([hidden]),
+#season-slot-2:not([hidden]) {
+  display: block;
+}
+
+.season-banner {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-6);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
   color: var(--color-text);
-  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
-  max-width: 60ch;
 }
 
-.t-muted {
+.season-banner a {
+  color: var(--color-secondary);
+}
+
+/* ── Site wrapper ──────────────────────────────────────────────────────────── */
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Topbar / Navigation ───────────────────────────────────────────────────── */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.site-wordmark {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.site-wordmark:hover {
+  color: var(--color-text);
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+}
+
+.site-wordmark:focus-visible {
+  outline-color: var(--color-focus);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+}
+
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+}
+
+.main-nav li {
+  display: flex;
+}
+
+.main-nav a {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-neutral);
+  letter-spacing: 0.01em;
+  border-left: 3px solid transparent;
+  transition:
+    color var(--duration-fast) var(--ease-cinematic),
+    border-color var(--duration-fast) var(--ease-cinematic),
+    text-shadow var(--duration-fast) var(--ease-cinematic);
+  white-space: nowrap;
 }
 
-/* A single typewritten aside — mono is reserved for typewriter moments only. */
-.t-typed {
+.main-nav a:hover {
+  color: var(--color-secondary);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+.main-nav a[aria-current='page'] {
+  color: var(--color-secondary);
+  border-left-color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+  box-shadow: none;
+}
+
+.main-nav a.nav-primary {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.main-nav a.nav-muted {
   color: var(--color-neutral);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  line-height: 1.5;
+  opacity: 0.75;
 }
 
-/* ==========================================================================
-   2. Containers and section rhythm
-   ========================================================================== */
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  padding: var(--space-2);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+}
+
+/* ── Mobile navigation ─────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-4);
+    display: none;
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .main-nav a {
+    padding: var(--space-3) var(--space-4);
+    border-left: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .main-nav a[aria-current='page'] {
+    border-left: none;
+    border-bottom-color: var(--color-primary);
+    background: rgba(0, 229, 255, 0.05);
+  }
+
+  .header-inner {
+    position: relative;
+  }
+}
+
+/* ── Main content ──────────────────────────────────────────────────────────── */
+
+main {
+  flex: 1;
+}
+
+.section {
+  padding: var(--space-16) var(--space-6);
+}
+
+.section--tight {
+  padding: var(--space-12) var(--space-6);
+}
+
+.section--dark {
+  background: var(--color-bg);
+}
+
+.section--surface {
+  background: var(--color-surface);
+}
+
+.section--alt {
+  background: var(--color-surface-alt);
+}
 
 .container {
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding-inline: var(--space-4);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.container--read {
-  max-width: 860px;
+.container--content {
+  max-width: var(--content-width);
 }
 
-.band {
-  position: relative;
-  padding-block: clamp(var(--space-12), 7vw, var(--space-24));
-}
+/* ── Venetian-blind section divider ─────────────────────────────────────── */
 
-.band--navy {
-  background-image: var(--grad-city-depth);
-}
-
-.band--slate {
-  background-color: var(--color-surface-alt);
-}
-
-/* Venetian-blind divider: hard directional light through a slatted window. */
-.rule-venetian {
-  height: var(--space-6);
+.section-divider {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0px,
+    var(--color-border) 1px,
+    transparent 1px,
+    transparent 8px
+  );
   margin: 0;
-  border: 0;
-  background-image: repeating-linear-gradient(
-    180deg,
-    rgb(0, 229, 255, 0.18) 0,
-    rgb(0, 229, 255, 0.18) 1px,
-    transparent 1px,
-    transparent 7px
-  );
-  transform: skewY(-1.1deg);
+  border: none;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
-/* The second boundary reads as a colder, further-off window — steel rather
-   than neon. (It used to be an amber variant; amber is CTA-only now.) */
-.rule-venetian--steel {
-  background-image: repeating-linear-gradient(
-    180deg,
-    rgb(122, 143, 166, 0.3) 0,
-    rgb(122, 143, 166, 0.3) 1px,
-    transparent 1px,
-    transparent 5px
-  );
-  transform: skewY(0.8deg);
-}
+/* ── Hero / Opener section ────────────────────────────────────────────────── */
 
-.section-head {
+#opener {
+  min-height: 90vh;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-8);
-  max-width: 46ch;
-}
-
-/* ==========================================================================
-   3. Page header (every page but home)
-   ========================================================================== */
-
-.page-header {
-  position: relative;
-  overflow: hidden;
-  padding-block: clamp(var(--space-12), 6vw, var(--space-16));
-  border-bottom: 1px solid var(--color-border);
-  background-image: var(--grad-city-depth);
-}
-
-.page-header__inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  max-width: 62ch;
-}
-
-.page-header h1 {
-  text-shadow: var(--glow-text-cyan);
-}
-
-.page-header__blinds {
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  width: 40%;
-  height: 100%;
-  background-image: repeating-linear-gradient(
-    174deg,
-    rgb(0, 229, 255, 0.09) 0,
-    rgb(0, 229, 255, 0.09) 3px,
-    transparent 3px,
-    transparent 16px
-  );
-  pointer-events: none;
-}
-
-.page-header .container {
-  position: relative;
-  z-index: 1;
-}
-
-/* ==========================================================================
-   4. Home — the opener (hero_experience: playable-vignette)
-   Asymmetric: copy hard left, the alley on the right. Never centred.
-   ========================================================================== */
-
-.opener {
-  position: relative;
-  overflow: hidden;
-  padding-block: clamp(var(--space-8), 5vw, var(--space-16));
-  border-bottom: 1px solid var(--color-border);
-}
-
-/* The band itself is night: void black plus one cold sheen off the wet street
-   in the far corner. The warm practical is NOT here — it belongs to the alley
-   art (.opener__art::before), which is the "hero subject" the kit's Amber
-   Interrogation gradient is scoped to. A warm field across the band reads as
-   golden hour, which this kit prohibits in four separate places. */
-.opener::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background-image: var(--grad-street-sheen);
-  pointer-events: none;
-}
-
-.opener__grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
   align-items: center;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
+  position: relative;
+  background: var(--color-bg);
+  padding: var(--space-24) var(--space-6);
+  /* No overflow:hidden — text must reflow at all zoom levels per §19.12 */
 }
 
-.opener__copy {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 0;
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0, 229, 255, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 80% 100%, rgba(245, 166, 35, 0.04) 0%, transparent 60%),
+    var(--color-bg);
+  pointer-events: none;
 }
 
-.opener h1 {
-  max-width: 20ch;
-  text-shadow: var(--glow-text-cyan);
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
 }
 
-/* Cyan, upright. Amber is the CTA sitting two lines below this, and Playfair
-   Display ships no italic face in the pool — a synthesised oblique of a
-   high-contrast didone is visibly poor at hero size, so the emphasis is carried
-   by hue + the neon halo instead of a fake slant. */
-.opener h1 em {
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   color: var(--color-secondary);
-  font-style: normal;
-  text-shadow: var(--glow-text-cyan);
+  margin-bottom: var(--space-4);
+  opacity: 0;
+  animation: neon-flicker-in 0.8s var(--ease-cinematic) 0.2s forwards;
 }
 
-.opener__sub {
+.hero-headline {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
   color: var(--color-text);
-  font-size: clamp(1rem, 1.5vw, 1.1875rem);
-  max-width: 54ch;
+  margin-bottom: var(--space-6);
+  opacity: 0;
+  animation: neon-flicker-in 0.8s var(--ease-cinematic) 0.5s forwards;
 }
 
-.opener__actions {
+.hero-headline .highlight {
+  color: var(--color-primary);
+  text-shadow: 0 0 30px rgba(245, 166, 35, 0.4);
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: var(--color-text);
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: var(--space-8);
+  opacity: 0;
+  animation: neon-flicker-in 0.8s var(--ease-cinematic) 0.8s forwards;
+}
+
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
+  gap: var(--space-4);
+  opacity: 0;
+  animation: neon-flicker-in 0.8s var(--ease-cinematic) 1.1s forwards;
 }
 
-.opener__logline {
-  position: relative;
-  z-index: 1;
-  margin-top: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  color: var(--color-neutral);
-  font-size: 0.9375rem;
-  max-width: 76ch;
-}
-
-/* The alley: pure CSS/SVG, decorative, aria-hidden. It carries no text, which
-   is why it is the right home for the one warm light on the page. */
-.opener__art {
-  position: relative;
-  min-height: 240px;
-}
-
-/* colors.gradients[1] "Amber Interrogation", used for its declared job:
-   "Single overhead light effect behind hero subjects." One practical, hung over
-   the marquee, falling off to nothing well before the copy column. */
-.opener__art::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  inset: -14% -6% 26%;
-  background-image: var(--grad-interrogation);
-  pointer-events: none;
-}
-
-.opener__art svg {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: auto;
-}
-
-/* hero_experience.suggested_inputs lists "pointer hover". Hovering the art
-   brightens the practical's halo — it never advances the vignette, because
-   changing content on a mouse crossing decorative art is a trap. The advance
-   control is .vignette__advance, a real labelled button. */
-@media (hover: hover) {
-  .opener__art:hover .alley__halo {
-    opacity: 0.26;
+/* Neon flicker animation */
+@keyframes neon-flicker-in {
+  0% {
+    opacity: 0;
   }
-}
-
-.opener__rain {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    104deg,
-    rgb(0, 229, 255, 0.14) 0,
-    rgb(0, 229, 255, 0.14) 1px,
-    transparent 1px,
-    transparent 9px
-  );
-  mask-image: linear-gradient(180deg, rgb(0, 0, 0, 0.9), transparent);
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* The alley's three neon states. With no JS there is no [data-pose] at all,
-   which is the declared fallback: the sign is fully lit amber and still. */
-.alley {
-  --sign: var(--color-primary);
-}
-
-.alley__sign,
-.alley__tube {
-  fill: var(--sign);
-}
-
-.alley__halo {
-  fill: var(--sign);
-  opacity: 0.16;
-  transition: opacity var(--dur-hover) var(--ease-cine);
-}
-
-.alley__lux {
-  transition: transform var(--dur-cut) var(--ease-cine);
-}
-
-[data-pose='0'] .alley {
-  --sign: var(--color-secondary);
-}
-
-[data-pose='1'] .alley {
-  --sign: var(--color-tertiary);
-}
-
-[data-pose='1'] .alley__lux {
-  transform: translateX(7px);
-}
-
-[data-pose='2'] .alley__lux {
-  transform: translateX(-4px);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /* The buzz dies once the final headline lands (pose 2 / no-JS default).
-     Finite and delayed: see the "one at a time" schedule at §14. */
-  [data-pose='0'] .alley__tube,
-  [data-pose='1'] .alley__tube {
-    animation: neon-buzz 4.5s steps(8, end) var(--delay-buzz) 2 both;
+  10% {
+    opacity: 0.6;
   }
-}
-
-@keyframes neon-buzz {
-  0%,
-  90%,
+  15% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  35% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 0.85;
+  }
+  75% {
+    opacity: 1;
+  }
   100% {
     opacity: 1;
   }
-
-  92% {
-    opacity: 0.32;
-  }
-
-  95% {
-    opacity: 1;
-  }
-
-  97% {
-    opacity: 0.55;
-  }
 }
 
-/* Vignette leads: every lead is in the markup. With JS the poses reveal them
-   one at a time; with JS off all three are simply visible. */
-.vignette {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
+/* ── Section headings ─────────────────────────────────────────────────────── */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
 }
 
-.vignette__leads {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin: 0;
-  border-left: 2px solid var(--color-border);
-  padding-left: var(--space-4);
-}
-
-.vignette__lead {
-  color: var(--color-text);
+.section-title {
   font-family: var(--font-headline);
-  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 700;
+  color: var(--color-text);
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.1;
+  margin-bottom: var(--space-4);
 }
 
-/* An unrevealed lead is a REAL tagline_secondary line that is on screen, so it
-   has to clear 4.5:1 like any other text — it is not decoration. No opacity:
-   compositing Steel Mist at 0.45 over void gave an effective #3c4754 = 2.07:1.
-   Full-strength Steel Mist is 5.88:1 on void and 5.06:1 even under the street
-   sheen at its peak; the reveal is carried by the ink change to Ghost White,
-   the neon halo, and the lit tube marker below. */
-.vignette__lead[data-state='dim'] {
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
   color: var(--color-neutral);
-  transition: color var(--dur-cut) var(--ease-cine);
+  max-width: 600px;
+  line-height: 1.65;
 }
 
-.vignette__lead[data-state='lit'] {
-  color: var(--color-text);
-  text-shadow: var(--glow-text-cyan);
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-12) var(--space-6) var(--space-8);
 }
 
-/* A lit lead also gains a hard 2px tube under it, so the reveal is never
-   carried by colour or glow alone (and survives calm mode, which empties the
-   glow dials). */
-.vignette__lead[data-state='lit']::after {
-  content: '';
-  display: block;
-  width: 3.5rem;
-  height: 2px;
-  margin-top: var(--space-1);
-  background-color: var(--color-secondary);
-  box-shadow: var(--glow-cyan);
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.vignette__controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
+.footer-tagline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-8);
+  font-style: italic;
 }
 
-/* ==========================================================================
-   5. Home — case brief (story + pitch_bullets as noir-scroll clue cards)
-   ========================================================================== */
-
-.brief__grid {
+.footer-grid {
   display: grid;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   gap: var(--space-8);
-  grid-template-columns: 1fr;
+  margin-bottom: var(--space-8);
 }
 
-.brief__prose {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.brief__prose p {
-  color: var(--color-text);
-  font-size: 1.0625rem;
-}
-
-.clue-scrolls {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-/* ==========================================================================
-   6. Home — lead cases (feature_casting) + the case board
-   ========================================================================== */
-
-.caseboard {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: 1fr;
-  margin-bottom: var(--space-12);
-}
-
-.support-grid {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-}
-
-.more-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-8);
+.footer-col h3 {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
 }
 
-/* ==========================================================================
-   7. Home — trust band (proof_strategy). A field summary, not a hype block.
-   ========================================================================== */
-
-.trust__grid {
-  display: grid;
-  align-items: start;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
 }
 
-.placard {
-  display: grid;
-  gap: 0;
-  margin: 0;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+.footer-col a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  transition:
+    opacity var(--duration-fast) var(--ease-cinematic),
+    color var(--duration-fast) var(--ease-cinematic);
 }
 
-.placard > div {
+.footer-col a:hover {
+  opacity: 1;
+  color: var(--color-secondary);
+}
+
+.footer-bottom {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2) var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
 }
 
-.placard > div:last-child {
-  border-bottom: 0;
-}
-
-.placard > div:nth-child(even) {
-  background-color: var(--color-surface-alt);
-}
-
-.placard dt {
-  color: var(--color-secondary-text);
-  flex: 0 0 auto;
+.footer-legal {
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  min-width: 9ch;
-  text-transform: uppercase;
-}
-
-.placard dd {
-  color: var(--color-text);
-  flex: 1 1 18ch;
-  font-size: 0.9375rem;
-  margin: 0;
-}
-
-.case-quote {
-  margin: 0;
-  border-left: 2px solid var(--color-secondary);
-  padding-left: var(--space-4);
-}
-
-.case-quote p {
-  color: var(--color-text);
-  font-family: var(--font-headline);
-  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
-
-.case-quote cite {
-  display: block;
-  margin-top: var(--space-3);
   color: var(--color-neutral);
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-style: normal;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  opacity: 0.6;
 }
 
-/* The attribution carries a real link, so the reader can go and check it. */
-.case-quote cite a {
-  color: var(--color-secondary-text);
-}
-
-.record-links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-6);
-}
-
-.record-links a {
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-}
-
-/* ==========================================================================
-   8. Closing act / CTA banner + the conversion ladder
-   ========================================================================== */
-
-.cta-banner {
-  position: relative;
-  overflow: hidden;
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-}
-
-/* One low desk lamp over the briefing heading, top-left, plus the cold street
-   sheen bottom-right. The two are at opposite corners so they never stack into
-   a wash, and the warm one is a third of the hero practical's strength: at its
-   peak the composite is #2d2313, which is still night. This band ships on six
-   of nine pages, so a warm field here was most of what made the site read as
-   golden hour. */
-.cta-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--grad-briefing-lamp), var(--grad-street-sheen);
-  pointer-events: none;
-}
-
-.cta-banner .container {
-  position: relative;
-  z-index: 1;
-}
-
-.cta-banner__title {
-  max-width: 30ch;
-  text-shadow: var(--glow-text-cyan);
-}
-
-.cta-banner__sub {
-  margin-top: var(--space-4);
-  color: var(--color-text);
-  font-size: 1.0625rem;
-}
-
-.ladder {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-  margin-top: var(--space-8);
-}
-
-.ladder__rung {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-border);
-  background-color: var(--color-surface);
-}
-
-/* The lead rung is marked by a lit cyan edge, not amber: the amber in this band
-   is the rung-one CTA fill and nothing else. */
-.ladder__rung:first-child {
-  border-left-color: var(--color-secondary);
-  box-shadow: inset 3px 0 12px rgb(0, 229, 255, 0.08);
-}
-
-.ladder__step {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-}
-
-.ladder__step .t-num {
-  font-size: 2rem;
-}
-
-.ladder__label {
-  color: var(--color-neutral);
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.ladder__why {
-  color: var(--color-text);
-  font-size: 0.9375rem;
-}
-
-.ladder .btn {
-  align-self: flex-start;
-}
-
-/* ==========================================================================
-   9. Features — evidence board
-   ========================================================================== */
-
-.evidence-board {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: 1fr;
-}
-
-.folded-in {
-  margin-top: var(--space-12);
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-top: 2px solid var(--color-secondary);
-  background-color: var(--color-surface);
-}
-
-.folded-in h2 {
-  font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-}
-
-.folded-in p {
-  margin-top: var(--space-3);
-}
-
-/* ==========================================================================
-   10. Clients — network map
-   ========================================================================== */
-
-.netmap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  /* Held off the right edge on purpose: the dark half of the frame is
-     structural in this kit, not empty space to fill. */
-  max-width: 940px;
-  padding-left: var(--space-8);
-}
-
-/* The trunk: a thin cyan line every node taps into. */
-.netmap::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  inset-block: var(--space-6);
-  left: 7px;
-  width: 2px;
-  background-image: linear-gradient(
-    180deg,
-    rgb(0, 229, 255, 0.05),
-    rgb(0, 229, 255, 0.55),
-    rgb(0, 229, 255, 0.05)
-  );
-}
-
-.netmap__node {
-  position: relative;
-  z-index: 1;
-}
-
-/* The stub + the lit node itself. */
-.netmap__node::before {
-  content: '';
-  position: absolute;
-  top: var(--space-6);
-  left: calc(var(--space-8) * -1 + 8px);
-  width: var(--space-6);
-  height: 1px;
-  background-color: rgb(0, 229, 255, 0.5);
-}
-
-.netmap__node::after {
-  content: '';
-  position: absolute;
-  top: calc(var(--space-6) - 4px);
-  left: calc(var(--space-8) * -1 + 3px);
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--color-secondary);
-  background-color: var(--color-bg);
-  box-shadow: var(--glow-cyan);
-}
-
-.netmap__hub {
-  position: relative;
-  z-index: 1;
-  margin-bottom: var(--space-4);
+.footer-legal a {
   color: var(--color-neutral);
 }
 
-/* ==========================================================================
-   11. Download — the briefing room (conversion_funnel: instant-command)
-   ========================================================================== */
-
-.briefing {
-  border-left: 2px solid var(--color-secondary);
-  padding-left: var(--space-4);
-  color: var(--color-text);
-  font-family: var(--font-headline);
-  font-size: clamp(1.125rem, 2.4vw, 1.625rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  max-width: 34ch;
+.footer-legal a:hover {
+  color: var(--color-secondary);
 }
 
-.clearance {
-  display: grid;
-  align-items: start;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
-}
-
-.requirement-list {
+.footer-utility {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-.requirement-list li {
-  display: flex;
-  gap: var(--space-3);
-  color: var(--color-text);
-  font-size: 0.9375rem;
-}
-
-.requirement-list li::before {
-  content: '';
-  flex: 0 0 auto;
-  width: 8px;
-  height: 8px;
-  margin-top: 0.55em;
-  border: 1px solid var(--color-secondary);
-}
-
-.agent-grid {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-}
-
-.toolkit {
-  display: grid;
-  gap: 0;
-  border: 1px solid var(--color-border);
-}
-
-/* ==========================================================================
-   12. About — case closed (chapters) + interrogation transcript
-   ========================================================================== */
-
-.chapter {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-  padding-block: var(--space-8);
-  border-top: 1px solid var(--color-border);
-}
-
-.chapter:first-of-type {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.chapter__mark {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2) var(--space-3);
-  min-width: 0;
-}
-
-.chapter__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.chapter__body p {
-  color: var(--color-text);
-  font-size: 1.0625rem;
-}
-
-/* ==========================================================================
-   13. 404 — dead-end alley
-   ========================================================================== */
-
-.deadend {
-  display: grid;
   align-items: center;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
-  padding-block: clamp(var(--space-12), 7vw, var(--space-24));
+  gap: var(--space-4);
 }
 
-.deadend__code {
-  /* Dead steel tubing, one digit still burning. --color-edge-strong (Dim Steel
-     40% + Steel Mist 60%) is 3.61:1 on void, which clears the 3:1 large-text
-     floor; the raw Dim Steel #2a3650 it replaces is 1.62:1, i.e. invisible. */
-  color: var(--color-edge-strong);
-  font-family: var(--font-display);
-  font-size: clamp(5rem, 22vw, 11rem);
-  letter-spacing: 0.06em;
-  line-height: 0.9;
-  text-transform: uppercase;
-}
-
-.deadend__code span {
-  color: var(--color-primary);
-  text-shadow: var(--glow-text-amber);
-}
-
-.deadend__docket {
-  margin-top: var(--space-4);
-  padding: var(--space-4);
-  border: 1px dashed var(--color-edge-strong);
-  background-color: var(--color-surface);
-}
-
-.deadend__leads {
+/* Intensity toggle */
+.intensity-toggle {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-neutral);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
-/* ==========================================================================
-   14. scroll_experience: cinematic
-   Each group "cuts" into frame behind a venetian wipe, then settles with one
-   flicker. Nothing is hidden by the stylesheet: js/main.js only arms elements
-   that are still BELOW the fold (`.will-cut`), so a JS or CSS failure can
-   never hide content, and nothing visible ever flashes out. Reduced motion
-   and calm mode skip the arming step entirely.
-   ========================================================================== */
-
-@media (prefers-reduced-motion: no-preference) {
-  /* Armed, but never dimmed: an unlit group sits 14px low and nothing else.
-     A subtree `opacity` put Steel Mist text (.t-serial, .case-quote cite) at
-     2.81:1 for as long as the group stayed unobserved, which is a real contrast
-     failure on real copy. The cut is now a hard positional cut — which is more
-     on-brand anyway ("Hard cut" is transitions[0]) — plus one transient
-     flicker inside the keyframes as the neon settles. */
-  .will-cut {
-    transform: translateY(14px);
-  }
-
-  .is-cut {
-    animation: cut-in var(--dur-cut) var(--ease-cine) both;
-  }
-
-  .will-wipe {
-    clip-path: inset(0 100% 0 0);
-  }
-
-  .is-wiped {
-    animation: blind-wipe 620ms var(--ease-cine) both;
-  }
+.intensity-toggle:hover {
+  color: var(--color-text);
 }
 
-[data-intensity='calm'] .will-cut,
-[data-intensity='calm'] .will-wipe {
-  clip-path: none;
-  opacity: 1;
-  transform: none;
+.intensity-toggle .toggle-track {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  transition: background var(--duration-fast) var(--ease-cinematic);
 }
 
-@keyframes cut-in {
-  0% {
-    transform: translateY(14px);
-  }
+.intensity-toggle .toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-neutral);
+  border-radius: 50%;
+  transition:
+    transform var(--duration-fast) var(--ease-cinematic),
+    background var(--duration-fast) var(--ease-cinematic);
+}
 
-  55% {
-    transform: translateY(0);
-  }
+.intensity-toggle.is-active .toggle-track {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
 
-  /* one flicker as the neon settles — transient, ~90ms, not a resting state */
-  72% {
-    opacity: 0.74;
-  }
+.intensity-toggle.is-active .toggle-thumb {
+  transform: translateX(14px);
+  background: var(--color-bg);
+}
 
-  100% {
+.intensity-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow,
+  .hero-headline,
+  .hero-subheadline,
+  .hero-actions {
+    animation: none;
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  @keyframes neon-flicker-in {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
 
-/* The venetian-blind wipe the kit asks for, on the section boundary itself. */
-@keyframes blind-wipe {
-  0% {
-    clip-path: inset(0 100% 0 0);
-  }
+/* ── Scroll reveal ─────────────────────────────────────────────────────────── */
 
-  100% {
-    clip-path: inset(0 0 0 0);
-  }
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity var(--duration-slow) var(--ease-cinematic),
+    transform var(--duration-slow) var(--ease-cinematic);
 }
 
-/* header_motif — slow-scan neon flicker on the hero wordmark.
-   ── The "one at a time" schedule ────────────────────────────────────────────
-   do_dont.animation.dont forbids BOTH "Animate more than one element
-   simultaneously" AND "Run continuous looping animations without pause", so all
-   three of this site's ambient animations are finite and their windows are
-   disjoint. Nothing loops forever, and no two ever run together:
-
-     sign-flicker (.opener h1)      6.0s x 2, delay  1.2s  → 1.2s .. 13.2s
-     neon-buzz    (.alley__tube)    4.5s x 2, delay 13.5s  → 13.5s .. 22.5s
-     lux-shift    (.lux__figure)    9.0s x 2, delay 23.0s  → 23.0s .. 41.0s
-
-   After 41s the page is completely still, which is the beat the kit asks for
-   anyway: "The neon flicker fades when the final headline lands."
-   The three delays are declared together in base.css §2 so the schedule can be
-   read in one place instead of three files. */
-@media (prefers-reduced-motion: no-preference) {
-  .opener h1 {
-    animation: sign-flicker 6s var(--ease-cine) var(--delay-flicker) 2 both;
-  }
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes sign-flicker {
-  0%,
-  88%,
-  100% {
-    text-shadow: var(--glow-text-cyan);
-  }
-
-  90% {
-    text-shadow: none;
-  }
-
-  92% {
-    text-shadow: var(--glow-text-cyan);
-  }
-
-  94% {
-    text-shadow: none;
-  }
-}
-
-/* ==========================================================================
-   15. Responsive — single column below 768, asymmetric grids above
-   ========================================================================== */
-
-@media (width >= 700px) {
-  .support-grid,
-  .agent-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ladder {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .evidence-board {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .chapter {
-    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
-    gap: var(--space-8);
-  }
-}
-
-@media (width >= 960px) {
-  .container {
-    padding-inline: var(--space-8);
-  }
-
-  /* Asymmetric by design: 7fr of copy against 5fr of alley. */
-  .opener__grid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  }
-
-  .opener {
-    min-height: 78vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .brief__grid {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-  }
-
-  .caseboard {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .support-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .trust__grid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  }
-
-  .clearance {
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-  }
-
-  .agent-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .deadend {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  }
-}
-
-@media (width >= 1200px) {
-  .evidence-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

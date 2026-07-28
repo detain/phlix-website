@@ -1,1316 +1,478 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Phlix — Where Every Story Blooms</title>
-    <meta
-      name="description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      name="keywords"
-      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
-    />
-    <link rel="canonical" href="https://detain.github.io/phlix-website/cottagecore-bloom/" />
+<html lang="en" data-season="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phlix — Where Every Story Blooms</title>
+  <meta name="description" content="Step through the garden gate — a tender, self-hosted place for all your stories. Stream anywhere with SyncPlay, Live TV, and DLNA.">
+  <meta name="keywords" content="phlix, media server, self-hosted, streaming, SyncPlay, DLNA">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/cottagecore-bloom/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/cottagecore-bloom/">
+  <meta property="og:title" content="Phlix — Where Every Story Blooms">
+  <meta property="og:description" content="Step through the garden gate — a tender, self-hosted place for all your stories. Stream anywhere with SyncPlay, Live TV, and DLNA.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/cottagecore-bloom/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phlix — Where Every Story Blooms">
+  <meta name="twitter:description" content="Step through the garden gate — a tender, self-hosted place for all your stories.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/cottagecore-bloom/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+  <meta name="theme-color" content="#C8556A">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Phlix",
+    "description": "Self-hostable PHP media server with SyncPlay, Live TV, transcoding, and native apps.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "PHP 8.3+",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "license": "https://github.com/detain/phlix-server/blob/master/LICENSE"
+  }
+  </script>
+</head>
+<body data-page="home">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Phlix" />
-    <meta property="og:url" content="https://detain.github.io/phlix-website/cottagecore-bloom/" />
-    <meta property="og:title" content="Phlix — Where Every Story Blooms" />
-    <meta
-      property="og:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      property="og:image"
-      content="https://detain.github.io/phlix-website/cottagecore-bloom/img/og.png"
-    />
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Phlix — Where Every Story Blooms" />
-    <meta
-      name="twitter:description"
-      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
-    />
-    <meta
-      name="twitter:image"
-      content="https://detain.github.io/phlix-website/cottagecore-bloom/img/og.png"
-    />
-    <meta name="twitter:creator" content="@detain" />
+<!-- Seasonal banner (shown by JS when a season is active) -->
+<div class="seasonal-banner" id="seasonal-banner" style="display:none">
+  The garden is blooming in its season — come see what's growing.
+</div>
 
-    <meta name="theme-color" content="#C8556A" />
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
-    <link rel="manifest" href="manifest.webmanifest" />
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a class="nav-logo" href="./" aria-label="Phlix home">
+      <!-- Primrose silhouette + wordmark -->
+      <svg class="nav-logo-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="16" cy="20" rx="7" ry="6" fill="#C8556A" opacity="0.15"/>
+        <ellipse cx="16" cy="18" rx="5" ry="4.5" fill="#C8556A" opacity="0.3"/>
+        <circle cx="16" cy="16" r="3.5" fill="#C8556A" opacity="0.6"/>
+        <circle cx="16" cy="16" r="2" fill="#C8556A"/>
+        <ellipse cx="11" cy="14" rx="3.5" ry="2" fill="rgba(200,85,106,0.5)" transform="rotate(-30 11 14)"/>
+        <ellipse cx="21" cy="14" rx="3.5" ry="2" fill="rgba(200,85,106,0.5)" transform="rotate(30 21 14)"/>
+        <ellipse cx="12" cy="19" rx="3" ry="1.5" fill="rgba(200,85,106,0.35)" transform="rotate(-60 12 19)"/>
+        <ellipse cx="20" cy="19" rx="3" ry="1.5" fill="rgba(200,85,106,0.35)" transform="rotate(60 20 19)"/>
+      </svg>
+      <span class="wordmark">Phlix</span>
+    </a>
 
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/theme.css" />
-    <link rel="stylesheet" href="css/components.css" />
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a class="nav-link emphasis-primary" href="./" aria-current="page">The Garden</a></li>
+        <li><a class="nav-link emphasis-primary" href="features.html">What Grows Here</a></li>
+        <li><a class="nav-link emphasis-default" href="clients.html">Guest Rooms</a></li>
+        <li><a class="nav-link emphasis-primary" href="download.html">Start Your Own</a></li>
+        <li><a class="nav-link emphasis-default" href="hub.html">The Gatehouse</a></li>
+        <li><a class="nav-link emphasis-muted" href="about.html">Our Story</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Phlix",
-        "description": "Self-hostable PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "PHP 8.3+",
-        "url": "https://detain.github.io/phlix-website/cottagecore-bloom/",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "license": "https://www.mozilla.org/en-US/MPL/2.0/"
-      }
-    </script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content" tabindex="-1">
 
-    <!-- seasonal_activation: live-js date gate replaces this with the banner -->
-    <div id="season-slot" hidden></div>
-
-    <!-- Botanical icon sprite (kit icon_style: outlined, rounded, soft) -->
-    <svg class="icon-sprite" aria-hidden="true" focusable="false">
-      <symbol id="i-library" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="3" y="6" width="5" height="14" rx="1.5" />
-          <rect x="9.5" y="4" width="5" height="16" rx="1.5" />
-          <path d="M16.6 7.4l3.7 1-2.8 11.1-3.7-1" />
-          <path d="M4.2 22c1.5-1.4 3.3-1.7 5-1.3" opacity=".6" />
-        </g>
-      </symbol>
-      <symbol id="i-syncplay" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2.5" y="5" width="8" height="7" rx="2" />
-          <rect x="13.5" y="12" width="8" height="7" rx="2" />
-          <path d="M10.5 8.5c4 0 4 7 7.5 7" opacity=".7" />
-          <path d="M6.5 16.5c0 1.5-1 2.5-2.5 2.5" opacity=".5" />
-          <circle cx="17.5" cy="8.5" r="1.1" />
-        </g>
-      </symbol>
-      <symbol id="i-transcode" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2.5" y="5.5" width="9" height="8" rx="2" />
-          <path d="M14.5 9.5h6" />
-          <path d="M18 7l2.5 2.5L18 12" />
-          <path d="M14 16.5h7M14 20h4.5" opacity=".8" />
-        </g>
-      </symbol>
-      <symbol id="i-shield" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M12 3l7.5 2.8v5.6c0 4.4-3 7.7-7.5 9.6-4.5-1.9-7.5-5.2-7.5-9.6V5.8Z" />
-          <path d="M12 8.5c1.8 1.2 1.8 4 0 5.2-1.8-1.2-1.8-4 0-5.2Z" opacity=".8" />
-        </g>
-      </symbol>
-      <symbol id="i-antenna" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M12 11v10" />
-          <path d="M8 21h8" />
-          <path d="M12 4.5v3" />
-          <path d="M8.3 7.2a5.2 5.2 0 0 1 7.4 0" />
-          <path d="M5.6 4.4a9 9 0 0 1 12.8 0" opacity=".65" />
-          <circle cx="12" cy="9.4" r="1.4" />
-        </g>
-      </symbol>
-      <symbol id="i-broadcast" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2.5" y="8" width="12" height="9" rx="2" />
-          <path d="M9 20h5" opacity=".8" />
-          <path d="M17.5 6.5a8 8 0 0 1 0 11" />
-          <path d="M20.4 3.6a12 12 0 0 1 0 16.8" opacity=".6" />
-        </g>
-      </symbol>
-      <symbol id="i-puzzle" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M10 4.2a2 2 0 0 1 4 0c0 1.1-.7 1.3-.7 1.8h4.5c.7 0 1.2.5 1.2 1.2v3.6c-.5 0-1.4-.7-2.4.3a2 2 0 0 0 0 2.8c1 1 1.9.3 2.4.3v3.6c0 .7-.5 1.2-1.2 1.2H6.2c-.7 0-1.2-.5-1.2-1.2V13c.5 0 1.4.7 2.4-.3a2 2 0 0 0 0-2.8c-1-1-1.9-.3-2.4-.3V7.2c0-.7.5-1.2 1.2-1.2h4.5c0-.5-.7-.7-.7-1.8Z"
-          />
-        </g>
-      </symbol>
-      <symbol id="i-hub" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="12" cy="12" r="3.2" />
-          <circle cx="12" cy="4" r="1.8" />
-          <circle cx="20" cy="16" r="1.8" />
-          <circle cx="4" cy="16" r="1.8" />
-          <path d="M12 8.8V5.8M14.6 13.6l3.8 1.8M9.4 13.6l-3.8 1.8" opacity=".8" />
-        </g>
-      </symbol>
-      <symbol id="i-leaf" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M4.5 19.5c-1-7 3.5-13 15-14.5.5 11-5.5 15.5-15 14.5Z" />
-          <path d="M8 16c2.5-3.5 5.5-6 10-7.5" opacity=".7" />
-        </g>
-      </symbol>
-      <symbol id="i-sprig" viewBox="0 0 44 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M4 20c6-2 10-6 12-12" />
-          <path d="M40 20c-6-2-10-6-12-12" />
-          <path d="M10 17c-2-2-2-4-1.5-5.5 1.5.5 3 2 3.5 4" opacity=".8" />
-          <path d="M34 17c2-2 2-4 1.5-5.5-1.5.5-3 2-3.5 4" opacity=".8" />
-        </g>
-        <circle cx="22" cy="7" r="3.2" fill="currentColor" opacity=".85" />
-        <circle cx="16.5" cy="10.5" r="2" fill="currentColor" opacity=".5" />
-        <circle cx="27.5" cy="10.5" r="2" fill="currentColor" opacity=".5" />
-      </symbol>
-      <symbol id="i-gate" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M4 20V9.5M20 20V9.5" />
-          <path d="M4 9.5a8 8 0 0 1 16 0" />
-          <path d="M8 20v-7M12 20v-7M16 20v-7" opacity=".7" />
-          <path d="M4 15h16" opacity=".7" />
-        </g>
-      </symbol>
-      <symbol id="i-ask" viewBox="0 0 24 24">
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M8.5 8.8a3.5 3.5 0 1 1 5.2 3c-1.2.8-1.7 1.6-1.7 3" />
-          <path d="M12 19.2h0" />
-          <path d="M3.5 20.5c1.6-2 3.4-2.6 5.2-2.4" opacity=".55" />
-        </g>
-      </symbol>
-      <!-- Primrose the bumble bee — kit mascot -->
-      <symbol id="i-bee" viewBox="0 0 64 64">
-        <ellipse
-          cx="20"
-          cy="24"
-          rx="9"
-          ry="5.5"
-          fill="#8B7AB5"
-          opacity=".4"
-          transform="rotate(-22 20 24)"
-        />
-        <ellipse
-          cx="44"
-          cy="24"
-          rx="9"
-          ry="5.5"
-          fill="#8B7AB5"
-          opacity=".4"
-          transform="rotate(22 44 24)"
-        />
-        <ellipse cx="32" cy="38" rx="14" ry="11" fill="#C47B2B" />
-        <path
-          d="M20 34h24M19 41h26"
-          stroke="#2A1A10"
-          stroke-width="3.4"
-          stroke-linecap="round"
-          opacity=".38"
-        />
-        <circle cx="32" cy="23" r="7" fill="#C47B2B" />
-        <circle cx="29.4" cy="22.2" r="1.5" fill="#2A1A10" opacity=".7" />
-        <circle cx="34.6" cy="22.2" r="1.5" fill="#2A1A10" opacity=".7" />
-        <path
-          d="M28 24.5c1.4 1.4 6.6 1.4 8 0"
-          fill="none"
-          stroke="#2A1A10"
-          stroke-width="1.4"
-          stroke-linecap="round"
-          opacity=".45"
-        />
-        <path
-          d="M25.5 16.5c1.5-1.5 4-2.5 6.5-2.5s5 1 6.5 2.5"
-          fill="none"
-          stroke="#7A9E6B"
-          stroke-width="1.6"
-          stroke-linecap="round"
-        />
-        <circle cx="25" cy="15.5" r="2.6" fill="#C8556A" opacity=".85" />
-        <circle cx="32" cy="13.2" r="2.8" fill="#8B7AB5" opacity=".8" />
-        <circle cx="39" cy="15.5" r="2.6" fill="#7A9E6B" opacity=".85" />
-        <path
-          d="M29 17.2c-1.6-3-3.4-4.4-5.2-5M35 17.2c1.6-3 3.4-4.4 5.2-5"
-          fill="none"
-          stroke="#2A1A10"
-          stroke-width="1.4"
-          stroke-linecap="round"
-          opacity=".5"
-        />
-      </symbol>
-    </svg>
-
-    <header class="site-header" role="banner">
-      <nav class="nav-primary container" aria-label="Primary navigation">
-        <a class="nav-logo" href="./" aria-label="Phlix home — the garden gate">
-          <img src="img/logo.svg" alt="Phlix logo" width="132" height="42" />
-        </a>
-        <!-- The Primrose silhouette beside the wordmark (kit navigation.topbar).
-             A real button, not part of the logo link: the click:5 egg has to
-             live somewhere that does not navigate away between clicks. -->
-        <button class="nav-sigil" type="button" aria-label="Primrose the bumble bee — say hello">
-          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
-            <use href="#i-bee" />
-          </svg>
-        </button>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            stroke-linecap="round"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
-          Menu
-        </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
-          <li><a href="./" data-emphasis="primary" aria-current="page">The Garden</a></li>
-          <li><a href="features.html" data-emphasis="primary">What Grows Here</a></li>
-          <li><a href="clients.html" data-emphasis="default">Guest Rooms</a></li>
-          <li><a href="download.html" data-emphasis="primary">Start Your Own</a></li>
-          <li><a href="hub.html" data-emphasis="default">The Gatehouse</a></li>
-          <li><a href="about.html" data-emphasis="muted">Our Story</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main id="main-content" tabindex="-1">
-      <!-- ================================================================
-           BEAT 1 · gate-opens — hero_experience: diorama-parallax
-           The five planes below are decorative. With JS off (or under reduced
-           motion) they simply stand still: one hand-painted cottage garden
-           with the gate already open, carrying this exact copy.
-           ================================================================ -->
-      <section class="hero" id="gate-opens" aria-labelledby="hero-heading">
-        <!-- hero_experience: diorama-parallax. Five depth planes, but each one
-             now carries its art in FRAMING pieces — a canopy along the top, a
-             rose-covered pier up each side, and two dense bands along the
-             bottom — plus a pressed-flower field across the whole hero. The
-             first build let every plane fall to `height: auto`, which pinned all
-             five to the bottom edge and left 81% of the hero as bare paper in a
-             kit whose loudest instruction is "always abundant". Two botanical
-             accents only, rose + sage: Primrose's own flower crown is the one
-             place lavender appears, because the kit describes her that way. -->
-        <div class="hero-diorama" aria-hidden="true">
-          <div class="hero-plane plane-sky" data-depth="0.15">
-            <!-- The wash is pure blobs, so `none` (which stretches) is safe. -->
-            <svg class="art art-wash" viewBox="0 0 1200 1200" preserveAspectRatio="none">
-              <ellipse cx="240" cy="150" rx="380" ry="220" fill="#C8556A" opacity=".07" />
-              <ellipse cx="980" cy="90" rx="420" ry="190" fill="#7A9E6B" opacity=".06" />
-              <ellipse cx="620" cy="470" rx="560" ry="260" fill="#C8556A" opacity=".05" />
-              <ellipse cx="180" cy="760" rx="360" ry="240" fill="#7A9E6B" opacity=".06" />
-              <ellipse cx="1050" cy="820" rx="400" ry="260" fill="#C8556A" opacity=".06" />
-              <ellipse cx="600" cy="1120" rx="640" ry="240" fill="#7A9E6B" opacity=".08" />
-            </svg>
-            <!-- A scatter of pressed specimens, denser toward the margins, so no
-                 part of the field is empty paper. -->
-            <span class="motif m1 motif-rose">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-            <span class="motif m2">
-              <svg viewBox="0 0 24 24" focusable="false"><use href="#i-leaf" /></svg>
-            </span>
-            <span class="motif m3">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-            <span class="motif m4 motif-rose">
-              <svg viewBox="0 0 24 24" focusable="false"><use href="#i-leaf" /></svg>
-            </span>
-            <span class="motif m5">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-            <span class="motif m6 motif-rose">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-            <span class="motif m7">
-              <svg viewBox="0 0 24 24" focusable="false"><use href="#i-leaf" /></svg>
-            </span>
-            <span class="motif m8">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-            <span class="motif m9">
-              <svg viewBox="0 0 24 24" focusable="false"><use href="#i-leaf" /></svg>
-            </span>
-            <span class="motif m10 motif-rose">
-              <svg viewBox="0 0 44 24" focusable="false"><use href="#i-sprig" /></svg>
-            </span>
-          </div>
-
-          <div class="hero-plane plane-cottage" data-depth="0.35">
-            <!-- The canopy: wisteria and rose trails hanging in from the top,
-                 so the composition has a ceiling as well as a floor. -->
-            <svg class="art art-top" viewBox="0 0 1200 280" preserveAspectRatio="xMidYMin slice">
-              <g fill="none" stroke="#7A9E6B" stroke-width="3" stroke-linecap="round">
-                <path d="M0 0c90 30 150 90 175 165M120 0c40 55 55 110 50 165" />
-                <path d="M255 0c15 60 5 110-20 150" opacity=".8" />
-                <path d="M1200 0c-90 30-150 90-175 165M1080 0c-40 55-55 110-50 165" />
-                <path d="M945 0c-15 60-5 110 20 150" opacity=".8" />
-                <path d="M470 0c25 45 30 85 20 125M600 0c0 55-10 95-30 130" opacity=".7" />
-                <path d="M730 0c-25 45-30 85-20 125" opacity=".7" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="2" stroke-linecap="round" opacity=".75">
-                <path d="M60 40c25 5 40 20 45 40M150 70c22 8 33 24 34 44" />
-                <path d="M1140 40c-25 5-40 20-45 40M1050 70c-22 8-33 24-34 44" />
-                <path d="M505 55c18 8 26 22 26 40M690 55c-18 8-26 22-26 40" />
-              </g>
-              <g fill="#C8556A" opacity=".7">
-                <ellipse cx="176" cy="168" rx="12" ry="17" />
-                <ellipse cx="168" cy="132" rx="9" ry="13" />
-                <ellipse cx="233" cy="152" rx="10" ry="15" />
-                <ellipse cx="1024" cy="168" rx="12" ry="17" />
-                <ellipse cx="1032" cy="132" rx="9" ry="13" />
-                <ellipse cx="967" cy="152" rx="10" ry="15" />
-                <ellipse cx="491" cy="128" rx="9" ry="13" />
-                <ellipse cx="570" cy="133" rx="10" ry="14" />
-                <ellipse cx="709" cy="128" rx="9" ry="13" />
-              </g>
-              <g fill="#7A9E6B" opacity=".45">
-                <path d="M0 0h150c-20 40-70 60-150 62V0Z" />
-                <path d="M1200 0h-150c20 40 70 60 150 62V0Z" />
-              </g>
-            </svg>
-            <!-- The distant thatched cottage, hedgerow and orchard trees. -->
-            <svg class="art art-bottom" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice">
-              <g fill="none" stroke="#B0A090" stroke-width="3" stroke-linejoin="round">
-                <path d="M790 400V250h230v150" />
-                <path d="M770 255l135-95 135 95" fill="#FDEEDE" />
-                <path d="M845 400v-70h50v70" />
-                <rect x="930" y="290" width="46" height="40" rx="4" />
-                <rect x="812" y="288" width="34" height="30" rx="4" opacity=".8" />
-                <path d="M960 160v-40h26v66" />
-                <path d="M968 118c0-10 5-16 13-16" opacity=".6" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="2.5" opacity=".7">
-                <path d="M120 400c0-70 30-120 70-150M190 400c0-90 40-150 90-180" />
-                <path d="M1090 400c0-60 25-105 60-130" />
-                <path d="M330 400c0-80 35-135 80-165" opacity=".8" />
-                <path d="M470 400c0-60 25-105 60-130" opacity=".7" />
-                <path d="M640 400c0-70 30-120 70-150" opacity=".6" />
-              </g>
-              <g fill="#7A9E6B" opacity=".28">
-                <ellipse cx="196" cy="238" rx="72" ry="58" />
-                <ellipse cx="414" cy="222" rx="64" ry="52" />
-                <ellipse cx="1152" cy="258" rx="58" ry="46" />
-                <ellipse cx="712" cy="244" rx="52" ry="42" />
-              </g>
-              <!-- the hedgerow the garden is walled in by -->
-              <path
-                d="M0 400c60-46 140-58 210-40 60-40 150-44 214-8 54-36 128-38 182-6 46-30 118-30 166 2 58-34 140-30 196 12 44-24 128-16 232 40H0Z"
-                fill="#7A9E6B"
-                opacity=".22"
-              />
-            </svg>
-          </div>
-
-          <div class="hero-plane plane-gate" data-depth="0.6">
-            <!-- The gate frame proper: a rose-covered pier carried the full
-                 height of the hero on each side, and the open gate below. -->
-            <svg class="art art-left" viewBox="0 0 180 900" preserveAspectRatio="xMinYMax slice">
-              <g fill="none" stroke="#B0A090" stroke-width="6" stroke-linecap="round">
-                <path d="M46 900V40" />
-                <path d="M46 40c0-16 12-28 28-28" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="3.4" stroke-linecap="round">
-                <path
-                  d="M46 900c34-52 8-104-14-146s-4-96 26-128 24-92-4-126 6-92 34-118"
-                  opacity=".9"
-                />
-                <path d="M46 870c-26-30-30-64-14-92M46 640c26-24 34-56 24-86" opacity=".75" />
-                <path d="M46 420c-24-22-30-52-18-78M46 210c26-22 32-52 22-78" opacity=".75" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="2" stroke-linecap="round" opacity=".8">
-                <path d="M60 800c14 6 20 18 18 32M32 720c-12 8-16 20-12 34" />
-                <path d="M64 560c14 6 20 18 18 32M30 470c-12 8-16 20-12 34" />
-                <path d="M66 320c14 6 20 18 18 32M34 230c-12 8-16 20-12 34" />
-                <path d="M68 110c14 6 20 18 18 32" />
-              </g>
-              <g fill="#C8556A" opacity=".75">
-                <ellipse cx="82" cy="836" rx="13" ry="18" />
-                <ellipse cx="22" cy="756" rx="11" ry="15" />
-                <ellipse cx="86" cy="596" rx="13" ry="18" />
-                <ellipse cx="20" cy="506" rx="11" ry="15" />
-                <ellipse cx="88" cy="356" rx="13" ry="18" />
-                <ellipse cx="24" cy="266" rx="11" ry="15" />
-                <ellipse cx="90" cy="146" rx="12" ry="17" />
-                <ellipse cx="58" cy="60" rx="10" ry="14" />
-              </g>
-              <g fill="#7A9E6B" opacity=".4">
-                <path d="M0 900c40-40 70-96 74-160v160H0Z" />
-              </g>
-            </svg>
-            <svg class="art art-right" viewBox="0 0 180 900" preserveAspectRatio="xMaxYMax slice">
-              <g fill="none" stroke="#B0A090" stroke-width="6" stroke-linecap="round">
-                <path d="M134 900V40" />
-                <path d="M134 40c0-16-12-28-28-28" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="3.4" stroke-linecap="round">
-                <path
-                  d="M134 900c-34-52-8-104 14-146s4-96-26-128-24-92 4-126-6-92-34-118"
-                  opacity=".9"
-                />
-                <path d="M134 870c26-30 30-64 14-92M134 640c-26-24-34-56-24-86" opacity=".75" />
-                <path d="M134 420c24-22 30-52 18-78M134 210c-26-22-32-52-22-78" opacity=".75" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="2" stroke-linecap="round" opacity=".8">
-                <path d="M120 800c-14 6-20 18-18 32M148 720c12 8 16 20 12 34" />
-                <path d="M116 560c-14 6-20 18-18 32M150 470c12 8 16 20 12 34" />
-                <path d="M114 320c-14 6-20 18-18 32M146 230c12 8 16 20 12 34" />
-                <path d="M112 110c-14 6-20 18-18 32" />
-              </g>
-              <g fill="#C8556A" opacity=".75">
-                <ellipse cx="98" cy="836" rx="13" ry="18" />
-                <ellipse cx="158" cy="756" rx="11" ry="15" />
-                <ellipse cx="94" cy="596" rx="13" ry="18" />
-                <ellipse cx="160" cy="506" rx="11" ry="15" />
-                <ellipse cx="92" cy="356" rx="13" ry="18" />
-                <ellipse cx="156" cy="266" rx="11" ry="15" />
-                <ellipse cx="90" cy="146" rx="12" ry="17" />
-                <ellipse cx="122" cy="60" rx="10" ry="14" />
-              </g>
-              <g fill="#7A9E6B" opacity=".4">
-                <path d="M180 900c-40-40-70-96-74-160v160h74Z" />
-              </g>
-            </svg>
-            <svg class="art art-bottom" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice">
-              <g fill="none" stroke="#B0A090" stroke-width="5" stroke-linecap="round">
-                <path d="M600 520V250M1010 520V250" />
-                <path d="M600 250c0-115 92-205 205-205s205 90 205 205" />
-                <path d="M190 520V300M420 520V300" opacity=".6" />
-                <path d="M190 300c0-92 74-164 115-164s115 72 115 164" opacity=".6" />
-              </g>
-              <g fill="none" stroke="#7A9E6B" stroke-width="3" stroke-linecap="round" opacity=".85">
-                <path d="M600 520c-30-90 10-160 60-210s60-120 30-170" />
-                <path d="M1010 520c30-90-10-160-60-210s-60-120-30-170" />
-                <path d="M660 300c-40-10-60-40-60-70M950 300c40-10 60-40 60-70" />
-                <path d="M190 520c-22-72 8-128 46-168s46-96 22-136" opacity=".7" />
-                <path d="M420 520c22-72-8-128-46-168s-46-96-22-136" opacity=".7" />
-              </g>
-              <g fill="#C8556A" opacity=".7">
-                <circle cx="640" cy="190" r="15" />
-                <circle cx="690" cy="110" r="12" />
-                <circle cx="965" cy="200" r="14" />
-                <circle cx="915" cy="105" r="11" />
-                <circle cx="805" cy="52" r="13" />
-                <circle cx="742" cy="66" r="9" />
-                <circle cx="868" cy="72" r="9" />
-                <circle cx="232" cy="228" r="12" />
-                <circle cx="378" cy="234" r="12" />
-                <circle cx="305" cy="150" r="11" />
-              </g>
-              <g fill="#7A9E6B" opacity=".5">
-                <ellipse cx="668" cy="150" rx="9" ry="13" />
-                <ellipse cx="940" cy="152" rx="9" ry="13" />
-                <ellipse cx="862" cy="118" rx="8" ry="12" />
-                <ellipse cx="262" cy="172" rx="8" ry="12" />
-                <ellipse cx="350" cy="176" rx="8" ry="12" />
-              </g>
-              <!-- the gate, standing open -->
-              <g fill="none" stroke="#B0A090" stroke-width="4" opacity=".8">
-                <path d="M620 520V330h90v190M990 520V330h-90v190" />
-                <path d="M620 400h90M900 400h90" />
-                <path d="M638 520V330M660 520V330M950 520V330M972 520V330" opacity=".55" />
-              </g>
-              <!-- the path through it -->
-              <path
-                d="M712 520c14-72 40-124 78-152 38 28 64 80 78 152H712Z"
-                fill="#B0A090"
-                opacity=".18"
-              />
-            </svg>
-          </div>
-
-          <div class="hero-plane plane-flowers" data-depth="1">
-            <!-- The foreground border: foxgloves, sweet peas and grass tufts the
-                 full width of the hero, not two clumps in the corners. -->
-            <svg class="art art-bottom" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax slice">
-              <g fill="none" stroke="#7A9E6B" stroke-width="3.5" stroke-linecap="round">
-                <path d="M60 340c0-100 20-156 10-212M140 340c0-80-25-136-15-180" />
-                <path d="M240 340c0-112 30-168 20-224M340 340c0-84 26-140 16-186" />
-                <path d="M440 340c0-96 24-150 14-198M540 340c0-76 22-128 14-170" />
-                <path d="M640 340c0-104 26-160 16-212M740 340c0-80 24-134 14-178" />
-                <path d="M840 340c0-96 24-150 14-198M940 340c0-84 26-140 16-186" />
-                <path d="M1040 340c0-112 30-168 20-224M1160 340c0-100-20-156-10-212" />
-              </g>
-              <g
-                fill="none"
-                stroke="#7A9E6B"
-                stroke-width="2.2"
-                stroke-linecap="round"
-                opacity=".7"
-              >
-                <path d="M96 340c0-56-16-92-8-124M196 340c0-48 14-82 8-110" />
-                <path d="M296 340c0-56-16-92-8-124M396 340c0-48 14-82 8-110" />
-                <path d="M496 340c0-56-16-92-8-124M596 340c0-48 14-82 8-110" />
-                <path d="M696 340c0-56-16-92-8-124M796 340c0-48 14-82 8-110" />
-                <path d="M896 340c0-56-16-92-8-124M996 340c0-48 14-82 8-110" />
-                <path d="M1096 340c0-56-16-92-8-124" />
-              </g>
-              <g fill="#C8556A" opacity=".8">
-                <ellipse cx="68" cy="118" rx="13" ry="19" />
-                <ellipse cx="123" cy="152" rx="11" ry="16" />
-                <ellipse cx="258" cy="106" rx="13" ry="19" />
-                <ellipse cx="356" cy="146" rx="11" ry="16" />
-                <ellipse cx="454" cy="134" rx="12" ry="18" />
-                <ellipse cx="554" cy="162" rx="10" ry="15" />
-                <ellipse cx="656" cy="120" rx="13" ry="19" />
-                <ellipse cx="754" cy="154" rx="11" ry="16" />
-                <ellipse cx="854" cy="134" rx="12" ry="18" />
-                <ellipse cx="956" cy="146" rx="11" ry="16" />
-                <ellipse cx="1060" cy="106" rx="13" ry="19" />
-                <ellipse cx="1152" cy="118" rx="13" ry="19" />
-              </g>
-              <g fill="#7A9E6B" opacity=".55">
-                <ellipse cx="88" cy="206" rx="9" ry="13" />
-                <ellipse cx="204" cy="222" rx="9" ry="13" />
-                <ellipse cx="288" cy="206" rx="9" ry="13" />
-                <ellipse cx="404" cy="222" rx="9" ry="13" />
-                <ellipse cx="488" cy="206" rx="9" ry="13" />
-                <ellipse cx="604" cy="222" rx="9" ry="13" />
-                <ellipse cx="688" cy="206" rx="9" ry="13" />
-                <ellipse cx="804" cy="222" rx="9" ry="13" />
-                <ellipse cx="888" cy="206" rx="9" ry="13" />
-                <ellipse cx="1004" cy="222" rx="9" ry="13" />
-                <ellipse cx="1088" cy="206" rx="9" ry="13" />
-              </g>
-              <!-- the bed itself, banked up along the whole width -->
-              <path
-                d="M0 340c130-56 250-46 340 4 92-52 214-58 316-8 96-48 214-42 302 6 84-44 174-40 242 10V340H0Z"
-                fill="#7A9E6B"
-                opacity=".5"
-              />
-            </svg>
-          </div>
-
-          <div class="hero-plane plane-bee" data-depth="1.4">
-            <svg viewBox="0 0 64 64" focusable="false">
-              <use href="#i-bee" />
-            </svg>
-          </div>
+  <!-- §1 gate-opens — Hero -->
+  <section class="hero" id="gate-opens" aria-label="Welcome">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-petal"></div>
+      <div class="hero-petal"></div>
+      <div class="hero-petal"></div>
+      <div class="hero-petal"></div>
+      <div class="hero-petal"></div>
+      <div class="hero-petal"></div>
+    </div>
+    <div class="hero-inner container">
+      <div class="hero-content">
+        <span class="eyebrow">Your media library, tenderly kept</span>
+        <h1>Grow Your Garden.</h1>
+        <p class="hero-sub">A gentle place for all your stories — books, films, music, and photographs — where everything finds its place and blooms at your pace.</p>
+        <div class="hero-ctas">
+          <a href="download.html" class="btn btn-primary btn-lg">Start Your Garden</a>
+          <a href="features.html" class="btn btn-ghost btn-lg">Peek Inside</a>
         </div>
 
-        <div class="container">
-          <div class="hero-inner">
-            <div class="hero-copy">
-              <p class="eyebrow">Your media library, tenderly kept</p>
-              <h1 id="hero-heading">Grow Your Garden.</h1>
-              <p class="script hero-script">Where Every Story Blooms.</p>
-              <!-- homepage_narrative.logline, verbatim, as the hero deck -->
-              <p class="hero-deck">
-                Step through the garden gate and discover your own corner to cultivate — a place
-                where watching feels like home.
-              </p>
-              <p class="hero-sub">
-                A gentle place for all your stories — books, films, music, and photographs — where
-                everything finds its place and blooms at your pace.
-              </p>
-              <p class="hero-fact">
-                In plainer words —
-                <span>
-                  An open-source PHP media server that streams to your Roku, Samsung TV, Windows
-                  desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a
-                  hub that follows you anywhere.
-                </span>
-              </p>
-              <div class="hero-actions">
-                <a class="btn btn-primary" href="download.html">Start Your Garden</a>
-                <a class="btn btn-secondary" href="features.html">Peek Inside</a>
-              </div>
-              <p class="muted mt-4">
-                Prefer to read first?
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">
-                  Read the docs
-                </a>
-                — they live on their own site.
-              </p>
-            </div>
-
-            <!-- visitor_paths: the self-select fork, kept beside the hero -->
-            <div class="paths">
-              <h2 id="paths-heading">What kind of gardener are you?</h2>
-              <p class="muted">Pick a path and we will show you that corner first.</p>
-              <ul class="path-list" role="list" aria-labelledby="paths-heading">
-                <li>
-                  <a class="path-card" href="features.html#library">
-                    <svg class="icon" aria-hidden="true" focusable="false">
-                      <use href="#i-library" />
-                    </svg>
-                    I love my quiet library
-                  </a>
-                </li>
-                <li>
-                  <a class="path-card" href="features.html#syncplay">
-                    <svg class="icon" aria-hidden="true" focusable="false">
-                      <use href="#i-syncplay" />
-                    </svg>
-                    I host movie nights
-                  </a>
-                </li>
-                <li>
-                  <a class="path-card" href="features.html#plugins">
-                    <svg class="icon" aria-hidden="true" focusable="false">
-                      <use href="#i-puzzle" />
-                    </svg>
-                    I like to build my own paths
-                  </a>
-                </li>
-              </ul>
-            </div>
+        <!-- Visitor paths fork -->
+        <div class="visitor-paths" aria-label="Choose your path">
+          <p class="paths-prompt">What kind of gardener are you?</p>
+          <div class="path-buttons">
+            <button class="path-btn" data-target="features.html#library">I love my quiet library</button>
+            <button class="path-btn" data-target="features.html#syncplay">I host movie nights</button>
+            <button class="path-btn" data-target="features.html#plugins">I like to build my own paths</button>
           </div>
-        </div>
-      </section>
-
-      <div class="container" aria-hidden="true">
-        <div class="botanical-rule">
-          <svg width="44" height="24" viewBox="0 0 44 24" focusable="false">
-            <use href="#i-sprig" />
-          </svg>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- ================================================================
-           BEAT 2 · why-this-garden — source: kit `story`
-           pitch_bullets as garden guideposts along a winding path
-           ================================================================ -->
-      <section class="beat pitch reveal" id="why-this-garden" aria-labelledby="pitch-heading">
-        <div class="container-narrow">
-          <div class="beat-header">
-            <p class="eyebrow">The path in</p>
-            <h2 class="section-title" id="pitch-heading">Why tend a garden here?</h2>
-            <p class="pitch-story">
-              There is a garden gate somewhere in England, half-hidden by climbing roses, that opens
-              onto the best afternoon of your life. Phlix is built for the same feeling: not curated
-              perfection, but the joyful overflow of a windowsill cluttered with flower pots and
-              well-loved books. Come in, put the kettle on, stay a while.
-            </p>
-          </div>
-
-          <ul class="guidepost-path" role="list">
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-gate" /></svg>
-                </span>
-                <p class="guidepost-sign">
-                  100% self-hostable — your library never leaves your hardware unless you say so
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-leaf" /></svg>
-                </span>
-                <p class="guidepost-sign">
-                  Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-syncplay" /></svg>
-                </span>
-                <p class="guidepost-sign">
-                  Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-library" /></svg>
-                </span>
-                <p class="guidepost-sign">
-                  Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-transcode" /></svg>
-                </span>
-                <p class="guidepost-sign">
-                  Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-antenna" /></svg>
-                </span>
-                <p class="guidepost-sign">Live TV with DVR + EPG guide integration</p>
-              </div>
-            </li>
-            <li>
-              <div class="guidepost">
-                <span class="guidepost-post" aria-hidden="true">
-                  <svg class="icon" focusable="false"><use href="#i-puzzle" /></svg>
-                </span>
-                <p class="guidepost-sign">Plugin system with a versioned manifest contract</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           BEAT 3 · what-blooms — source: feature_casting
-           Two hero plates, four support rows, footnote features deferred to
-           the Features page. Every precise content.json body is one
-           disclosure away (complexity_profile.jargon_policy: "translate").
-           ================================================================ -->
-      <section
-        class="beat beat-cream features-overview reveal"
-        id="what-blooms"
-        aria-labelledby="blooms-heading"
-      >
-        <div class="container">
-          <div class="beat-header">
-            <p class="eyebrow">The seed catalog</p>
-            <h2 class="section-title" id="blooms-heading">What Blooms in This Garden</h2>
-            <p class="section-lead">
-              Two things grow tallest here. Four more fill the beds around them. Open a plant label
-              to read the precise notes.
-            </p>
-          </div>
-
-          <div class="catalog-plates">
-            <article class="plate">
-              <div class="plate-mark">
-                <svg class="icon-lg" aria-hidden="true" focusable="false">
-                  <use href="#i-library" />
-                </svg>
-                <span class="plate-latin">Plate i · perennial</span>
-              </div>
-              <h3>
-                Every book, film, and song gathers itself as you add it — no cataloging needed, just
-                growth.
-              </h3>
-              <span class="plant-name">Library that organizes itself</span>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles,
-                  ItemRepository hydrates metadata_json. Add a file, see it appear.
-                </p>
-              </details>
-            </article>
-
-            <article class="plate">
-              <div class="plate-mark">
-                <svg class="icon-lg" aria-hidden="true" focusable="false">
-                  <use href="#i-syncplay" />
-                </svg>
-                <span class="plate-latin">Plate ii · perennial</span>
-              </div>
-              <h3>
-                Movie night stays in perfect step across every room — like hearts beating as one.
-              </h3>
-              <span class="plant-name">SyncPlay across the room or across the country</span>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  Weighted-mean NTP offset over 5 samples keeps every device locked to the same
-                  frame. Play, pause, seek — everyone moves together.
-                </p>
-              </details>
-            </article>
-          </div>
-
-          <div class="catalog-rows">
-            <article class="catalog-row">
-              <h3>
-                <svg class="icon" aria-hidden="true" focusable="false">
-                  <use href="#i-shield" />
-                </svg>
-                Multi-user, multi-profile, parental controls
-              </h3>
-              <p class="muted">Everyone in the house gets their own patch, and their own gate.</p>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per
-                  user, 4- or 6-digit PINs, rating filter from G to NC-17.
-                </p>
-              </details>
-            </article>
-
-            <article class="catalog-row">
-              <h3>
-                <svg class="icon" aria-hidden="true" focusable="false">
-                  <use href="#i-transcode" />
-                </svg>
-                Transcoding that picks the right quality
-              </h3>
-              <p class="muted">It reads the room and pours the right measure, every time.</p>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28
-                  libx264/libx265 with HLS master and variant playlists.
-                </p>
-              </details>
-            </article>
-
-            <article class="catalog-row">
-              <h3>
-                <svg class="icon" aria-hidden="true" focusable="false">
-                  <use href="#i-antenna" />
-                </svg>
-                Live TV with DVR + EPG
-              </h3>
-              <p class="muted">The evening's programme, gathered before you sit down.</p>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  ChannelManager, GuideManager, and Recorder give you scheduled recordings and a
-                  guide that doesn't make you click through menus.
-                </p>
-              </details>
-            </article>
-
-            <article class="catalog-row">
-              <h3>
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-hub" /></svg>
-                Phlix Hub — reach any of your servers from anywhere
-              </h3>
-              <p class="muted">
-                A gatehouse at the lane end, so you can always find your way home.
-              </p>
-              <details class="plant-label">
-                <summary>Read the plant label</summary>
-                <p>
-                  Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public
-                  hub.
-                </p>
-              </details>
-            </article>
-          </div>
-
-          <div class="catalog-footnote">
-            <p class="muted">
-              Two more grow along the far wall — DLNA for the devices you already own, and the
-              plugin contract for tinkerers.
-            </p>
-            <a class="catalog-more" href="features.html">
-              See all eight features
-              <svg class="icon-sm" aria-hidden="true" focusable="false">
-                <use href="#i-leaf" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           BEAT 4 · guest-rooms — source: page_blueprints.clients
-           ================================================================ -->
-      <section class="beat reveal" id="guest-rooms" aria-labelledby="guests-heading">
-        <div class="container">
-          <div class="beat-header">
-            <p class="eyebrow">Who can come and stay</p>
-            <h2 class="section-title" id="guests-heading">Five rooms, all made up</h2>
-            <p class="section-lead">
-              Every screen in the house has a room with its name on the door.
-            </p>
-          </div>
-
-          <ul class="room-strip" role="list">
-            <li>
-              <div class="room-card">
-                <span class="room-number">Room one</span>
-                <h3>Roku</h3>
-                <p class="muted">Native Roku channel</p>
-                <p><span class="client-status status-stable">Stable</span></p>
-              </div>
-            </li>
-            <li>
-              <div class="room-card">
-                <span class="room-number">Room two</span>
-                <h3>Samsung Tizen</h3>
-                <p class="muted">Smart TV app</p>
-                <p><span class="client-status status-stable">Stable</span></p>
-              </div>
-            </li>
-            <li>
-              <div class="room-card">
-                <span class="room-number">Room three</span>
-                <h3>Windows</h3>
-                <p class="muted">Native desktop</p>
-                <p><span class="client-status status-stable">Stable</span></p>
-              </div>
-            </li>
-            <li>
-              <div class="room-card">
-                <span class="room-number">Room four</span>
-                <h3>Mobile (iOS + Android)</h3>
-                <p class="muted">React Native app</p>
-                <p><span class="client-status status-beta">Beta</span></p>
-              </div>
-            </li>
-            <li>
-              <div class="room-card">
-                <span class="room-number">The parlour</span>
-                <h3>Any DLNA device</h3>
-                <p class="muted">No install required</p>
-                <p><span class="client-status status-stable">Stable</span></p>
-              </div>
-            </li>
-          </ul>
-          <p class="mt-8">
-            <a class="catalog-more" href="clients.html">
-              Look inside every room
-              <svg class="icon-sm" aria-hidden="true" focusable="false">
-                <use href="#i-leaf" />
-              </svg>
-            </a>
-          </p>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           BEAT 5 · trust-the-keeper — source: proof_strategy
-           Only verifiable proof: counts you can recount from this site, links
-           to the live repo pages, and one true quoted line. No star counts,
-           no download totals, no testimonials.
-           ================================================================ -->
-      <section
-        class="beat beat-butter reveal"
-        id="trust-the-keeper"
-        aria-labelledby="keeper-heading"
-      >
-        <div class="container-narrow">
-          <div class="beat-header">
-            <p class="eyebrow">A word from the garden keeper</p>
-            <h2 class="section-title" id="keeper-heading">What is actually growing here</h2>
-            <p class="section-lead">
-              No borrowed praise. Just what is planted — and where to count it yourself.
-            </p>
-          </div>
-
-          <div class="placard">
-            <div class="placard-stat">
-              <span class="numeral">5</span>
-              <span class="placard-label"
-                >ways to watch: Roku, Samsung Tizen, Windows, Mobile, and any DLNA device</span
-              >
-            </div>
-            <div class="placard-stat">
-              <span class="numeral">8</span>
-              <span class="placard-label"
-                >features documented on this site, each with its own notes</span
-              >
-            </div>
-            <div class="placard-stat">
-              <span class="numeral">5</span>
-              <span class="placard-label"
-                >open repositories: server, hub, shared, docs, and a plugin example</span
-              >
-            </div>
-            <div class="placard-stat placard-spec">
-              <svg class="icon-lg" aria-hidden="true" focusable="false">
-                <use href="#i-sprig" />
-              </svg>
-              <span class="placard-label"
-                >SyncPlay keeps time NTP-style; FFmpeg and adaptive HLS do the transcoding</span
-              >
-            </div>
-          </div>
-
-          <div class="proof-community">
-            <h3>Grown by the community</h3>
-            <p class="muted">We will not print a star count this page cannot verify. Go and see:</p>
-            <ul class="proof-links" role="list">
-              <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer">
-                  phlix-server on GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/stargazers"
-                  rel="noopener noreferrer"
-                >
-                  Who has starred it
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/graphs/contributors"
-                  rel="noopener noreferrer"
-                >
-                  Who has contributed
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer">
-                  What is still being tended
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <figure class="garden-sign">
-            <blockquote cite="about.html#faq">
-              <p>
-                “Run Phlix on your LAN and use the Phlix Hub's reverse-tunnel relay to reach it from
-                your phone or Roku at a friend's house. You can self-host the hub, or use the public
-                one.”
-              </p>
-            </blockquote>
-            <figcaption>
-              — the Phlix FAQ. <a href="about.html#faq">Read the rest of the questions</a>.
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           BEAT 6 · plant-your-seed — source: conversion_funnel
-           guided-steps: the three-rung cta_ladder beside the one-line seed
-           ================================================================ -->
-      <section class="beat cta-banner reveal" id="plant-your-seed" aria-labelledby="plant-heading">
-        <div class="container">
-          <div class="cta-grid">
-            <div>
-              <p class="eyebrow">The garden bed</p>
-              <h2 id="plant-heading">Ready to plant? Come through the gate.</h2>
-              <p class="section-lead">
-                Three gentle steps, in the order a gardener would take them.
-              </p>
-              <ol class="cta-ladder mt-8">
-                <li>
-                  <a class="btn btn-primary" href="download.html">Start Your Garden</a>
-                </li>
-                <li>
-                  <a class="btn btn-secondary" href="clients.html">Pick Your Guest Rooms</a>
-                </li>
-                <li>
-                  <a class="btn btn-ghost" href="download.html#server">Plant the Seeds</a>
-                </li>
-              </ol>
-            </div>
-
-            <div class="seed-box">
-              <h3>The whole seed, in one line</h3>
-              <p class="muted">A fresh Ubuntu or Debian host is all the soil it needs.</p>
-              <!-- Copied from shared/content.json `install.primary.command`, not
-                   retyped, and identical to the block on download.html#server.
-                   Every site once showed a `git clone` + `composer install`
-                   checkout here, which is a development setup and not an
-                   install: it creates no database, no service and runs no
-                   migrations. This is the conversion step (§19.22). -->
-              <pre
-                class="code-block"
-              ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
-              <p class="muted">
-                One line and you are planted — it sows PHP, the database and the service together.
-                <a href="download.html#server">The full planting guide</a> walks it through.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- mascot.behavior — Primrose. Home is one of her four pages. -->
-    <div class="mascot" hidden>
-      <template data-tip-for=".hero">
-        Come in through the garden gate — there's always something wonderful blooming.
-      </template>
-      <template data-tip-for=".features-overview">
-        Each of these blooms does something special. Open a plant label to see what makes it grow.
-      </template>
-      <p class="mascot-bubble" id="primrose-bubble" role="status" hidden></p>
-      <button class="mascot-bee" type="button" aria-describedby="primrose-bubble">
-        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false">
-          <use href="#i-bee" />
+  <!-- §2 why-this-garden — Pitch -->
+  <section class="content-section" id="why-this-garden" aria-labelledby="pitch-heading">
+    <div class="container">
+      <div class="botanical-divider" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/>
+          <circle cx="12" cy="5" r="2" fill="currentColor" stroke="none"/>
         </svg>
-        <span class="visually-hidden">Primrose the bumble bee — your guide around the garden</span>
-      </button>
-      <button class="mascot-dismiss" type="button">Primrose, rest now</button>
+      </div>
+      <h2 id="pitch-heading" class="eyebrow" style="text-align:center;text-transform:none;letter-spacing:0;font-size:1.125rem;opacity:0.65;margin-bottom:var(--space-6)">Why tend a garden here?</h2>
+      <ul class="guidepost-list reveal" role="list">
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>100% self-hostable — your library never leaves your hardware unless you say so</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Live TV with DVR + EPG guide integration</span>
+        </li>
+        <li class="guidepost-item reveal">
+          <span class="guidepost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 9 9.5 7 7 7c0 3 1.5 5 5 5zm0 0c0-3 2.5-5 5-5-2.5 0-5 2-5 5z"/><circle cx="12" cy="5" r="2"/></svg>
+          </span>
+          <span>Plugin system with a versioned manifest contract</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- §3 what-blooms — Features overview -->
+  <section class="content-section" id="what-blooms" aria-labelledby="features-heading">
+    <div class="container">
+      <h2 id="features-heading" class="eyebrow" style="text-align:center;text-transform:none;letter-spacing:0;font-size:1.125rem;opacity:0.65;margin-bottom:var(--space-6)">What Blooms in This Garden</h2>
+      <div class="content-grid">
+        <article class="feature-card reveal" id="library">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <h3>Library that organizes itself</h3>
+          <p>Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository hydrates metadata_json. Add a file, see it appear.</p>
+        </article>
+        <article class="feature-card reveal" id="syncplay">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3>SyncPlay across the room or across the country</h3>
+          <p>Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame. Play, pause, seek — everyone moves together.</p>
+        </article>
+        <article class="feature-card reveal" id="transcode">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+          <h3>Transcoding that picks the right quality</h3>
+          <p>QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28 libx264/libx265 with HLS master and variant playlists.</p>
+        </article>
+        <article class="feature-card reveal" id="auth">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Multi-user, multi-profile, parental controls</h3>
+          <p>JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.</p>
+        </article>
+        <article class="feature-card reveal" id="livetv">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <h3>Live TV with DVR + EPG</h3>
+          <p>ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.</p>
+        </article>
+        <article class="feature-card reveal" id="dlna">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2"/>
+              <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+            </svg>
+          </div>
+          <h3>DLNA for the devices you already own</h3>
+          <p>ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't need a new app.</p>
+        </article>
+        <article class="feature-card reveal" id="plugins">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </div>
+          <h3>Plugin system with a real contract</h3>
+          <p>LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See phlix-plugin-example.</p>
+        </article>
+        <article class="feature-card reveal" id="hub">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>Phlix Hub — reach any of your servers from anywhere</h3>
+          <p>Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public hub.</p>
+        </article>
+      </div>
+      <div style="text-align:center;margin-top:var(--space-8)">
+        <a href="features.html" class="btn btn-ghost">See all features →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §4 guest-rooms — Clients preview -->
+  <section class="content-section" id="guest-rooms" aria-labelledby="clients-heading" style="background:var(--color-surface)">
+    <div class="container">
+      <h2 id="clients-heading" class="eyebrow" style="text-align:center;text-transform:none;letter-spacing:0;font-size:1.125rem;opacity:0.65;margin-bottom:var(--space-6)">Guest Rooms</h2>
+      <p style="text-align:center;font-family:var(--font-body);max-width:560px;margin:0 auto var(--space-8);opacity:0.8" class="reveal">Your garden welcomes guests on every device — some with their own native app, some just knocking on the gate with DLNA.</p>
+      <div class="guest-rooms-grid reveal">
+        <div class="client-card">
+          <h2>Roku <span class="badge badge-success">Stable</span></h2>
+          <p class="client-tagline">Native Roku channel</p>
+          <ul class="client-highlights">
+            <li>HLS playback</li><li>Hub mode</li><li>Skip intro/outro</li><li>SyncPlay</li>
+          </ul>
+          <a href="https://github.com/detain/phlix-roku-client" class="btn btn-ghost btn-sm" rel="noopener noreferrer" target="_blank">View source →</a>
+        </div>
+        <div class="client-card">
+          <h2>Samsung Tizen <span class="badge badge-success">Stable</span></h2>
+          <p class="client-tagline">Smart TV app</p>
+          <ul class="client-highlights">
+            <li>Vanilla JS + webpack</li><li>Direct play + HLS transcoded</li><li>Remote-optimized UI</li>
+          </ul>
+          <a href="https://github.com/detain/phlix-tizen-client" class="btn btn-ghost btn-sm" rel="noopener noreferrer" target="_blank">View source →</a>
+        </div>
+        <div class="client-card">
+          <h2>Windows <span class="badge badge-success">Stable</span></h2>
+          <p class="client-tagline">Native desktop</p>
+          <ul class="client-highlights">
+            <li>Electron + React + TypeScript</li><li>System tray</li><li>Media keys</li><li>Hub mode</li>
+          </ul>
+          <a href="https://github.com/detain/phlix-windows-client" class="btn btn-ghost btn-sm" rel="noopener noreferrer" target="_blank">View source →</a>
+        </div>
+        <div class="client-card">
+          <h2>Mobile <span class="badge badge-beta">Beta</span></h2>
+          <p class="client-tagline">React Native app</p>
+          <ul class="client-highlights">
+            <li>Movies, TV, Music, Photos</li><li>Offline downloads</li><li>Token refresh</li>
+          </ul>
+          <a href="https://github.com/detain/phlix-mobile-client" class="btn btn-ghost btn-sm" rel="noopener noreferrer" target="_blank">View source →</a>
+        </div>
+        <div class="client-card">
+          <h2>Any DLNA device <span class="badge badge-success">Stable</span></h2>
+          <p class="client-tagline">No install required</p>
+          <ul class="client-highlights">
+            <li>ContentDirectory</li><li>AvTransport</li><li>Discovery via SSDP</li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:var(--space-8)">
+        <a href="clients.html" class="btn btn-ghost">All guest rooms →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- §5 trust-the-keeper — Proof -->
+  <section class="proof-section" id="trust-the-keeper" aria-labelledby="proof-heading">
+    <div class="container">
+      <div class="proof-placard">
+        <h2 id="proof-heading" style="text-align:center;margin-bottom:var(--space-6);font-size:1.5rem">Grown by the community</h2>
+        <div class="proof-numbers">
+          <div class="proof-number-item">
+            <span class="number">5</span>
+            <span class="label">Native clients</span>
+          </div>
+          <div class="proof-number-item">
+            <span class="number">NTP</span>
+            <span class="label">SyncPlay sync</span>
+          </div>
+          <div class="proof-number-item">
+            <span class="number">FFmpeg</span>
+            <span class="label">Transcoding</span>
+          </div>
+          <div class="proof-number-item">
+            <span class="number">4</span>
+            <span class="label">Metadata sources</span>
+          </div>
+        </div>
+        <blockquote class="proof-quote display-text">
+          "A media server you can truly call your own."
+        </blockquote>
+        <div class="proof-github">
+          <span>Grown in the open —</span>
+          <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer" target="_blank">
+            github.com/detain/phlix-server
+          </a>
+          <span>·</span>
+          <a href="https://github.com/detain/phlix-server/stargazers" rel="noopener noreferrer" target="_blank">
+            Stars on GitHub →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §6 plant-your-seed — CTA -->
+  <section class="cta-banner" id="plant-your-seed" aria-labelledby="cta-heading">
+    <div class="container">
+      <h2 id="cta-heading" class="display-text" style="font-size:clamp(1.5rem,4vw,2.25rem)">Ready to plant? Come through the gate.</h2>
+      <p style="font-family:var(--font-body);opacity:0.8;margin:var(--space-4) auto var(--space-6);max-width:480px">One quiet line to plant your garden — then watch it grow.</p>
+      <a href="download.html" class="btn btn-primary btn-lg">Start Your Garden</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Mascot: Primrose -->
+<div id="mascot" aria-label="Primrose the bee mascot" role="img" tabindex="0" aria-describedby="mascot-tip">
+  <svg class="mascot-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Bee body -->
+    <ellipse cx="32" cy="38" rx="12" ry="10" fill="#C8A000" opacity="0.9"/>
+    <ellipse cx="32" cy="38" rx="12" ry="10" fill="url(#beeStripes)"/>
+    <!-- Wings -->
+    <ellipse cx="22" cy="28" rx="9" ry="6" fill="rgba(200,85,106,0.15)" transform="rotate(-20 22 28)"/>
+    <ellipse cx="42" cy="28" rx="9" ry="6" fill="rgba(200,85,106,0.15)" transform="rotate(20 42 28)"/>
+    <ellipse cx="20" cy="27" rx="7" ry="4" fill="rgba(255,248,242,0.6)" transform="rotate(-20 20 27)"/>
+    <ellipse cx="44" cy="27" rx="7" ry="4" fill="rgba(255,248,242,0.6)" transform="rotate(20 44 27)"/>
+    <!-- Head -->
+    <circle cx="32" cy="26" r="8" fill="#C8A000"/>
+    <!-- Eyes -->
+    <circle cx="29" cy="24" r="2" fill="#2A1A10"/>
+    <circle cx="35" cy="24" r="2" fill="#2A1A10"/>
+    <!-- Smile -->
+    <path d="M29 29 Q32 32 35 29" stroke="#2A1A10" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- Antennae -->
+    <path d="M29 18 Q27 14 25 13" stroke="#C8A000" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M35 18 Q37 14 39 13" stroke="#C8A000" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="25" cy="13" r="2" fill="#C8556A"/>
+    <circle cx="39" cy="13" r="2" fill="#C8556A"/>
+    <!-- Flower crown (primrose, forget-me-not, lavender) -->
+    <circle cx="28" cy="17" r="3.5" fill="#D46A82" opacity="0.85"/>
+    <circle cx="32" cy="15" r="3" fill="#A090CC" opacity="0.7"/>
+    <circle cx="36" cy="17" r="3.5" fill="#8AB878" opacity="0.8"/>
+    <!-- Stinger -->
+    <path d="M32 48 L30 52 L34 52 Z" fill="#C8A000"/>
+    <defs>
+      <pattern id="beeStripes" x="0" y="0" width="1" height="1" patternUnits="objectBoundingBox">
+        <rect x="0" y="30" width="64" height="4" fill="#2A1A10" opacity="0.6"/>
+        <rect x="0" y="38" width="64" height="4" fill="#2A1A10" opacity="0.6"/>
+        <rect x="0" y="46" width="64" height="2" fill="#2A1A10" opacity="0.4"/>
+      </pattern>
+    </defs>
+  </svg>
+  <div id="mascot-tip" role="tooltip">
+    <span class="tip-message">Come in through the garden gate — there's always something wonderful blooming.</span>
+    <button class="mascot-tip-close" aria-label="Dismiss">Primrose, rest now</button>
+  </div>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <p class="footer-tagline display-text">Where Every Story Blooms.</p>
+
+    <!-- Mirror-nav index -->
+    <nav class="footer-nav-index" aria-label="Site index">
+      <a href="./">The Garden</a>
+      <a href="features.html">What Grows Here</a>
+      <a href="clients.html">Guest Rooms</a>
+      <a href="download.html">Start Your Own</a>
+      <a href="hub.html">The Gatehouse</a>
+      <a href="about.html">Our Story</a>
+    </nav>
+
+    <!-- Three footer columns -->
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <div class="footer-col">
+        <h3>Product</h3>
+        <ul>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="plugins.html">Plugins</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Developers</h3>
+        <ul>
+          <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+          <li><a href="https://github.com/detain/phlix-server" rel="noopener noreferrer" target="_blank">Server source</a></li>
+          <li><a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer" target="_blank">Plugin example</a></li>
+          <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Project</h3>
+        <ul>
+          <li><a href="https://github.com/detain" rel="noopener noreferrer" target="_blank">GitHub org</a></li>
+          <li><a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer" target="_blank">Issues</a></li>
+          <li><a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer" target="_blank">Hub</a></li>
+          <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Intensity toggle -->
+    <div class="intensity-toggle">
+      <label for="intensity-toggle">Quiet the Garden</label>
+      <div class="toggle-switch">
+        <input type="checkbox" id="intensity-toggle" aria-label="Reduce motion and animation">
+        <span class="toggle-track"></span>
+      </div>
     </div>
 
-    <footer class="site-footer" role="contentinfo">
-      <div class="container">
-        <p class="footer-tagline">Where Every Story Blooms.</p>
+    <p class="footer-copy">
+      &copy; 2026 Phlix — Phlix Server and the Hub are MPL-2.0; the shared libraries, plugins, and clients are MIT.
+    </p>
+  </div>
+</footer>
 
-        <!-- footer_arrangement: mirror-nav — the primary nav in its own order,
-             then the two demoted pages and the seasonal guide. -->
-        <ul class="footer-mirror" role="list" aria-label="Garden paths">
-          <li><a href="./">The Garden</a></li>
-          <li><a href="features.html">What Grows Here</a></li>
-          <li><a href="clients.html">Guest Rooms</a></li>
-          <li><a href="download.html">Start Your Own</a></li>
-          <li><a href="hub.html">The Gatehouse</a></li>
-          <li><a href="about.html">Our Story</a></li>
-          <li><a href="plugins.html">The Specialist's Shelf</a></li>
-          <li><a href="docs.html">The Reference Library</a></li>
-          <li><a href="seasons.html">Blooming Through the Year</a></li>
-        </ul>
+<!-- Reward overlay for typed-word easter egg -->
+<div id="garden-reward" role="status" aria-live="polite">This is where it all blooms.</div>
 
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <div class="footer-col">
-            <h2>Product</h2>
-            <ul role="list">
-              <li><a href="features.html">Features</a></li>
-              <li><a href="clients.html">Clients</a></li>
-              <li><a href="download.html">Download</a></li>
-              <li><a href="plugins.html">Plugins</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h2>Developers</h2>
-            <ul role="list">
-              <li>
-                <a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server" rel="noopener noreferrer">
-                  Server source
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">
-                  Plugin example
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://detain.github.io/phlix-docs/reference/api.html"
-                  rel="noopener noreferrer"
-                >
-                  API reference
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h2>Project</h2>
-            <ul role="list">
-              <li>
-                <a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a>
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer">
-                  Issues
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/detain/phlix-server/blob/master/LICENSE"
-                  rel="noopener noreferrer"
-                >
-                  License (MPL-2.0)
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <!-- intensity_toggle placement: the footer utility row, beside the
-             accessibility note, with a small leaf icon. -->
-        <div class="footer-utility">
-          <button class="calm-toggle" type="button" aria-pressed="false" hidden>
-            <svg class="icon-sm" aria-hidden="true" focusable="false"><use href="#i-leaf" /></svg>
-            <span class="calm-label">Quiet the Garden</span>
-          </button>
-          <!-- §19.21 — the way back. Dismissal persists (the kit asks for
-               localStorage), so JS un-hides this the moment Primrose is resting
-               and hides it again once she is back. -->
-          <button class="primrose-restore" type="button" hidden>
-            <svg class="icon-sm" aria-hidden="true" focusable="false"><use href="#i-bee" /></svg>
-            <span>Wake Primrose</span>
-          </button>
-          <p class="footer-note">
-            Motion here is gentle by choice. It also follows your system's reduced-motion setting,
-            and the toggle stills the drifting petals, the parallax, and Primrose entirely.
-          </p>
-        </div>
-
-        <p class="footer-copy">
-          © 2026 Phlix — Open-source media, on your terms. Phlix Server and the Hub are MPL-2.0; the
-          shared libraries, plugins, and clients are MIT.
-        </p>
-      </div>
-    </footer>
-
-    <script src="js/main.js" defer></script>
-  </body>
+<script src="js/main.js" defer></script>
+</body>
 </html>

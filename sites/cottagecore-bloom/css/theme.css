@@ -1,1042 +1,464 @@
-/* ==========================================================================
-   theme.css — Cottagecore Bloom
-   Typography scale · layout containers · page structure · the
-   narrative-scroll archetype (kit experience_archetype) and its six beats.
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
+/* @license MPL-2.0 */
 
-   Layout archetype: NARRATIVE-SCROLL. The home page is one continuous walk
-   through a garden — six ordered beats, each a landmark with its own ground
-   tint, separated by hand-drawn botanical rules rather than hard edges.
-   ========================================================================== */
+/* ===========================================================================
+   THEME.CSS — Cottagecore Bloom
+   Typography scale, layout containers, page structure, narrative-scroll
+   =========================================================================== */
 
-/* ── Layout containers ──────────────────────────────────────────────────── */
+/* ---- Font faces (self-hosted, from shared pool) ---- */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Dancing Script';
+  src: url('../../assets/fonts/dancing-script-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../../assets/fonts/lora-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('../../assets/fonts/lora-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../../assets/fonts/nunito-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../../assets/fonts/nunito-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../../assets/fonts/nunito-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('../../assets/fonts/courier-prime-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('../../assets/fonts/courier-prime-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Typography scale ---- */
+h1, h2, h3 {
+  font-family: var(--font-headline);
+  font-weight: var(--fw-headline);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+h4, h5, h6 {
+  font-family: var(--font-ui);
+  font-weight: var(--fw-ui-lg);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p { font-size: 1rem; line-height: 1.75; }
+
+.display-text {
+  font-family: var(--font-display);
+  font-weight: var(--fw-display);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.ui-text {
+  font-family: var(--font-ui);
+  font-weight: var(--fw-ui);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.mono-text {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-mono);
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+}
+
+.number-text {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+/* ---- Section eyebrow ---- */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-weight: var(--fw-ui-md);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+/* ---- Body copy ---- */
+.body-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+/* ---- Layout containers ---- */
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--space-6);
 }
 
-/* A narrower measure for the reading-first beats — "white space breathes like
-   a garden" (kit design_principles). */
-.container-narrow {
+.container--narrow {
   width: 100%;
-  max-width: 1040px;
+  max-width: var(--content-width);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--space-6);
 }
 
-@media (width >= 48rem) {
-  :root {
-    --gutter: var(--space-8);
-  }
-}
-
-/* ── Typography roles ───────────────────────────────────────────────────── */
-.eyebrow {
-  color: var(--color-taupe-ink);
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  line-height: var(--lh-ui);
-  text-transform: uppercase;
-}
-
-/* Dancing Script — display moments ONLY (kit typography_rules). Always large,
-   so pure Garden Rose (measured 4.02:1) sits safely above the 3:1 bar for
-   large text. It is never used for body copy, buttons or labels. */
-.script {
-  color: var(--color-primary);
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4.2vw, 2.5rem);
-  font-weight: 700;
-  letter-spacing: var(--tracking-display);
-  line-height: var(--lh-display);
-}
-
-.numeral {
-  color: var(--color-primary);
-  font-family: var(--font-number);
-  font-weight: 700;
-  letter-spacing: var(--tracking-number);
-  line-height: var(--lh-number);
-}
-
-.section-title {
-  font-size: clamp(1.65rem, 3.6vw, 2.6rem);
-}
-
-.section-lead {
-  max-width: 58ch;
-  margin-top: var(--space-4);
-  color: var(--color-text);
-  font-size: 1.0625rem;
-}
-
-.muted {
-  color: var(--color-taupe-ink);
-  font-size: 0.9375rem;
-}
-
-/* Spacing utilities — only the two steps the pages actually need, so no page
-   carries an inline style. */
-.mt-4 {
-  margin-top: var(--space-4);
-}
-
-.mt-8 {
-  margin-top: var(--space-8);
-}
-
-/* ── Hand-drawn botanical rule (kit signature_elements) ─────────────────── */
-.botanical-rule {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-block: var(--space-8);
-  color: var(--color-secondary);
-}
-
-.botanical-rule::before,
-.botanical-rule::after {
-  flex: 1 1 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-border) 35%,
-    var(--color-border) 65%,
-    transparent
-  );
-  content: '';
-}
-
-.botanical-rule svg {
-  flex: 0 0 auto;
-}
-
-/* ── Section rhythm ─────────────────────────────────────────────────────── */
-.beat {
-  position: relative;
-  padding-block: var(--space-16);
-}
-
-@media (width >= 48rem) {
-  .beat {
-    padding-block: var(--space-24);
-  }
-}
-
-.beat-cream {
-  background-color: var(--color-surface);
-}
-
-.beat-butter {
-  background-color: var(--color-surface-alt);
-}
-
-.beat-header {
-  margin-bottom: var(--space-12);
-}
-
-/* ==========================================================================
-   BEAT 1 — #gate-opens : the hero diorama
-   kit hero_experience.mode = "diorama-parallax"
-   Layered garden planes drift on pointer + scroll. Every plane is decorative
-   and aria-hidden; the copy is normal flow, so the composition can never
-   shrink-to-fit itself to 0x0 the way the pilot's hero did.
-   ========================================================================== */
-.hero {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-bg);
-  background-image: radial-gradient(
-    120% 90% at 50% 0%,
-    rgb(200 85 106 / 12%) 0%,
-    rgb(255 248 242 / 0%) 60%
-  );
-}
-
-.hero-diorama {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  pointer-events: none;
-}
-
-.hero-plane {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline: 0;
-  height: 100%;
-}
-
-/* Only the two bottom bands get a horizontal bleed, so their parallax pan can
-   never expose an edge. The framing planes must stay hero-aligned, because
-   their art is placed against the hero's own left and right edges. */
-.plane-cottage,
-.plane-flowers {
-  inset-inline: -6%;
-}
-
-/* `will-change` promotes a compositor layer for the lifetime of the page. Five
-   of them is real GPU memory, and it buys nothing on a touch device (the
-   pointer handler is filtered to `mouse`) or when the visitor has asked for
-   stillness. So it is scoped to a fine-pointer, motion-welcome, garden-awake
-   session only. */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  html:not([data-calm='true']) .hero-plane {
-    will-change: transform;
-  }
-}
-
-/* ── How the diorama frames the copy instead of lining the floor ──────────
-   Each plane carries up to four pieces of art, placed and SIZED in CSS rather
-   than left at `height: auto`. `height: auto` made every plane's height
-   width÷aspect, so all five collapsed into one thin strip pinned to the bottom
-   edge — 81% of the hero carried no illustration at 375px against a kit that
-   says "always abundant" four times. Percentage heights with a px `min-height`
-   plus a `slice` fit mean the art CROPS on a narrow viewport instead of
-   shrinking, so the composition survives a tall narrow hero.               */
-.hero-plane .art {
-  position: absolute;
-}
-
-/* The full-bleed wash: pure blobs, so `none` (which stretches) is safe here
-   and would not be on linework. */
-.art-wash {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.art-top {
-  inset-block-start: 0;
-  inset-inline: 0;
-  width: 100%;
-  height: 17%;
-  min-height: 118px;
-}
-
-.art-bottom {
-  inset-block-end: 0;
-  inset-inline: 0;
-  width: 100%;
-}
-
-/* The gate piers: climbing roses carried all the way up both edges. This is
-   the "gate frame" the kit's hero_experience actually asks for. */
-.art-left,
-.art-right {
-  inset-block: 0;
-  width: clamp(44px, 9vw, 140px);
-  height: 100%;
-}
-
-.art-left {
-  inset-inline-start: -10px;
-}
-
-.art-right {
-  inset-inline-end: -10px;
-}
-
-/* Depth order: sky wash + pressed-flower field → canopy & thatched cottage →
-   gate & climbing roses → foreground border → Primrose. Depth factors live in
-   js/main.js. */
-.plane-sky {
-  opacity: 0.9;
-}
-
-.plane-cottage {
-  opacity: 0.55;
-}
-
-.plane-cottage .art-bottom {
-  height: 23%;
-  min-height: 196px;
-}
-
-.plane-gate {
-  opacity: 0.85;
-}
-
-.plane-gate .art-bottom {
-  height: 34%;
-  min-height: 300px;
-}
-
-.plane-flowers {
-  opacity: 0.95;
-}
-
-.plane-flowers .art-bottom {
-  height: 23%;
-  min-height: 208px;
-}
-
-/* The pressed-flower field — a scatter of botanical specimens across the whole
-   hero, denser toward the margins, so no part of the field is bare paper. Kept
-   faint: this sits behind body copy whose own contrast is 15.9:1, and the
-   scatter must read as pressed paper, not as noise. */
-.motif {
-  display: block;
-  position: absolute;
-  width: clamp(26px, 4.4vw, 58px);
-  color: var(--color-secondary);
-  opacity: 0.34;
-}
-
-.motif svg {
-  width: 100%;
-  height: auto;
-}
-
-.motif-rose {
-  color: var(--color-primary);
-}
-
-.m1 {
-  inset-block-start: 6%;
-  inset-inline-start: 3%;
-  rotate: -12deg;
-}
-
-.m2 {
-  inset-block-start: 13%;
-  inset-inline-end: 6%;
-  rotate: 14deg;
-}
-
-.m3 {
-  inset-block-start: 27%;
-  inset-inline-start: 7%;
-  rotate: 8deg;
-}
-
-.m4 {
-  inset-block-start: 31%;
-  inset-inline-end: 3%;
-  rotate: -18deg;
-}
-
-.m5 {
-  inset-block-start: 45%;
-  inset-inline-start: 2%;
-  rotate: 22deg;
-}
-
-.m6 {
-  inset-block-start: 48%;
-  inset-inline-end: 9%;
-  rotate: -6deg;
-}
-
-.m7 {
-  inset-block-start: 62%;
-  inset-inline-start: 8%;
-  rotate: -24deg;
-}
-
-.m8 {
-  inset-block-start: 66%;
-  inset-inline-end: 4%;
-  rotate: 10deg;
-}
-
-.m9 {
-  inset-block-start: 20%;
-  inset-inline-start: 46%;
-  rotate: -9deg;
-  opacity: 0.22;
-}
-
-.m10 {
-  inset-block-start: 55%;
-  inset-inline-start: 38%;
-  rotate: 16deg;
-  opacity: 0.22;
-}
-
-/* Primrose hovers in the open right-hand air, clear of the visitor_paths
-   panel's edge — she used to be pinned at `margin-inline-start: 62%`, which
-   put her on a card border at tablet widths. */
-.plane-bee {
-  inset-block-end: 44%;
-  inset-inline: auto 7%;
-  width: clamp(40px, 5.2vw, 62px);
-  height: auto;
-}
-
-.plane-bee svg {
-  width: 100%;
-  height: auto;
-}
-
-.hero > .container {
-  position: relative;
-  z-index: 1;
-  padding-block: var(--space-16);
-}
-
-@media (width >= 48rem) {
-  .hero > .container {
-    padding-block: var(--space-24);
-  }
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 1;
-}
-
-/* The right-hand reserve. Copy stays in the left column so the fixed companion
-   in the bottom-right can never reach the primary CTA (REGEN_PLAN §5.6), and
-   the reserved band is where the gate pier, the pressed-flower scatter and
-   Primrose live. The reserve now starts at 48rem: it used to start at 62rem,
-   which left roughly 620–992px with a right half that was neither claimed by
-   the copy nor filled with art. */
-@media (width >= 48rem) {
-  .hero-inner {
-    max-width: 76%;
-  }
-}
-
-@media (width >= 62rem) {
-  .hero-inner {
-    max-width: 62%;
-  }
-}
-
-.hero-copy {
-  max-width: 46ch;
-}
-
-.hero h1 {
-  margin-top: var(--space-3);
-  font-size: clamp(1.9rem, 5.4vw, 4rem);
-  font-weight: 900;
-}
-
-.hero-script {
-  margin-top: var(--space-2);
-}
-
-/* homepage_narrative.logline, printed as the hero deck — the one declared
-   string that had no home on the page. */
-.hero-deck {
-  max-width: 44ch;
-  margin-top: var(--space-4);
-  color: var(--color-text);
-  font-size: 1.1875rem;
-  font-style: italic;
-  line-height: 1.6;
-}
-
-.hero-sub {
-  margin-top: var(--space-4);
-  font-size: 1.125rem;
-}
-
-/* The verbatim content.json hero subheadline — the precise version of the
-   warm one above it (kit complexity_profile.jargon_policy = "translate"). */
-.hero-fact {
-  margin-top: var(--space-6);
-  padding-inline-start: var(--space-4);
-  border-inline-start: 2px solid var(--color-border);
-  color: var(--color-taupe-ink);
-  font-size: 0.9375rem;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-8);
-}
-
-/* ── visitor_paths fork — "What kind of gardener are you?" ────────────────
-   ONE parchment panel, not three floating opaque cards. Three separate
-   `--color-surface` fills sitting directly on the gate and flower planes cut
-   the illustration into disconnected pieces; a single seed-packet panel with
-   the three choices ruled inside it occludes the garden once, deliberately,
-   and reads as an object resting in the border rather than as clutter.
-   The panel is fully opaque on purpose: render-check's contrast probe ignores
-   alpha (REGEN_PLAN §5.5.2), so no text on this site sits on a translucent
-   fill. */
-.paths {
-  position: relative;
-  z-index: 1;
-  max-width: 44rem;
-  margin-top: var(--space-12);
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-md);
-}
-
-.paths h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 3.4vw, 1.9rem);
-  font-weight: 700;
-  letter-spacing: var(--tracking-display);
-}
-
-.path-list {
-  display: grid;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
-  padding-inline-start: 0;
-  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-  list-style: none;
-}
-
-.path-list li {
-  margin-top: 0;
-}
-
-/* ==========================================================================
-   BEAT 2 — #why-this-garden : pitch_bullets as garden guideposts
-   kit copy_treatments.pitch_bullets = "garden-guideposts"
-   ========================================================================== */
-.pitch-story {
-  max-width: 60ch;
-  font-size: 1.125rem;
-}
-
-.guidepost-path {
-  display: grid;
-  gap: var(--space-6);
-  margin-top: var(--space-12);
-  padding-inline-start: 0;
-  list-style: none;
-}
-
-.guidepost-path > li {
-  margin-top: 0;
-}
-
-@media (width >= 48rem) {
-  .guidepost-path {
-    gap: var(--space-8);
-  }
-
-  /* The winding path: signposts step in and out as if planted along a curve
-     rather than a grid line (kit composition: "slightly asymmetric —
-     hand-arranged, not grid-perfect"). */
-  .guidepost-path > li:nth-child(even) {
-    margin-inline-start: 8%;
-  }
-
-  .guidepost-path > li:nth-child(3n) {
-    margin-inline-start: 4%;
-  }
-}
-
-/* ==========================================================================
-   BEAT 3 — #what-blooms : the seed catalog
-   Two hero plates (feature_casting.hero) then four support rows.
-   ========================================================================== */
-.catalog-plates {
-  display: grid;
-  gap: var(--space-8);
-  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
-}
-
-.catalog-rows {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-12);
-  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
-}
-
-.catalog-footnote {
-  margin-top: var(--space-12);
-  padding-top: var(--space-6);
-  border-top: 1px dashed var(--color-border);
-}
-
-.catalog-more {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  font-family: var(--font-ui);
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   BEAT 4 — #guest-rooms : clients as cottage guest rooms
-   ========================================================================== */
-/* 13rem, not 15rem: all five rooms then sit in a single strip on a desktop
-   viewport, which is the point of the section ("five rooms, all made up"). */
-.room-strip {
-  display: grid;
-  gap: var(--space-4);
-  padding-inline-start: 0;
-  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-  list-style: none;
-}
-
-.room-strip > li {
-  margin-top: 0;
-}
-
-/* ==========================================================================
-   BEAT 5 — #trust-the-keeper : the proof band
-   kit proof_strategy.placement — one calm band, never overwhelming.
-   ========================================================================== */
-.placard {
-  display: grid;
-  gap: var(--space-6);
-  padding: var(--space-8);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-sm);
-  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-}
-
-.placard-stat {
-  min-width: 0;
-}
-
-.placard-stat .numeral {
-  display: block;
-  font-size: clamp(1.9rem, 5vw, 2.85rem);
-}
-
-/* The one signal in the placard that is a spec rather than a count: a sprig
-   stands in for the numeral so it still reads as part of the same row. Sage,
-   like every other decorative icon on the site — the kit reserves Garden Rose
-   for ACTIVE icon states, and this one is never active. */
-.placard-spec > svg {
-  color: var(--color-sage-ink);
-}
-
-.placard-label {
-  display: block;
-  margin-top: var(--space-1);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  line-height: var(--lh-ui);
-}
-
-.proof-community {
-  margin-top: var(--space-8);
-}
-
-.proof-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3) var(--space-6);
-  margin-top: var(--space-4);
-  padding-inline-start: 0;
-  list-style: none;
-}
-
-.proof-links li {
-  margin-top: 0;
-}
-
-/* Hand-lettered garden sign holding one true quoted line.
-   Sage, not rose: `color_rules` reserves Garden Rose for "the single most
-   important CTA per screen", and a rose-bordered quote card two beats above the
-   CTA ladder competed with it for first fixation. Sage Ink is the kit's own
-   secondary hue, deepened enough to clear the 3:1 UI bar (2.88 → 5.63). */
-.garden-sign {
-  max-width: 62ch;
-  margin-top: var(--space-12);
-  padding: var(--space-8);
-  border: 1px solid var(--color-border);
-  border-inline-start: 3px solid var(--color-sage-ink);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-alt);
-  box-shadow: var(--shadow-md);
-}
-
-.garden-sign blockquote p {
-  max-width: none;
-  font-size: 1.0625rem;
-  font-style: italic;
-}
-
-.garden-sign figcaption {
-  margin-top: var(--space-4);
-  color: var(--color-taupe-ink);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-}
-
-/* ==========================================================================
-   BEAT 6 — #plant-your-seed : the closing garden bed + the CTA ladder
-   kit conversion_funnel.style = "guided-steps"
-   ========================================================================== */
-.cta-banner {
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  background-image: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
-}
-
-.cta-banner h2 {
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
-}
-
-.cta-grid {
-  display: grid;
-  gap: var(--space-12);
-  align-items: start;
-  grid-template-columns: 1fr;
-}
-
-@media (width >= 62rem) {
-  .cta-grid {
-    grid-template-columns: 1.1fr 1fr;
-  }
-}
-
-.cta-ladder {
-  display: grid;
-  gap: var(--space-4);
-  margin: 0;
-  padding-inline-start: 0;
-  list-style: none;
-}
-
-.cta-ladder > li {
-  margin-top: 0;
-}
-
-/* Sage border and a sage glow, for the same reason as `.garden-sign`: the seed
-   box sits directly beside the CTA ladder, and a rose glow there made the code
-   block compete with "Start Your Garden". */
-.seed-box {
-  min-width: 0;
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-inline-start: 3px solid var(--color-sage-ink);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-alt);
-  box-shadow: var(--shadow-sage-glow);
-}
-
-.seed-box h3 {
-  font-size: 1.125rem;
-}
-
-.seed-box pre {
-  margin-top: var(--space-4);
-  background: var(--color-bg);
-  font-size: 0.875rem;
-}
-
-/* ==========================================================================
-   Interior pages
-   ========================================================================== */
+/* ---- Page header ---- */
 .page-header {
-  position: relative;
-  overflow: hidden;
-  padding-block: var(--space-16) var(--space-12);
+  padding: var(--space-16) 0 var(--space-12);
+  text-align: center;
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  background-image: radial-gradient(
-    90% 140% at 12% 0%,
-    rgb(200 85 106 / 10%) 0%,
-    rgb(255 243 232 / 0%) 70%
-  );
 }
 
 .page-header h1 {
-  margin-top: var(--space-3);
-  font-size: clamp(1.85rem, 5vw, 3.4rem);
-  font-weight: 900;
+  margin-bottom: var(--space-4);
 }
 
-.page-lead {
-  max-width: 56ch;
-  margin-top: var(--space-4);
+.page-header .lead {
+  font-family: var(--font-body);
   font-size: 1.125rem;
+  color: var(--color-text);
+  opacity: 0.8;
+  max-width: 600px;
+  margin-inline: auto;
 }
 
+/* ---- Content section ---- */
 .content-section {
-  padding-block: var(--space-16);
-  background-color: var(--color-bg);
+  padding: var(--space-16) 0;
 }
 
-.content-section-alt {
-  background-color: var(--color-surface);
-}
-
-.content-section h2 {
-  font-size: clamp(1.5rem, 3.2vw, 2.15rem);
-}
-
-/* Scoped to prose blocks. Left unscoped, this rule would put a 32px top margin
-   on every card title on the site, because §19.16 moved card titles from <h2>
-   down to <h3> where they belong. */
-.content-section .prose-block h3 {
-  margin-top: var(--space-8);
-  font-size: 1.25rem;
-}
-
-.content-section .prose-block h3:first-child {
-  margin-top: 0;
-}
-
-.content-section p + p,
-.content-section p + ul,
-.content-section p + ol,
-.content-section ul + p,
-.content-section :is(h2, h3, h4) + p {
-  margin-top: var(--space-4);
-}
-
-/* Cards space their children with flex `gap`, so a margin under the title would
-   double only that one gap. This override is the price of putting card titles at
-   the level they belong (§19.16); the alternative was leaving them as <h2>. */
-.content-section
-  :is(.client-card, .download-card, .book, .season-card, .room-card)
-  :is(h3, h4)
-  + p {
-  margin-top: 0;
+.content-section + .content-section {
+  border-top: 1px solid var(--color-border);
 }
 
 .content-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-8);
-  grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
 }
 
-.prose-block {
-  max-width: var(--max-width-text);
+/* narrow grids used in footers, spec columns etc */
+.content-grid--narrow {
+  grid-template-columns: repeat(auto-fill, minmax(200px, minmax(0, 1fr)));
+  gap: var(--space-6);
 }
 
-.prose-block + .prose-block {
-  margin-top: var(--space-12);
-}
-
-/* ── features.html — the garden room tour (page_blueprints.features) ────── */
-.room-tour {
+/* ---- Two-column layout ---- */
+.two-col {
   display: grid;
-  gap: var(--space-12);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  align-items: start;
 }
 
-@media (width >= 62rem) {
-  .room-tour {
-    gap: var(--space-16);
-  }
+@media (max-width: 768px) {
+  .two-col { grid-template-columns: 1fr; }
 }
 
-/* ── about.html — the garden journal (page_blueprints.about) ────────────── */
-.journal-page {
+/* ---- Botanical divider ---- */
+.botanical-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+  color: var(--color-border);
+}
+
+.botanical-divider::before,
+.botanical-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ---- Linen texture overlay for surfaces ---- */
+.linen-surface {
   position: relative;
-  max-width: 70ch;
-  padding: var(--space-8);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgb(176 160 144 / 7%) 0 1px,
-    transparent 1px 2.2rem
-  );
-  box-shadow: var(--shadow-sm);
+}
+.linen-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
 }
 
-.journal-page + .journal-page {
-  margin-top: var(--space-12);
+/* ---- Petal-fall animation ---- */
+@keyframes petal-drift {
+  0%   { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(100vh) rotate(360deg) translateX(40px); opacity: 0; }
 }
 
-/* Journal entries are items INSIDE the journal section, so they are <h3> under
-   the section's own title (§19.16). */
-.journal-page > h3 {
-  margin-top: var(--space-2);
-  font-size: clamp(1.35rem, 3vw, 1.85rem);
-  font-style: italic;
+@keyframes petal-settle {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
 }
 
-.journal-date {
-  color: var(--color-taupe-ink);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: var(--tracking-mono);
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ── download.html — the three planting steps (conversion_funnel) ───────── */
-.step + .step {
-  margin-top: var(--space-16);
-  padding-top: var(--space-12);
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-bloom {
+  0%   { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spiral-loop {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(15px, -20px) rotate(90deg); }
+  50%  { transform: translate(30px, 0) rotate(180deg); }
+  75%  { transform: translate(15px, 20px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* ---- Scroll reveal (enabled via JS) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease-soft),
+              transform var(--dur-slow) var(--ease-soft);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- CTA Banner ---- */
+.cta-banner {
+  padding: var(--space-16) 0;
+  text-align: center;
+  background: var(--color-surface);
   border-top: 1px solid var(--color-border);
 }
 
-.step-index {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-3) var(--space-4);
+.cta-banner h2 {
+  margin-bottom: var(--space-6);
 }
 
-.step-index .numeral {
-  font-size: clamp(2.25rem, 6vw, 3.5rem);
-}
-
-.step-index h3 {
-  margin: 0;
-  font-size: clamp(1.4rem, 3.2vw, 2rem);
-}
-
-/* ── seasons.html — the year's four moods (site_architecture.extra_pages) ─ */
-.season-grid {
-  display: grid;
-  gap: var(--space-8);
-  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
-}
-
-.swatch-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+.cta-banner .btn {
   margin-top: var(--space-4);
-  padding-inline-start: 0;
-  list-style: none;
 }
 
-.swatch-row li {
-  margin-top: 0;
+/* ---- Code block ---- */
+.code-block {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+  position: relative;
 }
 
-.swatch {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text);
+.code-block pre {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: var(--tracking-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  white-space: pre;
+  margin: 0;
 }
 
-.swatch i {
-  display: block;
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
+.code-block .copy-btn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  color: var(--color-neutral);
+  cursor: pointer;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+.code-block .copy-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-/* ── 404.html — the empty garden bed ───────────────────────────────────── */
-.lost-bed {
-  padding-block: var(--space-24);
-  text-align: center;
+/* ---- Visitor paths ---- */
+.visitor-paths {
+  margin: var(--space-8) 0;
 }
 
-.lost-bed h1 {
-  margin-top: var(--space-6);
-  font-size: clamp(1.85rem, 5.2vw, 3.2rem);
-  font-weight: 900;
+.visitor-paths .paths-prompt {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: var(--fw-ui-md);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  opacity: 0.75;
 }
 
-.lost-bed p {
-  margin-inline: auto;
-  margin-top: var(--space-4);
-}
-
-.lost-bed .hero-actions {
-  justify-content: center;
-}
-
-.lost-figure {
-  width: min(340px, 86%);
-  margin-inline: auto;
-}
-
-/* ==========================================================================
-   scroll_experience — "petal-unfold"
-   Each beat blooms open as it arrives; beats already walked past settle to a
-   gentler saturation. Implemented with saturate() + a warm veil rather than
-   the kit's literal sepia(), because sepia() shifts luminance and would drop
-   measured text contrast below the §12 gate (REGEN_PLAN §5.3).
-   The pre-state only exists when JS is running, so a no-JS visitor sees every
-   beat at full opacity.
-   ========================================================================== */
-.js-reveal .reveal {
-  opacity: 0;
-  transform: translateY(12px) scale(0.985);
-  transition:
-    opacity var(--dur-slow) var(--ease-garden),
-    transform var(--dur-slow) var(--ease-bloom),
-    filter var(--dur-slow) linear;
-}
-
-.js-reveal .reveal.is-open {
-  opacity: 1;
-  transform: none;
-}
-
-.js-reveal .reveal.is-past {
-  filter: saturate(0.72);
-}
-
-/* Reduced motion and calm mode: plain continuous scroll, full colour from the
-   start — exactly the kit's scroll_experience.reduced_motion description. */
-@media (prefers-reduced-motion: reduce) {
-  .js-reveal .reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-html[data-calm='true'] .reveal {
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-}
-
-/* ==========================================================================
-   seasonal_activation — live-js date gate
-   js/main.js sets data-season and injects the matching override tokens. The
-   ink tokens are overridden alongside the display hues so every variant keeps
-   its measured AA headroom.
-   ========================================================================== */
-.season-banner {
-  padding-block: var(--space-3);
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface-alt);
-}
-
-.season-banner .container {
+.path-buttons {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: var(--space-3);
 }
 
-.season-banner p {
-  max-width: none;
-  color: var(--color-text);
+.path-btn {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  line-height: var(--lh-ui);
+  font-size: 0.875rem;
+  font-weight: var(--fw-ui-md);
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all var(--dur-medium) var(--ease-soft);
+}
+.path-btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-rose-glow);
 }
 
-.season-banner img {
-  flex: 0 0 auto;
-  width: 30px;
-  height: 30px;
+/* ---- Proof section ---- */
+.proof-section {
+  padding: var(--space-12) 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* The season's name, prefixed to the kit's banner sentence as its own element so
-   the declared sentence survives verbatim instead of being paraphrased into a
-   lower-cased clause. Nunito 600 is a declared UI weight; the colour is the
-   variant's own rose ink, which every variant overrides alongside its hues. */
-.season-name {
-  margin-inline-end: var(--space-1);
-  color: var(--color-rose-ink);
-  font-weight: 600;
+.proof-placard {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-md);
 }
 
-/* @copyright 2026 Joe Huss <detain@interserver.net> */
+.proof-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, minmax(0, 1fr)));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.proof-number-item {
+  text-align: center;
+}
+
+.proof-number-item .number {
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: block;
+  line-height: 1.1;
+}
+
+.proof-number-item .label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: var(--fw-ui-md);
+  color: var(--color-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.proof-quote {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-text);
+  text-align: center;
+  padding: var(--space-4) var(--space-8);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-6);
+}
+
+.proof-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+}
+
+.proof-github a {
+  color: var(--color-secondary);
+  font-weight: var(--fw-ui-md);
+  transition: color var(--dur-fast);
+}
+.proof-github a:hover { color: var(--color-text); }

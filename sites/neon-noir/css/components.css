@@ -1,1207 +1,1317 @@
-/*
- * components.css — Neon Noir
- * Topbar, footer (mirror-nav case index + canonical columns + utility row),
- * buttons, evidence/clue/client/agent cards, code block, transcript, badges,
- * Lux the companion, the calm-mode switch, the seasonal banner and the two
- * easter-egg surfaces.
- *
- * Glow is always box-shadow / text-shadow — never a glow image, per the kit's
- * performance rules. Every glow reads through the --glow-* dials so calm mode
- * turns the neon off in one place.
- *
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
 
-/* ==========================================================================
-   1. Topbar (navigation_model: topbar)
-   Not sticky: noir wants the frame to hold still, and nothing then floats
-   over the primary CTA at any width.
-   ========================================================================== */
+/* ===========================================================================
+   COMPONENTS.CSS — Buttons, Cards, Forms, Badges, Page Sections
+   =========================================================================== */
 
-.site-header {
-  position: relative;
-  z-index: 20;
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-}
-
-.nav-primary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-4);
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding: var(--space-3) var(--space-4);
-}
-
-.nav-logo {
-  display: block;
-  flex: 0 0 auto;
-  line-height: 0;
-}
-
-.nav-logo img {
-  width: 168px;
-  height: 56px;
-}
-
-/* Easter egg 1: five clicks on the wordmark. */
-.nav-logo.is-pulsing {
-  filter: drop-shadow(0 0 10px rgb(0, 229, 255, 0.85));
-}
-
-/* navigation_model.fallback: "The fallback nav is always rendered and always
-   functional." So the disclosure pattern is opt-IN, keyed to html[data-js='on']
-   — which index.html sets from an inline head script, before first paint. With
-   JS off the toggle never renders (it would be a dead button) and the menu
-   below 900px stays a plain visible column. This was the hook js/main.js has
-   always written and no stylesheet ever read. */
-.nav-toggle {
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 48px;
-  margin-left: auto;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--radius-sm);
-  background-color: transparent;
-  color: var(--color-secondary-text);
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.nav-toggle__bars {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 2px;
-  background-color: currentcolor;
-  box-shadow:
-    0 -6px 0 currentcolor,
-    0 6px 0 currentcolor;
-}
-
-html[data-js='on'] .nav-toggle {
-  display: inline-flex;
-}
-
-/* Default (and the no-JS state below 900px): a plain visible column. */
-.nav-menu {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  width: 100%;
-}
-
-html[data-js='on'] .nav-menu {
-  display: none;
-}
-
-html[data-js='on'] .nav-menu.is-open {
-  display: flex;
-}
-
-.nav-menu__link {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  min-height: 48px;
-  padding: var(--space-2) var(--space-3);
-  border-top: 2px solid transparent;
-  border-left: 3px solid transparent;
-  color: var(--color-secondary-text);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  line-height: 1.3;
-  text-decoration: none;
-  transition:
-    color var(--dur-hover) var(--ease-cine),
-    text-shadow var(--dur-hover) var(--ease-cine);
-}
-
-.nav-menu__link:hover {
-  /* Hover brightens like a sign spiking voltage. */
-  color: var(--color-text);
-  text-shadow: var(--glow-text-cyan);
-}
-
-.nav-menu__gloss {
-  color: var(--color-neutral);
-  font-size: 0.6875rem;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* site_architecture.nav declares three emphasis levels and all three must be
-   visually distinguishable — but not by spending amber on nav chrome, which
-   do_dont.colors.dont[2] forbids outright. So all three levels are built inside
-   ONE accent, with three independent channels each:
-     primary  cyan, weight 600, a lit 2px cyan tube above the label
-     default  cyan, weight 500, no tube
-     muted    Steel Mist, weight 400, no tube
-   The tube is a real border, so the distinction survives calm mode (which
-   empties every glow dial) and greyscale. */
-.nav-menu__link--primary {
-  border-top-color: var(--color-secondary);
-  font-weight: 600;
-}
-
-.nav-menu__link--primary:hover {
-  color: var(--color-text);
-  text-shadow: var(--glow-text-cyan);
-}
-
-.nav-menu__link--muted {
-  color: var(--color-neutral);
-  font-weight: 400;
-}
-
-/* Active page: glow AND a 3px amber marker AND aria-current. Never colour
-   alone — the marker carries the state for anyone who cannot see the glow. */
-.nav-menu__link[aria-current='page'] {
-  border-left-color: var(--color-primary);
-  background-color: var(--color-surface-alt);
-  color: var(--color-text);
-  text-shadow: var(--glow-text-cyan);
-}
-
-.nav-menu__link[aria-current='page'] .nav-menu__gloss::after {
-  content: ' · you are here';
-}
-
-@media (width >= 900px) {
-  .nav-primary {
-    flex-wrap: nowrap;
-    gap: var(--space-6);
-  }
-
-  .nav-toggle,
-  html[data-js='on'] .nav-toggle {
-    display: none;
-  }
-
-  .nav-menu,
-  html[data-js='on'] .nav-menu {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-1);
-    width: auto;
-    margin-left: auto;
-  }
-
-  .nav-menu__link {
-    border-bottom: 3px solid transparent;
-    border-left: 0;
-    text-align: left;
-  }
-
-  .nav-menu__link[aria-current='page'] {
-    border-bottom-color: var(--color-primary);
-    border-left-color: transparent;
-    background-color: transparent;
-  }
-}
-
-/* ==========================================================================
-   2. Buttons — sharp-cornered, one amber CTA per screen
-   ========================================================================== */
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
 
 .btn {
   display: inline-flex;
-  /* Wrap whole words onto a new line rather than squeezing the label — at
-     320px "Read the Case File (the docs)" otherwise breaks mid-phrase. */
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0 var(--space-2);
-  min-height: 48px;
+  gap: var(--space-2);
   padding: var(--space-3) var(--space-6);
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  text-align: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
   text-decoration: none;
   transition:
-    background-color var(--dur-hover) var(--ease-cine),
-    box-shadow var(--dur-hover) var(--ease-cine),
-    filter var(--dur-hover) var(--ease-cine);
+    background var(--duration-fast) var(--ease-cinematic),
+    color var(--duration-fast) var(--ease-cinematic),
+    border-color var(--duration-fast) var(--ease-cinematic),
+    box-shadow var(--duration-fast) var(--ease-cinematic),
+    transform var(--duration-fast) var(--ease-cinematic);
+  white-space: normal;
+  min-width: 0;
+  max-width: 100%;
 }
 
-/* Neon amber, void-black label — the ONE amber fill per screen, and now the
-   only amber UI on the site. Both halves read role tokens so the Blood Moon
-   October override (crimson fill, near-white label) cannot drop the label below
-   AA: raw #e5154e is 4.24:1 under void-black and 3.93:1 under Ghost White, so
-   the season swaps --color-on-primary rather than shipping a 4.24:1 CTA. */
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Primary — Neon Amber */
 .btn-primary {
-  background-color: var(--color-primary-fill);
-  box-shadow: var(--glow-amber);
-  color: var(--color-on-primary);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
 }
 
 .btn-primary:hover {
-  /* Buzzing sign spiking voltage — `saturate(120%)` is the kit's own
-     microinteractions.button_press verbatim. The `brightness(108%)` that used
-     to ride along with it lightened the fill, which would have pushed the
-     seasonal near-white label under 4.5:1, so the extra punch comes from the
-     glow instead of from the fill. */
-  color: var(--color-on-primary);
-  box-shadow:
-    var(--glow-amber),
-    0 0 0 1px var(--color-primary-fill);
-  filter: saturate(120%);
+  background: #f9b93d;
+  box-shadow: var(--shadow-neon-amber);
+  color: var(--color-bg);
 }
 
 .btn-primary:active {
-  filter: saturate(140%);
+  filter: saturate(1.2);
 }
 
+/* Secondary — Ghost with neon edge */
 .btn-secondary {
+  background: transparent;
+  color: var(--color-secondary);
   border-color: var(--color-secondary);
-  background-color: transparent;
-  color: var(--color-secondary-text);
 }
 
 .btn-secondary:hover {
-  background-color: rgb(0, 229, 255, 0.1);
-  box-shadow: var(--glow-cyan);
-  color: var(--color-secondary-text);
+  background: rgba(0, 229, 255, 0.08);
+  box-shadow: var(--shadow-neon-cyan);
+  color: var(--color-secondary);
 }
 
-/* Steel Mist, not --color-edge-strong. A transparent-fill control's border IS
-   its boundary, so WCAG 1.4.11 wants 3:1 against whatever it sits on — and
-   .copy-token sits on Charcoal Slate (.code-block__bar), where #5a6b84 is only
-   2.89:1. Steel Mist is 5.88 void / 5.33 navy / 4.72 slate: safe on all three
-   surfaces this button can appear on. */
+/* Ghost — Subtle border */
 .btn-ghost {
-  border-color: var(--color-neutral);
-  background-color: transparent;
+  background: transparent;
   color: var(--color-text);
+  border-color: var(--color-border);
 }
 
 .btn-ghost:hover {
-  border-color: var(--color-text);
-  background-color: var(--color-surface-alt);
+  border-color: var(--color-neutral);
   color: var(--color-text);
 }
 
-.btn--lg {
-  min-height: 52px;
-  padding: var(--space-4) var(--space-8);
-  font-size: 1rem;
-}
-
-.btn--sm {
-  min-height: 44px;
-  padding: var(--space-2) var(--space-4);
-  font-size: 0.875rem;
-}
-
-.btn__note {
-  font-weight: 400;
-  opacity: 0.85;
-}
-
-/* ==========================================================================
-   3. Cards
-   ========================================================================== */
-
-.card,
-.feature-card,
-.feature-detail,
-.client-card,
-.download-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-md);
-  transition:
-    border-color var(--dur-hover) var(--ease-cine),
-    box-shadow var(--dur-hover) var(--ease-cine),
-    transform var(--dur-hover) var(--ease-cine);
-}
-
-@media (hover: hover) {
-  .feature-card:hover,
-  .feature-detail:hover,
-  .client-card:hover,
-  .download-card:hover {
-    border-color: var(--color-secondary);
-    box-shadow: var(--shadow-neon-cyan);
-    transform: translateY(-3px);
-  }
-}
-
-/* icon_rules[2]: "Single neon accent color for active/featured state;
-   ghost-white otherwise." Ghost White IS the default here — the cyan is spent
-   only on the cards `feature_casting` actually casts as leads/hero, so the
-   featured-vs-default distinction the kit defines exists on the page instead of
-   only in the kit file. */
-.card__icon,
-.feature-card__icon,
-.feature-detail__icon {
-  width: 32px;
-  height: 32px;
+/* Danger — Danger Magenta */
+.btn-danger {
+  background: var(--color-error);
   color: var(--color-text);
-  flex: 0 0 auto;
+  border-color: var(--color-error);
 }
 
-.feature-detail__icon {
+.btn-danger:hover {
+  background: #e93d6c;
+  box-shadow: var(--shadow-neon-magenta);
+  color: var(--color-text);
+}
+
+/* Link — Cyan underline */
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  padding: 0;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn-link:hover {
+  color: var(--color-primary);
+}
+
+/* Icon button */
+.btn-icon {
   width: 40px;
   height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
 }
 
-/* Featured / hero-cast: the one neon accent state. */
-.evidence-card--lead .feature-card__icon,
-.feature-detail--lead .feature-detail__icon,
-.card--lead .card__icon {
+.btn-icon:hover {
+  border-color: var(--color-secondary);
   color: var(--color-secondary);
-  filter: drop-shadow(0 0 6px rgb(0, 229, 255, 0.4));
 }
 
-.feature-card__title,
-.feature-detail__title {
-  font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
+.btn-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
-.feature-card__body,
-.feature-detail__body {
-  color: var(--color-text);
-  font-size: 0.9375rem;
-  max-width: none;
-}
-
-/* The two flagship leads, pinned to the case board. Cyan edge, not amber:
-   a card border is exactly the "secondary/tertiary UI" amber is barred from. */
-.evidence-card--lead {
-  border-top: 2px solid var(--color-secondary);
-  padding: var(--space-6);
-}
-
-.evidence-card--lead .feature-card__title {
-  font-size: clamp(1.25rem, 2.6vw, 1.625rem);
-}
-
-.evidence-card--lead .feature-card__angle {
-  color: var(--color-text);
-  font-family: var(--font-headline);
-  font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-/* The pin holding an evidence photo to the wall. Decorative, and now steel
-   rather than neon magenta — a pin is hardware, not a light source, and
-   color_rules[1] caps a view at two neon accents (here: cyan + amber). */
-.evidence__pin {
-  position: absolute;
-  top: -5px;
-  left: var(--space-6);
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--color-neutral);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-bg);
-  box-shadow: var(--shadow-sm);
-}
-
-.evidence__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-3);
-}
-
-/* Lux's cryptic case note on each evidence file. Not italic: IBM Plex Serif
-   ships no italic face in the pool, so `italic` here was a synthesised oblique.
-   The cyan ink and the lit left edge already mark it as a quoted aside. */
-.evidence__note {
-  border-left: 2px solid var(--color-secondary);
-  padding-left: var(--space-3);
-  color: var(--color-secondary-text);
-  font-size: 0.9375rem;
-  max-width: none;
-}
-
-/* Noir-scroll clue card: one pitch bullet, pulled from the case file. */
-.clue {
-  position: relative;
-  display: flex;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-left: 2px solid var(--color-neutral);
-  background-color: var(--color-surface-alt);
-  color: var(--color-text);
-  font-size: 0.9375rem;
-  transition: border-color var(--dur-hover) var(--ease-cine);
-}
-
-.clue:hover {
-  border-color: var(--color-secondary);
-}
-
-/* Steel Mist, 4.72:1 on Charcoal Slate. A typed case serial is chrome; the
-   magenta it used to carry was the third neon accent in a two-accent view. */
-.clue__serial {
-  color: var(--color-neutral);
-  flex: 0 0 auto;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  padding-top: 0.2em;
-}
-
-/* ==========================================================================
-   4. Badges, chips, statuses
-   ========================================================================== */
-
-.badge,
-.client-status {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: 3px var(--space-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-ui);
-  font-size: 0.6875rem;
+/* FAB */
+.btn-fab {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: 1px solid var(--color-primary);
+  padding: var(--space-3) var(--space-6);
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  box-shadow: var(--shadow-neon-amber);
+  border-radius: var(--radius-sm);
 }
 
-/* Status text always spells the status out — never colour alone. Stable is lit
-   (cyan); beta is unlit steel, which reads as "not finished" without spending a
-   third neon accent on it. */
-.client-status.status-stable {
-  border-color: var(--color-secondary);
-  color: var(--color-secondary-text);
+.btn-fab:hover {
+  box-shadow:
+    0 0 20px rgba(245, 166, 35, 0.7),
+    0 0 40px rgba(245, 166, 35, 0.3);
+  color: var(--color-bg);
 }
 
-.client-status.status-beta {
-  border-color: var(--color-neutral);
-  color: var(--color-neutral);
-}
+/* ── Cards ────────────────────────────────────────────────────────────────── */
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-1) var(--space-3);
+.card {
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-alt);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition:
+    border-color var(--duration-medium) var(--ease-cinematic),
+    box-shadow var(--duration-medium) var(--ease-cinematic),
+    transform var(--duration-medium) var(--ease-cinematic);
 }
 
-.spec-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+.card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
-.spec-list li {
-  display: flex;
-  gap: var(--space-3);
-  color: var(--color-text);
-  font-size: 0.9375rem;
+.card--featured {
+  border-color: rgba(0, 229, 255, 0.2);
 }
 
-.spec-list li::before {
-  content: '';
-  flex: 0 0 auto;
-  width: 6px;
-  height: 6px;
-  margin-top: 0.6em;
-  background-color: var(--color-secondary);
+.card--featured:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-md), var(--shadow-neon-cyan);
 }
 
-/* ==========================================================================
-   5. Code block — the clearance token
-   ========================================================================== */
-
-.code-block {
+/* Case board card (evidence board style) */
+.card-evidence {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
   position: relative;
-  overflow: hidden;
-  margin-top: var(--space-4);
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-bg);
+}
+
+.card-evidence::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.card-evidence .card-number {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-neutral);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-2);
+}
+
+.card-evidence:hover {
+  border-color: var(--color-secondary);
   box-shadow: var(--shadow-neon-cyan);
 }
 
-.code-block__bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface-alt);
+.card-evidence:hover::before {
+  background: var(--color-secondary);
 }
 
-.code-block pre {
-  overflow: hidden;
-  margin: 0;
-  padding: var(--space-4);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  line-height: 1.7;
-  white-space: pre-wrap;
-}
-
-/* The shell prompt glyph is chrome beside the command, and the amber on this
-   page belongs to the install CTA. Steel Mist, 5.88:1 on void. */
-.code-block pre .prompt {
-  color: var(--color-neutral);
-  user-select: none;
-}
-
-.code-block--quiet {
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
-/* ==========================================================================
-   6. jargon_policy: translate — precise terms kept in a decoder
-   ========================================================================== */
-
-.decoder {
+/* Network node card */
+.card-node {
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  text-align: center;
 }
 
-.decoder > summary {
-  padding: var(--space-2) var(--space-3);
-  color: var(--color-secondary-text);
-  cursor: pointer;
+.card-node .node-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-4);
+  color: var(--color-secondary);
+}
+
+.card-node .node-name {
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  list-style-position: inside;
-}
-
-.decoder > summary:hover {
   color: var(--color-text);
+  margin-bottom: var(--space-1);
 }
 
-.decoder__body {
+.card-node .node-tagline {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+}
+
+/* ── Badges ────────────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+.badge-amber {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(245, 166, 35, 0.08);
+}
+
+.badge-cyan {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.badge-magenta {
+  color: var(--color-tertiary);
+  border-color: var(--color-tertiary);
+  background: rgba(255, 45, 120, 0.08);
+}
+
+.badge-neutral {
+  color: var(--color-neutral);
+  border-color: var(--color-border);
+  background: rgba(122, 143, 166, 0.08);
+}
+
+.badge-beta {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+  background: rgba(255, 179, 0, 0.08);
+}
+
+.badge-stable {
+  color: var(--color-success);
+  border-color: var(--color-success);
+  background: rgba(0, 201, 167, 0.08);
+}
+
+/* ── Feature Cards ────────────────────────────────────────────────────────── */
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  position: relative;
+  transition:
+    border-color var(--duration-medium) var(--ease-cinematic),
+    box-shadow var(--duration-medium) var(--ease-cinematic),
+    transform var(--duration-medium) var(--ease-cinematic);
+}
+
+.feature-card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-neon-cyan);
+  transform: translateY(-3px);
+}
+
+.feature-card .feature-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-4);
+  color: var(--color-secondary);
+}
+
+.feature-card .feature-title {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.feature-card .feature-body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-neutral);
+  line-height: 1.65;
+}
+
+/* ── Clients / Network grid ────────────────────────────────────────────────── */
+
+.network-grid {
   display: grid;
-  gap: var(--space-2);
-  padding: 0 var(--space-3) var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
+  gap: var(--space-6);
 }
 
-.decoder__body div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-2);
+@media (min-width: 640px) {
+  .network-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }
 
-/* 12px mono on Charcoal Slate. Cyan (10.21:1 there) rather than amber: amber is
-   the CTA colour, and the Blood Moon crimson would have been 3.40:1 here. */
-.decoder__body dt {
-  color: var(--color-secondary-text);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+/* ── Evidence board layout (features) ─────────────────────────────────────── */
+
+.evidence-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(0, 1fr));
+  gap: var(--space-6);
+  position: relative;
 }
 
-.decoder__body dd {
-  color: var(--color-text);
-  flex: 1 1 16ch;
-  font-size: 0.8125rem;
-  margin: 0;
-}
-
-/* ==========================================================================
-   7. FAQ — interrogation transcript (faq_experience)
-   ========================================================================== */
+/* ── FAQ / Interrogation transcript ───────────────────────────────────────── */
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  margin: 0;
-}
-
-.transcript__entry {
-  border-left: 2px solid var(--color-border);
-  padding-left: var(--space-4);
-}
-
-.transcript__entry dt {
-  display: flex;
-  gap: var(--space-3);
-  color: var(--color-text);
-  font-family: var(--font-headline);
-  font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
-
-.transcript__entry dt + dt {
-  margin-top: var(--space-2);
-}
-
-/* Q is the interviewer, LUX is the subject — steel for one, neon for the other,
-   which keeps the transcript to a single accent. */
-.transcript__entry dt::before {
-  content: 'Q';
-  color: var(--color-neutral);
-  flex: 0 0 auto;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding-top: 0.35em;
-}
-
-.transcript__entry dd {
-  display: flex;
-  gap: var(--space-3);
-  margin: var(--space-3) 0 0;
-  color: var(--color-text);
-  font-size: 1rem;
-}
-
-.transcript__entry dd::before {
-  content: 'LUX';
-  color: var(--color-secondary-text);
-  flex: 0 0 auto;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  padding-top: 0.3em;
-}
-
-/* ==========================================================================
-   8. Toolkit dossier (ecosystem) + agent dossier rows
-   ========================================================================== */
-
-.toolkit__row {
-  display: grid;
-  gap: var(--space-1) var(--space-4);
-  padding: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-}
-
-.toolkit__row:last-child {
-  border-bottom: 0;
-}
-
-.toolkit__row:nth-child(even) {
-  background-color: var(--color-surface-alt);
-}
-
-.toolkit__name {
-  font-family: var(--font-mono);
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-
-.toolkit__what {
-  color: var(--color-text);
-  font-size: 0.9375rem;
-  max-width: none;
-}
-
-@media (width >= 700px) {
-  .toolkit__row {
-    grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
-    align-items: baseline;
-  }
-}
-
-/* ==========================================================================
-   9. Footer — mirror-nav case index, canonical columns, utility row
-   ========================================================================== */
-
-.site-footer {
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  padding-block: var(--space-12) var(--space-6);
-}
-
-.footer-tagline {
-  color: var(--color-text);
-  font-family: var(--font-headline);
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  max-width: 30ch;
-}
-
-.footer-index {
-  margin-top: var(--space-6);
-  padding-block: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.footer-index__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-6);
-}
-
-.footer-index__list a {
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-
-.footer-index__list a:hover {
-  text-decoration: underline;
-}
-
-.footer-index__note {
-  display: block;
-  color: var(--color-neutral);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-}
-
-.footer-nav {
-  display: grid;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
-  margin-top: var(--space-8);
-}
-
-.footer-nav__heading {
-  color: var(--color-neutral);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.footer-nav__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-}
-
-.footer-nav__link {
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  text-decoration: none;
-}
-
-.footer-nav__link:hover {
-  text-decoration: underline;
-}
-
-.footer-utility {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: var(--space-4);
-  margin-top: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
 }
 
-.footer-copy {
-  margin-top: var(--space-4);
-  color: var(--color-neutral);
-  font-size: 0.8125rem;
-}
-
-@media (width >= 700px) {
-  .footer-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* ==========================================================================
-   10. intensity_toggle — the lights-out switch
-   ========================================================================== */
-
-.intensity-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
+.faq-item {
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
   cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+  transition: background var(--duration-fast) var(--ease-cinematic);
 }
 
-/* Steel Mist border, not --color-edge-strong: this is a real control boundary
-   and #5a6b84 is only 2.89:1 against the Charcoal Slate it encloses. */
-.intensity-toggle__track {
-  position: relative;
-  display: block;
-  width: 38px;
-  height: 18px;
-  border: 1px solid var(--color-neutral);
-  background-color: var(--color-surface-alt);
+.faq-question:hover {
+  background: rgba(0, 229, 255, 0.04);
 }
 
-/* Cyan knob = neon on, steel knob = lights out. (Position and the spelled-out
-   .intensity-toggle__state carry the state too — never colour alone.) */
-.intensity-toggle__track::after {
-  content: '';
-  position: absolute;
-  inset-block: 2px;
-  left: 2px;
-  width: 14px;
-  background-color: var(--color-secondary);
-  transition: left var(--dur-hover) var(--ease-cine);
-}
-
-.intensity-toggle[aria-pressed='true'] .intensity-toggle__track::after {
-  left: 20px;
-  background-color: var(--color-neutral);
-}
-
-/* State is spelled out in words as well as position. */
-.intensity-toggle__state {
-  color: var(--color-neutral);
+.faq-question::before {
+  content: 'Q.';
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
+  color: var(--color-secondary);
+  margin-right: var(--space-3);
+  flex-shrink: 0;
+}
+
+.faq-question svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--color-neutral);
+  transition:
+    transform var(--duration-medium) var(--ease-cinematic),
+    color var(--duration-fast) var(--ease-cinematic);
+}
+
+.faq-item.is-open .faq-question svg {
+  transform: rotate(180deg);
+  color: var(--color-secondary);
+}
+
+.faq-answer {
+  padding: 0 var(--space-6) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-neutral);
+  line-height: 1.7;
+  display: none;
+}
+
+.faq-item.is-open .faq-answer {
+  display: block;
+}
+
+.faq-answer::before {
+  content: 'A.';
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  margin-right: var(--space-3);
+}
+
+/* ── Download / Install section ────────────────────────────────────────────── */
+
+.install-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.install-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.install-block-title {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.install-block-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-neutral);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-/* ==========================================================================
-   11. Lux (mascot.behavior)
-   Fixed bottom-right only where there is room for it. Below 768px the very
-   same element sits in the flow above the footer, so it can never cover the
-   primary CTA on a phone (new_site.md §19.11).
-   ========================================================================== */
-
-.lux {
-  position: relative;
+.install-code {
   display: flex;
-  align-items: flex-end;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: var(--measure);
-  margin: var(--space-12) auto 0;
+  align-items: center;
+  gap: var(--space-4);
   padding: var(--space-4);
-  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+  width: 100%;
+  overflow-x: auto;
+  overflow-wrap: anywhere;
 }
 
-/* A real <button>, not a <div>: the click:3 reaction in mascot.behavior
-   .easter_interactions used to be bound to a non-focusable div with no key
-   handler, so it was mouse-only (WCAG 2.1.1). As a button it is Tab-reachable,
-   Enter/Space-activated and announced by its aria-label. */
-.lux__figure {
-  flex: 0 0 auto;
-  width: 64px;
-  padding: 0;
-  border: 0;
-  background: none;
+.install-copy-btn {
+  flex-shrink: 0;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--color-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.install-copy-btn:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.install-notes {
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+/* ── Trust band / Proof section ────────────────────────────────────────────── */
+
+.trust-band {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-8) var(--space-6);
+}
+
+.trust-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  justify-content: center;
+  margin-bottom: var(--space-6);
+}
+
+.trust-stat {
+  text-align: center;
+}
+
+.trust-stat-number {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-shadow: var(--shadow-neon-amber);
+}
+
+.trust-stat-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: var(--space-1);
+}
+
+.trust-quote {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trust-quote blockquote {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.7;
+  border-left: 3px solid var(--color-secondary);
+  padding-left: var(--space-4);
+  text-align: left;
+}
+
+.trust-quote cite {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-neutral);
+  margin-top: var(--space-2);
+  font-style: normal;
+}
+
+.trust-github {
+  text-align: center;
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+}
+
+.trust-github a {
+  color: var(--color-secondary);
+}
+
+/* ── Mascot / Lux ─────────────────────────────────────────────────────────── */
+
+#mascot-lux {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 50;
+  pointer-events: none;
+  transition: opacity var(--duration-medium) var(--ease-cinematic);
+}
+
+#mascot-lux.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mascot-body {
+  position: relative;
+  width: 60px;
+  height: 80px;
   cursor: pointer;
 }
 
-.lux__figure svg {
+.mascot-silhouette {
   width: 100%;
-  height: auto;
-  filter: drop-shadow(0 0 8px rgb(0, 229, 255, 0.35));
+  height: 100%;
+  color: var(--color-secondary);
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.5));
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* Idle: Lux shifts his weight, twice, well after the neon has settled — see
-     the one-at-a-time schedule in base.css §2. Disabled under reduced motion
-     and calm mode. */
-  .lux__figure {
-    animation: lux-shift 9s ease-in-out var(--delay-shift) 2 both;
-  }
+.mascot-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  max-width: 200px;
+  white-space: normal;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--duration-medium) var(--ease-cinematic),
+    transform var(--duration-medium) var(--ease-cinematic);
+  pointer-events: none;
 }
 
+.mascot-tip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: var(--space-4);
+  border: 6px solid transparent;
+  border-top-color: var(--color-border);
+}
+
+.mascot-tip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mascot-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-neutral);
+  font-size: 0.7rem;
+  cursor: pointer;
+  pointer-events: all;
+  font-family: var(--font-ui);
+  line-height: 1;
+}
+
+.mascot-close:hover {
+  color: var(--color-text);
+  border-color: var(--color-secondary);
+}
+
+/* Mascot idle animation */
 @keyframes lux-shift {
   0%,
   100% {
-    transform: translateX(0);
+    transform: translateY(0);
   }
-
   50% {
-    transform: translateX(2px);
+    transform: translateY(-3px);
   }
 }
 
-.lux__col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  min-width: 0;
-}
-
-.lux__name {
-  color: var(--color-neutral);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* The tip is a <details>, so it works with JS off and is closed by default —
-   Lux never pushes an unasked-for tip at anybody. */
-.lux__tip {
-  position: relative;
-}
-
-.lux__tip > summary {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-bg);
-  color: var(--color-secondary-text);
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
-/* The section cue: shown only while the tip's own section is on screen. */
-.lux__cue {
-  display: none;
-}
-
-.lux.is-cued .lux__cue {
-  display: inline;
-  color: var(--color-secondary-text);
-  font-weight: 400;
-}
-
-/* Lux's note, his reaction and his dismiss control all live in here, so the
-   docked form stays a single 62px-tall capsule that cannot lie across page
-   controls (§19.11). */
-.lux__panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-  padding: var(--space-3);
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-lg);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  max-width: 34ch;
-}
-
-/* An empty status paragraph must not add a gap before it has anything to say. */
-.lux__react:empty {
-  display: none;
-}
-
-/* Lux's reaction is narration, not a signal — Ghost White, 15.25:1 on the
-   panel. It used to be amber, which put a neon accent on a mascot aside. */
-.lux__react {
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  max-width: 34ch;
-}
-
-.lux__dismiss {
-  border: 0;
-  background: none;
-  color: var(--color-neutral);
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  min-height: 44px;
-  padding: 0;
-  text-decoration: underline;
-}
-
-.lux__dismiss:hover {
-  color: var(--color-text);
-}
-
-/* Docked form. Deliberately a THIN capsule — figure + one control on a single
-   row, ~62px tall — not a stacked card. `mascot.behavior.placement` asks for "a
-   small silhouette leaning against a wall", and a fixed floater's height is
-   exactly what decides whether it lies across page controls at some viewport
-   nobody thought to check (§19.11). The taller stacked version measured 192x251
-   and covered the install page's "Copy" button at 860x720. The name is still the
-   aside's accessible name via `aria-labelledby`; the note, the reaction and the
-   dismiss control all live in the panel, which opens on demand. */
-@media (width >= 768px) {
-  .lux {
-    position: fixed;
-    z-index: 30;
-    right: var(--space-6);
-    bottom: var(--space-6);
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-2);
-    width: auto;
-    max-width: 20rem;
-    margin: 0;
-    padding: var(--space-2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background-color: rgb(17, 24, 39, 0.92);
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* 36px keeps the trench coat, the fedora brim and the two amber eyes readable
-     as a figure. It also sets the capsule's height (36 x 96/60 = 58px, so ~76px
-     with padding), which is what has to stay small — see the note above. */
-  .lux__figure {
-    width: 36px;
-  }
-
-  .lux__col {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  /* Visually hidden, not removed: it is still the <aside>'s accessible name. */
-  .lux__name {
-    position: absolute;
-    overflow: hidden;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  /* Opens upward so the panel never runs off the bottom of the viewport. */
-  .lux__tip[open] .lux__panel {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + var(--space-3));
-    width: max(16rem, 100%);
+@media (prefers-reduced-motion: no-reduce) {
+  #mascot-lux .mascot-body {
+    animation: lux-shift 4s ease-in-out infinite;
   }
 }
 
-/* ==========================================================================
-   12. Easter eggs + seasonal banner
-   ========================================================================== */
+/* ── Easter egg: typed-word shadow ─────────────────────────────────────────── */
 
-.egg-note {
+.shadow-sweep {
   position: fixed;
-  z-index: 60;
-  bottom: var(--space-4);
-  left: var(--space-4);
-  max-width: min(22rem, calc(100vw - var(--space-8)));
-  padding: var(--space-3) var(--space-4);
-  /* Cyan, which is also what easter_eggs[0] actually specifies: "a single
-     neon-cyan glow pulses outward from the logo". */
-  border: 1px solid var(--color-secondary);
-  border-left-width: 3px;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-lg);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 229, 255, 0) 0px,
+    rgba(0, 229, 255, 0.15) 2px,
+    rgba(0, 229, 255, 0) 10px
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-.egg-note code {
-  color: var(--color-secondary-text);
-  letter-spacing: 0.3em;
+.shadow-sweep.is-active {
+  opacity: 1;
+  animation: shadow-sweep-move 1.5s linear forwards;
 }
 
-.egg-note__exit {
-  display: block;
-  margin-top: var(--space-1);
-  color: var(--color-neutral);
-  font-size: 0.75rem;
-}
-
-/* Egg 2: a hard blind-bar of light sweeps the page, then clears.
-   The whole overlay — not just the @keyframes — lives inside the no-preference
-   query. Reduced motion must remove the MOTION, not the reward: without the
-   sweep this bar would simply park over the left 45vw for eight seconds,
-   darkening real copy underneath, which is worse than no effect. So under the
-   OS preference the egg still fires and still shows its .egg-note reward copy;
-   only the travelling bar is dropped (new_site.md §19.20). */
-@media (prefers-reduced-motion: no-preference) {
-  [data-egg='shadow']::after {
-    content: '';
-    position: fixed;
-    z-index: 50;
-    inset-block: 0;
-    left: 0;
-    width: 45vw;
-    background-image: repeating-linear-gradient(
-      180deg,
-      rgb(0, 0, 0, 0.72) 0,
-      rgb(0, 0, 0, 0.72) 14px,
-      transparent 14px,
-      transparent 34px
-    );
-    animation: blind-sweep 2.6s var(--ease-cine) both;
-    pointer-events: none;
-  }
-}
-
-@keyframes blind-sweep {
+@keyframes shadow-sweep-move {
   0% {
     transform: translateX(-100%);
   }
-
   100% {
-    transform: translateX(240%);
+    transform: translateX(100%);
   }
 }
 
-.season-banner {
+/* ── Easter egg: logo glow pulse ────────────────────────────────────────────── */
+
+.logo-glow-pulse {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0 0 -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  animation: glow-pulse 3s ease-out forwards;
+}
+
+@keyframes glow-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* ── Introverted CTA banner ───────────────────────────────────────────────── */
+
+.cta-banner {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-8);
+  text-align: left;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-secondary);
-  background-color: var(--color-surface-alt);
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
+  justify-content: space-between;
+  gap: var(--space-6);
 }
 
-.season-banner img {
-  width: 32px;
-  height: 32px;
+.cta-banner-text h2 {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.cta-banner-text p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-neutral);
+  max-width: 500px;
+}
+
+.cta-banner-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* ── Ecosystem / Toolkit dossier ────────────────────────────────────────────── */
+
+.repo-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition:
+    border-color var(--duration-fast) var(--ease-cinematic),
+    box-shadow var(--duration-fast) var(--ease-cinematic);
+}
+
+.repo-card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-neon-cyan);
+}
+
+.repo-card .repo-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--color-secondary);
+}
+
+.repo-card .repo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.repo-card .repo-name {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.repo-card .repo-desc {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+  overflow-wrap: anywhere;
+}
+
+.repo-card .repo-link {
+  flex-shrink: 0;
+  color: var(--color-neutral);
+  transition: color var(--duration-fast);
+}
+
+.repo-card .repo-link:hover {
+  color: var(--color-secondary);
+}
+
+/* ── Client cards ──────────────────────────────────────────────────────────── */
+
+.client-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition:
+    border-color var(--duration-fast) var(--ease-cinematic),
+    box-shadow var(--duration-fast) var(--ease-cinematic);
+}
+
+.client-card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-neon-cyan);
+}
+
+.client-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.client-card-name {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.client-card-tagline {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-4);
+}
+
+.client-card-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.client-card-highlight {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--color-neutral);
+  background: var(--color-surface-alt);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.client-card-link {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.client-card-link:hover {
+  color: var(--color-primary);
+}
+
+/* ── Form elements ─────────────────────────────────────────────────────────── */
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-fast) var(--ease-cinematic),
+    box-shadow var(--duration-fast) var(--ease-cinematic);
+}
+
+.form-input::placeholder {
+  color: var(--color-neutral);
+  opacity: 0.6;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.15);
+}
+
+/* ── Page: About / Case Closed ─────────────────────────────────────────────── */
+
+.about-chapter {
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.about-chapter:last-child {
+  border-bottom: none;
+}
+
+.chapter-number {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.chapter-title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.chapter-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-neutral);
+  line-height: 1.75;
+  max-width: 700px;
+}
+
+.chapter-body p {
+  margin-bottom: var(--space-4);
+}
+
+.chapter-body p:last-child {
+  margin-bottom: 0;
+}
+
+.chapter-body a {
+  color: var(--color-secondary);
+}
+
+/* ── 404 page ──────────────────────────────────────────────────────────────── */
+
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  position: relative;
+  background: var(--color-bg);
+}
+
+.error-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(255, 45, 120, 0.04) 0%, transparent 60%),
+    var(--color-bg);
+  pointer-events: none;
+}
+
+.error-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+}
+
+.error-code {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 20vw, 12rem);
+  color: var(--color-tertiary);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  opacity: 0.3;
+  text-shadow: var(--shadow-neon-magenta);
+  margin-bottom: var(--space-4);
+}
+
+.error-title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.error-message {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-neutral);
+  margin-bottom: var(--space-8);
+  font-style: italic;
+}
+
+.error-recovery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+/* ── Hub page ─────────────────────────────────────────────────────────────── */
+
+.hub-diagram {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+.hub-diagram::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-tertiary)
+  );
+  opacity: 0.6;
+}
+
+.hub-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+.hub-node {
+  text-align: center;
+}
+
+.hub-node-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+}
+
+.hub-node-label {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.hub-node-sub {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--color-neutral);
+}
+
+.hub-connector {
+  width: 60px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0px,
+    var(--color-border) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  align-self: center;
+}
+
+@media (max-width: 640px) {
+  .hub-connector {
+    width: 2px;
+    height: 30px;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--color-border) 0px,
+      var(--color-border) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+  .hub-nodes {
+    flex-direction: column;
+  }
+}
+
+/* ── Responsive utility ──────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-banner-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .cta-banner-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .trust-stats {
+    gap: var(--space-6);
+  }
+
+  .trust-stat-number {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Extreme text zoom (200%) — prevent horizontal overflow ─────────────── */
+
+@media (max-width: 640px) {
+  .site-header {
+    border-bottom-width: 1px;
+  }
+
+  .header-inner {
+    padding: 0 var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .section {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .container--content {
+    padding: 0 var(--space-4);
+  }
+
+  .footer-inner {
+    padding: 0 var(--space-4);
+  }
+
+  .hub-nodes {
+    flex-direction: column;
+  }
+
+  .hub-connector {
+    width: 2px;
+    height: 30px;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--color-border) 0px,
+      var(--color-border) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+}
+
+@media (max-width: 380px) {
+  .section {
+    padding: var(--space-8) var(--space-3);
+  }
+
+  .container,
+  .container--content {
+    padding: 0 var(--space-3);
+  }
+
+  .header-inner {
+    padding: 0 var(--space-3);
+  }
+
+  .site-wordmark {
+    font-size: 1.25rem;
+  }
+
+  .trust-stats {
+    gap: var(--space-4);
+  }
+
+  .trust-stat-number {
+    font-size: 2.5rem;
+  }
+
+  .cta-banner {
+    padding: var(--space-6);
+  }
+
+  .cta-banner-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-banner-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

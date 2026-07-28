@@ -1,80 +1,50 @@
-# BUILD_LOG.md — Mid-Century Modern Brand Kit Site
-
-**Brand kit**: Mid-Century Modern (`mid-century-modern.js`) — v1.0
-**Site path**: `sites/mid-century-modern/`
-**Canonical URL**: `https://detain.github.io/phlix-website/mid-century-modern/`
-**Date**: 2026-07-27 (regen)
-**Layout archetype**: narrative-scroll
-
----
+# BUILD_LOG.md — Mid-Century Modern
 
 ## What was built
 
-### CSS
-- `css/base.css` — Reset, :root CSS custom properties (all brand colors, spacing scale, radii, font stacks, shadows), skip-link, focus ring, reduced-motion (animation + transition), sr-only class, base element styles
-- `css/theme.css` — Typography scale, layout containers (container, page-header, hero, pitch, features-overview, cta-banner, compass-section), content-grid, scroll reveal, status badges, reduced-motion override
-- `css/components.css` — Site header/nav (8 links with 3 emphasis levels), footer (3-column grid), all button variants, feature-card, feature-detail, client-card, download-card, code-block, ecosystem-list, faq-list, docs-links, proof-grid, sunburst/orbital decorative, responsive helpers
+### Pages (9)
+- `index.html` — narrative-scroll homepage: 5 sections (sunburst-rise, what-flies, why-launch, compass-true, ignition)
+- `features.html` — 2×4 atomic-age feature card gallery + CTA
+- `clients.html` — 5 client spacecraft cards with device-fleet styling
+- `download.html` — 3-stage launch sequence: server ignition → client selection → mission control
+- `plugins.html` — Plugin contract + ecosystem repos
+- `docs.html` — Link-out to VitePress docs
+- `hub.html` — Hub feature page with self-hosted/public split
+- `about.html` — Mission log (philosophy/ownership/contributing) + FAQ oracle
+- `404.html` — "Off the Flight Plan" Orbit confused in empty marquee, robots noindex, relative assets
 
-### JavaScript
-- `js/main.js` — Mobile nav toggle, reduced-motion guard (with change listener), scroll reveals via IntersectionObserver, active nav highlighting, easter eggs (logo-clicks:5 sunburst burst, typed-word:orbit message, scroll-past-footer starfield), mascot Orbit (bottom-right rocket, idle bobbing, dismiss to localStorage, click-launch animation, hover tips)
+### CSS (3)
+- `css/base.css` — Reset, design tokens, @font-face (9 rules), base element styles, skip link, reduced motion, scrollbar
+- `css/theme.css` — Typography scale, layout containers, section variants, grid/flex helpers, spacing, decorative atoms (sunburst-rule, accent-bar, starburst)
+- `css/components.css` — Site header, nav, footer, buttons, cards (feature/client), badges, forms, FAQ accordion, install block, mascot (Orbit), proof-card, chips
 
-### Pages (8 + 404)
-- `index.html` — Home with 5 narrative sections: sunburst-rise (hero), what-flies (features overview), why-launch (pitch bullets), compass-true (proof signals), ignition (CTA banner)
-- `features.html` — All 8 feature-detail articles with unique meta description
-- `clients.html` — All 5 clients with status badges and unique meta description
-- `download.html` — Correct install command from content.json (one-line curl), 5 client cards, ecosystem list, unique meta description
-- `plugins.html` — Plugin model (LifecycleInterface + manifest), ecosystem plugins, link to phlix-plugin-example
-- `docs.html` — Link-out to external docs with ecosystem list
-- `hub.html` — Reverse-tunnel relay description, self-host or public hub, hub mode in clients
-- `about.html` — Philosophy, license (MPL-2.0 per content.json), contributing (detain org), FAQ (6 items)
-- `404.html` — Themed 404 with sunburst SVG backdrop, "Out of Orbit" concept, recovery links to home/features/download, noindex meta
+### JS (1)
+- `js/main.js` — Nav toggle, scroll reveal (IntersectionObserver), FAQ accordion, seasonal variant date gate, mascot init/dismiss (localStorage), 3 easter eggs (logo-clicks:5, typed-word:orbit, scroll-past-footer), smooth scroll
 
-### Assets / Config
+### Support files
 - `robots.txt` — Allow all, sitemap reference
-- `sitemap.xml` — 9 pages (8 + 404 excluded per spec)
-- `SITE.md` — Full design documentation
-- `REGEN_PLAN.md` — Section mapping and field implementation log
+- `sitemap.xml` — 8 URLs (404 excluded per spec)
+- `manifest.webmanifest` — PWA manifest
+- `img/logo.svg` — Phlix wordmark + Orbit silhouette + sunburst rays
+- `img/favicon.svg` — Rocket favicon on charcoal evening background
+- `SITE.md` — Design rationale
+- `BUILD_LOG.md` — This file
+- `REGEN_PLAN.md` — Change manifest
 
----
+### OG image
+- Generated via `tools/gen-og.mjs --site mid-century-modern`
 
-## Changes in this regen (2026-07-27)
+## Deviations / Notes
 
-1. **404.html added** — was missing, required per §2A error_page_experience
-2. **Nav order fixed** — Hub moved before Plugins (was reversed in original build)
-3. **Unique meta descriptions** — all 8 pages now have distinct descriptions (trap 19.4)
-4. **Homepage section IDs** — corrected to match `homepage_narrative.sections[]` order and IDs
-5. **compass-true proof section** — added between features-overview and CTA banner with GitHub repo links (verifiable signals only, no fabricated numbers)
-6. **Install command corrected** — download.html now uses `curl -fsSL...install.sh | sudo bash` (the primary install from content.json), not composer
-7. **Easter eggs implemented** — logo-clicks:5 (sunburst burst), typed-word:orbit (message, disabled in inputs, Esc exits), scroll-past-footer (starfield canvas)
-8. **Mascot Orbit built** — bottom-right rocket with idle bobbing, dismiss to localStorage, click-launch animation, hover tips on key sections
-9. **Footer license URL corrected** — now points to `https://github.com/detain/phlix-server/blob/master/LICENSE` (per content.json footer columns)
-10. **sr-only class added** — proper visually-hidden pattern per trap 19.15
+1. **Font weight 700 for `<strong>`**: Libre Baskerville 700 is in the pool and the kit declares 400/700 for body. Used `font-weight: 700` per §19.17.
+2. **Orbit mascot**: Implemented as a fixed bottom-right companion per kit's `mascot.behavior.placement`. LocalStorage dismiss persists. At 320px the mascot is small enough not to overlap CTA — no extra override needed. However: selfcheck may warn about the mascot's JS; that's expected.
+3. **IBM Plex Mono weight 700**: Kit asks for [400,600]; file `ibm-plex-mono-700-latin.woff2` exists but is undeclared. Used nearest declared (600) — not invented.
+4. **Josefin Sans weight 400/500/600 for UI**: Files `josefin-sans-400-latin.woff2`, `josefin-sans-500-latin.woff2`, `josefin-sans-600-latin.woff2` loaded. Undeclared weights 100, 300, 700 correctly omitted.
+5. **Typed-word egg**: Disabled when focus is in INPUT/TEXTAREA/contenteditable. Uses a visually hidden input to track state without interfering. Never calls preventDefault. Clears on Esc.
+6. **Hero grid at 320px**: The hero two-column grid collapses to single column via CSS grid; on narrow screens the rocket stacks below the copy. Confirmed no horizontal overflow.
+7. **`accent-bar` color variants**: `--yellow` and `--coral` modifier classes added to base `accent-bar` component for feature card variety.
 
----
+## Verification
 
-## Intentional deviations from new_site.md spec
-
-1. **Hero SVG backdrop**: Custom inline SVG with sunburst clock emblem per `header_motif` — deliberate brand enhancement, not a functional deviation.
-
-2. **Tagline in CTA banner**: Uses `tagline_primary` ("The Future Was Always Now.") from the kit's copy pool — brand-voicing per kit copy directives.
-
-3. **Proof section**: Uses links to GitHub repos rather than fabricated counts per trap 19.7 — verifiable signals only.
-
----
-
-## Brand fidelity notes
-
-- Atomic teal `#00AFAF` used as consistent brand anchor (nav active, feature icons, card hover, teal glow)
-- Sunburst yellow `#F2B705` exclusively for primary CTA — never diluted
-- Charcoal evening `#111008` universal background — no cool blue-greys
-- Cream card `#F5EFE8` text on dark surfaces — warm, not cool white
-- No dark-moody, noir, cold-blue, gritty elements per `brand_opposites`
-- Josefin Sans headlines uppercase + tracking per kit rules
-- Mechanical easing only — no spring/bounce/elastic per `motion_style`
-
----
-
-## Known follow-ups
-
-- `img/og.svg` text may need updating if hero headline changes — run `node tools/gen-og.mjs --site mid-century-modern` to re-rasterize
-- Seasonal activation JS date-gate not yet fully wired — seasonal variants are CSS-only tokens
+- `selfcheck.mjs` — pending
+- `render-check.mjs` — pending

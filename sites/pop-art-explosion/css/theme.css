@@ -1,989 +1,795 @@
 /* ==========================================================================
    THEME.CSS — Pop Art Explosion
-   The PANEL SEQUENCE: the layout system this kit's `immersive`
-   experience_archetype resolves to. Full-bleed comic panels stacked edge to
-   edge, separated by literal black gutters, each stamped with its position in
-   the sequence — transcribing page_generation_rules, layout_patterns,
-   scroll_experience (panel-sequence) and homepage_narrative.sections[].
-   Also holds the type scale (fonts{} roles) and every page's structure from
-   page_blueprints.
+   Color tokens, component color states, seasonal variant overrides.
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Grounds — a panel's flat primary fill and the ink that is legible on it.
-      Every pair below is MEASURED (see SITE.md); nothing here is a guess.
-      Two ink tokens are seasonal-aware because seasonal_variants re-point
-      --color-primary: js/main.js sets --ink-on-primary to white for Factory
-      Winter, where the ground becomes Pow Blue and black ink would be 2.05:1.
-   -------------------------------------------------------------------------- */
-:root {
-  --ink-on-primary: #0a0a0a; /* black on Kapow Red — 5.10:1 */
-  --display-on-primary: #fff; /* white on Kapow Red — 3.88:1, display only */
-  --ink-on-secondary: #0a0a0a; /* black on Zap Yellow 15.62:1 / Soup Orange 6.43:1 */
+/* ── Nav topbar ────────────────────────────────────────────────────────── */
+.site-nav {
+  background: var(--color-bg);
+  border-bottom: var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-
-[data-ground] {
-  background-color: var(--ground);
-  color: var(--ink);
+.site-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  min-width: 0;
 }
-
-[data-ground='white'] {
-  --link: var(--color-tertiary); /* 8.99:1 on white */
-  --ground: var(--color-bg);
-  --ink: var(--color-text);
-  --display-ink: var(--color-text);
-  --dots: var(--dots-ink);
-  --accent: var(--color-primary);
-}
-
-[data-ground='surface'] {
-  --link: var(--color-tertiary); /* 8.61:1 on #fafafa */
-  --ground: var(--color-surface);
-  --ink: var(--color-text);
-  --display-ink: var(--color-text);
-  --dots: var(--dots-ink);
-  --accent: var(--color-primary);
-}
-
-[data-ground='cream'] {
-  --link: var(--color-tertiary); /* 8.61:1 on #fffbe0 */
-  --ground: var(--color-surface-alt);
-  --ink: var(--color-text);
-  --display-ink: var(--color-text);
-  --dots: var(--dots-yellow);
-  --accent: var(--color-tertiary);
-}
-
-[data-ground='red'] {
-  --link: var(--ink-on-primary); /* 5.10:1 on red, 8.99:1 on winter blue */
-  --ground: var(--color-primary);
-  --ink: var(--ink-on-primary);
-  --display-ink: var(--display-on-primary);
-  --dots: var(--dots-white);
-  --accent: var(--color-secondary);
-}
-
-[data-ground='yellow'] {
-  --link: var(--ink-on-secondary); /* 15.62:1 yellow, 6.43:1 summer orange */
-  --ground: var(--color-secondary);
-  --ink: var(--ink-on-secondary);
-  --display-ink: var(--ink-on-secondary);
-  --dots: var(--dots-ink);
-  --accent: var(--color-primary);
-}
-
-[data-ground='blue'] {
-  --link: #fff; /* 8.99:1. NOT the secondary: orange on blue is 3.13:1 */
-  --ground: var(--color-tertiary);
-  --ink: #fff;
-  --display-ink: #fff;
-  --dots: var(--dots-white);
-  --accent: var(--color-secondary);
-}
-
-[data-ground='orange'] {
-  --link: var(--color-text); /* 6.43:1 */
-  --ground: var(--color-orange);
-  --ink: var(--color-text);
-  --display-ink: var(--color-text);
-  --dots: var(--dots-ink);
-  --accent: var(--color-text);
-}
-
-[data-ground='ink'] {
-  --link: #fff; /* 19.80:1 */
-  --ground: var(--color-text);
-  --ink: #fff;
-  --display-ink: var(--color-secondary);
-  --dots: var(--dots-white);
-  --accent: var(--color-secondary);
-}
-
-/* --------------------------------------------------------------------------
-   2. The panel
-      "Every page must have at least one full-bleed primary color band."
-      "Use comic-panel gutter lines (4px black) to divide layout zones."
-      The gutter is the panel's own top border, so panels sit hard against one
-      another with no whitespace between — exactly the comic page.
-   -------------------------------------------------------------------------- */
-.panel {
+.nav-logo {
+  font-family: var(--font-headline);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  /* Red block behind logo */
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: 2px 10px 4px;
+  border: var(--border-feature);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+  display: inline-block;
   position: relative;
-  border-top: var(--gutter) solid var(--color-border);
-  padding-block: clamp(var(--space-8), 6vw, var(--space-24));
-  /* Panels are anchor targets in their own right (#clients, #server, #toolkit,
-     #panels, #the-grid, #ask-dotty), and the header is sticky, so without this
-     the panel__tag stamp lands behind the topbar. */
-  scroll-margin-top: var(--anchor-offset);
+}
+.nav-logo:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+  color: var(--color-bg);
+}
+.nav-logo:focus-visible {
+  outline-color: var(--color-focus);
 }
 
-.panel--tight {
-  padding-block: clamp(var(--space-6), 4vw, var(--space-12));
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.nav-links a {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid transparent;
+  transition:
+    background 80ms,
+    color 80ms,
+    border-color 80ms,
+    transform 80ms;
+  display: block;
+}
+.nav-links a:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-border);
+  transform: translate(2px, 2px);
+}
+.nav-links a:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
-.panel--dots {
-  background-image: var(--dots);
-  background-repeat: repeat;
-}
-
-.panel__inner {
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding-inline: clamp(var(--space-4), 4vw, var(--space-12));
-}
-
-/* The orientation stamp. `immersive` removes the usual page landmarks, so each
-   panel says where you are in the sequence — Anton numerals per fonts.number
-   and dashboard_style ("each zone owns one metric in massive Anton numerals"). */
-.panel__tag {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
+/* Nav emphasis levels */
+.nav-links a[data-emphasis='primary'] {
+  background: var(--color-primary);
+  color: var(--color-bg);
   border: var(--border-default);
-  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+.nav-links a[data-emphasis='primary']:hover {
+  background: var(--color-text);
+  border-color: var(--color-text);
+}
+.nav-links a[data-emphasis='muted'] {
+  color: #666666;
+}
+.nav-links a[data-emphasis='muted']:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: var(--border-default);
   box-shadow: var(--shadow-sm);
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  flex-shrink: 0;
 }
-
-/* The numeral is decoration: the sibling <span> already says "Panel 01 of five"
-   in full, so announcing the digits again would make every section heading
-   arrive behind "01, Panel 01 of five". aria-hidden in the markup, exactly like
-   .pennant__no, .chapter__no and .ladder__step. */
-.panel__tag-no {
-  font-family: var(--font-number);
-  font-weight: 400;
-  font-size: 1.5rem;
-  letter-spacing: var(--tracking-number);
-  line-height: var(--lh-number);
-}
-
-/* --------------------------------------------------------------------------
-   3. scroll_experience: panel-sequence
-      "Each homepage section arrives like a comic-page turn: a hard-cut wipe
-      from left to right with a 120ms cubic-bezier snap, plus a faint
-      dust-cloud Ben-Day dot pattern that trails across."
-      The wipe is only armed once js/main.js confirms IntersectionObserver
-      exists AND motion is wanted — the un-scripted state is fully visible.
-   -------------------------------------------------------------------------- */
-.js-wipe .panel[data-seq] {
-  clip-path: inset(0 100% 0 0);
-}
-
-.js-wipe .panel[data-seq].is-turned {
-  clip-path: inset(0);
-  transition: clip-path var(--dur-wipe) var(--ease-snap);
-}
-
-/* the dust cloud: a dot field that flashes across the panel as it turns.
-   Contained by inset:0 so it can never widen the document. */
-.js-wipe .panel[data-seq]::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--dots, var(--dots-ink));
-  background-repeat: repeat;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.js-wipe .panel[data-seq].is-turned::after {
-  animation: dust 320ms var(--ease-stamp) 1;
-}
-
-@keyframes dust {
-  0% {
-    opacity: 0.85;
-    background-position: -140px 0;
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
   }
-  100% {
-    opacity: 0;
-    background-position: 140px 0;
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: var(--border-default);
+    flex-direction: column;
+    padding: var(--space-3);
+    gap: var(--space-2);
+    box-shadow: var(--shadow-lg);
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .nav-links a {
+    width: 100%;
+    text-align: center;
   }
 }
 
-/* --------------------------------------------------------------------------
-   4. Type scale + shared prose blocks
-   -------------------------------------------------------------------------- */
-/* h1/h2 are display sizes (>= 32px), so a ground may use its display ink —
-   white on Kapow Red is 3.88:1, which clears the 3:1 large-text rule. h3 and
-   below can render at 22px on a phone, where 3.88:1 would NOT be enough, so
-   they always take the ground's small-text ink (black on red, 5.10:1). */
-.panel h2 {
-  color: var(--display-ink, var(--ink));
+/* ── Hero section ──────────────────────────────────────────────────────── */
+#starburst-intro {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding-block: var(--space-16) var(--space-12);
+  position: relative;
+  overflow: visible;
+  /* Ben-Day dots on red */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='1.8' fill='%230A0A0A' fill-opacity='0.12'/%3E%3C/svg%3E"),
+    var(--color-primary);
 }
-
-.panel h3,
-.panel h4 {
-  color: var(--ink);
+.hero-inner {
+  position: relative;
+  z-index: 1;
 }
-
-/* PAPER SURFACES.
-   A component that paints its own ground must also reset the ground's ink
-   tokens — otherwise it inherits the ink of the coloured panel it sits inside,
-   and you get a white <h3> on a white card. render-check caught exactly that on
-   the reel shelf inside the blue "Full Toolkit" panel, which is the whole
-   reason this rule exists rather than being repeated per component. */
-.speech,
-.stage,
-.pennant,
-.ladder__rung,
-.client-card,
-.reel,
-.jargon,
-.code-block,
-.dotty__panel,
-.chip,
-.badge {
-  --ground: var(--color-bg);
-  --ink: var(--color-text);
-  --display-ink: var(--color-text);
-  --link: var(--color-tertiary);
-
-  color: var(--color-text);
-}
-
-/* The hero's yellow call-to-action strip is a secondary-ground surface sitting
-   inside a red panel, so it needs the same reset — its <h2> was inheriting the
-   red ground's WHITE display ink, i.e. white on Zap Yellow at 1.27:1. Only the
-   per-variant contrast sweep caught it, because the live Summer palette turns
-   the strip orange and lifted it to 2.86:1, just past the automated
-   invisible-text threshold (§19.19). */
-.cta-strip,
-.speech--yellow {
-  --ground: var(--color-secondary);
-  --ink: var(--ink-on-secondary);
-  --display-ink: var(--ink-on-secondary);
-  --link: var(--ink-on-secondary);
-
-  color: var(--ink-on-secondary);
-}
-
-/* 404.html — error_page_experience: the Wrong Theater marquee. Its surface
-   tokens and its layout live together here; the bulb strip is further down. */
-.marquee {
-  --ground: var(--color-text);
-  --ink: #fff;
-  --display-ink: var(--color-secondary);
-  --link: #fff;
-
-  padding: var(--space-6) var(--space-4);
-  color: #fff;
-  text-align: center;
-  background: var(--color-text);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-}
-
-/* Outline lettering. typography_rules: "-webkit-text-stroke: 2px #0A0A0A on
-   yellow and red headlines". There is no unprefixed equivalent, so this
-   property must survive lint — never run `stylelint --fix` here (§19.4). */
-.ink-outline {
-  -webkit-text-stroke: 2px #0a0a0a;
-  paint-order: stroke fill;
-}
-
-.lede {
-  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
-  font-weight: 600;
-  max-width: 46ch;
-}
-
-.eyebrow {
-  display: inline-block;
+.hero-eyebrow {
   font-family: var(--font-ui);
   font-weight: 700;
   font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-}
-
-.tiny {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-}
-
-/* jargon_policy: "translate" — the plain phrase is in the sentence, the exact
-   term lives one click away instead of being dropped. */
-.jargon {
-  margin-top: var(--space-3);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
-  color: var(--color-text);
-  max-width: 68ch;
-}
-
-.jargon > summary {
-  padding: var(--space-2) var(--space-3);
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: var(--tracking-ui);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.jargon > *:not(summary) {
-  padding: 0 var(--space-3) var(--space-3);
-  font-size: 0.9375rem;
-}
-
-/* --------------------------------------------------------------------------
-   5. Gutter grids — "Card grids use 3px black gutters — no space between
-      cards, just the gutter." The grid's own background IS the gutter.
-      Every track is minmax(0, 1fr): a bare 1fr refuses to shrink below its
-      longest word and was the root cause of most 320px/200%-zoom overflow
-      across this program (§19.12).
-   -------------------------------------------------------------------------- */
-.gutter-grid {
-  display: grid;
-  gap: var(--gutter);
-  background: var(--color-border);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-/* Every cell paints its own ground, so the grid's black background only ever
-   shows through as the gutter itself. A cell with no `data-ground` of its own
-   inherits the surrounding panel's. */
-.gutter-grid > * {
-  padding: clamp(var(--space-4), 3vw, var(--space-8));
-  min-width: 0;
-  background-color: var(--ground, var(--color-bg));
-}
-
-@media (width >= 46rem) {
-  .gutter-grid--2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .gutter-grid--3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (width >= 68rem) {
-  .gutter-grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* --------------------------------------------------------------------------
-   6. HOME panel 1 — #starburst-intro
-      layout_patterns.landing + hero_experience (playable-vignette).
-      "no centered-island layout on hero sections": the hero is full-bleed red
-      and the type is set flush to the content edge, not floated in a card.
-   -------------------------------------------------------------------------- */
-.hero {
-  border-top: 0;
-  padding-bottom: 0;
-}
-
-.hero__grid {
-  display: grid;
-  gap: clamp(var(--space-6), 4vw, var(--space-12));
-  align-items: center;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 62rem) {
-  .hero__grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  }
-}
-
-.hero h1 {
-  color: var(--display-ink);
-  font-size: clamp(2.7rem, 9vw, 5.5rem);
-  margin-block: var(--space-3) var(--space-4);
-}
-
-/* homepage_narrative.arc: "manifesto-first" — the logline is not a subtitle,
-   it is the manifesto strip that opens the whole site. */
-.manifesto {
-  display: block;
-  margin-block: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-secondary);
-  color: var(--ink-on-secondary);
-  border: var(--border-feature);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-md);
-  font-family: var(--font-headline);
-  font-size: clamp(1.3rem, 3.4vw, 2rem);
-  line-height: 1.05;
-  text-transform: uppercase;
-  max-width: 34ch;
-}
-
-/* --------------------------------------------------------------------------
-   7. HOME panel 2 — #dotty-scene (persona_vignettes as comic dioramas)
-   -------------------------------------------------------------------------- */
-.vignette {
-  background-color: var(--ground);
-  background-image: var(--dots);
-  background-repeat: repeat;
-  color: var(--ink);
-}
-
-.vignette h3 {
-  margin-bottom: var(--space-2);
-}
-
-/* the 60-character punchy frame the treatment asks for */
-.vignette__frame {
-  font-family: var(--font-headline);
-  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
-  line-height: 1.05;
-  text-transform: uppercase;
   margin-bottom: var(--space-3);
-  max-width: 30ch;
+  color: var(--color-bg);
 }
-
-.vignette__diorama {
-  width: 100%;
-  height: auto;
-  margin-bottom: var(--space-4);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
-}
-
-.vignette__angle {
-  font-weight: 600;
-  margin-bottom: var(--space-3);
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  padding: 0;
-  list-style: none;
-}
-
-/* --------------------------------------------------------------------------
-   8. HOME panel 3 — #the-grid (Warhol silkscreen tiles)
-      composition: "Repetition grids (Warhol 4x4 or 2x2 portrait tiles)"
-   -------------------------------------------------------------------------- */
-.warhol {
-  margin-top: var(--space-6);
-}
-
-.warhol__tile {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  background-color: var(--ground);
-  background-image: var(--dots);
-  background-repeat: repeat;
-  color: var(--ink);
-}
-
-.warhol__tile p {
-  max-width: 42ch;
-}
-
-.warhol__icon {
-  width: 56px;
-  height: 56px;
-  flex: none;
-}
-
-/* --------------------------------------------------------------------------
-   9. HOME panel 4 — #proof-burst
-      copy_treatments.pitch_bullets: "banner-pennants" — each bullet as a
-      thick-outlined pennant banner, strung as bunting.
-   -------------------------------------------------------------------------- */
-.pennants {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-  padding: 0;
-  list-style: none;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 44rem) {
-  .pennants {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (width >= 72rem) {
-  .pennants {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.pennant {
-  position: relative;
-  display: flex;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4) var(--space-8);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  /* the pennant's swallow-tail cut */
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 50% 100%, 0 calc(100% - 20px));
-}
-
-.pennant__no {
-  flex: none;
-  font-family: var(--font-number);
-  font-size: 1.75rem;
-  line-height: var(--lh-number);
-  letter-spacing: var(--tracking-number);
-  color: var(--color-primary-ink);
-}
-
-.proof {
-  display: grid;
-  gap: var(--space-6);
-  margin-top: var(--space-8);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 62rem) {
-  .proof {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  }
-}
-
-.proof__specs {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--space-2);
-}
-
-.proof__specs li {
-  display: flex;
-  gap: var(--space-2);
+.hero-headline {
   font-family: var(--font-headline);
-  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 9vw, 7rem);
+  color: var(--color-bg);
   text-transform: uppercase;
-}
-
-.proof__specs li::before {
-  content: '\25b6';
-  flex: none;
-  font-family: var(--font-ui);
-  font-size: 0.8em;
-}
-
-/* --------------------------------------------------------------------------
-   10. HOME panel 5 — #cta-pop (conversion_funnel.cta_ladder)
-   -------------------------------------------------------------------------- */
-.ladder {
-  display: grid;
-  gap: var(--gutter);
-  margin: var(--space-6) 0 0;
-  padding: 0;
-  list-style: none;
-  background: var(--color-border);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 54rem) {
-  .ladder {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.ladder__rung {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: clamp(var(--space-4), 3vw, var(--space-6));
-  background: var(--color-bg);
-  color: var(--color-text);
-}
-
-.ladder__step {
-  font-family: var(--font-number);
-  font-size: 2.5rem;
-  line-height: var(--lh-number);
-  letter-spacing: var(--tracking-number);
-  color: var(--color-primary-ink);
-}
-
-/* --------------------------------------------------------------------------
-   11. Interior pages — each is one ACT with its own full-bleed ground, so the
-       immersion survives navigation (page_blueprints).
-   -------------------------------------------------------------------------- */
-.page-header {
-  border-top: 0;
-}
-
-.page-header h1 {
-  color: var(--display-ink);
-}
-
-.page-header__grid {
-  display: grid;
-  gap: clamp(var(--space-4), 3vw, var(--space-8));
-  align-items: end;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 58rem) {
-  .page-header__grid {
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
-  }
-}
-
-.content-section > .panel__inner > h2 {
-  margin-bottom: var(--space-4);
-}
-
-.stack {
-  display: grid;
-  gap: var(--space-4);
-}
-
-/* features.html — page_blueprints.features: 2-up comic-panel grid, 4px black
-   gutters, chunky Bangers titles, each panel its own full-bleed colour. */
-.feature-detail {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  background-color: var(--ground);
-  background-image: var(--dots);
-  background-repeat: repeat;
-  color: var(--ink);
-  scroll-margin-top: var(--anchor-offset);
-}
-
-.feature-detail__icon {
-  width: 64px;
-  height: 64px;
-  flex: none;
-}
-
-.feature-detail__angle {
-  font-family: var(--font-headline);
-  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
-/* clients.html — page_blueprints.clients: spec-sheet + family-of-devices */
-.lineup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  align-items: flex-end;
-  margin-top: var(--space-6);
-  padding: 0;
-  list-style: none;
-}
-
-.lineup li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  min-width: 0;
-}
-
-.spec-sheet {
-  display: grid;
-  gap: var(--space-8);
-  margin-top: var(--space-6);
-}
-
-.client-card {
-  display: grid;
-  gap: clamp(var(--space-4), 3vw, var(--space-6));
-  align-items: start;
-  grid-template-columns: minmax(0, 1fr);
-  padding: clamp(var(--space-4), 3vw, var(--space-6));
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-feature);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  scroll-margin-top: var(--anchor-offset);
-}
-
-@media (width >= 50rem) {
-  .client-card {
-    grid-template-columns: 168px minmax(0, 1fr);
-  }
-}
-
-.client-card__art {
-  width: 100%;
-  max-width: 168px;
-  height: auto;
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-alt);
-}
-
-.spec-rows {
-  margin-top: var(--space-4);
-  border-top: var(--border-subtle);
-}
-
-.spec-rows > div {
-  display: grid;
-  gap: var(--space-1) var(--space-4);
-  padding: var(--space-2) 0;
-  border-bottom: var(--border-subtle);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 34rem) {
-  .spec-rows > div {
-    grid-template-columns: 8.5rem minmax(0, 1fr);
-  }
-}
-
-.spec-rows dt {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.spec-rows dd {
-  font-weight: 600;
-}
-
-/* download.html — conversion_funnel.style: instant-command */
-.install-panel {
-  display: grid;
-  gap: clamp(var(--space-4), 3vw, var(--space-8));
-  align-items: start;
-  grid-template-columns: minmax(0, 1fr);
-  margin-top: var(--space-6);
-}
-
-@media (width >= 64rem) {
-  .install-panel {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
-  }
-}
-
-.shelf {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-  padding: 0;
-  list-style: none;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 48rem) {
-  .shelf {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (width >= 74rem) {
-  .shelf {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* copy_treatments.ecosystem: "repo-list" as a shelf of reel canisters */
-.reel {
-  display: flex;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-}
-
-.reel__can {
-  flex: none;
-  width: 44px;
-  height: 44px;
-}
-
-/* about.html — page_blueprints.about: chapter-scroll */
-.chapter__no {
-  display: block;
-  font-family: var(--font-number);
-  font-size: clamp(3.5rem, 12vw, 7rem);
-  line-height: var(--lh-number);
-  letter-spacing: var(--tracking-number);
-  color: var(--accent);
-  -webkit-text-stroke: 3px #0a0a0a;
+  letter-spacing: 0.05em;
+  line-height: 0.88;
+  margin-bottom: var(--space-6);
+  /* White text stroke */
+  -webkit-text-stroke: 3px var(--color-bg);
   paint-order: stroke fill;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
-
-.chapter__grid {
-  display: grid;
-  gap: clamp(var(--space-4), 3vw, var(--space-8));
-  align-items: start;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (width >= 56rem) {
-  .chapter__grid {
-    grid-template-columns: 8rem minmax(0, 1fr);
+@media (max-width: 400px) {
+  .hero-headline {
+    font-size: clamp(1.8rem, 8vw, 4rem);
   }
 }
-
-.marquee__bulbs {
+.hero-headline .outline-text {
+  -webkit-text-stroke: 3px var(--color-bg);
+  color: var(--color-text);
+}
+.hero-sub {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 600px;
+  color: var(--color-bg);
+  background: var(--color-text);
+  padding: var(--space-4) var(--space-6);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  /* Thought bubble effect */
+  position: relative;
+  margin-bottom: var(--space-8);
+}
+.hero-sub::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  width: 30px;
+  height: 30px;
+  background: var(--color-text);
+  border-radius: 50%;
+}
+.hero-sub::before {
+  content: '';
+  position: absolute;
+  top: -38px;
+  left: 20px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-text);
+  border-radius: 50%;
+}
+.hero-actions {
   display: flex;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.marquee__bulb {
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-pill);
-  background: var(--color-secondary);
-  border: 2px solid #0a0a0a;
-}
-
-.marquee p {
-  font-family: var(--font-headline);
-  font-size: clamp(1.25rem, 4vw, 2.1rem);
-  line-height: 1.1;
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-inline: auto;
+  text-decoration: none;
+  display: inline-block;
+  padding: var(--space-3) var(--space-6);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease,
+    background 80ms ease;
+  text-align: center;
+  min-width: 140px;
+}
+.btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+.btn-primary:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+.btn-secondary:hover {
+  background: var(--color-text);
   color: var(--color-secondary);
 }
 
-.lost-grid {
+.btn-ghost {
+  background: transparent;
+  color: var(--color-bg);
+  border-color: var(--color-bg);
+}
+.btn-ghost:hover {
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-bg);
+}
+
+.btn-small {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8rem;
+  min-width: 100px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Dotty persona section ─────────────────────────────────────────────── */
+#dotty-scene {
+  background: var(--color-bg);
+  padding-block: var(--space-16);
+}
+.dotty-grid {
   display: grid;
-  gap: clamp(var(--space-6), 4vw, var(--space-12));
-  align-items: center;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
 }
-
-@media (width >= 58rem) {
-  .lost-grid {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+@media (max-width: 640px) {
+  .dotty-grid {
+    grid-template-columns: 1fr;
   }
 }
-
-/* --------------------------------------------------------------------------
-   12. TV / 10-foot pass. responsive_behavior.tv: Bangers headlines >= 72px,
-       6px yellow focus ring with 3px black offset, dot fields removed to cut
-       visual noise at distance.
-   -------------------------------------------------------------------------- */
-@media (width >= 100rem) {
-  h1 {
-    font-size: 6.5rem;
-  }
-
-  .panel--dots,
-  .warhol__tile,
-  .feature-detail,
-  .vignette {
-    background-image: none;
-  }
-
-  :focus-visible {
-    outline-width: 6px;
-    box-shadow: 0 0 0 9px #0a0a0a;
-  }
+.dotty-panel {
+  border: var(--border-feature);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  position: relative;
 }
-
-/* --------------------------------------------------------------------------
-   13. Odds and ends that belong to one page each.
-   -------------------------------------------------------------------------- */
-
-/* visitor_paths — the self-select fork, sitting in the hero's yellow CTA strip */
-.paths {
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
-  padding: 0;
-  list-style: none;
-  grid-template-columns: minmax(0, 1fr);
+.dotty-panel h3 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-3);
 }
-
-@media (width >= 52rem) {
-  .paths {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.paths li {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  min-width: 0;
-}
-
-.paths .btn {
-  width: 100%;
+.dotty-panel p {
   font-size: 1rem;
+  color: var(--color-text);
+  max-width: 50ch;
+}
+.dotty-panel .panel-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--color-primary);
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  line-height: 1;
 }
 
-/* proof_strategy.signals[2] — the verbatim line, with Dotty pointing at it */
-.proof__quote {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--space-4);
+/* ── Features / The Grid ───────────────────────────────────────────────── */
+#the-grid {
+  background: var(--color-surface-alt);
+  padding-block: var(--space-16);
+  /* Ben-Day dot field */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%230A0A0A' fill-opacity='0.12'/%3E%3C/svg%3E");
 }
-
-.proof__dotty {
-  width: 96px;
-  height: 96px;
-  flex: none;
+#the-grid h2 {
+  margin-bottom: var(--space-8);
+  text-align: center;
 }
-
-/* download.html — Installation Panel Two's client cards */
-.download-card {
+.warhol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+@media (max-width: 768px) {
+  .warhol-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  .warhol-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.warhol-cell {
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  text-align: center;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+  min-height: 180px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  justify-content: center;
+  align-items: center;
+}
+.warhol-cell:hover {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+.warhol-cell:nth-child(1) {
+  background: #ff1a1a;
+  color: var(--color-bg);
+}
+.warhol-cell:nth-child(2) {
+  background: #0028dc;
+  color: var(--color-bg);
+}
+.warhol-cell:nth-child(3) {
+  background: #ffe600;
+  color: var(--color-text);
+}
+.warhol-cell:nth-child(4) {
+  background: #ffe600;
+  color: var(--color-text);
+}
+.warhol-cell:nth-child(5) {
+  background: #ff1a1a;
+  color: var(--color-bg);
+}
+.warhol-cell:nth-child(6) {
+  background: #0028dc;
+  color: var(--color-bg);
 }
 
-/* about.html + 404.html portraits */
-.about__dotty {
-  width: min(140px, 40vw);
-  height: auto;
+.warhol-cell h3 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  margin-bottom: var(--space-2);
+  color: inherit;
+  /* White stroke on colored cells */
+  -webkit-text-stroke: 2px currentColor;
+  paint-order: stroke fill;
+}
+.warhol-cell p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  max-width: 30ch;
+}
+
+/* ── Proof burst ───────────────────────────────────────────────────────── */
+#proof-burst {
+  background: var(--color-bg);
+  padding-block: var(--space-12);
+}
+.proof-inner {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .proof-inner {
+    grid-template-columns: 1fr;
+  }
+}
+.proof-stat {
+  text-align: center;
+  padding: var(--space-6);
+  border: var(--border-default);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+.proof-stat .number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--color-primary);
+  line-height: 1;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+.proof-stat .label {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+.proof-quote {
+  border-left: 6px solid var(--color-primary);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface-alt);
+  font-style: italic;
+  margin-top: var(--space-4);
+}
+.proof-quote cite {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ── CTA pop ──────────────────────────────────────────────────────────── */
+#cta-pop {
+  background: var(--color-primary);
+  padding-block: var(--space-16);
+  text-align: center;
+  /* Ben-Day on red */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='2.2' fill='%230A0A0A' fill-opacity='0.1'/%3E%3C/svg%3E"),
+    var(--color-primary);
+}
+#cta-pop h2 {
+  color: var(--color-bg);
+  font-size: clamp(2rem, 7vw, 5rem);
+  margin-bottom: var(--space-4);
+}
+#cta-pop p {
+  color: var(--color-bg);
+  font-size: 1.1rem;
+  max-width: 50ch;
   margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+.cta-actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.lost-grid__dotty {
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-top: var(--border-default);
+  padding-block: var(--space-12);
+}
+.footer-nav-row {
   display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-8);
   flex-wrap: wrap;
-  align-items: flex-end;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: var(--space-6);
+}
+.footer-nav-row a {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  text-decoration: none;
+  padding: var(--space-1) var(--space-3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition:
+    background 80ms,
+    border-color 80ms;
+}
+.footer-nav-row a:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+@media (max-width: 640px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
+  }
+}
+.footer-col h4 {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: var(--space-2);
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col li {
+  margin-bottom: var(--space-2);
+}
+.footer-col a {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+.footer-col a:hover {
+  color: var(--color-secondary);
+}
+.footer-bottom {
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding-top: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-4);
 }
+.footer-tagline {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.footer-licence {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 55ch;
+}
 
-.lost__dotty {
-  width: min(160px, 42vw);
-  height: auto;
-  flex: none;
+/* ── Seasonal variants ─────────────────────────────────────────────────── */
+/* Summer of Love (06-21..09-21): orange replaces yellow */
+[data-season='summer'] {
+  --color-secondary: #ff6b00;
+}
+/* Factory Winter (12-01..01-06): blue takes primary, yellow stays */
+[data-season='winter'] {
+  --color-primary: #0028dc;
+  --color-secondary: #ffe600;
+}
+
+/* ── Mascot ─────────────────────────────────────────────────────────────── */
+.mascot-companion {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+.mascot-body {
+  width: 80px;
+  height: 80px;
+  background: var(--color-secondary);
+  border: var(--border-feature);
+  border-radius: 50%;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: mascot-bounce 2s ease-in-out infinite;
+  position: relative;
+}
+.mascot-body::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='%230A0A0A' stroke-width='2'/%3E%3Ccircle cx='22' cy='26' r='5' fill='%230A0A0A'/%3E%3Ccircle cx='42' cy='26' r='5' fill='%230A0A0A'/%3E%3Ccircle cx='24' cy='24' r='2' fill='white'/%3E%3Ccircle cx='44' cy='24' r='2' fill='white'/%3E%3Cpath d='M20 42 Q32 52 44 42' stroke='%230A0A0A' stroke-width='3' fill='none'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}
+.mascot-label {
+  font-family: var(--font-headline);
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-bg);
+  border: var(--border-default);
+  padding: 2px 8px;
+  box-shadow: var(--shadow-sm);
+}
+@keyframes mascot-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+.mascot-tip {
+  background: var(--color-bg);
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  max-width: 200px;
+  position: relative;
+  animation: tip-appear 200ms ease-out;
+}
+.mascot-tip::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  right: 20px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid var(--color-border);
+}
+.mascot-tip::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 22px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid var(--color-bg);
+  z-index: 1;
+}
+@keyframes tip-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mascot-dismiss {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-surface);
+  border: var(--border-subtle);
+  padding: 2px 6px;
+  cursor: pointer;
+  color: #666;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-body {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .mascot-companion {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: var(--space-4);
+    border-top: var(--border-default);
+    background: var(--color-surface);
+  }
+  .mascot-tip {
+    max-width: 160px;
+  }
+}
+
+/* ── Page header banners ───────────────────────────────────────────────── */
+.page-banner {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding-block: var(--space-12) var(--space-8);
+  /* Ben-Day on red */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle cx='4' cy='4' r='1.8' fill='%230A0A0A' fill-opacity='0.1'/%3E%3C/svg%3E"),
+    var(--color-primary);
+  border-bottom: var(--border-default);
+  overflow-wrap: anywhere;
+}
+.page-banner h1 {
+  color: var(--color-bg);
+  -webkit-text-stroke: 3px var(--color-bg);
+  paint-order: stroke fill;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  max-width: 100%;
+}
+@media (max-width: 480px) {
+  .page-banner h1 {
+    font-size: clamp(1.2rem, 8vw, 2rem);
+  }
+}
+.page-banner p {
+  color: var(--color-bg);
+  max-width: 55ch;
+  font-size: 1.1rem;
+  margin-top: var(--space-3);
+}
+.page-banner.yellow {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+.page-banner.yellow h1 {
+  color: var(--color-text);
+  -webkit-text-stroke: 3px var(--color-text);
+}
+.page-banner.yellow p {
+  color: var(--color-text);
 }

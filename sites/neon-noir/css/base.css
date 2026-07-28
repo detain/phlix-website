@@ -1,417 +1,24 @@
-/*
- * base.css — Neon Noir
- * Self-hosted brand faces, the :root token block, reset, element defaults,
- * focus ring, and the two global "quiet the site down" switches
- * (prefers-reduced-motion and the visitor-facing calm mode).
- *
- * Every colour, space, radius and shadow below comes from the kit's
- * design_tokens block. The two derived tokens are MIXES of the kit's own
- * pigments, added because the raw hue fails WCAG AA at small sizes
- * (see SITE.md § Contrast, measured).
- *
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
 
-/* ==========================================================================
-   1. Brand faces
-   The @font-face rules live in ONE place only: the generated
-   `vendor-fonts:begin/end` block at the bottom of this file, owned by
-   tools/vendor-fonts.mjs. A hand-authored duplicate set used to sit here; it
-   was byte-identical in `src` but was a second source of truth that would
-   drift from the generator, so it is gone. Regenerate with:
-       node tools/vendor-fonts.mjs --site neon-noir
-   ========================================================================== */
+/* ===========================================================================
+   BASE.CSS — Reset, Design Tokens, @font-face
+   =========================================================================== */
 
-/* ==========================================================================
-   2. Tokens
-   ========================================================================== */
-
-:root {
-  /* Colour — kit design_tokens.color, verbatim */
-  --color-primary: #f5a623; /* Neon Amber */
-  --color-secondary: #00e5ff; /* Electric Cyan */
-  --color-tertiary: #ff2d78; /* Neon Magenta */
-  --color-bg: #0a0c10; /* Void Black */
-  --color-surface: #111827; /* Deep Navy */
-  --color-surface-alt: #1c2333; /* Charcoal Slate */
-  --color-text: #e8edf5; /* Ghost White */
-  --color-neutral: #7a8fa6; /* Steel Mist */
-  --color-success: #00c9a7; /* Cyan Spark */
-  --color-warning: #ffb300; /* Flicker Amber */
-  --color-error: #e5154e; /* Danger Magenta */
-  --color-info: #29abe2; /* Cold Blue */
-  --color-border: #2a3650; /* Dim Steel */
-  --color-focus: #00e5ff; /* Focus Cyan Pulse */
-
-  /* ── Small-text-safe substitutes ──────────────────────────────────────────
-     Three of the kit's hues fail WCAG AA at small sizes on one or more of the
-     four dark surfaces this site paints on (void #0a0c10, navy #111827, slate
-     #1c2333, and the Blood Moon surface #170810). The substitutes below are
-     `tools/kit-brief.mjs`'s own precomputed values, used VERBATIM so all 50
-     sites derive the same token — the tightest surface (slate) sets the value,
-     which is why one token covers all four. Measured table in REGEN_PLAN §6. */
-  --color-magenta-text: #ff357d; /* for #ff2d78 — 5.65 void / 5.12 navy / 4.53 slate */
-  --color-crimson-text: #ec527c; /* for #e5154e — 5.65 void / 5.62 bm / 4.53 slate */
-  --color-edge-strong: #5a6b84; /* Dim Steel 40% + Steel Mist 60% — LARGE text / decoration only */
-
-  /* ── Role tokens the seasonal blocks retint ───────────────────────────────
-     Consumers must read the role, never the raw hue, or a seasonal override
-     silently drops small text below AA (new_site.md §19.19). Split by job:
-       *-text  small text and functional icons  → needs 4.5:1
-       *-fill  a filled control's background    → pairs with --color-on-*
-       raw     rules, borders, large display    → needs only 3:1          */
-  --color-primary-text: #f5a623; /* 9.66 void / 8.75 navy / 7.75 slate */
-  --color-primary-fill: #f5a623;
-  --color-on-primary: #0a0c10; /* 9.66:1 on the amber fill */
-  --color-secondary-text: #00e5ff; /* 12.72 void / 11.53 navy / 10.21 slate */
-
-  /* Space — kit spacing_scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* Radius — sharp by design */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-pill: 999px;
-
-  /* Type roles */
-  --font-headline: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
-  --font-display: 'Bebas Neue', 'Impact', 'Haettenschweiler', sans-serif;
-  --font-body: 'IBM Plex Serif', 'Palatino', 'Georgia', serif;
-  --font-ui: 'IBM Plex Sans', system-ui, 'Helvetica Neue', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', 'Courier', monospace;
-
-  /* Shadow — deep black first, neon practicals second */
-  --shadow-sm: 0 1px 3px rgb(0, 0, 0, 0.6);
-  --shadow-md: 0 4px 12px rgb(0, 0, 0, 0.7), 0 0 8px rgb(0, 229, 255, 0.08);
-  --shadow-lg: 0 10px 32px rgb(0, 0, 0, 0.8), 0 0 20px rgb(0, 229, 255, 0.12);
-  --shadow-neon-cyan: 0 0 12px rgb(0, 229, 255, 0.5), 0 0 30px rgb(0, 229, 255, 0.2);
-  --shadow-neon-amber: 0 0 12px rgb(245, 166, 35, 0.6), 0 0 30px rgb(245, 166, 35, 0.2);
-  --shadow-neon-magenta: 0 0 12px rgb(255, 45, 120, 0.5), 0 0 30px rgb(255, 45, 120, 0.2);
-
-  /* Glow dials — calm mode empties these, so glow is one switch away */
-  --glow-cyan: var(--shadow-neon-cyan);
-  --glow-amber: var(--shadow-neon-amber);
-  --glow-text-cyan: 0 0 14px rgb(0, 229, 255, 0.45);
-  --glow-text-amber: 0 0 16px rgb(245, 166, 35, 0.4);
-
-  /* Motion — slow, deliberate, camera-like */
-  --ease-cine: cubic-bezier(0.4, 0, 0.2, 1);
-  --dur-cut: 460ms;
-  --dur-hover: 200ms;
-
-  /* The ambient-animation schedule. do_dont.animation.dont forbids animating
-     more than one element at a time AND continuous loops without pause, so the
-     three ambient animations are finite and their windows do not overlap:
-       sign-flicker 6.0s x2 @ 1.2s  → 1.2 .. 13.2s   (theme.css §14)
-       neon-buzz    4.5s x2 @ 13.5s → 13.5 .. 22.5s  (theme.css §4)
-       lux-shift    9.0s x2 @ 23s   → 23 .. 41s      (components.css §11)
-     After 41s the page is completely still. */
-  --delay-flicker: 1.2s;
-  --delay-buzz: 13.5s;
-  --delay-shift: 23s;
-
-  /* Layout */
-  --measure: 1400px;
-  --measure-read: 68ch;
-
-  /* ── Kit gradients ────────────────────────────────────────────────────────
-     colors.gradients[1] "Amber Interrogation" is sanctioned for exactly one
-     job: "Single overhead light effect behind hero subjects." It is a tight
-     practical over a subject, NOT a field. Painted full-bleed across a band it
-     reads as sunrise, which the kit forbids four times over (color_rules[4],
-     do_dont.colors.dont[3], art_direction, lighting.notes). So:
-       --grad-interrogation  rides on .opener__art only, above the alley sign
-       --grad-briefing-lamp  one dim desk lamp over a briefing heading
-       --grad-street-sheen   the cool counterweight; keeps a band reading night
-     Every warm stop is anchored to a cool or transparent stop within ~45%, so
-     no band ever carries a diffuse warm wash. */
-  --grad-neon-horizon: linear-gradient(160deg, #ff2d78, #00e5ff);
-  --grad-city-depth: linear-gradient(180deg, #111827, #0a0c10);
-  --grad-interrogation: radial-gradient(
-    ellipse 42% 34% at 64% 3%,
-    rgb(245, 166, 35, 0.34) 0%,
-    rgb(245, 166, 35, 0.1) 42%,
-    rgb(10, 12, 16, 0) 72%
-  );
-  --grad-briefing-lamp: radial-gradient(
-    ellipse 30% 50% at 7% -12%,
-    rgb(245, 166, 35, 0.14) 0%,
-    rgb(245, 166, 35, 0.042) 46%,
-    rgb(10, 12, 16, 0) 76%
-  );
-  --grad-street-sheen: radial-gradient(
-    ellipse 74% 44% at 84% 106%,
-    rgb(0, 229, 255, 0.09) 0%,
-    rgb(0, 229, 255, 0.028) 44%,
-    rgb(10, 12, 16, 0) 78%
-  );
-  --tracking-headline: -0.02em;
-  --lh-headline: 1.05;
-  --tracking-display: 0.06em;
-  --lh-display: 0.9;
-  --tracking-body: 0em;
-  --lh-body: 1.65;
-  --tracking-ui: 0.01em;
-  --lh-ui: 1.3;
-  --tracking-mono: 0.02em;
-  --lh-mono: 1.5;
-  --font-number: 'Bebas Neue', 'Impact', sans-serif;
-  --tracking-number: 0.04em;
-  --lh-number: 1;
-}
-
-/* ==========================================================================
-   2b. Seasonal variants — flipped on by js/experience.js inside active_range
-   only. Each block ships the kit's `overrides` VERBATIM for the raw hues, and
-   then re-derives every role token those hues feed, because a variant that is
-   inert today still ships and will be live for weeks (new_site.md §19.19).
-   Measured per variant in REGEN_PLAN.md §6; every small-text pair below
-   clears 4.5:1 on all of that variant's surfaces.
-   ========================================================================== */
-
-/* Dec 28 – Jan 03. Magenta takes over the secondary slot: #ff2d78 is 4.41:1 on
-   Charcoal Slate, so every small-text consumer moves onto the substitute. */
-[data-season='midnight-new-year'] {
-  --color-primary: #f5a623;
-  --color-secondary: #ff2d78;
-  --color-tertiary: #00e5ff;
-  /* re-derived role tokens for this variant */
-  --color-secondary-text: var(--color-magenta-text); /* 5.65 / 5.12 / 4.53 */
-}
-
-/* Oct 01 – Oct 31. The hard one: Danger Magenta #e5154e is 4.24:1 on void,
-   3.40:1 on slate, and only 3.93:1 under Ghost White — so it fails as small
-   text AND as a button fill. Small text moves to --color-crimson-text; the
-   fill keeps the season's hue and takes kit-brief's near-white label instead
-   (the kit's own buttons.danger pairing, corrected upward from #e8edf5). */
-[data-season='blood-moon-october'] {
-  --color-primary: #e5154e;
-  --color-secondary: #ff6b00;
-  --color-surface: #170810;
-  /* re-derived role tokens for this variant */
-  --color-primary-text: var(--color-crimson-text); /* 5.65 / 5.62 / 4.53 */
-  --color-primary-fill: #e5154e;
-  --color-on-primary: #fcfcfe; /* 4.51:1 on #e5154e */
-  --color-secondary-text: #ff6b00; /* 6.85 / 6.82 / 5.50 — already passes */
-  /* City Depth fades to the season's crimson-black surface, not deep navy. */
-  --grad-city-depth: linear-gradient(180deg, #170810, #0a0c10);
-}
-
-/* Feb 10 – Feb 14. Magenta takes the primary slot: fine as a fill (5.50:1
-   under void-black) but 4.41:1 as small text on slate. */
-[data-season='valentines-neon'] {
-  --color-primary: #ff2d78;
-  --color-secondary: #f5a623;
-  /* re-derived role tokens for this variant */
-  --color-primary-text: var(--color-magenta-text); /* 5.65 / 5.12 / 4.53 */
-  --color-primary-fill: #ff2d78;
-  --color-on-primary: #0a0c10; /* 5.50:1 on #ff2d78 */
-  --color-secondary-text: #f5a623; /* 9.66 / 8.75 / 7.75 — already passes */
-}
-
-/* ==========================================================================
-   3. Reset
-   ========================================================================== */
+/* ── Reset ────────────────────────────────────────────────────────────────── */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-* {
   margin: 0;
+  padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
-
-body {
-  min-height: 100vh;
-  background-color: var(--color-bg);
-  /* Pushed-film grain: a 3px dot lattice — cheap enough for every page. */
-  background-image: radial-gradient(rgb(232, 237, 245, 0.028) 1px, transparent 1px);
-  background-size: 3px 3px;
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.65;
-}
-
-/* Wrapping, split by ROLE rather than by "does this look like code"
-   (new_site.md §19.12). `anywhere` is the only value that shrinks the
-   min-content contribution, which is what a grid or flex track measures — and
-   the offenders are ordinary words, not URLs: "ContentDirectory" in a spec
-   column, "Transcoding" in a 130px footer column at 200% zoom. This used to be
-   a blanket `overflow-wrap: anywhere` on `body`, which also inherited into every
-   heading — see the heading rule below for why that is wrong. */
-p,
-li,
-dt,
-dd,
-a,
-span,
-code,
-kbd,
-samp,
-pre {
-  overflow-wrap: anywhere;
-}
-
-/* Headings: NOT `anywhere`. An unmarked mid-word break in Playfair Display at
-   4.25rem reads as a rendering fault, and this kit's headlines are its loudest
-   type. `break-word` leaves min-content intact, so a genuine overflow still
-   surfaces in render-check rather than being silently absorbed. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-blockquote {
-  hyphens: auto;
-  overflow-wrap: break-word;
-}
-
-/* A class that sets `display` beats the UA sheet's [hidden] rule, and several
-   things here are hidden buttons that also carry .btn — so make it explicit. */
-[hidden] {
-  display: none !important;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-img {
-  height: auto;
-}
-
-ul,
-ol {
-  padding: 0;
-  list-style: none;
-}
-
-a {
-  color: var(--color-secondary-text);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color var(--dur-hover) var(--ease-cine);
-}
-
-a:hover {
-  color: var(--color-text);
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
-
-/* Emphasis (new_site.md §19.17). The kit caps the body face at
-   `fonts.body.weight: [400, 500]`, so 700 is an UNDECLARED weight even though
-   ibm-plex-serif-700 happens to sit in the shared pool — existence in the pool
-   is not permission. A single 100-unit step in a serif is close to
-   sub-perceptual on its own, so emphasis gets a second channel instead: the
-   kit's own Electric Cyan, whose declared role (colors.secondary.usage)
-   literally includes "highlights". Measured on every surface `strong` can land
-   on — 12.72 void / 11.53 navy / 10.21 slate / 12.66 Blood-Moon surface / 11.66
-   on the Lux panel — and routed through the season-safe role token so the
-   Midnight New Year magenta swap cannot drop it below AA. Links stay
-   distinguishable because they keep their underline; `strong` has none. */
-strong {
-  color: var(--color-secondary-text);
-  font-weight: 500;
-}
-
-code,
-kbd,
-samp,
-pre {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  letter-spacing: 0.02em;
-  overflow-wrap: anywhere;
-}
-
-button {
-  font: inherit;
-}
-
-::selection {
-  background-color: rgb(0, 229, 255, 0.3);
-  color: var(--color-text);
-}
-
-/* ==========================================================================
-   4. Skip link + focus
-   ========================================================================== */
-
-.skip-link {
-  position: absolute;
-  z-index: 200;
-  top: var(--space-2);
-  left: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-secondary);
-  background-color: var(--color-bg);
-  color: var(--color-secondary-text);
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  text-decoration: none;
-  transform: translateY(-250%);
-  transition: transform var(--dur-hover) var(--ease-cine);
-}
-
-.skip-link:focus {
-  transform: translateY(0);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  /* The 4px outer halo the kit asks for, so the ring survives on dark glass. */
-  box-shadow: 0 0 0 6px rgb(0, 229, 255, 0.2);
-}
-
-.visually-hidden {
-  position: absolute;
-  overflow: hidden;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* ==========================================================================
-   5. Quiet switches
-   Two dials do the same job: the OS preference, and the footer calm-mode
-   toggle (intensity_toggle). Anything animated must answer to both.
-   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -424,102 +31,285 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-[data-intensity='calm'] {
-  --glow-cyan: none;
-  --glow-amber: none;
-  --glow-text-cyan: none;
-  --glow-text-amber: none;
-  --shadow-neon-cyan: 0 1px 3px rgb(0, 0, 0, 0.6);
-  --shadow-neon-amber: 0 1px 3px rgb(0, 0, 0, 0.6);
-  --shadow-neon-magenta: 0 1px 3px rgb(0, 0, 0, 0.6);
-
-  scroll-behavior: auto;
+body {
+  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-[data-intensity='calm'] *,
-[data-intensity='calm'] *::before,
-[data-intensity='calm'] *::after {
-  animation: none !important;
-  transition-duration: 0.01ms !important;
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
 
-/* Brand typography for this kit — families, weights and fallback stacks come
- * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
- * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
- * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ── Design Tokens ────────────────────────────────────────────────────────── */
+
+:root {
+  /* Color — Void Black base */
+  --color-primary: #f5a623;
+  --color-secondary: #00e5ff;
+  --color-tertiary: #ff2d78;
+  --color-bg: #0a0c10;
+  --color-surface: #111827;
+  --color-surface-alt: #1c2333;
+  --color-text: #e8edf5;
+  --color-neutral: #7a8fa6;
+  --color-success: #00c9a7;
+  --color-warning: #ffb300;
+  --color-error: #e5154e;
+  --color-info: #29abe2;
+  --color-border: #2a3650;
+  --color-focus: #00e5ff;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius scale */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Playfair Display', Georgia, serif;
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-body: 'IBM Plex Serif', Palatino, serif;
+  --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.7), 0 0 8px rgba(0, 229, 255, 0.08);
+  --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.12);
+  --shadow-neon-cyan: 0 0 12px rgba(0, 229, 255, 0.5), 0 0 30px rgba(0, 229, 255, 0.2);
+  --shadow-neon-amber: 0 0 12px rgba(245, 166, 35, 0.6), 0 0 30px rgba(245, 166, 35, 0.2);
+  --shadow-neon-magenta: 0 0 12px rgba(255, 45, 120, 0.5), 0 0 30px rgba(255, 45, 120, 0.2);
+
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 900px;
+
+  /* Animation */
+  --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-slow: 400ms;
+  --duration-medium: 250ms;
+  --duration-fast: 150ms;
+}
+
+/* ── @font-face — Self-hosted WOFF2 from shared pool ──────────────────────── */
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'Bebas Neue';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
   src: url('../../assets/fonts/bebas-neue-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
   font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Mono';
   font-style: normal;
-  font-weight: 600;
   font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
 }
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
-}
+
 @font-face {
   font-family: 'IBM Plex Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
   src: url('../../assets/fonts/ibm-plex-serif-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
   font-family: 'IBM Plex Serif';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
   src: url('../../assets/fonts/ibm-plex-serif-500-latin.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playfair Display';
+  font-weight: 500;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../assets/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../assets/fonts/ibm-plex-sans-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Global element defaults ───────────────────────────────────────────────── */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   font-weight: 700;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-700-latin.woff2') format('woff2');
+  color: var(--color-text);
 }
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../../assets/fonts/playfair-display-900-latin.woff2') format('woff2');
+
+strong,
+b {
+  font-weight: 500;
+  color: var(--color-secondary);
 }
-/* vendor-fonts:end */
+
+a {
+  color: var(--color-secondary);
+  transition: color var(--duration-fast) var(--ease-cinematic);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.2);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+  color: var(--color-text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral);
+}
