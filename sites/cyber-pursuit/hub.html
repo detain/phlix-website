@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hub — Phlix</title>
+    <meta name="description" content="Phlix Hub: tunnel through your firewall to access your server from anywhere. No port forwarding. No dynamic DNS." />
+    <meta name="keywords" content="phlix hub, remote access, tunnel, self-hosted media server remote" />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/cyber-pursuit/hub.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta property="og:title" content="Hub — Phlix" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/cyber-pursuit/hub.html" />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/cyber-pursuit/img/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0D0D0D" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <canvas id="matrix-rain" aria-hidden="true"></canvas>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-hub" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75" fill="none"/><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 6.5L9.5 10M16.5 10L19 6.5M7 17.5L9.5 14M16.5 14L19 17.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity="0.6"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <header class="site-header" role="banner">
+      <div class="header-inner">
+        <a href="index.html" class="site-wordmark" aria-label="Phlix — Home"> Phlix </a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <ul role="list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html" class="nav-primary">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="hub.html" class="nav-primary" aria-current="page">Hub</a></li>
+            <li><a href="about.html" class="nav-muted">About</a></li>
+          </ul>
+        </nav>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <svg aria-hidden="true" focusable="false"><use href="#i-menu" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section id="opener" aria-label="Hub Hero">
+        <div class="hero-content container">
+          <p class="hero-eyebrow">root@phlix:~/hub# status</p>
+          <h1 class="hero-headline">Reach Anywhere</h1>
+          <p class="hero-subheadline">No port forwarding. No dynamic DNS. No third-party relay. Just you and your server.</p>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <section id="how-it-works" class="section section--surface" aria-labelledby="how-it-works-title">
+        <div class="container">
+          <div class="section-label reveal">Connection Protocol</div>
+          <h2 id="how-it-works-title" class="section-title reveal">How the tunnel works.</h2>
+
+          <div class="steps reveal">
+            <div class="step">
+              <div class="step-num">01</div>
+              <div class="step-content">
+                <h3>Your server calls home</h3>
+                <p>Phlix Hub client running on your server maintains an outbound encrypted connection to the Hub relay. No inbound ports needed.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">02</div>
+              <div class="step-content">
+                <h3>Hub assigns a tunnel address</h3>
+                <p>Your server gets a unique tunnel address like <code>tunnel.phlix.io/abc123</code>. Share this with your mobile app or remote browser.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">03</div>
+              <div class="step-content">
+                <h3>Traffic routes through the tunnel</h3>
+                <p>All traffic is encrypted end-to-end. The Hub relay sees only encrypted packets — it can't read your media or metadata.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <section id="security" class="section" aria-labelledby="security-title">
+        <div class="container">
+          <div class="section-label reveal">Security Model</div>
+          <h2 id="security-title" class="section-title reveal">The relay never sees your data.</h2>
+
+          <div class="security-grid reveal">
+            <div class="security-card terminal-window">
+              <div class="terminal-header">
+                <span class="terminal-title">encryption.enabled</span>
+                <span class="terminal-status">active</span>
+              </div>
+              <h3>End-to-End Encryption</h3>
+              <p>Every byte is encrypted before it leaves your server. The relay is a blind forwarder — it can't decrypt anything.</p>
+            </div>
+            <div class="security-card terminal-window">
+              <div class="terminal-header">
+                <span class="terminal-title">no_third_party_data</span>
+                <span class="terminal-status">enforced</span>
+              </div>
+              <h3>Zero Data Retention</h3>
+              <p>The Hub relay doesn't log media streams, file names, or metadata. Traffic is forwarded and discarded.</p>
+            </div>
+            <div class="security-card terminal-window">
+              <div class="terminal-header">
+                <span class="terminal-title">auth.token</span>
+                <span class="terminal-status">required</span>
+              </div>
+              <h3>Your Credentials Stay Yours</h3>
+              <p>Authenticate with your server's own user database. The Hub never stores passwords — just tunnel state.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" aria-hidden="true" />
+
+      <section id="getting-started" class="section section--surface" aria-labelledby="getting-started-title">
+        <div class="container">
+          <div class="section-label reveal">Quick Start</div>
+          <h2 id="getting-started-title" class="section-title reveal">Enable Hub in two steps.</h2>
+
+          <div class="code-block reveal">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+            </div>
+            <pre><code># 1. Set your Hub token in config.php
+echo "PHLIX_HUB_TOKEN=your_token_here" >> config.php
+
+# 2. Start the Hub client
+./bin/phlix-server hub connect</code></pre>
+          </div>
+
+          <div class="reveal" style="margin-top: var(--space-8); text-align: center;">
+            <a href="https://detain.github.io/phlix-docs/hub" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              Full Hub Documentation <svg aria-hidden="true" focusable="false" style="width:14px;height:14px;margin-left:4px"><use href="#i-external" /></svg>
+            </a>
+            <a href="https://github.com/detain/phlix-hub" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" style="margin-left: var(--space-4)">
+              Hub Source <svg aria-hidden="true" focusable="false" style="width:14px;height:14px;margin-left:4px"><use href="#i-github" /></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-tagline">root@phlix:~# hub tunnel established.</p>
+        <div class="footer-grid">
+          <div class="footer-col"><h3>Product</h3><ul role="list"><li><a href="features.html">Features</a></li><li><a href="clients.html">Clients</a></li><li><a href="download.html">Download</a></li></ul></div>
+          <div class="footer-col"><h3>Developers</h3><ul role="list"><li><a href="https://detain.github.io/phlix-docs">Documentation</a></li><li><a href="https://github.com/detain/phlix-server">Server source</a></li></ul></div>
+          <div class="footer-col"><h3>Project</h3><ul role="list"><li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li><li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">
+          <p class="footer-legal">&copy; 2026 Joe Huss. <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">MPL-2.0</a>.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
