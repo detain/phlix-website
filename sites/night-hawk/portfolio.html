@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Night Hawk</title>
+    <meta name="description" content="Night Hawk deployments and success stories - tactical brand implementations across industries.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <style>
+        .page-hero { min-height: 50vh; padding-top: 120px; }
+        .portfolio-section { padding: 6rem 0; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .portfolio-card { background: var(--nh-surface); border: var(--nh-border); overflow: hidden; transition: var(--nh-transition); }
+        .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.5), var(--nh-border-glow); }
+        .portfolio-visual { height: 200px; background: linear-gradient(135deg, var(--nh-bg) 0%, var(--nh-surface) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .portfolio-visual::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,180,216,0.03) 2px, rgba(0,180,216,0.03) 4px); }
+        .portfolio-icon { width: 80px; height: 80px; color: var(--nh-primary); opacity: 0.5; }
+        .portfolio-content { padding: 2rem; }
+        .portfolio-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--nh-primary); letter-spacing: 0.2em; margin-bottom: 0.5rem; }
+        .portfolio-title { font-size: 1.5rem; margin-bottom: 1rem; }
+        .portfolio-desc { font-size: 0.9rem; color: var(--nh-secondary); line-height: 1.7; margin-bottom: 1.5rem; }
+        .portfolio-stats { display: flex; gap: 2rem; padding-top: 1rem; border-top: var(--nh-border); }
+        .portfolio-stat { text-align: center; }
+        .portfolio-stat-value { font-family: var(--font-display); font-size: 1.25rem; color: var(--nh-primary); }
+        .portfolio-stat-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--nh-secondary); letter-spacing: 0.1em; }
+        .testimonial-section { padding: 6rem 0; background: var(--nh-surface); }
+        .testimonial-card { background: var(--nh-bg); border: var(--nh-border); padding: 3rem; max-width: 800px; margin: 0 auto; text-align: center; position: relative; }
+        .testimonial-card::before { content: '"'; font-family: var(--font-display); font-size: 6rem; color: var(--nh-primary); opacity: 0.2; position: absolute; top: 0; left: 2rem; line-height: 1; }
+        .testimonial-text { font-size: 1.25rem; color: var(--nh-accent); line-height: 1.8; margin-bottom: 2rem; font-style: italic; }
+        .testimonial-author { font-family: var(--font-mono); font-size: 0.85rem; color: var(--nh-primary); }
+        .testimonial-role { font-size: 0.75rem; color: var(--nh-secondary); margin-top: 0.25rem; }
+    </style>
+</head>
+<body class="hud-body">
+    <div class="hud-overlay">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+        <div class="hud-scanlines"></div>
+    </div>
+
+    <button class="stealth-toggle" id="stealthToggle">
+        <span class="stealth-icon"></span>
+        <span class="stealth-label">STEALTH</span>
+    </button>
+
+    <nav class="hud-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg class="logo-silhouette" viewBox="0 0 200 60" fill="currentColor">
+                    <path d="M10 45 L30 45 L45 30 L60 20 L100 15 L140 15 L170 20 L185 35 L190 45 L180 50 L160 50 L140 40 L120 35 L100 35 L80 40 L60 50 L40 50 L20 50 Z"/>
+                </svg>
+                <span class="logo-text">NIGHT HAWK</span>
+            </a>
+            <button class="nav-toggle" id="navToggle">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="services.html" class="nav-link">SERVICES</a></li>
+                <li><a href="portfolio.html" class="nav-link active">PORTFOLIO</a></li>
+                <li><a href="reviews/night-hawk/index.html" class="nav-link">REVIEWS</a></li>
+                <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-bg"><div class="hero-grid"></div></div>
+        <div class="hero-content">
+            <span class="section-tag">[ OPERATIONS LOG ]</span>
+            <h1 class="hero-title">
+                <span class="title-line">MISSION</span>
+                <span class="title-line title-accent">RECORDS</span>
+            </h1>
+            <p class="hero-tagline">SUCCESS STORIES FROM THE FIELD</p>
+        </div>
+    </section>
+
+    <section class="portfolio-section">
+        <div class="section-container">
+            <div class="portfolio-grid">
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="24" cy="24" r="20"/>
+                            <path d="M24 14 L24 24 L30 30"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">AEROSPACE</span>
+                        <h3 class="portfolio-title">VIPER DEFENSE SYSTEMS</h3>
+                        <p class="portfolio-desc">Complete brand overhaul for defense contractor, implementing full stealth-mode UI across customer portal and analytics dashboards.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">340%</div><div class="portfolio-stat-label">ENGAGEMENT</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">99.9%</div><div class="portfolio-stat-label">UPTIME</div></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="8" y="8" width="32" height="32" rx="2"/>
+                            <circle cx="24" cy="24" r="8"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">FINANCE</span>
+                        <h3 class="portfolio-title">CIPHER CAPITAL PARTNERS</h3>
+                        <p class="portfolio-desc">High-frequency trading platform redesign with tactical HUD interfaces for real-time market analysis and risk monitoring.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">50ms</div><div class="portfolio-stat-label">LATENCY</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">24/7</div><div class="portfolio-stat-label">MONITORING</div></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <polygon points="24,4 44,44 4,44"/>
+                            <line x1="24" y1="18" x2="24" y2="32"/>
+                            <circle cx="24" cy="38" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">HEALTHCARE</span>
+                        <h3 class="portfolio-title">NEURALINK SIMULATIONS</h3>
+                        <p class="portfolio-desc">Medical imaging dashboard with tactical visualization for surgeons. HUD overlays for real-time surgical guidance systems.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">12%</div><div class="portfolio-stat-label">ERROR REDUCTION</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">100%</div><div class="portfolio-stat-label">COMPLIANCE</div></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="24" cy="12" r="8"/>
+                            <path d="M12 44 L24 28 L36 44"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">AUTOMOTIVE</span>
+                        <h3 class="portfolio-title">GHOST MOTORS</h3>
+                        <p class="portfolio-desc">Luxury electric vehicle brand identity with stealth-inspired visual language. Web experience and showroom displays.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">280%</div><div class="portfolio-stat-label">CONVERSIONS</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">4.9</div><div class="portfolio-stat-label">BRAND SCORE</div></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M8 24 L18 14 L18 20 L38 20 L38 28 L18 28 L18 34 Z"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">TECHNOLOGY</span>
+                        <h3 class="portfolio-title">SHADOWNET SECURITY</h3>
+                        <p class="portfolio-desc">Cybersecurity firm brand kit with tactical HUD elements for their threat monitoring dashboard and client portals.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">500+</div><div class="portfolio-stat-label">CLIENTS</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">0</div><div class="portfolio-stat-label">BREACHES</div></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="portfolio-card">
+                    <div class="portfolio-visual">
+                        <svg class="portfolio-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="24" cy="24" r="4"/>
+                            <circle cx="24" cy="24" r="12"/>
+                            <circle cx="24" cy="24" r="20"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-tag">ENERGY</span>
+                        <h3 class="portfolio-title">FUSION DYNAMICS</h3>
+                        <p class="portfolio-desc">Clean energy startup with real-time reactor monitoring dashboards featuring tactical HUD and radar visualizations.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">99.7%</div><div class="portfolio-stat-label">EFFICIENCY</div></div>
+                            <div class="portfolio-stat"><div class="portfolio-stat-value">24/7</div><div class="portfolio-stat-label">MONITORING</div></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">[ FIELD REPORT ]</span>
+                <h2 class="section-title">OPERATOR FEEDBACK</h2>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Night Hawk transformed our entire digital presence. The stealth mode interface has become a signature element of our brand. Clients consistently comment on how distinctive and professional our platform feels.</p>
+                <div class="testimonial-author">COL. MARCUS WEBB</div>
+                <div class="testimonial-role">CEO, VIPER DEFENSE SYSTEMS</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="section-container">
+            <div class="cta-content">
+                <h2 class="cta-title">NEXT MISSION?</h2>
+                <p class="cta-text">Join the elite organizations already operating in stealth mode.</p>
+                <div class="cta-actions">
+                    <a href="contact.html" class="btn btn-primary btn-lg"><span class="btn-text">START YOUR MISSION</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="section-container">
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 NIGHT HAWK. ALL RIGHTS RESERVED.</p>
+                <p class="footer-classified">[ CLASSIFIED FOR AUTHORIZED USE ONLY ]</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="noise-overlay"></div>
+    <script src="js/main.js"></script>
+    <script src="js/stealth.js"></script>
+</body>
+</html>

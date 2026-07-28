@@ -1,0 +1,710 @@
+/**
+ * Night Hawk HUD Components
+ * Heads-up display overlay elements and effects
+ */
+
+/* ============================================
+   HUD BODY
+   ============================================ */
+.hud-body {
+    position: relative;
+    min-height: 100vh;
+    background: var(--nh-bg);
+}
+
+/* ============================================
+   HUD OVERLAY LAYER
+   ============================================ */
+.hud-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: var(--z-hud);
+    overflow: hidden;
+}
+
+/* HUD Corner Decorators */
+.hud-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgb(0, 180, 216, 0.2);
+}
+
+.hud-corner::before,
+.hud-corner::after {
+    content: '';
+    position: absolute;
+    background: var(--nh-primary);
+}
+
+.hud-corner-tl {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.hud-corner-tl::before {
+    top: -1px;
+    left: 10px;
+    width: 20px;
+    height: 1px;
+}
+
+.hud-corner-tl::after {
+    top: 10px;
+    left: -1px;
+    width: 1px;
+    height: 20px;
+}
+
+.hud-corner-tr {
+    top: 20px;
+    right: 20px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.hud-corner-tr::before {
+    top: -1px;
+    right: 10px;
+    width: 20px;
+    height: 1px;
+}
+
+.hud-corner-tr::after {
+    top: 10px;
+    right: -1px;
+    width: 1px;
+    height: 20px;
+}
+
+.hud-corner-bl {
+    bottom: 20px;
+    left: 20px;
+    border-right: none;
+    border-top: none;
+}
+
+.hud-corner-bl::before {
+    bottom: -1px;
+    left: 10px;
+    width: 20px;
+    height: 1px;
+}
+
+.hud-corner-bl::after {
+    bottom: 10px;
+    left: -1px;
+    width: 1px;
+    height: 20px;
+}
+
+.hud-corner-br {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+}
+
+.hud-corner-br::before {
+    bottom: -1px;
+    right: 10px;
+    width: 20px;
+    height: 1px;
+}
+
+.hud-corner-br::after {
+    bottom: 10px;
+    right: -1px;
+    width: 1px;
+    height: 20px;
+}
+
+/* ============================================
+   SCANLINES OVERLAY
+   ============================================ */
+.hud-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgb(0, 180, 216, 0.02) 2px,
+        rgb(0, 180, 216, 0.02) 4px
+    );
+    pointer-events: none;
+    animation: hudFlicker 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hud-scanlines {
+        animation: none;
+    }
+}
+
+/* Moving scanline effect */
+.hud-scanlines::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgb(0, 180, 216, 0.3),
+        transparent
+    );
+    animation: scanlinePass 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hud-scanlines::after {
+        animation: none;
+    }
+}
+
+/* ============================================
+   HUD COORDINATES DISPLAY
+   ============================================ */
+.hud-coordinates {
+    position: absolute;
+    top: 30px;
+    left: 100px;
+    display: flex;
+    gap: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--nh-primary);
+    letter-spacing: 0.1em;
+}
+
+.coord-label {
+    color: var(--nh-secondary);
+    margin-right: 0.25rem;
+}
+
+.coord-value {
+    min-width: 60px;
+    display: inline-block;
+}
+
+/* ============================================
+   HUD TIMER
+   ============================================ */
+.hud-timer {
+    position: absolute;
+    top: 30px;
+    right: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--nh-nv-green);
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px var(--nh-nv-green);
+}
+
+/* ============================================
+   HUD RADAR
+   ============================================ */
+.hud-radar {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid rgb(0, 180, 216, 0.3);
+    border-radius: 50%;
+    background: rgb(10, 10, 10, 0.8);
+    overflow: hidden;
+}
+
+.radar-sweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--nh-primary), transparent);
+    transform-origin: left center;
+    animation: radarSweep 3s linear infinite;
+    box-shadow: 0 0 10px var(--nh-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .radar-sweep {
+        animation: none;
+        opacity: 0.5;
+    }
+}
+
+.radar-blips {
+    position: absolute;
+    inset: 0;
+}
+
+.blip {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--nh-primary);
+    border-radius: 50%;
+    top: calc(50% + var(--dist) * sin(var(--angle)));
+    left: calc(50% + var(--dist) * cos(var(--angle)));
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px var(--nh-primary);
+    animation: blipAppear 0.5s ease-out forwards, blipFade 4s ease-out forwards;
+}
+
+@keyframes blipAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes blipFade {
+    0%, 70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blip {
+        animation: none;
+        opacity: 0.7;
+    }
+}
+
+/* ============================================
+   TARGETING RETICLE COMPONENT
+   ============================================ */
+.targeting-reticle {
+    transform-origin: center;
+}
+
+.targeting-reticle .reticle-ring {
+    fill: none;
+    stroke: var(--nh-primary);
+    stroke-width: 1;
+    opacity: 0.8;
+}
+
+.targeting-reticle .reticle-line {
+    stroke: var(--nh-primary);
+    stroke-width: 1;
+}
+
+.targeting-reticle.locked {
+    animation: missileLock 0.8s ease-in-out infinite;
+}
+
+.targeting-reticle.locked .reticle-ring {
+    stroke: var(--nh-nv-green);
+    stroke-dasharray: 10 5;
+    animation: targetSpin 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .targeting-reticle.locked {
+        animation: none;
+    }
+    
+    .targeting-reticle.locked .reticle-ring {
+        animation: none;
+    }
+}
+
+/* ============================================
+   AFTERBURNER COMPONENT
+   ============================================ */
+.afterburner {
+    animation: afterburner 0.15s ease-in-out infinite;
+}
+
+.afterburner-glow {
+    fill: var(--nh-primary);
+    filter: blur(3px);
+    opacity: 0.6;
+}
+
+.afterburner-core {
+    fill: #FFF;
+    opacity: 0.9;
+}
+
+.afterburner-outer {
+    fill: var(--nh-nv-green);
+    opacity: 0.4;
+    animation: afterburnerFlicker 0.1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .afterburner {
+        animation: none;
+    }
+    
+    .afterburner-outer {
+        animation: none;
+    }
+}
+
+/* ============================================
+   COCKPIT HUD ELEMENTS
+   ============================================ */
+.cockpit-hud {
+    font-family: var(--font-mono);
+    fill: var(--nh-primary);
+}
+
+.cockpit-hud-text {
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.cockpit-hud-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cockpit-hud-label {
+    font-size: 10px;
+    fill: var(--nh-secondary);
+    letter-spacing: 1px;
+}
+
+.cockpit-hud-grid line {
+    stroke: rgb(0, 180, 216, 0.2);
+    stroke-width: 0.5;
+}
+
+.cockpit-hud-horizon {
+    stroke: var(--nh-primary);
+    stroke-width: 1;
+}
+
+/* ============================================
+   STEALTH MODE INDICATOR
+   ============================================ */
+.stealth-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--nh-danger);
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 30px var(--nh-danger);
+    opacity: 0;
+    pointer-events: none;
+    z-index: calc(var(--z-hud) + 10);
+    transition: opacity 0.3s ease;
+}
+
+body.stealth-active .stealth-indicator {
+    opacity: 1;
+    animation: hudGlitch 0.5s ease-in-out;
+}
+
+/* ============================================
+   TELEMETRY READOUTS
+   ============================================ */
+.telemetry-panel {
+    background: rgb(10, 10, 10, 0.9);
+    border: 1px solid rgb(0, 180, 216, 0.3);
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.telemetry-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgb(65, 90, 119, 0.2);
+}
+
+.telemetry-label {
+    color: var(--nh-secondary);
+    letter-spacing: 0.1em;
+}
+
+.telemetry-value {
+    color: var(--nh-primary);
+    font-weight: 600;
+}
+
+.telemetry-value.warning {
+    color: var(--nh-danger);
+    animation: hudFlicker 1s ease-in-out infinite;
+}
+
+.telemetry-value.good {
+    color: var(--nh-nv-green);
+}
+
+/* ============================================
+   LOCK ACQUIRED INDICATOR
+   ============================================ */
+.lock-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lock-indicator.active {
+    opacity: 1;
+    animation: lockAcquired 0.4s ease-out forwards;
+}
+
+.lock-text {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--nh-nv-green);
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 20px var(--nh-nv-green);
+}
+
+.lock-subtext {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--nh-secondary);
+    letter-spacing: 0.2em;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   ALTITUDE / SPEED INDICATORS
+   ============================================ */
+.airspeed-indicator,
+.altitude-indicator {
+    position: absolute;
+    width: 80px;
+    height: 200px;
+    background: rgb(10, 10, 10, 0.8);
+    border: 1px solid rgb(0, 180, 216, 0.3);
+}
+
+.airspeed-indicator {
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.altitude-indicator {
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.indicator-label {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--nh-secondary);
+    letter-spacing: 0.15em;
+}
+
+.indicator-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--nh-primary);
+}
+
+.indicator-tickmarks {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    width: 100%;
+}
+
+.tick {
+    position: absolute;
+    right: 5px;
+    width: 10px;
+    height: 1px;
+    background: var(--nh-secondary);
+}
+
+.tick.major {
+        width: 20px;
+        background: var(--nh-primary);
+    }
+
+/* ============================================
+   MISSILE STATUS INDICATOR
+   ============================================ */
+.missile-status {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.missile-rack {
+    display: flex;
+    gap: 3px;
+}
+
+.missile-slot {
+    width: 4px;
+    height: 16px;
+    background: var(--nh-secondary);
+    opacity: 0.3;
+}
+
+.missile-slot.loaded {
+    background: var(--nh-primary);
+    opacity: 1;
+    box-shadow: 0 0 5px var(--nh-glow);
+}
+
+.missile-slot.fired {
+    background: var(--nh-danger);
+    opacity: 0.5;
+}
+
+/* ============================================
+   WARNING INDICATORS
+   ============================================ */
+.warning-strip {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.warning-strip.active {
+    opacity: 1;
+}
+
+.warning-item {
+    color: var(--nh-danger);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: hudFlicker 0.5s ease-in-out infinite;
+}
+
+.warning-icon {
+    width: 8px;
+    height: 8px;
+    background: var(--nh-danger);
+    border-radius: 50%;
+    animation: statusPulse 0.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .warning-strip.active .warning-item,
+    .warning-icon {
+        animation: none;
+    }
+}
+
+/* ============================================
+   COMPASS / HEADING INDICATOR
+   ============================================ */
+.heading-indicator {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.compass-rose {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--nh-secondary);
+    white-space: nowrap;
+    transition: transform 0.1s linear;
+}
+
+.compass-tick {
+    width: 1px;
+    height: 8px;
+    background: var(--nh-secondary);
+    margin-top: -4px;
+}
+
+.compass-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--nh-primary);
+}
+
+/* ============================================
+   RESPONSIVE HUD ADJUSTMENTS
+   ============================================ */
+@media (width <= 768px) {
+    .hud-coordinates,
+    .hud-timer {
+        display: none;
+    }
+    
+    .hud-radar {
+        width: 80px;
+        height: 80px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .hud-corner {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .air-speed-indicator,
+    .altitude-indicator {
+        display: none;
+    }
+    
+    .heading-indicator {
+        width: 150px;
+    }
+}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews | Night Hawk</title>
+    <meta name="description" content="Operator reviews and testimonials for Night Hawk tactical brand experiences.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="../../css/hud.css">
+    <style>
+        .page-hero { min-height: 50vh; padding-top: 120px; }
+        .reviews-section { padding: 6rem 0; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .review-card { background: var(--nh-surface); border: var(--nh-border); padding: 2rem; transition: var(--nh-transition); }
+        .review-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .review-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .review-avatar { width: 50px; height: 50px; background: var(--nh-primary); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.25rem; color: var(--nh-bg); }
+        .review-meta { flex: 1; }
+        .review-author { font-family: var(--font-heading); font-size: 1rem; color: var(--nh-accent); margin-bottom: 0.25rem; }
+        .review-role { font-family: var(--font-mono); font-size: 0.7rem; color: var(--nh-secondary); }
+        .review-stars { display: flex; gap: 0.25rem; }
+        .review-star { color: var(--nh-primary); font-size: 0.9rem; }
+        .review-star.empty { opacity: 0.3; }
+        .review-title { font-size: 1.25rem; margin-bottom: 1rem; color: var(--nh-accent); }
+        .review-text { font-size: 0.9rem; color: var(--nh-secondary); line-height: 1.7; margin-bottom: 1.5rem; }
+        .review-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: var(--nh-border); }
+        .review-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--nh-secondary); }
+        .review-verified { font-family: var(--font-mono); font-size: 0.65rem; color: var(--nh-nv-green); display: flex; align-items: center; gap: 0.35rem; }
+        .review-verified::before { content: '✓'; }
+        .summary-section { padding: 4rem 0; background: var(--nh-surface); margin-bottom: 4rem; }
+        .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        @media (max-width: 768px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+        .summary-stat { padding: 1.5rem; }
+        .summary-value { font-family: var(--font-display); font-size: 3rem; color: var(--nh-primary); margin-bottom: 0.5rem; }
+        .summary-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--nh-secondary); letter-spacing: 0.1em; }
+        .write-review-cta { text-align: center; padding: 4rem 0; }
+    </style>
+</head>
+<body class="hud-body">
+    <div class="hud-overlay">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-tr"></div>
+        <div class="hud-corner hud-corner-bl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+        <div class="hud-scanlines"></div>
+    </div>
+
+    <button class="stealth-toggle" id="stealthToggle">
+        <span class="stealth-icon"></span>
+        <span class="stealth-label">STEALTH</span>
+    </button>
+
+    <nav class="hud-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <svg class="logo-silhouette" viewBox="0 0 200 60" fill="currentColor">
+                    <path d="M10 45 L30 45 L45 30 L60 20 L100 15 L140 15 L170 20 L185 35 L190 45 L180 50 L160 50 L140 40 L120 35 L100 35 L80 40 L60 50 L40 50 L20 50 Z"/>
+                </svg>
+                <span class="logo-text">NIGHT HAWK</span>
+            </a>
+            <button class="nav-toggle" id="navToggle">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html" class="nav-link">HOME</a></li>
+                <li><a href="../about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="../services.html" class="nav-link">SERVICES</a></li>
+                <li><a href="../portfolio.html" class="nav-link">PORTFOLIO</a></li>
+                <li><a href="index.html" class="nav-link active">REVIEWS</a></li>
+                <li><a href="../contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-bg"><div class="hero-grid"></div></div>
+        <div class="hero-content">
+            <span class="section-tag">[ OPERATOR RATINGS ]</span>
+            <h1 class="hero-title">
+                <span class="title-line">FIELD</span>
+                <span class="title-line title-accent">REVIEWS</span>
+            </h1>
+            <p class="hero-tagline">VERIFIED OPERATOR FEEDBACK</p>
+        </div>
+    </section>
+
+    <section class="summary-section">
+        <div class="section-container">
+            <div class="summary-grid">
+                <div class="summary-stat">
+                    <div class="summary-value">4.9</div>
+                    <div class="summary-label">AVG RATING</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value">247</div>
+                    <div class="summary-label">TOTAL REVIEWS</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value">98%</div>
+                    <div class="summary-label">WOULD RECOMMEND</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value">24HR</div>
+                    <div class="summary-label">AVG RESPONSE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section">
+        <div class="section-container">
+            <div class="reviews-grid">
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">MW</div>
+                        <div class="review-meta">
+                            <div class="review-author">MARCUS WEBB</div>
+                            <div class="review-role">CEO, VIPER DEFENSE</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">TRANSFORMED OUR DIGITAL PRESENCE</h3>
+                    <p class="review-text">Night Hawk completely transformed our customer portal. The stealth mode interface has become a signature element of our brand identity. Clients consistently comment on how distinctive and professional our platform feels compared to competitors.</p>
+                    <div class="review-footer">
+                        <span class="review-date">JUN 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">SK</div>
+                        <div class="review-meta">
+                            <div class="review-author">SARAH KIM</div>
+                            <div class="review-role">CTO, CIPHER CAPITAL</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">PERFECT FOR TRADING PLATFORM</h3>
+                    <p class="review-text">The tactical HUD interfaces work perfectly for our high-frequency trading platform. Real-time market data visualization has never been clearer. Our traders report significantly improved decision-making speed.</p>
+                    <div class="review-footer">
+                        <span class="review-date">MAY 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">JR</div>
+                        <div class="review-meta">
+                            <div class="review-author">JAMES RODRIGUEZ</div>
+                            <div class="review-role">DIR. TECHNOLOGY, FUSION DYNAMICS</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star empty">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">EXCEPTIONAL REACTOR MONITORING</h3>
+                    <p class="review-text">Our clean energy monitoring dashboard has never looked better. The radar visualizations and real-time telemetry overlays give our operators unprecedented situational awareness. Minor issue with mobile responsiveness but overall excellent.</p>
+                    <div class="review-footer">
+                        <span class="review-date">APR 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">AL</div>
+                        <div class="review-meta">
+                            <div class="review-author">ANGELA LI</div>
+                            <div class="review-role">LEAD DESIGNER, GHOST MOTORS</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">STUNNING LUXURY AESTHETIC</h3>
+                    <p class="review-text">The stealth fighter aesthetic aligned perfectly with our brand vision. Every detail from the HUD overlays to the afterburner animations screams premium quality. Our showroom displays are generating significant buzz.</p>
+                    <div class="review-footer">
+                        <span class="review-date">MAR 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">DM</div>
+                        <div class="review-meta">
+                            <div class="review-author">DAVID MARTINEZ</div>
+                            <div class="review-role">CISO, SHADOWNET SECURITY</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">CYBERSECURITY BRAND PERFECTION</h3>
+                    <p class="review-text">As a cybersecurity firm, our visual identity needs to convey trust and technical excellence. Night Hawk delivers on both. The tactical HUD elements perfectly complement our threat monitoring capabilities.</p>
+                    <div class="review-footer">
+                        <span class="review-date">FEB 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+
+                <article class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">HC</div>
+                        <div class="review-meta">
+                            <div class="review-author">DR. HELEN CHEN</div>
+                            <div class="review-role">SURGICAL DIRECTOR, NEURALINK</div>
+                        </div>
+                        <div class="review-stars">
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                            <span class="review-star">★</span>
+                        </div>
+                    </div>
+                    <h3 class="review-title">SURGICAL PRECISION INTERFACES</h3>
+                    <p class="review-text">The HUD-based medical imaging dashboard has improved our surgical guidance system dramatically. The clarity and precision of the overlays help our surgeons maintain focus during complex procedures. Life-saving technology.</p>
+                    <div class="review-footer">
+                        <span class="review-date">JAN 2026</span>
+                        <span class="review-verified">VERIFIED OPERATOR</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="write-review-cta">
+        <div class="section-container">
+            <h2 class="section-title">SHARE YOUR EXPERIENCE</h2>
+            <p style="color:var(--nh-secondary); max-width: 500px; margin: 1rem auto 2rem;">Have you deployed Night Hawk? Share your operator experience to help other organizations make informed decisions.</p>
+            <a href="../contact.html" class="btn btn-secondary"><span class="btn-text">SUBMIT REVIEW</span></a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="section-container">
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 NIGHT HAWK. ALL RIGHTS RESERVED.</p>
+                <p class="footer-classified">[ CLASSIFIED FOR AUTHORIZED USE ONLY ]</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="noise-overlay"></div>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/stealth.js"></script>
+</body>
+</html>
