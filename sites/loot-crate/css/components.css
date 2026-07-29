@@ -1,0 +1,439 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Loot Crate Theme
+   Header, footer, buttons, cards, forms, navigation
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ── Site header ─────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26, 10, 46, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(155, 89, 182, 0.2);
+}
+
+.header-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--container-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.site-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-highlight);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-shadow: 0 0 20px var(--color-highlight-glow);
+  transition: text-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.site-wordmark:hover {
+  color: var(--color-secondary);
+  text-shadow: 0 0 30px var(--color-secondary-glow);
+}
+
+/* ── Primary navigation ─────────────────────────────────────────────────── */
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.main-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.main-nav a:hover {
+  color: var(--color-highlight);
+  background: rgba(155, 89, 182, 0.15);
+}
+
+.main-nav a[aria-current='page'] {
+  color: var(--color-secondary);
+  background: rgba(243, 156, 18, 0.1);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background 0.2s ease;
+}
+
+.nav-toggle:hover {
+  background: var(--color-primary);
+}
+
+.nav-toggle svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* ── Mobile nav ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .main-nav ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-primary);
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: var(--space-2);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .main-nav ul.is-open {
+    display: flex;
+  }
+
+  .main-nav a {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    font-size: 1rem;
+  }
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  letter-spacing: 0.03em;
+  min-height: 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-highlight) 100%);
+  color: var(--color-bg);
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 20px var(--color-secondary-glow);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-highlight) 0%, var(--color-secondary) 100%);
+  color: var(--color-bg);
+  box-shadow: 0 0 35px var(--color-highlight-glow), 0 0 60px var(--color-secondary-glow);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background: rgba(243, 156, 18, 0.1);
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  box-shadow: var(--shadow-glow-secondary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: rgba(155, 89, 182, 0.3);
+}
+
+.btn-ghost:hover {
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.btn-small {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  min-height: 36px;
+}
+
+/* ── Site footer ─────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid rgba(155, 89, 182, 0.2);
+  padding: var(--space-12) 0 var(--space-8);
+}
+
+.footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.footer-tagline {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-secondary);
+  text-shadow: 0 0 20px var(--color-secondary-glow);
+  margin-bottom: var(--space-8);
+  letter-spacing: 0.05em;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-col h3 {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--color-highlight);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(155, 89, 182, 0.15);
+  padding-top: var(--space-6);
+  text-align: center;
+}
+
+.footer-legal {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* ── Feature cards ──────────────────────────────────────────────────────── */
+.feature-card {
+  padding: var(--space-5);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(155, 89, 182, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-primary);
+  transform: translateY(-2px);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-card .feature-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: var(--space-3);
+  color: var(--color-secondary);
+}
+
+.feature-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.feature-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ── Crate decoration ───────────────────────────────────────────────────── */
+.crate-decoration {
+  position: relative;
+}
+
+.crate-decoration::before {
+  content: '📦';
+  font-size: 2rem;
+  display: block;
+  margin-bottom: var(--space-3);
+  filter: drop-shadow(0 0 10px var(--color-secondary-glow));
+}
+
+/* ── Feature grid card link ─────────────────────────────────────────────── */
+.see-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+}
+
+.see-all-link:hover {
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  background: rgba(255, 215, 0, 0.05);
+  box-shadow: var(--shadow-glow-highlight);
+}
+
+/* ── Icon utilities ─────────────────────────────────────────────────────── */
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.icon-inline {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.icon-inline-sm {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.icon-inline-lg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+/* ── Visually hidden ─────────────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Glow text utility ──────────────────────────────────────────────────── */
+.glow-text {
+  text-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+/* ── Status indicators ───────────────────────────────────────────────────── */
+.status-stable {
+  color: var(--color-rare);
+}
+
+.status-beta {
+  color: var(--color-secondary);
+}
+
+/* ── Plugin model callout ───────────────────────────────────────────────── */
+.plugin-callout {
+  background: var(--color-surface);
+  border: 1px solid rgba(155, 89, 182, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+}
+
+.plugin-callout h3 {
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+/* ==========================================================================
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
