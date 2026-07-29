@@ -1,0 +1,447 @@
+/* theme.css — Pixel Quest Brand Kit
+ * @copyright 2026 Phlix
+ * Typography, layout containers, page structure
+ */
+
+/* ============================================================
+   1. TYPOGRAPHY SCALE
+   ============================================================ */
+
+/* Display / Hero — Press Start 2P pixel font */
+h1, .h1,
+.text-display {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 4vw, 28px);
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-green);
+  text-shadow:
+    3px 3px 0 var(--color-black),
+    0 0 20px var(--color-green-glow);
+}
+
+h2, .h2,
+.text-headline {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 3vw, 20px);
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  text-shadow: 2px 2px 0 var(--color-black);
+}
+
+h3, .h3,
+.text-title {
+  font-family: var(--font-display);
+  font-size: clamp(11px, 2vw, 14px);
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  text-shadow: 2px 2px 0 var(--color-black);
+}
+
+h4, .h4,
+.text-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--color-blue);
+}
+
+/* Body text */
+p, .text-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-white);
+}
+
+/* Lead / intro paragraph */
+.lead {
+  font-size: 1.125rem;
+  color: var(--color-gray);
+}
+
+/* Eyebrow label */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+  display: inline-block;
+  margin-bottom: var(--space-1);
+}
+
+/* ============================================================
+   2. LAYOUT CONTAINERS
+   ============================================================ */
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: var(--header-height);
+}
+
+/* Content sections */
+.content-section {
+  padding: var(--space-8) 0;
+}
+
+.content-section--tight {
+  padding: var(--space-4) 0;
+}
+
+.content-section--loose {
+  padding: var(--space-12) 0;
+}
+
+/* Max-width text container */
+.prose {
+  max-width: 72ch;
+}
+
+/* Grid layouts */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.content-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.content-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.content-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+  .content-grid--2,
+  .content-grid--3,
+  .content-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   3. PAGE HEADER
+   ============================================================ */
+
+.page-header {
+  padding: var(--space-8) 0 var(--space-6);
+  text-align: center;
+  border-bottom: 4px solid var(--color-green-dim);
+  background:
+    linear-gradient(180deg, transparent 0%, var(--color-dark-2) 100%);
+  position: relative;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--color-green);
+  box-shadow: var(--shadow-glow-green);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-2);
+}
+
+.page-header .lead {
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-top: var(--space-2);
+}
+
+/* ============================================================
+   4. HERO SECTION
+   ============================================================ */
+
+.hero {
+  padding: var(--space-12) 0 var(--space-10);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-3);
+}
+
+.hero__headline {
+  margin-bottom: var(--space-3);
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.hero__subheadline {
+  font-size: 1.125rem;
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-5);
+  color: var(--color-gray);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Decorative pixel border around hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-2);
+  border: 4px solid var(--color-green-dim);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: var(--space-4);
+  border: 2px dashed var(--color-green-dim);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* ============================================================
+   5. PITCH SECTION
+   ============================================================ */
+
+.pitch {
+  padding: var(--space-8) 0;
+  background: var(--color-dark-2);
+  border-top: 4px solid var(--color-gold-dim);
+  border-bottom: 4px solid var(--color-gold-dim);
+}
+
+.pitch h2 {
+  text-align: center;
+  margin-bottom: var(--space-5);
+  color: var(--color-gold);
+}
+
+.pitch ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.pitch li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-dark-3);
+  border-left: 4px solid var(--color-green);
+  font-family: var(--font-body);
+}
+
+.pitch li::before {
+  content: '▶';
+  color: var(--color-green);
+  font-size: 10px;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   6. FEATURES OVERVIEW (home)
+   ============================================================ */
+
+.features-overview {
+  padding: var(--space-10) 0;
+}
+
+.features-overview h2 {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.features-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.features-overview__more {
+  text-align: center;
+}
+
+/* ============================================================
+   7. CTA BANNER
+   ============================================================ */
+
+.cta-banner {
+  padding: var(--space-8) 0;
+  text-align: center;
+  background:
+    linear-gradient(135deg, var(--color-dark-3) 0%, var(--color-dark-2) 50%, var(--color-dark-3) 100%);
+  border-top: 4px solid var(--color-blue-dim);
+  border-bottom: 4px solid var(--color-blue-dim);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+  color: var(--color-blue);
+}
+
+.cta-banner__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   8. CODE BLOCK
+   ============================================================ */
+
+.code-block {
+  background: var(--color-gray-dark);
+  border: 3px solid var(--color-green-dim);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: var(--space-4) 0;
+}
+
+.code-block__header {
+  background: var(--color-green-dim);
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code-block__header::before {
+  content: '>';
+  font-family: var(--font-mono);
+}
+
+.code-block__body {
+  padding: var(--space-3);
+  overflow-x: auto;
+}
+
+.code-block__body pre {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-green);
+}
+
+.code-block__copy {
+  margin-left: auto;
+  background: var(--color-black);
+  color: var(--color-green);
+  border: 2px solid var(--color-green);
+  padding: 2px 8px;
+  font-family: var(--font-display);
+  font-size: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.code-block__copy:hover {
+  background: var(--color-green);
+  color: var(--color-black);
+}
+
+/* ============================================================
+   9. SECTION DIVIDERS (pixel-art decorative)
+   ============================================================ */
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-green-dim) 0px,
+    var(--color-green-dim) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+/* ============================================================
+   10. BADGES / TAGS
+   ============================================================ */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.badge--stable {
+  background: var(--color-green-dim);
+  border-color: var(--color-green);
+  color: var(--color-black);
+}
+
+.badge--beta {
+  background: var(--color-gold-dim);
+  border-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.badge--deprecated {
+  background: var(--color-gray-dark);
+  border-color: var(--color-gray);
+  color: var(--color-gray);
+}

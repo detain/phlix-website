@@ -1,0 +1,297 @@
+/* base.css — Pixel Quest Brand Kit
+ * @copyright 2026 Phlix
+ * CSS custom properties + reset for pixel-quest brand kit
+ */
+
+/* ============================================================
+   1. DESIGN TOKENS (Pixel Quest — 8-bit retro RPG theme)
+   ============================================================ */
+:root {
+  /* Primary palette — 5-color dungeon palette */
+  --color-black:   #0D0D0D;
+  --color-green:   #00FF00;
+  --color-gold:    #FFD700;
+  --color-blue:    #4169E1;
+  --color-orange:  #FF4500;
+
+  /* 16-color extended pixel palette (expanded for gradients/surfaces) */
+  --color-dark:       #0D0D0D;
+  --color-dark-2:     #1a1a2e;
+  --color-dark-3:     #16213e;
+  --color-green-dim:  #00aa00;
+  --color-green-glow: #00ff0080;
+  --color-gold-dim:   #cc9900;
+  --color-gold-glow:  #ffd70060;
+  --color-blue-dim:   #2a4a9a;
+  --color-blue-glow:  #4169e160;
+  --color-orange-dim: #cc3700;
+  --color-white:      #FFFFFF;
+  --color-gray:       #888888;
+  --color-gray-dark:  #333333;
+
+  /* Typography */
+  --font-display: 'Press Start 2P', 'Courier New', monospace;
+  --font-body:    'Courier New', 'Lucida Console', monospace;
+  --font-mono:    'Courier New', 'Lucida Console', monospace;
+
+  /* Spacing scale (pixel-grid aligned — multiples of 8px) */
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-5:  40px;
+  --space-6:  48px;
+  --space-8:  64px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  /* Corner radius — blocky pixel aesthetic */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Shadows — pixelated depth (box-shadow pixel patterns) */
+  --shadow-sm: 2px 2px 0 var(--color-black);
+  --shadow-md: 4px 4px 0 var(--color-black);
+  --shadow-lg: 6px 6px 0 var(--color-black);
+  --shadow-glow-green: 0 0 12px var(--color-green-glow), 0 0 24px var(--color-green-glow);
+  --shadow-glow-gold:  0 0 12px var(--color-gold-glow),  0 0 24px var(--color-gold-glow);
+  --shadow-glow-blue:  0 0 12px var(--color-blue-glow),  0 0 24px var(--color-blue-glow);
+
+  /* Layout */
+  --max-width: 1400px;
+  --header-height: 72px;
+
+  /* Transitions */
+  --transition-fast: 100ms ease;
+  --transition-normal: 200ms ease;
+}
+
+/* ============================================================
+   2. RESET
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Pixel-art background pattern */
+  background-image:
+    linear-gradient(var(--color-dark-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-dark-2) 1px, transparent 1px),
+    linear-gradient(var(--color-dark-3) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-dark-3) 1px, transparent 1px);
+  background-size:
+    4px 4px,
+    4px 4px,
+    32px 32px,
+    32px 32px;
+  background-position: -1px -1px;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* ============================================================
+   3. ACCESSIBILITY
+   ============================================================ */
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-2);
+  z-index: 9999;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-green);
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 3px solid var(--color-gold);
+  box-shadow: var(--shadow-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 3px solid var(--color-green);
+  outline-offset: 3px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   4. BASE ELEMENT STYLES
+   ============================================================ */
+
+a {
+  color: var(--color-green);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+a:focus-visible {
+  outline-color: var(--color-gold);
+}
+
+strong, b {
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--color-gray-dark);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+  color: var(--color-green);
+}
+
+pre {
+  font-family: var(--font-mono);
+  background: var(--color-gray-dark);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 3px solid var(--color-green-dim);
+  box-shadow: var(--shadow-sm);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+  color: var(--color-white);
+}
+
+/* ============================================================
+   5. SCROLLBAR (pixel-styled)
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+  border: 2px solid var(--color-gray-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-green-dim);
+  border: 2px solid var(--color-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green);
+}
+
+/* ============================================================
+   6. SELECTION
+   ============================================================ */
+
+::selection {
+  background: var(--color-green);
+  color: var(--color-black);
+}
+
+/* ============================================================
+   7. LAYOUT UTILITIES
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

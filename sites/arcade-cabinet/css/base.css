@@ -1,0 +1,304 @@
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
+
+/* ===========================================================================
+   BASE.CSS — Reset, Design Tokens, @font-face
+   =========================================================================== */
+
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ── Design Tokens ────────────────────────────────────────────────────────── */
+
+:root {
+  /* Color — Arcade Cabinet Neon */
+  --color-primary: #FF00FF;    /* Magenta — coin-op glow */
+  --color-secondary: #00FFFF;  /* Cyan — neon accent */
+  --color-tertiary: #FFD700;   /* Gold — high score highlight */
+  --color-bg: #1A0A2E;         /* Deep purple black */
+  --color-surface: #0D0D0D;   /* Near black */
+  --color-surface-alt: #251442;
+  --color-text: #FFFFFF;
+  --color-neutral: #B8A3C7;
+  --color-success: #00FF88;
+  --color-warning: #FFD700;
+  --color-error: #FF3366;
+  --color-info: #00FFFF;
+  --color-border: #3D2066;
+  --color-focus: #00FFFF;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius scale */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Orbitron', 'Trebuchet MS', sans-serif;
+  --font-display: 'Orbitron', 'Trebuchet MS', sans-serif;
+  --font-body: 'Barlow', 'Segoe UI', sans-serif;
+  --font-ui: 'Barlow', 'Segoe UI', sans-serif;
+  --font-mono: 'Press Start 2P', 'Courier New', monospace;
+
+  /* Shadows — Neon glow effects */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.9);
+  --shadow-neon-magenta: 0 0 12px rgba(255, 0, 255, 0.6), 0 0 30px rgba(255, 0, 255, 0.3), 0 0 60px rgba(255, 0, 255, 0.1);
+  --shadow-neon-cyan: 0 0 12px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.1);
+  --shadow-neon-gold: 0 0 12px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.3);
+  --shadow-coin: 0 0 20px rgba(255, 215, 0, 0.4);
+
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 900px;
+
+  /* Animation */
+  --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-arcade: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --duration-slow: 400ms;
+  --duration-medium: 250ms;
+  --duration-fast: 150ms;
+}
+
+/* ── @font-face — Self-hosted WOFF2 from shared pool ──────────────────────── */
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../../../shared/assets/fonts/orbitron-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../../../shared/assets/fonts/orbitron-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../../../shared/assets/fonts/orbitron-900-latin.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../../shared/assets/fonts/barlow-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../../shared/assets/fonts/barlow-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../../shared/assets/fonts/barlow-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('../../../shared/assets/fonts/barlow-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('../../../shared/assets/fonts/press-start-2p-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Global element defaults ───────────────────────────────────────────────── */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 255, 0.03) 2px,
+      rgba(0, 255, 255, 0.03) 4px
+    );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+strong,
+b {
+  font-weight: 700;
+  color: var(--color-tertiary);
+}
+
+a {
+  color: var(--color-secondary);
+  transition: color var(--duration-fast) var(--ease-cinematic);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.2);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+::selection {
+  background: rgba(255, 0, 255, 0.3);
+  color: var(--color-text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
