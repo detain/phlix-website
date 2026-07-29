@@ -322,7 +322,7 @@
 
 .feature-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, minmax(0, 1fr)));
   gap: var(--space-4);
   margin-bottom: var(--space-8);
 }
@@ -393,14 +393,14 @@
 /* ── Client cards grid ── */
 .client-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, minmax(0, 1fr)));
   gap: var(--space-4);
 }
 
 /* ── Download cards ── */
 .download-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, minmax(0, 1fr)));
   gap: var(--space-4);
 }
 
@@ -494,26 +494,26 @@
 /* ── Grid helpers ── */
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-6);
 }
 
 .grid-3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-6);
 }
 
 @media (width <= 768px) {
   .grid-2,
   .grid-3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (width <= 480px) {
   .download-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -549,9 +549,7 @@
     0 0 30px rgb(0, 255, 65, 0.2);
 }
 
-/*
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
 /* ── Glitch keyframe ── */
 @keyframes glitch-shift {
   0% {
@@ -594,5 +592,11 @@
   }
   100% {
     background-position: 0 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after {
+    animation: none;
   }
 }
