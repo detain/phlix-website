@@ -1,0 +1,759 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Nexus Core
+   Buttons, navigation, forms, cards, hero, proof band, footer, overlays.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--color-bg);
+  border-color: transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+  color: var(--color-bg);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: rgba(0, 245, 255, 0.1);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 245, 255, 0.2);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-ghost:hover {
+  background: rgba(0, 245, 255, 0.1);
+  box-shadow: var(--shadow-glow);
+  color: var(--color-primary);
+}
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--color-text);
+  border-color: transparent;
+}
+
+.btn-danger:hover {
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+
+.btn-fab {
+  padding: 1rem 2rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glow);
+}
+
+/* --------------------------------------------------------------------------
+   2. Navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--nav-height);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.nav-logo:hover { color: var(--color-text); }
+
+.nav-logo img {
+  height: 32px;
+  width: auto;
+}
+
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-primary);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
+}
+
+.nav-menu a {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: var(--space-2) 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+.nav-menu a:hover::after,
+.nav-menu a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav-emph-primary {
+  color: var(--color-primary) !important;
+}
+
+.nav-emph-muted {
+  color: var(--color-text-muted) !important;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; }
+
+  .nav-menu {
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4);
+    display: none;
+  }
+
+  .nav-menu.is-open { display: flex; }
+
+  .nav-menu li { width: 100%; }
+
+  .nav-menu a {
+    display: block;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero section
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-16) 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 var(--space-6);
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: var(--space-6);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-content .subheadline {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto var(--space-8);
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* Energy core animation behind hero */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-bg .core-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+}
+
+.hero-bg .core-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 245, 255, 0.15) 0%, transparent 70%);
+  animation: coreGlow 4s ease-in-out infinite;
+}
+
+@keyframes coreGlow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Feature cards
+   -------------------------------------------------------------------------- */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.feature-card {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.feature-card .card-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.feature-card .card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.feature-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-3);
+}
+
+.feature-card p {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. AR panel (orbital node)
+   -------------------------------------------------------------------------- */
+.ar-panel {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.ar-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-orbital);
+}
+
+.ar-panel:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.ar-panel h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   6. Content grids
+   -------------------------------------------------------------------------- */
+.content-grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.content-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.content-grid--3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .content-grid--2col,
+  .content-grid--3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Proof band
+   -------------------------------------------------------------------------- */
+.proof-band {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+.proof-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.proof-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+}
+
+.proof-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   8. Path options (self-select)
+   -------------------------------------------------------------------------- */
+.path-prompt {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.path-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.path-option {
+  display: block;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.path-option:hover {
+  border-color: var(--color-primary);
+  background: rgba(0, 245, 255, 0.1);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------------------------------
+   9. Client cards (device rack)
+   -------------------------------------------------------------------------- */
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-6);
+}
+
+.client-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.client-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.client-card .client-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--space-4);
+  color: var(--color-primary);
+}
+
+.client-card h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-3);
+}
+
+.client-card ul {
+  list-style: none;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.client-card li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.client-card li:last-child {
+  border-bottom: none;
+}
+
+/* --------------------------------------------------------------------------
+   10. FAQ items
+   -------------------------------------------------------------------------- */
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-6) 0;
+}
+
+.faq-item h3 {
+  font-size: 1.125rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+.faq-item p {
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   11. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-16) 0 var(--space-8);
+}
+
+.footer-tagline {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.footer-nav h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.footer-nav ul {
+  list-style: none;
+}
+
+.footer-nav li {
+  margin-bottom: var(--space-2);
+}
+
+.footer-nav a {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.footer-nav a:hover {
+  color: var(--color-primary);
+}
+
+.footer-copy {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   12. Energy overlays
+   -------------------------------------------------------------------------- */
+.spectrum-overlay,
+.diffraction-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spectrum-overlay.is-active,
+.diffraction-overlay.is-active {
+  opacity: 1;
+}
+
+.spectrum-overlay {
+  background: radial-gradient(circle at center, rgba(0, 245, 255, 0.3) 0%, transparent 70%);
+}
+
+.diffraction-overlay {
+  background: radial-gradient(circle at center, rgba(123, 44, 191, 0.3) 0%, transparent 70%);
+}
+
+/* --------------------------------------------------------------------------
+   13. Mascot (Orb)
+   -------------------------------------------------------------------------- */
+#mascot-orb {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient-core);
+  border-radius: 50%;
+  box-shadow:
+    0 0 30px rgba(0, 245, 255, 0.5),
+    0 0 60px rgba(123, 44, 191, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  animation: orbFloat 3s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.mascot-tip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  margin-bottom: var(--space-3);
+}
+
+.mascot-tip.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mascot-dismiss {
+  display: inline-block;
+  margin-left: var(--space-3);
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+#mascot-orb.is-dismissed {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #mascot-orb { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   14. Seasonal banner
+   -------------------------------------------------------------------------- */
+.seasonal-banner {
+  display: none;
+  text-align: center;
+  padding: var(--space-3);
+  background: var(--gradient-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   15. Form elements
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.15);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+/* @copyright 2026 Joe Huss <detain@interserver.net> */

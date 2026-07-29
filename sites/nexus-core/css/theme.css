@@ -1,0 +1,312 @@
+/* ==========================================================================
+   THEME.CSS — Nexus Core
+   Typography scale, layout containers, page structure, energy effects.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Typography scale
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+.display-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   2. Layout containers
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container--wide { max-width: var(--max-width); }
+.container--narrow { max-width: 800px; }
+
+.section { padding: var(--space-16) 0; }
+.section--lg { padding: var(--space-24) 0; }
+
+/* --------------------------------------------------------------------------
+   3. Energy glass surfaces
+   -------------------------------------------------------------------------- */
+.glass {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.glass--heavy {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass-heavy);
+  -webkit-backdrop-filter: var(--blur-glass-heavy);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* --------------------------------------------------------------------------
+   4. Backgrounds
+   -------------------------------------------------------------------------- */
+.bg-deep-space {
+  background-color: var(--color-bg);
+  background-image: linear-gradient(180deg, var(--color-bg) 0%, #252545 100%);
+}
+
+.bg-surface-light {
+  background-color: var(--color-bg-light);
+}
+
+/* --------------------------------------------------------------------------
+   5. Energy core styling
+   -------------------------------------------------------------------------- */
+.energy-core {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.energy-core::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: var(--gradient-core);
+  border-radius: var(--radius-circle);
+  filter: blur(40px);
+  opacity: 0.5;
+  z-index: -1;
+  animation: corePulse 3s ease-in-out infinite;
+}
+
+@keyframes corePulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.95); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+/* --------------------------------------------------------------------------
+   6. Orbital ring animations
+   -------------------------------------------------------------------------- */
+.orbital-ring {
+  position: absolute;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-circle);
+  opacity: 0.3;
+  animation: orbit 20s linear infinite;
+}
+
+.orbital-ring:nth-child(1) {
+  width: 150%;
+  height: 150%;
+  animation-duration: 25s;
+}
+
+.orbital-ring:nth-child(2) {
+  width: 200%;
+  height: 200%;
+  animation-duration: 35s;
+  animation-direction: reverse;
+}
+
+.orbital-ring:nth-child(3) {
+  width: 250%;
+  height: 250%;
+  animation-duration: 45s;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-ring { animation: none; }
+  .energy-core::before { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Cards (energy glass pattern)
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   8. Code blocks
+   -------------------------------------------------------------------------- */
+.code-block {
+  position: relative;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+}
+
+.code-block pre {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.code-block code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+.install-command {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--color-quaternary);
+  word-break: break-all;
+}
+
+/* --------------------------------------------------------------------------
+   9. Page header pattern
+   -------------------------------------------------------------------------- */
+.page-header {
+  padding: var(--space-16) 0 var(--space-12);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-12);
+}
+
+.page-header h1 { margin-bottom: var(--space-4); }
+
+.page-header .lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   10. CTA banner pattern
+   -------------------------------------------------------------------------- */
+.cta-banner {
+  text-align: center;
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-12);
+}
+
+.cta-banner h2 { margin-bottom: var(--space-6); }
+
+/* --------------------------------------------------------------------------
+   11. Section dividers
+   -------------------------------------------------------------------------- */
+.energy-divider {
+  height: 1px;
+  background: var(--gradient-orbital);
+  border: none;
+  margin: var(--space-12) 0;
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   12. Circuit pathway decoration
+   -------------------------------------------------------------------------- */
+.circuit-path {
+  position: relative;
+}
+
+.circuit-path::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, transparent 100%);
+  opacity: 0.2;
+}
+
+/* --------------------------------------------------------------------------
+   13. Utility classes
+   -------------------------------------------------------------------------- */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-tertiary { color: var(--color-tertiary); }
+.text-success { color: var(--color-success); }
+
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
