@@ -1,0 +1,354 @@
+/* ==========================================================================
+   BASE.CSS — Cybernetic Surge
+   Design tokens, reset, element defaults, focus rings, motion preferences.
+   Translates brand kit design_tokens and color/spacing/radius/shadow blocks.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Modern Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   2. Design Tokens — Color
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand colors */
+  --color-primary: #00FF9F;
+  --color-secondary: #00B4D8;
+  --color-tertiary: #0077B6;
+  --color-bg: #03045E;
+  --color-bg-light: #E8F4F8;
+  --color-surface: rgba(2, 62, 138, 0.3);
+  --color-surface-alt: rgba(0, 255, 159, 0.04);
+  --color-text: #E8F4F8;
+  --color-text-muted: #C8D8E8;
+  --color-success: #00FF9F;
+  --color-warning: #FFB703;
+  --color-error: #FF006E;
+  --color-info: #00E5FF;
+  --color-border: rgba(0, 255, 159, 0.2);
+  --color-glow: rgba(0, 255, 159, 0.45);
+
+  /* Surface colors for light sections */
+  --color-surface-light: #023E8A;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #00FF9F, #00B4D8);
+  --gradient-circuit-flush: linear-gradient(135deg, #03045E, #0077B6, #00FF9F);
+  --gradient-chrome-surge: linear-gradient(135deg, #C8D8E8, #00B4D8, #00FF9F);
+  --gradient-sheen: linear-gradient(
+    90deg,
+    rgba(0, 255, 159, 0),
+    rgba(0, 255, 159, 0.08),
+    rgba(0, 255, 159, 0)
+  );
+  --gradient-depth: linear-gradient(180deg, #03045E, #010A31);
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Font families (self-hosted WOFF2) */
+  --font-headline: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-display: 'Space Grotesk', 'Rajdhani', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-ui: 'Space Grotesk', 'Rajdhani', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(1, 10, 49, 0.6), 0 0 8px rgba(0, 255, 159, 0.1);
+  --shadow-md: 0 4px 16px rgba(1, 10, 49, 0.7), 0 0 20px rgba(0, 255, 159, 0.15);
+  --shadow-lg: 0 12px 40px rgba(1, 10, 49, 0.8), 0 0 40px rgba(0, 255, 159, 0.2);
+  --shadow-glow: 0 0 32px rgba(0, 255, 159, 0.5);
+
+  /* Blur */
+  --blur-glass: blur(12px);
+  --blur-glass-heavy: blur(20px);
+  --blur-subtle: blur(6px);
+
+  /* Layout */
+  --max-width: 1440px;
+  --content-width: 1200px;
+  --nav-height: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base element styles
+   -------------------------------------------------------------------------- */
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-primary);
+}
+
+strong {
+  font-weight: 500;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.875em;
+  background: var(--color-surface);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Skip link (accessibility)
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--gradient-primary);
+  color: #03045E;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   5. Screen-reader / visually hidden utility
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Font face declarations (self-hosted WOFF2)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../../assets/fonts/orbitron-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('../../assets/fonts/orbitron-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../assets/fonts/space-grotesk-300-latin.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../assets/fonts/space-grotesk-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../assets/fonts/space-grotesk-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../assets/fonts/space-grotesk-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../../assets/fonts/space-grotesk-600-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../assets/fonts/inter-300-latin.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../assets/fonts/inter-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../assets/fonts/inter-500-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-300-latin.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* @copyright 2026 Joe Huss <detain@interserver.net> */
