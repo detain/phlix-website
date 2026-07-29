@@ -1,0 +1,253 @@
+/**
+ * ============================================================================
+ *  Havoc — base.css
+ *  Reset, tokens (:root CSS custom properties), element defaults, accessibility
+ * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
+/* ── Google Font-face declarations (self-hosted WOFF2) ─────────────────── */
+@font-face {
+  font-family: 'Anton';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/anton-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/exo-2-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-weight: 600;
+  font-display: swap;
+  src: url('../../assets/fonts/exo-2-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/exo-2-700-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/share-tech-mono-400-latin.woff2') format('woff2');
+}
+
+/* ── CSS Custom Properties — Design Tokens ───────────────────────────────── */
+:root {
+  /* ── Colors ── */
+  --color-primary:       #F72585;
+  --color-secondary:     #7209B7;
+  --color-tertiary:      #3A0CA3;
+  --color-accent:        #4361EE;
+  --color-chaos-cyan:    #4CC9F0;
+  --color-background:    #0D0D0D;
+  --color-surface:       #1A1A1A;
+  --color-surface-alt:   #2D2D2D;
+  --color-text:          #FFFFFF;
+  --color-text-muted:   #9E9E9E;
+  --color-success:       #39FF14;
+  --color-warning:       #FF6B00;
+  --color-error:         #DC2626;
+  --color-info:          #4CC9F0;
+  --color-focus:         #F72585;
+  --color-border:        #FFFFFF;
+  --color-shadow:        rgb(0, 0, 0, 0.95);
+  --color-overlay:       rgba(13, 13, 13, 0.9);
+
+  /* ── Gradients ── */
+  --gradient-explosion: radial-gradient(
+    ellipse at 50% 50%,
+    rgb(247, 37, 133, 0.4) 0%,
+    rgb(114, 9, 183, 0.3) 40%,
+    rgb(58, 12, 163, 0.2) 70%,
+    transparent 100%
+  );
+  --gradient-chaos-lightning: linear-gradient(
+    45deg,
+    rgb(67, 97, 238, 0.3) 0%,
+    rgb(76, 201, 240, 0.2) 50%,
+    rgb(114, 9, 183, 0.3) 100%
+  );
+  --gradient-void-depths: linear-gradient(
+    180deg,
+    rgb(26, 26, 26, 1) 0%,
+    rgb(13, 13, 13, 1) 100%
+  );
+  --gradient-fracture: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+
+  /* ── Typography ── */
+  --font-headline: 'Anton', impact, 'Arial Black', sans-serif;
+  --font-display:  'Anton', impact, 'Arial Black', sans-serif;
+  --font-body:     'Exo 2', 'Rajdhani', 'Segoe UI', 'Helvetica Neue', arial, sans-serif;
+  --font-ui:       'Exo 2', 'Rajdhani', system-ui, sans-serif;
+  --font-mono:     'Share Tech Mono', 'Courier New', monospace;
+
+  /* ── Type Scale ── */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  2rem;
+  --text-4xl:  2.5rem;
+  --text-5xl:  3rem;
+
+  /* ── Spacing ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* ── Layout ── */
+  --max-width:     1400px;
+  --content-width: 900px;
+  --nav-height:    64px;
+
+  /* ── Borders ── */
+  --border-base: 2px;
+  --radius-sm:  0px;
+  --radius-md:  2px;
+  --radius-lg:  4px;
+  --radius-xl:  8px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.95);
+
+  /* ── Motion ── */
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic:   cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-explosion:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-fast:   150ms;
+  --duration-normal: 300ms;
+  --duration-slow:   500ms;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* ── Focus ──────────────────────────────────────────────────────────────── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────── */
+a {
+  color: var(--color-chaos-cyan);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+/* ── Images ─────────────────────────────────────────────────────────────── */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Lists ─────────────────────────────────────────────────────────────── */
+ul, ol {
+  list-style: none;
+}
+
+/* ── Forms ──────────────────────────────────────────────────────────────── */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ── Skip Link ──────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--color-focus);
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
