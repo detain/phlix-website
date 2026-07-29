@@ -1,0 +1,400 @@
+/* ============================================================================
+ * DESERT MIRAGE — BASE STYLES
+ * Modern reset, design tokens, element defaults
+ * ============================================================================
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+
+/* ============================================================================
+ * FONT-FACE DECLARATIONS — Self-hosted WOFF2 from shared pool
+ * ============================================================================ */
+
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/cinzel-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/cinzel-700-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hind';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/hind-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hind';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/hind-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/quicksand-500-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/quicksand-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../assets/fonts/ibm-plex-mono-600-latin.woff2') format('woff2');
+}
+
+/* ============================================================================
+ * DESIGN TOKENS — CSS CUSTOM PROPERTIES
+ * ============================================================================ */
+
+:root {
+  /* Colors */
+  --color-primary:   #D4A574;
+  --color-secondary: #87CEEB;
+  --color-tertiary:  #F5DEB3;
+  --color-neutral:   #C19A6B;
+  --color-bg:        #F5DEB3;
+  --color-surface:   #FAF4E8;
+  --color-surface-alt: #EDD9B8;
+  --color-text:     #8B4513;
+  --color-success:  #4A9E6B;
+  --color-warning:  #C9872A;
+  --color-error:    #9B3A1A;
+  --color-info:     #5BA4C6;
+  --color-focus:    #87CEEB;
+  --color-border:    #8B4513;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(92, 46, 20, 0.14);
+  --shadow-md: 0 4px 12px rgba(92, 46, 20, 0.18);
+  --shadow-lg: 0 12px 28px rgba(92, 46, 20, 0.22);
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radii */
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   18px;
+  --radius-xl:   32px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Cinzel', 'Rockwell', Georgia, serif;
+  --font-display: 'Cinzel', 'Rockwell', Georgia, serif;
+  --font-body:    'Hind', 'Source Sans Pro', system-ui, sans-serif;
+  --font-ui:      'Quicksand', 'Open Sans', sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Layout */
+  --max-width: 1400px;
+  --header-height: 72px;
+}
+
+/* ============================================================================
+ * MODERN RESET
+ * ============================================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================================
+ * BASE ELEMENTS
+ * ============================================================================ */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+h4 { font-size: 1.25rem; font-weight: 600; }
+h5 { font-size: 1.125rem; font-weight: 600; }
+h6 { font-size: 1rem; font-weight: 600; }
+
+p {
+  margin-bottom: var(--space-4);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+ul,
+ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+li {
+  margin-bottom: var(--space-2);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-surface-alt);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+blockquote {
+  border-left: 4px solid var(--color-secondary);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  font-style: italic;
+  color: var(--color-neutral);
+}
+
+blockquote p {
+  margin-bottom: 0;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--color-surface-alt);
+  margin: var(--space-8) 0;
+}
+
+/* ============================================================================
+ * ACCESSIBILITY — SKIP LINK & FOCUS
+ * ============================================================================ */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-surface) !important;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  text-decoration: none !important;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================================================
+ * SELECTION & SCROLLBAR
+ * ============================================================================ */
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-surface-alt);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ============================================================================
+ * REDUCED MOTION
+ * ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================================
+ * UTILITY CLASSES
+ * ============================================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+}
