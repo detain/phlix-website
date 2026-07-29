@@ -1,0 +1,348 @@
+/**
+ * Android Dreams - Mechanical Eye Component
+ * The signature animated element that tracks cursor movement
+ */
+
+/* ==========================================================================
+   MECHANICAL EYE CONTAINER
+   ========================================================================== */
+
+.mechanical-eye-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.mechanical-eye {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   EYE OUTER RINGS
+   ========================================================================== */
+
+.eye-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+
+.eye-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    transition: all var(--duration-normal) var(--ease-mechanical);
+}
+
+.eye-ring:nth-child(1) {
+    width: 100%;
+    height: 100%;
+}
+
+.eye-ring:nth-child(2) {
+    width: 85%;
+    height: 85%;
+}
+
+.eye-ring:nth-child(3) {
+    width: 70%;
+    height: 70%;
+    border-color: var(--color-secondary);
+}
+
+.mechanical-eye:hover .eye-ring {
+    border-color: var(--color-accent);
+}
+
+.mechanical-eye:hover .eye-ring:nth-child(3) {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px var(--color-shadow);
+}
+
+/* ==========================================================================
+   EYE IRIS
+   ========================================================================== */
+
+.eye-iris {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-surface-alt) 0%, var(--color-surface) 100%);
+    border: 3px solid var(--color-accent);
+    box-shadow:
+        0 0 30px var(--color-shadow),
+        inset 0 0 30px rgba(0, 206, 255, 0.2);
+    transition: all var(--duration-iris) var(--ease-mechanical);
+    z-index: 10;
+}
+
+.iris-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(0, 206, 255, 0.3) 0%,
+        transparent 50%
+    );
+}
+
+.iris-pupil {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--color-accent);
+    transition: all var(--duration-iris) var(--ease-mechanical);
+}
+
+/* Dilated state */
+.mechanical-eye:hover .eye-iris {
+    width: 130px;
+    height: 130px;
+    border-color: var(--color-accent);
+    box-shadow:
+        0 0 40px var(--color-shadow),
+        0 0 80px var(--color-shadow),
+        inset 0 0 30px rgba(0, 206, 255, 0.3);
+}
+
+.mechanical-eye:hover .iris-pupil {
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 30px var(--color-accent);
+}
+
+/* Contracted state (focused) */
+.mechanical-eye.focused .eye-iris {
+    width: 100px;
+    height: 100px;
+}
+
+.mechanical-eye.focused .iris-pupil {
+    width: 50px;
+    height: 50px;
+}
+
+/* ==========================================================================
+   EYE HIGHLIGHT
+   ========================================================================== */
+
+.eye-highlight {
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    z-index: 15;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   CIRCUIT TRACES
+   ========================================================================== */
+
+.circuit-traces {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.traces-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.trace {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    opacity: 0;
+}
+
+.trace-1 { animation: traceReveal 1.5s var(--ease-default) 0.2s forwards; }
+.trace-2 { animation: traceReveal 1.5s var(--ease-default) 0.4s forwards; }
+.trace-3 { animation: traceReveal 1.5s var(--ease-default) 0.6s forwards; }
+.trace-4 { animation: traceReveal 1.5s var(--ease-default) 0.8s forwards; }
+.trace-5 { animation: traceReveal 1.5s var(--ease-default) 1s forwards; }
+.trace-6 { animation: traceReveal 1.5s var(--ease-default) 1.2s forwards; }
+
+@keyframes traceReveal {
+    0% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+/* Flow animation through traces */
+.trace.active {
+    animation: traceFlow 2s linear infinite;
+}
+
+@keyframes traceFlow {
+    0% {
+        stroke-dashoffset: 20;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ==========================================================================
+   SMALL MECHANICAL EYE VARIANT
+   ========================================================================== */
+
+.mechanical-eye.small {
+    width: 120px;
+    height: 120px;
+}
+
+.mechanical-eye.small .eye-iris {
+    width: 50px;
+    height: 50px;
+}
+
+.mechanical-eye.small .iris-pupil {
+    width: 16px;
+    height: 16px;
+}
+
+.mechanical-eye.small .eye-highlight {
+    width: 8px;
+    height: 8px;
+}
+
+.mechanical-eye.small .circuit-traces {
+    width: 180px;
+    height: 180px;
+}
+
+.mechanical-eye.small:hover .eye-iris {
+    width: 55px;
+    height: 55px;
+}
+
+.mechanical-eye.small:hover .iris-pupil {
+    width: 12px;
+    height: 12px;
+}
+
+/* ==========================================================================
+   TRACKING STATES
+   ========================================================================== */
+
+/* When actively tracking */
+.mechanical-eye.tracking .iris-pupil {
+    transition: all 100ms var(--ease-smooth);
+}
+
+/* Idle state - gentle pulse */
+.mechanical-eye.idle .eye-iris {
+    animation: irisPulse 4s var(--ease-default) infinite;
+}
+
+@keyframes irisPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .mechanical-eye .eye-iris,
+    .mechanical-eye .iris-pupil,
+    .mechanical-eye .eye-ring {
+        transition: none;
+    }
+
+    .mechanical-eye:hover .eye-iris,
+    .mechanical-eye:hover .iris-pupil {
+        transform: translate(-50%, -50%);
+    }
+
+    .trace {
+        animation: none !important;
+        stroke-dashoffset: 0;
+        opacity: 0.6;
+    }
+
+    .mechanical-eye.idle .eye-iris {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .mechanical-eye {
+        width: 200px;
+        height: 200px;
+    }
+
+    .eye-iris {
+        width: 80px;
+        height: 80px;
+    }
+
+    .iris-pupil {
+        width: 28px;
+        height: 28px;
+    }
+
+    .circuit-traces {
+        width: 280px;
+        height: 280px;
+    }
+
+    .eye-highlight {
+        width: 14px;
+        height: 14px;
+    }
+}
