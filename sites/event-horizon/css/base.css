@@ -1,140 +1,312 @@
 /* ==========================================================================
-   BASE.CSS — Event Horizon Base Styles
+   BASE.CSS — Event Horizon (Cosmic/Void theme for Phlix)
+   Modern CSS reset, design tokens, and base element styles
+   @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Box sizing */
+/* --------------------------------------------------------------------------
+   1. Modern CSS Reset
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Remove default margin/padding */
 * {
   margin: 0;
   padding: 0;
 }
 
-/* Smooth scroll */
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
-/* Body */
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #E8EAF0;
-  background-color: #000;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
-/* No motion preference */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* --------------------------------------------------------------------------
+   2. Design Tokens — Event Horizon Color System
+   -------------------------------------------------------------------------- */
+:root {
+  /* Primary palette — cosmic void theme */
+  --color-primary:    #7B2CBF;  /* Accretion Violet — plasma glow of matter being consumed */
+  --color-secondary:  #5A189A;  /* Ionized Magenta — energy spectrum of high-temperature plasma */
+  --color-tertiary:   #3C096C;  /* Void Purple — muted UI chrome, gravitational gradient */
+  --color-neutral:    #3C096C;  /* Void Purple */
+  --color-bg:         #000000;  /* Deep Void — absolute darkness, the singularity */
+  --color-surface:    #240046;  /* Ergosphere — one step from absolute void */
+  --color-surface-alt:#3C096C;  /* Dark Purple — hover states, nested panels */
+  --color-text:       #E8EAF0;  /* Hawking White — radiation from the void edge */
+  --color-text-muted: #9CA3AF;  /* Dimmed text on dark surfaces */
+
+  /* Semantic colors */
+  --color-success:    #34D399;  /* Photon Green — hawking radiation at photon sphere */
+  --color-warning:    #FBBF24;  /* Tidal Amber — 30-day orbital period */
+  --color-error:      #EF4444;  /* Singularity Red — final plunge into the void */
+  --color-info:       #60A5FA;  /* Quasar Blue — distant quasar light */
+  --color-focus:      #A78BFA;  /* Accretion Focus — violet-spectrum focus ring */
+
+  /* Utility colors */
+  --color-border:     #2D3A5E;  /* Photon Ring — last stable orbit before the plunge */
+  --color-accretion:  #7B2CBF;  /* Accretion glow */
+  --color-void:       #000000;  /* Absolute void */
+  --color-ionized:    #5A189A;  /* Ionized magenta */
+
+  /* Accent gradients */
+  --gradient-accretion: radial-gradient(ellipse at center, #7B2CBF 0%, #5A189A 30%, #3C096C 60%, #240046 80%, #000000 100%);
+  --gradient-gravitational-warp: linear-gradient(135deg, #000000 0%, #240046 50%, #3C096C 100%);
+  --gradient-tidal-wave: linear-gradient(90deg, #7B2CBF 0%, #5A189A 50%, #000000 100%);
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* Typography — font families */
+  --font-headline: 'Orbitron', 'Exo 2', sans-serif;
+  --font-display:  'Exo 2', 'Orbitron', sans-serif;
+  --font-body:    'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-ui:      'Rajdhani', 'Exo 2', system-ui, sans-serif;
+  --font-mono:    'Space Mono', 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Typography — sizes (fluid scale) */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+
+  /* Shadows — deep absolute black with violet accretion glow */
+  --shadow-sm:          0 1px 4px rgba(0, 0, 0, 0.95);
+  --shadow-md:          0 4px 16px rgba(0, 0, 0, 0.97), 0 0 10px rgba(123, 44, 191, 0.10);
+  --shadow-lg:          0 12px 40px rgba(0, 0, 0, 0.98), 0 0 24px rgba(123, 44, 191, 0.15);
+  --shadow-accretion:   0 0 16px rgba(123, 44, 191, 0.45), 0 0 40px rgba(90, 24, 154, 0.25);
+  --shadow-photon:      0 0 8px rgba(167, 139, 250, 0.4), 0 0 20px rgba(123, 44, 191, 0.2);
+
+  /* Layout */
+  --max-width: 1400px;
+  --max-width-prose: 760px;
+  --header-height: 72px;
+
+  /* Transitions */
+  --ease-gravity: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base element styles
+   -------------------------------------------------------------------------- */
+html {
+  font-family: var(--font-body);
+  font-size: 16px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* --------------------------------------------------------------------------
+   4. Accessibility — Skip link
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: top var(--duration-fast) var(--ease-gravity);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Focus styles — visible focus ring with photon glow
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 8px rgba(123, 44, 191, 0.4), 0 0 20px rgba(123, 44, 191, 0.2);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Text selection — violet accent
+   -------------------------------------------------------------------------- */
+::selection {
+  background: rgba(123, 44, 191, 0.4);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   7. Scrollbar — styled for cosmic theme
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-tertiary);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced motion — disable animations
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid #A78BFA;
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-
-/* Skip link */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 1rem;
-  z-index: 9999;
-  padding: 0.5rem 1rem;
-  background: #7B2CBF;
-  color: #E8EAF0;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 600;
-}
-.skip-link:focus {
-  top: 1rem;
-}
-
-/* Images */
-img,
-video {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Lists */
-ul,
-ol {
-  list-style: none;
-}
-
-/* Links */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Buttons */
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font: inherit;
-  color: inherit;
-}
-
-/* Headings */
+/* --------------------------------------------------------------------------
+   9. Typography base
+   -------------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Orbitron', 'Exo 2', sans-serif;
+  font-family: var(--font-headline);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 0.08em;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 4rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
-h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+h1 { font-size: var(--text-5xl); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-3xl); }
+h4 { font-size: var(--text-2xl); }
+h5 { font-size: var(--text-xl); }
+h6 { font-size: var(--text-lg); }
 
-/* Container */
+p {
+  line-height: 1.7;
+}
+
+a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-gravity);
+}
+
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* --------------------------------------------------------------------------
+   10. Utility classes
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .container {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1rem;
+    padding-inline: var(--space-4);
   }
-}
-
-/* Screen reader only */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }

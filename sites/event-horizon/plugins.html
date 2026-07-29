@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>404 — Page Not Found — Phlix</title>
-  <meta name="description" content="This page doesn't exist in the Phlix universe.">
-  <meta name="robots" content="noindex">
-  <link rel="canonical" href="https://detain.github.io/phlix-website/event-horizon/404.html">
+  <title>Plugins — Phlix</title>
+  <meta name="description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema — drop a plugin in, the loader picks it up.">
+  <meta name="keywords" content="phlix plugins, phlix extension, media server plugins">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/event-horizon/plugins.html">
   <meta name="theme-color" content="#7B2CBF">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Phlix">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/event-horizon/404.html">
-  <meta property="og:title" content="404 — Page Not Found — Phlix">
-  <meta property="og:description" content="This page doesn't exist in the Phlix universe.">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/event-horizon/plugins.html">
+  <meta property="og:title" content="Plugins — Phlix">
+  <meta property="og:description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema — drop a plugin in, the loader picks it up.">
   <meta property="og:image" content="https://detain.github.io/phlix-website/event-horizon/img/og.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="404 — Page Not Found — Phlix">
-  <meta name="twitter:description" content="This page doesn't exist in the Phlix universe.">
+  <meta name="twitter:title" content="Plugins — Phlix">
+  <meta name="twitter:description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema — drop a plugin in, the loader picks it up.">
   <meta name="twitter:image" content="https://detain.github.io/phlix-website/event-horizon/img/og.png">
   <meta name="twitter:creator" content="@detain">
 
@@ -45,7 +45,7 @@
         <li><a href="features.html">Features</a></li>
         <li><a href="clients.html">Clients</a></li>
         <li><a href="download.html">Download</a></li>
-        <li><a href="plugins.html">Plugins</a></li>
+        <li><a href="plugins.html" aria-current="page">Plugins</a></li>
         <li><a href="docs.html">Docs</a></li>
         <li><a href="hub.html">Hub</a></li>
         <li><a href="about.html">About</a></li>
@@ -54,15 +54,62 @@
   </header>
 
   <main id="main-content" tabindex="-1">
-    <div class="error-page">
-      <h1>404</h1>
-      <p>This page has crossed the event horizon. What you were looking for doesn't exist here — or it used to, before the void claimed it.</p>
-      <div class="error-recovery">
-        <a href="./" class="btn btn-primary">Home</a>
-        <a href="features.html" class="btn btn-secondary">Features</a>
-        <a href="download.html" class="btn btn-secondary">Download</a>
+    <div class="page-header">
+      <div class="container">
+        <h1>Plugins</h1>
+        <p class="lead">Extend Phlix with a versioned plugin contract. Drop a plugin in, the loader picks it up.</p>
       </div>
     </div>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="plugin-model">
+          <h3>The plugin contract</h3>
+          <p>Every Phlix plugin implements <code>LifecycleInterface</code> and ships a manifest file. The manifest declares the plugin version, required Phlix version, and which hooks the plugin responds to.</p>
+
+          <ul>
+            <li><code>onInstall()</code> — run once when the plugin is first activated</li>
+            <li><code>onEnable()</code> — run every time Phlix starts with the plugin enabled</li>
+            <li><code>onDisable()</code> — run when the plugin is disabled or unloaded</li>
+            <li><code>onUninstall()</code> — run once when the plugin is fully removed</li>
+          </ul>
+
+          <p>Plugin manifest (<code>plugin.json</code>):</p>
+          <div class="code-block">
+            <pre><code>{
+  "name": "my-metadata-provider",
+  "version": "1.0.0",
+  "phlix_min": "1.0.0",
+  "description": "Fetches metadata from MyAnimeList",
+  "hooks": ["metadata.provider"],
+  "author": "Your Name",
+  "license": "MIT"
+}</code></pre>
+          </div>
+        </div>
+
+        <h2 class="section-heading">Write your own plugin</h2>
+        <p>The smallest working starter is <a href="https://github.com/detain/phlix-plugin-example" class="text-link">phlix-plugin-example</a> on GitHub. It implements a basic metadata provider that fetches from a fictional API.</p>
+
+        <p>Clone it, read the comments, and replace the API URL with your own. When you're ready:</p>
+        <div class="code-block">
+          <pre><code># Copy your plugin to the plugins directory
+cp -r my-metadata-provider /path/to/phlix/plugins/
+
+# Restart phlix-server — your plugin is picked up automatically
+sudo systemctl restart phlix-server</code></pre>
+        </div>
+
+        <p><a href="https://detain.github.io/phlix-docs/plugins/authoring" class="text-link">Plugin authoring docs →</a></p>
+      </div>
+    </section>
+
+    <section class="cta-banner">
+      <div class="container">
+        <h2>Browse the documentation</h2>
+        <a href="https://detain.github.io/phlix-docs" class="btn btn-primary btn-lg">Read the docs</a>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer" role="contentinfo">
