@@ -1,0 +1,654 @@
+/**
+ * ==========================================================================
+ * THEME.CSS — Android Dreams
+ * Typography, layout containers, page structure for Sentient AI theme
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * ========================================================================== */
+
+/* ==========================================================================
+   FONT FACES
+   ========================================================================== */
+
+/* Orbitron — Display font (self-hosted or Google Fonts fallback) */
+@font-face {
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: local('Orbitron'),
+         url('../../shared/assets/fonts/Orbitron-Variable.woff2') format('woff2'),
+         url('https://fonts.gstatic.com/s/orbitron/v31/yMJRMIlzdpvBhQQL_Qq7dy0.woff2') format('woff2');
+}
+
+/* Rajdhani — Accent font */
+@font-face {
+    font-family: 'Rajdhani';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: local('Rajdhani'),
+         url('../../shared/assets/fonts/Rajdhani-Variable.woff2') format('woff2'),
+         url('https://fonts.gstatic.com/s/rajdhani/v15/LDI2apCSOBg7S-QT7pb-aGAq.woff2') format('woff2');
+}
+
+/* Share Tech Mono — Body font */
+@font-face {
+    font-family: 'Share Tech Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Share Tech Mono'),
+         url('../../shared/assets/fonts/ShareTechMono-Regular.woff2') format('woff2'),
+         url('https://fonts.gstatic.com/s/sharetechmono/v15/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2') format('woff2');
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
+
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+.container--narrow {
+    max-width: 800px;
+}
+
+.container--wide {
+    max-width: 1600px;
+}
+
+/* ==========================================================================
+   PAGE STRUCTURE
+   ========================================================================== */
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    outline: none;
+}
+
+main:focus {
+    outline: none;
+}
+
+/* ==========================================================================
+   SECTION SPACING
+   ========================================================================== */
+
+.section {
+    padding: var(--space-9) 0;
+    position: relative;
+}
+
+.section--compact {
+    padding: var(--space-6) 0;
+}
+
+.section--spacious {
+    padding: var(--space-10) 0;
+}
+
+.section--surface {
+    background: var(--color-surface);
+}
+
+.section--alt {
+    background: var(--color-surface-alt);
+}
+
+/* ==========================================================================
+   PAGE HEADERS
+   ========================================================================== */
+
+.page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    text-align: center;
+    position: relative;
+}
+
+.page-header__eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+}
+
+.page-header__title {
+    margin-bottom: var(--space-4);
+}
+
+.page-header__lead {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   HERO SECTION (home)
+   ========================================================================== */
+
+.hero {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-8) var(--container-padding);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.08;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            var(--color-secondary) 0px,
+            var(--color-secondary) 1px,
+            transparent 1px,
+            transparent 40px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            var(--color-secondary) 0px,
+            var(--color-secondary) 1px,
+            transparent 1px,
+            transparent 40px
+        );
+    pointer-events: none;
+}
+
+.hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+}
+
+.hero__eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+}
+
+.hero__title {
+    margin-bottom: var(--space-5);
+}
+
+.hero__subheadline {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 65ch;
+    margin: 0 auto var(--space-7);
+    line-height: 1.7;
+}
+
+.hero__actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   CONTENT SECTIONS
+   ========================================================================== */
+
+.content-section {
+    padding: var(--space-8) 0;
+}
+
+.content-section__header {
+    margin-bottom: var(--space-6);
+}
+
+.content-section__title {
+    margin-bottom: var(--space-4);
+}
+
+.content-section__lead {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+}
+
+/* ==========================================================================
+   GRIDS
+   ========================================================================== */
+
+.content-grid {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.content-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.content-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.content-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+    .content-grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .content-grid--2,
+    .content-grid--3,
+    .content-grid--4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   PITCH / BULLETS LIST
+   ========================================================================== */
+
+.pitch {
+    padding: var(--space-8) 0;
+}
+
+.pitch__title {
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
+.pitch__list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.pitch__item {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    padding: var(--space-3) 0;
+    padding-left: var(--space-6);
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pitch__item::before {
+    content: '//';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-family: var(--font-body);
+}
+
+.pitch__item:last-child {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   FEATURES OVERVIEW (home grid)
+   ========================================================================== */
+
+.features-overview {
+    padding: var(--space-8) 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.features-overview__title {
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
+.features-overview__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+}
+
+@media (max-width: 1024px) {
+    .features-overview__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .features-overview__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.features-overview__link {
+    text-align: center;
+}
+
+/* ==========================================================================
+   CTA BANNER
+   ========================================================================== */
+
+.cta-banner {
+    padding: var(--space-8) 0;
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
+    border-top: 1px solid var(--color-border);
+}
+
+.cta-banner__title {
+    margin-bottom: var(--space-4);
+}
+
+.cta-banner__text {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    max-width: 50ch;
+    margin: 0 auto var(--space-6);
+}
+
+.cta-banner__actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   FEATURE DETAIL (features page)
+   ========================================================================== */
+
+.feature-detail {
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.feature-detail:last-child {
+    border-bottom: none;
+}
+
+.feature-detail__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+}
+
+.feature-detail__title {
+    margin-bottom: var(--space-3);
+}
+
+.feature-detail__body {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   CLIENT CARDS
+   ========================================================================== */
+
+.client-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+}
+
+@media (max-width: 1024px) {
+    .client-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .client-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   DOWNLOAD CARDS
+   ========================================================================== */
+
+.download-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+}
+
+/* ==========================================================================
+   CODE BLOCK
+   ========================================================================== */
+
+.code-block {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin: var(--space-5) 0;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-block__label {
+    font-family: var(--font-accent);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+}
+
+.code-block code {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background: none;
+    padding: 0;
+    display: block;
+    white-space: pre;
+}
+
+.code-block--install {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px var(--color-shadow);
+}
+
+/* ==========================================================================
+   FAQ LIST
+   ========================================================================== */
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-5) 0;
+}
+
+.faq-item:first-child {
+    border-top: 1px solid var(--color-border);
+}
+
+.faq-item__question {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+}
+
+.faq-item__answer {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   HUB SECTION
+   ========================================================================== */
+
+.hub-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-6) 0;
+    flex-wrap: wrap;
+}
+
+.hub-node {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+}
+
+.hub-node--hub {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 0 15px var(--color-shadow);
+}
+
+.hub-arrow {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+}
+
+/* ==========================================================================
+   ECOSYSTEM LIST
+   ========================================================================== */
+
+.ecosystem-list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.ecosystem-item {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ecosystem-item:last-child {
+    border-bottom: none;
+}
+
+.ecosystem-item__name {
+    font-family: var(--font-accent);
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: var(--space-1);
+}
+
+.ecosystem-item__what {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   LICENSE SECTION
+   ========================================================================== */
+
+.license-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+    .license-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.license-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+}
+
+.license-card__title {
+    font-family: var(--font-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+}
+
+.license-card__name {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding: var(--space-7) var(--container-padding);
+    }
+
+    .section {
+        padding: var(--space-7) 0;
+    }
+
+    .page-header {
+        padding: var(--space-6) 0 var(--space-5);
+    }
+
+    .content-grid--3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--space-4);
+    }
+
+    h1 { font-size: clamp(2rem, 10vw, 3rem); }
+    h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+}

@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 — Page Not Found | Phlix</title>
-    <meta name="description" content="Page not found">
-    <link rel="canonical" href="https://detain.github.io/phlix-website/android-dreams/404.html">
-    <meta name="robots" content="noindex">
+    <title>Plugins — Phlix</title>
+    <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+    <link rel="canonical" href="https://detain.github.io/phlix-website/android-dreams/plugins.html">
+    <meta name="robots" content="index, follow">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Phlix">
-    <meta property="og:url" content="https://detain.github.io/phlix-website/android-dreams/404.html">
-    <meta property="og:title" content="404 — Page Not Found | Phlix">
-    <meta property="og:description" content="Page not found">
+    <meta property="og:url" content="https://detain.github.io/phlix-website/android-dreams/plugins.html">
+    <meta property="og:title" content="Plugins — Phlix">
+    <meta property="og:description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema.">
     <meta property="og:image" content="https://detain.github.io/phlix-website/android-dreams/img/og.png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="404 — Page Not Found | Phlix">
+    <meta name="twitter:title" content="Plugins — Phlix">
     <meta name="twitter:creator" content="@detain">
 
     <meta name="theme-color" content="#00CEFF">
@@ -47,7 +47,7 @@
                 <li><a class="nav-menu__link" href="features.html">Features</a></li>
                 <li><a class="nav-menu__link" href="clients.html">Clients</a></li>
                 <li><a class="nav-menu__link" href="download.html">Download</a></li>
-                <li><a class="nav-menu__link" href="plugins.html">Plugins</a></li>
+                <li><a class="nav-menu__link" href="plugins.html" aria-current="page">Plugins</a></li>
                 <li><a class="nav-menu__link" href="docs.html">Docs</a></li>
                 <li><a class="nav-menu__link" href="hub.html">Hub</a></li>
                 <li><a class="nav-menu__link" href="about.html">About</a></li>
@@ -56,28 +56,75 @@
     </header>
 
     <main id="main-content" tabindex="-1">
-        <div class="page-header" style="min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div class="container" style="text-align: center;">
-                <div class="mechanical-eye-container" aria-hidden="true" style="margin-bottom: var(--space-6);">
-                    <div class="mechanical-eye mechanical-eye--small">
-                        <div class="eye-outer">
-                            <div class="eye-ring"></div>
-                            <div class="eye-ring"></div>
-                        </div>
-                        <div class="eye-iris">
-                            <div class="iris-inner"></div>
-                            <div class="iris-pupil"></div>
-                        </div>
-                    </div>
-                </div>
-                <h1 class="page-header__title" style="color: var(--color-highlight);">404</h1>
-                <p class="page-header__lead">The requested data stream could not be located.</p>
-                <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; margin-top: var(--space-6);">
-                    <a href="./" class="btn btn--primary">Return to Base</a>
-                    <a href="download.html" class="btn btn--secondary">Download</a>
-                </div>
+        <div class="page-header">
+            <div class="container">
+                <p class="page-header__eyebrow">Extensibility</p>
+                <h1 class="page-header__title">Plugins</h1>
+                <p class="page-header__lead">A versioned contract means your plugins won't break when Phlix updates.</p>
             </div>
         </div>
+
+        <section class="content-section">
+            <div class="container container--narrow">
+                <h2>Plugin Model</h2>
+                <p>Phlix plugins implement the <code>LifecycleInterface</code> and ship a manifest file. Drop a plugin into the <code>plugins/</code> directory and the loader picks it up automatically.</p>
+
+                <div class="interface-block">
+                    <p class="interface-block__title">LifecycleInterface</p>
+                    <p class="interface-block__code">interface LifecycleInterface
+{
+    public function onInstall(): void;
+    public function onEnable(): void;
+    public function onDisable(): void;
+    public function onUninstall(): void;
+}</p>
+                </div>
+
+                <div class="interface-block">
+                    <p class="interface-block__title">manifest.json</p>
+                    <p class="interface-block__code">{
+  "name": "my-metadata-provider",
+  "version": "1.0.0",
+  "api": "1.0",
+  "entry": "MyPlugin.php",
+  "author": "Your Name",
+  "description": "What it does"
+}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section section--surface">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: var(--space-5);">Ecosystem Plugins</h2>
+                <p style="text-align: center; max-width: 60ch; margin: 0 auto var(--space-6);">The community has built plugins for additional metadata providers, notifications, and more.</p>
+                <ul class="ecosystem-list">
+                    <li class="ecosystem-item">
+                        <p class="ecosystem-item__name">phlix-plugin-example</p>
+                        <p class="ecosystem-item__what">Reference metadata-provider plugin — the smallest working starter</p>
+                        <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--secondary btn--small" rel="noopener noreferrer">View on GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container container--narrow">
+                <h2>Write Your Own</h2>
+                <p>Start with the <a href="https://github.com/detain/phlix-plugin-example">phlix-plugin-example</a> repository. It contains a complete, annotated plugin that you can use as a template.</p>
+                <p>The plugin contract is versioned, so plugins written against <code>api: "1.0"</code> will continue working even as Phlix adds new features.</p>
+            </div>
+        </section>
+
+        <section class="cta-banner">
+            <div class="container">
+                <h2 class="cta-banner__title">Ready to build?</h2>
+                <p class="cta-banner__text">Clone the example plugin and start customizing.</p>
+                <div class="cta-banner__actions">
+                    <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--primary btn--large" rel="noopener noreferrer">View plugin example</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
