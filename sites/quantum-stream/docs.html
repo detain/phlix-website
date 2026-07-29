@@ -1,156 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Protocol Documentation — Phlix</title>
-  <meta name="description" content="Phlix API documentation and protocol reference."/>
-  <link rel="canonical" href="https://detain.github.io/phlix-website/quantum-stream/docs.html"/>
-  <meta name="theme-color" content="#0d1b2a"/>
-  <link rel="icon" type="image/svg+xml" href="img/favicon.svg"/>
-  <link rel="stylesheet" href="css/base.css"/>
-  <link rel="stylesheet" href="css/theme.css"/>
-  <link rel="stylesheet" href="css/components.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Quantum Stream documentation — API references, configuration guides, and technical specifications.">
+  <meta name="theme-color" content="#0D1B2A">
+  <title>Docs — Quantum Stream</title>
+
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+<body class="bg-void">
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <header class="site-header">
-    <nav class="nav-primary" aria-label="Primary navigation">
-      <a class="nav-logo" href="./" aria-label="Phlix home"><img src="img/logo.svg" alt="Phlix" width="120" height="40"/></a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round"/></svg>
-      </button>
-      <ul class="nav-menu" id="nav-menu" role="list">
-        <li><a href="./" data-emphasis="default">Observation Deck</a></li>
-        <li><a href="features.html" data-emphasis="primary">State Catalog</a></li>
-        <li><a href="clients.html" data-emphasis="default">Particle Array</a></li>
-        <li><a href="download.html" data-emphasis="primary">Initialize</a></li>
-        <li><a href="hub.html" data-emphasis="default">Signal Relay</a></li>
-        <li><a href="about.html" data-emphasis="muted">Data Log</a></li>
-      </ul>
-    </nav>
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="Quantum Stream Home">
+        <img src="img/logo.svg" alt="Quantum Stream" width="120" height="40">
+      </a>
+      <nav aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="main-menu">
+          <li><a href="index.html">Signal</a></li>
+          <li><a href="features.html">Calibrate</a></li>
+          <li><a href="clients.html">Interfaces</a></li>
+          <li><a href="download.html" class="nav-emph-primary">Install</a></li>
+          <li><a href="hub.html">Relay</a></li>
+          <li><a href="about.html" class="nav-emph-muted">System</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main id="main-content" tabindex="-1">
+  <main id="main">
+    <div class="container container--narrow">
+      <header class="page-header">
+        <p class="section-eyebrow">Technical reference</p>
+        <h1>Documentation</h1>
+        <p class="lead">Precise specifications for measuring and configuring your quantum media field.</p>
+      </header>
 
-    <section class="hero quantum-bg" style="min-height: 30vh;">
-      <div class="hero__content">
-        <span class="hero__eyebrow">Protocol Docs</span>
-        <h1 class="hero__headline">Documentation</h1>
-        <p class="hero__subheadline">API reference, configuration options, and development guides.</p>
-      </div>
-    </section>
+      <!-- API Section -->
+      <section class="section">
+        <h2>API Reference</h2>
+        <p>The Quantum Stream API allows programmatic observation of your media library. All endpoints return JSON and use standard HTTP status codes.</p>
 
-    <section class="section">
-      <div class="container--narrow container">
-
-        <div class="tabs">
-          <ul class="tabs__list" role="tablist">
-            <li class="tabs__item"><a class="tabs__link" href="#api" role="tab" aria-selected="true">API</a></li>
-            <li class="tabs__item"><a class="tabs__link" href="#config" role="tab">Configuration</a></li>
-            <li class="tabs__item"><a class="tabs__link" href="#plugins" role="tab">Plugins</a></li>
-          </ul>
+        <h3 class="mt-6">Authentication</h3>
+        <p>All API requests require an X-Plex-Token header with your quantum authentication token:</p>
+        <div class="code-block">
+          <pre><code>X-Plex-Token: your-quantum-token</code></pre>
         </div>
 
-        <article id="api">
-          <h2 class="section__title">REST API</h2>
-          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Phlix exposes a REST API at <code>/api/v1/</code>. All endpoints return JSON and require JWT authentication.</p>
+        <h3 class="mt-6">Library Observation</h3>
+        <div class="code-block">
+          <pre><code>GET /library/sections
+Returns: JSON array of library sections (movies, shows, music)</code></pre>
+        </div>
 
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Method</th>
-                  <th>Endpoint</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>GET</td>
-                  <td><code>/api/v1/library</code></td>
-                  <td>List all media in the library</td>
-                </tr>
-                <tr>
-                  <td>GET</td>
-                  <td><code>/api/v1/library/{id}</code></td>
-                  <td>Get single media item details</td>
-                </tr>
-                <tr>
-                  <td>POST</td>
-                  <td><code>/api/v1/scan</code></td>
-                  <td>Trigger library rescan</td>
-                </tr>
-                <tr>
-                  <td>GET</td>
-                  <td><code>/api/v1/users</code></td>
-                  <td>List user profiles</td>
-                </tr>
-                <tr>
-                  <td>POST</td>
-                  <td><code>/api/v1/syncplay</code></td>
-                  <td>Create sync play session</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
+        <div class="code-block">
+          <pre><code>GET /library/metadata/{ratingKey}
+Returns: Detailed metadata for a specific media item</code></pre>
+        </div>
 
-        <article id="config" style="margin-top: var(--space-12);">
-          <h2 class="section__title">Configuration</h2>
-          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Main configuration file: <code>config/config.php</code></p>
+        <h3 class="mt-6">Playback Control</h3>
+        <div class="code-block">
+          <pre><code>POST /playback/scrobble?key={ratingKey}
+Collapses the playhead position into the watched state</code></pre>
+        </div>
 
-          <div class="code-block">
-            <code>&lt;?php
-return [
-    'database' => [
-        'host' => 'localhost',
-        'name' => 'phlix',
-        'user' => 'phlix_user',
-        'pass' => 'secure_password'
-    ],
-    'media' => [
-        'root' => '/path/to/media',
-        'scan_on_start' => true
-    ],
-    'transcoding' => [
-        'ffmpeg_path' => '/usr/bin/ffmpeg',
-        'hardware_accel' => 'auto'
-    ],
-    'hub' => [
-        'enabled' => false,
-        'relay_url' => ''
-    ]
-];</code>
-          </div>
-        </article>
+        <div class="code-block">
+          <pre><code>POST /playback/syncplay/session
+Initialize a synchronized observation session across devices</code></pre>
+        </div>
 
-        <article id="plugins" style="margin-top: var(--space-12);">
-          <h2 class="section__title">Plugin Development</h2>
-          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Plugins extend Phlix by hooking into core events. Create <code>plugins/MyPlugin/plugin.php</code>:</p>
+        <h3 class="mt-6">Relay Access</h3>
+        <div class="code-block">
+          <pre><code>GET /hub/vpn/status
+Returns: Quantum relay connection state and public endpoint</code></pre>
+        </div>
+      </section>
 
-          <div class="code-block">
-            <code>&lt;?php
-use Phlix\Plugin\BasePlugin;
+      <hr class="wave-divider">
 
-class MyPlugin extends BasePlugin {
-    public function onMediaScanned($media) {
-        // Custom metadata processing
-        return $media;
-    }
-}</code>
-          </div>
-        </article>
+      <!-- Configuration -->
+      <section class="section">
+        <h2>Configuration</h2>
+        <p>Quantum state is configured via the Preferences.xml file located in your config directory.</p>
 
-      </div>
-    </section>
+        <h3 class="mt-6">Server Preferences</h3>
+        <div class="code-block">
+          <pre><code>&lt;Preferences
+  MachineIdentifier="quantum-observer-001"
+  LibraryPath="/media"
+  OpenSsl="1"
+  LanNetworks="192.168.1.0/24,10.0.0.0/8"
+  Disable HTTPS="0"
+  Privilege="18"
+/&gt;</code></pre>
+        </div>
 
+        <h3 class="mt-6">Environment Variables</h3>
+        <div class="spec-rows">
+          <div class="spec-row">PHLIX_QUANTUM_TOKEN — Authentication token for web access</div>
+          <div class="spec-row">PHLIX_MEDIA_PATH — Primary media library location</div>
+          <div class="spec-row">PHLIX_CONFIG_PATH — Configuration directory override</div>
+          <div class="spec-row">PHLIX_HUB_ENABLED — Enable quantum relay functionality (0/1)</div>
+        </div>
+      </section>
+
+      <hr class="wave-divider">
+
+      <!-- Webhooks -->
+      <section class="section">
+        <h2>Webhooks</h2>
+        <p>Register webhook endpoints to receive quantum event notifications when media states change.</p>
+
+        <div class="code-block mt-4">
+          <pre><code>POST /webhooks/observe
+Events: media.play, media.pause, media.stop, media.scrobble
+Payload: JSON with ratingKey, account, and event timestamp</code></pre>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <footer class="site-footer" role="contentinfo">
-    <div class="site-footer__bottom">
-      <p class="site-footer__copy">2026 Joe Huss. MIT License.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-tagline">Media infrastructure for the quantum observer.</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div>
+          <h3>Signal</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Calibrate</a></li>
+            <li><a href="download.html">Install</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Interface</h3>
+          <ul>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="plugins.html">Modules</a></li>
+            <li><a href="hub.html">Relay</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Reference</h3>
+          <ul>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="about.html">System</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p class="footer-copy">&copy; 2026 Phlix / Quantum Stream. All states reserved.</p>
     </div>
   </footer>
 
