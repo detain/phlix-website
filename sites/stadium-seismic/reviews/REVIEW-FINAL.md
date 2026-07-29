@@ -10,7 +10,7 @@ All compliance checks passed. Site is complete and ready for master branch.
 - CSS @copyright in /* */ blocks ✅
 - Grid: minmax(0, 1fr) ✅
 - OG + Twitter meta on all 9 pages ✅
-- Install command correct ✅
+- Install command in hero CTA ✅
 - License: MPL-2.0 (server/hub), MIT (clients/plugins) ✅
 - 8 features from content.json ✅
 - 6 FAQ from content.json ✅
