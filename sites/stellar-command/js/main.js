@@ -1,132 +1,166 @@
 /**
- * Stellar Command - Main JavaScript
- * Core initialization and utilities
+ * stellar-command main.js
+ * Starship bridge console — mobile nav, reduced motion, scroll reveals
  */
 
 (function() {
   'use strict';
 
-  // Wait for all modules to be ready
-  document.addEventListener('DOMContentLoaded', () => {
-    initMain();
+  // Reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // === MOBILE NAV TOGGLE ===
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', function() {
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!isExpanded));
+      navMenu.classList.toggle('is-open', !isExpanded);
+
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = isExpanded ? '' : 'hidden';
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('is-open');
+        document.body.style.overflow = '';
+        navToggle.focus();
+      }
+    });
+
+    // Trap focus in menu when open
+    navMenu.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
+
+      const focusable = navMenu.querySelectorAll('a, button, [tabindex="0"]');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+  }
+
+  // === SCROLL REVEALS ===
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail, .card'
+    );
+
+    const revealObserver = new IntersectionObserver(
+      function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('beam-up');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1
+      }
+    );
+
+    revealElements.forEach(function(el) {
+      el.style.opacity = '0';
+      revealObserver.observe(el);
+    });
+  }
+
+  // === SMOOTH SCROLL FOR ANCHOR LINKS ===
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
+
+        // Update focus for accessibility
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
+    });
   });
 
-  function initMain() {
-    // Add screen-reader only class for accessibility
-    addScreenReaderOnlyStyles();
-    
-    // Initialize all components
-    initComponents();
-    
-    // Set up global handlers
-    setupGlobalHandlers();
-    
-    // Log initialization
-    console.log('Stellar Command Bridge Software v3.7.2 initialized');
-  }
+  // === HEADER SCROLL EFFECT ===
+  const header = document.querySelector('.site-header');
+  if (header) {
+    let ticking = false;
 
-  function addScreenReaderOnlyStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          const currentScroll = window.pageYOffset;
+
+          if (currentScroll > 50) {
+            header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+          } else {
+            header.style.boxShadow = '';
+          }
+
+          ticking = false;
+        });
+        ticking = true;
       }
-    `;
-    document.head.appendChild(style);
+    }, { passive: true });
   }
 
-  function initComponents() {
-    // Viewscreen frame effect
-    const viewframes = document.querySelectorAll('.viewscreen-frame');
-    viewframes.forEach(frame => {
-      frame.setAttribute('role', 'region');
-      frame.setAttribute('aria-label', 'Main view screen display');
+  // === CONSOLE POWER-UP EFFECT FOR CARDS ===
+  if (!prefersReducedMotion) {
+    const cards = document.querySelectorAll('.card, .feature-card, .client-card, .download-card');
+    cards.forEach(function(card) {
+      card.classList.add('console-power');
     });
+  }
 
-    // Channel cards
-    const channelCards = document.querySelectorAll('.channel-card');
-    channelCards.forEach(card => {
-      card.setAttribute('role', 'article');
-      card.setAttribute('tabindex', '0');
-    });
+  // === ACTIVE NAV LINK ===
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-link');
 
-    // Fleet table
-    const fleetTable = document.querySelector('.fleet-table');
-    if (fleetTable) {
-      fleetTable.setAttribute('role', 'grid');
-      fleetTable.setAttribute('aria-label', 'Fleet status grid');
+  navLinks.forEach(function(link) {
+    const href = link.getAttribute('href');
+    if (href === './' || href === 'index.html') {
+      if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
+        link.setAttribute('aria-current', 'page');
+      }
+    } else if (currentPath.includes(href)) {
+      link.setAttribute('aria-current', 'page');
     }
+  });
 
-    // Transmission cards
-    const transmissions = document.querySelectorAll('.transmission-card');
-    transmissions.forEach(trans => {
-      trans.setAttribute('role', 'article');
-    });
-
-    // Review cards
-    const reviews = document.querySelectorAll('.review-card');
-    reviews.forEach(review => {
-      review.setAttribute('role', 'article');
+  // === BEACON PULSE FOR STATUS BADGES ===
+  if (!prefersReducedMotion) {
+    const statusBadges = document.querySelectorAll('.status-badge, .badge--stable');
+    statusBadges.forEach(function(badge) {
+      badge.classList.add('beacon-pulse');
     });
   }
 
-  function setupGlobalHandlers() {
-    // Handle navigation with keyboard
-    document.addEventListener('keydown', (e) => {
-      // Tab navigation feedback
-      if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-nav');
-      }
-    });
-
-    document.addEventListener('mousedown', () => {
-      document.body.classList.remove('keyboard-nav');
-    });
-
-    // Prevent accidental navigation
-    window.addEventListener('beforeunload', (e) => {
-      // Only warn if there are unsaved changes
-      // For this demo, we don't have unsaved changes
-      return;
-    });
-  }
-
-  // Global utility functions
-  window.StellarCommand = {
-    showNotification: (message, type = 'info') => {
-      const container = document.getElementById('notification-container');
-      if (!container) return;
-      
-      const notification = document.createElement('div');
-      notification.className = `notification ${type}`;
-      notification.innerHTML = `
-        <span class="beacon small"></span>
-        <span>${message}</span>
-      `;
-      
-      container.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.style.animation = 'notification-in 0.3s ease reverse';
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    },
-    
-    navigateTo: (section) => {
-      const link = document.querySelector(`[data-section="${section}"]`);
-      if (link) {
-        link.click();
-      }
-    },
-    
-    getVersion: () => '3.7.2'
-  };
 })();
