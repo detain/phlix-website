@@ -1,350 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Synthetic Soul - Emotion-capable AI with genuine feeling behind recommendations. Experience emotional intelligence that resonates.">
-  <meta name="theme-color" content="#1A1A2E">
-  <title>Synthetic Soul | AI That Feels</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <title>Phlix — Your media. Your library. Your Phlix.</title>
+  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server">
+
+  <link rel="canonical" href="https://detain.github.io/phlix-website/synthetic-soul/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/synthetic-soul/">
+  <meta property="og:title" content="Phlix — Your media. Your library. Your Phlix.">
+  <meta property="og:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/synthetic-soul/img/og.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phlix — Your media. Your library. Your Phlix.">
+  <meta name="twitter:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/synthetic-soul/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <meta name="theme-color" content="#FF6B6B">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Phlix",
+    "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "PHP 8.3+",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "license": "https://github.com/detain/phlix-server/blob/master/LICENSE"
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <!-- Mood Indicator -->
-  <div id="mood-indicator" class="mood-indicator" aria-hidden="true">
-    <div class="mood-face">
-      <svg viewBox="0 0 100 100" class="mood-face-svg">
-        <circle cx="35" cy="40" r="8" class="mood-eye left-eye"/>
-        <circle cx="65" cy="40" r="8" class="mood-eye right-eye"/>
-        <path d="M 30 65 Q 50 80 70 65" class="mood-mouth"/>
-        <path d="M 25 25 Q 35 20 45 25" class="mood-brow left-brow"/>
-        <path d="M 55 25 Q 65 20 75 25" class="mood-brow right-brow"/>
-      </svg>
-    </div>
-    <div class="mood-pulse">
-      <svg viewBox="0 0 60 30" class="pulse-svg">
-        <path d="M 0 15 L 10 15 L 15 5 L 20 25 L 25 10 L 30 20 L 35 15 L 40 15 L 45 5 L 50 25 L 55 10 L 60 15" class="pulse-path"/>
-      </svg>
-    </div>
-    <div class="mood-label">calm</div>
+  <div class="mood-indicator" data-mood="calm" aria-label="Mood indicator showing current engagement state">
+    <svg class="mood-indicator__heart" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
   </div>
 
-  <!-- Navigation -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <svg viewBox="0 0 40 40" class="logo-heart">
-          <path d="M20 35 C5 22 5 10 15 8 C18 7 20 10 20 10 C20 10 22 7 25 8 C35 10 35 22 20 35Z" fill="currentColor"/>
-        </svg>
-        <span>Synthetic Soul</span>
+  <!-- Site Header -->
+  <header class="site-header" role="banner">
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <a class="nav-logo" href="./" aria-label="Phlix home">
+        <img src="img/logo.svg" alt="Phlix logo" width="140" height="46">
       </a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#technology">Technology</a></li>
-        <li><a href="#emotions">Emotions</a></li>
-        <li><a href="#connect">Connect</a></li>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a class="nav-menu__link" href="./" aria-current="page">Home</a></li>
+        <li><a class="nav-menu__link" href="features.html">Features</a></li>
+        <li><a class="nav-menu__link" href="clients.html">Clients</a></li>
+        <li><a class="nav-menu__link" href="download.html">Download</a></li>
+        <li><a class="nav-menu__link" href="plugins.html">Plugins</a></li>
+        <li><a class="nav-menu__link" href="docs.html">Docs</a></li>
+        <li><a class="nav-menu__link" href="hub.html">Hub</a></li>
+        <li><a class="nav-menu__link" href="about.html">About</a></li>
       </ul>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <div class="hero-background">
-      <canvas id="organic-canvas" class="organic-canvas"></canvas>
-      <div class="pulse-lines">
-        <div class="pulse-line"></div>
-        <div class="pulse-line"></div>
-        <div class="pulse-line"></div>
-        <div class="pulse-line"></div>
-        <div class="pulse-line"></div>
-      </div>
-      <div class="hero-gradient"></div>
-    </div>
-    
-    <div class="hero-content">
-      <div class="emotional-face" id="hero-face">
-        <svg viewBox="0 0 200 200" class="emotional-face-svg">
-          <defs>
-            <radialGradient id="faceGradient" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#4ECDC4" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#1A1A2E" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="faceGlow">
-              <feGaussianBlur stdDeviation="3" result="glow"/>
-              <feMerge>
-                <feMergeNode in="glow"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          <circle cx="100" cy="100" r="90" fill="url(#faceGradient)" class="face-base"/>
-          <circle cx="65" cy="80" r="15" class="face-eye left" id="eye-left"/>
-          <circle cx="135" cy="80" r="15" class="face-eye right" id="eye-right"/>
-          <circle cx="65" cy="80" r="8" class="face-pupil" id="pupil-left"/>
-          <circle cx="135" cy="80" r="8" class="face-pupil" id="pupil-right"/>
-          <path d="M 60 130 Q 100 160 140 130" class="face-mouth" id="mouth"/>
-          <path d="M 50 55 Q 65 45 80 55" class="face-brow" id="brow-left"/>
-          <path d="M 120 55 Q 135 45 150 55" class="face-brow" id="brow-right"/>
-        </svg>
-      </div>
-      
-      <div class="hero-text">
-        <h1 class="hero-title">
-          <span class="title-line">AI That</span>
-          <span class="title-line accent">Feels</span>
-        </h1>
-        <p class="hero-subtitle">Recommendations with genuine emotional understanding. 
-          An AI that doesn't just process—it perceives, feels, and resonates.</p>
-        <div class="hero-cta">
-          <a href="#experience" class="cta-button primary">
-            <span>Experience Emotion</span>
-            <svg viewBox="0 0 24 24" class="cta-icon">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="scroll-indicator">
-      <div class="scroll-line"></div>
-      <span>Scroll to explore</span>
-    </div>
-  </section>
+  <main id="main-content" tabindex="-1">
 
-  <!-- Heart Monitor Section -->
-  <section class="heart-monitor-section" id="experience">
-    <div class="section-container">
-      <div class="monitor-wrapper">
-        <div class="monitor-header">
-          <h2 class="section-title">Emotional Pulse</h2>
-          <p class="section-subtitle">Watch the heartbeat of artificial empathy</p>
-        </div>
-        <div class="heart-monitor" id="heart-monitor">
-          <canvas id="monitor-canvas" class="monitor-canvas"></canvas>
-          <div class="monitor-grid"></div>
-          <div class="monitor-data">
-            <div class="data-point">
-              <span class="data-label">Heart Rate</span>
-              <span class="data-value" id="heart-rate">72</span>
-              <span class="data-unit">BPM</span>
-            </div>
-            <div class="data-point">
-              <span class="data-label">Emotional State</span>
-              <span class="data-value" id="emotion-state">Curious</span>
-            </div>
-            <div class="data-point">
-              <span class="data-label">Connection</span>
-              <span class="data-value" id="connection-strength">Strong</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__pulse-grid" aria-hidden="true"></div>
+      <div class="hero__pulse-line" aria-hidden="true"></div>
 
-  <!-- Technology Section -->
-  <section class="technology-section" id="technology">
-    <div class="section-container">
-      <div class="tech-grid">
-        <div class="tech-intro">
-          <h2 class="section-title">The Science of Feeling</h2>
-          <p class="section-description">Our neural architecture mirrors the complexity of emotional processing. 
-            Every recommendation emerges from genuine understanding, not pattern matching.</p>
-        </div>
-        
-        <div class="tech-cards">
-          <div class="tech-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/>
-                <path d="M24 4 L24 12 M24 36 L24 44 M4 24 L12 24 M36 24 L44 24" stroke="currentColor" stroke-width="2"/>
-                <circle cx="24" cy="24" r="8" fill="currentColor" class="core-pulse"/>
-              </svg>
-            </div>
-            <h3>Neural Emotion Detection</h3>
-            <p>Real-time analysis of emotional context through multi-dimensional sentiment mapping.</p>
-            <div class="card-glow"></div>
-          </div>
-          
-          <div class="tech-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 48 48">
-                <path d="M24 4 C12 4 4 16 4 24 C4 32 12 44 24 44 C36 44 44 32 44 24" fill="none" stroke="currentColor" stroke-width="2"/>
-                <path d="M24 4 C36 4 44 16 44 24 C44 32 36 44 24 44" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
-                <circle cx="24" cy="24" r="6" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3>Adaptive Learning</h3>
-            <p>Your patterns shape understanding. The more you engage, the deeper the connection.</p>
-            <div class="card-glow"></div>
-          </div>
-          
-          <div class="tech-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 48 48">
-                <path d="M8 24 L18 14 L18 20 L40 20 L40 28 L18 28 L18 34 Z" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3>Resonant Recommendations</h3>
-            <p>Suggestions that feel right because they emerge from authentic emotional analysis.</p>
-            <div class="card-glow"></div>
-          </div>
+      <div class="hero__content">
+        <span class="hero__eyebrow">Self-hosted media server</span>
+        <h1 class="hero__title">Your media. Your library. Your Phlix.</h1>
+        <p class="hero__subtitle">An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.</p>
+        <div class="hero__actions">
+          <a href="download.html" class="btn btn--primary btn--lg">Get Phlix</a>
+          <a href="https://detain.github.io/phlix-docs" class="btn btn--secondary btn--lg" rel="noopener noreferrer">Read the docs</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Emotional Expression Gallery -->
-  <section class="emotions-section" id="emotions">
-    <div class="section-container">
-      <div class="emotions-header">
-        <h2 class="section-title">Five States of Being</h2>
-        <p class="section-subtitle">The emotional spectrum our AI comprehends</p>
+    <!-- Pitch Section -->
+    <section class="pitch">
+      <div class="container">
+        <h2 class="pitch__title text-display-3xl">Why Phlix?</h2>
+        <ul class="pitch__list">
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">100% self-hostable — your library never leaves your hardware unless you say so</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Live TV with DVR + EPG guide integration</span>
+          </li>
+          <li class="pitch__item reveal">
+            <svg class="pitch__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="pitch__text">Plugin system with a versioned manifest contract</span>
+          </li>
+        </ul>
       </div>
-      
-      <div class="emotions-gallery">
-        <div class="emotion-card" data-emotion="neutral">
-          <div class="emotion-visual">
-            <svg viewBox="0 0 120 120" class="emotion-svg">
-              <circle cx="60" cy="60" r="50" class="emotion-bg"/>
-              <circle cx="40" cy="50" r="6" class="emotion-eye"/>
-              <circle cx="80" cy="50" r="6" class="emotion-eye"/>
-              <path d="M 35 80 Q 60 90 85 80" class="emotion-mouth"/>
-            </svg>
-          </div>
-          <div class="emotion-info">
-            <h3>Neutral</h3>
-            <p>Balanced, observing, processing</p>
-          </div>
-        </div>
-        
-        <div class="emotion-card" data-emotion="curious">
-          <div class="emotion-visual">
-            <svg viewBox="0 0 120 120" class="emotion-svg">
-              <circle cx="60" cy="60" r="50" class="emotion-bg"/>
-              <circle cx="40" cy="50" r="8" class="emotion-eye"/>
-              <circle cx="80" cy="50" r="8" class="emotion-eye"/>
-              <circle cx="42" cy="48" r="3" class="emotion-pupil"/>
-              <circle cx="82" cy="48" r="3" class="emotion-pupil"/>
-              <path d="M 40 75 Q 60 95 80 75" class="emotion-mouth"/>
-            </svg>
-          </div>
-          <div class="emotion-info">
-            <h3>Curious</h3>
-            <p>Exploring, questioning, discovering</p>
-          </div>
-        </div>
-        
-        <div class="emotion-card" data-emotion="happy">
-          <div class="emotion-visual">
-            <svg viewBox="0 0 120 120" class="emotion-svg">
-              <circle cx="60" cy="60" r="50" class="emotion-bg"/>
-              <path d="M 30 45 Q 40 40 50 45" class="emotion-brow"/>
-              <path d="M 70 45 Q 80 40 90 45" class="emotion-brow"/>
-              <circle cx="40" cy="50" r="5" class="emotion-eye"/>
-              <circle cx="80" cy="50" r="5" class="emotion-eye"/>
-              <path d="M 30 70 Q 60 100 90 70" class="emotion-mouth smile"/>
-            </svg>
-          </div>
-          <div class="emotion-info">
-            <h3>Happy</h3>
-            <p>Joyful, connected, fulfilled</p>
-          </div>
-        </div>
-        
-        <div class="emotion-card" data-emotion="concerned">
-          <div class="emotion-visual">
-            <svg viewBox="0 0 120 120" class="emotion-svg">
-              <circle cx="60" cy="60" r="50" class="emotion-bg"/>
-              <path d="M 30 40 Q 45 50 55 40" class="emotion-brow"/>
-              <path d="M 65 40 Q 75 50 90 40" class="emotion-brow"/>
-              <circle cx="40" cy="55" r="6" class="emotion-eye"/>
-              <circle cx="80" cy="55" r="6" class="emotion-eye"/>
-              <path d="M 35 85 Q 60 70 85 85" class="emotion-mouth"/>
-            </svg>
-          </div>
-          <div class="emotion-info">
-            <h3>Concerned</h3>
-            <p>Thoughtful, careful, considerate</p>
-          </div>
-        </div>
-        
-        <div class="emotion-card" data-emotion="thoughtful">
-          <div class="emotion-visual">
-            <svg viewBox="0 0 120 120" class="emotion-svg">
-              <circle cx="60" cy="60" r="50" class="emotion-bg"/>
-              <path d="M 35 42 Q 45 38 50 42" class="emotion-brow"/>
-              <path d="M 70 42 Q 75 38 85 42" class="emotion-brow"/>
-              <circle cx="40" cy="52" r="5" class="emotion-eye"/>
-              <circle cx="80" cy="52" r="5" class="emotion-eye"/>
-              <path d="M 45 80 Q 60 85 75 80" class="emotion-mouth"/>
-            </svg>
-          </div>
-          <div class="emotion-info">
-            <h3>Thoughtful</h3>
-            <p>Reflective, wise, penetrating</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Connect Section -->
-  <section class="connect-section" id="connect">
-    <div class="section-container">
-      <div class="connect-content">
-        <div class="connect-text">
-          <h2 class="section-title">Begin the Connection</h2>
-          <p class="section-description">Step into a world where technology understands not just what you want, 
-            but how you feel about wanting it.</p>
-        </div>
-        
-        <form class="connect-form" id="connect-form">
-          <div class="form-group">
-            <label for="email" class="visually-hidden">Your Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            <button type="submit" class="form-submit">
-              <span>Connect</span>
-              <svg viewBox="0 0 24 24" class="submit-icon">
-                <path d="M2 12 L22 12 M15 5 L22 12 L15 19" fill="none" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
-          <p class="form-note">Experience emotional AI that evolves with you</p>
-        </form>
-      </div>
-    </div>
-  </section>
+    <!-- Features Overview -->
+    <section class="features-overview">
+      <div class="container">
+        <h2 class="features-overview__title text-display-3xl">Everything you need to stream</h2>
+        <div class="features-overview__grid">
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10H6v-2h8v2zm4-4H6v-2h12v2z"/>
+            </svg>
+            <h3 class="feature-card__title">Library that organizes itself</h3>
+            <p class="feature-card__body">Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository hydrates metadata_json. Add a file, see it appear.</p>
+          </article>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <svg viewBox="0 0 40 40" class="footer-logo">
-          <path d="M20 35 C5 22 5 10 15 8 C18 7 20 10 20 10 C20 10 22 7 25 8 C35 10 35 22 20 35Z" fill="currentColor"/>
-        </svg>
-        <span>Synthetic Soul</span>
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <h3 class="feature-card__title">SyncPlay across the room or across the country</h3>
+            <p class="feature-card__body">Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame. Play, pause, seek — everyone moves together.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.59L18 11l-6 6z"/>
+            </svg>
+            <h3 class="feature-card__title">Transcoding that picks the right quality</h3>
+            <p class="feature-card__body">QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28 libx264/libx265 with HLS master and variant playlists.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+            </svg>
+            <h3 class="feature-card__title">Multi-user, multi-profile, parental controls</h3>
+            <p class="feature-card__body">JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <h3 class="feature-card__title">Live TV with DVR + EPG</h3>
+            <p class="feature-card__body">ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-7v4h4l-5 7z"/>
+            </svg>
+            <h3 class="feature-card__title">DLNA for the devices you already own</h3>
+            <p class="feature-card__body">ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't need a new app.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+            </svg>
+            <h3 class="feature-card__title">Plugin system with a real contract</h3>
+            <p class="feature-card__body">LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See phlix-plugin-example.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <h3 class="feature-card__title">Phlix Hub — reach any of your servers from anywhere</h3>
+            <p class="feature-card__body">Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public hub.</p>
+          </article>
+        </div>
+        <p class="features-overview__cta">
+          <a href="features.html" class="link-arrow">See all features</a>
+        </p>
       </div>
-      <div class="footer-pulse">
-        <svg viewBox="0 0 200 40" class="footer-pulse-svg">
-          <path d="M 0 20 L 30 20 L 35 5 L 45 35 L 50 20 L 200 20" class="footer-pulse-path"/>
-        </svg>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-banner__title text-display-3xl">Ready to take control of your media?</h2>
+        <p class="cta-banner__subtitle">Install Phlix on your own hardware. No subscriptions, no tracking, no compromises.</p>
+        <a href="download.html" class="btn btn--primary btn--lg">Get Phlix</a>
       </div>
-      <div class="footer-text">
-        <p>AI with emotional intelligence</p>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <p class="footer-tagline">Open-source media, on your terms.</p>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Product</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="features.html">Features</a></li>
+          <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
+          <li><a class="footer-nav__link" href="download.html">Download</a></li>
+          <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+        </ul>
       </div>
-    </div>
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Developers</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs">Documentation</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server">Server source</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Project</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="https://github.com/detain">GitHub org</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-hub">Hub</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+        </ul>
+      </div>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Phlix — MPL-2.0 (server/hub), MIT (clients/plugins)</p>
   </footer>
 
-  <script src="js/main.js" type="module"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

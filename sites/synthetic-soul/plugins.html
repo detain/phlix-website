@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plugins — Phlix</title>
+  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server, plugins">
+
+  <link rel="canonical" href="https://detain.github.io/phlix-website/synthetic-soul/plugins.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/synthetic-soul/plugins.html">
+  <meta property="og:title" content="Plugins — Phlix">
+  <meta property="og:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/synthetic-soul/img/og.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Plugins — Phlix">
+  <meta name="twitter:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/synthetic-soul/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <meta name="theme-color" content="#FF6B6B">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Site Header -->
+  <header class="site-header" role="banner">
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <a class="nav-logo" href="./" aria-label="Phlix home">
+        <img src="img/logo.svg" alt="Phlix logo" width="140" height="46">
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a class="nav-menu__link" href="./">Home</a></li>
+        <li><a class="nav-menu__link" href="features.html">Features</a></li>
+        <li><a class="nav-menu__link" href="clients.html">Clients</a></li>
+        <li><a class="nav-menu__link" href="download.html">Download</a></li>
+        <li><a class="nav-menu__link" href="plugins.html" aria-current="page">Plugins</a></li>
+        <li><a class="nav-menu__link" href="docs.html">Docs</a></li>
+        <li><a class="nav-menu__link" href="hub.html">Hub</a></li>
+        <li><a class="nav-menu__link" href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <h1 class="page-header__title">Plugins</h1>
+        <p class="page-header__lead">Extend Phlix with a versioned plugin contract that just works.</p>
+      </div>
+    </div>
+
+    <!-- Plugin Model -->
+    <section class="content-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-header__title text-display-3xl">Plugin Model</h2>
+          <p class="section-header__subtitle">A real contract, not a suggestion.</p>
+        </div>
+
+        <div class="content-grid content-grid--2">
+          <div>
+            <h3 class="text-display-2xl" style="margin-bottom: var(--space-4);">LifecycleInterface</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: var(--space-4);">
+              Every plugin implements the <code>LifecycleInterface</code>. This gives Phlix a predictable lifecycle: install, enable, disable, uninstall. No guessing, no edge cases.
+            </p>
+            <h4 style="margin-bottom: var(--space-2);">Required methods:</h4>
+            <ul style="color: var(--color-text-muted);">
+              <li><code>onInstall()</code> — called when plugin is first added</li>
+              <li><code>onEnable()</code> — called when plugin is activated</li>
+              <li><code>onDisable()</code> — called when plugin is deactivated</li>
+              <li><code>onUninstall()</code> — called when plugin is removed</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-display-2xl" style="margin-bottom: var(--space-4);">Manifest Schema</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: var(--space-4);">
+              Each plugin ships a <code>manifest.json</code> that declares its identity, version, dependencies, and the services it provides. The loader validates everything before touching your server.
+            </p>
+            <div class="code-block">
+              <div class="code-block__header">
+                <span class="code-block__label">manifest.json</span>
+              </div>
+              <div class="code-block__content">
+                <code>{
+  "name": "my-metadata-provider",
+  "version": "1.0.0",
+  "description": "Fetches metadata from MyAPI",
+  "lifecycle": {
+    "interface": "LifecycleInterface"
+  },
+  "provides": ["metadata-provider"]
+}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-8);">
+          <h3 class="text-display-2xl" style="margin-bottom: var(--space-4);">Drop-in Loading</h3>
+          <p style="color: var(--color-text-muted); margin-bottom: var(--space-4);">
+            Drop a plugin folder into <code>plugins/</code>, and the loader picks it up automatically. No configuration, no symlinks, no service restarts — just drop and go.
+          </p>
+          <div class="code-block">
+            <div class="code-block__content">
+              <code>plugins/
+  my-metadata-provider/
+    manifest.json
+    src/
+      MyProvider.php
+  another-plugin/
+    manifest.json
+    src/</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ecosystem Plugins -->
+    <section class="content-section content-section--alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-header__title text-display-3xl">Ecosystem Plugins</h2>
+          <p class="section-header__subtitle">Official plugins from the Phlix team.</p>
+        </div>
+
+        <div class="feature-detail" style="max-width: 800px; margin: 0 auto;">
+          <h3 class="feature-detail__title">phlix-plugin-example</h3>
+          <p class="feature-detail__body">
+            The reference implementation for a Phlix plugin. A minimal metadata-provider that shows exactly how to implement LifecycleInterface, declare a manifest, and structure your plugin for the loader.
+          </p>
+          <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--secondary" rel="noopener noreferrer" target="_blank">View on GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Write Your Own -->
+    <section class="content-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-header__title text-display-3xl">Write Your Own</h2>
+          <p class="section-header__subtitle">Build something new on the Phlix platform.</p>
+        </div>
+
+        <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+          <p style="color: var(--color-text-muted); margin-bottom: var(--space-6);">
+            The plugin system is designed for developers. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. Start with the example plugin as your template.
+          </p>
+          <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--primary btn--lg" rel="noopener noreferrer" target="_blank">Explore the example</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-banner__title text-display-3xl">Ready to build?</h2>
+        <p class="cta-banner__subtitle">Check out the developer documentation for the full plugin API reference.</p>
+        <a href="https://detain.github.io/phlix-docs" class="btn btn--primary btn--lg" rel="noopener noreferrer" target="_blank">Developer docs</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <p class="footer-tagline">Open-source media, on your terms.</p>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Product</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="features.html">Features</a></li>
+          <li><a class="footer-nav__link" href="clients.html">Clients</a></li>
+          <li><a class="footer-nav__link" href="download.html">Download</a></li>
+          <li><a class="footer-nav__link" href="plugins.html">Plugins</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Developers</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs">Documentation</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server">Server source</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+          <li><a class="footer-nav__link" href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav__column">
+        <h3 class="footer-nav__heading">Project</h3>
+        <ul class="footer-nav__links">
+          <li><a class="footer-nav__link" href="https://github.com/detain">GitHub org</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-hub">Hub</a></li>
+          <li><a class="footer-nav__link" href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+        </ul>
+      </div>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Phlix — MPL-2.0 (server/hub), MIT (clients/plugins)</p>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
