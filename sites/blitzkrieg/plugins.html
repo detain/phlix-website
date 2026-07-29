@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Phlix plugin system — LifecycleInterface + manifest contract. Drop a plugin in, the loader picks it up.">
+  <meta name="keywords" content="phlix, plugins, LifecycleInterface, manifest, extensibility">
+  <meta name="theme-color" content="#1A1A2E">
+  <meta property="og:title" content="Plugins — Phlix">
+  <meta property="og:description" content="Plugin system with a real contract. Drop a plugin in, the loader picks it up.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/blitzkrieg/img/og.png">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/blitzkrieg/plugins.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Plugins — Phlix">
+  <meta name="twitter:description" content="Plugin system with a real contract. Drop a plugin in, the loader picks it up.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/blitzkrieg/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/blitzkrieg/plugins.html">
+  <title>Plugins — Phlix</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/blitzkrieg.css">
+  <link rel="stylesheet" href="css/hud-components.css">
+  <link rel="stylesheet" href="css/explosion-rings.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="blitzkrieg-site">
+  <div class="hud-frame" aria-hidden="true">
+    <div class="hud-corner hud-corner--tl"></div>
+    <div class="hud-corner hud-corner--tr"></div>
+    <div class="hud-corner hud-corner--bl"></div>
+    <div class="hud-corner hud-corner--br"></div>
+  </div>
+
+  <nav class="tank-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-coords">[ 51°21'N 12°28'E ]</span>
+        <span class="brand-name">BLITZKRIEG</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="tank-link tank-link--1"></span>
+        <span class="tank-link tank-link--2"></span>
+        <span class="tank-link tank-link--3"></span>
+      </button>
+      <ul class="nav-list" id="navList">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="features.html" class="nav-link">Intel</a></li>
+        <li class="nav-item"><a href="clients.html" class="nav-link">Command</a></li>
+        <li class="nav-item"><a href="download.html" class="nav-link nav-link--primary">Deploy</a></li>
+        <li class="nav-item"><a href="plugins.html" class="nav-link active">Plugins</a></li>
+        <li class="nav-item"><a href="docs.html" class="nav-link">Docs</a></li>
+        <li class="nav-item"><a href="hub.html" class="nav-link">Hub</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content" style="padding-top: 100px;">
+    <section class="section">
+      <div class="section-container">
+        <div class="section-header">
+          <div class="dog-tag dog-tag--section">OPERATION SUPPORT</div>
+          <h1 class="section-title">Plugin System</h1>
+          <p class="section-desc">
+            Phlix ships with a versioned plugin contract. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory.
+          </p>
+        </div>
+
+        <div class="plugin-model">
+          <div class="section-header">
+            <h2 class="section-title">Plugin Model</h2>
+          </div>
+          <div class="code-block">
+            <code>LifecycleInterface + manifest.json → plugins/ → loaded</code>
+          </div>
+          <p class="section-desc">
+            Every plugin implements LifecycleInterface and ships a <code>manifest.json</code>. The loader scans the plugins directory on startup, validates the manifest, and registers the plugin's hooks.
+          </p>
+        </div>
+
+        <div class="ecosystem-plugins">
+          <div class="section-header">
+            <h2 class="section-title">Ecosystem Plugins</h2>
+          </div>
+          <div class="plugin-cards">
+            <div class="plugin-card">
+              <h3 class="plugin-card__name">phlix-plugin-example</h3>
+              <p class="plugin-card__desc">Reference metadata-provider plugin. The smallest working starter that demonstrates the plugin contract.</p>
+              <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--primary btn--strike">
+                <span class="btn-content">View Source</span>
+                <span class="explosion-ring-btn"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="write-plugin">
+          <div class="section-header">
+            <h2 class="section-title">Write Your Own</h2>
+          </div>
+          <p class="section-desc">
+            Implement LifecycleInterface, create a manifest.json, and drop your plugin into the plugins directory. See phlix-plugin-example for the reference implementation.
+          </p>
+          <div class="cta-actions">
+            <a href="https://github.com/detain/phlix-plugin-example" class="btn btn--primary btn--strike">
+              <span class="btn-content">Start from Example</span>
+              <span class="explosion-ring-btn"></span>
+            </a>
+            <a href="https://detain.github.io/phlix-docs" class="btn btn--ghost">Read the Docs</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cta">
+      <div class="cta-container">
+        <div class="cta-content">
+          <div class="dog-tag dog-tag--cta">MISSION CONTROL</div>
+          <h2 class="cta-title">Ready to Deploy?</h2>
+          <p class="cta-desc">
+            Install Phlix and extend it with your own plugins.
+          </p>
+          <div class="cta-actions">
+            <a href="download.html" class="btn btn--primary btn--large btn--strike">
+              <span class="btn-content">Deploy Now</span>
+              <span class="explosion-ring-btn"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="brand-coords">[ 51°21'N 12°28'E ]</span>
+        <span class="brand-name">BLITZKRIEG</span>
+        <p class="footer-tagline">Open-source media, on your terms.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4 class="footer-heading">Product</h4>
+          <ul class="footer-list">
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Developers</h4>
+          <ul class="footer-list">
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Project</h4>
+          <ul class="footer-list">
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Phlix — MPL-2.0</p>
+        <div class="footer-status">
+          <span class="status-indicator active"></span>
+          <span class="status-text">All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/prefers-reduced-motion.js"></script>
+  <script src="js/blitzkrieg.js"></script>
+  <style>
+    .plugin-model {
+      margin-bottom: var(--space-16);
+    }
+    .code-block {
+      background: var(--color-surface-alt);
+      border: 2px solid var(--color-border);
+      padding: var(--space-6);
+      margin: var(--space-8) 0;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--color-primary);
+    }
+    .ecosystem-plugins {
+      margin-bottom: var(--space-16);
+    }
+    .plugin-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+    .plugin-card {
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      padding: var(--space-6);
+    }
+    .plugin-card__name {
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+    }
+    .plugin-card__desc {
+      font-size: 0.875rem;
+      margin-bottom: var(--space-4);
+    }
+    .write-plugin {
+      margin-bottom: var(--space-16);
+    }
+    .cta-actions {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+  </style>
+</body>
+</html>
