@@ -1,0 +1,353 @@
+/* @copyright 2026 Phlix — Gaming leaderboard brand kit */
+
+/* === TYPOGRAPHY ROLES === */
+
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+.font-mono { font-family: var(--font-mono); }
+
+/* Display sizes */
+.text-7xl { font-size: var(--text-7xl); }
+.text-6xl { font-size: var(--text-6xl); }
+.text-5xl { font-size: var(--text-5xl); }
+.text-4xl { font-size: var(--text-4xl); }
+.text-3xl { font-size: var(--text-3xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-xl { font-size: var(--text-xl); }
+.text-lg { font-size: var(--text-lg); }
+.text-base { font-size: var(--text-base); }
+.text-sm { font-size: var(--text-sm); }
+.text-xs { font-size: var(--text-xs); }
+
+.text-gold { color: var(--color-gold); }
+.text-silver { color: var(--color-silver); }
+.text-bronze { color: var(--color-bronze); }
+.text-blue { color: var(--color-blue-accent); }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+
+/* === WRAPPING RULES === */
+
+/* Body-weight text: overflow-wrap: anywhere for narrow tracks */
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+  overflow-wrap: anywhere;
+}
+
+/* Headings: break-word leaves min-content intact */
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* === LAYOUT CONTAINERS === */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container-narrow {
+  max-width: 900px;
+}
+
+.container-wide {
+  max-width: 1600px;
+}
+
+/* === PAGE STRUCTURE === */
+
+/* Hero Section */
+.hero {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-16) var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: 
+    radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 60%),
+    radial-gradient(circle, rgba(26, 26, 255, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.hero-headline {
+  font-size: clamp(var(--text-4xl), 8vw, var(--text-7xl));
+  margin-bottom: var(--space-6);
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-silver) 50%, var(--color-gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+}
+
+.hero-subheadline {
+  font-size: var(--text-lg);
+  max-width: 700px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-10);
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Pitch Section */
+.pitch {
+  padding: var(--space-24) var(--space-6);
+  text-align: center;
+}
+
+.pitch h2 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-12);
+  color: var(--color-text-primary);
+}
+
+.pitch-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+.pitch-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: start;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.pitch-list li:hover {
+  border-color: var(--color-gold);
+  transform: translateX(4px);
+}
+
+.pitch-list li::before {
+  content: '▶';
+  color: var(--color-gold);
+  font-size: var(--text-xs);
+}
+
+/* Features Overview */
+.features-overview {
+  padding: var(--space-24) var(--space-6);
+}
+
+.features-overview h2 {
+  font-size: var(--text-3xl);
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+}
+
+/* Use minmax(0, 1fr) not bare 1fr */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.content-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+
+.content-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .content-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .content-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Page Header */
+.page-header {
+  padding: var(--space-20) var(--space-6) var(--space-16);
+  text-align: center;
+  position: relative;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.page-header h1 {
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+  margin-bottom: var(--space-4);
+}
+
+.page-header .lead {
+  font-size: var(--text-xl);
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+/* Content Section */
+.content-section {
+  padding: var(--space-16) var(--space-6);
+}
+
+.content-section + .content-section {
+  padding-top: 0;
+}
+
+/* CTA Banner */
+.cta-banner {
+  padding: var(--space-20) var(--space-6);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-bg-elevated) 0%, var(--color-bg-card) 100%);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cta-banner h2 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-6);
+}
+
+.cta-banner p {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* Code Block */
+.code-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+  color: var(--color-gold);
+  font-size: var(--text-sm);
+  line-height: 1.8;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.badge-gold {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.badge-silver {
+  background: linear-gradient(135deg, rgba(192, 192, 192, 0.2) 0%, rgba(192, 192, 192, 0.1) 100%);
+  border-color: var(--color-silver);
+  color: var(--color-silver);
+}
+
+.badge-bronze {
+  background: linear-gradient(135deg, rgba(205, 127, 50, 0.2) 0%, rgba(205, 127, 50, 0.1) 100%);
+  border-color: var(--color-bronze);
+  color: var(--color-bronze);
+}
+
+.badge-blue {
+  background: linear-gradient(135deg, rgba(26, 26, 255, 0.2) 0%, rgba(26, 26, 255, 0.1) 100%);
+  border-color: var(--color-blue-accent);
+  color: var(--color-blue-accent);
+}
+
+.badge-stable {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.badge-beta {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
