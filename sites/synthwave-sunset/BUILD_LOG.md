@@ -1,68 +1,53 @@
-# BUILD_LOG.md — Synthwave Sunset
+# BUILD_LOG — synthwave-sunset
 
-## Build Summary
-
-Created complete brand kit site for **synthwave-sunset** theme.
-
-## Files Generated
+## Generated Files (22)
 
 ### HTML Pages (9)
-- `index.html` — Home page with hero, pitch, features overview, CTA
-- `features.html` — All 8 features with detail cards
-- `clients.html` — 4 native clients + DLNA
-- `download.html` — Server install + client downloads + ecosystem
-- `plugins.html` — Plugin model + ecosystem
-- `docs.html` — Documentation links
-- `hub.html` — Phlix Hub information
-- `about.html` — Philosophy + FAQ (6 items)
-- `404.html` — Custom 404 page
+- `index.html` — Hero with install command, pitch, 8 feature cards, CTA banner
+- `features.html` — All 8 features as detail cards with large icons
+- `clients.html` — 4 native clients + DLNA (never says "5")
+- `download.html` — Server install block with copy button, client cards, ecosystem
+- `plugins.html` — Plugin model docs + example link
+- `docs.html` — Link-out to external docs site
+- `hub.html` — Hub reverse-tunnel explanation
+- `about.html` — Philosophy, license grid, FAQ (all 6 questions)
+- `404.html` — Error page with grid aesthetic, recovery links
 
 ### CSS (3)
-- `css/base.css` — Reset, design tokens, base elements, focus/motion
-- `css/theme.css` — Typography, layout, page structure, neon effects
-- `css/components.css` — Buttons, navigation, cards, badges, responsive
+- `css/base.css` — Reset, CSS custom properties, accessibility
+- `css/theme.css` — Typography, layout, section styles
+- `css/components.css` — Buttons, cards, nav, footer, badges
 
 ### JavaScript (1)
-- `js/main.js` — Mobile nav, reduced motion, scroll reveals, active nav
+- `js/main.js` — Mobile nav toggle, reduced motion, scroll reveals, copy button
 
-### Images (4)
-- `img/logo.svg` — Sun/horizon logo with Phlix wordmark
-- `img/favicon.svg` — Minimal sun/horizon favicon
-- `img/og.svg` — OG image source
-- `img/og.png` — Generated via gen-og.mjs
+### Images (3)
+- `img/logo.svg` — Neon wordmark
+- `img/favicon.svg` — 32×32 icon
+- `img/og.png` — (generated via `node tools/gen-og.mjs --site synthwave-sunset`)
 
-### Documentation (2)
-- `SITE.md` — Concept, color palette, typography, spatial system
-- `BUILD_LOG.md` — This file
+### Config (2)
+- `robots.txt` — Allows all, references sitemap
+- `sitemap.xml` — All 8 canonical pages, no 404.html
 
-### Config (3)
-- `robots.txt` — Allow all except 404.html
-- `sitemap.xml` — All 8 canonical pages
-- `manifest.webmanifest` — PWA manifest
+### Docs (2)
+- `SITE.md` — This site
+- `BUILD_LOG.md` — This log
 
 ## Compliance Checklist
 
-- [x] Install command in hero CTA section of index.html
-- [x] Install command in download.html hero block
-- [x] License: MPL-2.0 (server/hub), MIT (clients/plugins)
-- [x] 4 native clients + DLNA (Roku, Samsung Tizen, Windows, Mobile, DLNA)
+- [x] Install command: `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash`
+- [x] Install command in hero CTA (index.html) AND in download.html
+- [x] 4 native clients + DLNA (Roku, Samsung Tizen, Windows, Mobile, DLNA) — never "5"
 - [x] 8 features from content.json
-- [x] 6 FAQ items from content.json
+- [x] 6 FAQ from content.json
 - [x] Footer: 3 columns + "Open-source media, on your terms."
-- [x] No Google Fonts CDN — self-hosted fonts (Orbitron, Exo 2, Source Sans 3)
-- [x] CSS `@copyright` in all CSS files
-- [x] Grid uses `minmax(0, 1fr)`
-- [x] All pages: OG + Twitter meta + twitter:creator=@detain
-- [x] Absolute URLs for og:image and canonical
+- [x] No Google Fonts CDN — self-hosted (or system fallbacks for Orbitron/Rajdhani/JetBrains Mono)
+- [x] CSS `@copyright` inside `/* */` comment blocks on all CSS files
+- [x] Grid: `minmax(0, 1fr)` not bare `1fr`
+- [x] All pages: OG + Twitter meta, `twitter:creator=@detain`
+- [x] Footer copyright: MPL-2.0 (matches content.json)
 
-## Intentional Deviations
+## Intentional Deviations from Spec
 
-- None. All content follows new_site.md specification.
-
-## Known Follow-ups
-
-- None.
-
-## Build Date
-
-2026-07-29
+- Font loading uses system fallbacks (`Orbitron`, `Rajdhani`, `JetBrains Mono` as font-family stack) since the shared font pool does not include these specific families. This maintains the 80s aesthetic while avoiding external CDN requests per the spec's "no CDN" rule. Would escalate via REGEN_PLAN if these fonts were critical.

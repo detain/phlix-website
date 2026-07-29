@@ -1,15 +1,16 @@
-/**
- * Synthwave Sunset — main.js
- * Vanilla JS, no dependencies, defer-loaded.
- * Handles: mobile nav toggle, reduced motion, scroll reveals.
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* ==========================================================================
+   MAIN.JS — Synthwave Sunset
+   Vanilla JS: mobile nav toggle, reduced motion handling, scroll reveals.
+   No external dependencies. Respects prefers-reduced-motion.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
 (function () {
   'use strict';
 
-  /* ─── Mobile Navigation ───────────────────────────────────────────── */
-
+  /* --------------------------------------------------------------------------
+     Mobile Navigation Toggle
+     -------------------------------------------------------------------------- */
   var navToggle = document.querySelector('.nav-toggle');
   var navMenu = document.querySelector('.nav-menu');
 
@@ -17,18 +18,17 @@
     navToggle.addEventListener('click', function () {
       var isOpen = navToggle.getAttribute('aria-expanded') === 'true';
       navToggle.setAttribute('aria-expanded', String(!isOpen));
-      navMenu.classList.toggle('is-open', !isOpen);
+      navMenu.classList.toggle('open', !isOpen);
 
       if (!isOpen) {
-        var firstLink = navMenu.querySelector('a');
-        if (firstLink) firstLink.focus();
+        navMenu.querySelector('a')?.focus();
       }
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+      if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
         navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('is-open');
+        navMenu.classList.remove('open');
         navToggle.focus();
       }
     });
@@ -36,72 +36,94 @@
     document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('is-open');
+        navMenu.classList.remove('open');
       }
     });
   }
 
-  /* ─── Reduced Motion ─────────────────────────────────────────────── */
-
+  /* --------------------------------------------------------------------------
+     Reduced Motion
+     -------------------------------------------------------------------------- */
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function handleReducedMotion() {
     document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
   }
 
-  handleReducedMotion();
   prefersReducedMotion.addEventListener('change', handleReducedMotion);
+  handleReducedMotion();
 
-  /* ─── Scroll Reveals ─────────────────────────────────────────────── */
-
-  if (!prefersReducedMotion.matches) {
+  /* --------------------------------------------------------------------------
+     Scroll Reveals (IntersectionObserver)
+     -------------------------------------------------------------------------- */
+  if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
       '.feature-card, .client-card, .download-card, .feature-detail'
     );
 
-    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-      );
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -50px 0px', threshold: 0.1 }
+    );
 
-      revealElements.forEach(function (el) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        revealObserver.observe(el);
-      });
+    revealElements.forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 400ms ease, transform 400ms ease';
+      revealObserver.observe(el);
+    });
 
-      var style = document.createElement('style');
-      style.textContent = [
-        '.is-revealed { opacity: 1 !important; transform: translateY(0) !important; }',
-        '.reduce-motion .is-revealed { transition: none !important; }'
-      ].join('\n');
-      document.head.appendChild(style);
-    }
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      '<style>' +
+        '.reduce-motion .feature-card, ' +
+        '.reduce-motion .client-card, ' +
+        '.reduce-motion .download-card, ' +
+        '.reduce-motion .feature-detail { ' +
+          'opacity: 1 !important; ' +
+          'transform: none !important; ' +
+          'transition: none !important; ' +
+        '}' +
+        '.revealed { ' +
+          'opacity: 1 !important; ' +
+          'transform: translateY(0) !important; ' +
+        '}' +
+      '</style>'
+    );
   }
 
-  /* ─── Active Nav Link Highlighting ──────────────────────────────── */
+  /* --------------------------------------------------------------------------
+     Copy Install Command Button
+     -------------------------------------------------------------------------- */
+  var copyButtons = document.querySelectorAll('.copy-btn');
 
-  var currentPath = window.location.pathname;
-  var navLinks = document.querySelectorAll('.nav-link');
+  copyButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var commandEl = btn.closest('.install-command')?.querySelector('code');
+      if (!commandEl) return;
 
-  navLinks.forEach(function (link) {
-    var href = link.getAttribute('href');
-    if (href === './' || href === 'index.html') {
-      if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
-        link.setAttribute('aria-current', 'page');
-      }
-    } else if (currentPath.includes(href)) {
-      link.setAttribute('aria-current', 'page');
-    }
+      var text = commandEl.textContent.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.color = 'var(--color-secondary)';
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.style.color = '';
+        }, 2000);
+      }).catch(function () {
+        btn.textContent = 'Failed';
+        setTimeout(function () {
+          btn.textContent = 'Copy';
+        }, 2000);
+      });
+    });
   });
-
 })();

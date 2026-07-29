@@ -2,66 +2,60 @@
 
 ## Concept & Vision
 
-Synthwave Sunset channels the electric energy of 80s retrofuturism — neon pink and cyan sunsets bleeding into chrome horizons, a digital horizon stretching to infinity. The aesthetic is nostalgic yet futuristic, like booting up a forgotten arcade machine that somehow knows exactly what you want to watch.
+80s retrofuturism with neon pink and cyan sunsets. Grid horizons, chrome reflections, and the optimistic glow of a decade that believed in the future. The site should feel like a VHS tape left in the sun — warm, slightly degraded, and unmistakably 1985.
 
 ## Aesthetic Direction
 
-**Theme:** 80s retrowave — neon pink and cyan, grid horizons, chrome reflections, scanlines.
-**Mood:** Energetic, nostalgic, electric — like driving through a synthwave music video at midnight.
+**Reference:** Outrun aesthetics, Kavinsky album art, Far Cry 3: Blood Dragon palette. The grid horizon is the defining motif — a perspective grid stretching to a split sunset (cyan above, pink below).
 
 ## Color Palette
 
-| Role | Name | Hex | Usage |
-|------|------|-----|-------|
-| Primary | Neon Pink | `#FF2E63` | Headings, primary CTAs, glow effects |
-| Secondary | Electric Cyan | `#08D9D6` | Links, accents, neon glow |
-| Tertiary | Ultraviolet | `#9D4EDD` | Hover states, secondary accents |
-| Background | Midnight | `#252A34` | Page background, dark surfaces |
-| Surface | Dark Panel | `#1E2229` | Card surfaces |
-| Surface Alt | Grid Cell | `#2A303C` | Elevated elements |
-| Text | Chrome White | `#EAEAEA` | Body text |
-| Neutral | Steel Grey | `#8892A0` | Muted text |
+| Role         | Name            | Hex       |
+|--------------|-----------------|-----------|
+| Primary      | Neon Pink       | `#FF2E63` |
+| Secondary    | Electric Cyan   | `#08D9D6` |
+| Dark         | Deep Space Blue | `#252A34` |
+| Light        | Chrome White    | `#EAEAEA` |
+| Accent       | Ultraviolet     | `#9D4EDD` |
+| Background   | Night Sky       | `#1a1a2e` |
+| Surface      | Panel           | `#252A34` |
 
 ## Typography
 
-**Display / Headlines:** Orbitron — Angular, geometric, futuristic display face for headings and display text.
-
-**Body:** Exo 2 — Technical yet readable sans-serif with a futuristic edge.
-
-**UI / Navigation:** Source Sans 3 — Clean, functional for navigation and buttons.
-
-**Monospace:** Share Tech Mono — Retro-computing aesthetic for code blocks.
+- **Display / Headlines:** Orbitron (Google Fonts alternative: self-hosted WOFF2 from shared pool)
+- **Body / UI:** Rajdhani (Google Fonts alternative: self-hosted WOFF2 from shared pool)
+- **Mono / Code:** JetBrains Mono
 
 ## Spatial System
 
-- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96px
-- Border radii: 2px (sm), 4px (md), 8px (lg), 12px (xl) — geometric, sharp
-- Max content width: 1400px
-- Measure (body text): 65ch
+Uses the standard Phlix spacing scale: `--space-1` through `--space-10`. No custom spacing values.
 
 ## Motion Philosophy
 
-- Neon glow pulses on hover states
-- Grid perspective animations
-- Reduced motion: all glows and pulses replaced with solid colors
-- Smooth ease-in-out transitions, 150-400ms
+Animations are used sparingly and purposefully:
+- Glow effects pulse subtly on hover (box-shadow transitions)
+- Cards lift on hover with `translateY(-4px)`
+- Scroll reveals via IntersectionObserver for below-the-fold content
+- `prefers-reduced-motion` respected throughout
 
 ## Visual Assets
 
-- **Logo:** Sun/horizon icon with Phlix wordmark in Orbitron
-- **Favicon:** Minimal sun and horizon icon in brand colors
-- **OG Image:** Sun setting over perspective grid with brand text
-- **Icons:** Stroke-based SVG with neon glow effects
+- **logo.svg** — Wordmark in neon pink with Orbitron P, cyan accent line, Rajdhani "hlix"
+- **favicon.svg** — 32×32 rounded square, neon P on deep blue
+- **og.png** — 1200×630 social card with grid horizon, neon gradient, Phlix wordmark
+- **Feature icons** — Inline stroke SVG icons (Lucide-style, single color cyan)
 
-## Compliance Notes
+## Component Notes
 
-- Install command: `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash`
-- License: MPL-2.0 (server/hub), MIT (clients/plugins)
-- 4 native clients + DLNA — never "5"
-- 8 features from content.json
-- 6 FAQ items from content.json
-- Footer: 3 columns + "Open-source media, on your terms."
-- Self-hosted fonts from `../../../shared/assets/fonts/`
-- CSS `@copyright` inside `/* */` comment blocks
-- Grid uses `minmax(0, 1fr)` not bare `1fr`
-- All pages: OG + Twitter meta, `twitter:creator=@detain`
+- **Hero glow** — Radial gradient behind the headline creates depth
+- **Grid horizon** — `body::before` pseudo-element with repeating linear gradients
+- **Glow shadows** — CSS custom properties for pink, cyan, and purple glows
+- **CTA buttons** — Primary uses neon pink gradient + glow; secondary uses cyan border + glow
+
+## Implementation Notes
+
+- Self-hosted fonts from `shared/assets/fonts/` (no external CDN)
+- Grid tracks use `minmax(0, 1fr)` to prevent overflow at narrow widths
+- `@copyright` banners present in all CSS and JS files
+- All 8 pages + 404.html, robots.txt, sitemap.xml generated
+- JSON-LD SoftwareApplication schema on home page

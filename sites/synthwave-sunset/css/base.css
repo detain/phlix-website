@@ -1,11 +1,101 @@
 /* ==========================================================================
    BASE.CSS — Synthwave Sunset
-   Reset, design tokens (:root), base element defaults, focus + motion policy.
-   Tokens transcribed from brand kit: synthwave-sunset.
+   Modern CSS reset, box-sizing, and design token variables for the
+   synthwave-sunset brand kit — 80s retrofuturism with neon pink and cyan
+   sunset gradients, grid horizons, and chrome reflections.
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Modern reset */
+/* --------------------------------------------------------------------------
+   CSS Custom Properties — Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* ---- Palette ---- */
+  --color-primary: #FF2E63;      /* Neon pink */
+  --color-secondary: #08D9D6;    /* Electric cyan */
+  --color-accent: #9D4EDD;       /* Ultraviolet */
+  --color-dark: #252A34;          /* Deep space blue */
+  --color-light: #EAEAEA;        /* Chrome white */
+  --color-bg: #1a1a2e;           /* Night sky base */
+  --color-surface: #252A34;      /* Card/panel surface */
+  --color-surface-elevated: #2d3142;
+
+  /* ---- Text ---- */
+  --color-text: #EAEAEA;
+  --color-text-muted: #a0a0b0;
+  --color-text-inverse: #252A34;
+
+  /* ---- Spacing Scale ---- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-9: 6rem;      /* 96px */
+  --space-10: 8rem;     /* 128px */
+
+  /* ---- Corner Radius ---- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow-pink: 0 0 20px rgba(255, 46, 99, 0.4);
+  --shadow-glow-cyan: 0 0 20px rgba(8, 217, 214, 0.4);
+  --shadow-glow-purple: 0 0 20px rgba(157, 78, 221, 0.4);
+
+  /* ---- Typography ---- */
+  --font-display: 'Orbitron', 'Segoe UI', sans-serif;
+  --font-body: 'Rajdhani', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ---- Font Sizes ---- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.5rem;
+  --text-6xl: 4.5rem;
+
+  /* ---- Line Heights ---- */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ---- Transitions ---- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ---- Z-index ---- */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal: 400;
+  --z-tooltip: 500;
+
+  /* ---- Layout ---- */
+  --max-width: 1400px;
+  --header-height: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   Modern CSS Reset
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -15,210 +105,95 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
-
-/* ==========================================================================
-   DESIGN TOKENS — :root
-   ========================================================================== */
-
-:root {
-  /* ── Colours (synthwave-sunset palette) ── */
-  --color-primary: #FF2E63; /* Neon Pink */
-  --color-secondary: #08D9D6; /* Electric Cyan */
-  --color-tertiary: #9D4EDD; /* Ultraviolet */
-  --color-bg: #252A34; /* Midnight */
-  --color-surface: #1E2229; /* Dark Panel */
-  --color-surface-alt: #2A303C; /* Grid Cell */
-  --color-text: #EAEAEA; /* Chrome White */
-  --color-neutral: #8892A0; /* Steel Grey */
-  --color-success: #00FF9D; /* Mint Neon */
-  --color-warning: #FFB800; /* Amber */
-  --color-error: #FF2E63; /* Neon Pink (same as primary) */
-  --color-info: #08D9D6; /* Electric Cyan (same as secondary) */
-  --color-border: #3A4050; /* Grid Line */
-  --color-focus: #08D9D6; /* Electric Cyan */
-  --color-shadow: rgb(0 0 0 / 0.4); /* Deep Shadow */
-  --color-overlay: rgb(37 42 52 / 0.9); /* Panel Scrim */
-
-  /* ── Text-safe pigments ── */
-  /* Neon pink on midnight: 5.12:1 - passes AA for large text */
-  /* Electric cyan on midnight: 7.83:1 - passes AA */
-  /* Ultraviolet on midnight: 5.47:1 - passes AA */
-  --color-primary-text: #FF6B8A;
-  --color-secondary-text: #4DE8E4;
-  --color-neutral-text: #A0AAB8;
-
-  /* ── Spacing scale ── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
-
-  /* ── Radii (synthwave: geometric, sharp-ish) ── */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-
-  /* ── Typography roles ── */
-  --font-display: 'Orbitron', 'Arial Black', sans-serif;
-  --font-headline: 'Orbitron', 'Arial Black', sans-serif;
-  --font-body: 'Exo 2', 'Arial', sans-serif;
-  --font-ui: 'Source Sans 3', 'Segoe UI', sans-serif;
-  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
-
-  /* ── Font sizes (fluid scale) ── */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-
-  /* ── Line heights ── */
-  --lh-display: 1.05;
-  --lh-headline: 1.15;
-  --lh-body: 1.6;
-  --lh-ui: 1.4;
-  --lh-mono: 1.5;
-
-  /* ── Letter spacing ── */
-  --tracking-display: 0.08em;
-  --tracking-headline: 0.04em;
-  --tracking-ui: 0.02em;
-
-  /* ── Shadows (synthwave: neon glow) ── */
-  --shadow-sm: 0 2px 8px var(--color-shadow);
-  --shadow-md: 0 4px 16px var(--color-shadow), 0 0 20px rgba(8 217 214 0.1);
-  --shadow-lg: 0 8px 32px var(--color-shadow), 0 0 40px rgba(255 46 99 0.1);
-  --shadow-xl: 0 12px 48px var(--color-shadow), 0 0 60px rgba(157 78 221 0.15);
-
-  /* ── Layout ── */
-  --container-max: 1400px;
-  --container-padding: var(--space-6);
-  --measure: 65ch;
-
-  /* ── Transitions ── */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
-}
-
-/* ==========================================================================
-   BASE ELEMENT DEFAULTS
-   ========================================================================== */
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--lh-body);
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  min-height: 100vh;
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-headline);
-  line-height: var(--lh-headline);
-  letter-spacing: var(--tracking-headline);
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-h1 {
-  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
-  font-weight: 700;
-  text-transform: uppercase;
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
 }
 
-h2 {
-  font-size: clamp(1.625rem, 3vw + 0.75rem, 2.5rem);
-  font-weight: 600;
-  text-transform: uppercase;
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
 }
 
-h3 {
-  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
-  font-weight: 600;
-}
-
-h4 {
-  font-size: var(--text-xl);
-  font-weight: 600;
-}
-
-p {
-  max-width: var(--measure);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 a {
-  color: var(--color-secondary);
+  color: inherit;
   text-decoration: none;
-  transition: color var(--transition-fast), text-shadow var(--transition-fast);
 }
 
-a:hover {
-  color: var(--color-primary);
-  text-shadow: 0 0 8px var(--color-primary);
+ul,
+ol {
+  list-style: none;
 }
 
-a:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-img, svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-ul, ol {
-  padding-left: var(--space-6);
-}
-
-li {
-  margin-bottom: var(--space-2);
-}
-
-code, kbd, samp, pre {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-}
-
-code {
-  background: var(--color-surface);
-  padding: 0.15em 0.4em;
-  border-radius: var(--radius-sm);
-  color: var(--color-secondary);
-}
-
-pre {
-  background: var(--color-surface);
-  padding: var(--space-4);
+/* --------------------------------------------------------------------------
+   Accessibility
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-tooltip);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-light);
+  font-weight: 700;
   border-radius: var(--radius-md);
-  overflow-x: auto;
-  border: 1px solid var(--color-border);
+  transition: top var(--transition-fast);
 }
 
-pre code {
-  background: none;
-  padding: 0;
-  color: var(--color-text);
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
 }
-
-/* ==========================================================================
-   UTILITY CLASSES
-   ========================================================================== */
 
 .visually-hidden {
   position: absolute;
@@ -232,85 +207,14 @@ pre code {
   border: 0;
 }
 
-.container {
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-/* ==========================================================================
-   SKIP LINK
-   ========================================================================== */
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-/* ==========================================================================
-   FOCUS VISIBLE
-   ========================================================================== */
-
 :focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 3px solid var(--color-secondary);
   outline-offset: 2px;
-  box-shadow: 0 0 10px var(--color-focus);
 }
 
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ==========================================================================
-   TEXT SELECTION
-   ========================================================================== */
-
-::selection {
-  background: var(--color-primary);
-  color: var(--color-bg);
-}
-
-/* ==========================================================================
-   SCROLLBAR (webkit)
-   ========================================================================== */
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-lg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
-  box-shadow: 0 0 8px var(--color-primary);
-}
-
-/* ==========================================================================
-   PREFERS REDUCED MOTION
-   ========================================================================== */
-
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
