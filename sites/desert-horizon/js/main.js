@@ -27,7 +27,9 @@
   function localStorageSet(key, val) {
     try {
       localStorage.setItem(key, val);
-    } catch {}
+    } catch (err) {
+      console.error('localStorageSet failed:', err);
+    }
   }
 
   /* ── Seasonal activation (live-js date gate) ──────────────────────────── */
@@ -47,13 +49,9 @@
     const year = now.getFullYear();
 
     for (const v of variants) {
-      let active = false;
-      if (v.start <= v.end) {
-        active = today >= v.start && today <= v.end;
-      } else {
-        // spans year boundary
-        active = today >= v.start || today <= v.end;
-      }
+      const active = v.start <= v.end
+        ? today >= v.start && today <= v.end
+        : today >= v.start || today <= v.end;
       if (active) {
         document.documentElement.dataset.season = v.key;
         const banner = $('.season-banner');
