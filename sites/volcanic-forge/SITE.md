@@ -16,7 +16,7 @@ Full-bleed cinematic heroes, volcanic horizon gradients, a single ignition CTA p
 |------|------|-----|
 | Primary | Molten Orange | `#E8611A` |
 | Secondary | Lava Red | `#C0241A` |
-| Tertiary | Ember Gold | `#D4820A` |
+| Tertiary | Ember Gold | `#B86C08` |
 | Background | Obsidian | `#0E0C0A` |
 | Surface | Basalt Dark | `#1C1916` |
 | Surface Alt | Cooled Lava | `#2A2520` |
