@@ -1,0 +1,381 @@
+/* ==========================================================================
+   THEME.CSS — Thunder Strike
+   Electrical storm theme with tesla coils, plasma orbs, lightning
+   ========================================================================== */
+
+/* ==========================================================================
+   CSS VARIABLES — Design Tokens
+   ========================================================================== */
+:root {
+  /* Colors */
+  --color-primary: #5F27CD;
+  --color-secondary: #48DBFB;
+  --color-tertiary: #EE5A24;
+  --color-bg: #131720;
+  --color-surface: #1A1F2E;
+  --color-surface-alt: #252B3B;
+  --color-text: #F5F6FA;
+  --color-text-muted: #8892A0;
+  --color-border: #3A4556;
+  --color-success: #00D26A;
+  --color-warning: #FFB800;
+  --color-error: #FF3B3B;
+  --color-info: #3B82F6;
+  --color-focus: #48DBFB;
+  --color-shadow: rgba(19, 23, 32, 0.70);
+  --color-overlay: rgba(10, 12, 16, 0.85);
+  --color-glow: rgba(72, 219, 251, 0.40);
+  --color-glow-strong: rgba(72, 219, 251, 0.60);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Typography */
+  --font-headline: 'Russo One', 'Orbitron', Impact, sans-serif;
+  --font-display: 'Orbitron', 'Russo One', Impact, sans-serif;
+  --font-body: 'Exo 2', system-ui, Roboto, sans-serif;
+  --font-ui: 'Exo 2', system-ui, sans-serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+
+  /* Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(19, 23, 32, 0.60);
+  --shadow-md: 0 4px 12px rgba(19, 23, 32, 0.70), 0 0 0 1px rgba(95, 39, 205, 0.04);
+  --shadow-lg: 0 10px 32px rgba(19, 23, 32, 0.80), 0 0 0 1px rgba(95, 39, 205, 0.06);
+  --shadow-electric: 0 0 20px rgba(72, 219, 251, 0.40), 0 0 40px rgba(95, 39, 205, 0.20);
+  --shadow-plasma: 0 0 30px rgba(72, 219, 251, 0.50), 0 0 60px rgba(72, 219, 251, 0.20);
+}
+
+/* ==========================================================================
+   FONT FACE DECLARATIONS
+   ========================================================================== */
+@font-face {
+  font-family: 'Russo One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Russo One'), local('RussoOne-Regular'),
+       url('../fonts/russo-one.woff2') format('woff2'),
+       url('../fonts/russo-one.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 500 700 900;
+  font-display: swap;
+  src: local('Orbitron'), local('Orbitron-Regular'),
+       url('../fonts/orbitron.woff2') format('woff2'),
+       url('../fonts/orbitron.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 400 500 600 700;
+  font-display: swap;
+  src: local('Exo 2'), local('Exo2-Regular'),
+       url('../fonts/exo2.woff2') format('woff2'),
+       url('../fonts/exo2.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: local('Share Tech Mono'), local('ShareTechMono-Regular'),
+       url('../fonts/share-tech-mono.woff2') format('woff2'),
+       url('../fonts/share-tech-mono.woff') format('woff');
+}
+
+/* Fallback Google Fonts for development */
+@font-face {
+  font-family: 'Russo One Fallback';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/russoone/v14/1cXxaUPoC_D1B8WzgM2XSbGO7.ttf') format('truetype');
+}
+
+/* ==========================================================================
+   THEME ANIMATIONS
+   ========================================================================== */
+
+/* Electric arc flicker */
+@keyframes arcFlicker {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.8; }
+  20% { opacity: 1; }
+  30% { opacity: 0.9; }
+  50% { opacity: 1; }
+  70% { opacity: 0.85; }
+  90% { opacity: 1; }
+}
+
+/* Spark burst */
+@keyframes sparkBurst {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Thunder rumble shake */
+@keyframes thunderRumble {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-2px) translateY(1px); }
+  20% { transform: translateX(2px) translateY(-1px); }
+  30% { transform: translateX(-1px) translateY(2px); }
+  40% { transform: translateX(1px) translateY(-2px); }
+  50% { transform: translateX(-2px) translateY(1px); }
+  60% { transform: translateX(2px) translateY(-1px); }
+  70% { transform: translateX(-1px) translateY(2px); }
+  80% { transform: translateX(1px) translateY(-2px); }
+  90% { transform: translateX(-2px) translateY(1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes thunderRumble {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(0); }
+  }
+}
+
+/* Electric jitter */
+@keyframes electricJitter {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-1px, 1px); }
+  20% { transform: translate(1px, -1px); }
+  30% { transform: translate(-1px, 0); }
+  40% { transform: translate(1px, 1px); }
+  50% { transform: translate(0, -1px); }
+  60% { transform: translate(-1px, 1px); }
+  70% { transform: translate(1px, 0); }
+  80% { transform: translate(-1px, -1px); }
+  90% { transform: translate(1px, 1px); }
+}
+
+/* Zap transition */
+@keyframes zapFlash {
+  0% { opacity: 0; transform: translateX(-100%); }
+  50% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Plasma glow pulse */
+@keyframes plasmaGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(72, 219, 251, 0.3),
+                0 0 20px rgba(72, 219, 251, 0.2),
+                inset 0 0 10px rgba(72, 219, 251, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(72, 219, 251, 0.5),
+                0 0 40px rgba(72, 219, 251, 0.3),
+                inset 0 0 20px rgba(72, 219, 251, 0.15);
+  }
+}
+
+/* Arc path draw */
+@keyframes arcDraw {
+  0% { stroke-dashoffset: 1000; opacity: 0; }
+  10% { opacity: 1; }
+  50% { stroke-dashoffset: 0; }
+  90% { opacity: 1; }
+  100% { opacity: 0; stroke-dashoffset: -1000; }
+}
+
+/* Charging effect */
+@keyframes charging {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================================
+   THEME UTILITIES
+   ========================================================================== */
+
+/* Electric arc text effect */
+.arc-text {
+  position: relative;
+  display: inline-block;
+}
+
+.arc-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-tertiary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.arc-text:hover::after {
+  transform: scaleX(1);
+}
+
+/* Plasma glow effect */
+.plasma-glow {
+  position: relative;
+}
+
+.plasma-glow::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(72, 219, 251, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.plasma-glow:hover::before {
+  opacity: 1;
+}
+
+/* Electric crackle on hover */
+.crackle-hover {
+  position: relative;
+}
+
+.crackle-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(72, 219, 251, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 100% 0%, rgba(238, 90, 36, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 0% 100%, rgba(95, 39, 205, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 100% 100%, rgba(72, 219, 251, 0.3) 0%, transparent 20%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.crackle-hover:hover::before {
+  opacity: 1;
+  animation: sparkBurst 0.3s ease;
+}
+
+/* Arc accent line */
+.arc-accent {
+  position: relative;
+}
+
+.arc-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 50%,
+    var(--color-tertiary) 100%);
+  animation: arcFlicker 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc-accent::before {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* Electric card border */
+.electric-border {
+  position: relative;
+}
+
+.electric-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-tertiary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.electric-border:hover::before {
+  opacity: 1;
+}
+
+/* Thunder rumble on interaction */
+.thunder-rumble {
+  animation: thunderRumble 0.5s ease;
+}
+
+.thunder-rumble:hover {
+  animation: thunderRumble 0.3s ease infinite;
+}
+
+/* Playing content crackle outline */
+.playing-crackle {
+  position: relative;
+}
+
+.playing-crackle::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--color-secondary);
+  border-radius: inherit;
+  opacity: 0;
+  animation: none;
+}
+
+.playing-crackle.is-playing::after {
+  opacity: 1;
+  animation: plasmaGlow 2s ease-in-out infinite, electricJitter 0.1s linear infinite;
+}
+
+/* ==========================================================================
+   DARK MODE OVERRIDES (default)
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Already dark by default */
+  }
+}
+
+/* ==========================================================================
+   HIGH CONTRAST MODE
+   ========================================================================== */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #5F6A7A;
+    --color-text-muted: #A0AAB5;
+  }
+
+  .card {
+    border-width: 2px;
+  }
+}
