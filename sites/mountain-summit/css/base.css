@@ -1,186 +1,109 @@
 /* ==========================================================================
    BASE.CSS — Mountain Summit Theme
-   Reset, tokens, and base styles for the mountain-summit brand kit.
-   Alpine peak aesthetic: granite rock, snow caps, crisp sunrise air.
+   Modern CSS reset, custom properties, and base element styles.
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Modern CSS Reset */
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  /* Color Palette — Mountain Summit */
+  --color-primary: #1A2530;
+  --color-secondary: #4A6572;
+  --color-accent: #B8860B;
+  --color-dark: #2C2C2C;
+  --color-surface: #F5F5F5;
+  --color-surface-alt: #E8E8E8;
+  --color-text: #1A2530;
+  --color-text-inverse: #F5F5F5;
+  --color-text-muted: #5A6572;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(26, 37, 48, 0.08);
+  --shadow-md: 0 4px 12px rgba(26, 37, 48, 0.12);
+  --shadow-lg: 0 8px 24px rgba(26, 37, 48, 0.16);
+  --shadow-xl: 0 16px 48px rgba(26, 37, 48, 0.20);
+
+  /* Typography */
+  --font-display: 'Libre Baskerville', Georgia, serif;
+  --font-body: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Line Heights */
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Container */
+  --container-max: 1400px;
+  --container-padding: var(--space-5);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* ---------- Modern Reset ---------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-* {
   margin: 0;
   padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
-body {
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-p,
-li,
-dt,
-dd,
-a,
-span,
-code,
-kbd,
-samp,
-pre {
-  overflow-wrap: anywhere;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-blockquote {
-  hyphens: auto;
-  overflow-wrap: break-word;
-}
-
-/* CSS Custom Properties — Mountain Summit Palette */
-:root {
-  /* Primary palette — alpine granite to sunrise */
-  --color-primary: #2C3E50;       /* Deep slate blue — mountain shadow */
-  --color-secondary: #8E44AD;     /* Rich purple — dawn alpenglow */
-  --color-accent: #E74C3C;        /* Warm red — sunset peak */
-  --color-highlight: #F39C12;     /* Golden amber — sunrise glow */
-  --color-surface: #ECF0F1;       /* Crisp white — snow / thin air */
-
-  /* Semantic tokens */
-  --color-text: #2C3E50;
-  --color-text-inverse: #ECF0F1;
-  --color-background: #ECF0F1;
-  --color-background-alt: #ffffff;
-  --color-border: rgba(44, 62, 80, 0.2);
-  --color-border-strong: rgba(44, 62, 80, 0.4);
-
-  /* Functional colors */
-  --color-success: #27ae60;
-  --color-error: #E74C3C;
-  --color-warning: #F39C12;
-  --color-info: #8E44AD;
-
-  /* Typography */
-  --font-display: 'Crimson Pro', Georgia, serif;
-  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
-
-  /* Font sizes — fluid scale */
-  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
-  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
-  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
-  --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
-  --text-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.75rem);
-  --text-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3.5rem);
-  --text-5xl: clamp(2.75rem, 2rem + 3.75vw, 4.5rem);
-
-  /* Spacing scale */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
-
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(44, 62, 80, 0.08);
-  --shadow-md: 0 4px 6px rgba(44, 62, 80, 0.1);
-  --shadow-lg: 0 10px 15px rgba(44, 62, 80, 0.12);
-  --shadow-xl: 0 20px 25px rgba(44, 62, 80, 0.15);
-  --shadow-glow-purple: 0 0 30px rgba(142, 68, 173, 0.3);
-  --shadow-glow-amber: 0 0 30px rgba(243, 156, 18, 0.3);
-
-  /* Layout */
-  --max-width: 1400px;
-  --max-width-prose: 720px;
-  --header-height: 4rem;
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
-  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Base element styles */
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);
+  line-height: var(--leading-normal);
   color: var(--color-text);
-  background-color: var(--color-background);
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(142, 68, 173, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(243, 156, 18, 0.06) 0%, transparent 50%);
+  background-color: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
-a {
-  color: var(--color-secondary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-accent);
-}
-
-a:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
-}
-
+/* ---------- Typography Base ---------- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: var(--leading-tight);
   color: var(--color-primary);
 }
 
@@ -193,6 +116,17 @@ h6 { font-size: var(--text-lg); }
 
 p {
   margin-bottom: var(--space-4);
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
 }
 
 ul, ol {
@@ -202,71 +136,20 @@ ul, ol {
 
 li {
   margin-bottom: var(--space-2);
+  overflow-wrap: anywhere;
 }
 
-code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  background: rgba(44, 62, 80, 0.08);
-  padding: 0.15em 0.4em;
-  border-radius: var(--radius-sm);
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-pre {
-  font-family: var(--font-mono);
-  background: var(--color-primary);
-  color: var(--color-surface);
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  overflow-x: auto;
-  margin-bottom: var(--space-4);
+input, button, textarea, select {
+  font: inherit;
 }
 
-pre code {
-  background: none;
-  padding: 0;
-  font-size: var(--text-sm);
-}
-
-/* Skip link */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-surface);
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  z-index: 1000;
-  transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-  outline: 2px solid var(--color-highlight);
-  outline-offset: 2px;
-}
-
-/* Focus visible */
-:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Visually hidden (accessible) */
+/* ---------- Utility Classes ---------- */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -279,16 +162,48 @@ pre code {
   border: 0;
 }
 
-/* Container */
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
+/* ---------- Skip Link ---------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding-inline: var(--space-4);
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Focus Visible ---------- */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,135 +1,98 @@
 /**
- * main.js — Mountain Summit Theme
- * Vanilla, dependency-free JavaScript.
- * Mobile nav toggle, reduced motion, scroll reveals.
+ * Mountain Summit Theme — Main JavaScript
+ * Vanilla JS, dependency-free
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {
   'use strict';
 
-  // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // ---------- Reduced Motion ----------
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // ==========================================================================
-  // MOBILE NAV TOGGLE
-  // ==========================================================================
+  function handleReducedMotion() {
+    document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
+  }
 
-  const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
+  prefersReducedMotion.addEventListener('change', handleReducedMotion);
+  handleReducedMotion();
+
+  // ---------- Mobile Navigation Toggle ----------
+  var navToggle = document.querySelector('.nav-toggle');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    let isOpen = false;
+    navToggle.addEventListener('click', function () {
+      var expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      navMenu.setAttribute('aria-expanded', String(!expanded));
+      document.body.classList.toggle('nav-open');
+    });
 
-    function openNav() {
-      isOpen = true;
-      navToggle.setAttribute('aria-expanded', 'true');
-      navMenu.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeNav() {
-      isOpen = false;
-      navToggle.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-
-    function toggleNav() {
-      if (isOpen) {
-        closeNav();
-      } else {
-        openNav();
-      }
-    }
-
-    // Close on Escape key
+    // Close on Escape
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && isOpen) {
-        closeNav();
+      if (e.key === 'Escape' && navMenu.getAttribute('aria-expanded') === 'true') {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
         navToggle.focus();
       }
     });
 
     // Close on outside click
     document.addEventListener('click', function (e) {
-      if (isOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-        closeNav();
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
       }
     });
+  }
 
-    // Toggle button
-    navToggle.addEventListener('click', toggleNav);
+  // ---------- Scroll Reveals (IntersectionObserver) ----------
+  if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
+    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .hub-feature');
 
-    // Close when clicking nav links
-    const navLinks = navMenu.querySelectorAll('a');
-    navLinks.forEach(function (link) {
-      link.addEventListener('click', closeNav);
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(function (el) {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
     });
   }
 
-  // ==========================================================================
-  // SCROLL REVEAL ANIMATION
-  // ==========================================================================
-
+  // ---------- Reveal animation styles (added via JS for motion preference) ----------
   if (!prefersReducedMotion.matches) {
-    const revealElements = document.querySelectorAll('.reveal');
-
-    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-      const revealObserver = new IntersectionObserver(
-        function (entries, observer) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          root: null,
-          rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1,
-        }
-      );
-
-      revealElements.forEach(function (el) {
-        revealObserver.observe(el);
-      });
-    }
+    var style = document.createElement('style');
+    style.textContent = [
+      '.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }',
+      '.reveal.revealed { opacity: 1; transform: translateY(0); }',
+      '.reduce-motion .reveal { opacity: 1; transform: none; transition: none; }'
+    ].join('\n');
+    document.head.appendChild(style);
   }
 
-  // ==========================================================================
-  // SMOOTH SCROLL FOR ANCHOR LINKS
-  // ==========================================================================
-
+  // ---------- Smooth scroll for anchor links ----------
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
+      var targetId = this.getAttribute('href');
       if (targetId === '#') return;
-
-      const target = document.querySelector(targetId);
+      var target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({
-          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start',
-        });
-
-        // Update URL without jumping
-        if (history.pushState) {
-          history.pushState(null, null, targetId);
-        }
+        target.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
       }
     });
-  });
-
-  // ==========================================================================
-  // LISTEN FOR REDUCED MOTION CHANGES
-  // ==========================================================================
-
-  prefersReducedMotion.addEventListener('change', function () {
-    // Page reload isn't needed for our animations since they are CSS-based
-    // and the CSS already handles prefers-reduced-motion
   });
 
 })();
