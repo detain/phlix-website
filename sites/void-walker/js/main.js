@@ -1,322 +1,153 @@
-/**
- * Void Walker - Main JavaScript
- * Initialization and main application logic
- */
+/* ==========================================================================
+   VOID WALKER — MAIN JAVASCRIPT
+   Navigation toggle, reduced motion, scroll reveals.
+   ========================================================================== */
 
-// Import modules (for use with ES modules bundler)
-// import { initDebrisSystem } from './particles.js';
-// import { initPortals } from './portal.js';
-// import { initGlitch } from './glitch.js';
+(function() {
+  'use strict';
 
-// Fallback initialization if modules aren't supported
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize all systems
-  initAll();
+  /* --------------------------------------------------------------------------
+     Mobile Navigation Toggle
+     -------------------------------------------------------------------------- */
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
-  // Set up navigation
-  initNavigation();
+  if (navToggle && navMenu) {
+    const navLinks = navMenu.querySelectorAll('.nav-menu__link');
 
-  // Set up scroll behaviors
-  initScrollBehavior();
-
-  // Set up intersection observers
-  initIntersectionObservers();
-
-  // Set up accessibility
-  initAccessibility();
-
-  // Set up reduced motion preference
-  initReducedMotion();
-});
-
-/**
- * Initialize all animation and particle systems
- */
-function initAll() {
-  // Debris particles
-  const debrisContainer = document.getElementById('debris-container');
-  if (debrisContainer) {
-    // Particles are initialized via their own script
-  }
-
-  // Portal animations
-  // Portal system is self-initializing
-
-  // Glitch effects
-  // Glitch system is self-initializing
-}
-
-/**
- * Navigation initialization and behavior
- */
-function initNavigation() {
-  const header = document.querySelector('.site-header');
-  const mobileToggle = document.querySelector('.mobile-menu-toggle');
-  const mobileNav = document.querySelector('.mobile-nav');
-  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-
-  // Mobile menu toggle
-  if (mobileToggle && mobileNav) {
-    mobileToggle.addEventListener('click', () => {
-      const isOpen = mobileNav.classList.toggle('is-open');
-      mobileToggle.setAttribute('aria-expanded', isOpen.toString());
-      mobileNav.setAttribute('aria-hidden', (!isOpen).toString());
+    // Toggle menu
+    navToggle.addEventListener('click', function() {
+      const isOpen = navMenu.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    // Close mobile nav when clicking a link
-    mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileNav.classList.remove('is-open');
-        mobileToggle.setAttribute('aria-expanded', 'false');
-        mobileNav.setAttribute('aria-hidden', 'true');
+    // Close on link click
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
       });
     });
-  }
 
-  // Active nav link based on scroll position
-  const sections = document.querySelectorAll('section[id]');
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        navToggle.focus();
+      }
+    });
 
-  function updateActiveNav() {
-    const scrollY = window.scrollY;
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
 
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
+    // Trap focus in menu when open
+    navMenu.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
 
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
-          }
-        });
+      const focusable = Array.from(navMenu.querySelectorAll(
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      ));
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     });
   }
 
-  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  /* --------------------------------------------------------------------------
+     Reduced Motion Check
+     -------------------------------------------------------------------------- */
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Header scroll state
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-
-    if (currentScroll > 50) {
-      header.classList.add('scrolled');
+  function handleReducedMotion() {
+    if (prefersReducedMotion.matches) {
+      document.documentElement.classList.add('reduced-motion');
     } else {
-      header.classList.remove('scrolled');
+      document.documentElement.classList.remove('reduced-motion');
     }
-  }, { passive: true });
-}
+  }
 
-/**
- * Scroll-based behaviors
- */
-function initScrollBehavior() {
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  handleReducedMotion();
+  prefersReducedMotion.addEventListener('change', handleReducedMotion);
+
+  /* --------------------------------------------------------------------------
+     Scroll Reveal (Intersection Observer)
+     -------------------------------------------------------------------------- */
+  if (!prefersReducedMotion.matches) {
+    const revealElements = document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card, .faq-item');
+
+    if ('IntersectionObserver' in window && revealElements.length > 0) {
+      const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1
+      });
+
+      revealElements.forEach(function(el) {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
+      });
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Smooth Scroll for Anchor Links
+     -------------------------------------------------------------------------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href === '#') return;
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
 
-      const target = document.querySelector(href);
-      if (!target) return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+          block: 'start'
+        });
 
-      e.preventDefault();
-
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+        // Update focus for accessibility
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
     });
   });
 
-  // Parallax effect for void layers
-  const voidDepth1 = document.querySelector('.void-depth-1');
-  const voidDepth2 = document.querySelector('.void-depth-2');
+  /* --------------------------------------------------------------------------
+     Active Nav Link Highlighting
+     -------------------------------------------------------------------------- */
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const navItems = document.querySelectorAll('.nav-menu__link');
 
-  if (voidDepth1 && voidDepth2) {
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const factor = 0.3;
-
-      voidDepth1.style.transform = `translateY(${scrollY * factor * 0.5}px)`;
-      voidDepth2.style.transform = `translateY(${scrollY * factor * 0.3}px)`;
-    }, { passive: true });
-  }
-}
-
-/**
- * Intersection Observer for reveal animations
- */
-function initIntersectionObservers() {
-  if (!('IntersectionObserver' in window)) {
-    // Fallback: show all elements immediately
-    document.querySelectorAll('.feature-card, .section-header').forEach(el => {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
-    return;
-  }
-
-  // Reveal on scroll
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    }
-  );
-
-  document.querySelectorAll('.feature-card, .section-header, .shift-content, .cta-content').forEach(el => {
-    el.classList.add('reveal-on-scroll');
-    revealObserver.observe(el);
-  });
-
-  // Stagger animation for feature cards
-  const cardObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const cards = entry.target.querySelectorAll('.feature-card');
-          cards.forEach((card, index) => {
-            card.style.transitionDelay = `${index * 100}ms`;
-          });
-          cardObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  const featuresGrid = document.querySelector('.features-grid');
-  if (featuresGrid) {
-    cardObserver.observe(featuresGrid);
-  }
-}
-
-/**
- * Accessibility enhancements
- */
-function initAccessibility() {
-  // Focus trap for modals (if any)
-  // Keyboard navigation improvements
-  // Screen reader announcements
-
-  // Announce page load
-  const announcer = document.createElement('div');
-  announcer.setAttribute('aria-live', 'polite');
-  announcer.setAttribute('aria-atomic', 'true');
-  announcer.className = 'visually-hidden';
-  document.body.appendChild(announcer);
-
-  setTimeout(() => {
-    announcer.textContent = 'Void Walker page loaded. Traversing the membrane between dimensions.';
-  }, 1000);
-}
-
-/**
- * Reduced motion preference handling
- */
-function initReducedMotion() {
-  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  function handleReducedMotion(e) {
-    if (e.matches) {
-      document.body.classList.add('reduced-motion');
-    } else {
-      document.body.classList.remove('reduced-motion');
-    }
-  }
-
-  mediaQuery.addEventListener('change', handleReducedMotion);
-  handleReducedMotion(mediaQuery);
-
-  // Listen for custom event to toggle motion (for manual override)
-  document.addEventListener('voidwalker:toggle-motion', (e) => {
-    if (e.detail && e.detail.reduced !== undefined) {
-      document.body.classList.toggle('reduced-motion', e.detail.reduced);
+  navItems.forEach(function(link) {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+      link.setAttribute('aria-current', 'page');
     }
   });
-}
 
-/**
- * Utility: Debounce function
- */
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-/**
- * Utility: Throttle function
- */
-function throttle(func, limit) {
-  let inThrottle;
-  return function executedFunction(...args) {
-    if (!inThrottle) {
-      func(...args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
-    }
-  };
-}
-
-/**
- * Get animation preferences based on user settings
- */
-function getMotionPreference() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'full';
-}
-
-/**
- * Check if user prefers high contrast
- */
-function getContrastPreference() {
-  return window.matchMedia('(prefers-contrast: high)').matches ? 'high' : 'normal';
-}
-
-// Export utilities for use in other modules
-window.VoidWalker = {
-  debounce,
-  throttle,
-  getMotionPreference,
-  getContrastPreference,
-};
-
-// Add CSS for reveal animations
-const revealStyles = document.createElement('style');
-revealStyles.textContent = `
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
-                transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reduced-motion .reveal-on-scroll {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-`;
-document.head.appendChild(revealStyles);
+})();

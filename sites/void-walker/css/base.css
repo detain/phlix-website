@@ -1,0 +1,314 @@
+/* ==========================================================================
+   VOID WALKER — BASE STYLES
+   The dimensional membrane between realities.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --color-primary: #6C63FF;
+  --color-secondary: #2D2D44;
+  --color-tertiary: #1A1A2E;
+  --color-neutral: #2D2D44;
+  --color-bg: #0A0A0F;
+  --color-surface: #1A1A2E;
+  --color-surface-alt: #2D2D44;
+  --color-text: #E8E8F0;
+  --color-text-muted: #A0A0B8;
+  --color-success: #4ADE80;
+  --color-warning: #FBBF24;
+  --color-error: #FF6B6B;
+  --color-info: #60A5FA;
+  --color-focus: #A78BFA;
+  --color-border: #2A2A40;
+  --color-rift: #6C63FF;
+  --color-void: #0A0A0F;
+  --color-coral: #FF6B6B;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-headline: 'Orbitron', 'Exo 2', sans-serif;
+  --font-display: 'Exo 2', 'Orbitron', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-ui: 'Rajdhani', 'Exo 2', sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(10,10,15,0.95);
+  --shadow-md: 0 4px 16px rgba(10,10,15,0.97), 0 0 10px rgba(108,99,255,0.10);
+  --shadow-lg: 0 12px 40px rgba(10,10,15,0.98), 0 0 24px rgba(108,99,255,0.15);
+  --shadow-portal: 0 0 16px rgba(108,99,255,0.45), 0 0 40px rgba(108,99,255,0.25);
+  --shadow-rift: 0 0 8px rgba(108,99,255,0.4), 0 0 20px rgba(108,99,255,0.2);
+
+  /* Layout */
+  --max-width: 1400px;
+  --max-width-narrow: 760px;
+  --nav-height: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   Modern Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Typography Elements
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: var(--space-4);
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-focus);
+}
+
+strong, b {
+  font-weight: 600;
+}
+
+em, i {
+  font-style: normal;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--color-surface-alt);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  background: var(--color-surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  font-style: normal;
+}
+
+ul, ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+li {
+  margin-bottom: var(--space-2);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+/* --------------------------------------------------------------------------
+   Text Wrapping (from new_site.md §19.12)
+   -------------------------------------------------------------------------- */
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   Skip Link (Accessibility)
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 10000;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Focus Styles
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 8px rgba(108,99,255,0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* --------------------------------------------------------------------------
+   Images
+   -------------------------------------------------------------------------- */
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* --------------------------------------------------------------------------
+   Lists
+   -------------------------------------------------------------------------- */
+dl {
+  margin-bottom: var(--space-6);
+}
+
+dt {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+dd {
+  margin-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-6);
+}
+
+th, td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: var(--color-surface-alt);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
