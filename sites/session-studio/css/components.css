@@ -1,0 +1,491 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Session Studio
+   Buttons, header/nav, footer, forms, badges, and interactive components.
+   Studio console aesthetics: precision knobs, VU meters, LED indicators.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Site Header & Navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 16px rgb(0, 0, 0, 0.3);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  color: var(--color-text);
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-logo__text {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-sharp);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.nav-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu__item {
+  position: relative;
+}
+
+.nav-menu__link {
+  display: block;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition:
+    color var(--duration-fast) var(--easing-sharp),
+    background-color var(--duration-fast) var(--easing-sharp);
+}
+
+.nav-menu__link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+.nav-menu__link[aria-current='page'] {
+  color: var(--color-secondary);
+  background-color: rgba(78, 205, 196, 0.1);
+}
+
+.nav-menu__link--primary {
+  color: var(--color-text);
+}
+
+.nav-menu__link--primary:hover {
+  color: var(--color-secondary);
+}
+
+.nav-menu__link--muted {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.nav-menu__link--muted:hover {
+  opacity: 1;
+  color: var(--color-text-muted);
+}
+
+/* Mobile Navigation */
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    inset: 73px 0 0;
+    z-index: 200;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    transform: translateX(-100%);
+    transition: transform var(--duration-base) var(--easing-sharp);
+    overflow-y: auto;
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-menu__link {
+    padding: var(--space-4);
+    font-size: 1rem;
+    border: 1px solid transparent;
+  }
+
+  .nav-menu__link:hover {
+    border-color: var(--color-border);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — Studio Console Style
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--easing-sharp),
+    background-color var(--duration-fast) var(--easing-sharp),
+    border-color var(--duration-fast) var(--easing-sharp),
+    box-shadow var(--duration-fast) var(--easing-sharp);
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background-color: #2d5a8a;
+  border-color: #2d5a8a;
+  color: var(--color-text);
+  box-shadow: 0 0 20px rgba(58, 110, 165, 0.4);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.3);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-text);
+  border-color: var(--color-error);
+}
+
+.btn--danger:hover {
+  background-color: #cc3333;
+  border-color: #cc3333;
+}
+
+.btn--link {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  padding: var(--space-2) var(--space-3);
+  min-height: auto;
+}
+
+.btn--link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.btn--small {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.75rem;
+  min-height: 36px;
+}
+
+.btn--large {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1rem;
+  min-height: 52px;
+}
+
+/* --------------------------------------------------------------------------
+   Badges — LED Indicator Style
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+}
+
+.badge--default {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.badge--primary {
+  background-color: rgba(58, 110, 165, 0.15);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.badge--success {
+  background-color: rgba(78, 205, 196, 0.15);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.badge--warning {
+  background-color: rgba(255, 140, 0, 0.15);
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.badge--info {
+  background-color: rgba(58, 110, 165, 0.15);
+  color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+.form-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) var(--easing-sharp);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.form-input--error {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   VU Meter Component
+   -------------------------------------------------------------------------- */
+.vu-meter {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+  padding: var(--space-2);
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.vu-meter__bar {
+  width: 6px;
+  background: var(--color-vu-green);
+  border-radius: 1px;
+  transition: height var(--duration-fast) var(--easing-sharp);
+}
+
+.vu-meter__bar:nth-child(n+7):nth-child(-n+9) {
+  background: var(--color-vu-yellow);
+}
+
+.vu-meter__bar:nth-child(n+10) {
+  background: var(--color-vu-red);
+}
+
+/* --------------------------------------------------------------------------
+   Console Panel Decoration
+   -------------------------------------------------------------------------- */
+.console-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-console);
+  position: relative;
+}
+
+.console-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  right: var(--space-4);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* --------------------------------------------------------------------------
+   LED Strip Decoration
+   -------------------------------------------------------------------------- */
+.led-strip {
+  display: flex;
+  gap: 4px;
+  padding: var(--space-2);
+}
+
+.led-strip__led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+.led-strip__led--active {
+  background: var(--color-secondary);
+  box-shadow: 0 0 8px var(--color-secondary);
+}
+
+.led-strip__led--warning {
+  background: var(--color-warning);
+  box-shadow: 0 0 8px var(--color-warning);
+}
+
+.led-strip__led--error {
+  background: var(--color-error);
+  box-shadow: 0 0 8px var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------------------- */
+@keyframes led-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.led-blink {
+  animation: led-blink 1s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .led-blink,
+  .fade-in-up {
+    animation: none;
+  }
+}
