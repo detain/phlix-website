@@ -1,0 +1,438 @@
+/* ==========================================================================
+   THEME.CSS — Atlantis
+   Typography, layout containers, page structure, animations
+   Theme: Sunken underwater kingdom, bioluminescent depths. Coral architecture,
+   sea creature murals, blue-green depths.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ─── Container ─────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container--wide {
+  max-width: var(--max-width);
+}
+
+/* ─── Page structure ────────────────────────────────────────────────────── */
+.site-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  outline: none;
+}
+
+/* ─── Typography scale ───────────────────────────────────────────────────── */
+.t-eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-bold);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display-tight);
+  color: var(--color-text);
+}
+
+.t-headline {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-regular);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.t-title {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-regular);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+.t-body {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.t-body-lg {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text-muted);
+}
+
+/* ─── Section base ──────────────────────────────────────────────────────── */
+.section {
+  padding-block: var(--space-16);
+}
+
+.section--surface {
+  background-color: var(--color-surface);
+}
+
+.section--surface-alt {
+  background-color: var(--color-surface-alt);
+}
+
+/* ─── Section header ─────────────────────────────────────────────────────── */
+.section-head {
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.section-head h2 {
+  margin-top: var(--space-2);
+}
+
+.section-head p {
+  margin-top: var(--space-4);
+  max-width: 65ch;
+  margin-inline: auto;
+  color: var(--color-text-muted);
+}
+
+/* ─── Hero section ──────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgb(0 206 209 / 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgb(127 255 212 / 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 100%);
+}
+
+.hero__bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--color-primary) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, var(--color-secondary) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: drift 20s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, 10px); }
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 900px;
+  margin-inline: auto;
+  padding: var(--space-16) var(--space-6);
+}
+
+.hero__eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-bold);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  text-shadow: 0 0 60px rgb(0 206 209 / 0.3);
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 65ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.hero__ctas {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─── Pitch section ──────────────────────────────────────────────────────── */
+.pitch {
+  padding-block: var(--space-16);
+  background: var(--color-surface);
+}
+
+.pitch__list {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.pitch__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.pitch__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+/* ─── Features overview ──────────────────────────────────────────────────── */
+.features-overview {
+  padding-block: var(--space-16);
+}
+
+.features-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-10);
+}
+
+/* ─── CTA banner ────────────────────────────────────────────────────────── */
+.cta-banner {
+  padding-block: var(--space-16);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cta-banner h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  max-width: 55ch;
+  margin-inline: auto;
+}
+
+/* ─── Page hero ──────────────────────────────────────────────────────────── */
+.page-hero {
+  padding-block: var(--space-16);
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(0 206 209 / 0.1) 0%, transparent 60%),
+    var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-hero__inner {
+  max-width: 800px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.page-hero__eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.page-hero__title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: var(--space-4);
+}
+
+.page-hero__sub {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* ─── Content section ────────────────────────────────────────────────────── */
+.content-section {
+  padding-block: var(--space-16);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-8);
+}
+
+/* ─── Code block ─────────────────────────────────────────────────────────── */
+.code-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  overflow-x: auto;
+  margin-block: var(--space-6);
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  white-space: pre;
+}
+
+/* ─── FAQ ────────────────────────────────────────────────────────────────── */
+.faq-list {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item summary {
+  padding: var(--space-5) 0;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-body-medium);
+  color: var(--color-text);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  transition: color var(--motion-duration) var(--motion-ease);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-body-regular);
+  color: var(--color-primary);
+  transition: transform var(--motion-duration) var(--motion-ease);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item summary:hover {
+  color: var(--color-primary);
+}
+
+.faq-item__answer {
+  padding: 0 0 var(--space-5) 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgb(0 206 209 / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgb(0 206 209 / 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--motion-ease), transform 0.6s var(--motion-ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section {
+    padding-block: var(--space-10);
+  }
+
+  .hero {
+    min-height: 80vh;
+  }
+
+  .hero__ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .features-overview__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}

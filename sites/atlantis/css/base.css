@@ -1,0 +1,225 @@
+/* ==========================================================================
+   BASE.CSS — Atlantis
+   Reset, design tokens (:root CSS variables), element defaults, @font-face
+   Theme: Sunken underwater kingdom, bioluminescent depths. Coral architecture,
+   sea creature murals, blue-green depths.
+   Palette: #001A2E #004455 #00CED1 #7FFFD4 #F5F5F5
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ─── Modern Reset ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  hanging-punctuation: first last;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-width: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Text containers: `anywhere` shrinks min-content contribution so grid/flex
+   tracks cannot stretch to fit unbreakable long words (new_site.md §19.12). */
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: anywhere;
+}
+
+/* Headings: `break-word` avoids mid-word breaks in display fonts */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Atlantis palette — sunken kingdom depths */
+  --color-primary: #00CED1;         /* Dark turquoise — primary CTAs, active states */
+  --color-secondary: #7FFFD4;        /* Aquamarine — secondary accents, highlights */
+  --color-tertiary: #00CED1;         /* Dark turquoise — tertiary (same as primary for this kit) */
+  --color-neutral: #004455;          /* Dark teal — muted UI, dividers */
+  --color-background: #001A2E;       /* Deep navy — hadal darkness */
+  --color-surface: #002F4A;          /* Deep teal surface */
+  --color-surface-alt: #003B55;       /* Alternate surface */
+  --color-text: #F5F5F5;             /* Off-white — primary text */
+  --color-text-muted: #7FFFD4;       /* Aquamarine — muted text */
+  --color-border: #004455;           /* Dark teal borders */
+  --color-success: #7FFFD4;           /* Aquamarine success */
+  --color-warning: #FFD700;          /* Gold warning */
+  --color-error: #FF6B6B;           /* Coral error */
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 5rem;
+  --space-16: 7rem;
+  --space-20: 9rem;
+
+  /* Border radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgb(0 206 209 / 0.15);
+  --shadow-md: 0 4px 12px rgb(0 206 209 / 0.2);
+  --shadow-lg: 0 8px 32px rgb(0 206 209 / 0.25);
+  --shadow-glow: 0 0 20px rgb(0 206 209 / 0.4);
+  --shadow-glow-strong: 0 0 40px rgb(0 206 209 / 0.6);
+
+  /* Typography */
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --font-body: 'Lato', 'Helvetica Neue', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+
+  --font-weight-display-light: 300;
+  --font-weight-display-regular: 400;
+  --font-weight-display-bold: 700;
+  --font-weight-body-regular: 400;
+  --font-weight-body-medium: 500;
+  --font-weight-body-bold: 700;
+
+  --tracking-display: 0.08em;
+  --tracking-display-tight: 0.04em;
+  --tracking-body: 0.01em;
+  --tracking-mono: 0.05em;
+
+  /* Layout */
+  --content-width: 1400px;
+  --max-width: 1600px;
+
+  /* Motion */
+  --motion-duration: 300ms;
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────── */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ─── Skip link ─────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-background);
+  font-weight: var(--font-weight-body-bold);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: top var(--motion-duration) var(--motion-ease);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ─── Focus styles ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
