@@ -1,183 +1,263 @@
-# Nexus Core — Brand Kit Site Review
+# REVIEW: nexus-core brand kit site
 
-**Site:** `sites/nexus-core/`
-**Review date:** 2026-07-29
-**Lint status:** PASS (zero warnings)
+**Reviewer:** Hostile audit
+**Date:** 2026-07-29
+**Ground truth:** `new_site.md`, `shared/content.json`
 
 ---
 
 ## Summary
 
-**NOT APPROVED.** Multiple critical defects across content accuracy, social metadata, page completeness, and SEO.
+**❌ NOT APPROVED — 5 critical defects, multiple dimensions below threshold**
 
 ---
 
-## Dimension Scores
+## 13-Dimension Audit
 
-| # | Dimension | Score | Status |
-|---|-----------|-------|--------|
-| 1 | Brand fidelity & spirit | 85 | ⚠️ |
-| 2 | SEO | 60 | ❌ |
-| 3 | Readability | 88 | ⚠️ |
-| 4 | Spelling & grammar | 95 | ✅ |
-| 5 | Usability | 78 | ⚠️ |
-| 6 | Accessibility | 82 | ⚠️ |
-| 7 | Responsive | 85 | ⚠️ |
-| 8 | Performance | 90 | ✅ |
-| 9 | Content accuracy | 55 | ❌ |
-| 10 | CTA / funnel | 80 | ⚠️ |
-| 11 | Social metadata | 50 | ❌ |
-| 12 | Localization | 90 | ✅ |
-| 13 | Experience fidelity | 85 | ⚠️ |
+### 1. Brand fidelity & spirit — ✅ 92/100
+
+Strong sci-fi "Nexus Core" identity throughout. Color palette (cyan #00F5FF, purple #7B2CBF, magenta #FF006E) is consistently applied. Brand voice uses appropriate terminology: "core", "nexus", "link", "calibrate", "bridge", "channels", "sync". Animations (orbital rings, energy core pulse, mascot Orb float) are coherent with the theme.
+
+Cited: `index.html:76-108` (hero), `css/theme.css:128-166` (orbital animations), `js/main.js:226-271` (mascot Orb)
 
 ---
 
-## Critical Defects (must fix)
+### 2. SEO — ⚠️ 75/100
 
-### ❌ D1 — Content Accuracy (score: 55)
+**Issues:**
 
-**install command is fabricated** — `download.html:54`
-```html
-<code>curl -sSL https://phlix.io/install | bash</code>
-```
-content.json `install.primary.command`:
-```
-curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
-```
-The fabricated `phlix.io/install` URL does not exist and would fail. This is a direct content.json violation.
+- Title tag format is inconsistent across pages:
+  - `index.html:14`: "Phlix — All streams flow to the core." (no page name, tagline format)
+  - `features.html:7`: "Features — Phlix Nexus Core"
+  - `download.html:7`: "Download — Phlix Nexus Core"
+  - `docs.html:6`: "Documentation — Nexus Core — Phlix" (wrong order, wrong separator)
+- Per new_site.md §10: `<title>` should be page-specific ("<Page> — Phlix" / "Phlix — <tagline>")
 
-**Wrong port** — `download.html:75`
-```
-http://your-server:8080
-```
-content.json says port **8096** (HAProxy on :80/:443, server on :8096).
+**Positive:**
+- Canonical URLs present and absolute on all pages
+- `<meta name="description">` present on all pages
+- `<meta name="keywords">` present on index.html
+- Sitemap.xml covers all 8 pages with proper priorities
 
-**Wrong client highlights throughout clients.html** — `clients.html:51-147`
-
-content.json clients[].highlights are the canonical source of truth:
-- **Roku**: `["HLS playback", "Hub mode", "Skip intro/outro", "SyncPlay"]` — site shows fabricated `["4K HDR10+ playback", "SyncPlay support", "Private listening", "Voice search"]`
-- **Samsung Tizen**: `["Vanilla JS + webpack", "Direct play + HLS transcoded", "Remote-optimized UI"]` — site shows `["4K UHD playback", "Dolby Vision", "AirPlay 2 support", "Smart Things integration"]`
-- **Windows**: `["Electron + React + TypeScript", "System tray", "Media keys", "Hub mode"]` — site shows `["Full hardware acceleration", "Local file support", "SyncPlay client", "Desktop notifications"]`
-- **Mobile**: `["Movies, TV, Music, Photos", "Offline downloads", "Token refresh"]` — site shows `["Cast support", "Offline downloads", "Hardware decoding", "Gesture controls"]`
-
-**Wrong repo URL** — `download.html:93`
-```html
-href="https://github.com/detain/phlix-client-windows/releases"
-```
-Should be `phlix-windows-client`, not `phlix-client-windows`. See content.json ecosystem[2].
-
-**Wrong client count** — `index.html:250`
-```html
-<span class="proof-value">5</span>
-<span class="proof-label">Native clients</span>
-```
-content.json defines **4 native clients** (Roku, Tizen, Windows, Mobile) **plus any DLNA device** — not 5. Two kits stated "5" and both were wrong per new_site.md §19.14.
-
-### ❌ D2 — SEO (score: 60)
-
-**Missing canonical URL on all pages** — No `<link rel="canonical">` on any page.
-
-**Sitemap missing pages** — `sitemap.xml` lists only 6 pages but 8 exist:
-- Missing: `plugins.html`, `docs.html`
-
-**Duplicate content signals** — `features.html:44` uses heading "What the nexus unlocks" which matches content.json `section_headings.pitch` but is used here instead of on index.html where it belongs per kit's `copy_overlay.section_headings.pitch`.
-
-### ❌ D11 — Social Metadata (score: 50)
-
-**og.png is missing** — `img/` contains only `og.svg` (SVG) and `favicon.svg`. new_site.md §11 and §19.5 explicitly require `og.png` (1200×630 raster PNG). `tools/check-meta.mjs` rule 5 rejects SVG og:image — several platforms will not render one.
-
-**Multiple pages missing all social metadata** — `about.html`, `hub.html`, `plugins.html`, `404.html` have **no** og:image, og:url, og:type, og:site_name, twitter:card, twitter:title, twitter:description, twitter:image.
-
-**Inconsistent og:url** — `features.html:11` has `https://detain.github.io/phlix-website/nexus-core/features.html` but `clients.html` lacks og:url entirely.
+**Cited:** `features.html:7`, `download.html:7`, `docs.html:6`, `index.html:14`
 
 ---
 
-## High-Priority Defects
+### 3. Readability — ✅ 88/100
 
-### ⚠️ D1 — Nav structure (score impact: content accuracy)
-
-**Only 6 nav items instead of 8** — `index.html:57-64`, `features.html:29-36`, etc.
-
-Required per site_architecture.nav: Home, Features, Clients, Download, Plugins, Docs, Hub, About.
-
-Current nav omits **Plugins** and **Docs** entirely. Footer and sitemap also lack these links.
-
-### ⚠️ D6 — Accessibility
-
-**404.html missing `noindex` meta** — new_site.md §2A: "Add `<meta name="robots" content="noindex">`." Present on 404.html? **NO.**
-
-**Keyboard trap in overlay easter eggs** — `main.js:154-165` and `main.js:208-214` add `keydown` listener that only removes itself on `Escape`. Multiple overlays can layer and the listener management becomes confused when dismissDiffraction() is called from two different paths.
-
-**Focus-visible not present on `.mascot-dismiss`** — `components.css:689-695` defines `.mascot-dismiss` with cursor pointer but no focus style. User cannot tab to it.
-
-### ⚠️ D10 — CTA / Funnel
-
-**Primary CTA in download.html goes to `#server` anchor but no install snippet from content.json** — The install command shown is the fabricated one (see content accuracy above). Even with the correct URL, no `code-block` with the real command exists.
-
-**"Coming Soon" CTAs on download.html** — Roku, Samsung TV, Android, iOS all show `#` href with "Coming Soon" button. Should use content.json client `store_url` or link to real release pages.
-
-### ⚠️ D5 — Usability
-
-**Seasonal banner occupies space when active** — `components.css:708-717` but `.seasonal-banner` has `display: none` by default. When activated, it doesn't shift `.site-header` down — it overlays the header because header is `position: sticky`. Affects nav accessibility at narrow widths.
+Body text is legible. Line-height 1.65 on body (`base.css:27`), typography scale is reasonable. `font-body` (Rajdhani) at 300 weight may be light for some users; verify against accessibility pass.
 
 ---
 
-## Medium-Priority Observations
+### 4. Spelling & grammar — ⚠️ 82/100
 
-### ⚠️ Brand fidelity
+**Issues:**
 
-**Logo uses `<text>` element** — `img/logo.svg:21` uses `<text>` for "PHLIX" word. Kit's logo_rules specify "Wordmark in Orbitron" — SVG text is not self-contained and depends on system fonts. Should be paths.
+- `about.html:84`: Missing space after colon — "SyncPlay, adaptive transcoding, and secure remote access" — missing comma after "SyncPlay"
+- `about.html:99`: Grammar error — "iOS, Android, and Android TV apps are in development" should be "iOS and Android apps are in development" (apps plural only works for iOS+Android; Android TV is separate)
+- `download.html:89`: "Available on the Roku Channel Store" — content.json has no store_url for Roku (it's null)
 
-**Mascot Orb tip shows for all visitors** — `main.js:241-242` shows tip for 1500ms on load regardless of user preference. Kit's mascot behavior says tips are part of idle animation which should be disabled under reduced-motion, but there's no check before the 1500ms timeout.
-
-**Dual easter egg triggers share same counter** — Logo egg at 5 clicks (`main.js:136`) and mascot egg at 3 clicks (`main.js:266`) are separate but the mascot one uses a separate counter. This is per spec but noted as potentially confusing.
-
-### ⚠️ Responsive
-
-**`.proof-band` at 320px** — `components.css:418-423` uses `flex-wrap: wrap` and `gap: var(--space-8)` but doesn't set a minimum item width. At 320px the 6 proof-items will likely overflow.
-
-**`content-grid--2col` uses `1fr`** — `components.css:401` uses bare `1fr` which new_site.md §19.12 says causes overflow at narrow widths. Should be `minmax(0, 1fr)`.
-
-### ⚠️ Performance
-
-**Fonts not verified to exist** — base.css references `../../assets/fonts/exo-2-300-latin.woff2` etc. Files exist in `shared/assets/fonts/` but the path `../../assets/fonts/` from `sites/nexus-core/css/` resolves to `phlix-website/assets/fonts/` — which does not exist at that relative path. Actual fonts are in `phlix-website/shared/assets/fonts/`. The path should be `../../../shared/assets/fonts/` or the assets should be copied.
+**Cited:** `about.html:84`, `about.html:99`, `download.html:89`
 
 ---
 
-## Required Fixes
+### 5. Usability — ⚠️ 80/100
 
-1. **Generate `og.png`** via `node tools/gen-og.mjs --site nexus-core` (requires librsvg2-bin) per new_site.md §19.5.
+**Critical issues:**
 
-2. **Replace install command** in download.html with verbatim from content.json `install.primary.command`.
+- `download.html:90,96,108,114`: Four "Coming Soon" buttons with `href="#"` — these are dead links and fail WCAG 2.1.2 (link text not descriptive, no valid href)
+- `download.html:90`: "Coming Soon" on Roku download — this is a dead-end CTA
 
-3. **Fix port** in download.html from 8080 to 8096.
+**Positive:**
+- Primary download CTA works (`download.html:102` links to real GitHub release)
+- Nav hamburger menu functional (`js/main.js:28-54`)
+- Skip link present and functional
 
-4. **Replace all client highlights** in clients.html with content.json `clients[].highlights` verbatim.
-
-5. **Fix Windows repo URL** from `phlix-client-windows` to `phlix-windows-client`.
-
-6. **Add Plugins and Docs** to nav, footer, and sitemap.xml.
-
-7. **Add `og.png` meta to all pages** (absolute URL: `https://detain.github.io/phlix-website/nexus-core/img/og.png`).
-
-8. **Add `og:url`, `og:site_name`, `og:type`** to all pages.
-
-9. **Add `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`** to all pages (except 404.html which is noindex).
-
-10. **Add canonical URL** to all pages.
-
-11. **Add `<meta name="robots" content="noindex">`** to 404.html.
-
-12. **Fix font paths** in base.css — change `../../assets/fonts/` to `../../../shared/assets/fonts/`.
-
-13. **Fix `content-grid--2col`** from `1fr` to `minmax(0, 1fr)`.
-
-14. **Fix proof-band "5"** to "4" for native clients.
+**Cited:** `download.html:90,96,108,114`
 
 ---
 
-## Verdict
+### 6. Accessibility (WCAG 2.2 AA) — ❌ 68/100
 
-**NOT APPROVED.** Content accuracy failures (fabricated install command, wrong client highlights, wrong port) are hard gates. Social metadata missing on 5 of 9 pages. Missing required pages (docs.html doesn't exist, plugins.html missing from sitemap/nav). Font paths likely broken.
+**Critical:**
 
-Fix all ❌ items before re-review.
+- `download.html:90,96,108,114`: Dead "Coming Soon" `href="#"` links — fail WCAG 2.1.2, 2.4.4, 4.1.2
+- `docs.html:25`: Skip link text is "Skip to content" instead of "Skip to main content" — inconsistent with all other pages and spec §4
+- `docs.html:26-40`: Header uses non-standard markup (`<nav class="main-nav">` with `aria-label="Main navigation"` instead of `role="banner"` + correct nav structure per spec §4)
+- No `<meta name="theme-color">` in any page `<head>` (required per new_site.md §11)
+- `js/main.js:59-85`: `initReducedMotion()` only reads `prefers-reduced-motion` once at load — does not add a `change` listener (§19.20: "a reduced motion media query read once at load never sees the visitor change the setting")
+
+**Positive:**
+- Skip links present on all pages (except docs.html has wrong text)
+- ARIA landmarks present: `role="banner"`, `role="contentinfo"`, `main id="main-content"`
+- `aria-current="page"` on nav links
+- `prefers-reduced-motion` respected in CSS (`base.css:242-251`, `components.css:701-703`)
+
+**Cited:** `download.html:90,96,108,114`, `docs.html:25,26-40`, `index.html:43` (no theme-color in any head)
+
+---
+
+### 7. Responsive (320→1920) — ⚠️ 85/100
+
+**Potential issues:**
+
+- `components.css:318`: `grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))` — `auto-fit` with `1fr` can cause overflow at 320px if content is wide (new_site.md §19.12: bare `1fr` has implicit auto minimum). Should use `minmax(0, 1fr)`.
+- `components.css:490`: Same issue in `.client-cards` — `repeat(auto-fit, minmax(250px, 1fr))` should use `minmax(0, 1fr)`
+
+**Positive:**
+- `content-grid--2col` at line 401 uses `minmax(0, 1fr)` correctly
+- Mobile hamburger menu implementation correct (`components.css:209-234`)
+
+**Cited:** `components.css:318,490`
+
+---
+
+### 8. Performance — ✅ 90/100
+
+- Fonts self-hosted WOFF2 with `font-display: swap` (`base.css:256-350`) ✅
+- No CDN dependencies (Google Fonts checked — none found) ✅
+- `og.png` is 119KB — just under 120KB limit ✅
+- JS is `defer`-loaded ✅
+
+**Note:** JS file is 477 lines with multiple features (mascot, easter eggs, seasonal activation, scroll parallax). While the spec says the 40KB "is guidance, not a target," this should be verified against actual byte size.
+
+---
+
+### 9. Content accuracy — ❌ 70/100
+
+**Critical issues:**
+
+- `download.html:71-77`: Lists "Ubuntu 20.04+ or Debian 11+" as requirements, but content.json `install.requirements` says "PHP 8.3+, MySQL, ffmpeg". The OS requirement is not in content.json; this is invented.
+- `clients.html:116,131`: Shows Android and iOS/tvOS as **separate client cards**, but content.json `clients[]` has ONE entry `"id": "mobile", "name": "Mobile (iOS + Android)"` — they are one client.
+- `download.html:89-90`: Roku shows "Available on the Roku Channel Store" + "Coming Soon" button, but content.json has `"store_url": null` for Roku (not available yet)
+- `features.html:88-96`: Features page has features NOT in content.json's `features[]` — "Hardware acceleration support" is not in content.json
+- `about.html:84`: "SyncPlay, adaptive transcoding, and secure remote access" — the features are not separated properly; content.json doesn't list features this way
+
+**Positive:**
+- Install command on `download.html:63` matches `content.json` verbatim ✅
+- Footer columns on `index.html:331-357` match `content.json.footer.columns` exactly ✅
+- FAQ on `about.html:81-111` uses content from `content.json.faq[]` with brand voice overlay ✅
+- Ecosystem links on `hub.html:100` match `content.json.ecosystem[]` ✅
+
+**Cited:** `download.html:71-77`, `clients.html:116,131`, `download.html:89-90`, `features.html:88-96`, `about.html:84`
+
+---
+
+### 10. CTA / funnel — ⚠️ 78/100
+
+**Issues:**
+
+- Primary funnel: index.html → download.html works in ≤2 clicks ✅
+- BUT `download.html:90,96,108,114` have dead "Coming Soon" buttons blocking the client download path
+- Footer on `features.html:201-214` is **incomplete** — only 2 Product links (missing Plugins), 2 Developer links (missing Plugin example, API reference), and no License or Issues links
+- Footer on `hub.html:109-128` same truncated footer structure
+
+**Positive:**
+- index.html has working "Link to the core" CTAs
+- features.html has working "Connect to the core" CTA
+
+**Cited:** `download.html:90,96,108,114`, `features.html:201-214`, `hub.html:109-128`
+
+---
+
+### 11. Social metadata (OG + Twitter) — ❌ 60/100
+
+**Critical:**
+
+- `twitter:creator=@detain` is **MISSING from every page** (required per new_site.md §11 and content.json `meta`)
+- `docs.html:15-18`: Missing Twitter card meta entirely
+
+**Positive:**
+- `og:image` is absolute URL to PNG on all pages ✅
+- `og:site_name=Phlix` present ✅
+- `twitter:card=summary_large_image` present on most pages ✅
+- `og:type=website` present ✅
+
+**Cited:** `index.html:27` (no twitter:creator), all other pages missing it too
+
+---
+
+### 12. Localization — ✅ 88/100
+
+- `<html lang="en">` correctly set ✅
+- Only `en` locale supported ✅
+- `content.json` is the single source for all user-facing strings ✅
+- Fonts subset to Latin ✅
+
+**Note:** CSS uses logical properties in some places (e.g., `inset: 0`) but also uses physical properties in others (`top`, `left`). This is not a blocker but RTL readiness should be verified before adding locales.
+
+---
+
+### 13. Experience fidelity — ✅ 85/100
+
+**Positive:**
+
+- Implements experience overrides: `visitor_paths` (connect-paths section), `proof_strategy` (proof-band), `conversion_funnel` (CTA section)
+- Mascot "Orb" with context-aware tips
+- Seasonal activation (solar/void date-gates)
+- Easter eggs: logo-clicks:5 (spectrum overlay) and typed-word:nexus (diffraction)
+- Custom scroll experience with parallax
+
+**Issues:**
+
+- new_site.md §5 requires 8 nav links in order. The site has 7 links (no "Docs" nav item — docs links to external docs per new_site.md §5 "Docs may link to the external docs site instead of docs.html", so this is acceptable)
+- The docs.html page (`docs.html`) uses a **completely different shell markup** from all other pages (non-standard nav, no role="banner", no .container, no .site-footer structure matching the other pages) — this is a significant deviation from spec §4 "Every page uses the same skeleton"
+
+**Cited:** `docs.html:1-89` (different shell), `index.html:59-67` (7-link nav)
+
+---
+
+## Lint results
+
+`npm run lint` exits with code 1 due to a tag-pair error in `sites/midnight-jazz/index.html` — **this is a different site, not nexus-core**. The nexus-core site does not appear to have HTML/CSS/JS lint errors.
+
+**However:** the lint infrastructure is broken for the overall project (midnight-jazz failing causes the whole lint to fail), so we cannot confirm nexus-core is lint-clean.
+
+---
+
+## Critical fixes required (must fix before approval)
+
+| # | Dimension | Issue | Fix |
+|---|-----------|-------|-----|
+| 1 | **Content accuracy** | `download.html:71-77` — invented OS requirements not from content.json | Replace with content.json `install.requirements` text: "PHP 8.3+, MySQL, ffmpeg" |
+| 2 | **Content accuracy** | `clients.html:116,131` — Android/iOS shown as separate cards; content.json has ONE mobile client | Merge into one "Mobile (iOS + Android)" card |
+| 3 | **Content accuracy** | `download.html:89-90` — Roku "Coming Soon" with null store_url | Link to actual repo or remove store claim |
+| 4 | **Accessibility** | `download.html:90,96,108,114` — four dead `href="#"` links | Either link to real repos or remove buttons |
+| 5 | **Social metadata** | Missing `twitter:creator=@detain` on every page | Add to all 9 pages' `<head>` |
+| 6 | **Accessibility** | `docs.html:25` — wrong skip-link text | Change to "Skip to main content" |
+| 7 | **Accessibility** | `docs.html` uses non-standard shell markup | Align with spec §4 shared shell |
+| 8 | **Footer** | `features.html` and `hub.html` footers are truncated (missing links) | Match content.json.footer.columns exactly |
+
+---
+
+## APPROVAL CHECKLIST
+
+| Dimension | Score | Status |
+|-----------|-------|--------|
+| Brand fidelity & spirit | 92 | ✅ |
+| SEO | 75 | ⚠️ |
+| Readability | 88 | ✅ |
+| Spelling & grammar | 82 | ⚠️ |
+| Usability | 80 | ⚠️ |
+| Accessibility | 68 | ❌ |
+| Responsive | 85 | ⚠️ |
+| Performance | 90 | ✅ |
+| Content accuracy | 70 | ❌ |
+| CTA / funnel | 78 | ⚠️ |
+| Social metadata | 60 | ❌ |
+| Localization | 88 | ✅ |
+| Experience fidelity | 85 | ⚠️ |
+
+**Average: 80.5 | Min: 60 (Social metadata) | ❌ Dimensions: 2 (Accessibility, Content accuracy), ⚠️ Dimensions: 7**
+
+---
+
+## ❌ NOT APPROVED
+
+**Reasons:**
+1. Content accuracy failures (wrong client structure, invented requirements, wrong store claims)
+2. Accessibility failures (dead href="#" links, missing theme-color, broken reduced-motion listener, docs.html shell deviation)
+3. Missing required `twitter:creator` meta on all pages
+4. Truncated footers on features.html and hub.html
+
+**Fix the 8 critical issues above and re-submit for review.**
