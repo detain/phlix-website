@@ -1,0 +1,258 @@
+/*
+ * theme.css — Directors Chair theme
+ * Typography, layout containers, and page structure
+ * @copyright Phlix Project
+ */
+
+/* Typography roles */
+.font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Eyebrow text */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+/* Layout containers */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container-narrow {
+  max-width: 800px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+/* Section spacing */
+.section {
+  padding-block: var(--space-16);
+}
+
+.section-lg {
+  padding-block: var(--space-24);
+}
+
+/* Hero section */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-16);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-surface) 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255, 217, 61, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(231, 76, 60, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+  margin-bottom: var(--space-6);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subheadline {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin-bottom: var(--space-8);
+  line-height: var(--leading-relaxed);
+}
+
+/* Pitch section */
+.pitch {
+  background: var(--color-surface);
+  padding-block: var(--space-16);
+}
+
+.pitch h2 {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.pitch-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: var(--space-4);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.pitch-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-accent);
+}
+
+.pitch-list li::before {
+  content: '🎬';
+  flex-shrink: 0;
+}
+
+/* Features overview */
+.features-overview {
+  padding-block: var(--space-16);
+}
+
+.features-overview h2 {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.features-grid > * {
+  margin-bottom: 0;
+}
+
+/* CTA Banner */
+.cta-banner {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #e6c235 100%);
+  padding: var(--space-12);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-block: var(--space-16);
+}
+
+.cta-banner h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner p {
+  color: var(--color-primary);
+  opacity: 0.8;
+  margin-bottom: var(--space-6);
+}
+
+/* Page header */
+.page-header {
+  padding-block: var(--space-16);
+  background: var(--color-surface);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 217, 61, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.page-header h1 {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-4);
+}
+
+.page-header .lead {
+  position: relative;
+  z-index: 1;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* Content section */
+.content-section {
+  padding-block: var(--space-16);
+}
+
+.content-section h2 {
+  margin-bottom: var(--space-8);
+}
+
+/* Content grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: var(--space-8);
+}
+
+/* Page footer spacing */
+main {
+  min-height: 60vh;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    padding-block: var(--space-10);
+  }
+
+  .section-lg {
+    padding-block: var(--space-12);
+  }
+
+  .hero {
+    min-height: 70vh;
+    padding-block: var(--space-10);
+  }
+
+  .cta-banner {
+    padding: var(--space-8);
+    margin-block: var(--space-10);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+}
