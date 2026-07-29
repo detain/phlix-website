@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hub — Phlix</title>
+  <meta name="description" content="Phlix Hub — sign in once, reach any of your servers from anywhere. Self-hostable reverse-tunnel relay or use the public hub." />
+  <meta name="keywords" content="phlix hub, reverse tunnel, NAT traversal, remote access, self-hosted" />
+  <link rel="canonical" href="https://detain.github.io/phlix-website/viking-voyage/hub.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Phlix" />
+  <meta property="og:url" content="https://detain.github.io/phlix-website/viking-voyage/hub.html" />
+  <meta property="og:title" content="Hub — Phlix" />
+  <meta property="og:description" content="Sign in once, reach any of your servers from anywhere. Reverse-tunnel relay handles NAT." />
+  <meta property="og:image" content="https://detain.github.io/phlix-website/viking-voyage/img/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hub — Phlix" />
+  <meta name="twitter:description" content="Sign in once, reach any of your servers from anywhere." />
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/viking-voyage/img/og.png" />
+  <meta name="twitter:creator" content="@detain" />
+  <meta name="theme-color" content="#1A1510" />
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ── SVG Icon Sprite ──────────────────────────────────────────────────── -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+    <symbol id="i-hub" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75" fill="none" /><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" /><circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none" /><circle cx="5" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" /><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none" /><path d="M7 6.5L9.5 10M16.5 10L19 6.5M7 17.5L9.5 14M16.5 14L19 17.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity="0.6" /></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none" /></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none" /></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" /></symbol>
+  </svg>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="index.html" class="site-wordmark" aria-label="Phlix — Home">Phlix</a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <ul role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html" class="nav-primary">Download</a></li>
+          <li><a href="hub.html" aria-current="page">Hub</a></li>
+          <li><a href="plugins.html">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+        <svg aria-hidden="true" focusable="false"><use href="#i-menu" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+  <main id="main-content">
+    <div class="page-header">
+      <h1>Phlix Hub</h1>
+      <p class="lead">Sign in once. Reach any of your servers from anywhere in the world — no port forwarding, no third-party tunnel service.</p>
+    </div>
+
+    <section class="section" aria-labelledby="what-hub-title">
+      <div class="container container--content">
+        <h2 id="what-hub-title" class="section-title">What the Hub Does</h2>
+        <p class="section-subtitle">The Hub is a cloud directory plus a reverse-tunnel relay. When your server starts, it establishes an outbound connection to the Hub. When you open the app, the Hub routes traffic through that connection — so you never have to open an inbound port.</p>
+
+        <div class="hub-diagram" style="margin-top: var(--space-8);">
+          <div class="hub-nodes">
+            <div class="hub-node">
+              <div class="hub-node-icon">
+                <svg aria-hidden="true" focusable="false" style="width: 32px; height: 32px;"><use href="#i-hub" /></svg>
+              </div>
+              <p class="hub-node-label">Phlix Hub</p>
+              <p class="hub-node-sub">Cloud relay</p>
+            </div>
+            <div class="hub-connector" aria-hidden="true"></div>
+            <div class="hub-node">
+              <div class="hub-node-icon" style="color: var(--color-primary);">
+                <svg aria-hidden="true" focusable="false" style="width: 32px; height: 32px;"><use href="#i-hub" /></svg>
+              </div>
+              <p class="hub-node-label">Your Server</p>
+              <p class="hub-node-sub">Behind NAT</p>
+            </div>
+            <div class="hub-connector" aria-hidden="true"></div>
+            <div class="hub-node">
+              <div class="hub-node-icon">
+                <svg aria-hidden="true" focusable="false" style="width: 32px; height: 32px;"><use href="#i-hub" /></svg>
+              </div>
+              <p class="hub-node-label">Your Client</p>
+              <p class="hub-node-sub">Anywhere</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <section class="section section--surface" aria-labelledby="self-host-title">
+      <div class="container container--content">
+        <h2 id="self-host-title" class="section-title">Self-Host or Use the Public Hub</h2>
+        <p class="section-subtitle">The public Hub at <code>hub.phlix.dev</code> is free to use. If you want full control, self-host the Hub on your own VPS — it's a separate PHP application that takes about five minutes to install.</p>
+        <p style="margin-top: var(--space-4); font-family: var(--font-body); font-size: 0.95rem; color: var(--color-neutral);">Self-hosting the Hub is ideal if you want audit logs, custom domain integration, or if you simply prefer to own your infrastructure.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <section class="section" aria-labelledby="hub-mode-title">
+      <div class="container container--content">
+        <h2 id="hub-mode-title" class="section-title">Hub Mode in Clients</h2>
+        <p class="section-subtitle">Every Phlix client supports Hub mode. When you sign in with your Hub credentials, the client automatically discovers and connects to your registered servers — no IP addresses, no port configuration, no manual setup.</p>
+        <ul style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); list-style: disc; padding-left: var(--space-6);">
+          <li style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text);">Sign in once with your Hub account</li>
+          <li style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text);">All your registered servers appear automatically</li>
+          <li style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text);">Switch between servers with one tap</li>
+          <li style="font-family: var(--font-body); font-size: 0.95rem; color: var(--color-text);">Works from anywhere — same experience at home or abroad</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <section class="section" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-banner">
+          <div class="cta-banner-text">
+            <h2 id="cta-title">Ready to set sail?</h2>
+            <p>Install Phlix and connect to the Hub in minutes.</p>
+          </div>
+          <div class="cta-banner-actions">
+            <a href="download.html" class="btn btn-primary">Download Phlix</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <p class="footer-tagline">Open-source media, on your terms.</p>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>Product</h3>
+          <ul role="list">
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Developers</h3>
+          <ul role="list">
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Project</h3>
+          <ul role="list">
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">&copy; 2026 Joe Huss. Site built on the <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">MPL-2.0</a> licence.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
