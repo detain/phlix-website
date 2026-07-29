@@ -11,6 +11,20 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/components.css">
+
+  <!-- OG Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="System — Quantum Stream">
+  <meta property="og:description" content="Quantum Stream — philosophy, license, and the science of quantum media observation.">
+  <meta property="og:image" content="img/og.png">
+  <meta property="og:url" content="https://phlix.net/sites/quantum-stream/about">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="System — Quantum Stream">
+  <meta name="twitter:description" content="Quantum Stream — philosophy, license, and the science of quantum media observation.">
+  <meta name="twitter:image" content="img/og.png">
+  <meta name="twitter:creator" content="@detain">
 </head>
 <body class="bg-void">
   <a href="#main" class="skip-link">Skip to main content</a>
@@ -29,6 +43,8 @@
           <li><a href="features.html">Calibrate</a></li>
           <li><a href="clients.html">Interfaces</a></li>
           <li><a href="download.html" class="nav-emph-primary">Install</a></li>
+          <li><a href="plugins.html">Modules</a></li>
+          <li><a href="docs.html">Docs</a></li>
           <li><a href="hub.html">Relay</a></li>
           <li><a href="about.html" aria-current="page" class="nav-emph-muted">System</a></li>
         </ul>
@@ -56,9 +72,8 @@
       <!-- License -->
       <section class="section">
         <h2>License</h2>
-        <p>Quantum Stream is released under the GNU General Public License v2.0 with additional terms.</p>
-        <p class="mt-4">You are free to run, study, modify, and distribute the quantum source code under the terms of the GPLv2 license. The server component remains open source. Certain client applications include proprietary components.</p>
-        <p class="mt-4">Commercial deployment and OEM licensing are available under separate terms. Contact us for enterprise inquiries.</p>
+        <p>Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially. If you modify a Phlix file, that file stays open; anything you add alongside it is yours.</p>
+        <p class="mt-4">The shared libraries, plugins, and clients are MIT so you can build on them freely.</p>
       </section>
 
       <hr class="wave-divider">
@@ -68,13 +83,13 @@
         <h2>Contributing</h2>
         <p>The quantum field is strengthened by each observer. We welcome contributions from physicists, engineers, and anyone who finds this metaphor compelling.</p>
         <div class="path-options mt-6">
-          <a href="https://github.com/phlix/quantum-stream" class="path-option">
+          <a href="https://github.com/detain/phlix-server" class="path-option">
             <strong>GitHub</strong><br>
             <span class="text-muted">Source code and issues</span>
           </a>
-          <a href="https://forums.phlix.net" class="path-option">
-            <strong>Forums</strong><br>
-            <span class="text-muted">Community discussion</span>
+          <a href="https://github.com/detain/phlix-hub" class="path-option">
+            <strong>Hub</strong><br>
+            <span class="text-muted">Remote access relay</span>
           </a>
         </div>
       </section>
@@ -88,33 +103,33 @@
 
         <dl class="faq-list mt-6">
           <div class="faq-item">
-            <dt>How is this different from Plex or Jellyfin?</dt>
-            <dd>While functionally similar, Quantum Stream treats media organization as a quantum mechanical system. The observer effect is not a metaphor but a design principle. The interface reflects this with blur-on-hover effects, probability cloud aesthetics, and wave function collapse animations.</dd>
+            <dt>Is Phlix like Plex / Jellyfin / Emby?</dt>
+            <dd>Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman, ships with a versioned plugin contract, and includes a hub for accessing remote servers behind NAT without a third-party tunnel.</dd>
           </div>
 
           <div class="faq-item">
-            <dt>Does the quantum theme affect performance?</dt>
-            <dd>No. The quantum theme is purely visual. The underlying media serving, transcoding, and streaming infrastructure is identical to standard implementations.</dd>
+            <dt>Do I need to expose my server to the internet?</dt>
+            <dd>No. Run Phlix on your LAN and use the Phlix Hub's reverse-tunnel relay to reach it from your phone or Roku at a friend's house. You can self-host the hub, or use the public one.</dd>
           </div>
 
           <div class="faq-item">
-            <dt>Why IBM Plex fonts?</dt>
-            <dd>IBM Plex Mono and IBM Plex Sans were chosen for their technical precision and excellent legibility at small sizes. The monospace for headings evokes laboratory instrumentation readouts — the aesthetic of scientific measurement.</dd>
-          </div>
-
-          <div class="faq-item">
-            <dt>Is the relay feature secure?</dt>
-            <dd>All relay traffic is end-to-end encrypted. We cannot see your media library, only route the encrypted tunnel. No media data transits our servers in plaintext.</dd>
-          </div>
-
-          <div class="faq-item">
-            <dt>Can I self-host the relay infrastructure?</dt>
-            <dd>Yes. The relay component is open source and can be deployed on your own servers. This gives you full control over the tunnel infrastructure while maintaining the same client experience.</dd>
+            <dt>What formats are supported?</dt>
+            <dd>Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS otherwise. Per-device quality profiles pick the right bitrate automatically.</dd>
           </div>
 
           <div class="faq-item">
             <dt>Is there a mobile app?</dt>
-            <dd>Yes. iOS, tvOS, and Android apps are available. The mobile apps support offline downloads, background sync, and full feature parity with the web interface.</dd>
+            <dd>Yes — React Native, available on iOS and Android. Currently in beta.</dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>Can I write plugins?</dt>
+            <dd>Yes. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. See phlix-plugin-example for the smallest working starter.</dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>What's the license?</dt>
+            <dd>Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially. If you modify a Phlix file, that file stays open; anything you add alongside it is yours. The shared libraries, plugins, and clients are MIT so you can build on them freely.</dd>
           </div>
         </dl>
       </section>
@@ -131,21 +146,25 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="features.html">Calibrate</a></li>
             <li><a href="download.html">Install</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Interface</h3>
-          <ul>
-            <li><a href="clients.html">Clients</a></li>
             <li><a href="plugins.html">Modules</a></li>
-            <li><a href="hub.html">Relay</a></li>
           </ul>
         </div>
         <div>
-          <h3>Reference</h3>
+          <h3>Developers</h3>
           <ul>
-            <li><a href="docs.html">Docs</a></li>
-            <li><a href="about.html">System</a></li>
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Project</h3>
+          <ul>
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
           </ul>
         </div>
       </nav>
