@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neural-Link | Brain-Computer Interface Experience</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/patterns.css">
+</head>
+<body class="neural-theme">
+  <div class="neural-bg-pattern"></div>
+  <div class="synaptic-overlay"></div>
+
+  <header class="site-header">
+    <nav class="nav-container">
+      <a href="/" class="logo">
+        <span class="logo-icon">
+          <svg viewBox="0 0 40 40" class="brain-icon">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="url(#brainGradient)" stroke-width="2"/>
+            <circle cx="20" cy="20" r="8" fill="none" stroke="#00FFFF" stroke-width="1.5"/>
+            <path d="M20 8 L20 12 M20 28 L20 32 M8 20 L12 20 M28 20 L32 20" stroke="#9D4EDD" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="3" fill="#FF00FF" class="pulse-core"/>
+            <defs>
+              <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FF00FF"/>
+                <stop offset="50%" stop-color="#9D4EDD"/>
+                <stop offset="100%" stop-color="#00FFFF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="logo-text">NEURAL-LINK</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#neural-map" class="nav-link">Neural Map</a></li>
+        <li><a href="#memory-palace" class="nav-link">Memory Palace</a></li>
+        <li><a href="#synapse-gallery" class="nav-link">Synapse Gallery</a></li>
+        <li><a href="#thought-stream" class="nav-link">Thought Stream</a></li>
+      </ul>
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-text">Neural Interface v4.2.1</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="title-line">CONNECT</span>
+          <span class="title-line accent">YOUR MIND</span>
+          <span class="title-line">TO MEDIA</span>
+        </h1>
+        <p class="hero-description">
+          Experience direct brain-to-media interface technology. 
+          Navigate collections through synaptic pathways and memory palace spatial navigation.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary neural-btn" data-effect="synaptic">
+            <span class="btn-text">Initiate Link</span>
+            <span class="btn-glow"></span>
+          </button>
+          <button class="btn btn-secondary" data-effect="pulse">
+            <span class="btn-text">Explore Memory</span>
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value" data-count="2847">0</span>
+            <span class="stat-label">Synaptic Paths</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" data-count="12">0</span>
+            <span class="stat-label">Memory Nodes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" data-count="99.7">0</span>
+            <span class="stat-label">% Clarity</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="neural-network-canvas" id="neuralCanvas"></div>
+        <div class="floating-memory-cubes">
+          <div class="memory-cube" data-delay="0"></div>
+          <div class="memory-cube" data-delay="200"></div>
+          <div class="memory-cube" data-delay="400"></div>
+          <div class="memory-cube" data-delay="600"></div>
+          <div class="memory-cube" data-delay="800"></div>
+        </div>
+        <div class="thought-bubble tb-1"></div>
+        <div class="thought-bubble tb-2"></div>
+        <div class="thought-bubble tb-3"></div>
+      </div>
+    </section>
+
+    <section id="neural-map" class="section neural-map-section">
+      <div class="section-header">
+        <h2 class="section-title">Neural Map</h2>
+        <p class="section-subtitle">Interactive brain-computer interface visualization</p>
+      </div>
+      <div class="neural-map-container">
+        <div class="brain-scan-display">
+          <div class="scan-line"></div>
+          <canvas id="brainScanCanvas" width="600" height="400"></canvas>
+          <div class="scan-overlay">
+            <span class="scan-label">EEG READOUT</span>
+            <div class="scan-data">
+              <span>Alpha: 12.4 Hz</span>
+              <span>Beta: 24.8 Hz</span>
+              <span>Theta: 6.2 Hz</span>
+            </div>
+          </div>
+        </div>
+        <div class="neural-pathways">
+          <h3>Active Pathways</h3>
+          <div class="pathway-list">
+            <div class="pathway-item" data-connection="visual-cortex">
+              <span class="pathway-node"></span>
+              <span class="pathway-name">Visual Cortex</span>
+              <span class="pathway-status active">Active</span>
+            </div>
+            <div class="pathway-item" data-connection="temporal-lobe">
+              <span class="pathway-node"></span>
+              <span class="pathway-name">Temporal Lobe</span>
+              <span class="pathway-status active">Active</span>
+            </div>
+            <div class="pathway-item" data-connection="hippocampus">
+              <span class="pathway-node"></span>
+              <span class="pathway-name">Hippocampus</span>
+              <span class="pathway-status processing">Processing</span>
+            </div>
+            <div class="pathway-item" data-connection="prefrontal">
+              <span class="pathway-node"></span>
+              <span class="pathway-name">Prefrontal Cortex</span>
+              <span class="pathway-status standby">Standby</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="memory-palace" class="section memory-palace-section">
+      <div class="section-header">
+        <h2 class="section-title">Memory Palace</h2>
+        <p class="section-subtitle">Navigate your collections through spatial memory</p>
+      </div>
+      <div class="memory-palace-container">
+        <div class="palace-floor">
+          <div class="palace-room" data-room="1">
+            <div class="room-label">Room 1</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Neural Interface Demo</span>
+              </div>
+            </div>
+          </div>
+          <div class="palace-room" data-room="2">
+            <div class="room-label">Room 2</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Synaptic Animation</span>
+              </div>
+            </div>
+          </div>
+          <div class="palace-room" data-room="3">
+            <div class="room-label">Room 3</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Memory Cube Series</span>
+              </div>
+            </div>
+          </div>
+          <div class="palace-room" data-room="4">
+            <div class="room-label">Room 4</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Thought Stream</span>
+              </div>
+            </div>
+          </div>
+          <div class="palace-room" data-room="5">
+            <div class="room-label">Room 5</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Brain Scan Patterns</span>
+              </div>
+            </div>
+          </div>
+          <div class="palace-room" data-room="6">
+            <div class="room-label">Room 6</div>
+            <div class="room-content">
+              <div class="memory-item">
+                <div class="memory-thumb"></div>
+                <span class="memory-title">Neural Pathways</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="palace-nav">
+          <button class="palace-nav-btn prev" disabled>&larr;</button>
+          <div class="palace-position">
+            <span class="current-room">1</span>
+            <span class="separator">/</span>
+            <span class="total-rooms">6</span>
+          </div>
+          <button class="palace-nav-btn next">&rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="synapse-gallery" class="section synapse-gallery-section">
+      <div class="section-header">
+        <h2 class="section-title">Synapse Gallery</h2>
+        <p class="section-subtitle">Neural pathway inspired media collection</p>
+      </div>
+      <div class="gallery-grid">
+        <article class="gallery-item large">
+          <div class="item-visual synapse-trigger">
+            <div class="synapse-nodes">
+              <div class="syn-node"></div>
+              <div class="syn-connector"></div>
+              <div class="syn-node"></div>
+              <div class="syn-connector"></div>
+              <div class="syn-node"></div>
+            </div>
+          </div>
+          <div class="item-info">
+            <h3>Neural Network Architecture</h3>
+            <p>Deep learning visualization showing synaptic connections</p>
+          </div>
+        </article>
+        <article class="gallery-item">
+          <div class="item-visual brain-wave">
+            <div class="wave-line"></div>
+          </div>
+          <div class="item-info">
+            <h3>Brain Wave Analysis</h3>
+            <p>Real-time EEG pattern recognition</p>
+          </div>
+        </article>
+        <article class="gallery-item">
+          <div class="item-visual memory-cube-display">
+            <div class="cube-3d">
+              <div class="cube-face front"></div>
+              <div class="cube-face back"></div>
+              <div class="cube-face left"></div>
+              <div class="cube-face right"></div>
+              <div class="cube-face top"></div>
+              <div class="cube-face bottom"></div>
+            </div>
+          </div>
+          <div class="item-info">
+            <h3>Memory Cube</h3>
+            <p>Quantum state storage visualization</p>
+          </div>
+        </article>
+        <article class="gallery-item wide">
+          <div class="item-visual thought-stream">
+            <div class="stream-bubble"></div>
+            <div class="stream-bubble"></div>
+            <div class="stream-bubble"></div>
+          </div>
+          <div class="item-info">
+            <h3>Thought Stream</h3>
+            <p>Real-time consciousness data flow</p>
+          </div>
+        </article>
+        <article class="gallery-item">
+          <div class="item-visual neural-pulse">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-center"></div>
+          </div>
+          <div class="item-info">
+            <h3>Neural Pulse</h3>
+            <p>Synaptic firing visualization</p>
+          </div>
+        </article>
+        <article class="gallery-item">
+          <div class="item-visual cognitive-map">
+            <div class="map-node n1"></div>
+            <div class="map-node n2"></div>
+            <div class="map-node n3"></div>
+            <div class="map-node n4"></div>
+            <div class="map-connector"></div>
+            <div class="map-connector"></div>
+            <div class="map-connector"></div>
+          </div>
+          <div class="item-info">
+            <h3>Cognitive Map</h3>
+            <p>Spatial memory pathway</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="thought-stream" class="section thought-stream-section">
+      <div class="section-header">
+        <h2 class="section-title">Thought Stream</h2>
+        <p class="section-subtitle">Live neural activity feed</p>
+      </div>
+      <div class="stream-container">
+        <div class="stream-display">
+          <div class="stream-line"></div>
+          <div class="thought-bubbles">
+            <div class="thought-item">
+              <div class="thought-icon"></div>
+              <div class="thought-content">
+                <span class="thought-time">14:32:07</span>
+                <p class="thought-text">Memory retrieval initiated from hippocampus...</p>
+              </div>
+            </div>
+            <div class="thought-item">
+              <div class="thought-icon"></div>
+              <div class="thought-content">
+                <span class="thought-time">14:32:12</span>
+                <p class="thought-text">Synaptic pathway strengthening: visual-cortex</p>
+              </div>
+            </div>
+            <div class="thought-item">
+              <div class="thought-icon"></div>
+              <div class="thought-content">
+                <span class="thought-time">14:32:18</span>
+                <p class="thought-text">Neural pattern matching: 94.7% correlation</p>
+              </div>
+            </div>
+            <div class="thought-item">
+              <div class="thought-icon"></div>
+              <div class="thought-content">
+                <span class="thought-time">14:32:24</span>
+                <p class="thought-text">Memory palace navigation: Room 3 accessed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stream-input">
+          <input type="text" class="thought-input" placeholder="Transmit thought...">
+          <button class="btn btn-primary send-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section">
+      <div class="section-header">
+        <h2 class="section-title">Initialize Connection</h2>
+        <p class="section-subtitle">Link your consciousness to our network</p>
+      </div>
+      <form class="contact-form neural-form">
+        <div class="form-group">
+          <label for="neural-id" class="form-label">Neural ID</label>
+          <input type="text" id="neural-id" name="neural-id" class="form-input" placeholder="Enter your neural identifier">
+        </div>
+        <div class="form-group">
+          <label for="consciousness-level" class="form-label">Consciousness Level</label>
+          <select id="consciousness-level" name="consciousness-level" class="form-input">
+            <option value="">Select awareness tier</option>
+            <option value="awake">Awake State</option>
+            <option value="focused">Focused Attention</option>
+            <option value="meditative">Meditative Flow</option>
+            <option value="dreamlike">Dreamlike Resonance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="synaptic-pattern" class="form-label">Synaptic Pattern</label>
+          <input type="text" id="synaptic-pattern" name="synaptic-pattern" class="form-input" placeholder="Describe your neural signature">
+        </div>
+        <div class="form-group full-width">
+          <label for="neural-message" class="form-label">Transmit Message</label>
+          <textarea id="neural-message" name="neural-message" class="form-input" rows="4" placeholder="Enter your transmission..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary neural-btn" data-effect="synaptic">
+            <span class="btn-text">Establish Link</span>
+            <span class="btn-glow"></span>
+          </button>
+          <button type="reset" class="btn btn-secondary">Clear Channel</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="logo-icon">
+          <svg viewBox="0 0 40 40" class="brain-icon small">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="url(#brainGradient)" stroke-width="2"/>
+            <circle cx="20" cy="20" r="8" fill="none" stroke="#00FFFF" stroke-width="1.5"/>
+            <path d="M20 8 L20 12 M20 28 L20 32 M8 20 L12 20 M28 20 L32 20" stroke="#9D4EDD" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="3" fill="#FF00FF" class="pulse-core"/>
+          </svg>
+        </span>
+        <span class="brand-name">NEURAL-LINK</span>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Neural Protocol</a>
+        <a href="#" class="footer-link">Synapse API</a>
+        <a href="#" class="footer-link">Memory SDK</a>
+        <a href="#" class="footer-link">Consciousness Docs</a>
+      </div>
+      <div class="footer-status">
+        <span class="status-indicator active"></span>
+        <span class="status-text">Neural Network: Online</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" type="module"></script>
+  <script src="js/neural-network.js" type="module"></script>
+  <script src="js/synaptic-effects.js" type="module"></script>
+  <script src="js/memory-palace.js" type="module"></script>
+</body>
+</html>
