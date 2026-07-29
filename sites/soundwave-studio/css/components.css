@@ -62,6 +62,10 @@
   padding: var(--space-2);
   cursor: pointer;
   color: var(--color-text);
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-toggle__icon {
@@ -131,7 +135,7 @@
 }
 
 .nav-menu__link--primary:hover {
-  background: #00ff88;
+  background: #0f8;
   color: var(--color-bg);
 }
 
@@ -153,7 +157,7 @@
 }
 
 /* ── Mobile nav ────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nav-toggle {
     display: flex;
     align-items: center;
@@ -163,10 +167,7 @@
   .nav-menu {
     display: none;
     position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 60px 0 0;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-2);
@@ -371,7 +372,7 @@
   transform: translateX(16px);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .footer-nav {
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -411,11 +412,11 @@
 }
 
 .btn--primary:hover {
-  background: #00ff88;
-  border-color: #00ff88;
+  background: #0f8;
+  border-color: #0f8;
   text-decoration: none;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.3);
+  box-shadow: 0 4px 12px rgb(0, 230, 118, 0.3);
 }
 
 .btn--primary:active {
@@ -429,7 +430,7 @@
 }
 
 .btn--secondary:hover {
-  background: rgba(0, 230, 118, 0.1);
+  background: rgb(0, 230, 118, 0.1);
   text-decoration: none;
 }
 
@@ -452,7 +453,7 @@
 }
 
 .btn--danger:hover {
-  background: #ff0000;
+  background: #f00;
   text-decoration: none;
 }
 
@@ -497,7 +498,7 @@
 .form-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.2);
+  box-shadow: 0 0 0 3px rgb(0, 230, 118, 0.2);
 }
 
 .form-label {
@@ -550,13 +551,19 @@
   height: 48px;
   pointer-events: auto;
   cursor: pointer;
-  filter: drop-shadow(0 2px 8px rgba(0, 230, 118, 0.4));
+  filter: drop-shadow(0 2px 8px rgb(0, 230, 118, 0.4));
   animation: waveform-idle 3s ease-in-out infinite;
 }
 
 @keyframes waveform-idle {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
   50% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot__figure {
+    animation: none;
+  }
 }
 
 .mascot__close {
@@ -583,7 +590,7 @@
   opacity: 1;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mascot {
     display: none;
   }
