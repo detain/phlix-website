@@ -1,100 +1,83 @@
-/* ==========================================================================
-   MAIN.JS — deep-abyss
-   Navigation toggle, reduced motion, scroll reveals
-   @copyright 2026 Phlix Project <https://github.com/detain>
-   ========================================================================== */
+/**
+ * Phlix — deep-abyss brand kit
+ * main.js — nav toggle, reduced-motion, scroll reveals
+ *
+ * @copyright 2026 Phlix
+ */
 
 (function () {
   'use strict';
 
-  /* --------------------------------------------------------------------------
-     Mobile Navigation Toggle
-     -------------------------------------------------------------------------- */
+  /* ─── Mobile Nav Toggle ─────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
   var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
-      var isOpen = navMenu.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', isOpen.toString());
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      var expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      navMenu.hidden = expanded;
+      if (!expanded) {
+        navMenu.removeAttribute('hidden');
+        navMenu.classList.add('open');
+        // Focus first link
+        var firstLink = navMenu.querySelector('a');
+        if (firstLink) firstLink.focus();
+      } else {
+        navMenu.classList.remove('open');
+      }
     });
 
     // Close on outside click
     document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        navMenu.hidden = true;
+        navMenu.classList.remove('open');
       }
     });
 
     // Close on Escape
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        navMenu.classList.remove('is-open');
+      if (e.key === 'Escape' && navMenu.classList.contains('open')) {
         navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        navMenu.hidden = true;
+        navMenu.classList.remove('open');
         navToggle.focus();
       }
     });
   }
 
-  /* --------------------------------------------------------------------------
-     Reduced Motion Detection
-     -------------------------------------------------------------------------- */
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  /* ─── Scroll Reveals (IntersectionObserver) ─────────────────── */
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function handleReducedMotion() {
-    document.documentElement.classList.toggle('reduced-motion', prefersReducedMotion.matches);
-  }
-
-  handleReducedMotion();
-  prefersReducedMotion.addEventListener('change', handleReducedMotion);
-
-  /* --------------------------------------------------------------------------
-     Scroll Reveals (Intersection Observer)
-     -------------------------------------------------------------------------- */
-  if (!prefersReducedMotion.matches) {
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .hub-feature'
+      '.feature-card, .feature-detail, .client-card, .download-card'
     );
 
-    if ('IntersectionObserver' in window && revealElements.length > 0) {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          revealObserver.unobserve(entry.target);
+        }
       });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
 
-      revealElements.forEach(function (el) {
-        el.style.opacity = '0';
-        revealObserver.observe(el);
-      });
-    }
+    revealElements.forEach(function (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      revealObserver.observe(el);
+    });
   }
 
-  /* --------------------------------------------------------------------------
-     Active Nav Link Detection
-     -------------------------------------------------------------------------- */
-  var currentPath = window.location.pathname;
-  var navLinks = document.querySelectorAll('.nav-menu a');
-
-  navLinks.forEach(function (link) {
-    var href = link.getAttribute('href');
-    if (href === './' || href === 'index.html') {
-      if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
-        link.setAttribute('aria-current', 'page');
-      }
-    } else if (currentPath.includes(href)) {
-      link.setAttribute('aria-current', 'page');
-    }
-  });
+  /* ─── FAQ <details> animated marker ────────────────────────── */
+  // Handled via CSS in theme.css
 
 })();

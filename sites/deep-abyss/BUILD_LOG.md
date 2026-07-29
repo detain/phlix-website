@@ -1,85 +1,59 @@
-# deep-abyss BUILD LOG
+# BUILD_LOG — deep-abyss
 
-## What Was Built
+## What was built
 
-Complete brand kit site for `deep-abyss` theme — Phlix marketing site themed as an abyssal ocean discovery experience.
+Full deep-abyss brand kit site for Phlix — 9 HTML pages, 3 CSS files, 1 JS file, 2 SVG assets, robots.txt, sitemap.xml, SITE.md, and BUILD_LOG.md.
 
-### Site Structure
-```
-sites/deep-abyss/
-├── index.html          # Home page with hero, pitch, features overview, CTA
-├── features.html       # All 8 features with detailed cards
-├── clients.html        # 5 clients (4 native + DLNA)
-├── download.html      # Server install + clients + ecosystem
-├── plugins.html        # Plugin system documentation
-├── docs.html           # Documentation links
-├── hub.html            # Phlix Hub information
-├── about.html          # Philosophy, license, FAQ (6 items)
-├── 404.html            # Custom error page
-├── css/
-│   ├── base.css        # Reset, tokens, base styles
-│   ├── theme.css       # Typography, layout, page sections
-│   └── components.css  # Header, nav, footer, buttons, cards
-├── js/
-│   └── main.js         # Mobile nav, reduced motion, scroll reveals
-├── img/
-│   ├── logo.svg        # Jellyfish logo mark + wordmark
-│   ├── favicon.svg     # Simplified jellyfish favicon
-│   └── og.png          # Social share image (generated)
-├── robots.txt
-├── sitemap.xml
-├── SITE.md             # Design rationale
-└── BUILD_LOG.md        # This file
-```
+## Pages
 
-## Key Implementation Details
+| Page | File | Notes |
+|------|------|-------|
+| Home | index.html | Hero with install command, pitch bullets, 8-feature overview grid, CTA banner |
+| Features | features.html | All 8 features with full descriptions in feature-detail layout |
+| Clients | clients.html | 4 native clients + DLNA (stable/beta badges) |
+| Download | download.html | Server install snippets, client download cards, ecosystem list |
+| Plugins | plugins.html | Plugin model (LifecycleInterface + manifest), ecosystem, write your own |
+| Docs | docs.html | Link-out to external docs site, ecosystem list |
+| Hub | hub.html | Hub description, self-hosted vs public, client Hub mode |
+| About | about.html | Philosophy, license, contributing, 6-item FAQ |
+| 404 | 404.html | Themed error page with recovery links, noindex |
 
-### Theme Application
-- **Background:** Deep ocean gradient (`#0A1628` → `#0E4D64` → `#1B8ABC`)
-- **Accent:** Bioluminescent cyan (`#00F5D4`) for CTAs, icons, glows
-- **Secondary accent:** Abyssal purple (`#7B2CBF`) for decorative elements
-- **Typography:** System fonts (no CDN) with generous spacing
+## CSS Architecture
 
-### Content Compliance
-- 8 features from `content.json` — all rendered with icons
-- 6 FAQ items on about page — all from `content.json`
-- 5 clients — 4 native (Roku, Tizen, Windows, Mobile beta) + DLNA
-- Install command copied verbatim from `content.json.install.primary`
-- Footer tagline: "Open-source media, on your terms."
+- **css/base.css** — reset, :root tokens (colors, spacing, radii, shadows, fonts), element defaults, skip-link, focus-visible, custom scrollbar, reduced-motion
+- **css/theme.css** — typography scale, layout containers, hero, pitch, features-overview, page-header, content-section, CTA banner, feature-detail, client-card, ecosystem-list, code-block, badges, FAQ (details/summary)
+- **css/components.css** — site-header, nav-logo, nav-toggle, nav-menu (mobile + desktop), btn variants, feature-card, download-card, site-footer (3-column), icons
 
-### Technical Compliance
-- Grid uses `minmax(0, 1fr)` for proper overflow handling
-- CSS `@copyright` inside `/* */` blocks
-- OG image + Twitter meta on every page
-- `twitter:creator=@detain` on all pages
-- `noindex` on 404.html only
-- Self-hosted fonts (system UI stack)
+## JS (js/main.js)
 
-## Deviations from Spec
+- Mobile nav toggle (aria-expanded, hidden, outside click, Escape key)
+- Scroll reveals via IntersectionObserver (respects prefers-reduced-motion)
+- FAQ marker handled via CSS (no JS needed)
 
-None — all content sourced from `content.json`, all technical requirements met.
+## Assets
 
-## Build Commands Used
+- **img/logo.svg** — 200×60, wave/fish mark + serif wordmark, glow filter, gradient accent
+- **img/favicon.svg** — 32×32, simplified mark on dark background, rounded corners
+- **img/og.png** — generated via `node tools/gen-og.mjs --site deep-abyss`
 
-```bash
-node tools/gen-og.mjs --site deep-abyss
-git add sites/deep-abyss/
-git commit -m "feat(deep-abyss): complete brand kit site (ocean depths theme)"
-git push origin master
-```
+## Key Compliance Points
 
-## Verification Checklist
+- 4 native clients + DLNA — never "5" or "Five"
+- Install command `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash` in hero CTA of index.html AND in download.html
+- FAQ uses `<details>/<summary>` elements (not a JS accordion)
+- Footer: 3 columns + "Open-source media, on your terms."
+- All pages: OG + Twitter meta, twitter:creator=@detain, absolute URLs for og:image/canonical
+- CSS @copyright inside `/* */` comment blocks only (no bare ` * @copyright` lines)
+- Grid tracks: `minmax(0, 1fr)` — not bare `1fr`
+- No Google Fonts CDN — uses system serif (Georgia) + sans (Source Sans Pro from shared pool if available, otherwise Helvetica Neue)
+- 404.html: `noindex` meta, themed recovery content
 
-- [x] All 9 HTML pages present and valid
-- [x] CSS files with proper `@copyright` blocks
-- [x] JS file with mobile nav and reduced motion support
-- [x] SVG logo and favicon
-- [x] og.png generated
-- [x] robots.txt and sitemap.xml present
-- [x] SITE.md and BUILD_LOG.md created
-- [x] Install command on index.html AND download.html
-- [x] 8 features rendered
-- [x] 6 FAQ rendered
-- [x] Footer with 3 columns + tagline
-- [x] No Google Fonts CDN
-- [x] Grid uses minmax(0, 1fr)
+## Deviation from new_site.md
+
+None — all spec requirements met.
+
+## Follow-ups
+
+- [ ] Run `node tools/selfcheck.mjs --site deep-abyss` for static checks
+- [ ] Run `node tools/render-check.mjs --site deep-abyss` for real browser rendering checks
+- [ ] Verify og.png generation completes successfully
