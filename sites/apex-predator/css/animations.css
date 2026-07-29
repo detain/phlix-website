@@ -1,0 +1,471 @@
+/**
+ * Apex Predator Animations
+ * Pounce transitions, claw-slash reveals, hunting-mode focus
+ */
+
+/* ============================================
+   POUNCE TRANSITIONS
+   ============================================ */
+@keyframes pounceIn {
+    0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.9);
+    }
+    60% {
+        transform: translateY(-10px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pounceInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-80px) scale(0.9);
+    }
+    60% {
+        transform: translateX(10px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes pounceInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+    60% {
+        transform: translateX(-10px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes pounceInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-80px) scale(0.9);
+    }
+    60% {
+        transform: translateY(10px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   CLAW SLASH REVEALS
+   ============================================ */
+@keyframes clawSlashIn {
+    0% {
+        opacity: 0;
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    }
+    40% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 55%);
+    }
+    60% {
+        clip-path: polygon(0 0, 100% 0, 100% 65%, 0 85%);
+    }
+    80% {
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 95%);
+    }
+    100% {
+        opacity: 1;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+@keyframes clawRake {
+    0% {
+        transform: translateX(-100%) skewX(-20deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translateX(10%) skewX(-15deg);
+        opacity: 1;
+    }
+    60% {
+        transform: translateX(-3%) skewX(-18deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0) skewX(-20deg);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   HUNTING-MODE FOCUS
+   ============================================ */
+@keyframes huntingFocus {
+    0% {
+        transform: scale(0.95);
+        filter: blur(10px) brightness(1.5);
+    }
+    50% {
+        transform: scale(1.02);
+        filter: blur(2px) brightness(1.2);
+    }
+    100% {
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+    }
+}
+
+@keyframes trackingReticle {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes reticleLock {
+    0% {
+        stroke-dashoffset: 100;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   CAPTURED ANIMATION
+   ============================================ */
+@keyframes capturedSnap {
+    0% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 0 rgba(199, 0, 57, 0.8);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px 10px rgba(199, 0, 57, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: var(--ap-claw-glow);
+    }
+}
+
+@keyframes bloodSplatter {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+        border-radius: 50%;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+@keyframes preyFreeze {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    25%, 75% {
+        filter: brightness(0.5) saturate(0.5);
+    }
+    50% {
+        filter: brightness(0.3) saturate(0) brightness(1.5);
+    }
+}
+
+/* ============================================
+   CLAW MARKS ANIMATION
+   ============================================ */
+@keyframes clawRakeHorizontal {
+    0% {
+        transform: translateX(-100%) scaleX(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    40% {
+        transform: translateX(10%) scaleX(1.1);
+    }
+    60% {
+        transform: translateX(-3%) scaleX(0.95);
+    }
+    80% {
+        transform: translateX(1%) scaleX(1.02);
+    }
+    100% {
+        transform: translateX(0) scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes clawSweep {
+    0% {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    }
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+/* ============================================
+   PREDATOR BREATHING
+   ============================================ */
+@keyframes predatorBreath {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes eyeGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px var(--ap-primary));
+    }
+    50% {
+        filter: drop-shadow(0 0 8px var(--ap-primary)) drop-shadow(0 0 15px var(--ap-primary));
+    }
+}
+
+/* ============================================
+   STRIKE ANIMATION
+   ============================================ */
+@keyframes strikeDown {
+    0% {
+        transform: translateY(-100%) rotate(-5deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translateY(10%) rotate(2deg);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(-3%) rotate(-1deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes strikeAcross {
+    0% {
+        transform: translateX(-100%) translateY(-50%) rotate(-15deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translateX(10%) translateY(-50%) rotate(3deg);
+        opacity: 1;
+    }
+    60% {
+        transform: translateX(-3%) translateY(-50%) rotate(-1deg);
+    }
+    100% {
+        transform: translateX(0) translateY(-50%) rotate(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   SECTION REVEALS
+   ============================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Staggered delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* ============================================
+   CARD ANIMATIONS
+   ============================================ */
+.card-pounce {
+    animation: pounceIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.card-claw {
+    animation: clawSlashIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.card-strike {
+    animation: strikeDown 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+.hover-pounce {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-pounce:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+.hover-strike {
+    transition: transform 0.2s ease;
+}
+
+.hover-strike:hover {
+    transform: translateY(-5px);
+}
+
+.hover-slasher {
+    position: relative;
+}
+
+.hover-slasher::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--ap-primary);
+    transition: width 0.3s ease;
+}
+
+.hover-slasher:hover::after {
+    width: 100%;
+}
+
+/* ============================================
+   SCROLL INDICATORS
+   ============================================ */
+@keyframes clawScratch {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+.scroll-indicator {
+    animation: clawScratch 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   LOADER ANIMATION
+   ============================================ */
+@keyframes predatorProwl {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes clawPrint {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   REDUCED MOTION OVERRIDES
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale {
+        opacity: 1;
+        transform: none;
+    }
+
+    .hero-section,
+    .feature-card,
+    .service-card,
+    .prey-card {
+        opacity: 1;
+    }
+}
