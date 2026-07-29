@@ -1,0 +1,404 @@
+/* @copyright 2026 Phlix — The 5 Pillars of Intentional UI: Hidden Surprises Edition
+ *
+ * Typography, layout containers, and page structure.
+ */
+
+/* ============================================================
+   1. Typography System
+   ============================================================ */
+
+.font-display  { font-family: var(--font-display); }
+.font-body     { font-family: var(--font-body); }
+.font-mono     { font-family: var(--font-mono); }
+
+.text-xs   { font-size: var(--text-xs); }
+.text-sm   { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg   { font-size: var(--text-lg); }
+.text-xl   { font-size: var(--text-xl); }
+.text-2xl  { font-size: var(--text-2xl); }
+.text-3xl  { font-size: var(--text-3xl); }
+.text-4xl  { font-size: var(--text-4xl); }
+.text-5xl  { font-size: var(--text-5xl); }
+.text-6xl  { font-size: var(--text-6xl); }
+
+/* ============================================================
+   2. Layout Containers
+   ============================================================ */
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-block: var(--space-9);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+.section {
+  padding-block: var(--space-10);
+}
+
+.section--tight {
+  padding-block: var(--space-6);
+}
+
+.section--loose {
+  padding-block: var(--space-12);
+}
+
+/* ============================================================
+   3. Hero Section
+   ============================================================ */
+
+.hero {
+  position: relative;
+  padding-block: var(--space-12) var(--space-10);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 105, 180, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(135, 206, 235, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(152, 251, 152, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width-prose);
+  margin-inline: auto;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(255, 105, 180, 0.1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-5);
+  border: 1px solid rgba(255, 105, 180, 0.25);
+}
+
+.hero__headline {
+  font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+  margin-bottom: var(--space-5);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__subheadline {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: var(--space-7);
+  line-height: var(--leading-relaxed);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* ============================================================
+   4. Pitch Section
+   ============================================================ */
+
+.pitch {
+  padding-block: var(--space-9);
+  background: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.pitch__header {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+
+.pitch__title {
+  font-size: var(--text-3xl);
+}
+
+.pitch__list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--max-width-prose);
+  margin-inline: auto;
+}
+
+.pitch__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.pitch__item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pitch__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   5. Features Overview (Home)
+   ============================================================ */
+
+.features-overview {
+  padding-block: var(--space-10);
+}
+
+.features-overview__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.features-overview__title {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-3);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
+}
+
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  color: var(--color-accent);
+  filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.2));
+}
+
+.feature-card__title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card__body {
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.features-overview__cta {
+  text-align: center;
+  margin-top: var(--space-8);
+}
+
+.features-overview__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.features-overview__link::after {
+  content: '→';
+  transition: transform var(--transition-fast);
+}
+
+.features-overview__link:hover::after {
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   6. CTA Banner
+   ============================================================ */
+
+.cta-banner {
+  padding-block: var(--space-9);
+  background: linear-gradient(135deg, var(--color-primary) 0%, #4a1a7a 100%);
+  color: var(--color-text-inverse);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(135, 206, 235, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.cta-banner__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner__title {
+  font-size: var(--text-3xl);
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner__subtitle {
+  font-size: var(--text-lg);
+  opacity: 0.9;
+  margin-bottom: var(--space-6);
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+/* ============================================================
+   7. Page Header
+   ============================================================ */
+
+.page-header {
+  padding-block: var(--space-9) var(--space-7);
+  text-align: center;
+  position: relative;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 105, 180, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-header__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.page-header__title {
+  font-size: var(--text-5xl);
+  margin-bottom: var(--space-4);
+}
+
+.page-header__lead {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: var(--max-width-prose);
+  margin-inline: auto;
+}
+
+/* ============================================================
+   8. Content Sections
+   ============================================================ */
+
+.content-section {
+  padding-block: var(--space-9);
+}
+
+.content-section--alt {
+  background: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-6);
+}
+
+.content-grid--2col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+  .content-grid--2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Feature detail (features.html) */
+.feature-detail {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.feature-detail__icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: var(--space-4);
+  color: var(--color-accent);
+}
+
+.feature-detail__title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+}
+
+.feature-detail__body {
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ============================================================
+   9. Grid wrapper for proper minmax behavior
+   ============================================================ */
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+}
+
+/* ============================================================
+   10. Utility: Text colors
+   ============================================================ */
+
+.text-muted { color: var(--color-text-muted); }
+.text-accent { color: var(--color-accent); }
+.text-center { text-align: center; }
