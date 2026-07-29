@@ -139,13 +139,6 @@
       function toggleFaq() {
         const isExpanded = term.getAttribute('aria-expanded') === 'true';
 
-        // Close all others (optional - for single-open behavior)
-        // faqTerms.forEach(function(t) {
-        //   t.setAttribute('aria-expanded', 'false');
-        //   const a = t.nextElementSibling;
-        //   if (a) a.setAttribute('aria-hidden', 'true');
-        // });
-
         term.setAttribute('aria-expanded', String(!isExpanded));
         if (answer) {
           answer.setAttribute('aria-hidden', String(isExpanded));
@@ -209,7 +202,7 @@
     const header = document.querySelector('.site-header');
     if (!header) return;
 
-    let lastScrollY = 0;
+    let _lastScrollY = 0;
 
     window.addEventListener('scroll', function() {
       const scrollY = window.scrollY;
@@ -222,7 +215,7 @@
         header.style.boxShadow = 'none';
       }
 
-      lastScrollY = scrollY;
+      _lastScrollY = scrollY;
     }, { passive: true });
   }
 
