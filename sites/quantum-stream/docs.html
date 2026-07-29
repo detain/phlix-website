@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Protocol Documentation — Phlix</title>
+  <meta name="description" content="Phlix API documentation and protocol reference."/>
+  <link rel="canonical" href="https://detain.github.io/phlix-website/quantum-stream/docs.html"/>
+  <meta name="theme-color" content="#0d1b2a"/>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg"/>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/theme.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <a class="nav-logo" href="./" aria-label="Phlix home"><img src="img/logo.svg" alt="Phlix" width="120" height="40"/></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round"/></svg>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="./" data-emphasis="default">Observation Deck</a></li>
+        <li><a href="features.html" data-emphasis="primary">State Catalog</a></li>
+        <li><a href="clients.html" data-emphasis="default">Particle Array</a></li>
+        <li><a href="download.html" data-emphasis="primary">Initialize</a></li>
+        <li><a href="hub.html" data-emphasis="default">Signal Relay</a></li>
+        <li><a href="about.html" data-emphasis="muted">Data Log</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <section class="hero quantum-bg" style="min-height: 30vh;">
+      <div class="hero__content">
+        <span class="hero__eyebrow">Protocol Docs</span>
+        <h1 class="hero__headline">Documentation</h1>
+        <p class="hero__subheadline">API reference, configuration options, and development guides.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container--narrow container">
+
+        <div class="tabs">
+          <ul class="tabs__list" role="tablist">
+            <li class="tabs__item"><a class="tabs__link" href="#api" role="tab" aria-selected="true">API</a></li>
+            <li class="tabs__item"><a class="tabs__link" href="#config" role="tab">Configuration</a></li>
+            <li class="tabs__item"><a class="tabs__link" href="#plugins" role="tab">Plugins</a></li>
+          </ul>
+        </div>
+
+        <article id="api">
+          <h2 class="section__title">REST API</h2>
+          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Phlix exposes a REST API at <code>/api/v1/</code>. All endpoints return JSON and require JWT authentication.</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Endpoint</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/api/v1/library</code></td>
+                  <td>List all media in the library</td>
+                </tr>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/api/v1/library/{id}</code></td>
+                  <td>Get single media item details</td>
+                </tr>
+                <tr>
+                  <td>POST</td>
+                  <td><code>/api/v1/scan</code></td>
+                  <td>Trigger library rescan</td>
+                </tr>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/api/v1/users</code></td>
+                  <td>List user profiles</td>
+                </tr>
+                <tr>
+                  <td>POST</td>
+                  <td><code>/api/v1/syncplay</code></td>
+                  <td>Create sync play session</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article id="config" style="margin-top: var(--space-12);">
+          <h2 class="section__title">Configuration</h2>
+          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Main configuration file: <code>config/config.php</code></p>
+
+          <div class="code-block">
+            <code>&lt;?php
+return [
+    'database' => [
+        'host' => 'localhost',
+        'name' => 'phlix',
+        'user' => 'phlix_user',
+        'pass' => 'secure_password'
+    ],
+    'media' => [
+        'root' => '/path/to/media',
+        'scan_on_start' => true
+    ],
+    'transcoding' => [
+        'ffmpeg_path' => '/usr/bin/ffmpeg',
+        'hardware_accel' => 'auto'
+    ],
+    'hub' => [
+        'enabled' => false,
+        'relay_url' => ''
+    ]
+];</code>
+          </div>
+        </article>
+
+        <article id="plugins" style="margin-top: var(--space-12);">
+          <h2 class="section__title">Plugin Development</h2>
+          <p style="color: var(--color-tertiary); margin-bottom: var(--space-6);">Plugins extend Phlix by hooking into core events. Create <code>plugins/MyPlugin/plugin.php</code>:</p>
+
+          <div class="code-block">
+            <code>&lt;?php
+use Phlix\Plugin\BasePlugin;
+
+class MyPlugin extends BasePlugin {
+    public function onMediaScanned($media) {
+        // Custom metadata processing
+        return $media;
+    }
+}</code>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">2026 Joe Huss. MIT License.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+/* ==========================================================================
+   THEME.CSS — Quantum Stream
+   Page-level theming, hero sections, atom structures, probability clouds,
+   wave function effects, superposition animations.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Quantum background effects
+   -------------------------------------------------------------------------- */
+.quantum-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgb(96, 165, 250, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 80% 70%, rgb(65, 90, 119, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Probability cloud effect */
+.probability-cloud {
+  position: relative;
+}
+
+.probability-cloud::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(ellipse at center,
+    rgb(65, 90, 119, 0.15) 0%,
+    rgb(65, 90, 119, 0.08) 30%,
+    transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: -1;
+  animation: probabilityPulse 8s ease-in-out infinite;
+}
+
+@keyframes probabilityPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Atom structure decorations
+   -------------------------------------------------------------------------- */
+.atom-decoration {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.atom-nucleus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, var(--color-info) 0%, var(--color-primary) 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px var(--color-info), 0 0 40px rgb(96, 165, 250, 0.3);
+}
+
+.electron-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.electron-orbit--1 {
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  animation: orbit 8s linear infinite;
+}
+
+.electron-orbit--2 {
+  width: 180px;
+  height: 180px;
+  margin: -90px 0 0 -90px;
+  animation: orbit 12s linear infinite reverse;
+}
+
+.electron-orbit--3 {
+  width: 260px;
+  height: 260px;
+  margin: -130px 0 0 -130px;
+  animation: orbit 16s linear infinite;
+}
+
+.electron {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--color-info);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--color-info), 0 0 20px rgb(96, 165, 250, 0.5);
+}
+
+.electron--1 {
+  top: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+.electron--2 {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+.electron--3 {
+  top: 50%;
+  right: -4px;
+  margin-top: -4px;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   3. Wave function patterns
+   -------------------------------------------------------------------------- */
+.wave-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.wave-pattern::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q150 0 300 60 T600 60 T900 60 T1200 60 V120 H0 Z' fill='%230d1b2a'/%3E%3C/svg%3E") no-repeat bottom;
+  background-size: cover;
+  pointer-events: none;
+}
+
+.sine-wave {
+  position: absolute;
+  width: 200%;
+  height: 60px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 40px,
+    var(--color-border) 40px,
+    var(--color-border) 42px
+  );
+  opacity: 0.3;
+  animation: waveMove 20s linear infinite;
+}
+
+@keyframes waveMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Hero section
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-6);
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgb(65, 90, 119, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 80%, rgb(96, 165, 250, 0.1) 0%, transparent 40%);
+  z-index: 0;
+}
+
+.hero__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, var(--color-tertiary), transparent),
+    radial-gradient(2px 2px at 40px 70px, var(--color-info), transparent),
+    radial-gradient(1px 1px at 90px 40px, var(--color-text), transparent),
+    radial-gradient(2px 2px at 130px 80px, var(--color-tertiary), transparent),
+    radial-gradient(1px 1px at 160px 120px, var(--color-text), transparent);
+  background-size: 200px 200px;
+  opacity: 0.4;
+  animation: starTwinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+  from { opacity: 0.3; }
+  to { opacity: 0.5; }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-info);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.hero__headline {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  text-shadow: 0 0 40px rgb(96, 165, 250, 0.3);
+}
+
+.hero__subheadline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--color-tertiary);
+  max-width: 600px;
+  margin: 0 auto var(--space-8);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   5. Quantum tunneling transitions
+   -------------------------------------------------------------------------- */
+.quantum-fade {
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-fade::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgb(96, 165, 250, 0.1) 50%,
+    transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.quantum-fade:hover::before {
+  transform: translateX(100%);
+}
+
+/* Superposition blur on hover (observer effect) */
+.observer-effect {
+  transition: filter 0.4s var(--ease-out), transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out);
+}
+
+.observer-effect:hover {
+  filter: blur(2px) saturate(0.8);
+  opacity: 0.85;
+}
+
+/* Wave collapse on click */
+.wave-collapse {
+  transition: filter 0.2s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.wave-collapse:active {
+  filter: blur(0) saturate(1.2);
+  transform: scale(0.98);
+}
+
+/* --------------------------------------------------------------------------
+   6. Section styles
+   -------------------------------------------------------------------------- */
+.section {
+  position: relative;
+  padding: var(--space-16) var(--space-6);
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  max-width: var(--reading-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section__eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-info);
+  margin-bottom: var(--space-3);
+}
+
+.section__title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.section__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-tertiary);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   7. Container
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container--narrow {
+  max-width: var(--reading-width);
+}
+
+/* --------------------------------------------------------------------------
+   8. Feature grid
+   -------------------------------------------------------------------------- */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition:
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out),
+    filter 0.3s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-info), var(--color-primary));
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out);
+}
+
+.feature-card:hover {
+  border-color: var(--color-info);
+  box-shadow: var(--shadow-md), 0 0 20px rgb(96, 165, 250, 0.15);
+  transform: translateY(-4px);
+  filter: blur(0);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  color: var(--color-info);
+}
+
+.feature-card__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentcolor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.feature-card__title {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card__body {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-tertiary);
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   9. Probability reveal animation
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   10. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--color-secondary);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-12) var(--space-6);
+  margin-top: var(--space-16);
+}
+
+.site-footer__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-8);
+}
+
+.site-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.site-footer__logo {
+  width: 40px;
+  height: 40px;
+}
+
+.site-footer__name {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.site-footer__desc {
+  font-size: 0.875rem;
+  color: var(--color-tertiary);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.site-footer__heading {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer__links li {
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__links a {
+  font-size: 0.875rem;
+  color: var(--color-tertiary);
+  transition: color 0.2s;
+}
+
+.site-footer__links a:hover {
+  color: var(--color-info);
+}
+
+.site-footer__bottom {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-top: var(--space-8);
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.site-footer__copy {
+  font-size: 0.8125rem;
+  color: var(--color-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   11. Reduced motion override
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .probability-cloud::after,
+  .electron-orbit,
+  .sine-wave,
+  .hero__stars,
+  .reveal {
+    animation: none !important;
+  }
+
+  .observer-effect:hover {
+    filter: none;
+    opacity: 1;
+  }
+}

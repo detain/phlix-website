@@ -1,0 +1,269 @@
+/* ==========================================================================
+   BASE.CSS — Quantum Stream
+   CSS reset, design tokens (:root), element defaults, skip-link,
+   focus-visible ring, prefers-reduced-motion resets.
+   Quantum theme: deep navy void, steel blue accents, probability clouds.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Modern reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+li,
+dt,
+dd,
+a,
+span,
+code,
+kbd,
+samp,
+pre {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   2. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Quantum Stream Palette */
+  --color-primary: #415a77;
+  --color-secondary: #1b263b;
+  --color-tertiary: #778da9;
+  --color-neutral: #778da9;
+  --color-bg: #0d1b2a;
+  --color-surface: #1b263b;
+  --color-surface-alt: #415a77;
+  --color-text: #e0e1dd;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #ef4444;
+  --color-info: #60a5fa;
+  --color-focus: #778da9;
+  --color-border: #415a77;
+
+  /* Safe text substitutes (measured for WCAG AA) */
+  --color-primary-safe: #5a7a97;
+  --color-secondary-safe: #2b4060;
+  --color-primary-surface-safe: #5a7a97;
+  --color-secondary-surface-safe: #2b4060;
+  --color-primary-alt-safe: #6a8aaa;
+  --color-secondary-alt-safe: #3b5060;
+  --color-on-primary: #e0e1dd;
+  --color-on-fab: #e0e1dd;
+  --color-focus-on-dark: #778da9;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Typography - using system fonts, no CDN */
+  --font-headline: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
+  --font-display: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', arial, sans-serif;
+  --font-ui: 'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', 'Monaco', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgb(0 7 20 / 0.6);
+  --shadow-md: 0 4px 14px rgb(0 7 20 / 0.7), 0 0 8px rgb(65 90 119 / 0.1);
+  --shadow-lg: 0 12px 32px rgb(0 7 20 / 0.8), 0 0 20px rgb(65 90 119 / 0.18);
+
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 1200px;
+  --reading-width: 760px;
+
+  /* Transition easing */
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-linear: linear;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base element styles
+   -------------------------------------------------------------------------- */
+html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(65, 90, 119, 0.2) 0%, transparent 70%),
+    linear-gradient(180deg, #0d1b2a 0%, #1b263b 40%, #0d1b2a 100%);
+  min-height: 100vh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography defaults
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+
+p {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  max-width: 70ch;
+}
+
+a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* --------------------------------------------------------------------------
+   5. Skip link
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   6. Focus styles
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   8. Scrollbar
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

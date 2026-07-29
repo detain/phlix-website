@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform — Reshaping Digital Worlds</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230D1B2A' stroke='%2306D6A0' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%231B998B' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23EF476F'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/planets.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="terraform-theme">
+    <!-- Atmospheric Background Layer -->
+    <div class="atmosphere-layer" aria-hidden="true">
+        <div class="atmosphere-glow atmosphere-1"></div>
+        <div class="atmosphere-glow atmosphere-2"></div>
+        <div class="atmosphere-glow atmosphere-3"></div>
+    </div>
+
+    <!-- Planet Surface Background -->
+    <div class="planet-surface" aria-hidden="true">
+        <div class="crater crater-1"></div>
+        <div class="crater crater-2"></div>
+        <div class="crater crater-3"></div>
+        <div class="crater crater-4"></div>
+        <div class="crater crater-5"></div>
+        <div class="dust-layer"></div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles" aria-hidden="true" id="particles"></div>
+
+    <!-- Mining Drones -->
+    <div class="drones" aria-hidden="true">
+        <div class="drone drone-1">
+            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
+                <circle cx="30" cy="20" r="4" fill="#06D6A0"/>
+                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+        <div class="drone drone-2">
+            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
+                <circle cx="30" cy="20" r="4" fill="#EF476F"/>
+                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#EF476F" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+        <div class="drone drone-3">
+            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
+                <circle cx="30" cy="20" r="4" fill="#FFD166"/>
+                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
+                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#FFD166" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Colony Domes -->
+    <div class="domes" aria-hidden="true">
+        <div class="dome dome-1">
+            <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="60" cy="70" rx="55" ry="10" fill="#26547C"/>
+                <path d="M10 70 Q60 -10 110 70" fill="#1B998B" opacity="0.6"/>
+                <path d="M10 70 Q60 -10 110 70" fill="none" stroke="#06D6A0" stroke-width="2"/>
+                <ellipse cx="60" cy="45" rx="20" ry="25" fill="#06D6A0" opacity="0.3"/>
+                <line x1="60" y1="20" x2="60" y2="70" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
+                <line x1="30" y1="55" x2="90" y2="55" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+        <div class="dome dome-2">
+            <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="40" cy="52" rx="35" ry="8" fill="#26547C"/>
+                <path d="M8 52 Q40 -8 72 52" fill="#1B998B" opacity="0.5"/>
+                <path d="M8 52 Q40 -8 72 52" fill="none" stroke="#EF476F" stroke-width="2"/>
+                <ellipse cx="40" cy="35" rx="12" ry="18" fill="#EF476F" opacity="0.3"/>
+            </svg>
+        </div>
+        <div class="dome dome-3">
+            <svg viewBox="0 0 60 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="30" cy="38" rx="25" ry="6" fill="#26547C"/>
+                <path d="M6 38 Q30 -6 54 38" fill="#1B998B" opacity="0.4"/>
+                <path d="M6 38 Q30 -6 54 38" fill="none" stroke="#FFD166" stroke-width="2"/>
+                <ellipse cx="30" cy="25" rx="8" ry="12" fill="#FFD166" opacity="0.3"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="terraform-nav" role="navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+                    <circle cx="20" cy="20" r="4" fill="currentColor"/>
+                </svg>
+                <span class="logo-text">TERRAFORM</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#transformation" class="nav-link">Transformation</a></li>
+                <li><a href="#drones" class="nav-link">Mining Drones</a></li>
+                <li><a href="#domes" class="nav-link">Colony Domes</a></li>
+                <li><a href="#atmosphere" class="nav-link">Atmosphere</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-text">BRAND KIT v1.0</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">RESHAPING</span>
+                <span class="title-line accent">DIGITAL</span>
+                <span class="title-line">WORLDS</span>
+            </h1>
+            <p class="hero-subtitle">To suit your media needs</p>
+            <div class="hero-archetype">
+                <span class="archetype-label">Archetype</span>
+                <span class="archetype-value">MAGICIAN</span>
+            </div>
+            <div class="terraform-pulse">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <div class="pulse-core"></div>
+            </div>
+        </div>
+        <div class="hero-planet">
+            <div class="planet-core">
+                <div class="planet-layer layer-1"></div>
+                <div class="planet-layer layer-2"></div>
+                <div class="planet-layer layer-3"></div>
+                <div class="planet-atmosphere"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Color Palette Section -->
+    <section class="palette-section" id="transformation">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">01 / PALETTE</span>
+                <h2 class="section-title">Terraform Palette</h2>
+                <p class="section-desc">Colors that capture the essence of planetary transformation — from barren void to thriving world.</p>
+            </div>
+            <div class="color-grid">
+                <div class="color-card primary">
+                    <div class="color-swatch"></div>
+                    <div class="color-info">
+                        <span class="color-name">Life Spring</span>
+                        <span class="color-hex">#06D6A0</span>
+                        <span class="color-role">Primary</span>
+                    </div>
+                </div>
+                <div class="color-card secondary">
+                    <div class="color-swatch"></div>
+                    <div class="color-info">
+                        <span class="color-name">Ocean Depth</span>
+                        <span class="color-hex">#1B998B</span>
+                        <span class="color-role">Secondary</span>
+                    </div>
+                </div>
+                <div class="color-card accent">
+                    <div class="color-swatch"></div>
+                    <div class="color-info">
+                        <span class="color-name">Energy Pulse</span>
+                        <span class="color-hex">#EF476F</span>
+                        <span class="color-role">Accent</span>
+                    </div>
+                </div>
+                <div class="color-card dark">
+                    <div class="color-swatch"></div>
+                    <div class="color-info">
+                        <span class="color-name">Cosmic Void</span>
+                        <span class="color-hex">#26547C</span>
+                        <span class="color-role">Dark</span>
+                    </div>
+                </div>
+                <div class="color-card light">
+                    <div class="color-swatch"></div>
+                    <div class="color-info">
+                        <span class="color-name">Solar Energy</span>
+                        <span class="color-hex">#FFD166</span>
+                        <span class="color-role">Light</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mining Drones Section -->
+    <section class="drones-section" id="drones">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">02 / ELEMENTS</span>
+                <h2 class="section-title">Mining Drones</h2>
+                <p class="section-desc">Autonomous extractors reshaping terrain, harvesting resources to build new worlds.</p>
+            </div>
+            <div class="drones-grid">
+                <div class="drone-card">
+                    <div class="drone-visual">
+                        <svg viewBox="0 0 120 80" class="drone-svg">
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
+                            <circle cx="60" cy="40" r="8" fill="#06D6A0">
+                                <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#06D6A0" stroke-width="2" opacity="0.3">
+                                <animate attributeName="rx" values="45;55;45" dur="3s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </svg>
+                    </div>
+                    <div class="drone-info">
+                        <h3>Extractor MK-I</h3>
+                        <p>Surface mineral extraction</p>
+                    </div>
+                </div>
+                <div class="drone-card">
+                    <div class="drone-visual">
+                        <svg viewBox="0 0 120 80" class="drone-svg">
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
+                            <circle cx="60" cy="40" r="8" fill="#EF476F">
+                                <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#EF476F" stroke-width="2" opacity="0.3">
+                                <animate attributeName="rx" values="45;55;45" dur="2.5s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </svg>
+                    </div>
+                    <div class="drone-info">
+                        <h3>Processor MK-II</h3>
+                        <p>Resource refinement</p>
+                    </div>
+                </div>
+                <div class="drone-card">
+                    <div class="drone-visual">
+                        <svg viewBox="0 0 120 80" class="drone-svg">
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
+                            <circle cx="60" cy="40" r="8" fill="#FFD166">
+                                <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
+                            </circle>
+                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
+                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#FFD166" stroke-width="2" opacity="0.3">
+                                <animate attributeName="rx" values="45;55;45" dur="2.8s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </svg>
+                    </div>
+                    <div class="drone-info">
+                        <h3>Builder MK-III</h3>
+                        <p>Structure construction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Colony Domes Section -->
+    <section class="domes-section" id="domes">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">03 / STRUCTURES</span>
+                <h2 class="section-title">Colony Domes</h2>
+                <p class="section-desc">Self-sustaining habitats emerging from transformed worlds — enclaves of civilization amidst cosmic silence.</p>
+            </div>
+            <div class="domes-grid">
+                <div class="dome-card large">
+                    <div class="dome-visual">
+                        <svg viewBox="0 0 200 150" class="dome-svg">
+                            <defs>
+                                <linearGradient id="domeGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#06D6A0;stop-opacity:0.6"/>
+                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="100" cy="135" rx="90" ry="15" fill="#26547C"/>
+                            <path d="M15 135 Q100 -20 185 135" fill="url(#domeGrad1)"/>
+                            <path d="M15 135 Q100 -20 185 135" fill="none" stroke="#06D6A0" stroke-width="3"/>
+                            <ellipse cx="100" cy="80" rx="35" ry="45" fill="#06D6A0" opacity="0.2">
+                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="4s" repeatCount="indefinite"/>
+                            </ellipse>
+                            <line x1="100" y1="35" x2="100" y2="135" stroke="#06D6A0" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="50" y1="100" x2="150" y2="100" stroke="#06D6A0" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="70" y1="60" x2="130" y2="60" stroke="#06D6A0" stroke-width="1" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <div class="dome-info">
+                        <h3>Genesis Dome</h3>
+                        <p>Primary habitation unit</p>
+                        <span class="dome-capacity">Capacit: 2,400</span>
+                    </div>
+                </div>
+                <div class="dome-card">
+                    <div class="dome-visual">
+                        <svg viewBox="0 0 140 100" class="dome-svg">
+                            <defs>
+                                <linearGradient id="domeGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#EF476F;stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="70" cy="90" rx="60" ry="10" fill="#26547C"/>
+                            <path d="M12 90 Q70 -10 128 90" fill="url(#domeGrad2)"/>
+                            <path d="M12 90 Q70 -10 128 90" fill="none" stroke="#EF476F" stroke-width="2"/>
+                            <ellipse cx="70" cy="55" rx="22" ry="30" fill="#EF476F" opacity="0.2">
+                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </svg>
+                    </div>
+                    <div class="dome-info">
+                        <h3>Research Hub</h3>
+                        <p>Scientific operations</p>
+                    </div>
+                </div>
+                <div class="dome-card">
+                    <div class="dome-visual">
+                        <svg viewBox="0 0 140 100" class="dome-svg">
+                            <defs>
+                                <linearGradient id="domeGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FFD166;stop-opacity:0.5"/>
+                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="70" cy="90" rx="60" ry="10" fill="#26547C"/>
+                            <path d="M12 90 Q70 -10 128 90" fill="url(#domeGrad3)"/>
+                            <path d="M12 90 Q70 -10 128 90" fill="none" stroke="#FFD166" stroke-width="2"/>
+                            <ellipse cx="70" cy="55" rx="22" ry="30" fill="#FFD166" opacity="0.2">
+                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite"/>
+                            </ellipse>
+                        </svg>
+                    </div>
+                    <div class="dome-info">
+                        <h3>Energy Node</h3>
+                        <p>Power generation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atmosphere Section -->
+    <section class="atmosphere-section" id="atmosphere">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">04 / ATMOSPHERE</span>
+                <h2 class="section-title">Atmospheric Layers</h2>
+                <p class="section-desc">Gaseous envelopes transforming barren rock into living worlds — the breath of new civilizations.</p>
+            </div>
+            <div class="atmosphere-visual">
+                <div class="atmo-layer atmo-1">
+                    <span class="atmo-label">Upper Stratosphere</span>
+                    <span class="atmo-depth">85-500km</span>
+                </div>
+                <div class="atmo-layer atmo-2">
+                    <span class="atmo-label">Middle Thermosphere</span>
+                    <span class="atmo-depth">50-85km</span>
+                </div>
+                <div class="atmo-layer atmo-3">
+                    <span class="atmo-label">Lower Mesosphere</span>
+                    <span class="atmo-depth">30-50km</span>
+                </div>
+                <div class="atmo-layer atmo-4">
+                    <span class="atmo-label">Surface Layer</span>
+                    <span class="atmo-depth">0-30km</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motion Section -->
+    <section class="motion-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">05 / MOTION</span>
+                <h2 class="section-title">Terraform Motion</h2>
+                <p class="section-desc">Dynamic animations that bring the brand to life — crater formations, terraforming pulses, atmospheric glows.</p>
+            </div>
+            <div class="motion-grid">
+                <div class="motion-card">
+                    <div class="motion-visual crater-form">
+                        <div class="crater-anim"></div>
+                    </div>
+                    <h3>Crater Formation</h3>
+                    <p>Impact patterns reshaping surfaces</p>
+                </div>
+                <div class="motion-card">
+                    <div class="motion-visual pulse-form">
+                        <div class="terraform-pulse-anim">
+                            <div class="tf-ring"></div>
+                            <div class="tf-ring"></div>
+                            <div class="tf-ring"></div>
+                            <div class="tf-core"></div>
+                        </div>
+                    </div>
+                    <h3>Terraform Pulse</h3>
+                    <p>Transformative energy waves</p>
+                </div>
+                <div class="motion-card">
+                    <div class="motion-visual glow-form">
+                        <div class="atmo-glow-anim"></div>
+                    </div>
+                    <h3>Atmospheric Glow</h3>
+                    <p>Luminous atmospheric effects</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section class="typography-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">06 / TYPOGRAPHY</span>
+                <h2 class="section-title">Planetary Type</h2>
+                <p class="section-desc">Fonts that evoke the cosmic and the constructed — sharp, geometric, and unmistakably futuristic.</p>
+            </div>
+            <div class="type-showcase">
+                <div class="type-card display">
+                    <span class="type-label">Display</span>
+                    <span class="type-sample">TERRAFORM</span>
+                    <span class="type-meta">Orbitron / Monospace</span>
+                </div>
+                <div class="type-card heading">
+                    <span class="type-label">Headings</span>
+                    <span class="type-sample">Reshaping Worlds</span>
+                    <span class="type-meta">Exo 2 / Monospace</span>
+                </div>
+                <div class="type-card body">
+                    <span class="type-label">Body</span>
+                    <span class="type-sample">The terraforming process reshapes barren planetary surfaces into thriving digital ecosystems. Each world begins as raw potential.</span>
+                    <span class="type-meta">IBM Plex Sans / Sans-serif</span>
+                </div>
+                <div class="type-card mono">
+                    <span class="type-label">Code/Data</span>
+                    <span class="type-sample">SYS.TERRA.001</span>
+                    <span class="type-meta">IBM Plex Mono / Monospace</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="terraform-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <svg class="footer-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+                    <circle cx="20" cy="20" r="4" fill="currentColor"/>
+                </svg>
+                <span class="footer-name">TERRAFORM</span>
+            </div>
+            <div class="footer-tagline">
+                <span>Reshaping digital worlds to suit your media needs</span>
+            </div>
+            <div class="footer-meta">
+                <span class="archetype-badge">MAGICIAN ARCHETYPE</span>
+                <span class="experience-badge">IMMERSIVE EXPERIENCE</span>
+            </div>
+        </div>
+        <div class="footer-crust">
+            <div class="crust-texture"></div>
+        </div>
+    </footer>
+
+    <script src="js/particles.js"></script>
+    <script src="js/planets.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

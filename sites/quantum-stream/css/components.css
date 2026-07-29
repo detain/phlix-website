@@ -1,0 +1,753 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Quantum Stream
+   Reusable UI components: buttons, cards, forms, badges, nav, etc.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out),
+    transform 0.15s var(--ease-out);
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Primary button - Steel Blue */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: #506a87;
+  border-color: #506a87;
+  box-shadow: 0 0 16px rgb(65, 90, 119, 0.4);
+  text-decoration: none;
+  color: var(--color-on-primary);
+}
+
+/* Secondary button - Ghost with steel blue border */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-tertiary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Ghost button */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* Danger button */
+.btn-danger {
+  background-color: var(--color-error);
+  color: #fff;
+  border-color: var(--color-error);
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Link button */
+.btn-link {
+  background: transparent;
+  border: none;
+  color: var(--color-info);
+  padding: var(--space-2) var(--space-3);
+}
+
+.btn-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Icon button */
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+}
+
+.btn-icon:hover {
+  background-color: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  color: var(--color-info);
+}
+
+/* Size variants */
+.btn-sm {
+  font-size: 0.8125rem;
+  padding: var(--space-2) var(--space-4);
+}
+
+.btn-lg {
+  font-size: 1rem;
+  padding: var(--space-4) var(--space-8);
+}
+
+.btn-fab {
+  border-radius: var(--radius-pill);
+}
+
+/* --------------------------------------------------------------------------
+   2. Cards
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--color-info);
+  box-shadow: var(--shadow-md), 0 0 20px rgb(96, 165, 250, 0.15);
+  transform: translateY(-2px);
+}
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--color-secondary);
+}
+
+.card__body {
+  padding: var(--space-6);
+}
+
+.card__title {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.card__meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-tertiary);
+  margin-bottom: var(--space-3);
+}
+
+.card__desc {
+  font-size: 0.875rem;
+  color: var(--color-tertiary);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   3. Badges
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+.badge--primary {
+  background: rgb(65, 90, 119, 0.2);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.badge--info {
+  background: rgb(96, 165, 250, 0.2);
+  color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+.badge--success {
+  background: rgb(52, 211, 153, 0.2);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.badge--warning {
+  background: rgb(251, 191, 36, 0.2);
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.badge--error {
+  background: rgb(239, 68, 68, 0.2);
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   4. Navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(13, 27, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-primary {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 32px;
+  width: auto;
+}
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentcolor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--space-1);
+}
+
+.nav-menu a {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-tertiary);
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.nav-menu a:hover {
+  color: var(--color-text);
+  background: var(--color-surface);
+  text-decoration: none;
+}
+
+.nav-menu a[aria-current="page"] {
+  color: var(--color-info);
+  background: rgb(96, 165, 250, 0.1);
+}
+
+.nav-menu a[data-emphasis="primary"] {
+  color: var(--color-primary);
+}
+
+.nav-menu a[data-emphasis="primary"]:hover {
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   5. Forms
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-info);
+  box-shadow: 0 0 0 3px rgb(96, 165, 250, 0.2);
+}
+
+.form-input::placeholder {
+  color: var(--color-tertiary);
+}
+
+.form-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+textarea.form-input {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Checkbox */
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.form-checkbox span {
+  font-size: 0.9375rem;
+  color: var(--color-tertiary);
+  line-height: 1.5;
+}
+
+/* Select */
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23778da9' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  padding-right: var(--space-8);
+}
+
+/* --------------------------------------------------------------------------
+   6. Stats / Numbers
+   -------------------------------------------------------------------------- */
+.stat {
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.stat__value {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.stat__label {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   7. Testimonial / Review cards
+   -------------------------------------------------------------------------- */
+.review-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+}
+
+.review-card::before {
+  content: '"';
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--color-primary);
+  opacity: 0.3;
+}
+
+.review-card__stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: var(--space-4);
+  color: var(--color-warning);
+}
+
+.review-card__stars svg {
+  width: 16px;
+  height: 16px;
+  fill: currentcolor;
+}
+
+.review-card__text {
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+  font-style: italic;
+}
+
+.review-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.review-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.review-card__name {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.review-card__role {
+  font-size: 0.8125rem;
+  color: var(--color-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Client/Logo grid
+   -------------------------------------------------------------------------- */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.client-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s, transform 0.2s;
+  min-height: 80px;
+}
+
+.client-item:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.client-item svg {
+  max-width: 100%;
+  max-height: 40px;
+  fill: var(--color-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Tables
+   -------------------------------------------------------------------------- */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+}
+
+thead {
+  background: var(--color-surface);
+}
+
+th {
+  text-align: left;
+  padding: var(--space-4);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+td {
+  padding: var(--space-4);
+  color: var(--color-tertiary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgb(65, 90, 119, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   10. Code blocks
+   -------------------------------------------------------------------------- */
+.code-block {
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   11. Callout / Alert
+   -------------------------------------------------------------------------- */
+.callout {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+}
+
+.callout--info {
+  background: rgb(96, 165, 250, 0.1);
+  border-color: var(--color-info);
+}
+
+.callout--warning {
+  background: rgb(251, 191, 36, 0.1);
+  border-color: var(--color-warning);
+}
+
+.callout--error {
+  background: rgb(239, 68, 68, 0.1);
+  border-color: var(--color-error);
+}
+
+.callout--success {
+  background: rgb(52, 211, 153, 0.1);
+  border-color: var(--color-success);
+}
+
+.callout__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.callout__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentcolor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.callout__content {
+  flex: 1;
+}
+
+.callout__title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-2);
+}
+
+.callout__title--info { color: var(--color-info); }
+.callout__title--warning { color: var(--color-warning); }
+.callout__title--error { color: var(--color-error); }
+.callout__title--success { color: var(--color-success); }
+
+.callout p {
+  font-size: 0.9375rem;
+  color: var(--color-tertiary);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   12. Tabs
+   -------------------------------------------------------------------------- */
+.tabs {
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-6);
+}
+
+.tabs__list {
+  display: flex;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs__item {
+  margin-bottom: -1px;
+}
+
+.tabs__link {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-tertiary);
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tabs__link:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.tabs__link[aria-selected="true"] {
+  color: var(--color-info);
+  border-bottom-color: var(--color-info);
+}
+
+/* --------------------------------------------------------------------------
+   13. Responsive nav
+   -------------------------------------------------------------------------- */
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+  }
+}

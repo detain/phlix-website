@@ -1,0 +1,764 @@
+/* ==========================================================================
+   TERRAFORM MAIN STYLES — Brand Kit Website
+   Planetary terraforming aesthetic
+   ========================================================================== */
+
+/* ==========================================================================
+   CSS VARIABLES
+   ========================================================================== */
+
+:root {
+    /* Palette */
+    --tf-primary: #06D6A0;
+    --tf-secondary: #1B998B;
+    --tf-accent: #EF476F;
+    --tf-dark: #26547C;
+    --tf-light: #FFD166;
+    --tf-bg: #0D1B2A;
+    --tf-surface: #1B2838;
+    --tf-text: #E8F1F2;
+    --tf-text-muted: #7B8C9A;
+
+    /* Typography */
+    --tf-font-display: 'Orbitron', 'Courier New', monospace;
+    --tf-font-heading: 'Exo 2', 'Courier New', monospace;
+    --tf-font-body: 'IBM Plex Sans', 'Courier New', monospace;
+    --tf-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+    /* Timing */
+    --tf-pulse: 2.5s;
+    --tf-orbit: 20s;
+    --tf-terraform: 4s;
+    --tf-glow: 3s;
+
+    /* Spacing */
+    --section-padding: 100px 0;
+    --container-width: 1200px;
+}
+
+/* ==========================================================================
+   BASE RESET & TYPOGRAPHY
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--tf-font-body);
+    background-color: var(--tf-bg);
+    color: var(--tf-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================================================================
+   CUSTOM SCROLLBAR
+   ========================================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--tf-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--tf-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--tf-secondary);
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--tf-font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+}
+
+h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    max-width: 65ch;
+}
+
+a {
+    color: var(--tf-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--tf-light);
+}
+
+/* ==========================================================================
+   LAYOUT
+   ========================================================================== */
+
+.terraform-theme {
+    position: relative;
+}
+
+.section-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-tag {
+    display: inline-block;
+    font-family: var(--tf-font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--tf-primary);
+    margin-bottom: 16px;
+    padding: 6px 16px;
+    background: rgba(6, 214, 160, 0.1);
+    border-radius: 4px;
+}
+
+.section-title {
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--tf-text) 0%, var(--tf-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-desc {
+    color: var(--tf-text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   NAVIGATION
+   ========================================================================== */
+
+.terraform-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 20px 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(13, 27, 42, 0.95) 0%,
+        rgba(13, 27, 42, 0) 100%
+    );
+}
+
+.nav-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--tf-primary);
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.logo-text {
+    font-family: var(--tf-font-display);
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.nav-link {
+    font-family: var(--tf-font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--tf-text);
+    padding: 8px 0;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--tf-primary);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--tf-primary);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
+}
+
+.hero-badge {
+    margin-bottom: 30px;
+}
+
+.badge-text {
+    font-family: var(--tf-font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--tf-bg);
+    background: var(--tf-primary);
+    padding: 8px 20px;
+    border-radius: 4px;
+}
+
+.hero-title {
+    font-family: var(--tf-font-display);
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 24px;
+    letter-spacing: -2px;
+}
+
+.title-line {
+    display: block;
+}
+
+.title-line.accent {
+    color: var(--tf-primary);
+    text-shadow: 0 0 40px rgba(6, 214, 160, 0.5);
+}
+
+.hero-subtitle {
+    font-family: var(--tf-font-body);
+    font-size: 1.5rem;
+    color: var(--tf-text-muted);
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+.hero-archetype {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 50px;
+}
+
+.archetype-label {
+    font-family: var(--tf-font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--tf-text-muted);
+    text-transform: uppercase;
+}
+
+.archetype-value {
+    font-family: var(--tf-font-heading);
+    font-size: 1.2rem;
+    color: var(--tf-accent);
+    letter-spacing: 4px;
+}
+
+@media (max-width: 1024px) {
+    .hero-planet {
+        display: none;
+    }
+
+    .hero-section {
+        text-align: center;
+    }
+
+    .hero-archetype {
+        justify-content: center;
+    }
+
+    .terraform-pulse {
+        margin: 0 auto;
+    }
+}
+
+/* ==========================================================================
+   COLOR PALETTE SECTION
+   ========================================================================== */
+
+.palette-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.color-card {
+    background: var(--tf-surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.color-card:hover {
+    transform: translateY(-8px);
+}
+
+.color-card.primary:hover {
+    box-shadow: 0 20px 40px rgba(6, 214, 160, 0.3);
+}
+
+.color-card.secondary:hover {
+    box-shadow: 0 20px 40px rgba(27, 153, 139, 0.3);
+}
+
+.color-card.accent:hover {
+    box-shadow: 0 20px 40px rgba(239, 71, 111, 0.3);
+}
+
+.color-card.dark:hover {
+    box-shadow: 0 20px 40px rgba(38, 84, 124, 0.3);
+}
+
+.color-card.light:hover {
+    box-shadow: 0 20px 40px rgba(255, 209, 102, 0.3);
+}
+
+.color-swatch {
+    height: 120px;
+}
+
+.color-card.primary .color-swatch {
+    background: linear-gradient(135deg, var(--tf-primary) 0%, #04a87d 100%);
+}
+
+.color-card.secondary .color-swatch {
+    background: linear-gradient(135deg, var(--tf-secondary) 0%, #156b63 100%);
+}
+
+.color-card.accent .color-swatch {
+    background: linear-gradient(135deg, var(--tf-accent) 0%, #c73e5c 100%);
+}
+
+.color-card.dark .color-swatch {
+    background: linear-gradient(135deg, var(--tf-dark) 0%, #1a3a52 100%);
+}
+
+.color-card.light .color-swatch {
+    background: linear-gradient(135deg, var(--tf-light) 0%, #e6b84d 100%);
+}
+
+.color-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.color-name {
+    font-family: var(--tf-font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.color-hex {
+    font-family: var(--tf-font-mono);
+    font-size: 0.85rem;
+    color: var(--tf-text-muted);
+}
+
+.color-role {
+    font-family: var(--tf-font-mono);
+    font-size: 0.7rem;
+    color: var(--tf-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+/* ==========================================================================
+   DRONES SECTION
+   ========================================================================== */
+
+.drones-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(27, 41, 56, 0.3) 50%,
+        transparent 100%
+    );
+}
+
+.drones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* ==========================================================================
+   DOMES SECTION
+   ========================================================================== */
+
+.domes-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+}
+
+.domes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .domes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   ATMOSPHERE SECTION
+   ========================================================================== */
+
+.atmosphere-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+}
+
+/* ==========================================================================
+   MOTION SECTION
+   ========================================================================== */
+
+.motion-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(6, 214, 160, 0.03) 50%,
+        transparent 100%
+    );
+}
+
+.motion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.motion-card {
+    background: rgba(27, 41, 56, 0.4);
+    border: 1px solid rgba(6, 214, 160, 0.15);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.4s ease;
+}
+
+.motion-card:hover {
+    border-color: var(--tf-primary);
+    box-shadow: 0 0 40px rgba(6, 214, 160, 0.15);
+}
+
+.motion-visual {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.motion-card h3 {
+    font-family: var(--tf-font-heading);
+    color: var(--tf-text);
+    margin-bottom: 8px;
+}
+
+.motion-card p {
+    color: var(--tf-text-muted);
+    font-size: 0.9rem;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY SECTION
+   ========================================================================== */
+
+.typography-section {
+    padding: var(--section-padding);
+    position: relative;
+    z-index: 10;
+}
+
+.type-showcase {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.type-card {
+    background: rgba(27, 41, 56, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.type-card.display .type-sample {
+    font-family: var(--tf-font-display);
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: var(--tf-primary);
+}
+
+.type-card.heading .type-sample {
+    font-family: var(--tf-font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--tf-text);
+}
+
+.type-card.body .type-sample {
+    font-family: var(--tf-font-body);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--tf-text-muted);
+}
+
+.type-card.mono .type-sample {
+    font-family: var(--tf-font-mono);
+    font-size: 1.2rem;
+    color: var(--tf-light);
+    letter-spacing: 2px;
+}
+
+.type-label {
+    display: block;
+    font-family: var(--tf-font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--tf-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.type-meta {
+    display: block;
+    font-family: var(--tf-font-mono);
+    font-size: 0.75rem;
+    color: var(--tf-primary);
+    margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+    .type-showcase {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.terraform-footer {
+    position: relative;
+    z-index: 10;
+    padding: 60px 0 30px;
+    border-top: 1px solid rgba(6, 214, 160, 0.1);
+}
+
+.footer-content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+    text-align: center;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    width: 40px;
+    height: 40px;
+    color: var(--tf-primary);
+}
+
+.footer-name {
+    font-family: var(--tf-font-display);
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    color: var(--tf-primary);
+}
+
+.footer-tagline {
+    font-family: var(--tf-font-body);
+    color: var(--tf-text-muted);
+    margin-bottom: 30px;
+}
+
+.footer-meta {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.archetype-badge,
+.experience-badge {
+    font-family: var(--tf-font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 4px;
+}
+
+.archetype-badge {
+    background: rgba(239, 71, 111, 0.2);
+    color: var(--tf-accent);
+}
+
+.experience-badge {
+    background: rgba(6, 214, 160, 0.2);
+    color: var(--tf-primary);
+}
+
+.footer-crust {
+    margin-top: 40px;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--tf-dark) 0%,
+        var(--tf-secondary) 50%,
+        var(--tf-dark) 100%
+    );
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--tf-primary) 0%, var(--tf-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.glow-text {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
