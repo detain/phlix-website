@@ -1,0 +1,285 @@
+/* ============================================================================
+   BASE.CSS — Inferno
+   Token foundation: :root CSS custom properties from design_tokens + kit palette
+   ============================================================================ */
+
+/* ─── Modern CSS Reset ────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Design Tokens — Color ───────────────────────────────────────────────── */
+:root {
+  /* Primary palette — Inferno: #DC143C #FF5349 #FFB347 #8B0000 #2F1772 */
+  --color-primary: #DC143C;
+  --color-secondary: #FF5349;
+  --color-tertiary: #FFB347;
+
+  /* Surfaces */
+  --color-bg: #0A0510;
+  --color-surface: #1A1025;
+  --color-surface-alt: #251530;
+
+  /* Text */
+  --color-text: #F0EBE8;
+  --color-text-muted: #6B6B7B;
+
+  /* Utility */
+  --color-border: #3D3045;
+  --color-success: #3D8C5C;
+  --color-warning: #D4A40E;
+  --color-error: #8B0000;
+  --color-info: #2F1772;
+  --color-focus: #DC143C;
+
+  /* Shadow */
+  --color-shadow: rgba(26, 5, 16, 0.55);
+  --color-overlay: rgba(8, 4, 12, 0.72);
+  --color-glow: rgba(220, 20, 60, 0.35);
+  --color-ember-glow: rgba(255, 179, 71, 0.30);
+
+  /* Gradients */
+  --gradient-magma: linear-gradient(135deg, #DC143C, #FF5349, #8B0000);
+  --gradient-eruption: radial-gradient(
+    ellipse at center,
+    rgba(220, 20, 60, 0.35),
+    rgba(10, 5, 16, 0) 70%
+  );
+  --gradient-magma-horizon: linear-gradient(180deg, #FF5349, #DC143C, #0A0510);
+  --gradient-ember-drift: linear-gradient(90deg, rgba(255, 179, 71, 0), rgba(255, 179, 71, 0.18));
+  --gradient-heat-shimmer: linear-gradient(45deg, rgba(220, 20, 60, 0), rgba(47, 23, 114, 0.15), rgba(220, 20, 60, 0));
+  --gradient-volcanic-glass: linear-gradient(160deg, rgba(47, 23, 114, 0.25), rgba(10, 5, 16, 0));
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Corner radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(26, 5, 16, 0.50);
+  --shadow-md: 0 4px 12px rgba(26, 5, 16, 0.60), 0 0 0 1px rgba(220, 20, 60, 0.04);
+  --shadow-lg: 0 12px 32px rgba(26, 5, 16, 0.75), 0 0 0 1px rgba(220, 20, 60, 0.06);
+  --shadow-glow: 0 0 20px rgba(220, 20, 60, 0.35);
+  --shadow-ember: 0 0 25px rgba(255, 179, 71, 0.30);
+
+  /* Font families */
+  --font-headline: 'Cinzel', 'Trajan Pro', 'Optimus Princeps', serif;
+  --font-display: 'Russo One', 'Impact', sans-serif;
+  --font-body: 'Rajdhani', 'Open Sans', 'Arial', sans-serif;
+  --font-ui: 'Rajdhani', 'Open Sans', system-ui, sans-serif;
+  --font-mono: 'Share Tech Mono', 'Fira Mono', 'Courier New', monospace;
+  --tracking-headline: 0.08em;
+  --lh-headline: 0.9;
+  --tracking-display: 0.02em;
+  --lh-display: 0.88;
+  --tracking-body: 0.01em;
+  --lh-body: 1.6;
+  --tracking-ui: 0.06em;
+  --lh-ui: 1.2;
+  --tracking-mono: 0em;
+  --lh-mono: 1.5;
+  --font-number: 'Russo One', 'Impact', sans-serif;
+  --tracking-number: 0.04em;
+  --lh-number: 1;
+}
+
+/* ─── Base element defaults ───────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography base ──────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+p {
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+a:hover {
+  color: var(--color-tertiary);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ─── Focus styles ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Skip link ────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top 150ms ease-out;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* vendor-fonts:begin — generated by tools/vendor-fonts.mjs; do not edit by hand */
+
+/* Brand typography for this kit — families, weights and fallback stacks come
+ * from brand-kits/<slug>.js `fonts{}`; the WOFF2 files are the shared,
+ * latin-subset pool in shared/assets/fonts/, published at /assets/fonts/ by
+ * tools/build.mjs. Regenerate with `node tools/vendor-fonts.mjs --site <slug>`. */
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/cinzel-700-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Russo One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/russo-one-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../../assets/fonts/rajdhani-500-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../../assets/fonts/rajdhani-600-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rajdhani';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../assets/fonts/rajdhani-700-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../assets/fonts/share-tech-mono-400-latin.woff2') format('woff2');
+}
+/* vendor-fonts:end */

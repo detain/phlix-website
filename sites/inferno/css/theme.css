@@ -1,0 +1,453 @@
+/* ============================================================================
+   THEME.CSS — Inferno
+   Typography scale, layout containers, page structure, immersive archetype
+   ============================================================================ */
+
+/* ─── Layout containers ────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container--narrow {
+  max-width: 900px;
+}
+
+/* ─── Typography scale ─────────────────────────────────────────────────────── */
+.font-headline {
+  font-family: var(--font-headline);
+}
+.font-display {
+  font-family: var(--font-display);
+}
+.font-body {
+  font-family: var(--font-body);
+}
+.font-ui {
+  font-family: var(--font-ui);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Heading roles */
+h1,
+.h1 {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h2,
+.h2 {
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 0.9;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h3,
+.h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+h4,
+.h4 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-tertiary {
+  color: var(--color-tertiary);
+}
+
+/* ─── Immersive page structure ─────────────────────────────────────────────── */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* ─── Hero variants ───────────────────────────────────────────────────────── */
+.hero-home {
+  min-height: 85vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(220, 20, 60, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(255, 83, 73, 0.2) 0%, transparent 40%),
+    linear-gradient(180deg, var(--color-bg) 0%, rgba(10, 5, 16, 0.95) 100%);
+  pointer-events: none;
+}
+
+.hero-features {
+  min-height: 50vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-features::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(220, 20, 60, 0.25) 0%, transparent 60%),
+    var(--color-surface);
+  pointer-events: none;
+}
+
+.hero-download {
+  min-height: 40vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-download::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(220, 20, 60, 0.3) 0%, transparent 50%),
+    var(--color-surface);
+  pointer-events: none;
+}
+
+/* ─── Content sections ────────────────────────────────────────────────────── */
+.section-dark {
+  background: var(--color-surface);
+  padding: var(--space-16) 0;
+}
+
+.section-gradient {
+  background:
+    linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+  padding: var(--space-16) 0;
+}
+
+.section-glow {
+  position: relative;
+}
+
+.section-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+/* ─── Pitch section ───────────────────────────────────────────────────────── */
+.pitch-section {
+  padding: var(--space-16) 0;
+}
+
+.pitch-list {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.pitch-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.pitch-item::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+/* ─── CTA Banner ─────────────────────────────────────────────────────────── */
+.cta-banner {
+  background: var(--gradient-magma);
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-eruption);
+  pointer-events: none;
+}
+
+.cta-banner h2 {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner p {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-6);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+.cta-banner .btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Proof section ───────────────────────────────────────────────────────── */
+.proof-section {
+  background: var(--color-surface);
+  padding: var(--space-12) 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-8);
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-family: var(--font-number);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.stat-item p {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Server install section ─────────────────────────────────────────────── */
+.install-section {
+  background: var(--color-surface);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.install-command {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
+}
+
+.install-command code {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  color: var(--color-tertiary);
+  flex: 1;
+}
+
+.install-command .btn {
+  flex-shrink: 0;
+}
+
+/* ─── Feature detail sections ─────────────────────────────────────────────── */
+.feature-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-12) 0;
+}
+
+.feature-detail:nth-child(even) {
+  direction: rtl;
+}
+
+.feature-detail:nth-child(even) > * {
+  direction: ltr;
+}
+
+.feature-detail-content h3 {
+  margin-bottom: var(--space-4);
+}
+
+.feature-detail-content p {
+  margin-bottom: var(--space-6);
+  color: var(--color-text-muted);
+}
+
+.feature-detail-visual {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .feature-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-detail:nth-child(even) {
+    direction: ltr;
+  }
+}
+
+/* ─── About page ─────────────────────────────────────────────────────────── */
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-content h2 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-6);
+}
+
+.about-content h2:first-child {
+  margin-top: 0;
+}
+
+.about-content p {
+  margin-bottom: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.about-content p:first-of-type {
+  font-size: 1.125rem;
+  color: var(--color-text);
+}
+
+/* ─── FAQ section ─────────────────────────────────────────────────────────── */
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-6) 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.faq-answer {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Responsive utilities ────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+
+  .hero-content {
+    padding: var(--space-6);
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .install-command {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .install-command code {
+    word-break: break-all;
+  }
+}
+
+/*
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ */
