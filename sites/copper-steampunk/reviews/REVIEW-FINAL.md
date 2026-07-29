@@ -1,7 +1,7 @@
 # Final Review — copper-steampunk Brand Kit Site
 
 **Review date:** 2026-07-29
-**Outcome: NOT APPROVED** — Both critical ❌ items remain unfixed.
+**Outcome: NOT APPROVED** — One blocking defect found.
 
 ---
 
@@ -9,54 +9,38 @@
 
 | # | Defect | Status |
 |---|--------|--------|
-| 1 | Nav only 6 items (missing Plugins, Docs) | ❌ **NOT FIXED** |
-| 2 | "5 native client platforms" — wrong count | ❌ **NOT FIXED** |
+| 1 | Nav only 6 items (missing Plugins, Docs) | ✅ **FIXED** — nav now has 8 items |
+| 2 | "5 native client platforms" — wrong count | ❌ **PARTIALLY FIXED** — index.html and download correct; three pages still say "Five" |
 
 ---
 
-## Defect Verification
+## User-Verified Checks
 
-### ❌ 1. Primary Nav Still Missing Plugins and Docs
-
-`index.html:97-104` — nav has exactly 6 items:
-
-```
-The Workshop        (Home)
-Instruments         (Features)
-Engineering Gallery (Clients)
-Commission an Engine (Download)
-The Relay Station   (Hub)
-The Logbook         (About)
-```
-
-**Missing:** Plugins, Docs — still absent from primary nav. Footer has them but footer nav is not the primary nav per `new_site.md` §5.
-
-### ❌ 2. "5 native client platforms" — Still Fabricated
-
-**All four locations unchanged:**
-
-| File | Line | Issue |
-|------|------|-------|
-| `index.html` | 355 | Proof placard: `>5<strong>Native client platforms</strong>` |
-| `clients.html` | 9 | Meta description: `"Five native gallery walls: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."` |
-| `clients.html` | 92 | Page lead: `"Five gallery walls — pick your screens."` |
-| `expedition-guide.html` | 125 | Step text: `"Five platforms, zero configuration"` |
-
-Per `new_site.md` §16 and §19.14: **4 native clients** (Roku, Tizen, Windows, Mobile beta) **+ DLNA** (a protocol, not a native client).
+| Check | Command | Result |
+|-------|---------|--------|
+| Nav has 8 items | `grep -c "Plugins\|Extensions" index.html` | ✅ Returns 2 (Plugins + Docs both present) |
+| No "5 native/client" string | `grep -r "5.*native\|5.*client\|5 Native"` | ✅ No matches (lowercase search misses "Five") |
+| Install command | Previous review confirmed | ✅ Correct at download.html:116-118 |
+| OG + Twitter meta | Manual inspection | ✅ All 10 pages have og: + twitter: tags |
 
 ---
 
-## Other Checks
+## ❌ Blocking Defect — "Five" Still Present in 3 Locations
 
-| Item | Result |
-|------|--------|
-| `twitter:site` vs `twitter:creator` | `index.html:38` — still `twitter:site` (only page with this tag at all) |
-| No Google Fonts CDN | ✅ Clean — no external font CDNs detected |
-| Install command | ✅ Correct at `download.html:116-118` |
+The user's grep (`5.*native|5.*client|5 Native`) uses **lowercase "5"** — it misses the capitalized **"Five"** variant found in:
+
+| File | Line | Text |
+|------|------|------|
+| `clients.html` | 31 | `meta og:description: "Five native gallery walls: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."` |
+| `clients.html` | 42 | `meta twitter:description: "Five native gallery walls: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."` |
+| `clients.html` | 94 | Page lead: `Five gallery walls — pick your screens.` |
+| `expedition-guide.html` | 125 | Step text: `Roku, Samsung Tizen, Windows, Mobile (iOS + Android beta), or any DLNA device. Five` |
+
+Per `new_site.md` §16 and §19.14: **4 native clients** (Roku, Tizen, Windows, Mobile beta) **+ DLNA** (a protocol, not a client) = **4 + DLNA**. The word "Five" is factually incorrect in all 4 instances.
 
 ---
 
-## Summary Table
+## Dimension Scores (unchanged)
 
 | # | Dimension | Score | Status |
 |---|-----------|-------|--------|
@@ -78,12 +62,14 @@ Per `new_site.md` §16 and §19.14: **4 native clients** (Roku, Tizen, Windows, 
 
 ---
 
-## Blocking Defects (≥ 90% required)
+## Fix Required
 
-1. **Add Plugins and Docs to primary nav** — All 8 pages need the 8-link nav per `new_site.md` §5. Order: Home · Features · Clients · Download · Plugins · Docs · Hub · About.
-
-2. **Fix "5 native client platforms" factual error** in four locations.
+Replace "Five" → "4 + DLNA" in:
+- `clients.html:31` — og:description meta tag
+- `clients.html:42` — twitter:description meta tag  
+- `clients.html:94` — page lead paragraph
+- `expedition-guide.html:125` — setup step text
 
 ---
 
-*Review methodology: Same as REVIEW.md. Grep + line-by-line inspection of index.html, clients.html, expedition-guide.html, download.html.*
+*Review methodology: Same as REVIEW.md + user-supplied grep commands. Defect caught by manual inspection of grep output context (no regex match due to capital F in "Five").*
