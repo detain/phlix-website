@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download — Phlix</title>
+  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/speedrun-timer/download.html">
+  <meta name="theme-color" content="#00FF00">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/speedrun-timer/download.html">
+  <meta property="og:title" content="Download — Phlix">
+  <meta property="og:description" content="Your media. Your library. Your Phlix. Stream to Roku, Samsung TV, Windows, mobile, and any DLNA device.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/speedrun-timer/img/og.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Download — Phlix">
+  <meta name="twitter:description" content="Your media. Your library. Your Phlix. Stream to Roku, Samsung TV, Windows, mobile, and any DLNA device.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/speedrun-timer/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a class="nav-logo" href="./" aria-label="Phlix home">
+        <img src="img/logo.svg" alt="Phlix logo" width="120" height="40">
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">MENU</button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="./">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="download.html" aria-current="page">Download</a></li>
+        <li><a href="plugins.html">Plugins</a></li>
+        <li><a href="docs.html">Docs</a></li>
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="page-header">
+      <div class="container">
+        <h1>Download</h1>
+        <p class="page-lead">Get Phlix running on your server in minutes.</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <!-- Server Installation -->
+        <div class="info-box" style="margin-bottom: 2rem;">
+          <h4>Server Requirements</h4>
+          <p>PHP 8.3+, MySQL, ffmpeg. The installer targets a fresh Ubuntu/Debian host and also compiles the Swoole and php-uv extensions from source, skipping the build when they already load.</p>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Install the Server</h2>
+
+        <div class="code-block">
+          <code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code>
+        </div>
+
+        <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 1rem; margin-bottom: 2rem;">
+          One line, on a fresh Ubuntu or Debian host. Installs system packages (PHP 8.3+, MySQL, ffmpeg), creates a dedicated phlix system user, a MySQL database and user, an env file at /etc/phlix/env with a generated PHLIX_SECRET_KEY, runs database migrations, installs a systemd phlix-server service, and sets up an HAProxy reverse proxy with an auto-renewing Let's Encrypt certificate.
+        </p>
+
+        <div class="info-box" style="margin-bottom: 3rem;">
+          <h4>Provision HTTPS in the same run</h4>
+          <div class="code-block">
+            <code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \
+  | sudo bash -s -- --domain phlix.example.com --admin-email you@example.com</code>
+          </div>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Clients</h2>
+        <div class="client-cards" style="margin-bottom: 3rem;">
+          <article class="client-card">
+            <h2>Roku <span class="client-status status-stable">Stable</span></h2>
+            <p class="client-tagline">Native Roku channel</p>
+            <div class="client-highlights">
+              <span>HLS playback</span>
+              <span>Hub mode</span>
+              <span>Skip intro/outro</span>
+              <span>SyncPlay</span>
+            </div>
+            <a href="https://github.com/detain/phlix-roku-client" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View source</a>
+          </article>
+
+          <article class="client-card">
+            <h2>Samsung Tizen <span class="client-status status-stable">Stable</span></h2>
+            <p class="client-tagline">Smart TV app</p>
+            <div class="client-highlights">
+              <span>Vanilla JS + webpack</span>
+              <span>Direct play + HLS transcoded</span>
+              <span>Remote-optimized UI</span>
+            </div>
+            <a href="https://github.com/detain/phlix-tizen-client" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View source</a>
+          </article>
+
+          <article class="client-card">
+            <h2>Windows <span class="client-status status-stable">Stable</span></h2>
+            <p class="client-tagline">Native desktop</p>
+            <div class="client-highlights">
+              <span>Electron + React + TypeScript</span>
+              <span>System tray</span>
+              <span>Media keys</span>
+              <span>Hub mode</span>
+            </div>
+            <a href="https://github.com/detain/phlix-windows-client" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View source</a>
+          </article>
+
+          <article class="client-card">
+            <h2>Mobile (iOS + Android) <span class="client-status status-beta">Beta</span></h2>
+            <p class="client-tagline">React Native app</p>
+            <div class="client-highlights">
+              <span>Movies, TV, Music, Photos</span>
+              <span>Offline downloads</span>
+              <span>Token refresh</span>
+            </div>
+            <a href="https://github.com/detain/phlix-mobile-client" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View source</a>
+          </article>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Ecosystem</h2>
+        <div class="ecosystem-list" style="margin-bottom: 3rem;">
+          <div class="ecosystem-item">
+            <div>
+              <span class="ecosystem-item-name">phlix-server</span>
+              <p class="ecosystem-item-what">The media server itself — PHP 8.3+, Workerman 5.x</p>
+            </div>
+            <a href="https://github.com/detain/phlix-server" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+          <div class="ecosystem-item">
+            <div>
+              <span class="ecosystem-item-name">phlix-hub</span>
+              <p class="ecosystem-item-what">Cloud directory + reverse-tunnel relay</p>
+            </div>
+            <a href="https://github.com/detain/phlix-hub" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+          <div class="ecosystem-item">
+            <div>
+              <span class="ecosystem-item-name">phlix-shared</span>
+              <p class="ecosystem-item-what">Shared interfaces, DTOs, event types — Composer package</p>
+            </div>
+            <a href="https://github.com/detain/phlix-shared" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+          <div class="ecosystem-item">
+            <div>
+              <span class="ecosystem-item-name">phlix-docs</span>
+              <p class="ecosystem-item-what">End-user, developer, and hub-admin docs (VitePress)</p>
+            </div>
+            <a href="https://github.com/detain/phlix-docs" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+          <div class="ecosystem-item">
+            <div>
+              <span class="ecosystem-item-name">phlix-plugin-example</span>
+              <p class="ecosystem-item-what">Reference metadata-provider plugin</p>
+            </div>
+            <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Source</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-banner container">
+      <h2>Need help getting started?</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">Read the installation documentation.</p>
+      <a href="https://detain.github.io/phlix-docs/install/linux" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Read the docs</a>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <p class="footer-tagline">Open-source media, on your terms.</p>
+    <nav class="footer-nav container" aria-label="Footer navigation">
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="clients.html">Clients</a></li>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="plugins.html">Plugins</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="https://detain.github.io/phlix-docs" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+          <li><a href="https://github.com/detain/phlix-server" target="_blank" rel="noopener noreferrer">Server source</a></li>
+          <li><a href="https://github.com/detain/phlix-plugin-example" target="_blank" rel="noopener noreferrer">Plugin example</a></li>
+          <li><a href="https://detain.github.io/phlix-docs/reference/api.html" target="_blank" rel="noopener noreferrer">API reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/detain" target="_blank" rel="noopener noreferrer">GitHub org</a></li>
+          <li><a href="https://github.com/detain/phlix-server/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+          <li><a href="https://github.com/detain/phlix-hub" target="_blank" rel="noopener noreferrer">Hub</a></li>
+          <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">License (MPL-2.0)</a></li>
+        </ul>
+      </div>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Phlix — MPL-2.0 (server/hub), MIT (clients/plugins)</p>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
