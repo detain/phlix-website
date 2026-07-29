@@ -1,0 +1,27 @@
+# REVIEW-FINAL — Pastel Dreamscape Brand Kit Site
+
+**Reviewer:** Hostile Auditor
+**Date:** 2026-07-29
+**Site:** `sites/pastel-dreamscape/`
+
+---
+
+## NOT APPROVED — 3 accessibility issues remain
+
+The 3 accessibility issues from REVIEW.md are **not fixed**. Priority order:
+
+1. **D-2 Skip links** — NOT FIXED  
+   No `<a class="skip-link" href="#main-content">Skip to main content</a>` on any of the 9 pages. Grep across all `.html` files found zero matches. Must be first focusable element inside `<body>` on every page.
+
+2. **D-1 Mobile nav keyboard** — NOT FIXED  
+   `js/main.js:58-76` (`initNav`): Has click toggle and outside-click close, but:
+   - No `keydown` handler for `Esc` that closes and returns focus to `.nav-toggle`
+   - No focus trap inside open menu
+   - No focus return to `.nav-toggle` on close (outside click, toggle, etc.)
+
+3. **D-3 FAQ aria-controls** — NOT FIXED  
+   `js/main.js:85` sets `aria-controls` to `item.id` (e.g. `"faq-plex"`). That id is on the `.faq-item` `<div>`, not on the `.faq-answer` `<div>`. The answer div has no id at all. Per WCAG 4.1.2, `aria-controls` must reference the element it controls — should be `item.id + '-answer'` and each `.faq-answer` div needs the matching `id`.
+
+---
+
+These 3 are WCAG 2.1/2.2 AA hard failures. Fix them before re-review.

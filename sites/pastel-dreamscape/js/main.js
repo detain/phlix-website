@@ -61,15 +61,56 @@
     if (!btn || !links) return;
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-label', 'Toggle navigation');
+
+    // Focusable elements within nav for focus trap
+    function getFocusable() {
+      return links.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    }
+
+    // Close nav helper
+    function closeNav() {
+      links.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    }
+
+    // Toggle nav on button click
     btn.addEventListener('click', function () {
       const open = links.classList.toggle('open');
       this.setAttribute('aria-expanded', String(open));
+      if (open) {
+        const focusable = getFocusable();
+        if (focusable.length) focusable[0].focus();
+      }
     });
+
     // Close on outside click
     document.addEventListener('click', function (e) {
       if (!links.contains(e.target) && !btn.contains(e.target)) {
-        links.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
+        if (links.classList.contains('open')) closeNav();
+      }
+    });
+
+    // Keyboard handling: Escape, focus trap
+    links.addEventListener('keydown', function (e) {
+      if (!links.classList.contains('open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeNav();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     });
   }
@@ -79,10 +120,13 @@
   function initFAQ() {
     document.querySelectorAll('.faq-item').forEach(function (item) {
       const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
       if (!question) return;
       question.setAttribute('aria-expanded', 'false');
       question.setAttribute('role', 'button');
-      question.setAttribute('aria-controls', item.id || null);
+      if (answer && answer.id) {
+        question.setAttribute('aria-controls', answer.id);
+      }
       question.addEventListener('click', function () {
         const isOpen = item.classList.contains('open');
         // Close all
