@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentation — Phlix Ricochet</title>
+    <meta name="description" content="Complete documentation for Phlix media server." />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/ricochet/docs.html" />
+    <meta property="og:title" content="Documentation — Phlix Ricochet" />
+    <meta property="og:description" content="Complete documentation for Phlix media server." />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/ricochet/img/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Documentation — Phlix Ricochet" />
+    <meta name="twitter:description" content="Complete documentation for Phlix media server." />
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/ricochet/img/og.svg" />
+    <meta name="theme-color" content="#FF9F1A" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+  </head>
+  <body>
+    <canvas id="spark-canvas" aria-hidden="true"></canvas>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home"><span class="logo-text">PHLIX</span><span class="logo-badge">Ricochet</span></a>
+        <ul class="nav-links">
+          <li><a href="./" class="nav-link">Home</a></li>
+          <li><a href="features.html" class="nav-link">Features</a></li>
+          <li><a href="download.html" class="nav-link">Download</a></li>
+          <li><a href="docs.html" class="nav-link active">Docs</a></li>
+          <li><a href="plugins.html" class="nav-link">Plugins</a></li>
+          <li><a href="hub.html" class="nav-link">Hub</a></li>
+          <li><a href="clients.html" class="nav-link">Clients</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+    </header>
+    <main id="main-content">
+      <section class="page-hero" aria-labelledby="docs-title">
+        <div class="container">
+          <h1 id="docs-title" class="section-title">Documentation</h1>
+          <p class="section-subtitle">Everything you need to know about running Phlix.</p>
+        </div>
+      </section>
+      <section class="docs-content">
+        <div class="container">
+          <div class="docs-grid">
+            <nav class="docs-nav" aria-label="Documentation navigation">
+              <h2 class="docs-nav-title">Getting Started</h2>
+              <ul class="docs-nav-list">
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#configuration">Configuration</a></li>
+                <li><a href="#first-run">First Run</a></li>
+              </ul>
+              <h2 class="docs-nav-title">User Guide</h2>
+              <ul class="docs-nav-list">
+                <li><a href="#media-library">Media Library</a></li>
+                <li><a href="#playback">Playback</a></li>
+                <li><a href="#syncplay">SyncPlay</a></li>
+                <li><a href="#livetv">Live TV & DVR</a></li>
+              </ul>
+              <h2 class="docs-nav-title">Administration</h2>
+              <ul class="docs-nav-list">
+                <li><a href="#users">User Management</a></li>
+                <li><a href="#plugins-admin">Plugin Management</a></li>
+                <li><a href="#security">Security</a></li>
+              </ul>
+            </nav>
+            <div class="docs-main">
+              <article class="docs-article" id="installation">
+                <h2>Installation</h2>
+                <p>Phlix requires PHP 8.3 or higher, a web server (Apache or Nginx), and MySQL/MariaDB. The recommended way to install is via our one-line installer:</p>
+                <pre><code>curl -sSL https://get.phlix.tv | bash</code></pre>
+                <p>This will download the latest release, set up the database, create the configuration, and configure your web server.</p>
+                <h3>Manual Installation</h3>
+                <p>If you prefer to install manually:</p>
+                <ol>
+                  <li>Download the latest release from GitHub</li>
+                  <li>Extract to your web root</li>
+                  <li>Create a MySQL database and user</li>
+                  <li>Import the schema from <code>install/schema.sql</code></li>
+                  <li>Copy <code>config/config.php.example</code> to <code>config/config.php</code> and edit</li>
+                </ol>
+              </article>
+              <article class="docs-article" id="configuration">
+                <h2>Configuration</h2>
+                <p>Phlix stores configuration in <code>config/config.php</code>. Key settings include database credentials, media paths, and server options.</p>
+                <pre><code>// Database
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'phlix');
+define('DB_USER', 'phlix');
+define('DB_PASS', 'your-password');
+
+// Media Paths
+define('MEDIA_ROOT', '/mnt/media');
+
+// Server
+define('SITE_URL', 'https://phlix.yourdomain.com');
+define('ADMIN_EMAIL', 'admin@yourdomain.com');</code></pre>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-bottom">
+          <p class="footer-copyright">&copy; 2026 Joe Huss. Released under MPL 2.0.</p>
+          <div class="footer-badges">
+            <span class="footer-badge">PHP 8.3+</span>
+            <span class="footer-badge">Open Source</span>
+            <span class="footer-badge">Self-Hosted</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="js/ricochet-physics.js"></script>
+    <script src="js/spark-particles.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+      .page-hero { padding: calc(var(--header-height) + var(--space-16)) 0 var(--space-8); text-align: center; }
+      .docs-content { padding: var(--space-8) 0 var(--space-16); }
+      .docs-grid { display: grid; grid-template-columns: 240px 1fr; gap: var(--space-8); }
+      .docs-nav { position: sticky; top: calc(var(--header-height) + var(--space-4)); height: fit-content; }
+      .docs-nav-title { font-family: var(--font-display); font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); margin: var(--space-6) 0 var(--space-2); }
+      .docs-nav-list { list-style: none; display: flex; flex-direction: column; }
+      .docs-nav-list a { font-size: 0.875rem; color: var(--color-text-muted); padding: var(--space-1) 0; display: block; }
+      .docs-nav-list a:hover { color: var(--color-primary); }
+      .docs-article { padding: var(--space-6) 0; border-bottom: 1px solid var(--color-border); }
+      .docs-article h2 { font-family: var(--font-headline); font-size: 1.75rem; color: var(--color-text); margin-bottom: var(--space-4); }
+      .docs-article h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--color-text); margin: var(--space-6) 0 var(--space-3); }
+      .docs-article p { font-size: 0.9375rem; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+      .docs-article pre { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); overflow-x: auto; margin: var(--space-4) 0; }
+      .docs-article code { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-primary); }
+      .docs-article ol, .docs-article ul { padding-left: var(--space-6); margin-bottom: var(--space-4); }
+      .docs-article li { font-size: 0.9375rem; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+      @media (max-width: 768px) { .docs-grid { grid-template-columns: 1fr; } .docs-nav { position: static; } }
+    </style>
+  </body>
+</html>
