@@ -1,0 +1,353 @@
+/* ==========================================================================
+   HUD COMPONENTS
+   Military HUD frame and bracket components
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HUD Brackets
+   -------------------------------------------------------------------------- */
+.hud-bracket-component {
+  position: relative;
+}
+
+.hud-bracket-component::before,
+.hud-bracket-component::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-secondary);
+}
+
+.hud-bracket-component::before {
+  top: -4px;
+  left: -4px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-bracket-component::after {
+  bottom: -4px;
+  right: -4px;
+  border-left: none;
+  border-top: none;
+}
+
+/* --------------------------------------------------------------------------
+   HUD Status Bar
+   -------------------------------------------------------------------------- */
+.hud-status-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.hud-status-bar__label {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hud-status-bar__value {
+  color: var(--color-text);
+}
+
+.hud-status-bar__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+}
+
+.hud-status-bar__indicator--active {
+  background: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+}
+
+.hud-status-bar__indicator--warning {
+  background: var(--color-warning);
+  box-shadow: 0 0 8px var(--color-warning);
+}
+
+.hud-status-bar__indicator--danger {
+  background: var(--color-error);
+  box-shadow: 0 0 8px var(--color-error);
+  animation: danger-pulse 1s ease-in-out infinite;
+}
+
+@keyframes danger-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* --------------------------------------------------------------------------
+   HUD Readout Display
+   -------------------------------------------------------------------------- */
+.hud-readout {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+}
+
+.hud-readout__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hud-readout__title {
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.hud-readout__grid {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.hud-readout__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.hud-readout__key {
+  color: var(--color-text-muted);
+}
+
+.hud-readout__value {
+  color: var(--color-text);
+}
+
+.hud-readout__value--highlight {
+  color: var(--color-primary);
+}
+
+.hud-readout__value--success {
+  color: var(--color-success);
+}
+
+.hud-readout__value--warning {
+  color: var(--color-warning);
+}
+
+.hud-readout__value--danger {
+  color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   HUD Coordinate Display
+   -------------------------------------------------------------------------- */
+.hud-coords {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: inline-block;
+}
+
+.hud-coords::before {
+  content: '[ ';
+}
+
+.hud-coords::after {
+  content: ' ]';
+}
+
+/* --------------------------------------------------------------------------
+   HUD Frame Component
+   -------------------------------------------------------------------------- */
+.hud-frame-box {
+  position: relative;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: var(--space-6);
+}
+
+.hud-frame-box__corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-secondary);
+}
+
+.hud-frame-box__corner--tl {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-frame-box__corner--tr {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.hud-frame-box__corner--bl {
+  bottom: -2px;
+  left: -2px;
+  border-right: none;
+  border-top: none;
+}
+
+.hud-frame-box__corner--br {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+/* --------------------------------------------------------------------------
+   HUD Badge
+   -------------------------------------------------------------------------- */
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+.hud-badge--primary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.hud-badge--secondary {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.hud-badge--success {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.hud-badge--warning {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.hud-badge--danger {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.hud-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+/* --------------------------------------------------------------------------
+   HUD Progress Bar
+   -------------------------------------------------------------------------- */
+.hud-progress {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2);
+}
+
+.hud-progress__track {
+  height: 8px;
+  background: var(--color-surface-alt);
+  position: relative;
+  overflow: hidden;
+}
+
+.hud-progress__fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width var(--transition-medium);
+  position: relative;
+}
+
+.hud-progress__fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgb(255,255,255,0.3));
+}
+
+.hud-progress__label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   HUD Tooltip
+   -------------------------------------------------------------------------- */
+.hud-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.hud-tooltip__trigger {
+  cursor: help;
+  border-bottom: 1px dashed var(--color-text-muted);
+}
+
+.hud-tooltip__content {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+  z-index: 100;
+}
+
+.hud-tooltip__content::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-border);
+}
+
+.hud-tooltip:hover .hud-tooltip__content {
+  opacity: 1;
+  visibility: visible;
+}

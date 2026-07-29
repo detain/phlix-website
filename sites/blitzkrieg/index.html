@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blitzkrieg — Lightning-speed military assault on buffering. Military HUD interfaces, tank-tread navigation, artillery reload transitions, and tactical precision streaming.">
+  <meta name="theme-color" content="#1A1A2E">
+  <meta name="author" content="Joe Huss">
+  <title>Blitzkrieg — Lightning War. Zero Buffering.</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/blitzkrieg.css">
+  <link rel="stylesheet" href="css/hud-components.css">
+  <link rel="stylesheet" href="css/tank-treads.css">
+  <link rel="stylesheet" href="css/explosion-rings.css">
+  <link rel="stylesheet" href="css/artillery-loader.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="blitzkrieg-site">
+  <!-- HUD Frame Overlay -->
+  <div class="hud-frame" aria-hidden="true">
+    <div class="hud-corner hud-corner--tl"></div>
+    <div class="hud-corner hud-corner--tr"></div>
+    <div class="hud-corner hud-corner--bl"></div>
+    <div class="hud-corner hud-corner--br"></div>
+    <div class="hud-scanlines"></div>
+  </div>
+
+  <!-- Radar Sweep Background -->
+  <div class="radar-container" aria-hidden="true">
+    <div class="radar-sweep"></div>
+    <div class="radar-grid"></div>
+  </div>
+
+  <!-- Loading Overlay (Artillery Strike) -->
+  <div class="artillery-loader" id="artilleryLoader" aria-hidden="true">
+    <div class="artillery-target">
+      <div class="target-reticle">
+        <div class="reticle-ring reticle-ring--outer"></div>
+        <div class="reticle-ring reticle-ring--inner"></div>
+        <div class="reticle-crosshair">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="strike-text">STRIKE INCOMING</div>
+    </div>
+    <div class="explosion-ring"></div>
+    <div class="explosion-ring explosion-ring--delay"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="tank-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-coords">[ 51°21'N 12°28'E ]</span>
+        <span class="brand-name">BLITZKRIEG</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="tank-link tank-link--1"></span>
+        <span class="tank-link tank-link--2"></span>
+        <span class="tank-link tank-link--3"></span>
+      </button>
+      <ul class="nav-list" id="navList">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="features.html" class="nav-link">Intel</a></li>
+        <li class="nav-item"><a href="clients.html" class="nav-link">Command</a></li>
+        <li class="nav-item"><a href="download.html" class="nav-link nav-link--primary">Deploy</a></li>
+      </ul>
+    </div>
+    <div class="tank-tread-track">
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+      <span class="tread-segment"></span>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <div class="dog-tag dog-tag--coords">OPERATION: STREAMING</div>
+      <h1 class="hero-title">
+        <span class="title-line">Lightning War.</span>
+        <span class="title-line title-line--accent">Zero Buffering.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Precision military streaming. Artillery-grade performance. 
+        When your content buffers, we strike back.
+      </p>
+      <div class="hero-cta">
+        <a href="download.html" class="btn btn--primary btn--strike">
+          <span class="btn-content">
+            <svg class="btn-icon" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M12 2L4 14h7v8l8-12h-7z"/>
+            </svg>
+            Deploy Now
+          </span>
+          <span class="explosion-ring-btn"></span>
+        </a>
+        <a href="features.html" class="btn btn--secondary">
+          <span class="btn-content">View Intel</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">99.9%</span>
+          <span class="stat-label">Uptime</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">0ms</span>
+          <span class="stat-label">Buffer</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">∞</span>
+          <span class="stat-label">Precision</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hud-display">
+        <div class="display-frame">
+          <div class="display-header">
+            <span class="display-label">SYSTEM STATUS</span>
+            <span class="display-indicator active"></span>
+          </div>
+          <div class="display-content">
+            <div class="display-row">
+              <span class="display-key">OPERATION</span>
+              <span class="display-value">ACTIVE</span>
+            </div>
+            <div class="display-row">
+              <span class="display-key">THREAT LEVEL</span>
+              <span class="display-value display-value--green">MINIMAL</span>
+            </div>
+            <div class="display-row">
+              <span class="display-key">BANDWIDTH</span>
+              <span class="display-value">UNLIMITED</span>
+            </div>
+            <div class="display-row">
+              <span class="display-key">STRIKE READY</span>
+              <span class="display-value display-value--red">ARMED</span>
+            </div>
+          </div>
+          <div class="radar-mini">
+            <div class="radar-sweep-mini"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-tactical-stripe"></div>
+  </header>
+
+  <!-- Mission Briefing Section -->
+  <section class="section section--briefing" id="mission">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="dog-tag dog-tag--section">MISSION BRIEFING</div>
+        <h2 class="section-title">Strategic Streaming</h2>
+        <p class="section-desc">
+          Blitzkrieg deploys military-grade precision to your media library. 
+          Every byte deployed with tactical accuracy. No casualties. No buffering.
+        </p>
+      </div>
+      <div class="briefing-grid">
+        <div class="briefing-card" data-tactical-zoom>
+          <div class="card-hud-frame">
+            <span class="hud-bracket hud-bracket--tl"></span>
+            <span class="hud-bracket hud-bracket--tr"></span>
+            <span class="hud-bracket hud-bracket--bl"></span>
+            <span class="hud-bracket hud-bracket--br"></span>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Precision Deployment</h3>
+            <p class="card-desc">Every media file deployed with surgical accuracy. Zero packet loss. Zero hesitation.</p>
+          </div>
+        </div>
+        <div class="briefing-card" data-tactical-zoom>
+          <div class="card-hud-frame">
+            <span class="hud-bracket hud-bracket--tl"></span>
+            <span class="hud-bracket hud-bracket--tr"></span>
+            <span class="hud-bracket hud-bracket--bl"></span>
+            <span class="hud-bracket hud-bracket--br"></span>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83V6.31l6-2.12 6 2.12v4.78z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Artillery-Grade Shield</h3>
+            <p class="card-desc">Multi-layered defense system. Your library protected by milspec encryption.</p>
+          </div>
+        </div>
+        <div class="briefing-card" data-tactical-zoom>
+          <div class="card-hud-frame">
+            <span class="hud-bracket hud-bracket--tl"></span>
+            <span class="hud-bracket hud-bracket--tr"></span>
+            <span class="hud-bracket hud-bracket--bl"></span>
+            <span class="hud-bracket hud-bracket--br"></span>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32">
+                <path fill="currentColor" d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93 0 1.1-.22 2.15-.62 3.09L22 17.03l-1.06 1.06-1.97-1.97c.26-.58.43-1.21.49-1.88l1.9-.24-1.9 5.08-2.03-.41-1.47-3.97-1.47 3.97-2.03.41 1.9-5.08 1.9.24c-.06.67.01 1.34.27 1.98l.21.59L14.18 18l-2.83 2.83 1.06 1.06 2.91-2.91c.75.34 1.57.55 2.43.6v2.02h1.5v-2.02c.86-.05 1.68-.26 2.43-.6l2.91 2.91 1.06-1.06L18.82 18l.21-.59c.26-.64.33-1.31.27-1.98l1.9-.24-1.9 5.08-2.03-.41-1.47-3.97-1.47 3.97-2.03.41 1.9-5.08 1.9.24c.06.67-.09 1.32-.33 1.93l-.18.46-2.91-2.91-1.06 1.06 2.83 2.83-1.06 1.06L13 21.95v-2.02c-.85-.07-1.67-.28-2.43-.6l-2.91 2.91-1.06-1.06L8.47 18.3l.18-.46c.24-.61.39-1.26.33-1.93l-1.9-.24 1.9 5.08 2.03-.41 1.47-3.97 1.47 3.97 2.03.41-1.9-5.08 1.9.24c.06.67-.23 1.3-.73 1.75l-.37.33V12c0-4.08 3.05-7.44 7-7.93v2.02c-3.12.41-5.57 2.86-6 5.98h2c.37-2.24 2.39-3.94 4.65-4.01l.35-.01V2.05h-2z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Tactical Speed</h3>
+            <p class="card-desc">Lightning war protocols. Your content arrives before you finish the command.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section section--features" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="dog-tag dog-tag--section">OPERATION SPECS</div>
+        <h2 class="section-title">Armory</h2>
+        <p class="section-desc">
+          Military-grade features for precision streaming operations. 
+          Every tool designed for maximum tactical advantage.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Artillery Strike Loading</h3>
+          </div>
+          <p class="feature-desc">When buffering occurs, the system triggers a precision artillery strike animation. Target acquired. Impact imminent.</p>
+        </div>
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Tank-Tread Navigation</h3>
+          </div>
+          <p class="feature-desc">Mechanical precision in every click. Navigation segments roll like tank treads — deliberate, powerful, unstoppable.</p>
+        </div>
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Tactical Zoom</h3>
+          </div>
+          <p class="feature-desc">Media cards zoom with scope-like precision. Target lock. Focus achieved. Intel acquired.</p>
+        </div>
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Military HUD Interface</h3>
+          </div>
+          <p class="feature-desc">Every element framed by tactical HUD brackets. Coordinate readouts. Status indicators. Command center aesthetic.</p>
+        </div>
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Dog Tag Identifiers</h3>
+          </div>
+          <p class="feature-desc">Content labeled with military dog-tag precision. Unit-style identifiers for every media asset in your library.</p>
+        </div>
+        <div class="feature-item" data-tactical-zoom>
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+              </svg>
+            </span>
+            <h3 class="feature-title">Radar Sweep Ambient</h3>
+          </div>
+          <p class="feature-desc">Subtle radar sweep animation in backgrounds. The command center is always scanning. Always watching. Always ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta" id="cta">
+    <div class="cta-container">
+      <div class="cta-content">
+        <div class="dog-tag dog-tag--cta">MISSION ACTIVE</div>
+        <h2 class="cta-title">Ready to Deploy?</h2>
+        <p class="cta-desc">
+          Join the operation. Download Phlix and experience 
+          lightning-speed streaming with military precision.
+        </p>
+        <div class="cta-actions">
+          <a href="download.html" class="btn btn--primary btn--strike btn--large">
+            <span class="btn-content">
+              <svg class="btn-icon" viewBox="0 0 24 24" width="20" height="20">
+                <path fill="currentColor" d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
+              </svg>
+              Commence Operation
+            </span>
+            <span class="explosion-ring-btn"></span>
+          </a>
+          <a href="features.html" class="btn btn--ghost">Study the Intel</a>
+        </div>
+      </div>
+      <div class="cta-visual" aria-hidden="true">
+        <div class="explosion-burst">
+          <span class="burst-ring"></span>
+          <span class="burst-ring burst-ring--delay"></span>
+          <span class="burst-ring burst-ring--delay-2"></span>
+        </div>
+      </div>
+    </div>
+    <div class="tactical-stripes"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="brand-coords">[ 51°21'N 12°28'E ]</span>
+        <span class="brand-name">BLITZKRIEG</span>
+        <p class="footer-tagline">Lightning War. Zero Buffering.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4 class="footer-heading">Operations</h4>
+          <ul class="footer-list">
+            <li><a href="download.html">Deploy</a></li>
+            <li><a href="features.html">Intel</a></li>
+            <li><a href="clients.html">Command</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Intelligence</h4>
+          <ul class="footer-list">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Hub</a></li>
+            <li><a href="#">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Comms</h4>
+          <ul class="footer-list">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="reviews/blitzkrieg/">Reviews</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">Operation conducted by Phlix. All rights reserved.</p>
+        <div class="footer-status">
+          <span class="status-indicator active"></span>
+          <span class="status-text">All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/prefers-reduced-motion.js"></script>
+  <script src="js/radar-sweep.js"></script>
+  <script src="js/artillery-transition.js"></script>
+  <script src="js/tactical-zoom.js"></script>
+  <script src="js/dog-tags.js"></script>
+  <script src="js/hud-badges.js"></script>
+  <script src="js/blitzkrieg.js"></script>
+</body>
+</html>

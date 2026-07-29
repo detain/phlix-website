@@ -1,0 +1,263 @@
+/* ==========================================================================
+   TANK TREADS
+   Mechanical connected-segment navigation patterns
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Tank Tread Track
+   -------------------------------------------------------------------------- */
+.tank-tread {
+  position: relative;
+  background: var(--color-surface-alt);
+  padding: var(--space-4);
+  overflow: hidden;
+}
+
+.tank-tread__track {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tank-tread__segment {
+  width: 40px;
+  height: 12px;
+  background: var(--color-border);
+  border-radius: 2px;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.tank-tread__segment::before,
+.tank-tread__segment::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  background: var(--color-surface);
+  border-radius: 1px;
+}
+
+.tank-tread__segment::before {
+  top: 2px;
+}
+
+.tank-tread__segment::after {
+  bottom: 2px;
+}
+
+.tank-tread__segment--active {
+  background: var(--color-primary);
+}
+
+.tank-tread__segment--active::before,
+.tank-tread__segment--active::after {
+  background: var(--color-surface-alt);
+}
+
+/* --------------------------------------------------------------------------
+   Tank Tread Navigation
+   -------------------------------------------------------------------------- */
+.tank-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.tank-nav-item::before {
+  content: '';
+  width: 16px;
+  height: 12px;
+  background: var(--color-border);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+.tank-nav-item:hover,
+.tank-nav-item.active {
+  color: var(--color-text);
+  padding-left: var(--space-6);
+}
+
+.tank-nav-item:hover::before,
+.tank-nav-item.active::before {
+  background: var(--color-primary);
+  width: 24px;
+}
+
+.tank-nav-item.active {
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Tank Tread Progress
+   -------------------------------------------------------------------------- */
+.tank-progress {
+  display: flex;
+  gap: 4px;
+}
+
+.tank-progress__step {
+  width: 32px;
+  height: 10px;
+  background: var(--color-border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tank-progress__step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: rgb(255,255,255,0.1);
+}
+
+.tank-progress__step--complete {
+  background: var(--color-success);
+}
+
+.tank-progress__step--active {
+  background: var(--color-primary);
+  animation: tread-active 1s ease-in-out infinite;
+}
+
+@keyframes tread-active {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* --------------------------------------------------------------------------
+   Tank Tread Animation (when prefers-reduced-motion: no-preference)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .tank-tread__segment {
+    animation: tread-roll 0.8s ease-in-out infinite;
+  }
+  
+  .tank-tread__segment:nth-child(1) { animation-delay: 0s; }
+  .tank-tread__segment:nth-child(2) { animation-delay: 0.1s; }
+  .tank-tread__segment:nth-child(3) { animation-delay: 0.2s; }
+  .tank-tread__segment:nth-child(4) { animation-delay: 0.3s; }
+  .tank-tread__segment:nth-child(5) { animation-delay: 0.4s; }
+  .tank-tread__segment:nth-child(6) { animation-delay: 0.5s; }
+  .tank-tread__segment:nth-child(7) { animation-delay: 0.6s; }
+  .tank-tread__segment:nth-child(8) { animation-delay: 0.7s; }
+}
+
+@keyframes tread-roll {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-2px) rotate(-1deg); }
+  75% { transform: translateX(2px) rotate(1deg); }
+}
+
+/* --------------------------------------------------------------------------
+   Tank Tread Breadcrumbs
+   -------------------------------------------------------------------------- */
+.tank-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+}
+
+.tank-breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.tank-breadcrumbs__item:hover {
+  color: var(--color-text);
+}
+
+.tank-breadcrumbs__item--active {
+  color: var(--color-primary);
+}
+
+.tank-breadcrumbs__separator {
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+}
+
+.tank-breadcrumbs__segment {
+  width: 12px;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 1px;
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   Tank Tread Pagination
+   -------------------------------------------------------------------------- */
+.tank-pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tank-pagination__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tank-pagination__btn:hover:not(:disabled) {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.tank-pagination__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tank-pagination__track {
+  display: flex;
+  gap: 4px;
+}
+
+.tank-pagination__segment {
+  width: 8px;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 1px;
+  transition: all var(--transition-fast);
+}
+
+.tank-pagination__segment--active {
+  background: var(--color-primary);
+  width: 20px;
+}
+
+.tank-pagination__segment--complete {
+  background: var(--color-success);
+}
