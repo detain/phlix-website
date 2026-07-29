@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plugins — Phlix Inferno</title>
+    <meta name="description" content="Extend Phlix with plugins — metadata providers, transcoding filters, and more. Build on the versioned plugin contract." />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/inferno/plugins.html" />
+    <meta property="og:title" content="Plugins — Phlix Inferno" />
+    <meta property="og:description" content="Extend Phlix with plugins — metadata providers, transcoding filters, and more." />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/inferno/img/og.png" />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/inferno/plugins.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#DC143C" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="ember-container" aria-hidden="true"></div>
+
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home">
+          <img src="img/logo.svg" alt="Phlix Inferno logo" width="120" height="40" />
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 12h18M3 6h18M3 18h18" />
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu" role="list">
+          <li><a href="./">Ignite</a></li>
+          <li><a href="features.html">Temper</a></li>
+          <li><a href="clients.html">Conduits</a></li>
+          <li><a href="download.html">Erupt</a></li>
+          <li><a href="hub.html">Channel</a></li>
+          <li><a href="about.html">Origin</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="hero hero-features magma-bg" aria-labelledby="plugins-heading">
+        <div class="hero-content heat-shimmer">
+          <p class="text-tertiary" style="font-family: var(--font-ui); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-4);">The Forge</p>
+          <h1 id="plugins-heading">Plugin Inferno</h1>
+          <p class="subheadline">
+            Drop a plugin in, and the loader picks it up. The versioned manifest contract
+            means your extensions survive upgrades — and the fire keeps burning.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="plugin-arch-heading">
+        <div class="container container--narrow">
+          <h2 id="plugin-arch-heading" class="section-title">The contract</h2>
+          <div class="feature-detail">
+            <div class="feature-detail-content">
+              <p>
+                Every plugin declares itself via a <code>manifest.json</code> that specifies
+                the plugin name, version, and lifecycle interface it implements. The
+                <code>LifecycleInterface</code> defines <code>onInstall</code>,
+                <code>onEnable</code>, <code>onDisable</code>, and <code>onUninstall</code>
+                hooks — giving you full control over setup and teardown.
+              </p>
+              <p>
+                The plugin loader scans the <code>plugins/</code> directory at startup,
+                validates each manifest against the schema, and registers the plugin
+                with the <code>PluginRegistry</code>. From there, the plugin can hook
+                into any part of the server lifecycle.
+              </p>
+              <a href="https://detain.github.io/phlix-docs/dev/plugins" class="btn btn-secondary mt-4">Read the Plugin Guide</a>
+            </div>
+            <div class="feature-detail-visual">
+              <pre style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: var(--space-4); font-family: var(--font-mono); font-size: 0.875rem; overflow-x: auto;"><code>{
+  "name": "my-metadata-provider",
+  "version": "1.0.0",
+  "interface": "metadata-provider",
+  "lifecycle": ["onEnable"],
+  "entry": "MyMetadataProvider.php"
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-gradient" aria-labelledby="plugin-types-heading">
+        <div class="container">
+          <h2 id="plugin-types-heading" class="section-title">What you can build</h2>
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
+                </svg>
+              </div>
+              <h3>Metadata Providers</h3>
+              <p>Fetch from TMDB, TVDB, Fanart.tv, or any custom source. Return a normalized payload and let the server handle caching.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                </svg>
+              </div>
+              <h3>Transcoding Filters</h3>
+              <p>Pre-process or post-process media streams. Add burned-in subtitles, watermarks, or quality adjustments.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <h3>Auth Providers</h3>
+              <p>Add LDAP, OAuth, or custom auth backends. The server talks to your provider via a simple token exchange.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+              </div>
+              <h3>EPG Sources</h3>
+              <p>Pull guide data from any XMLTV-compatible source. Map channels, merge data, and fill gaps in the program guide.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="plugin-example-heading">
+        <div class="container container--narrow">
+          <div class="cta-banner">
+            <h2 id="plugin-example-heading">Start building</h2>
+            <p>The <code>phlix-plugin-example</code> repo is a complete reference plugin — clone it, tweak it, and have a working plugin in minutes.</p>
+            <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-primary explosive-bloom">View phlix-plugin-example</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-tagline">Built to burn. Ignited for the screen.</p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-col">
+            <h3>Product</h3>
+            <ul role="list">
+              <li><a href="features.html">Temper</a></li>
+              <li><a href="clients.html">Conduits</a></li>
+              <li><a href="download.html">Erupt</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Developers</h3>
+            <ul role="list">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Project</h3>
+            <ul role="list">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
+            </ul>
+          </div>
+        </nav>
+        <p class="footer-copy">&copy; 2026 Phlix &mdash; MPL-2.0 / MIT</p>
+      </div>
+    </footer>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
