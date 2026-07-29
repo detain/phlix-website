@@ -1,0 +1,443 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Loading Screen Kit (DOS Retro Theme)
+   Buttons, cards, nav, footer, and interactive components.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ==========================================================================
+   SITE HEADER & NAV
+   ========================================================================== */
+
+.site-header {
+  padding: var(--space-4) 0;
+  border-bottom: 2px solid var(--color-border);
+  background: var(--color-black);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--color-green);
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-logo__text {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 2px solid var(--color-green);
+  color: var(--color-green);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: var(--space-1);
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-green);
+  text-decoration: none;
+  font-size: 0.875rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.nav-menu a:hover {
+  background: var(--color-surface);
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.nav-menu a[aria-current="page"] {
+  background: var(--color-green);
+  color: var(--color-black);
+}
+
+/* Mobile nav */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-black);
+    border-bottom: 2px solid var(--color-green);
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid var(--color-green);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn-primary {
+  background: var(--color-green);
+  color: var(--color-black);
+}
+
+.btn-primary:hover {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-black);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-green);
+}
+
+.btn-secondary:hover {
+  background: var(--color-green);
+  color: var(--color-black);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--color-gray);
+  color: var(--color-light-gray);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+/* ==========================================================================
+   SITE FOOTER
+   ========================================================================== */
+
+.site-footer {
+  margin-top: auto;
+  padding: var(--space-10) 0 var(--space-6);
+  border-top: 2px solid var(--color-border);
+  background: var(--color-black);
+}
+
+.footer-tagline {
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--color-green);
+  margin-bottom: var(--space-8);
+  text-shadow: 0 0 8px var(--color-green);
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.footer-nav h3 {
+  font-size: 1rem;
+  color: var(--color-green);
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav li {
+  margin-bottom: var(--space-2);
+}
+
+.footer-nav a {
+  color: var(--color-light-gray);
+  font-size: 0.875rem;
+}
+
+.footer-nav a:hover {
+  color: var(--color-green);
+}
+
+.footer-copy {
+  text-align: center;
+  color: var(--color-text-dim);
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   FEATURE CARD
+   ========================================================================== */
+
+.feature-card {
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: all 0.15s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--color-green);
+  transform: translateY(-2px);
+}
+
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-green);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2);
+}
+
+.feature-card p {
+  font-size: 0.875rem;
+  color: var(--color-light-gray);
+  margin: 0;
+}
+
+/* ==========================================================================
+   BADGES
+   ========================================================================== */
+
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   INFO BLOCKS
+   ========================================================================== */
+
+.info-block {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-left: 4px solid var(--color-green);
+  margin: var(--space-6) 0;
+}
+
+.info-block h3 {
+  margin-bottom: var(--space-3);
+}
+
+.info-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   SERVER BLOCK (Download page)
+   ========================================================================== */
+
+.server-block {
+  margin-bottom: var(--space-10);
+}
+
+.server-block h2 {
+  margin-bottom: var(--space-4);
+}
+
+.server-block__req {
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-4);
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   ECOSYSTEM SECTION
+   ========================================================================== */
+
+.ecosystem {
+  padding: var(--space-10) 0;
+  border-top: 2px solid var(--color-border);
+}
+
+.ecosystem h2 {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+/* ==========================================================================
+   404 PAGE
+   ========================================================================== */
+
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-10);
+}
+
+.error-page__code {
+  font-size: 6rem;
+  font-weight: bold;
+  color: var(--color-green);
+  text-shadow: 0 0 20px var(--color-green);
+  margin-bottom: var(--space-4);
+  animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, 2px); }
+  98% { transform: translate(1px, -2px); }
+}
+
+.error-page__message {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-6);
+  color: var(--color-light-gray);
+}
+
+.error-page__links {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   LOADING ANIMATIONS
+   ========================================================================== */
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner--small {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+/* Typing animation for boot sequence */
+.typing {
+  overflow: hidden;
+  border-right: 2px solid var(--color-green);
+  white-space: nowrap;
+  animation:
+    typing 2s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--color-green); }
+}
+
+/* Progress spinner wheel */
+.spinner-wheel {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--color-gray);
+  border-top-color: var(--color-green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-4 { gap: var(--space-4); }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
