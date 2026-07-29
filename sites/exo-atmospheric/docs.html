@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Phlix Documentation — Guides, API reference, and technical documentation.">
+  <meta name="theme-color" content="#000428">
+  <title>Documentation — Exo-Atmospheric</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="star-field" aria-hidden="true">
+    <div class="star-field__layer star-field__layer--1"></div>
+    <div class="star-field__layer star-field__layer--2"></div>
+    <div class="star-field__layer star-field__layer--3"></div>
+    <div class="star-field__layer star-field__layer--4"></div>
+    <div class="star-field__layer star-field__layer--5"></div>
+  </div>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo">
+          <svg class="nav__logo-icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>
+          <span>EXO-ATMOSPHERIC</span>
+        </a>
+        <ul class="nav__links">
+          <li><a href="index.html" class="nav__link">Home</a></li>
+          <li><a href="features.html" class="nav__link">Features</a></li>
+          <li><a href="download.html" class="nav__link">Download</a></li>
+          <li><a href="about.html" class="nav__link">About</a></li>
+          <li><a href="docs.html" class="nav__link nav__link--active">Docs</a></li>
+          <li><a href="hub.html" class="nav__link">Hub</a></li>
+          <li><a href="plugins.html" class="nav__link">Plugins</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero section--hero" style="min-height: 40vh;" aria-labelledby="docs-hero-title">
+      <div class="hero__content">
+        <span class="hero__badge">Technical</span>
+        <h1 id="docs-hero-title" class="hero__title">Documentation</h1>
+        <p class="hero__subtitle">
+          Guides, API reference, and technical documentation for Phlix.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="getting-started">
+      <div class="container container--narrow">
+        <div class="doc-content">
+          <h2 id="getting-started">Getting Started</h2>
+          <p>
+            Welcome to the Phlix documentation. This guide will help you get up
+            and running with your own cosmic media server.
+          </p>
+
+          <h3>System Requirements</h3>
+          <ul>
+            <li><strong>Server:</strong> 2GHz dual-core CPU, 4GB RAM, 100GB storage</li>
+            <li><strong>Supported OS:</strong> Windows 10/11, macOS 12+, Ubuntu 20.04+, Debian 11+</li>
+            <li><strong>Network:</strong> Gigabit Ethernet recommended for local streaming</li>
+          </ul>
+
+          <h3>Quick Start</h3>
+          <pre><code># Using Docker
+docker run -d \
+  --name phlix \
+  -p 32400:32400 \
+  -v /path/to/media:/media \
+  -v phlix-config:/config \
+  phlix/server:latest</code></pre>
+
+          <p>
+            After starting, access the web interface at
+            <code>http://localhost:32400</code> and follow the setup wizard.
+          </p>
+
+          <h2 style="margin-top: var(--space-12);">Configuration</h2>
+          <p>
+            Phlix stores configuration in <code>/config</code> volume. Key files:
+          </p>
+          <ul>
+            <li><code>config.xml</code> — Main configuration</li>
+            <li><code>Preferences.xml</code> — User preferences</li>
+            <li><code>Plug-ins/</code> — Installed plugins</li>
+          </ul>
+
+          <h2 style="margin-top: var(--space-12);">API Reference</h2>
+          <p>
+            Phlix exposes a REST API for integration. Base URL:
+          </p>
+          <pre><code>http://your-server:32400/phlix</code></pre>
+
+          <h3>Authentication</h3>
+          <p>
+            API requests require an X-Phlix-Token header with your API key.
+            Generate keys in Settings → API.
+          </p>
+
+          <pre><code>curl -H "X-Phlix-Token: your-api-key" \
+  http://localhost:32400/phlix/servers</code></pre>
+
+          <h3>Endpoints</h3>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Endpoint</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/servers</code></td>
+                  <td>List available servers</td>
+                </tr>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/library</code></td>
+                  <td>Get library items</td>
+                </tr>
+                <tr>
+                  <td>POST</td>
+                  <td><code>/playback</code></td>
+                  <td>Control playback</td>
+                </tr>
+                <tr>
+                  <td>GET</td>
+                  <td><code>/search</code></td>
+                  <td>Search library</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 style="margin-top: var(--space-12);">Need Help?</h2>
+          <p>
+            Visit our <a href="#">support forums</a> or join our
+            <a href="#">community Discord</a> for assistance.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <a href="index.html" class="footer__logo">EXO-ATMOSPHERIC</a>
+        <ul class="footer__links">
+          <li><a href="features.html" class="footer__link">Features</a></li>
+          <li><a href="download.html" class="footer__link">Download</a></li>
+          <li><a href="about.html" class="footer__link">About</a></li>
+          <li><a href="docs.html" class="footer__link">Documentation</a></li>
+        </ul>
+        <p class="footer__copy">© 2026 Phlix Media Server</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
