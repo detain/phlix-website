@@ -1,0 +1,599 @@
+/*!
+ * components.css — tetris-grid brand kit
+ * Header, nav, footer, buttons, cards, forms, badges
+ * @copyright Phlix
+ */
+
+/* ========================================
+   1. Site Header
+   ======================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--header-height);
+}
+
+.nav-primary {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.nav-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 32px;
+  width: auto;
+}
+
+/* ========================================
+   2. Navigation Menu
+   ======================================== */
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.nav-menu a {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.nav-menu a:hover {
+  color: var(--color-text);
+  background: var(--color-bg-elevated);
+}
+
+.nav-menu a[aria-current="page"] {
+  color: var(--color-primary);
+  background: rgba(0, 255, 255, 0.1);
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--color-text);
+  transition: border-color var(--transition-fast);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-4);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition-base), opacity var(--transition-base), visibility var(--transition-base);
+  }
+
+  .nav-menu.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+}
+
+/* ========================================
+   3. Buttons
+   ======================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary button - Tetris cyan */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: #33FFFF;
+  border-color: #33FFFF;
+  color: var(--color-bg);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Secondary button - Magenta */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+}
+
+/* Accent button - Yellow */
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.btn-accent:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.4);
+}
+
+/* Ghost button */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+  background: var(--color-bg-elevated);
+}
+
+/* Large button */
+.btn-lg {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-base);
+}
+
+/* Small button */
+.btn-sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+}
+
+/* ========================================
+   4. Site Footer
+   ======================================== */
+
+.site-footer {
+  background: var(--color-bg-surface);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-8);
+  margin-top: auto;
+}
+
+.footer-tagline {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+}
+
+.footer-nav {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.footer-col h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col a {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer-col a:hover {
+  color: var(--color-primary);
+}
+
+.footer-copy {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-copy a {
+  color: var(--color-text-muted);
+}
+
+.footer-copy a:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 640px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-col ul {
+    align-items: center;
+  }
+}
+
+/* ========================================
+   5. Badges
+   ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.badge-primary {
+  background: rgba(0, 255, 255, 0.15);
+  color: var(--color-primary);
+}
+
+.badge-secondary {
+  background: rgba(255, 0, 255, 0.15);
+  color: var(--color-secondary);
+}
+
+.badge-success {
+  background: rgba(0, 255, 0, 0.15);
+  color: var(--color-s);
+}
+
+.badge-warning {
+  background: rgba(255, 255, 0, 0.15);
+  color: var(--color-o);
+}
+
+.badge-danger {
+  background: rgba(255, 0, 0, 0.15);
+  color: var(--color-z);
+}
+
+/* ========================================
+   6. Cards
+   ======================================== */
+
+.card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.card-header {
+  margin-bottom: var(--space-4);
+}
+
+.card-title {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+}
+
+.card-body {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.card-footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ========================================
+   7. Forms
+   ======================================== */
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.2);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-faint);
+}
+
+/* ========================================
+   8. Tetromino Decorative Elements
+   ======================================== */
+
+/* Floating block animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tetromino-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Line clear animation */
+@keyframes line-clear {
+  0% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(1.1); opacity: 0.8; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+
+.line-clear {
+  animation: line-clear 0.3s ease-out forwards;
+}
+
+/* Block shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.block-shimmer {
+  background: linear-gradient(90deg,
+    var(--color-i) 0%,
+    var(--color-o) 25%,
+    var(--color-t) 50%,
+    var(--color-s) 75%,
+    var(--color-i) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px currentColor; }
+  50% { box-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
+}
+
+.glow-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   9. Logo SVG Styles
+   ======================================== */
+
+.logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  fill: var(--color-primary);
+}
+
+.logo-block {
+  fill: var(--color-primary);
+}
+
+.logo-block-i { fill: var(--color-i); }
+.logo-block-o { fill: var(--color-o); }
+.logo-block-t { fill: var(--color-t); }
+.logo-block-s { fill: var(--color-s); }
+.logo-block-z { fill: var(--color-z); }
+.logo-block-j { fill: var(--color-j); }
+.logo-block-l { fill: var(--color-l); }
+
+/* ========================================
+   10. Link Styles
+   ======================================== */
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  transition: gap var(--transition-fast);
+}
+
+.link-arrow:hover {
+  gap: var(--space-3);
+}
+
+.link-arrow svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  transition: transform var(--transition-fast);
+}
+
+.link-arrow:hover svg {
+  transform: translateX(4px);
+}
+
+/* External link icon */
+.link-external::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: var(--space-1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+/* ========================================
+   11. Scroll Reveal Animation
+   ======================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   12. Responsive Utilities
+   ======================================== */
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Touch targets */
+@media (max-width: 640px) {
+  .btn,
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

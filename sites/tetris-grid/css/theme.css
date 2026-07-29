@@ -1,0 +1,724 @@
+/*!
+ * theme.css — tetris-grid brand kit
+ * Typography, layout containers, page structure
+ * @copyright Phlix
+ */
+
+/* ========================================
+   1. Typography Scale
+   ======================================== */
+
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+
+.text-xs   { font-size: var(--text-xs); }
+.text-sm   { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg   { font-size: var(--text-lg); }
+.text-xl   { font-size: var(--text-xl); }
+.text-2xl  { font-size: var(--text-2xl); }
+.text-3xl  { font-size: var(--text-3xl); }
+.text-4xl  { font-size: var(--text-4xl); }
+.text-5xl  { font-size: var(--text-5xl); }
+.text-6xl  { font-size: var(--text-6xl); }
+
+.font-bold   { font-weight: 700; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+
+/* ========================================
+   2. Layout Containers
+   ======================================== */
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-block: var(--space-8);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* ========================================
+   3. Content Sections
+   ======================================== */
+
+.content-section {
+  padding-block: var(--space-9);
+}
+
+.content-section:first-child {
+  padding-top: 0;
+}
+
+.content-section:last-child {
+  padding-bottom: 0;
+}
+
+/* ========================================
+   4. Grid Layouts
+   ======================================== */
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-5);
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   5. Hero Section
+   ======================================== */
+
+.hero {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-9);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tetris grid background pattern */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: calc(var(--block-size) * 4) calc(var(--block-size) * 4);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Decorative tetromino blocks in eyebrow */
+.hero-eyebrow::before {
+  content: '';
+  display: inline-flex;
+  gap: 2px;
+}
+
+.eyebrow-block {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.hero-headline {
+  font-size: clamp(var(--text-4xl), 8vw, var(--text-6xl));
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-5);
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 50%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subheadline {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin-bottom: var(--space-7);
+  line-height: var(--leading-relaxed);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* ========================================
+   6. Pitch Section
+   ======================================== */
+
+.pitch {
+  padding-block: var(--space-9);
+  background: var(--color-bg-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.pitch h2 {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+
+.pitch-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.pitch-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.pitch-item:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.pitch-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+}
+
+/* Tetromino-style icon */
+.pitch-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-primary);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pitch-text {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+/* ========================================
+   7. Features Overview
+   ======================================== */
+
+.features-overview {
+  padding-block: var(--space-9);
+}
+
+.features-overview h2 {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-7);
+}
+
+.feature-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.feature-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.feature-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-primary);
+  fill: none;
+  stroke-width: 2;
+}
+
+.feature-card h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+}
+
+.feature-card p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.features-more {
+  text-align: center;
+}
+
+/* ========================================
+   8. Page Header
+   ======================================== */
+
+.page-header {
+  padding-block: var(--space-9) var(--space-7);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-7);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-4);
+}
+
+.page-lead {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* ========================================
+   9. Feature Detail (Features page)
+   ======================================== */
+
+.feature-detail {
+  padding: var(--space-6);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition-fast);
+}
+
+.feature-detail:hover {
+  border-color: var(--color-secondary);
+}
+
+.feature-detail .feature-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-5);
+}
+
+.feature-detail .feature-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.feature-detail h2 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+}
+
+.feature-detail p {
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ========================================
+   10. CTA Banner
+   ======================================== */
+
+.cta-banner {
+  padding-block: var(--space-8);
+  background: linear-gradient(135deg, var(--color-bg-surface) 0%, var(--color-bg-elevated) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  margin-block: var(--space-7);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner p {
+  color: var(--color-text-muted);
+  max-width: 50ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-5);
+}
+
+/* ========================================
+   11. Clients Page
+   ======================================== */
+
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+}
+
+.client-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.client-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.client-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.client-card h2 {
+  font-size: var(--text-xl);
+}
+
+.client-status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.status-stable {
+  background: rgba(0, 255, 0, 0.15);
+  color: var(--color-s);
+}
+
+.status-beta {
+  background: rgba(255, 255, 0, 0.15);
+  color: var(--color-o);
+}
+
+.client-tagline {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.client-highlights {
+  margin-bottom: var(--space-4);
+}
+
+.client-highlights li {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-1) 0;
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.client-highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 1px;
+}
+
+/* ========================================
+   12. Download Page
+   ======================================== */
+
+.download-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-5);
+  margin-block: var(--space-6);
+}
+
+.download-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: border-color var(--transition-fast);
+}
+
+.download-card:hover {
+  border-color: var(--color-accent);
+}
+
+.download-card h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+}
+
+.download-card p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* Code block */
+.code-block {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-block: var(--space-5);
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-s);
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* Ecosystem list */
+.ecosystem-list {
+  margin-top: var(--space-6);
+}
+
+.ecosystem-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.ecosystem-item code {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.ecosystem-item span {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.ecosystem-item a {
+  margin-left: auto;
+  font-size: var(--text-sm);
+}
+
+/* ========================================
+   13. Plugins Page
+   ======================================== */
+
+.plugin-model {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-block: var(--space-6);
+}
+
+.plugin-model h3 {
+  margin-bottom: var(--space-4);
+}
+
+/* ========================================
+   14. FAQ (About page)
+   ======================================== */
+
+.faq-list {
+  max-width: var(--max-width-text);
+  margin-inline: auto;
+}
+
+.faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+
+.faq-item:hover {
+  border-color: var(--color-primary);
+}
+
+.faq-item summary {
+  padding: var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  list-style: none;
+  transition: background var(--transition-fast);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-primary);
+  transition: transform var(--transition-fast);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item[open] summary {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-answer {
+  padding: var(--space-4);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ========================================
+   15. 404 Page
+   ======================================== */
+
+.error-page {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-7);
+}
+
+.error-content h1 {
+  font-size: clamp(var(--text-5xl), 15vw, var(--text-6xl));
+  margin-bottom: var(--space-4);
+  background: linear-gradient(135deg, var(--color-z) 0%, var(--color-o) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.error-content p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.error-blocks {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+/* ========================================
+   16. Responsive
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: auto;
+    padding-block: var(--space-8);
+  }
+
+  .features-grid,
+  .client-cards,
+  .download-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: var(--text-4xl); }
+  h2 { font-size: var(--text-3xl); }
+  h3 { font-size: var(--text-2xl); }
+
+  .features-grid,
+  .client-cards,
+  .download-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .cta-banner {
+    padding-block: var(--space-6);
+  }
+}
