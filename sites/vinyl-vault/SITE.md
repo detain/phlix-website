@@ -2,76 +2,145 @@
 
 ## Concept & Vision
 
-Vinyl Vault is a warm, analog record collection aesthetic that evokes the tactile pleasure of flipping through crates of vinyl at a midnight record shop. The design draws from vintage radio dials, groove textures, and the warm sepia tones of aged album covers. Every element should feel like it belongs in a cozy listening room, not a sterile data center.
+Vinyl Vault is a brand kit site for Phlix with an analog record collection aesthetic. The design evokes the warmth of a vintage record store — groove textures, warm sepia tones, and vintage radio dial influences. Every surface should feel like it belongs in a well-curated listening room, not a sterile tech product page.
 
 ## Aesthetic Direction
 
-**Theme:** Warm analog record collection — vintage radio dials, groove textures, sepia tones, and the nostalgic glow of a turntable's vacuum tube amplifier.
+**Theme:** Analog record collection / vintage audio equipment
+**Mood:** Warm, tactile, nostalgic but not kitschy — the sophistication of a serious collector
 
-**Mood:** Intimate, cozy, sophisticated — like a private music collection passed down through generations.
-
-## Color Palette
+### Color Palette
 
 | Role | Name | Hex | Usage |
 |------|------|-----|-------|
-| Primary | Deep Espresso | `#2D1810` | Headings, primary text, dark surfaces |
-| Secondary | Warm Tan | `#C4956A` | Accents, links, interactive elements |
-| Tertiary | Saddle Brown | `#8B4513` | Hover states, secondary accents |
-| Background | Cream Linen | `#E8D5B7` | Page background |
-| Surface | Aged Paper | `#D4C4A8` | Card surfaces, elevated elements |
-| Surface Alt | Worn Canvas | `#C9B896` | Secondary surfaces |
-| Text | Deep Espresso | `#2D1810` | Body text |
-| Neutral | Warm Umber | `#8B7355` | Muted text, borders |
-| Accent Gold | Vintage Gold | `#FFD700` | Special highlights ( sparingly ) |
+| Primary | Deep Brown | `#2D1810` | Background, headers |
+| Secondary | Warm Tan | `#C4956A` | Borders, accents, muted text |
+| Accent | Gold | `#FFD700` | CTAs, highlights, interactive elements |
+| Surface | Cream | `#E8D5B7` | Body text, card backgrounds |
+| Surface Dark | Saddle Brown | `#8B4513` | Secondary borders, dividers |
 
-## Typography
+### Typography
 
-**Display / Headlines:** Playfair Display — A sophisticated serif with vintage character, used for h1-h3 and display text.
+- **Display:** Playfair Display (700, 900) — elegant serif for headlines
+- **Body:** Crimson Text (400, 600, 700) — readable classic serif for prose
+- **UI:** Barlow (400, 500, 600, 700) — clean sans for navigation, labels, buttons
+- **Mono:** Courier Prime (400) — code blocks
 
-**Body:** Lora — A warm, readable serif perfect for long-form content and the vintage reading experience.
+### Spatial System
 
-**UI / Navigation:** Source Sans 3 — Clean sans-serif for functional elements like navigation and buttons.
+- **Spacing scale:** 0.25rem base unit (0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 5, 6, 7 rem steps)
+- **Border radius:** 0.25rem (sm), 0.5rem (md), 1rem (lg), 9999px (full/pills)
+- **Max content width:** 1200px
+- **Max site width:** 1400px
 
-**Monospace:** Courier Prime — For code blocks, evoking typewriter receipts from vintage record shops.
+### Motion Philosophy
 
-## Spatial System
+- Subtle, purposeful animations only
+- Scroll-triggered fade-in reveals for cards
+- Hover lifts on interactive cards (translateY -4px)
+- Glow effect on primary CTA hover
+- Vinyl groove texture overlay in hero (decorative, CSS-only)
+- All motion respects `prefers-reduced-motion: reduce`
 
-- Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64, 96px
-- Border radii: 4px (sm), 8px (md), 16px (lg), 24px (xl) — subtle, vintage
-- Max content width: 1400px
-- Measure (body text): 65ch
+### Visual Assets
 
-## Motion Philosophy
+- **Logo:** SVG with vinyl record icon + "Vinyl Vault" wordmark
+- **Favicon:** Simple vinyl record mark in primary color (#2D1810)
+- **Icons:** Inline SVG, stroke-based, single-color gold (#FFD700) for feature icons
+- **Decorative elements:** Repeating radial gradient grooves in hero, gradient dividers with ornament
 
-- Subtle, organic transitions — nothing jarring or digital-feeling
-- Hover states that evoke the gentle movement of a tone arm on a turntable
-- Reduced motion: replace animations with simple fades
-- Page transitions: ease-in-out, 250-400ms
+## Layout & Structure
 
-## Visual Assets
+### Page Structure
 
-- **Logo:** Stylized vinyl record with "Phlix" wordmark in Playfair Display
-- **Favicon:** Minimal vinyl record icon in Deep Espresso
-- **Groove texture:** Subtle repeating radial gradient evoking record grooves
-- **Icons:** Single-color stroke-based SVG icons (library, syncplay, transcode, shield, antenna, broadcast, puzzle, hub)
+- **Header:** Sticky, dark background with blur, logo + 8 nav links + mobile hamburger
+- **Hero:** Centered, eyebrow tag, h1, subheadline, two CTAs
+- **Content sections:** Alternating with vintage dividers (gradient lines with diamond ornament)
+- **Footer:** Tagline, 3-column nav, copyright
 
-## Icon Style
+### Responsive Behavior
 
-Stroke-based, 1.5px stroke weight, rounded caps and joins. Each icon uses `currentColor` for easy theming.
+- Breakpoints: 320, 375, 414, 768, 1024, 1280, 1920
+- Mobile-first approach
+- Mobile nav: slide-out drawer from right
+- Grid columns collapse from multi-column to single at 768px
+- Touch targets minimum 44×44px
 
-## Layout Archetype
+## Features & Interactions
 
-Editorial/vintage magazine feel — asymmetric layouts, generous whitespace, serif headlines that command attention, left-aligned body text.
+### Navigation
 
-## Compliance Notes
+- 8 primary nav links: Home, Features, Clients, Download, Plugins, Docs, Hub, About
+- Current page indicated with `aria-current="page"` and gold accent color
+- Mobile hamburger toggle with slide-out menu, close on outside click or Escape
+- Focus trapped in open mobile menu
 
-- Install command: `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash`
-- License: MPL-2.0 (server/hub), MIT (clients/plugins)
-- 4 native clients + DLNA — never "5"
+### Cards & Grids
+
+- Feature cards: icon + title + body, hover lift effect
+- Client cards: name + status badge + tagline + highlights list + source link
+- Download cards: title + description + action button
+
+### Forms & Controls
+
+- Focus-visible outlines in gold
+- Input border highlights on focus
+- Buttons have min-height 44px (touch target)
+
+### Scroll Animations
+
+- IntersectionObserver-based fade-in reveals
+- Only on elements with `.feature-card`, `.client-card`, `.download-card`, `.feature-detail`
+- Disabled entirely under `prefers-reduced-motion: reduce`
+
+## Component Inventory
+
+### Buttons
+
+| Variant | Background | Text | Border |
+|---------|------------|------|--------|
+| Primary | #FFD700 (gold) | #2D1810 (dark) | #FFD700 |
+| Secondary | transparent | #E8D5B7 (cream) | #E8D5B7 |
+| Small | inherits | inherits | inherits |
+
+- Primary hover: brighter gold, lift, glow shadow
+- All buttons: 44px min-height, 2px border, rounded-md
+
+### Badges
+
+| Status | Background | Text |
+|--------|------------|------|
+| Stable | rgba(76,175,80,0.2) | #81c784 |
+| Beta | rgba(255,215,0,0.2) | #FFD700 |
+| Deprecated | rgba(244,67,54,0.2) | #e57373 |
+
+### Code Blocks
+
+- Dark background (rgba 45,24,16,0.9)
+- Border 1px solid #8B4513
+- Padding 2rem
+- Font: Courier Prime
+- Scrollable horizontally
+
+### Dividers
+
+- Horizontal gradient lines (transparent → border color → transparent)
+- Diamond ornament (◆) centered
+- Margin 3rem vertical
+
+## Technical Approach
+
+- **Framework:** None — vanilla HTML, CSS, JavaScript
+- **Fonts:** Self-hosted WOFF2 from `../../../shared/assets/fonts/`
+- **Icons:** Inline SVG (no CDN, no icon font)
+- **JS:** Vanilla ES5+, defer-loaded, no dependencies
+- **CSS architecture:** Three files (base.css, theme.css, components.css) with CSS custom properties
+
+## Content Notes
+
 - 8 features from content.json
+- 4 native clients + DLNA (never "5" or "Five")
 - 6 FAQ items from content.json
-- Footer: 3 columns + "Open-source media, on your terms."
-- Self-hosted fonts from `../../../shared/assets/fonts/`
-- CSS `@copyright` inside `/* */` comment blocks
-- Grid uses `minmax(0, 1fr)` not bare `1fr`
-- All pages: OG + Twitter meta, `twitter:creator=@detain`
+- License: MPL-2.0 (server/hub), MIT (clients/plugins) — read from content.json, not hardcoded
+- Install command: `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash`
+- Footer tagline: "Open-source media, on your terms."

@@ -1,11 +1,10 @@
 /* ==========================================================================
    BASE.CSS — Vinyl Vault
-   Reset, design tokens (:root), base element defaults, focus + motion policy.
-   Tokens transcribed from brand kit: vinyl-vault.
+   Modern CSS reset, design tokens, and base element styles
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-/* Modern reset */
+/* Box sizing and reset */
 *,
 *::before,
 *::after {
@@ -14,208 +13,147 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* ==========================================================================
-   DESIGN TOKENS — :root
-   ========================================================================== */
-
+/* Design tokens — Vinyl Vault palette */
 :root {
-  /* ── Colours (vinyl-vault palette) ── */
-  --color-primary: #2D1810; /* Deep Espresso */
-  --color-secondary: #C4956A; /* Warm Tan */
-  --color-tertiary: #8B4513; /* Saddle Brown */
-  --color-bg: #E8D5B7; /* Cream Linen */
-  --color-surface: #D4C4A8; /* Aged Paper */
-  --color-surface-alt: #C9B896; /* Worn Canvas */
-  --color-text: #2D1810; /* Deep Espresso */
-  --color-neutral: #8B7355; /* Warm Umber */
-  --color-success: #4A7C59; /* Vintage Green */
-  --color-warning: #C4956A; /* Warm Tan */
-  --color-error: #8B2500; /* Rust Red */
-  --color-info: #5A6B7A; /* Slate Grey */
-  --color-border: #B8A888; /* Vintage Border */
-  --color-focus: #C4956A; /* Warm Tan */
-  --color-shadow: rgb(45 24 16 / 0.15); /* Espresso Shadow */
-  --color-overlay: rgb(232 213 183 / 0.9); /* Cream Scrim */
+  /* Colors */
+  --color-primary: #2D1810;
+  --color-secondary: #C4956A;
+  --color-accent: #FFD700;
+  --color-surface: #E8D5B7;
+  --color-surface-dark: #8B4513;
+  --color-background: #2D1810;
+  --color-background-light: #3D2820;
+  --color-text: #E8D5B7;
+  --color-text-dark: #2D1810;
+  --color-text-muted: #C4956A;
+  --color-border: #8B4513;
+  --color-border-light: #C4956A;
 
-  /* ── Text-safe pigments ── */
-  /* Deep espresso on cream: 10.23:1 - passes AA */
-  --color-primary-text: #2D1810;
-  /* Warm tan on cream: 4.62:1 - passes AA for large text */
-  /* Saddle brown on cream: 5.89:1 - passes AA */
-  --color-secondary-text: #5C3D2E;
-  /* Warm umber on cream: 4.48:1 - passes AA for large text */
-  --color-neutral-text: #6B5D4D;
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+  --font-ui: 'Barlow', system-ui, sans-serif;
+  --font-mono: 'Courier Prime', monospace;
 
-  /* ── Spacing scale ── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 5rem;
+  --space-16: 7rem;
 
-  /* ── Radii (vinyl-vault: subtle, vintage) ── */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
 
-  /* ── Typography roles ── */
-  --font-display: 'Playfair Display', 'Georgia', serif;
-  --font-headline: 'Playfair Display', 'Georgia', serif;
-  --font-body: 'Lora', 'Georgia', serif;
-  --font-ui: 'Source Sans 3', 'Segoe UI', sans-serif;
-  --font-mono: 'Courier Prime', 'Courier New', monospace;
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(45, 24, 16, 0.3);
+  --shadow-md: 0 4px 6px rgba(45, 24, 16, 0.4);
+  --shadow-lg: 0 10px 15px rgba(45, 24, 16, 0.5);
+  --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.3);
 
-  /* ── Font sizes (fluid scale) ── */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-
-  /* ── Line heights ── */
-  --lh-display: 1.1;
-  --lh-headline: 1.2;
-  --lh-body: 1.65;
-  --lh-ui: 1.4;
-  --lh-mono: 1.5;
-
-  /* ── Letter spacing ── */
-  --tracking-display: 0.02em;
-  --tracking-headline: 0.01em;
-  --tracking-ui: 0.02em;
-
-  /* ── Shadows (vintage, subtle) ── */
-  --shadow-sm: 0 1px 3px var(--color-shadow);
-  --shadow-md: 0 4px 12px var(--color-shadow);
-  --shadow-lg: 0 8px 24px var(--color-shadow);
-  --shadow-xl: 0 12px 36px var(--color-shadow);
-
-  /* ── Layout ── */
-  --container-max: 1400px;
-  --container-padding: var(--space-6);
-  --measure: 65ch;
-
-  /* ── Transitions ── */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 1200px;
 }
 
-/* ==========================================================================
-   BASE ELEMENT DEFAULTS
-   ========================================================================== */
+/* Base html/body */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--lh-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(196, 149, 106, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(139, 69, 19, 0.15) 0%, transparent 50%);
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typography base */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-headline);
-  line-height: var(--lh-headline);
-  letter-spacing: var(--tracking-headline);
-}
-
-h1 {
-  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+  font-family: var(--font-display);
   font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-surface);
 }
 
-h2 {
-  font-size: clamp(1.625rem, 3vw + 0.75rem, 2.5rem);
-  font-weight: 600;
-}
-
-h3 {
-  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
-  font-weight: 600;
-}
-
-h4 {
-  font-size: var(--text-xl);
-  font-weight: 600;
-}
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h4 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
 
 p {
-  max-width: var(--measure);
+  margin-bottom: var(--space-4);
 }
 
 a {
-  color: var(--color-secondary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--transition-fast);
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: var(--color-tertiary);
+  color: var(--color-secondary);
 }
 
 a:focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
-img, svg {
-  max-width: 100%;
-  height: auto;
+img, picture, video, canvas, svg {
   display: block;
+  max-width: 100%;
 }
 
-ul, ol {
-  padding-left: var(--space-6);
+input, button, textarea, select {
+  font: inherit;
 }
 
-li {
-  margin-bottom: var(--space-2);
-}
-
-code, kbd, samp, pre {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-}
-
-code {
-  background: var(--color-surface);
-  padding: 0.15em 0.4em;
-  border-radius: var(--radius-sm);
-}
-
-pre {
-  background: var(--color-surface);
-  padding: var(--space-4);
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-accent);
+  color: var(--color-text-dark);
+  font-family: var(--font-ui);
+  font-weight: 600;
   border-radius: var(--radius-md);
-  overflow-x: auto;
+  z-index: 9999;
+  transition: top 0.2s;
 }
 
-pre code {
-  background: none;
-  padding: 0;
+.skip-link:focus {
+  top: var(--space-4);
 }
 
-/* ==========================================================================
-   UTILITY CLASSES
-   ========================================================================== */
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 
+/* Visually hidden */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -228,83 +166,7 @@ pre code {
   border: 0;
 }
 
-.container {
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-/* ==========================================================================
-   SKIP LINK
-   ========================================================================== */
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: 9999;
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-  top: var(--space-4);
-}
-
-/* ==========================================================================
-   FOCUS VISIBLE
-   ========================================================================== */
-
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-}
-
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ==========================================================================
-   TEXT SELECTION
-   ========================================================================== */
-
-::selection {
-  background: var(--color-secondary);
-  color: var(--color-primary);
-}
-
-/* ==========================================================================
-   SCROLLBAR (webkit)
-   ========================================================================== */
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-neutral);
-  border-radius: var(--radius-lg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
-}
-
-/* ==========================================================================
-   PREFERS REDUCED MOTION
-   ========================================================================== */
-
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -314,4 +176,47 @@ pre code {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Overflow wrap for body text */
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6, blockquote {
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* Lists */
+ul, ol {
+  list-style-position: inside;
+}
+
+/* Code */
+code {
+  font-family: var(--font-mono);
+  background: rgba(196, 149, 106, 0.2);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+pre {
+  font-family: var(--font-mono);
+  background: rgba(45, 24, 16, 0.8);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-text-dark);
 }

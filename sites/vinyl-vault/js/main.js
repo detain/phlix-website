@@ -1,109 +1,89 @@
-/**
- * Vinyl Vault — main.js
- * Vanilla JS, no dependencies, defer-loaded.
- * Handles: mobile nav toggle, reduced motion, scroll reveals.
- * @copyright 2026 Joe Huss <detain@interserver.net>
- */
+/* ==========================================================================
+   MAIN.JS — Vinyl Vault
+   Vanilla JS: mobile nav, reduced motion, scroll reveals
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
 
-(function () {
+(function() {
   'use strict';
 
-  /* ─── Mobile Navigation ───────────────────────────────────────────── */
+  // ─── Mobile Navigation ────────────────────────────────────────────────────
 
-  var navToggle = document.querySelector('.nav-toggle');
-  var navMenu = document.querySelector('.nav-menu');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      var isOpen = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!isOpen));
-      navMenu.classList.toggle('is-open', !isOpen);
+    navToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
 
-      // Trap focus in mobile menu when open
-      if (!isOpen) {
-        var firstLink = navMenu.querySelector('a');
-        if (firstLink) firstLink.focus();
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
       }
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-        navToggle.setAttribute('aria-expanded', 'false');
         navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
         navToggle.focus();
       }
     });
-
-    // Close on outside click
-    document.addEventListener('click', function (e) {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('is-open');
-      }
-    });
   }
 
-  /* ─── Reduced Motion ─────────────────────────────────────────────── */
+  // ─── Reduced Motion ──────────────────────────────────────────────────────
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reducedMotion = prefersReducedMotion.matches;
 
-  function handleReducedMotion() {
-    document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
-  }
+  prefersReducedMotion.addEventListener('change', (e) => {
+    reducedMotion = e.matches;
+  });
 
-  handleReducedMotion();
-  prefersReducedMotion.addEventListener('change', handleReducedMotion);
+  // ─── Scroll Reveals ──────────────────────────────────────────────────────
 
-  /* ─── Scroll Reveals ─────────────────────────────────────────────── */
-
-  if (!prefersReducedMotion.matches) {
-    var revealElements = document.querySelectorAll(
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    const revealElements = document.querySelectorAll(
       '.feature-card, .client-card, .download-card, .feature-detail'
     );
 
-    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-      );
-
-      revealElements.forEach(function (el) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        revealObserver.observe(el);
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          revealObserver.unobserve(entry.target);
+        }
       });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
 
-      // Add CSS for revealed state
-      var style = document.createElement('style');
-      style.textContent = [
-        '.is-revealed { opacity: 1 !important; transform: translateY(0) !important; }',
-        '.reduce-motion .is-revealed { transition: none !important; }'
-      ].join('\n');
-      document.head.appendChild(style);
-    }
+    revealElements.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      revealObserver.observe(el);
+    });
   }
 
-  /* ─── Active Nav Link Highlighting ──────────────────────────────── */
+  // ─── Active Nav Link ────────────────────────────────────────────────────
 
-  var currentPath = window.location.pathname;
-  var navLinks = document.querySelectorAll('.nav-link');
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('.nav-menu a');
 
-  navLinks.forEach(function (link) {
-    var href = link.getAttribute('href');
-    if (href === './' || href === 'index.html') {
-      if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
-        link.setAttribute('aria-current', 'page');
-      }
-    } else if (currentPath.includes(href)) {
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === 'index.html' && href === './') || (currentPath === '' && href === './')) {
       link.setAttribute('aria-current', 'page');
     }
   });
