@@ -1,0 +1,629 @@
+/*!
+ * @copyright (c) 2026 Phlix
+ * @author Phlix Team
+ * @license MPL-2.0
+ */
+
+/* ===== FILM-REEL BRAND KIT — theme.css ===== */
+/* Typography, Layout, Page Structure */
+
+/* Font-face declarations — self-hosted */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../../shared/assets/fonts/playfair-display.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../../shared/assets/fonts/source-sans-pro.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../shared/assets/fonts/source-sans-pro-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../../shared/assets/fonts/jetbrains-mono.woff2') format('woff2');
+}
+
+/* Typography Scale */
+.type-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-white);
+}
+
+.type-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.type-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.type-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-silver-light);
+}
+
+.type-body--large {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.type-ui {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.type-mono {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Eyebrow text */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+/* Layout Containers */
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: var(--header-height);
+}
+
+/* Page sections common */
+.section {
+  padding-block: var(--space-10);
+}
+
+.section--tight {
+  padding-block: var(--space-6);
+}
+
+.section--loose {
+  padding-block: var(--space-12);
+}
+
+.section--dark {
+  background-color: var(--color-black);
+}
+
+.section--accent {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-charcoal) 100%);
+  position: relative;
+}
+
+/* Film-strip border decoration */
+.section--film::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background:
+    repeating-linear-gradient(
+      to right,
+      transparent 0px,
+      transparent 12px,
+      var(--color-black) 12px,
+      var(--color-black) 16px,
+      transparent 16px,
+      transparent 28px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--color-silver-dark) 0px,
+      var(--color-silver-dark) 8px,
+      transparent 8px,
+      transparent 20px
+    );
+  background-size: 28px 8px;
+}
+
+.section--film::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background:
+    repeating-linear-gradient(
+      to right,
+      transparent 0px,
+      transparent 12px,
+      var(--color-black) 12px,
+      var(--color-black) 16px,
+      transparent 16px,
+      transparent 28px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--color-silver-dark) 0px,
+      var(--color-silver-dark) 8px,
+      transparent 8px,
+      transparent 20px
+    );
+  background-size: 28px 8px;
+}
+
+/* Page header */
+.page-header {
+  padding-block: var(--space-10) var(--space-8);
+  text-align: center;
+  border-bottom: 1px solid var(--color-graphite);
+  background: linear-gradient(180deg, var(--color-black) 0%, var(--color-secondary) 100%);
+}
+
+.page-header .eyebrow {
+  margin-bottom: var(--space-4);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-4);
+  color: var(--color-white);
+}
+
+.page-header .lead {
+  font-size: 1.125rem;
+  color: var(--color-silver-dark);
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  padding-block: var(--space-12) var(--space-10);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 0, 0, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-black) 0%, var(--color-secondary) 100%);
+  overflow: hidden;
+}
+
+/* Projector light effect */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(255, 215, 0, 0.03) 30deg,
+    transparent 60deg,
+    rgba(255, 215, 0, 0.02) 90deg,
+    transparent 120deg,
+    rgba(255, 215, 0, 0.03) 150deg,
+    transparent 180deg,
+    rgba(255, 215, 0, 0.02) 210deg,
+    transparent 240deg,
+    rgba(255, 215, 0, 0.03) 270deg,
+    transparent 300deg,
+    rgba(255, 215, 0, 0.02) 330deg,
+    transparent 360deg
+  );
+  animation: projector-sweep 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes projector-sweep {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.hero h1 {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  margin-bottom: var(--space-5);
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+}
+
+.hero__subheadline {
+  font-size: 1.125rem;
+  color: var(--color-silver-dark);
+  margin-bottom: var(--space-7);
+  line-height: 1.7;
+}
+
+/* Spinning film reel decoration */
+.hero__reel {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 3px solid var(--color-graphite);
+  border-radius: 50%;
+  opacity: 0.15;
+}
+
+.hero__reel::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border: 2px solid var(--color-graphite);
+  border-radius: 50%;
+}
+
+.hero__reel::after {
+  content: '';
+  position: absolute;
+  inset: 40px;
+  border: 2px solid var(--color-graphite);
+  border-radius: 50%;
+}
+
+.hero__reel--1 {
+  top: 10%;
+  left: -50px;
+  animation: spin-reel 30s linear infinite;
+}
+
+.hero__reel--2 {
+  bottom: 10%;
+  right: -30px;
+  width: 150px;
+  height: 150px;
+  animation: spin-reel 25s linear infinite reverse;
+}
+
+@keyframes spin-reel {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* CTA banner */
+.cta-banner {
+  padding-block: var(--space-10);
+  text-align: center;
+  background:
+    linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-secondary) 100%);
+  border-top: 2px solid var(--color-graphite);
+  border-bottom: 2px solid var(--color-graphite);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-5);
+}
+
+.cta-banner .btn {
+  margin-top: var(--space-4);
+}
+
+/* Content grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .content-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .content-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Feature cards */
+.feature-card {
+  background: var(--color-charcoal);
+  border: 1px solid var(--color-graphite);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  color: var(--color-accent);
+}
+
+.feature-card__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.feature-card h3 {
+  margin-bottom: var(--space-3);
+  font-size: 1.25rem;
+}
+
+.feature-card p {
+  font-size: 0.9375rem;
+  color: var(--color-silver-dark);
+  margin-bottom: 0;
+}
+
+/* Feature detail (full features page) */
+.feature-detail {
+  padding-block: var(--space-8);
+  border-bottom: 1px solid var(--color-graphite);
+}
+
+.feature-detail:last-child {
+  border-bottom: none;
+}
+
+.feature-detail__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.feature-detail__icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  color: var(--color-accent);
+}
+
+.feature-detail__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.feature-detail h2 {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-3);
+}
+
+.feature-detail p {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-silver-light);
+  max-width: 720px;
+}
+
+/* Client cards */
+.client-card {
+  background: var(--color-charcoal);
+  border: 1px solid var(--color-graphite);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+}
+
+.client-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.client-card h2 {
+  font-size: 1.375rem;
+  margin-bottom: var(--space-2);
+}
+
+.client-card__tagline {
+  font-size: 0.9375rem;
+  color: var(--color-silver-dark);
+  margin-bottom: var(--space-4);
+}
+
+.client-card__highlights {
+  margin-bottom: var(--space-5);
+}
+
+.client-card__highlights li {
+  position: relative;
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-2);
+  font-size: 0.9375rem;
+  list-style: none;
+}
+
+.client-card__highlights li::before {
+  content: '▶';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-size: 0.5rem;
+  top: 0.5em;
+}
+
+/* Status badge */
+.badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-graphite);
+  color: var(--color-silver-light);
+}
+
+.badge--stable {
+  background: rgba(0, 128, 0, 0.2);
+  color: #4ade80;
+}
+
+.badge--beta {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--color-gold);
+}
+
+.badge--deprecated {
+  background: rgba(255, 0, 0, 0.2);
+  color: var(--color-accent);
+}
+
+/* Code block */
+.code-block {
+  background: var(--color-black);
+  border: 1px solid var(--color-graphite);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  overflow-x: auto;
+  position: relative;
+}
+
+.code-block pre {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-silver-light);
+}
+
+.code-block code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: 0.875rem;
+}
+
+/* FAQ list */
+.faq-list {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.faq-list details {
+  background: var(--color-charcoal);
+  border: 1px solid var(--color-graphite);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  overflow: hidden;
+}
+
+.faq-list summary {
+  padding: var(--space-5);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  transition: background var(--transition-fast);
+}
+
+.faq-list summary:hover {
+  background: var(--color-graphite);
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  content: '+';
+  font-size: 1.5rem;
+  color: var(--color-accent);
+  transition: transform var(--transition-fast);
+}
+
+.faq-list details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-list .answer {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--color-silver-light);
+  line-height: 1.7;
+}
+
+/* Film strip divider */
+.film-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  color: var(--color-graphite);
+}
+
+.film-divider::before,
+.film-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-graphite), transparent);
+}
+
+.film-divider__hole {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-graphite);
+  border-radius: 50%;
+}
