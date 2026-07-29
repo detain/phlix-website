@@ -1,328 +1,227 @@
-/**
- * Apex Predator Main JavaScript
- * Top-of-food-chain streaming site interactions
- */
+/* ============================================================================
+   APEX PREDATOR — main.js
+   Mobile nav toggle, reduced motion, scroll reveals
+   Vanilla, dependency-free, defer-loaded
+   ============================================================================ */
 
-(function() {
-    'use strict';
+(function () {
+  'use strict';
 
-    // DOM Ready
-    document.addEventListener('DOMContentLoaded', init);
+  /* ─────────────────────────────────────────────────────────────────────────
+     Reduced Motion Check
+     ───────────────────────────────────────────────────────────────────────── */
 
-    function init() {
-        initNavigation();
-        initScrollReveal();
-        initCapturedNotification();
-        initPredatorMascot();
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Mobile Navigation Toggle
+     ───────────────────────────────────────────────────────────────────────── */
+
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.querySelector('.main-nav');
+
+  if (navToggle && mainNav) {
+    const navMenu = mainNav.querySelector('ul');
+
+    // Toggle navigation open/closed
+    function toggleNav(isOpen) {
+      const expanded = isOpen !== undefined ? isOpen : navToggle.getAttribute('aria-expanded') !== 'true';
+      navToggle.setAttribute('aria-expanded', String(expanded));
+      mainNav.classList.toggle('is-open', expanded);
+      document.body.style.overflow = expanded ? 'hidden' : '';
+
+      if (expanded) {
+        // Focus first nav link when opening
+        const firstLink = mainNav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
     }
 
-    // ============================================
-    // NAVIGATION
-    // ============================================
-    function initNavigation() {
-        const navToggle = document.getElementById('navToggle');
-        const navLinks = document.getElementById('navLinks');
-        const mainNav = document.getElementById('mainNav');
+    navToggle.addEventListener('click', () => toggleNav());
 
-        if (!navToggle || !navLinks) return;
-
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            navToggle.setAttribute(
-                'aria-expanded',
-                navLinks.classList.contains('active')
-            );
-        });
-
-        // Close on link click
-        navLinks.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Shadow on scroll
-        if (mainNav) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    mainNav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.8)';
-                } else {
-                    mainNav.style.boxShadow = 'none';
-                }
-            }, { passive: true });
-        }
-    }
-
-    // ============================================
-    // SCROLL REVEAL ANIMATIONS
-    // ============================================
-    function initScrollReveal() {
-        const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-
-        if (!reveals.length) return;
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -100px 0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Unobserve after reveal (one-time animation)
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        reveals.forEach(el => observer.observe(el));
-    }
-
-    // ============================================
-    // CAPTURED NOTIFICATION
-    // ============================================
-    function initCapturedNotification() {
-        const notification = document.getElementById('capturedNotification');
-        if (!notification) return;
-
-        // Auto-hide after 4 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 4000);
-    }
-
-    function showCapturedNotification(title) {
-        const notification = document.getElementById('capturedNotification');
-        const notificationTitle = document.getElementById('capturedTitle');
-
-        if (!notification) return;
-
-        if (notificationTitle && title) {
-            notificationTitle.textContent = title;
-        }
-
-        notification.classList.add('show');
-
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 4000);
-    }
-
-    // Make globally available
-    window.showCapturedNotification = showCapturedNotification;
-
-    // ============================================
-    // PREDATOR MASCOT (SLASHER)
-    // ============================================
-    function initPredatorMascot() {
-        const mascot = document.getElementById('predatorMascot');
-        if (!mascot) return;
-
-        let clickCount = 0;
-        let hoverTimer;
-
-        mascot.addEventListener('click', () => {
-            clickCount++;
-            if (clickCount >= 5) {
-                triggerEasterEgg(mascot);
-                clickCount = 0;
-            }
-        });
-
-        mascot.addEventListener('mouseenter', () => {
-            hoverTimer = setTimeout(() => {
-                triggerHoverFocus(mascot);
-            }, 2000);
-        });
-
-        mascot.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer);
-        });
-
-        // Initialize idle animation state
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            mascot.classList.add('idle-breath');
-        }
-    }
-
-    function triggerEasterEgg(mascot) {
-        mascot.classList.add('easter-egg');
-        setTimeout(() => {
-            mascot.classList.remove('easter-egg');
-        }, 1500);
-    }
-
-    function triggerHoverFocus(mascot) {
-        mascot.classList.add('tracking');
-        setTimeout(() => {
-            mascot.classList.remove('tracking');
-        }, 2000);
-    }
-
-    // ============================================
-    // STAT COUNTER ANIMATION
-    // ============================================
-    function animateStatCounters() {
-        const statValues = document.querySelectorAll('.stat-value[data-target]');
-
-        if (!statValues.length) return;
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        statValues.forEach(el => observer.observe(el));
-    }
-
-    function animateCounter(el) {
-        const target = parseFloat(el.dataset.target);
-        const duration = 2000;
-        const start = performance.now();
-        const isFloat = target % 1 !== 0;
-
-        function update(currentTime) {
-            const elapsed = currentTime - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 4);
-            const current = target * easeProgress;
-
-            el.textContent = isFloat ? current.toFixed(2) : Math.floor(current);
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                el.textContent = isFloat ? target.toFixed(2) : target;
-            }
-        }
-
-        requestAnimationFrame(update);
-    }
-
-    // Initialize stat counters when DOM ready
-    setTimeout(animateStatCounters, 500);
-
-    // ============================================
-    // PREY CARD INTERACTIONS
-    // ============================================
-    function initPreyCards() {
-        const preyCards = document.querySelectorAll('.prey-card');
-
-        preyCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('prey-freeze');
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('prey-freeze');
-            });
-
-            card.addEventListener('click', () => {
-                const title = card.querySelector('.prey-title');
-                if (title && window.showCapturedNotification) {
-                    showCapturedNotification(title.textContent + ' CAPTURED');
-                }
-            });
-        });
-    }
-
-    initPreyCards();
-
-    // ============================================
-    // FILTER BUTTONS
-    // ============================================
-    function initFilterButtons() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const preyCards = document.querySelectorAll('.prey-card');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const filter = btn.dataset.filter;
-
-                // Update active state
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                // Filter cards
-                preyCards.forEach(card => {
-                    const status = card.dataset.status;
-                    if (filter === 'all' || status === filter) {
-                        card.style.display = '';
-                        setTimeout(() => card.classList.add('visible'), 50);
-                    } else {
-                        card.classList.remove('visible');
-                        setTimeout(() => card.style.display = 'none', 300);
-                    }
-                });
-            });
-        });
-    }
-
-    initFilterButtons();
-
-    // ============================================
-    // FORM HANDLING
-    // ============================================
-    function initForms() {
-        const forms = document.querySelectorAll('form');
-
-        forms.forEach(form => {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn ? submitBtn.textContent : '';
-
-                if (submitBtn) {
-                    submitBtn.textContent = 'TRANSMITTING...';
-                    submitBtn.disabled = true;
-                }
-
-                // Simulate form submission
-                setTimeout(() => {
-                    if (submitBtn) {
-                        submitBtn.textContent = 'TRANSMITTED';
-                    }
-
-                    setTimeout(() => {
-                        if (submitBtn) {
-                            submitBtn.textContent = originalText;
-                            submitBtn.disabled = false;
-                        }
-                        form.reset();
-                    }, 2000);
-                }, 1500);
-            });
-        });
-    }
-
-    initForms();
-
-    // ============================================
-    // KEYBOARD NAVIGATION
-    // ============================================
-    document.addEventListener('keydown', (e) => {
-        // ESC closes mobile nav
-        if (e.key === 'Escape') {
-            const navLinks = document.getElementById('navLinks');
-            const navToggle = document.getElementById('navToggle');
-            if (navLinks && navToggle) {
-                navLinks.classList.remove('active');
-                navToggle.setAttribute('aria-expanded', 'false');
-            }
-        }
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mainNav.classList.contains('is-open')) {
+        toggleNav(false);
+        navToggle.focus();
+      }
     });
+
+    // Close on outside click
+    document.addEventListener('click', function (e) {
+      if (
+        mainNav.classList.contains('is-open') &&
+        !mainNav.contains(e.target) &&
+        !navToggle.contains(e.target)
+      ) {
+        toggleNav(false);
+      }
+    });
+
+    // Close on resize to desktop
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768 && mainNav.classList.contains('is-open')) {
+        toggleNav(false);
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Trap focus inside mobile nav when open
+    mainNav.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+
+      const focusable = mainNav.querySelectorAll(
+        'a[href], button:not([disabled])'
+      );
+      const firstFocusable = focusable[0];
+      const lastFocusable = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+      } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Scroll Reveal — Intersection Observer fade-ins
+     ───────────────────────────────────────────────────────────────────────── */
+
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const revealElements = document.querySelectorAll('.reveal');
+
+    if (revealElements.length > 0) {
+      const revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -60px 0px',
+          threshold: 0.1
+        }
+      );
+
+      revealElements.forEach(function (el) {
+        revealObserver.observe(el);
+      });
+    }
+  } else {
+    // Fallback: just show everything
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Copy Code Blocks — Click to copy install command
+     ───────────────────────────────────────────────────────────────────────── */
+
+  document.querySelectorAll('.code-block').forEach(function (block) {
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'code-copy-btn';
+    copyBtn.setAttribute('aria-label', 'Copy to clipboard');
+    copyBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    `;
+
+    // Style the copy button
+    copyBtn.style.cssText = `
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s ease, background-color 0.2s ease;
+    `;
+
+    copyBtn.addEventListener('mouseenter', function () {
+      copyBtn.style.opacity = '1';
+      copyBtn.style.background = 'var(--color-primary)';
+    });
+
+    copyBtn.addEventListener('mouseleave', function () {
+      copyBtn.style.opacity = '0.6';
+      copyBtn.style.background = 'var(--color-surface-alt)';
+    });
+
+    copyBtn.addEventListener('click', function () {
+      const code = block.querySelector('code');
+      if (!code) return;
+
+      const text = code.textContent.trim();
+      navigator.clipboard.writeText(text).then(
+        function () {
+          copyBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          `;
+          copyBtn.style.background = 'var(--color-success)';
+          setTimeout(function () {
+            copyBtn.innerHTML = `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            `;
+            copyBtn.style.background = 'var(--color-surface-alt)';
+          }, 2000);
+        },
+        function () {
+          // Clipboard failed — silently ignore
+        }
+      );
+    });
+
+    // Position block as relative for absolute positioning of button
+    block.style.position = 'relative';
+    block.appendChild(copyBtn);
+  });
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Smooth Scroll for Anchor Links
+     ───────────────────────────────────────────────────────────────────────── */
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
+
+        // Update URL without jumping
+        history.pushState(null, '', targetId);
+      }
+    });
+  });
 
 })();

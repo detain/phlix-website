@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About — Phlix</title>
+    <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="About Phlix: philosophy, license (MPL-2.0 / MIT), contributing, and FAQ."
+      content="Extend Phlix with plugins. LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up."
     />
-    <meta name="keywords" content="phlix about, phlix license, MPL-2.0, MIT, phlix FAQ" />
-    <link rel="canonical" href="https://detain.github.io/phlix-website/apex-predator/about.html" />
+    <meta name="keywords" content="phlix plugins, phlix plugin example, LifecycleInterface, plugin manifest" />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/apex-predator/plugins.html" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Phlix" />
-    <meta property="og:url" content="https://detain.github.io/phlix-website/apex-predator/about.html" />
-    <meta property="og:title" content="About — Phlix" />
-    <meta property="og:description" content="Philosophy, license, contributing, and FAQ." />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/apex-predator/plugins.html" />
+    <meta property="og:title" content="Plugins — Phlix" />
+    <meta property="og:description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up." />
     <meta property="og:image" content="https://detain.github.io/phlix-website/apex-predator/img/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="About — Phlix" />
-    <meta name="twitter:description" content="Philosophy, license, contributing, and FAQ." />
+    <meta name="twitter:title" content="Plugins — Phlix" />
+    <meta name="twitter:description" content="Extend Phlix with plugins. LifecycleInterface + manifest schema." />
     <meta name="twitter:image" content="https://detain.github.io/phlix-website/apex-predator/img/og.png" />
     <meta name="twitter:creator" content="@detain" />
     <meta name="theme-color" content="#C70039" />
@@ -32,8 +32,15 @@
 
     <!-- SVG Icon Sprite -->
     <svg class="icon-sprite" aria-hidden="true" focusable="false" style="display: none">
+      <symbol id="i-puzzle" viewBox="0 0 24 24">
+        <path d="M10 3H4a1 1 0 0 0-1 1v6M14 3h6a1 1 0 0 1 1 1v6M10 21H4a1 1 0 0 1-1-1v-6M14 21h6a1 1 0 0 0 1-1v-6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M10 9h4v6h-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </symbol>
       <symbol id="i-github" viewBox="0 0 24 24">
         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </symbol>
       <symbol id="i-menu" viewBox="0 0 24 24">
         <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
@@ -50,10 +57,10 @@
             <li><a href="features.html">Features</a></li>
             <li><a href="clients.html">Clients</a></li>
             <li><a href="download.html">Download</a></li>
-            <li><a href="plugins.html">Plugins</a></li>
+            <li><a href="plugins.html" aria-current="page">Plugins</a></li>
             <li><a href="docs.html">Docs</a></li>
             <li><a href="hub.html">Hub</a></li>
-            <li><a href="about.html" aria-current="page">About</a></li>
+            <li><a href="about.html">About</a></li>
           </ul>
         </nav>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
@@ -66,118 +73,82 @@
     <main id="main-content">
       <div class="page-header">
         <div class="container">
-          <h1>About Phlix</h1>
-          <p class="page-lead">Philosophy. License. Contributing. FAQ.</p>
+          <h1>Plugins</h1>
+          <p class="page-lead">A versioned contract. A manifest schema. Your predator instincts, unleashed.</p>
         </div>
       </div>
 
-      <!-- Philosophy -->
-      <section class="content-section" aria-labelledby="philosophy">
-        <div class="container" style="max-width: 800px;">
-          <div class="section-label">Why Phlix Exists</div>
-          <h2 id="philosophy" class="section-title">The Philosophy</h2>
+      <section class="content-section" aria-labelledby="plugin-model">
+        <div class="container">
+          <div class="section-label">The Contract</div>
+          <h2 id="plugin-model" class="section-title">Plugin Model</h2>
           <p class="section-subtitle" style="margin-top: var(--space-4);">
-            Phlix exists because your media library is yours. It should run on your hardware,
-            in your network, under your control. No subscription. No one watching what you watch.
-            No tiered pricing for features that should be baseline.
+            Implement <code>LifecycleInterface</code>, ship a manifest, drop it in the plugins directory.
+            The loader picks it up on the next restart. No config editing, no ceremony.
           </p>
-          <p class="section-subtitle" style="margin-top: var(--space-4);">
-            Phlix is built in PHP 8.3+ on Workerman — a stack that's accessible to anyone who
-            can run a web server. The plugin contract is versioned so that what you build today
-            keeps working tomorrow. The Hub exists so that self-hosting doesn't mean
-            you're limited to your LAN.
-          </p>
-        </div>
-      </section>
 
-      <hr class="section-divider" aria-hidden="true" />
+          <div class="code-block" style="margin-top: var(--space-6);">
+            <div class="code-label">Minimal plugin manifest (manifest.json)</div>
+            <code>{
+  "name": "my-metadata-provider",
+  "version": "1.0.0",
+  "api": "1.0",
+  "entry": "MyPlugin.php",
+  "description": "Fetches metadata from MyProvider"
+}</code>
+          </div>
 
-      <!-- License -->
-      <section class="content-section section--surface" aria-labelledby="license">
-        <div class="container" style="max-width: 800px;">
-          <div class="section-label">Legal</div>
-          <h2 id="license" class="section-title">License</h2>
-          <p class="section-subtitle" style="margin-top: var(--space-4);">
-            Phlix Server and the Hub are <strong>MPL-2.0</strong>. If you modify a Phlix file,
-            that file stays open. Anything you add alongside it is yours.
-          </p>
-          <p class="section-subtitle" style="margin-top: var(--space-4);">
-            The shared libraries, plugins, and clients are <strong>MIT</strong> — build on them
-            freely. The license is in the
-            <a href="https://github.com/detain/phlix-server/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
-          </p>
-        </div>
-      </section>
-
-      <hr class="section-divider" aria-hidden="true" />
-
-      <!-- Contributing -->
-      <section class="content-section" aria-labelledby="contributing">
-        <div class="container" style="max-width: 800px;">
-          <div class="section-label">Get Involved</div>
-          <h2 id="contributing" class="section-title">Contributing</h2>
-          <p class="section-subtitle" style="margin-top: var(--space-4);">
-            Phlix is maintained by Joe Huss and the community. All development happens on GitHub.
-            Issues, pull requests, and plugin submissions are welcome.
-          </p>
-          <div style="margin-top: var(--space-6);">
-            <a href="https://github.com/detain" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-              <svg aria-hidden="true" focusable="false" style="width:18px;height:18px;margin-right:8px;"><use href="#i-github" /></svg>
-              GitHub Organization
-            </a>
+          <div class="code-block" style="margin-top: var(--space-4);">
+            <div class="code-label">LifecycleInterface contract</div>
+            <code>interface LifecycleInterface {
+  public function onEnable(): void;
+  public function onDisable(): void;
+  public function onUpdate(string $fromVersion): void;
+}</code>
           </div>
         </div>
       </section>
 
       <hr class="section-divider" aria-hidden="true" />
 
-      <!-- FAQ -->
-      <section class="content-section section--surface" aria-labelledby="faq">
-        <div class="container" style="max-width: 800px;">
-          <div class="section-label">Prey Questions</div>
-          <h2 id="faq" class="section-title">FAQ</h2>
-
-          <dl class="faq-list" style="margin-top: var(--space-6);">
-            <div class="faq-item">
-              <dt>Is Phlix like Plex / Jellyfin / Emby?</dt>
-              <dd>Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman, ships with a versioned plugin contract, and includes a hub for accessing remote servers behind NAT without a third-party tunnel.</dd>
-            </div>
-
-            <div class="faq-item">
-              <dt>Do I need to expose my server to the internet?</dt>
-              <dd>No. Run Phlix on your LAN and use the Phlix Hub's reverse-tunnel relay to reach it from your phone or Roku at a friend's house. You can self-host the hub, or use the public one.</dd>
-            </div>
-
-            <div class="faq-item">
-              <dt>What formats are supported?</dt>
-              <dd>Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS otherwise. Per-device quality profiles pick the right bitrate automatically.</dd>
-            </div>
-
-            <div class="faq-item">
-              <dt>Is there a mobile app?</dt>
-              <dd>Yes — React Native, available on iOS and Android. Currently in beta.</dd>
-            </div>
-
-            <div class="faq-item">
-              <dt>Can I write plugins?</dt>
-              <dd>Yes. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. See phlix-plugin-example for the smallest working starter.</dd>
-            </div>
-
-            <div class="faq-item">
-              <dt>What's the license?</dt>
-              <dd>Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially. If you modify a Phlix file, that file stays open; anything you add alongside it is yours. The shared libraries, plugins, and clients are MIT so you can build on them freely.</dd>
-            </div>
-          </dl>
+      <section class="content-section section--surface" aria-labelledby="ecosystem-plugins">
+        <div class="container">
+          <div class="section-label">Proven in the Hunt</div>
+          <h2 id="ecosystem-plugins" class="section-title">Ecosystem Plugins</h2>
+          <p class="section-subtitle" style="margin-top: var(--space-4);">
+            The plugin ecosystem is growing. Official reference plugin demonstrates metadata fetching
+            from TMDB, TVDB, and Fanart.tv.
+          </p>
         </div>
       </section>
 
-      <section class="section" aria-labelledby="about-cta">
+      <hr class="section-divider" aria-hidden="true" />
+
+      <section class="content-section" aria-labelledby="write-plugin">
+        <div class="container">
+          <div class="section-label">Build Your Own</div>
+          <h2 id="write-plugin" class="section-title">Write Your Own</h2>
+          <p class="section-subtitle" style="margin-top: var(--space-4);">
+            Start from the reference plugin. It shows the full lifecycle, manifest structure,
+            and how to expose services to the server.
+          </p>
+
+          <div style="margin-top: var(--space-6);">
+            <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-primary btn-fab" target="_blank" rel="noopener noreferrer">
+              <svg aria-hidden="true" focusable="false" style="width:18px;height:18px;margin-right:8px;"><use href="#i-github" /></svg>
+              phlix-plugin-example
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="plugins-cta">
         <div class="container">
           <div class="cta-banner">
-            <h2 id="about-cta" class="cta-title">Ready to Hunt? Get Phlix.</h2>
+            <h2 id="plugins-cta" class="cta-title">Extending the Hunt.</h2>
             <div class="cta-actions">
-              <a href="download.html" class="btn btn-primary btn-fab">Download Phlix</a>
-              <a href="features.html" class="btn btn-secondary">View Features</a>
+              <a href="download.html" class="btn btn-primary btn-fab">Get Phlix</a>
+              <a href="docs.html" class="btn btn-secondary">Read the Docs</a>
             </div>
           </div>
         </div>
