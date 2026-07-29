@@ -87,9 +87,27 @@
     reveals.forEach((el) => obs.observe(el));
   }
 
+/* --------------------------------------------------------------------------
+      3. FAQ keyboard accessibility
+      -------------------------------------------------------------------------- */
+  function initFaqKeyboard() {
+    const summaries = $$('.faq-item__question');
+    summaries.forEach((summary) => {
+      summary.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const details = summary.parentElement;
+          if (details && details.tagName === 'DETAILS') {
+            details.open = !details.open;
+          }
+        }
+      });
+    });
+  }
+
   /* --------------------------------------------------------------------------
-     3. Intensity toggle (FAQ removed — native <details> provides accordion)
-     -------------------------------------------------------------------------- */
+      4. Intensity toggle
+      -------------------------------------------------------------------------- */
   function initIntensityToggle() {
     const toggle = $('#intensity-toggle');
     if (!toggle) return;
@@ -128,9 +146,9 @@
     $$('.hero__bg').forEach((el) => (el.style.animation = ''));
   }
 
-  /* --------------------------------------------------------------------------
-     4. Seasonal activation
-     -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+      6. Seasonal activation
+      -------------------------------------------------------------------------- */
   function initSeasonal() {
     // Perseid: 08-10 to 08-14
     // Winter Solstice: 12-18 to 01-06
@@ -187,9 +205,9 @@
     );
   }
 
-  /* --------------------------------------------------------------------------
-     7. Vela mascot
-     -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+      8. Vela mascot
+      -------------------------------------------------------------------------- */
   function initMascot() {
     const mascot = $('.mascot');
     if (!mascot) return;
@@ -305,9 +323,9 @@
     }
   }
 
-  /* --------------------------------------------------------------------------
-     8. Easter eggs
-     -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+      9. Easter eggs
+      -------------------------------------------------------------------------- */
 
   // 8a. Logo 7-clicks → already handled in initMascot (same trigger)
 
@@ -421,9 +439,9 @@
     }, 4000);
   }
 
-  /* --------------------------------------------------------------------------
-     9. Barrel roll keyframe (injected for mascot easter egg)
-     -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+      10. Barrel roll keyframe (injected for mascot easter egg)
+      -------------------------------------------------------------------------- */
   function injectKeyframes() {
     const style = document.createElement('style');
     style.textContent = `
@@ -452,6 +470,7 @@
     injectKeyframes();
     initNav();
     initScrollReveal();
+    initFaqKeyboard();
     initIntensityToggle();
     initSeasonal();
     initParallax();
