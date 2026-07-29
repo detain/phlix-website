@@ -1,201 +1,169 @@
 /**
- * Bio-Engineering Theme - Main JavaScript
- * Grown, Not Built - Organic Media Server Experience
+ * Bio-Engineering Brand Kit — Main JavaScript
+ * Vanilla JS, no dependencies, defer-loaded
  */
 
-import { ParticleSystem } from './particles.js';
-import { AnimationController } from './animations.js';
+(function() {
+  'use strict';
 
-class BioEngineeredApp {
-  constructor() {
-    this.particles = null;
-    this.animations = null;
-    this.scrollY = 0;
-    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ========================================
+  // Mobile Navigation Toggle
+  // ========================================
 
-    this.init();
-  }
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
-  init() {
-    this.initParticles();
-    this.initAnimations();
-    this.initNavigation();
-    this.initScrollEffects();
-    this.initFeatureCards();
-    this.initEvolutionStages();
-    this.initContactForm();
-  }
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', function() {
+      const isOpen = navMenu.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', isOpen.toString());
+      navToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
 
-  initParticles() {
-    if (this.prefersReducedMotion) return;
-
-    const container = document.getElementById('particles');
-    if (container) {
-      this.particles = new ParticleSystem(container, {
-        particleCount: 20,
-        colors: ['#00FF87', '#00B4D8', '#7B2CBF'],
-        minSize: 3,
-        maxSize: 6,
-        minSpeed: 0.5,
-        maxSpeed: 1.5,
-        fadeSpeed: 0.005
-      });
-      this.particles.start();
-    }
-  }
-
-  initAnimations() {
-    this.animations = new AnimationController();
-
-    if (!this.prefersReducedMotion) {
-      this.animations.registerScrollReveal('.feature-card');
-      this.animations.registerScrollReveal('.evolution-stage');
-      this.animations.registerScrollReveal('.stat-cell');
-      this.animations.registerFloatElements('.cell-nucleus', { amplitude: 5, duration: 4 });
-      this.animations.registerMembraneBreathing('.cell-membrane');
-      this.animations.registerBioluminescentPulse('.nucleus-core');
-    }
-  }
-
-  initNavigation() {
-    const nav = document.querySelector('.bio-nav');
-    const mobileBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-
-    // Scroll handling for nav background
-    window.addEventListener('scroll', () => {
-      this.scrollY = window.scrollY;
-
-      if (this.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('is-open')) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open navigation');
+        document.body.style.overflow = '';
       }
     });
 
-    // Mobile menu toggle
-    if (mobileBtn && navLinks) {
-      mobileBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        mobileBtn.classList.toggle('active');
-      });
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open navigation');
+        document.body.style.overflow = '';
+        navToggle.focus();
+      }
+    });
 
-      // Close on link click
-      navLinks.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('active');
-          mobileBtn.classList.remove('active');
-        });
-      });
-    }
+    // Trap focus in mobile menu
+    navMenu.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
+      const focusableElements = navMenu.querySelectorAll('a[href], button:not([disabled])');
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstElement) {
         e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href'));
-        if (target) {
-          const offsetTop = target.offsetTop - 80;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: this.prefersReducedMotion ? 'auto' : 'smooth'
-          });
-        }
-      });
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
     });
   }
 
-  initScrollEffects() {
-    if (this.prefersReducedMotion) return;
+  // ========================================
+  // Reduced Motion Detection
+  // ========================================
 
-    // Parallax for membranes
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY;
-      const membranes = document.querySelectorAll('.membrane');
-      const dnaContainer = document.querySelector('.dna-container');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-      membranes.forEach((membrane, index) => {
-        const speed = 0.05 * (index + 1);
-        membrane.style.transform = `translateY(${scrolled * speed}px)`;
-      });
-
-      if (dnaContainer) {
-        dnaContainer.style.transform = `translateY(-50%) translateY(${scrolled * 0.1}px)`;
-      }
-    });
-
-    // Scroll indicator hide
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-      window.addEventListener('scroll', () => {
-        if (this.scrollY > 100) {
-          scrollIndicator.style.opacity = '0';
-        } else {
-          scrollIndicator.style.opacity = '1';
-        }
-      });
+  function handleReducedMotion() {
+    if (prefersReducedMotion.matches) {
+      document.documentElement.classList.add('reduced-motion');
+    } else {
+      document.documentElement.classList.remove('reduced-motion');
     }
   }
 
-  initFeatureCards() {
-    const cards = document.querySelectorAll('.feature-card');
+  handleReducedMotion();
+  prefersReducedMotion.addEventListener('change', handleReducedMotion);
 
-    cards.forEach((card, index) => {
-      card.style.transitionDelay = `${index * 0.1}s`;
-    });
-  }
+  // ========================================
+  // Scroll Reveal Animation
+  // ========================================
 
-  initEvolutionStages() {
-    if (this.prefersReducedMotion) return;
+  if (!prefersReducedMotion.matches) {
+    const revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
 
-    const stages = document.querySelectorAll('.evolution-stage');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          const cell = entry.target.querySelector('.stage-cell');
-          if (cell) {
-            cell.classList.add('animate');
+    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
           }
-        }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       });
-    }, { threshold: 0.3 });
 
-    stages.forEach(stage => observer.observe(stage));
-  }
-
-  initContactForm() {
-    const form = document.querySelector('.contact-form');
-
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const email = form.querySelector('input[type="email"]');
-        const btn = form.querySelector('.btn');
-
-        if (email && email.value) {
-          // Simulate submission
-          btn.classList.add('loading');
-          btn.disabled = true;
-
-          setTimeout(() => {
-            btn.classList.remove('loading');
-            btn.disabled = false;
-            btn.querySelector('.btn-text').textContent = 'Evolution Started';
-            email.value = '';
-          }, 1500);
-        }
+      revealElements.forEach(function(el) {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
       });
     }
   }
-}
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  new BioEngineeredApp();
-});
+  // ========================================
+  // Smooth Scroll for Anchor Links
+  // ========================================
 
-// Export for module use
-export default BioEngineeredApp;
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({
+          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+          block: 'start'
+        });
+
+        // Update focus for accessibility
+        targetElement.setAttribute('tabindex', '-1');
+        targetElement.focus({ preventScroll: true });
+      }
+    });
+  });
+
+  // ========================================
+  // Bioluminescent Pulse Effect (CSS-driven)
+  // Only active if JS is enabled and motion is allowed
+  // ========================================
+
+  const pulseElements = document.querySelectorAll('.bioluminescent-pulse');
+
+  if (pulseElements.length > 0 && !prefersReducedMotion.matches) {
+    pulseElements.forEach(function(el) {
+      el.style.animation = 'bioluminescentPulse 3s ease-in-out infinite';
+    });
+  }
+
+  // ========================================
+  // Active Nav Link Highlighting
+  // ========================================
+
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('.nav-menu a');
+
+  navLinks.forEach(function(link) {
+    const linkPath = link.getAttribute('href');
+    if (linkPath === currentPath ||
+        (currentPath === '' && linkPath === 'index.html') ||
+        (currentPath === 'index.html' && linkPath === './') ||
+        (currentPath === 'index.html' && linkPath === 'index.html')) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+
+  // ========================================
+  // Touch Device Detection
+  // ========================================
+
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.documentElement.classList.add('touch-device');
+  }
+
+})();
