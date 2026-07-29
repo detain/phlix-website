@@ -135,11 +135,11 @@
   var mascotDismissed = false;
   try {
     mascotDismissed = localStorage.getItem('librarian-dismissed') === 'true';
-  } catch (e) {
+  } catch (_e) {
     // localStorage not available — ignore
   }
 
-  var mascotPage = window.location.pathname.replace(/\/[^\/]*$/, '') || '/';
+  var mascotPage = window.location.pathname.replace(/[^\/]*$/, '') || '/';
   var mascotDismissedPage = null;
   try {
     mascotDismissedPage = localStorage.getItem('librarian-dismissed-page');
@@ -166,7 +166,7 @@
     try {
       localStorage.setItem('librarian-dismissed', 'true');
       localStorage.setItem('librarian-dismissed-page', mascotPage);
-    } catch (e) {}
+  } catch (_e) {}
   }
 
   // Show tip at specific section
