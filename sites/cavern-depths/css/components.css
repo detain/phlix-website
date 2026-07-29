@@ -1,0 +1,585 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Cavern Depths
+   Buttons, header/nav, footer, forms, badges, and interactive components.
+   Bioluminescent cave pool aesthetic, glowing crystal formations.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Site Header & Navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(10, 15, 26, 0.95);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  color: var(--color-text);
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-logo__text {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-sharp);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-secondary);
+}
+
+.nav-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu__item {
+  position: relative;
+}
+
+.nav-menu__link {
+  display: block;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition:
+    color var(--duration-fast) var(--easing-sharp),
+    background-color var(--duration-fast) var(--easing-sharp);
+}
+
+.nav-menu__link:hover {
+  color: var(--color-secondary);
+  background-color: rgba(127, 255, 212, 0.05);
+}
+
+.nav-menu__link[aria-current='page'] {
+  color: var(--color-secondary);
+  text-shadow: 0 0 10px var(--color-glow);
+}
+
+.nav-menu__link--primary {
+  color: var(--color-text);
+}
+
+.nav-menu__link--primary:hover {
+  color: var(--color-secondary);
+}
+
+.nav-menu__link--muted {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.nav-menu__link--muted:hover {
+  opacity: 1;
+  color: var(--color-text-muted);
+}
+
+/* Mobile Navigation */
+@media (width <= 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    inset: 73px 0 0;
+    z-index: 200;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background-color: rgba(10, 15, 26, 0.98);
+    border-top: 1px solid var(--color-border);
+    transform: translateX(-100%);
+    transition: transform var(--duration-base) var(--easing-sharp);
+    overflow-y: auto;
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-menu__link {
+    padding: var(--space-4);
+    font-size: 1rem;
+    border: 1px solid transparent;
+  }
+
+  .nav-menu__link:hover {
+    border-color: var(--color-border);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--easing-sharp),
+    background-color var(--duration-fast) var(--easing-sharp),
+    border-color var(--duration-fast) var(--easing-sharp),
+    box-shadow var(--duration-fast) var(--easing-sharp);
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(74, 144, 217, 0.3);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-bg);
+  box-shadow: 0 0 25px var(--color-glow);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(127, 255, 212, 0.2);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+  box-shadow: 0 0 15px var(--color-glow);
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-bg);
+  border-color: var(--color-error);
+}
+
+.btn--danger:hover {
+  background-color: #ff5252;
+  border-color: #ff5252;
+}
+
+.btn--link {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  padding: var(--space-2) var(--space-3);
+  min-height: auto;
+}
+
+.btn--link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.btn--small {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.75rem;
+  min-height: 36px;
+}
+
+.btn--large {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1rem;
+  min-height: 52px;
+}
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+}
+
+.badge--default {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.badge--primary {
+  background-color: rgba(74, 144, 217, 0.15);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.badge--success {
+  background-color: rgba(127, 255, 212, 0.15);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.badge--warning {
+  background-color: rgba(74, 144, 217, 0.15);
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.badge--info {
+  background-color: rgba(74, 144, 217, 0.15);
+  color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+.form-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) var(--easing-sharp);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.2);
+}
+
+.form-input--error {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------
+   Section Specific Styles — Cavern Depths
+   -------------------------------------------------------------------------- */
+
+/* The Depths (Hero) */
+#the-depths {
+  position: relative;
+  overflow: hidden;
+}
+
+#the-depths .hero__bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--color-bg), transparent);
+}
+
+/* Crystal Formations (Feature Cards) */
+#crystal-formations {
+  background-color: var(--color-surface);
+}
+
+#crystal-formations .feature-card {
+  border-left: 3px solid transparent;
+  transition: border-color var(--duration-base) var(--easing-sharp);
+}
+
+#crystal-formations .feature-card:first-child {
+  border-left-color: var(--color-secondary);
+}
+
+/* Subterranean Way (Story Grid) */
+#subterranean-way {
+  background-color: var(--color-bg);
+}
+
+#subterranean-way .pitch__item {
+  background-color: var(--color-surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+#subterranean-way .pitch__item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--color-secondary);
+}
+
+/* Underground Proof (Proof Strategy) */
+#underground-proof {
+  background-color: var(--color-surface-alt);
+}
+
+#underground-proof .proof-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.proof-stat {
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+}
+
+.proof-stat__value {
+  font-family: var(--font-number);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--color-secondary);
+  display: block;
+  text-shadow: 0 0 15px var(--color-glow);
+}
+
+.proof-stat__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+/* Descent (CTA) */
+#descent {
+  background-color: var(--color-bg);
+  text-align: center;
+}
+
+#descent .hero__actions {
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------------------- */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px var(--color-glow));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px var(--color-glow));
+  }
+}
+
+@keyframes crystal-shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes stalactite-drip {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Decorative Elements
+   -------------------------------------------------------------------------- */
+.stalactite-decoration {
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(
+    180deg,
+    var(--color-secondary) 0%,
+    transparent 100%
+  );
+  opacity: 0.1;
+}
+
+.bioluminescent-pool {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(127, 255, 212, 0.2) 0%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
