@@ -1,482 +1,281 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terraform — Reshaping Digital Worlds</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230D1B2A' stroke='%2306D6A0' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%231B998B' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%23EF476F'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/planets.css">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phlix — Your media. Your library. Your Phlix.</title>
+  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server">
+  <link rel="canonical" href="https://detain.github.io/phlix-website/terraform/">
+  <meta name="theme-color" content="#06D6A0">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phlix">
+  <meta property="og:url" content="https://detain.github.io/phlix-website/terraform/">
+  <meta property="og:title" content="Phlix — Your media. Your library. Your Phlix.">
+  <meta property="og:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta property="og:image" content="https://detain.github.io/phlix-website/terraform/img/og.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phlix — Your media. Your library. Your Phlix.">
+  <meta name="twitter:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
+  <meta name="twitter:image" content="https://detain.github.io/phlix-website/terraform/img/og.png">
+  <meta name="twitter:creator" content="@detain">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Phlix",
+    "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "PHP 8.3+",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "license": "https://github.com/detain/phlix-server/blob/master/LICENSE"
+  }
+  </script>
 </head>
-<body class="terraform-theme">
-    <!-- Atmospheric Background Layer -->
-    <div class="atmosphere-layer" aria-hidden="true">
-        <div class="atmosphere-glow atmosphere-1"></div>
-        <div class="atmosphere-glow atmosphere-2"></div>
-        <div class="atmosphere-glow atmosphere-3"></div>
-    </div>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <!-- Planet Surface Background -->
-    <div class="planet-surface" aria-hidden="true">
-        <div class="crater crater-1"></div>
-        <div class="crater crater-2"></div>
-        <div class="crater crater-3"></div>
-        <div class="crater crater-4"></div>
-        <div class="crater crater-5"></div>
-        <div class="dust-layer"></div>
-    </div>
-
-    <!-- Floating Particles -->
-    <div class="particles" aria-hidden="true" id="particles"></div>
-
-    <!-- Mining Drones -->
-    <div class="drones" aria-hidden="true">
-        <div class="drone drone-1">
-            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
-                <circle cx="30" cy="20" r="4" fill="#06D6A0"/>
-                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
-            </svg>
-        </div>
-        <div class="drone drone-2">
-            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
-                <circle cx="30" cy="20" r="4" fill="#EF476F"/>
-                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#EF476F" stroke-width="1" opacity="0.5"/>
-            </svg>
-        </div>
-        <div class="drone drone-3">
-            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="#1B998B"/>
-                <circle cx="30" cy="20" r="4" fill="#FFD166"/>
-                <rect x="5" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <rect x="47" y="16" width="8" height="3" rx="1" fill="#26547C"/>
-                <ellipse cx="30" cy="20" rx="20" ry="8" fill="none" stroke="#FFD166" stroke-width="1" opacity="0.5"/>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Colony Domes -->
-    <div class="domes" aria-hidden="true">
-        <div class="dome dome-1">
-            <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="60" cy="70" rx="55" ry="10" fill="#26547C"/>
-                <path d="M10 70 Q60 -10 110 70" fill="#1B998B" opacity="0.6"/>
-                <path d="M10 70 Q60 -10 110 70" fill="none" stroke="#06D6A0" stroke-width="2"/>
-                <ellipse cx="60" cy="45" rx="20" ry="25" fill="#06D6A0" opacity="0.3"/>
-                <line x1="60" y1="20" x2="60" y2="70" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
-                <line x1="30" y1="55" x2="90" y2="55" stroke="#06D6A0" stroke-width="1" opacity="0.5"/>
-            </svg>
-        </div>
-        <div class="dome dome-2">
-            <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="40" cy="52" rx="35" ry="8" fill="#26547C"/>
-                <path d="M8 52 Q40 -8 72 52" fill="#1B998B" opacity="0.5"/>
-                <path d="M8 52 Q40 -8 72 52" fill="none" stroke="#EF476F" stroke-width="2"/>
-                <ellipse cx="40" cy="35" rx="12" ry="18" fill="#EF476F" opacity="0.3"/>
-            </svg>
-        </div>
-        <div class="dome dome-3">
-            <svg viewBox="0 0 60 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="30" cy="38" rx="25" ry="6" fill="#26547C"/>
-                <path d="M6 38 Q30 -6 54 38" fill="#1B998B" opacity="0.4"/>
-                <path d="M6 38 Q30 -6 54 38" fill="none" stroke="#FFD166" stroke-width="2"/>
-                <ellipse cx="30" cy="25" rx="8" ry="12" fill="#FFD166" opacity="0.3"/>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="terraform-nav" role="navigation">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-                    <circle cx="20" cy="20" r="4" fill="currentColor"/>
-                </svg>
-                <span class="logo-text">TERRAFORM</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#transformation" class="nav-link">Transformation</a></li>
-                <li><a href="#drones" class="nav-link">Mining Drones</a></li>
-                <li><a href="#domes" class="nav-link">Colony Domes</a></li>
-                <li><a href="#atmosphere" class="nav-link">Atmosphere</a></li>
-            </ul>
-        </div>
+  <header class="site-header" role="banner">
+    <nav class="nav-primary" aria-label="Primary navigation">
+      <a class="nav-logo" href="./" aria-label="Phlix home"><img src="img/logo.svg" alt="Phlix logo" width="140" height="47"></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="clients.html">Clients</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="plugins.html">Plugins</a></li>
+        <li><a href="docs.html">Docs</a></li>
+        <li><a href="hub.html">Hub</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
     </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
 
     <!-- Hero Section -->
-    <header class="hero-section">
+    <section class="hero">
+      <div class="container">
         <div class="hero-content">
-            <div class="hero-badge">
-                <span class="badge-text">BRAND KIT v1.0</span>
-            </div>
-            <h1 class="hero-title">
-                <span class="title-line">RESHAPING</span>
-                <span class="title-line accent">DIGITAL</span>
-                <span class="title-line">WORLDS</span>
-            </h1>
-            <p class="hero-subtitle">To suit your media needs</p>
-            <div class="hero-archetype">
-                <span class="archetype-label">Archetype</span>
-                <span class="archetype-value">MAGICIAN</span>
-            </div>
-            <div class="terraform-pulse">
-                <div class="pulse-ring"></div>
-                <div class="pulse-ring"></div>
-                <div class="pulse-ring"></div>
-                <div class="pulse-core"></div>
-            </div>
+          <span class="hero-eyebrow">Self-hosted media server</span>
+          <h1>Your media. Your library. Your Phlix.</h1>
+          <p class="hero-subheadline">An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.</p>
+          <div class="hero-cta">
+            <a href="download.html" class="btn btn-primary btn-lg">Get Phlix</a>
+            <a href="https://detain.github.io/phlix-docs" class="btn btn-secondary btn-lg" rel="noopener noreferrer">Read the docs</a>
+          </div>
         </div>
-        <div class="hero-planet">
-            <div class="planet-core">
-                <div class="planet-layer layer-1"></div>
-                <div class="planet-layer layer-2"></div>
-                <div class="planet-layer layer-3"></div>
-                <div class="planet-atmosphere"></div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Color Palette Section -->
-    <section class="palette-section" id="transformation">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">01 / PALETTE</span>
-                <h2 class="section-title">Terraform Palette</h2>
-                <p class="section-desc">Colors that capture the essence of planetary transformation — from barren void to thriving world.</p>
-            </div>
-            <div class="color-grid">
-                <div class="color-card primary">
-                    <div class="color-swatch"></div>
-                    <div class="color-info">
-                        <span class="color-name">Life Spring</span>
-                        <span class="color-hex">#06D6A0</span>
-                        <span class="color-role">Primary</span>
-                    </div>
-                </div>
-                <div class="color-card secondary">
-                    <div class="color-swatch"></div>
-                    <div class="color-info">
-                        <span class="color-name">Ocean Depth</span>
-                        <span class="color-hex">#1B998B</span>
-                        <span class="color-role">Secondary</span>
-                    </div>
-                </div>
-                <div class="color-card accent">
-                    <div class="color-swatch"></div>
-                    <div class="color-info">
-                        <span class="color-name">Energy Pulse</span>
-                        <span class="color-hex">#EF476F</span>
-                        <span class="color-role">Accent</span>
-                    </div>
-                </div>
-                <div class="color-card dark">
-                    <div class="color-swatch"></div>
-                    <div class="color-info">
-                        <span class="color-name">Cosmic Void</span>
-                        <span class="color-hex">#26547C</span>
-                        <span class="color-role">Dark</span>
-                    </div>
-                </div>
-                <div class="color-card light">
-                    <div class="color-swatch"></div>
-                    <div class="color-info">
-                        <span class="color-name">Solar Energy</span>
-                        <span class="color-hex">#FFD166</span>
-                        <span class="color-role">Light</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- Mining Drones Section -->
-    <section class="drones-section" id="drones">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">02 / ELEMENTS</span>
-                <h2 class="section-title">Mining Drones</h2>
-                <p class="section-desc">Autonomous extractors reshaping terrain, harvesting resources to build new worlds.</p>
-            </div>
-            <div class="drones-grid">
-                <div class="drone-card">
-                    <div class="drone-visual">
-                        <svg viewBox="0 0 120 80" class="drone-svg">
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
-                            <circle cx="60" cy="40" r="8" fill="#06D6A0">
-                                <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
-                            </circle>
-                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#06D6A0" stroke-width="2" opacity="0.3">
-                                <animate attributeName="rx" values="45;55;45" dur="3s" repeatCount="indefinite"/>
-                            </ellipse>
-                        </svg>
-                    </div>
-                    <div class="drone-info">
-                        <h3>Extractor MK-I</h3>
-                        <p>Surface mineral extraction</p>
-                    </div>
-                </div>
-                <div class="drone-card">
-                    <div class="drone-visual">
-                        <svg viewBox="0 0 120 80" class="drone-svg">
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
-                            <circle cx="60" cy="40" r="8" fill="#EF476F">
-                                <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
-                            </circle>
-                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#EF476F" stroke-width="2" opacity="0.3">
-                                <animate attributeName="rx" values="45;55;45" dur="2.5s" repeatCount="indefinite"/>
-                            </ellipse>
-                        </svg>
-                    </div>
-                    <div class="drone-info">
-                        <h3>Processor MK-II</h3>
-                        <p>Resource refinement</p>
-                    </div>
-                </div>
-                <div class="drone-card">
-                    <div class="drone-visual">
-                        <svg viewBox="0 0 120 80" class="drone-svg">
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="#1B998B"/>
-                            <circle cx="60" cy="40" r="8" fill="#FFD166">
-                                <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
-                            </circle>
-                            <rect x="10" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <rect x="95" y="34" width="15" height="6" rx="2" fill="#26547C"/>
-                            <ellipse cx="60" cy="40" rx="45" ry="18" fill="none" stroke="#FFD166" stroke-width="2" opacity="0.3">
-                                <animate attributeName="rx" values="45;55;45" dur="2.8s" repeatCount="indefinite"/>
-                            </ellipse>
-                        </svg>
-                    </div>
-                    <div class="drone-info">
-                        <h3>Builder MK-III</h3>
-                        <p>Structure construction</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Pitch Section -->
+    <section class="pitch">
+      <div class="container">
+        <h2>Why Phlix?</h2>
+        <ul class="pitch-list">
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>100% self-hostable — your library never leaves your hardware unless you say so</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            <span>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            <span>Live TV with DVR + EPG guide integration</span>
+          </li>
+          <li class="pitch-item">
+            <svg class="pitch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+            <span>Plugin system with a versioned manifest contract</span>
+          </li>
+        </ul>
+      </div>
     </section>
 
-    <!-- Colony Domes Section -->
-    <section class="domes-section" id="domes">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">03 / STRUCTURES</span>
-                <h2 class="section-title">Colony Domes</h2>
-                <p class="section-desc">Self-sustaining habitats emerging from transformed worlds — enclaves of civilization amidst cosmic silence.</p>
-            </div>
-            <div class="domes-grid">
-                <div class="dome-card large">
-                    <div class="dome-visual">
-                        <svg viewBox="0 0 200 150" class="dome-svg">
-                            <defs>
-                                <linearGradient id="domeGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#06D6A0;stop-opacity:0.6"/>
-                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
-                                </linearGradient>
-                            </defs>
-                            <ellipse cx="100" cy="135" rx="90" ry="15" fill="#26547C"/>
-                            <path d="M15 135 Q100 -20 185 135" fill="url(#domeGrad1)"/>
-                            <path d="M15 135 Q100 -20 185 135" fill="none" stroke="#06D6A0" stroke-width="3"/>
-                            <ellipse cx="100" cy="80" rx="35" ry="45" fill="#06D6A0" opacity="0.2">
-                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="4s" repeatCount="indefinite"/>
-                            </ellipse>
-                            <line x1="100" y1="35" x2="100" y2="135" stroke="#06D6A0" stroke-width="1.5" opacity="0.4"/>
-                            <line x1="50" y1="100" x2="150" y2="100" stroke="#06D6A0" stroke-width="1.5" opacity="0.4"/>
-                            <line x1="70" y1="60" x2="130" y2="60" stroke="#06D6A0" stroke-width="1" opacity="0.3"/>
-                        </svg>
-                    </div>
-                    <div class="dome-info">
-                        <h3>Genesis Dome</h3>
-                        <p>Primary habitation unit</p>
-                        <span class="dome-capacity">Capacit: 2,400</span>
-                    </div>
-                </div>
-                <div class="dome-card">
-                    <div class="dome-visual">
-                        <svg viewBox="0 0 140 100" class="dome-svg">
-                            <defs>
-                                <linearGradient id="domeGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#EF476F;stop-opacity:0.5"/>
-                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
-                                </linearGradient>
-                            </defs>
-                            <ellipse cx="70" cy="90" rx="60" ry="10" fill="#26547C"/>
-                            <path d="M12 90 Q70 -10 128 90" fill="url(#domeGrad2)"/>
-                            <path d="M12 90 Q70 -10 128 90" fill="none" stroke="#EF476F" stroke-width="2"/>
-                            <ellipse cx="70" cy="55" rx="22" ry="30" fill="#EF476F" opacity="0.2">
-                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
-                            </ellipse>
-                        </svg>
-                    </div>
-                    <div class="dome-info">
-                        <h3>Research Hub</h3>
-                        <p>Scientific operations</p>
-                    </div>
-                </div>
-                <div class="dome-card">
-                    <div class="dome-visual">
-                        <svg viewBox="0 0 140 100" class="dome-svg">
-                            <defs>
-                                <linearGradient id="domeGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#FFD166;stop-opacity:0.5"/>
-                                    <stop offset="100%" style="stop-color:#1B998B;stop-opacity:0.2"/>
-                                </linearGradient>
-                            </defs>
-                            <ellipse cx="70" cy="90" rx="60" ry="10" fill="#26547C"/>
-                            <path d="M12 90 Q70 -10 128 90" fill="url(#domeGrad3)"/>
-                            <path d="M12 90 Q70 -10 128 90" fill="none" stroke="#FFD166" stroke-width="2"/>
-                            <ellipse cx="70" cy="55" rx="22" ry="30" fill="#FFD166" opacity="0.2">
-                                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite"/>
-                            </ellipse>
-                        </svg>
-                    </div>
-                    <div class="dome-info">
-                        <h3>Energy Node</h3>
-                        <p>Power generation</p>
-                    </div>
-                </div>
-            </div>
+    <!-- Features Overview -->
+    <section class="features-overview">
+      <div class="container">
+        <h2>Built for your media</h2>
+        <div class="features-grid">
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <h3>Library that organizes itself</h3>
+            <p>Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository hydrates metadata_json. Add a file, see it appear.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <h3>SyncPlay across the room or across the country</h3>
+            <p>Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame. Play, pause, seek — everyone moves together.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            <h3>Transcoding that picks the right quality</h3>
+            <p>QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. CRF 23/28 libx264/libx265 with HLS master and variant playlists.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <h3>Multi-user, multi-profile, parental controls</h3>
+            <p>JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            <h3>Live TV with DVR + EPG</h3>
+            <p>ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+            <h3>DLNA for the devices you already own</h3>
+            <p>ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't need a new app.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+            <h3>Plugin system with a real contract</h3>
+            <p>LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. See phlix-plugin-example.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="feature-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <h3>Phlix Hub — reach any of your servers from anywhere</h3>
+            <p>Sign in once. Reverse-tunnel relay handles NAT. Self-hostable, or use the public hub.</p>
+          </article>
         </div>
+        <p class="features-link"><a href="features.html">See all features →</a></p>
+      </div>
     </section>
 
-    <!-- Atmosphere Section -->
-    <section class="atmosphere-section" id="atmosphere">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">04 / ATMOSPHERE</span>
-                <h2 class="section-title">Atmospheric Layers</h2>
-                <p class="section-desc">Gaseous envelopes transforming barren rock into living worlds — the breath of new civilizations.</p>
-            </div>
-            <div class="atmosphere-visual">
-                <div class="atmo-layer atmo-1">
-                    <span class="atmo-label">Upper Stratosphere</span>
-                    <span class="atmo-depth">85-500km</span>
-                </div>
-                <div class="atmo-layer atmo-2">
-                    <span class="atmo-label">Middle Thermosphere</span>
-                    <span class="atmo-depth">50-85km</span>
-                </div>
-                <div class="atmo-layer atmo-3">
-                    <span class="atmo-label">Lower Mesosphere</span>
-                    <span class="atmo-depth">30-50km</span>
-                </div>
-                <div class="atmo-layer atmo-4">
-                    <span class="atmo-label">Surface Layer</span>
-                    <span class="atmo-depth">0-30km</span>
-                </div>
-            </div>
-        </div>
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2>Ready to take control?</h2>
+        <a href="download.html" class="btn btn-primary btn-lg">Download Phlix</a>
+      </div>
     </section>
 
-    <!-- Motion Section -->
-    <section class="motion-section">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">05 / MOTION</span>
-                <h2 class="section-title">Terraform Motion</h2>
-                <p class="section-desc">Dynamic animations that bring the brand to life — crater formations, terraforming pulses, atmospheric glows.</p>
-            </div>
-            <div class="motion-grid">
-                <div class="motion-card">
-                    <div class="motion-visual crater-form">
-                        <div class="crater-anim"></div>
-                    </div>
-                    <h3>Crater Formation</h3>
-                    <p>Impact patterns reshaping surfaces</p>
-                </div>
-                <div class="motion-card">
-                    <div class="motion-visual pulse-form">
-                        <div class="terraform-pulse-anim">
-                            <div class="tf-ring"></div>
-                            <div class="tf-ring"></div>
-                            <div class="tf-ring"></div>
-                            <div class="tf-core"></div>
-                        </div>
-                    </div>
-                    <h3>Terraform Pulse</h3>
-                    <p>Transformative energy waves</p>
-                </div>
-                <div class="motion-card">
-                    <div class="motion-visual glow-form">
-                        <div class="atmo-glow-anim"></div>
-                    </div>
-                    <h3>Atmospheric Glow</h3>
-                    <p>Luminous atmospheric effects</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  </main>
 
-    <!-- Typography Section -->
-    <section class="typography-section">
-        <div class="section-container">
-            <div class="section-header">
-                <span class="section-tag">06 / TYPOGRAPHY</span>
-                <h2 class="section-title">Planetary Type</h2>
-                <p class="section-desc">Fonts that evoke the cosmic and the constructed — sharp, geometric, and unmistakably futuristic.</p>
-            </div>
-            <div class="type-showcase">
-                <div class="type-card display">
-                    <span class="type-label">Display</span>
-                    <span class="type-sample">TERRAFORM</span>
-                    <span class="type-meta">Orbitron / Monospace</span>
-                </div>
-                <div class="type-card heading">
-                    <span class="type-label">Headings</span>
-                    <span class="type-sample">Reshaping Worlds</span>
-                    <span class="type-meta">Exo 2 / Monospace</span>
-                </div>
-                <div class="type-card body">
-                    <span class="type-label">Body</span>
-                    <span class="type-sample">The terraforming process reshapes barren planetary surfaces into thriving digital ecosystems. Each world begins as raw potential.</span>
-                    <span class="type-meta">IBM Plex Sans / Sans-serif</span>
-                </div>
-                <div class="type-card mono">
-                    <span class="type-label">Code/Data</span>
-                    <span class="type-sample">SYS.TERRA.001</span>
-                    <span class="type-meta">IBM Plex Mono / Monospace</span>
-                </div>
-            </div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p class="footer-tagline">Open-source media, on your terms.</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div>
+          <h3>Product</h3>
+          <ul>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+          </ul>
         </div>
-    </section>
+        <div>
+          <h3>Developers</h3>
+          <ul>
+            <li><a href="https://detain.github.io/phlix-docs" rel="noopener noreferrer">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server" rel="noopener noreferrer">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer">Plugin example</a></li>
+            <li><a href="https://detain.github.io/phlix-docs/reference/api.html" rel="noopener noreferrer">API reference</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Project</h3>
+          <ul>
+            <li><a href="https://github.com/detain" rel="noopener noreferrer">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues" rel="noopener noreferrer">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub" rel="noopener noreferrer">Hub</a></li>
+            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE" rel="noopener noreferrer">License (MPL-2.0)</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p class="footer-copy">&copy; 2026 Phlix — Open-source media server. Server: MPL-2.0. Clients &amp; plugins: MIT.</p>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="terraform-footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <svg class="footer-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-                    <circle cx="20" cy="20" r="4" fill="currentColor"/>
-                </svg>
-                <span class="footer-name">TERRAFORM</span>
-            </div>
-            <div class="footer-tagline">
-                <span>Reshaping digital worlds to suit your media needs</span>
-            </div>
-            <div class="footer-meta">
-                <span class="archetype-badge">MAGICIAN ARCHETYPE</span>
-                <span class="experience-badge">IMMERSIVE EXPERIENCE</span>
-            </div>
-        </div>
-        <div class="footer-crust">
-            <div class="crust-texture"></div>
-        </div>
-    </footer>
-
-    <script src="js/particles.js"></script>
-    <script src="js/planets.js"></script>
-    <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

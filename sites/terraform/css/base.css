@@ -1,0 +1,218 @@
+/**
+ * Terraform Brand Kit — base.css
+ * Modern reset, CSS custom properties (design tokens), element defaults
+ */
+
+/* ===== MODERN RESET ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+/* ===== DESIGN TOKENS — TERRAFORM BRAND KIT ===== */
+:root {
+    /* Color Palette — Planetary Terraforming Theme */
+    --tf-primary: #06D6A0;       /* Vibrant teal-green (life spring) */
+    --tf-secondary: #1B998B;      /* Deep teal (ocean depth) */
+    --tf-accent: #EF476F;        /* Coral pink (energy pulse) */
+    --tf-dark: #26547C;          /* Deep navy-blue (cosmic void) */
+    --tf-light: #FFD166;         /* Warm gold (solar energy) */
+    --tf-bg: #0D1B2A;            /* Deep space black */
+    --tf-surface: #1B2838;       /* Dark surface */
+    --tf-text: #E8F1F2;          /* Soft white */
+    --tf-text-muted: #7B8C9A;    /* Muted gray-blue */
+
+    /* Semantic Colors */
+    --color-primary: var(--tf-primary);
+    --color-secondary: var(--tf-secondary);
+    --color-accent: var(--tf-accent);
+    --color-dark: var(--tf-dark);
+    --color-light: var(--tf-light);
+    --color-background: var(--tf-bg);
+    --color-surface: var(--tf-surface);
+    --color-text: var(--tf-text);
+    --color-text-muted: var(--tf-text-muted);
+
+    /* Typography */
+    --tf-font-display: 'Orbitron', 'Courier New', monospace;
+    --tf-font-heading: 'Exo 2', 'Courier New', monospace;
+    --tf-font-body: 'IBM Plex Sans', 'Courier New', monospace;
+    --tf-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+    /* Spacing Scale */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.5rem;    /* 24px */
+    --space-6: 2rem;      /* 32px */
+    --space-7: 3rem;     /* 48px */
+    --space-8: 4rem;     /* 64px */
+    --space-9: 6rem;     /* 96px */
+    --space-10: 8rem;    /* 128px */
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+    --shadow-glow-primary: 0 0 20px rgba(6, 214, 160, 0.3);
+    --shadow-glow-accent: 0 0 20px rgba(239, 71, 111, 0.3);
+
+    /* Animation Timing */
+    --tf-pulse: 2.5s;
+    --tf-orbit: 20s;
+    --tf-terraform: 4s;
+    --tf-glow: 3s;
+
+    /* Layout */
+    --container-max: 1400px;
+    --container-padding: var(--space-5);
+}
+
+/* ===== BASE ELEMENT STYLES ===== */
+body {
+    font-family: var(--tf-font-body);
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    background-image:
+        radial-gradient(ellipse at 20% 80%, rgba(6, 214, 160, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(239, 71, 111, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(27, 153, 139, 0.05) 0%, transparent 70%);
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--tf-font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-text);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+h4 { font-size: 1.25rem; }
+
+p {
+    margin-bottom: var(--space-4);
+    max-width: 65ch;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--color-light);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+code {
+    font-family: var(--tf-font-mono);
+    font-size: 0.875em;
+    background-color: var(--color-surface);
+    padding: 0.125em 0.375em;
+    border-radius: var(--radius-sm);
+    color: var(--color-primary);
+}
+
+pre {
+    font-family: var(--tf-font-mono);
+    background-color: var(--color-surface);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    border: 1px solid rgba(6, 214, 160, 0.2);
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.875rem;
+}
+
+/* ===== SKIP LINK ===== */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--space-4);
+    z-index: 9999;
+    padding: var(--space-3) var(--space-5);
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: var(--space-4);
+}
+
+/* ===== FOCUS VISIBLE ===== */
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== SELECTION ===== */
+::selection {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
