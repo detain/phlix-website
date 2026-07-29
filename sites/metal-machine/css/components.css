@@ -1,0 +1,501 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Metal Machine
+   UI components: header, nav, buttons, badges, forms, cards.
+   Heavy metal aesthetics with chrome, iron, and flame accents.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ==========================================================================
+   Site Header
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+  height: var(--header-height);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+.nav-primary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-chrome);
+  cursor: pointer;
+  padding: var(--space-2);
+  margin-left: auto;
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-left: auto;
+}
+
+.nav-menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-menu a:hover {
+  color: var(--color-primary);
+  background: rgba(255, 0, 0, 0.1);
+}
+
+.nav-menu a[aria-current="page"] {
+  color: var(--color-secondary);
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--color-iron);
+    border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu a {
+    padding: var(--space-3) var(--space-4);
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Primary — Flame Red */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-red);
+}
+
+.btn-primary:hover {
+  background: #CC0000;
+  border-color: #CC0000;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary — Chrome/Silver */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-chrome);
+  border-color: var(--color-chrome);
+}
+
+.btn-secondary:hover {
+  background: var(--color-chrome);
+  color: var(--color-iron);
+}
+
+.btn-secondary:active {
+  background: #A0A0A0;
+  border-color: #A0A0A0;
+}
+
+/* Tertiary — Gold */
+.btn-tertiary {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-tertiary:hover {
+  background: var(--color-secondary);
+  color: var(--color-text-inverse);
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--color-primary);
+  background: rgba(255, 0, 0, 0.1);
+}
+
+/* Button Sizes */
+.btn--sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-xs);
+  min-height: 36px;
+}
+
+.btn--lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--fs-base);
+  min-height: 52px;
+}
+
+/* ==========================================================================
+   Logo
+   ========================================================================== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logo__mark {
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary);
+}
+
+.logo__text {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  color: var(--color-chrome);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.card {
+  background: var(--color-steel);
+  border: 1px solid rgba(192, 192, 192, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-red);
+}
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.card__content {
+  padding: var(--space-6);
+}
+
+.card__title {
+  font-size: var(--fs-xl);
+  color: var(--color-chrome);
+  margin-bottom: var(--space-3);
+}
+
+.card__text {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.card__footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid rgba(192, 192, 192, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-sm);
+  background: var(--color-steel-light);
+  color: var(--color-text);
+}
+
+.badge--primary {
+  background: rgba(255, 0, 0, 0.2);
+  color: var(--color-primary);
+}
+
+.badge--secondary {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--color-secondary);
+}
+
+.badge--success {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--color-success);
+}
+
+.badge--warning {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--color-warning);
+}
+
+/* ==========================================================================
+   Decorative Elements — Metal Machine Aesthetic
+   ========================================================================== */
+
+/* Iron texture line */
+.iron-line {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-chrome) 20%,
+    var(--color-chrome) 80%,
+    transparent
+  );
+  opacity: 0.3;
+}
+
+/* Flame accent */
+.flame-accent {
+  position: relative;
+}
+
+.flame-accent::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-primary)
+  );
+  border-radius: var(--radius-sm);
+}
+
+/* Chrome text */
+.text-chrome {
+  color: var(--color-chrome);
+  -webkit-text-stroke: 1px rgba(192, 192, 192, 0.3);
+}
+
+.text-flame {
+  color: var(--color-primary);
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.text-gold {
+  color: var(--color-secondary);
+}
+
+/* Glow effects */
+.glow-red {
+  box-shadow: var(--shadow-glow-red);
+}
+
+.glow-gold {
+  box-shadow: var(--shadow-glow-gold);
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-base);
+  color: var(--color-text);
+  background: var(--color-steel);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Responsive Utilities
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-pulse {
+    animation: none;
+  }
+}
