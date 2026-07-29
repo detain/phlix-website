@@ -1,0 +1,592 @@
+/* theme.css — RPG Inventory Brand Kit
+ * @copyright 2026 Phlix
+ * Typography, layout containers, page structure
+ */
+
+/* ============================================================
+   1. TYPOGRAPHY SCALE
+   ============================================================ */
+
+/* Display / Hero — Cinzel medieval serif */
+h1, .h1,
+.text-display {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+h2, .h2,
+.text-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-dim);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+h3, .h3,
+.text-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+}
+
+h4, .h4,
+.text-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Body text */
+p, .text-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* Lead / intro paragraph */
+.lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+}
+
+/* Eyebrow label */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: inline-block;
+  margin-bottom: var(--space-2);
+}
+
+/* ============================================================
+   2. LAYOUT CONTAINERS
+   ============================================================ */
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: var(--header-height);
+}
+
+/* Content sections */
+.content-section {
+  padding: var(--space-10) 0;
+}
+
+.content-section--tight {
+  padding: var(--space-6) 0;
+}
+
+.content-section--loose {
+  padding: var(--space-12) 0;
+}
+
+.content-section--alt {
+  background: var(--color-bg-elevated);
+}
+
+/* Max-width text container */
+.prose {
+  max-width: 72ch;
+}
+
+/* Grid layouts */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+.content-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.content-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.content-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+  .content-grid--2,
+  .content-grid--3,
+  .content-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   3. PAGE HEADER
+   ============================================================ */
+
+.page-header {
+  padding: var(--space-10) 0 var(--space-8);
+  text-align: center;
+  border-bottom: 2px solid var(--color-border);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(93, 58, 155, 0.2) 0%, transparent 70%),
+    var(--color-bg);
+  position: relative;
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-3);
+}
+
+.page-header .lead {
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-top: var(--space-2);
+}
+
+/* ============================================================
+   4. HERO SECTION
+   ============================================================ */
+
+.hero {
+  padding: var(--space-12) 0 var(--space-10);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  /* Treasure chest glow effect */
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(93, 58, 155, 0.2) 0%, transparent 60%),
+    var(--color-bg);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-3);
+}
+
+.hero__headline {
+  margin-bottom: var(--space-4);
+  max-width: 20ch;
+  margin-inline: auto;
+}
+
+.hero__subheadline {
+  font-size: 1.125rem;
+  max-width: 65ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__install {
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* Decorative border */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+/* ============================================================
+   5. PITCH SECTION
+   ============================================================ */
+
+.pitch {
+  padding: var(--space-8) 0;
+  background: var(--color-bg-elevated);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.pitch h2 {
+  text-align: center;
+  margin-bottom: var(--space-5);
+  color: var(--color-primary);
+}
+
+.pitch ul {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.pitch li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-health);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+}
+
+.pitch li:hover {
+  background: var(--color-bg-dark);
+  border-left-color: var(--color-primary);
+}
+
+.pitch li::before {
+  content: '⚔';
+  color: var(--color-primary);
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* ============================================================
+   6. FEATURES OVERVIEW (home)
+   ============================================================ */
+
+.features-overview {
+  padding: var(--space-10) 0;
+}
+
+.features-overview h2 {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.features-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.features-overview__more {
+  text-align: center;
+}
+
+/* ============================================================
+   7. CTA BANNER
+   ============================================================ */
+
+.cta-banner {
+  padding: var(--space-10) 0;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255, 215, 0, 0.1) 0%, transparent 60%),
+    var(--color-bg-elevated);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.cta-banner h2 {
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.cta-banner__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   8. CODE BLOCK
+   ============================================================ */
+
+.code-block {
+  background: var(--color-bg-dark);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: var(--space-4) 0;
+  box-shadow: var(--shadow-inset);
+}
+
+.code-block__header {
+  background: var(--color-accent-dim);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code-block__header::before {
+  content: '⬡';
+  font-size: 1rem;
+}
+
+.code-block__body {
+  padding: var(--space-3);
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code-block__body pre {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-health);
+  flex: 1;
+}
+
+.code-block__copy {
+  background: var(--color-border);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-light);
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.code-block__copy:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+/* ============================================================
+   9. SECTION DIVIDERS
+   ============================================================ */
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+}
+
+/* ============================================================
+   10. BADGES / TAGS
+   ============================================================ */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+}
+
+.badge--stable {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: var(--color-health);
+  color: var(--color-health);
+}
+
+.badge--beta {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.badge--deprecated {
+  background: rgba(107, 90, 127, 0.15);
+  border-color: var(--color-text-dim);
+  color: var(--color-text-dim);
+}
+
+/* ============================================================
+   11. ERROR PAGE
+   ============================================================ */
+
+.error-page {
+  min-height: calc(100vh - var(--header-height) - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) 0;
+}
+
+.error-page__inner {
+  text-align: center;
+  max-width: 500px;
+}
+
+.error-page__icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--space-4);
+  color: var(--color-primary);
+  opacity: 0.6;
+}
+
+.error-page__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.error-page__code {
+  font-family: var(--font-display);
+  font-size: 6rem;
+  color: var(--color-damage);
+  text-shadow: var(--shadow-glow-damage);
+  line-height: 1;
+  margin-bottom: var(--space-3);
+}
+
+.error-page__message {
+  font-size: 1.5rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.error-page__submessage {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.error-page__actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   12. HUB PAGE STYLES
+   ============================================================ */
+
+.hub-feature {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.hub-feature h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.hub-option {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hub-option h3 {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   13. DOC CARD
+   ============================================================ */
+
+.doc-card {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: all var(--transition-normal);
+}
+
+.doc-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.doc-card__title {
+  color: var(--color-primary);
+}
+
+.doc-card__body {
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+/* ============================================================
+   14. PHILOSOPHY & LICENSE BLOCKS
+   ============================================================ */
+
+.philosophy-block,
+.license-block {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  max-width: 800px;
+}
+
+.philosophy-block p,
+.license-block p {
+  margin-bottom: var(--space-3);
+}
+
+.philosophy-block p:last-child,
+.license-block p:last-child {
+  margin-bottom: 0;
+}
