@@ -231,18 +231,14 @@
       if (intensityToggle) intensityToggle.setAttribute('aria-pressed', 'false');
       if (calmToggleLink) calmToggleLink.setAttribute('aria-pressed', 'false');
     }
-    try {
-      localStorage.setItem('phlix-calm', active ? '1' : '0');
-    } catch (err) {}
+    localStorage.setItem('phlix-calm', active ? '1' : '0');
   }
 
   // Restore saved preference
-  try {
-    var savedCalm = localStorage.getItem('phlix-calm');
-    if (savedCalm === '1') {
-      applyCalmMode(true);
-    }
-  } catch (err) {}
+  var savedCalm = localStorage.getItem('phlix-calm');
+  if (savedCalm === '1') {
+    applyCalmMode(true);
+  }
 
   if (intensityToggle) {
     intensityToggle.addEventListener('click', function () {
@@ -310,11 +306,9 @@
   var mascot = document.getElementById('mascot-lily');
   if (mascot) {
     // Restore dismissal
-    try {
-      if (localStorage.getItem('phlix-lily-dismissed') === '1') {
-        mascot.classList.add('dismissed');
-      }
-    } catch (err) {}
+    if (localStorage.getItem('phlix-lily-dismissed') === '1') {
+      mascot.classList.add('dismissed');
+    }
 
     // Dismiss button
     var dismissBtn = mascot.querySelector('.mascot-dismiss');
@@ -322,9 +316,7 @@
       dismissBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         mascot.classList.add('dismissed');
-        try {
-          localStorage.setItem('phlix-lily-dismissed', '1');
-        } catch (err) {}
+        localStorage.setItem('phlix-lily-dismissed', '1');
       });
     }
 
