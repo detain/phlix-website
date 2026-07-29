@@ -1,75 +1,98 @@
-# Final Review — copper-steampunk Brand Kit Site
+# FINAL Review — copper-steampunk
 
-**Review date:** 2026-07-29
-**Outcome: NOT APPROVED** — One blocking defect found.
-
----
-
-## Previous Critical Defects — Status
-
-| # | Defect | Status |
-|---|--------|--------|
-| 1 | Nav only 6 items (missing Plugins, Docs) | ✅ **FIXED** — nav now has 8 items |
-| 2 | "5 native client platforms" — wrong count | ❌ **PARTIALLY FIXED** — index.html and download correct; three pages still say "Five" |
+**Date:** 2026-07-29
+**Status:** :x: **NOT APPROVED** — blocking issue found
 
 ---
 
-## User-Verified Checks
+## Verification Results
 
-| Check | Command | Result |
-|-------|---------|--------|
-| Nav has 8 items | `grep -c "Plugins\|Extensions" index.html` | ✅ Returns 2 (Plugins + Docs both present) |
-| No "5 native/client" string | `grep -r "5.*native\|5.*client\|5 Native"` | ✅ No matches (lowercase search misses "Five") |
-| Install command | Previous review confirmed | ✅ Correct at download.html:116-118 |
-| OG + Twitter meta | Manual inspection | ✅ All 10 pages have og: + twitter: tags |
+### 1. "Five" → "4 + DLNA" Fix :white_check_mark:
+```
+grep -ri "Five" sites/copper-steampunk/*.html | grep -i "client|native|platform"  → EXIT:1 (none)
+grep -ri "five" sites/copper-steampunk/*.html | grep -i "client|native|platform"  → EXIT:1 (none)
+```
+:heavy_check_mark: clients.html line 94: `4 + DLNA gallery walls`
+:heavy_check_mark: index.html line 357: `>4 + DLNA</strong>`
+
+### 2. Navigation Item Count :x:
+| Page | Nav Items | Status |
+|------|-----------|--------|
+| index.html | 8 | :heavy_check_mark: |
+| about.html | 8 | :heavy_check_mark: |
+| docs.html | 8 | :heavy_check_mark: |
+| plugins.html | 8 | :heavy_check_mark: |
+| clients.html | 7 | :warning: (missing aria-current on self-link) |
+| download.html | 7 | :warning: (missing aria-current on self-link) |
+| features.html | 7 | :warning: (missing aria-current on self-link) |
+| hub.html | 7 | :warning: (missing aria-current on self-link) |
+| **expedition-guide.html** | **6** | **:x: MISSING Plugins + Docs** |
+| 404.html | 0 | N/A (error page) |
+
+**Blocker:** expedition-guide.html nav only has 6 items. Missing:
+- `plugins.html`
+- `docs.html`
+
+### 3. Open Graph + Twitter Meta :white_check_mark:
+All 10 HTML pages have complete og: and twitter: meta tags.
+
+| Page | og: | twitter: |
+|------|-----|----------|
+| index.html | :heavy_check_mark: | :heavy_check_mark: |
+| clients.html | :heavy_check_mark: | :heavy_check_mark: |
+| download.html | :heavy_check_mark: | :heavy_check_mark: |
+| features.html | :heavy_check_mark: | :heavy_check_mark: |
+| expedition-guide.html | :heavy_check_mark: | :heavy_check_mark: |
+| about.html | :heavy_check_mark: | :heavy_check_mark: |
+| docs.html | :heavy_check_mark: | :heavy_check_mark: |
+| hub.html | :heavy_check_mark: | :heavy_check_mark: |
+| plugins.html | :heavy_check_mark: | :heavy_check_mark: |
+| 404.html | :heavy_check_mark: | :heavy_check_mark: |
+
+### 4. Install Command :white_check_mark:
+```bash
+curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash
+```
+Verified in:
+- index.html line 477-479
+- download.html line 117-119
+
+### 5. Google Fonts CDN :white_check_mark:
+```
+grep -ri "fonts.googleapis\|fonts.gstatic" → No files found
+```
+:heavy_check_mark: No external font CDN detected.
 
 ---
 
-## ❌ Blocking Defect — "Five" Still Present in 3 Locations
+## Summary Score
 
-The user's grep (`5.*native|5.*client|5 Native`) uses **lowercase "5"** — it misses the capitalized **"Five"** variant found in:
+| Check | Weight | Result |
+|-------|--------|--------|
+| "Five" fix | 20% | :heavy_check_mark: Pass |
+| Nav 8 items | 20% | :x: FAIL (expedition-guide.html: 6 items) |
+| OG+Twitter meta | 20% | :heavy_check_mark: Pass (all 10 pages) |
+| Install command | 20% | :heavy_check_mark: Pass |
+| No Google Fonts | 20% | :heavy_check_mark: Pass |
 
-| File | Line | Text |
-|------|------|------|
-| `clients.html` | 31 | `meta og:description: "Five native gallery walls: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."` |
-| `clients.html` | 42 | `meta twitter:description: "Five native gallery walls: Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device."` |
-| `clients.html` | 94 | Page lead: `Five gallery walls — pick your screens.` |
-| `expedition-guide.html` | 125 | Step text: `Roku, Samsung Tizen, Windows, Mobile (iOS + Android beta), or any DLNA device. Five` |
-
-Per `new_site.md` §16 and §19.14: **4 native clients** (Roku, Tizen, Windows, Mobile beta) **+ DLNA** (a protocol, not a client) = **4 + DLNA**. The word "Five" is factually incorrect in all 4 instances.
-
----
-
-## Dimension Scores (unchanged)
-
-| # | Dimension | Score | Status |
-|---|-----------|-------|--------|
-| 1 | Brand fidelity & spirit | 70 | ❌ |
-| 2 | SEO | 90 | ✅ |
-| 3 | Readability | 92 | ✅ |
-| 4 | Spelling & grammar | 95 | ✅ |
-| 5 | Usability | 88 | ⚠️ |
-| 6 | Accessibility (WCAG 2.2 AA) | 80 | ⚠️ |
-| 7 | Responsive (320→1920) | 85 | ⚠️ |
-| 8 | Performance (self-hosted fonts, no CDNs) | 95 | ✅ |
-| 9 | Content accuracy (install from content.json) | 70 | ❌ |
-| 10 | CTA / funnel | 90 | ✅ |
-| 11 | Social metadata (OG + Twitter) | 85 | ⚠️ |
-| 12 | Localization | 95 | ✅ |
-| 13 | Experience fidelity | 88 | ⚠️ |
-
-**Average (unweighted):** 86.4
+**Score: 80/100** — Below 90% threshold
 
 ---
 
-## Fix Required
+## Action Required
 
-Replace "Five" → "4 + DLNA" in:
-- `clients.html:31` — og:description meta tag
-- `clients.html:42` — twitter:description meta tag  
-- `clients.html:94` — page lead paragraph
-- `expedition-guide.html:125` — setup step text
+1. **Fix expedition-guide.html** — Add missing nav items:
+   ```html
+   <li><a href="plugins.html" data-emphasis="default">Plugins</a></li>
+   <li><a href="docs.html" data-emphasis="default">Docs</a></li>
+   ```
+
+2. Optionally add `aria-current="page"` to the self-link on each page's nav (cosmetic).
 
 ---
 
-*Review methodology: Same as REVIEW.md + user-supplied grep commands. Defect caught by manual inspection of grep output context (no regex match due to capital F in "Five").*
+## Decision
+
+:x: **NOT APPROVED** — expedition-guide.html nav is missing 2 items (Plugins, Docs).
+
+After fix, re-run final review.
