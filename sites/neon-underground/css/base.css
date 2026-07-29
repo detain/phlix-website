@@ -1,0 +1,243 @@
+/* ==========================================================================
+   BASE.CSS — neon-underground
+   Modern CSS reset, custom properties, base element styles.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* Box sizing and reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, li, dt, dd, a, span, code, kbd, samp, pre {
+    overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6, blockquote {
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
+/* Self-hosted fonts — no external CDN */
+@font-face {
+    font-family: 'Orbitron';
+    src: url('../../assets/fonts/orbitron-700-latin.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    src: url('../../assets/fonts/exo-2-400-latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../../assets/fonts/jetbrains-mono-500-latin.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    src: url('../../assets/fonts/fira-code-400-latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Custom Properties — Neon Underground Theme */
+:root {
+    /* Brand Colors */
+    --color-primary: #FF00FF;
+    --color-secondary: #00FF88;
+    --color-accent: #FFFF00;
+    --color-hot: #FF0080;
+    --color-bg: #0A0A0A;
+    --color-bg-surface: #141414;
+    --color-bg-elevated: #1E1E1E;
+    --color-text: #F0F0F0;
+    --color-text-muted: #A0A0A0;
+    
+    /* Spacing Scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    
+    /* Shadows with neon glow */
+    --shadow-sm: 0 0 10px rgba(255, 0, 255, 0.3);
+    --shadow-md: 0 0 20px rgba(255, 0, 255, 0.4);
+    --shadow-lg: 0 0 40px rgba(255, 0, 255, 0.5);
+    --shadow-glow-green: 0 0 20px rgba(0, 255, 136, 0.4);
+    --shadow-glow-yellow: 0 0 20px rgba(255, 255, 0, 0.4);
+    
+    /* Font Families — self-hosted */
+    --font-display: 'Orbitron', system-ui, sans-serif;
+    --font-body: 'Exo 2', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    
+    /* Font Sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+    --text-5xl: 3.5rem;
+    --text-6xl: 4.5rem;
+    
+    /* Layout */
+    --max-width: 1400px;
+    --header-height: 4rem;
+}
+
+/* Base element styles */
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    min-height: 100vh;
+}
+
+a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: var(--color-bg);
+    padding: var(--space-sm) var(--space-md);
+    font-weight: 700;
+    z-index: 9999;
+    border-radius: var(--radius-md);
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: var(--space-md);
+}
+
+/* Focus visible */
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+    background: var(--color-primary);
+    color: var(--color-bg);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-hot);
+}
+
+/* Utility classes */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--space-lg);
+}

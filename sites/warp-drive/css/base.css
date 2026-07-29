@@ -1,0 +1,265 @@
+/* @copyright 2026 Phlix – Warp-drive Brand Kit */
+/* base.css — CSS reset, design tokens, element defaults */
+
+/* ─── Modern Reset ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  hanging-punctuation: first last;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: anywhere;
+}
+
+/* ─── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Palette — warp-drive FTL theme */
+  --color-cyan:     #00F5FF;
+  --color-magenta:  #FF006E;
+  --color-purple:   #7B2CBF;
+  --color-black:    #000000;
+  --color-white:    #FFFFFF;
+
+  /* Semantic aliases */
+  --color-primary:   var(--color-cyan);
+  --color-accent:    var(--color-magenta);
+  --color-secondary: var(--color-purple);
+  --color-bg:        var(--color-black);
+  --color-surface:   #0a0a12;
+  --color-surface-2: #12121f;
+  --color-text:      var(--color-white);
+  --color-text-muted: #a8b4c0;
+  --color-border:    rgba(0, 245, 255, 0.18);
+
+  /* Spacing scale (rem) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Corner radius */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0, 245, 255, 0.08);
+  --shadow-md:  0 4px 16px rgba(0, 245, 255, 0.12);
+  --shadow-lg:  0 8px 32px rgba(0, 245, 255, 0.18);
+  --shadow-glow-cyan:    0 0 24px rgba(0, 245, 255, 0.4);
+  --shadow-glow-magenta: 0 0 24px rgba(255, 0, 110, 0.4);
+  --shadow-glow-purple:  0 0 24px rgba(123, 44, 191, 0.4);
+
+  /* Typography */
+  --font-display: 'Orbitron', 'Exo 2', 'Rajdhani', system-ui, sans-serif;
+  --font-ui:      'Exo 2', 'Rajdhani', system-ui, sans-serif;
+  --font-body:    'Exo 2', 'Rajdhani', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Type scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+  --text-7xl:  4.5rem;
+
+  /* Layout */
+  --max-width: 1400px;
+  --content-width: 1200px;
+  --narrow-width: 800px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Z-index scale */
+  --z-base:    1;
+  --z-above:   10;
+  --z-modal:    100;
+  --z-toast:   200;
+}
+
+/* ─── Base element styles ────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(123, 44, 191, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(0, 245, 255, 0.08) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+code {
+  background: var(--color-surface-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+pre {
+  background: var(--color-surface-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ─── Accessibility ─────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-black);
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-black);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-purple);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
