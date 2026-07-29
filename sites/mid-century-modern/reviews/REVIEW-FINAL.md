@@ -1,42 +1,52 @@
 # REVIEW-FINAL — mid-century-modern
 
 **Date:** 2026-07-29
-**Reviewer:** final-re-review
+**Result:** ❌ NOT APPROVED — 83% (5/6 checks pass)
+
+---
 
 ## Verification Results
 
 | Check | Status | Details |
 |-------|--------|---------|
-| No "5 native/client" text | :x: FAIL | "Five clients"/"Five spacecraft" still present (see below) |
-| twitter:creator=@detain on all 9 pages | :white_check_mark: PASS | All 9 pages verified |
-| All 9 pages have og:+twitter meta | :white_check_mark: PASS | 11 lines per page |
-| Install command correct | :white_check_mark: PASS | `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \| sudo bash` |
-| No Google Fonts CDN | :white_check_mark: PASS | 0 occurrences |
-
-## Issues Found
-
-### :x: "Five clients" / "Five spacecraft" NOT changed to "4 + DLNA"
-
-**index.html:**
-- Line: `Five clients ready for launch — Roku, Samsung Tizen, Windows, Mobile, or DLNA.`
-
-**clients.html:**
-- 3x meta description: `Five spacecraft ready for launch: Roku, Samsung Tizen, Windows desktop, React Native mobile, and any DLNA device.`
-- JSON-LD: `"Five clients for Roku, Samsung Tizen, Windows, Mobile, and any DLNA device."`
-- h1: `Five Clients.<br>No App Store Required.`
-
-**Expected:** Text should say "4 native clients + DLNA" not "Five clients/spacecraft"
+| No "Five clients"/"five clients" in HTML files | ✅ PASS | No matches in any `.html` files |
+| "4.*DLNA" or "4 Native" in clients.html | ❌ FAIL | Found "5 Total Clients" not "4 Native Clients + DLNA" — see issues below |
+| All 9 pages have twitter:creator | ✅ PASS | All pages verified: 404.html, about.html, clients.html, docs.html, download.html, features.html, hub.html, index.html, plugins.html |
+| All 9 pages have og:+twitter meta | ✅ PASS | All pages have complete Twitter Card meta (twitter:card, twitter:creator, twitter:title, twitter:description, twitter:image) |
+| Install command correct | ✅ PASS | `curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh \| sudo bash` |
+| No Google Fonts CDN | ✅ PASS | No Google Fonts references found |
 
 ---
 
-## Score
+## ❌ FAILED: "5 Total Clients" Still Present in clients.html
 
-| Metric | Value |
-|--------|-------|
-| Checks Passed | 4/5 |
-| Percentage | 80% |
-| Threshold | 90% |
+### Issues Found
 
-## Result
+| Location | Content | Required Change |
+|----------|---------|-----------------|
+| Line 9 (meta description) | `5 Total Clients: 4 Native (Roku, Samsung Tizen, Windows, Mobile) + DLNA` | Change to "4 Native Clients + DLNA" |
+| Line 15 (og:description) | `5 Total Clients: 4 Native (Roku, Samsung Tizen, Windows, Mobile) + DLNA` | Change to "4 Native Clients + DLNA" |
+| Line 24 (twitter:description) | `Five spacecraft ready for launch: Roku, Samsung Tizen, Windows desktop, React Native mobile, and any DLNA device.` | Change to "4 Native clients and DLNA ready to stream" |
+| Line 40 (JSON-LD description) | `5 Total Clients: 4 Native (Roku, Samsung Tizen, Windows, Mobile) + DLNA` | Change to "4 Native Clients + DLNA" |
+| Line 97 (h1) | `5 Total Clients.<br>4 Native + DLNA — No App Store Required.` | Change to "4 Native Clients + DLNA.<br>No App Store Required.` |
 
-**:x: NOT APPROVED** — "Five clients"/"Five spacecraft" text needs to be changed to "4 native clients + DLNA" in 2 files (index.html, clients.html). All other checks pass.
+### Required Changes
+
+1. **clients.html line 9**: `content="5 Total Clients: 4 Native (Roku, Samsung Tizen, Windows, Mobile) + DLNA. Pick yours and start streaming."`
+   → `content="4 Native Clients + DLNA. Pick yours and start streaming."`
+
+2. **clients.html line 15**: Same as above (og:description)
+
+3. **clients.html line 24**: `content="Five spacecraft ready for launch: Roku, Samsung Tizen, Windows desktop, React Native mobile, and any DLNA device."`
+   → `content="4 Native clients and DLNA ready to stream: Roku, Samsung Tizen, Windows desktop, React Native mobile, and any DLNA device."`
+
+4. **clients.html line 40**: `"description": "5 Total Clients: 4 Native (Roku, Samsung Tizen, Windows, Mobile) + DLNA."`
+   → `"description": "4 Native Clients + DLNA."`
+
+5. **clients.html line 97**: `<h1 ...>5 Total Clients.<br>4 Native + DLNA — No App Store Required.</h1>`
+   → `<h1 ...>4 Native Clients + DLNA.<br>No App Store Required.</h1>`
+
+---
+
+**Score: 83% (5/6)**
+**Status: ❌ NOT APPROVED** — clients.html meta tags and h1 still say "5 Total Clients" instead of "4 Native Clients + DLNA"
