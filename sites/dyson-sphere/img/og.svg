@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A0A00"/>
+      <stop offset="50%" style="stop-color:#2A0F00"/>
+      <stop offset="100%" style="stop-color:#1A0A00"/>
+    </linearGradient>
+    <linearGradient id="solarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB800"/>
+      <stop offset="50%" style="stop-color:#FF6B00"/>
+      <stop offset="100%" style="stop-color:#FF4500"/>
+    </linearGradient>
+    <radialGradient id="coronaGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF6B00;stop-opacity:0.4"/>
+      <stop offset="60%" style="stop-color:#8B0000;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#1A0A00;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Corona glow -->
+  <ellipse cx="600" cy="315" rx="500" ry="300" fill="url(#coronaGrad)"/>
+
+  <!-- Megastructure rings -->
+  <g transform="translate(600, 280)">
+    <ellipse cx="0" cy="0" rx="200" ry="70" fill="none" stroke="#FF6B00" stroke-width="2" opacity="0.3">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="0" cy="0" rx="160" ry="55" fill="none" stroke="#FFB800" stroke-width="1.5" opacity="0.25">
+      <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="45s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="0" cy="0" rx="120" ry="40" fill="none" stroke="#FF6B00" stroke-width="1" opacity="0.2">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="30s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <!-- Central star -->
+    <circle cx="0" cy="0" r="50" fill="url(#solarGrad)" filter="url(#glow)">
+      <animate attributeName="r" values="50;55;50" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="0" cy="0" r="30" fill="#FFB800" opacity="0.9"/>
+    <circle cx="0" cy="0" r="18" fill="#FFF5D0" opacity="0.6"/>
+  </g>
+
+  <!-- Energy tendrils -->
+  <g opacity="0.15">
+    <path d="M 600 280 Q 700 200 800 250" fill="none" stroke="#FFB800" stroke-width="2">
+      <animate attributeName="d" values="M 600 280 Q 700 200 800 250;M 600 280 Q 720 190 820 240;M 600 280 Q 700 200 800 250" dur="8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 600 280 Q 500 200 400 250" fill="none" stroke="#FF6B00" stroke-width="2">
+      <animate attributeName="d" values="M 600 280 Q 500 200 400 250;M 600 280 Q 480 190 380 240;M 600 280 Q 500 200 400 250" dur="10s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 600 280 Q 650 380 750 400" fill="none" stroke="#FF4500" stroke-width="1.5">
+      <animate attributeName="d" values="M 600 280 Q 650 380 750 400;M 600 280 Q 660 390 770 410;M 600 280 Q 650 380 750 400" dur="12s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="600" y="500" font-family="Orbitron, Rajdhani, system-ui, sans-serif" font-size="72" font-weight="700" fill="url(#solarGrad)" text-anchor="middle" letter-spacing="0.2em" filter="url(#textGlow)">PHLIX</text>
+
+  <!-- Tagline -->
+  <text x="600" y="550" font-family="Rajdhani, system-ui, sans-serif" font-size="24" fill="#FFB800" text-anchor="middle" letter-spacing="0.15em" opacity="0.8">YOUR MEDIA. YOUR LIBRARY. YOUR PHLIX.</text>
+</svg>

@@ -1,275 +1,176 @@
 /**
- * Dyson Sphere - Main JavaScript
- * Page initialization and interactions
+ * main.js — Dyson Sphere Brand Kit
+ * Mobile nav toggle, reduced motion, scroll reveals
  */
 
-/* global StellarEngine, PowerMeterController, WaveformController */
 (function() {
   'use strict';
-  
-  // DOM Ready
-  document.addEventListener('DOMContentLoaded', init);
-  
-  function init() {
-    // Initialize stellar engine
-    window.stellarEngine = new StellarEngine();
-    
-    // Initialize power meter
-    window.powerMeter = new PowerMeterController();
-    
-    // Initialize waveform
-    window.waveform = new WaveformController();
-    
-    // Start random solar flares
-    window.stellarEngine.startRandomFlares(6000);
-    
-    // Initialize navigation
-    initNavigation();
-    
-    // Initialize scroll effects
-    initScrollEffects();
-    
-    // Initialize contact form
-    initContactForm();
-    
-    // Initialize CTA button
-    initCTABtn();
-    
-    // Initialize intersection observer for animations
-    initIntersectionObserver();
-  }
-  
-  function initNavigation() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const nav = document.querySelector('.nav');
-    
-    if (!navToggle || !navLinks) return;
-    
-    navToggle.addEventListener('click', () => {
-      const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', !isExpanded);
-      navLinks.classList.toggle('active');
-      navToggle.classList.toggle('active');
+
+  // =====================================================================
+  // REDUCED MOTION CHECK
+  // =====================================================================
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // =====================================================================
+  // MOBILE NAV TOGGLE
+  // =====================================================================
+
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', function() {
+      const isOpen = navMenu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen.toString());
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-    
-    // Close menu on link click
-    navLinks.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+        navMenu.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
-        navLinks.classList.remove('active');
-        navToggle.classList.remove('active');
-      });
-    });
-    
-    // Add scrolled class to nav
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      
-      if (currentScroll > 100) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
+        document.body.style.overflow = '';
+        navToggle.focus();
       }
-      
-      lastScroll = currentScroll;
     });
-  }
-  
-  function initScrollEffects() {
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href === '#') return;
-        
-        e.preventDefault();
-        const target = document.querySelector(href);
-        
-        if (target) {
-          const navHeight = document.querySelector('.nav').offsetHeight;
-          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close on nav link click (accessibility)
+    navMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        navMenu.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
       });
     });
   }
-  
-  function initContactForm() {
-    const form = document.getElementById('contactForm');
-    if (!form) return;
-    
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const emailInput = document.getElementById('emailInput');
-      const email = emailInput.value.trim();
-      
-      if (!email) {
-        showFormMessage('Please enter your contact frequency', 'error');
-        return;
-      }
-      
-      if (!isValidEmail(email)) {
-        showFormMessage('Invalid contact frequency format', 'error');
-        return;
-      }
-      
-      // Simulate submission
-      showFormMessage('Transmitting to Dyson Sphere network...', 'success');
-      emailInput.value = '';
-      
-      // Trigger celebration flare
-      if (window.stellarEngine) {
-        const btn = document.getElementById('initiateBtn');
-        if (btn) {
-          const rect = btn.getBoundingClientRect();
-          window.stellarEngine.createSolarFlare(
-            rect.left + rect.width / 2,
-            rect.top + rect.height / 2,
-            1.5
-          );
-        }
-      }
-    });
-  }
-  
-  function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  }
-  
-  function showFormMessage(message, type) {
-    // Remove existing message
-    const existing = document.querySelector('.form-message');
-    if (existing) {
-      existing.remove();
-    }
-    
-    const messageEl = document.createElement('div');
-    messageEl.className = `form-message form-message-${type}`;
-    messageEl.textContent = message;
-    
-    const form = document.getElementById('contactForm');
-    form.appendChild(messageEl);
-    
-    // Auto-remove after delay
-    setTimeout(() => {
-      messageEl.remove();
-    }, 5000);
-  }
-  
-  function initCTABtn() {
-    const btn = document.getElementById('initiateBtn');
-    if (!btn) return;
-    
-    btn.addEventListener('click', function() {
-      // Trigger solar flare burst
-      if (window.stellarEngine) {
-        const rect = this.getBoundingClientRect();
-        
-        for (let i = 0; i < 5; i++) {
-          setTimeout(() => {
-            window.stellarEngine.createSolarFlare(
-              rect.left + Math.random() * rect.width,
-              rect.top + Math.random() * rect.height,
-              0.5 + Math.random() * 0.5
-            );
-          }, i * 150);
-        }
-      }
-      
-      // Scroll to contact form
-      const form = document.getElementById('contactForm');
-      if (form) {
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        const emailInput = document.getElementById('emailInput');
-        if (emailInput) {
-          setTimeout(() => emailInput.focus(), 500);
-        }
-      }
-    });
-  }
-  
-  function initIntersectionObserver() {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    if (prefersReducedMotion) {
-      // Show all elements immediately
-      document.querySelectorAll('[data-reveal]').forEach(el => {
-        el.classList.add('revealed');
-      });
-      return;
-    }
-    
-    const observerOptions = {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          
-          // Trigger solar flare on feature cards
-          if (entry.target.classList.contains('feature-card')) {
-            triggerFeatureFlare(entry.target);
+
+  // =====================================================================
+  // SCROLL REVEALS
+  // =====================================================================
+
+  if (!prefersReducedMotion) {
+    const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+
+    if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
           }
-          
-          // Unobserve after revealing
-          observer.unobserve(entry.target);
-        }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       });
-    }, observerOptions);
-    
-    // Observe all elements with data-reveal
-    document.querySelectorAll('[data-reveal]').forEach(el => {
-      observer.observe(el);
+
+      revealElements.forEach(function(el) {
+        revealObserver.observe(el);
+      });
+    }
+  } else {
+    // If reduced motion, show everything immediately
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
+      el.classList.add('visible');
     });
   }
-  
-  function triggerFeatureFlare(element) {
-    if (!window.stellarEngine) return;
-    
-    const rect = element.getBoundingClientRect();
-    
-    // Create multiple small flares
-    for (let i = 0; i < 3; i++) {
-      setTimeout(() => {
-        window.stellarEngine.createSolarFlare(
-          rect.left + Math.random() * rect.width,
-          rect.top + Math.random() * rect.height,
-          0.3
-        );
-      }, i * 100);
+
+  // =====================================================================
+  // STELLAR BACKGROUND PARTICLES (Hero only)
+  // =====================================================================
+
+  function createStellarParticles() {
+    const hero = document.querySelector('.hero');
+    if (!hero || prefersReducedMotion) return;
+
+    const particleCount = 30;
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'stellar-particles';
+    particleContainer.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+    hero.insertBefore(particleContainer, hero.firstChild);
+
+    const colors = ['#FFB800', '#FF6B00', '#FF4500', '#8B0000'];
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      const size = Math.random() * 3 + 1;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      particle.style.cssText = [
+        'position: absolute',
+        `width: ${size}px`,
+        `height: ${size}px`,
+        `background: ${color}`,
+        `border-radius: 50%`,
+        `left: ${Math.random() * 100}%`,
+        `top: ${Math.random() * 100}%`,
+        `opacity: ${Math.random() * 0.5 + 0.2}`,
+        `animation: stellarDrift ${Math.random() * 10 + 10}s ease-in-out infinite`,
+        `animation-delay: ${Math.random() * 5}s`
+      ].join(';');
+
+      particleContainer.appendChild(particle);
+    }
+
+    // Add keyframe dynamically if not present
+    if (!document.querySelector('#stellar-drift-keyframes')) {
+      const style = document.createElement('style');
+      style.id = 'stellar-drift-keyframes';
+      style.textContent = `
+        @keyframes stellarDrift {
+          0%, 100% { transform: translate(0, 0); }
+          25% { transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * -15 + 5}px); }
+          50% { transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * -10 + 3}px); }
+          75% { transform: translate(${Math.random() * -10 + 5}px, ${Math.random() * -15 + 5}px); }
+        }
+      `;
+      document.head.appendChild(style);
     }
   }
-  
-  // Performance: Pause animations when tab is not visible
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (window.stellarEngine) {
-        window.stellarEngine.stop();
-        window.stellarEngine.stopRandomFlares();
+
+  createStellarParticles();
+
+  // =====================================================================
+  // SMOOTH SCROLL FOR ANCHOR LINKS
+  // =====================================================================
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
       }
-    } else {
-      if (window.stellarEngine) {
-        window.stellarEngine.start();
-        window.stellarEngine.startRandomFlares(6000);
-      }
+    });
+  });
+
+  // =====================================================================
+  // ACTIVE NAV LINK
+  // =====================================================================
+
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-menu a').forEach(function(link) {
+    const href = link.getAttribute('href');
+    if (href === currentPage || (currentPage === '' && href === 'index.html') || (currentPage === 'index.html' && href === './')) {
+      link.setAttribute('aria-current', 'page');
     }
   });
-  
-  // Handle reduced motion preference changes
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  motionQuery.addEventListener('change', () => {
-    // Reload page for simplicity when motion preference changes
-    window.location.reload();
-  });
+
 })();
