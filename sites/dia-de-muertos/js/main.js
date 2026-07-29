@@ -149,7 +149,7 @@
     toggle.addEventListener('click', function () {
       const isReduced = toggle.getAttribute('aria-pressed') === 'true';
       const next = !isReduced;
-      toggle.setAttribute('aria-pressed', String(next));
+      toggle.setAttribute('aria-pressed', next ? 'true' : 'false');
       applyIntensityReduced(next);
       localStorage.setItem('phlix-intensity', next ? 'reduced' : 'full');
     });
