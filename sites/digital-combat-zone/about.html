@@ -7,8 +7,16 @@
     <meta name="description" content="The story of Phlix. A self-hosted media server built for those who demand more from their library." />
     <link rel="canonical" href="https://detain.github.io/phlix-website/digital-combat-zone/about.html" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
     <meta property="og:title" content="Combat Logs — Phlix" />
+    <meta property="og:description" content="The story of Phlix. A self-hosted media server built for those who demand more from their library." />
+    <meta property="og:url" content="https://detain.github.io/phlix-website/digital-combat-zone/about.html" />
+    <meta property="og:image" content="https://detain.github.io/phlix-website/digital-combat-zone/img/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Combat Logs — Phlix" />
+    <meta name="twitter:description" content="The story of Phlix. A self-hosted media server built for those who demand more from their library." />
+    <meta name="twitter:image" content="https://detain.github.io/phlix-website/digital-combat-zone/img/og.png" />
+    <meta name="twitter:creator" content="@detain" />
     <meta name="theme-color" content="#16213E" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="stylesheet" href="css/base.css" />
@@ -27,12 +35,14 @@
     <header class="site-header" role="banner">
       <div class="header-inner">
         <a href="index.html" class="site-wordmark" aria-label="Phlix — Home">Phlix</a>
-        <nav class="main-nav" aria-label="Primary navigation">
+        <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
           <ul role="list">
             <li><a href="index.html">The Arena</a></li>
             <li><a href="features.html" class="nav-primary">Evidence Files</a></li>
             <li><a href="clients.html">The Network</a></li>
             <li><a href="download.html" class="nav-primary">Get Access</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+            <li><a href="docs.html">Docs</a></li>
             <li><a href="hub.html">Reach Anywhere</a></li>
             <li><a href="about.html" class="nav-muted" aria-current="page">Combat Logs</a></li>
           </ul>
@@ -88,31 +98,45 @@
           <div class="faq-list reveal" style="margin-top: var(--space-8)">
             <div class="faq-item">
               <button class="faq-question" aria-expanded="false">
-                What makes Phlix different from Plex or Jellyfin?
+                Is Phlix like Plex / Jellyfin / Emby?
                 <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
               </button>
-              <div class="faq-answer">Phlix is PHP-based and designed for self-hosting with native clients for specific platforms. It focuses on SyncPlay, Live TV, and a hub that follows you anywhere. It's open source under MPL-2.0.</div>
+              <div class="faq-answer">Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman, ships with a versioned plugin contract, and includes a hub for accessing remote servers behind NAT without a third-party tunnel.</div>
             </div>
             <div class="faq-item">
               <button class="faq-question" aria-expanded="false">
-                Do I need a powerful server?
+                Do I need to expose my server to the internet?
                 <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
               </button>
-              <div class="faq-answer">Not particularly. A modest system with PHP 8.3+ and MySQL/MariaDB handles a large library. Transcoding is the heavy lifting — beefier hardware helps if you're transcoding 4K HDR to multiple devices.</div>
+              <div class="faq-answer">No. Run Phlix on your LAN and use the Phlix Hub's reverse-tunnel relay to reach it from your phone or Roku at a friend's house. You can self-host the hub, or use the public one.</div>
             </div>
             <div class="faq-item">
               <button class="faq-question" aria-expanded="false">
-                Is Phlix really free?
+                What formats are supported?
                 <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
               </button>
-              <div class="faq-answer">Yes. Phlix Server and all official clients are open source under MPL-2.0. You pay for your own hosting — no subscriptions, no licenses, no upsells.</div>
+              <div class="faq-answer">Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS otherwise. Per-device quality profiles pick the right bitrate automatically.</div>
             </div>
             <div class="faq-item">
               <button class="faq-question" aria-expanded="false">
-                Can I use Phlix with existing media libraries?
+                Is there a mobile app?
                 <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
               </button>
-              <div class="faq-answer">Phlix scans folders, reads metadata from TMDB/TVDB/Fanart.tv, and supports local NFO files. Point it at your existing library and it organizes automatically.</div>
+              <div class="faq-answer">Yes — React Native, available on iOS and Android. Currently in beta.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                Can I write plugins?
+                <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer">Yes. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. See phlix-plugin-example for the smallest working starter.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" aria-expanded="false">
+                What's the license?
+                <svg aria-hidden="true" focusable="false"><use href="#i-chevron-down" /></svg>
+              </button>
+              <div class="faq-answer">Phlix Server and the Hub are MPL-2.0 — open source, and you can build on them commercially. If you modify a Phlix file, that file stays open; anything you add alongside it is yours. The shared libraries, plugins, and clients are MIT so you can build on them freely.</div>
             </div>
           </div>
         </div>
