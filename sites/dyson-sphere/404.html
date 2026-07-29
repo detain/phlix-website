@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | Dyson Sphere - Signal Lost</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  
+  <div class="stellar-bg">
+    <div class="central-star">
+      <div class="star-core"></div>
+      <div class="star-corona"></div>
+      <div class="star-atmosphere"></div>
+    </div>
+    <div class="megastructure">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+    </div>
+  </div>
+  
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg class="nav-logo-icon" viewBox="0 0 40 40" width="40" height="40">
+          <circle cx="20" cy="20" r="10" fill="#FFB800"/>
+          <ellipse cx="20" cy="20" rx="18" ry="7" fill="none" stroke="#FF6B00" stroke-width="2" transform="rotate(-20 20 20)"/>
+          <ellipse cx="20" cy="20" rx="18" ry="7" fill="none" stroke="#FF4500" stroke-width="1.5" transform="rotate(40 20 20)"/>
+        </svg>
+        <span class="nav-logo-text">Dyson Sphere</span>
+      </a>
+    </div>
+  </nav>
+  
+  <main class="error-page">
+    <div class="error-content">
+      <div class="error-code">404</div>
+      <h1 class="error-title">Signal Lost</h1>
+      <p class="error-message">
+        The gravitational pull of a nearby black hole has disrupted 
+        our communication relays. Your request could not be routed 
+        through the megastructure network.
+      </p>
+      
+      <div class="error-stats">
+        <div class="stat">
+          <span class="stat-value" id="signalStrength">0</span>
+          <span class="stat-label">Signal Strength %</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="distance">--</span>
+          <span class="stat-label">Distance (light years)</span>
+        </div>
+      </div>
+      
+      <div class="error-actions">
+        <a href="index.html" class="btn btn-primary">
+          <span class="btn-text">Return to Base</span>
+        </a>
+        <button class="btn btn-secondary" id="retryBtn">
+          <span class="btn-text">Retry Connection</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate signal strength
+      let strength = 0;
+      const signalEl = document.getElementById('signalStrength');
+      const distanceEl = document.getElementById('distance');
+      
+      function updateSignal() {
+        strength = Math.min(100, strength + Math.random() * 5);
+        signalEl.textContent = Math.round(strength);
+        
+        if (strength < 100) {
+          setTimeout(updateSignal, 200);
+        }
+      }
+      
+      distanceEl.textContent = (Math.random() * 100 + 10).toFixed(1);
+      updateSignal();
+      
+      // Retry button
+      document.getElementById('retryBtn').addEventListener('click', () => {
+        strength = 0;
+        updateSignal();
+      });
+    });
+  </script>
+</body>
+</html>
