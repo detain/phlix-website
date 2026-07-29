@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Stellar Command - Take command of your streaming empire from the bridge of your starship. Navigate through content universes with precision navigation.">
+  <title>Stellar Command | Media Fleet Command Center</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Star field background -->
+  <div class="star-field" aria-hidden="true">
+    <canvas id="stars-canvas"></canvas>
+  </div>
+
+  <!-- Scan line overlay -->
+  <div class="scanline-overlay" aria-hidden="true"></div>
+
+  <!-- Main viewscreen container -->
+  <div class="viewscreen">
+    
+    <!-- Header / Bridge command bar -->
+    <header class="bridge-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,2 38,38 2,38" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="20" cy="22" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="20" cy="22" r="3" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>Stellar Command</h1>
+            <span class="tagline">Media Fleet Command Center</span>
+          </div>
+        </div>
+        
+        <nav class="main-nav" role="navigation">
+          <ul class="nav-list">
+            <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+              <span class="nav-icon">◈</span>
+              <span>Dashboard</span>
+            </a></li>
+            <li><a href="#channels" class="nav-link" data-section="channels">
+              <span class="nav-icon">◉</span>
+              <span>Channels</span>
+            </a></li>
+            <li><a href="#fleet" class="nav-link" data-section="fleet">
+              <span class="nav-icon">◎</span>
+              <span>Fleet Status</span>
+            </a></li>
+            <li><a href="#transmissions" class="nav-link" data-section="transmissions">
+              <span class="nav-icon">◐</span>
+              <span>Transmissions</span>
+            </a></li>
+            <li><a href="#reviews" class="nav-link" data-section="reviews">
+              <span class="nav-icon">◑</span>
+              <span>Reviews</span>
+            </a></li>
+          </ul>
+        </nav>
+
+        <div class="header-status">
+          <div class="status-indicator online">
+            <span class="beacon"></span>
+            <span class="status-text">Systems Online</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content / Bridge interior -->
+    <main class="bridge-main">
+      
+      <!-- Hero section / Main view screen -->
+      <section id="dashboard" class="section hero-section active">
+        <div class="viewscreen-frame">
+          <div class="viewscreen-content">
+            <div class="corner-bracket top-left"></div>
+            <div class="corner-bracket top-right"></div>
+            <div class="corner-bracket bottom-left"></div>
+            <div class="corner-bracket bottom-right"></div>
+            
+            <div class="hero-content">
+              <div class="hail-badge">
+                <span class="beacon-pulse"></span>
+                Incoming Transmission
+              </div>
+              
+              <h2 class="hero-title">
+                Command Your <span class="accent">Content Fleet</span>
+              </h2>
+              
+              <p class="hero-description">
+                Take the helm of your streaming empire. Navigate through content universes 
+                with starship-precision navigation. Every channel, every show, every moment — 
+                under your command.
+              </p>
+              
+              <div class="hero-actions">
+                <button class="btn btn-primary beam-up">
+                  <span class="btn-icon">⟶</span>
+                  Launch Command
+                </button>
+                <button class="btn btn-secondary">
+                  <span class="btn-icon">◈</span>
+                  View Fleet Status
+                </button>
+              </div>
+              
+              <div class="hero-stats">
+                <div class="stat-panel">
+                  <div class="stat-value" data-count="247">0</div>
+                  <div class="stat-label">Channels Online</div>
+                </div>
+                <div class="stat-panel">
+                  <div class="stat-value" data-count="18">0</div>
+                  <div class="stat-label">Fleets Managed</div>
+                </div>
+                <div class="stat-panel">
+                  <div class="stat-value" data-count="99.9">0</div>
+                  <div class="stat-suffix">%</div>
+                  <div class="stat-label">Uptime</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Channels section / Hailing frequencies -->
+      <section id="channels" class="section channels-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">◉</span>
+            Hailing Frequencies
+          </h2>
+          <p class="section-subtitle">Incoming transmissions from across the galaxy</p>
+        </div>
+        
+        <div class="channels-grid">
+          <article class="channel-card" data-channel="cnn">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status">
+                <span class="beacon small"></span>
+                Live
+              </div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">Federation News Network</h3>
+              <p class="channel-desc">Breaking news from the United Systems</p>
+              <div class="channel-meta">
+                <span class="meta-item">24/7 Broadcast</span>
+                <span class="meta-item">HD Quality</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+
+          <article class="channel-card" data-channel="espn">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status">
+                <span class="beacon small"></span>
+                Live
+              </div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">Sports Channel Nova</h3>
+              <p class="channel-desc">Galactic athletics and zero-g championships</p>
+              <div class="channel-meta">
+                <span class="meta-item">Live Events</span>
+                <span class="meta-item">4K Ultra</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+
+          <article class="channel-card" data-channel="hbo">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status offline">On Demand</div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">HoloEntertainment Grid</h3>
+              <p class="channel-desc">Premium holographic programming</p>
+              <div class="channel-meta">
+                <span class="meta-item">Original Series</span>
+                <span class="meta-item">Exclusive</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+
+          <article class="channel-card" data-channel="netflix">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status offline">On Demand</div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">Stream Nebula</h3>
+              <p class="channel-desc">Vast library of on-demand content</p>
+              <div class="channel-meta">
+                <span class="meta-item">10K+ Titles</span>
+                <span class="meta-item">4K HDR</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+
+          <article class="channel-card" data-channel="disney">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status">
+                <span class="beacon small"></span>
+                Live
+              </div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">Alliance Entertainment</h3>
+              <p class="channel-desc">Family programming across the colonies</p>
+              <div class="channel-meta">
+                <span class="meta-item">Family Friendly</span>
+                <span class="meta-item">Multiple Languages</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+
+          <article class="channel-card" data-channel="hulu">
+            <div class="channel-visual">
+              <div class="channel-wave"></div>
+              <div class="channel-status offline">On Demand</div>
+            </div>
+            <div class="channel-info">
+              <h3 class="channel-name">NextWave Broadcasting</h3>
+              <p class="channel-desc">Next-generation television</p>
+              <div class="channel-meta">
+                <span class="meta-item">Day-after replays</span>
+                <span class="meta-item">Ad-supported</span>
+              </div>
+            </div>
+            <button class="channel-tune">Tune In</button>
+          </article>
+        </div>
+      </section>
+
+      <!-- Fleet status section -->
+      <section id="fleet" class="section fleet-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">◎</span>
+            Fleet Status
+          </h2>
+          <p class="section-subtitle">Real-time monitoring of your media vessels</p>
+        </div>
+
+        <div class="fleet-dashboard">
+          <div class="fleet-overview">
+            <div class="fleet-stats">
+              <div class="fleet-stat-card">
+                <div class="stat-icon">◇</div>
+                <div class="stat-content">
+                  <div class="stat-number">12</div>
+                  <div class="stat-description">Ships Online</div>
+                </div>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 75%;"></div>
+                </div>
+              </div>
+              
+              <div class="fleet-stat-card">
+                <div class="stat-icon">◇</div>
+                <div class="stat-content">
+                  <div class="stat-number">4</div>
+                  <div class="stat-description">Ships Docked</div>
+                </div>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 25%;"></div>
+                </div>
+              </div>
+              
+              <div class="fleet-stat-card">
+                <div class="stat-icon">◇</div>
+                <div class="stat-content">
+                  <div class="stat-number">2</div>
+                  <div class="stat-description">In Transit</div>
+                </div>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 12%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fleet-table-container">
+            <table class="fleet-table">
+              <thead>
+                <tr>
+                  <th>Vessel ID</th>
+                  <th>Status</th>
+                  <th>Load</th>
+                  <th>Coordinates</th>
+                  <th>Power</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="vessel-row">
+                  <td class="vessel-id">SC-001</td>
+                  <td><span class="status-badge online">Online</span></td>
+                  <td class="vessel-load">87%</td>
+                  <td class="vessel-coords">127.4 | 342.1 | 88.9</td>
+                  <td class="vessel-power">
+                    <div class="power-indicator">
+                      <div class="power-level" style="width: 92%;"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="vessel-row">
+                  <td class="vessel-id">SC-002</td>
+                  <td><span class="status-badge online">Online</span></td>
+                  <td class="vessel-load">65%</td>
+                  <td class="vessel-coords">128.1 | 341.8 | 89.2</td>
+                  <td class="vessel-power">
+                    <div class="power-indicator">
+                      <div class="power-level" style="width: 78%;"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="vessel-row">
+                  <td class="vessel-id">SC-003</td>
+                  <td><span class="status-badge docked">Docked</span></td>
+                  <td class="vessel-load">0%</td>
+                  <td class="vessel-coords">—</td>
+                  <td class="vessel-power">
+                    <div class="power-indicator">
+                      <div class="power-level" style="width: 100%;"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="vessel-row">
+                  <td class="vessel-id">SC-004</td>
+                  <td><span class="status-badge transit">In Transit</span></td>
+                  <td class="vessel-load">45%</td>
+                  <td class="vessel-coords">131.2 | 340.5 | 87.8</td>
+                  <td class="vessel-power">
+                    <div class="power-indicator">
+                      <div class="power-level" style="width: 55%;"></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="vessel-row">
+                  <td class="vessel-id">SC-005</td>
+                  <td><span class="status-badge online">Online</span></td>
+                  <td class="vessel-load">91%</td>
+                  <td class="vessel-coords">126.9 | 343.2 | 90.1</td>
+                  <td class="vessel-power">
+                    <div class="power-indicator">
+                      <div class="power-level" style="width: 88%;"></div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transmissions section -->
+      <section id="transmissions" class="section transmissions-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">◐</span>
+            Incoming Transmissions
+          </h2>
+          <p class="section-subtitle">Latest broadcasts from your media fleet</p>
+        </div>
+
+        <div class="transmissions-list">
+          <article class="transmission-card">
+            <div class="transmission-time">
+              <span class="time-value">14:32</span>
+              <span class="time-zone">GST</span>
+            </div>
+            <div class="transmission-content">
+              <h3 class="transmission-title">Emergency Broadcast Alert</h3>
+              <p class="transmission-body">All vessels report status. Routine system check initiated across all media platforms.</p>
+              <div class="transmission-meta">
+                <span class="transmission-source">Command Bridge</span>
+                <span class="transmission-priority priority-high">HIGH</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="transmission-card">
+            <div class="transmission-time">
+              <span class="time-value">14:28</span>
+              <span class="time-zone">GST</span>
+            </div>
+            <div class="transmission-content">
+              <h3 class="transmission-title">Content Sync Complete</h3>
+              <p class="transmission-body">Media library synchronization across all channels completed successfully. 2,847 new items catalogued.</p>
+              <div class="transmission-meta">
+                <span class="transmission-source">Data Core</span>
+                <span class="transmission-priority priority-normal">NORMAL</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="transmission-card">
+            <div class="transmission-time">
+              <span class="time-value">14:15</span>
+              <span class="time-zone">GST</span>
+            </div>
+            <div class="transmission-content">
+              <h3 class="transmission-title">Fleet Course Correction</h3>
+              <p class="transmission-body">Navigation update received. All vessels adjusting heading to optimize content delivery routes.</p>
+              <div class="transmission-meta">
+                <span class="transmission-source">Nav Systems</span>
+                <span class="transmission-priority priority-normal">NORMAL</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="transmission-card">
+            <div class="transmission-time">
+              <span class="time-value">13:55</span>
+              <span class="time-zone">GST</span>
+            </div>
+            <div class="transmission-content">
+              <h3 class="transmission-title">Power Surge Detected</h3>
+              <p class="transmission-body">Minor power fluctuation in sector 7. Systems stabilized automatically. No service interruption.</p>
+              <div class="transmission-meta">
+                <span class="transmission-source">Engineering</span>
+                <span class="transmission-priority priority-low">LOW</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Reviews section -->
+      <section id="reviews" class="section reviews-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-icon">◑</span>
+            Command Crew Reviews
+          </h2>
+          <p class="section-subtitle">Testimonials from fleet commanders</p>
+        </div>
+
+        <div class="reviews-grid">
+          <article class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="20" cy="16" r="6" fill="currentColor"/>
+                  <path d="M8 36 C8 28 32 28 32 36" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="review-author">
+                <h4 class="author-name">Captain Reyes</h4>
+                <span class="author-title">Fleet Commander, Nebula Media</span>
+              </div>
+              <div class="review-rating">
+                <span class="stars">★★★★★</span>
+              </div>
+            </div>
+            <blockquote class="review-text">
+              "Stellar Command transformed how we manage our content fleet. It's like having a starship bridge for television. The precision and control are unmatched."
+            </blockquote>
+            <div class="review-footer">
+              <span class="review-date">Stardate 2024.142</span>
+              <a href="reviews/stellar-command/" class="review-link">Read Full Report →</a>
+            </div>
+          </article>
+
+          <article class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="20" cy="16" r="6" fill="currentColor"/>
+                  <path d="M8 36 C8 28 32 28 32 36" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="review-author">
+                <h4 class="author-name">Admiral Chen</h4>
+                <span class="author-title">Chief Operations, Orion Streaming</span>
+              </div>
+              <div class="review-rating">
+                <span class="stars">★★★★★</span>
+              </div>
+            </div>
+            <blockquote class="review-text">
+              "The hailing frequencies feature alone is worth the voyage. Our team feels like they're commanding a real starship. Highly recommend for any media operation."
+            </blockquote>
+            <div class="review-footer">
+              <span class="review-date">Stardate 2024.138</span>
+              <a href="reviews/stellar-command/" class="review-link">Read Full Report →</a>
+            </div>
+          </article>
+
+          <article class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="20" cy="16" r="6" fill="currentColor"/>
+                  <path d="M8 36 C8 28 32 28 32 36" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="review-author">
+                <h4 class="author-name">Commander Volkov</h4>
+                <span class="author-title">Director, Andromeda Networks</span>
+              </div>
+              <div class="review-rating">
+                <span class="stars">★★★★☆</span>
+              </div>
+            </div>
+            <blockquote class="review-text">
+              "Outstanding command interface. The fleet status monitoring alone saved us countless hours. The warp-speed transitions make navigation a pleasure."
+            </blockquote>
+            <div class="review-footer">
+              <span class="review-date">Stardate 2024.135</span>
+              <a href="reviews/stellar-command/" class="review-link">Read Full Report →</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="reviews-cta">
+          <a href="reviews/stellar-command/" class="btn btn-primary">View All Command Reports</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer / Engineering deck -->
+    <footer class="bridge-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <span class="logo-icon">◇</span>
+            <span class="logo-text">Stellar Command</span>
+          </div>
+          <p class="footer-desc">Commanding media fleets across the galaxy since the Digital Age.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#channels">Channels</a></li>
+            <li><a href="#fleet">Fleet Status</a></li>
+            <li><a href="#transmissions">Transmissions</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Systems</h4>
+          <ul class="footer-links">
+            <li><a href="#">Command Protocol</a></li>
+            <li><a href="#">Fleet Registry</a></li>
+            <li><a href="#">Engineering Bay</a></li>
+            <li><a href="#">Support Channel</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Status</h4>
+          <div class="system-status">
+            <div class="status-row">
+              <span class="status-label">Core Systems</span>
+              <span class="beacon small"></span>
+            </div>
+            <div class="status-row">
+              <span class="status-label">Navigation</span>
+              <span class="beacon small"></span>
+            </div>
+            <div class="status-row">
+              <span class="status-label">Communications</span>
+              <span class="beacon small"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          <span class="copyright-symbol">©</span> 2024 Stellar Command. All systems operational.
+        </div>
+        <div class="footer-version">
+          Bridge Software v3.7.2 | Build 2024.142.0
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Notification system -->
+  <div class="notification-container" id="notification-container"></div>
+
+  <script src="js/particles.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

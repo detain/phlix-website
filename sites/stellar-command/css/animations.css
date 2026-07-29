@@ -1,0 +1,356 @@
+/**
+ * Stellar Command - Animations
+ * Warp-speed blur, beam-up effects, console power-ups
+ */
+
+/* ============================================
+   Beacon Pulse
+   ============================================ */
+@keyframes beacon-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 8px currentColor;
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 4px currentColor;
+  }
+}
+
+/* ============================================
+   Warp Speed Effect
+   ============================================ */
+@keyframes warp-speed {
+  0% {
+    transform: scale(1) blur(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05) blur(2px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) blur(0);
+    opacity: 1;
+  }
+}
+
+.warp-effect {
+  animation: warp-speed var(--time-warp) ease-out;
+}
+
+/* ============================================
+   Beam Up Effect
+   ============================================ */
+@keyframes beam-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.beam-up {
+  animation: beam-up 0.8s ease-out;
+}
+
+/* ============================================
+   Console Power Up
+   ============================================ */
+@keyframes console-power-up {
+  0% {
+    box-shadow: 0 0 0 rgba(91, 192, 190, 0);
+    border-color: rgba(91, 192, 190, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(91, 192, 190, 0.6);
+    border-color: rgba(91, 192, 190, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(91, 192, 190, 0.3);
+    border-color: rgba(91, 192, 190, 0.5);
+  }
+}
+
+.console-power {
+  animation: console-power-up 0.6s ease-out;
+}
+
+/* ============================================
+   Scan Line Effect
+   ============================================ */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(91, 192, 190, 0.1),
+    transparent
+  );
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-reduce) {
+  .scanline {
+    display: block;
+  }
+}
+
+/* ============================================
+   Glow Pulse
+   ============================================ */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(91, 192, 190, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(91, 192, 190, 0.4);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Float Animation
+   ============================================ */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ============================================
+   Rotate
+   ============================================ */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 20s linear infinite;
+}
+
+/* ============================================
+   Warp Nacelle Glow
+   ============================================ */
+@keyframes nacelle-glow {
+  0%, 100% {
+    opacity: 0.6;
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(1px);
+  }
+}
+
+.nacelle-glow {
+  animation: nacelle-glow 1s ease-in-out infinite;
+}
+
+/* ============================================
+   Text Glow
+   ============================================ */
+@keyframes text-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(91, 192, 190, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(91, 192, 190, 0.8);
+  }
+}
+
+.text-glow {
+  animation: text-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Border Glow
+   ============================================ */
+@keyframes border-glow {
+  0%, 100% {
+    border-color: rgba(91, 192, 190, 0.3);
+  }
+  50% {
+    border-color: rgba(91, 192, 190, 0.7);
+  }
+}
+
+.border-glow {
+  animation: border-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Fade In Up
+   ============================================ */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+/* ============================================
+   Staggered Fade In
+   ============================================ */
+.stagger-fade > * {
+  opacity: 0;
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.stagger-fade > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-fade > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-fade > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-fade > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-fade > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-fade > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-fade > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-fade > *:nth-child(8) { animation-delay: 0.8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-fade > * {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Shake
+   ============================================ */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ============================================
+   Heartbeat
+   ============================================ */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  70% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   Star Twinkle
+   ============================================ */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Launch Effect
+   ============================================ */
+@keyframes launch {
+  0% {
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  30% {
+    transform: scale(0.95) translateY(5px);
+    filter: blur(1px);
+  }
+  100% {
+    transform: scale(1.1) translateY(-20px);
+    filter: blur(3px);
+    opacity: 0;
+  }
+}
+
+.launch {
+  animation: launch 1s ease-out forwards;
+}
+
+/* ============================================
+   Reduce Motion Preferences
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .warp-effect,
+  .beam-up,
+  .console-power,
+  .scanline,
+  .glow-pulse,
+  .float,
+  .rotate,
+  .nacelle-glow,
+  .text-glow,
+  .border-glow,
+  .fade-in-up,
+  .shake,
+  .heartbeat,
+  .twinkle,
+  .launch {
+    animation: none !important;
+  }
+}
