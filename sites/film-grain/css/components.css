@@ -1,0 +1,518 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Film Grain
+   Header, navigation, footer, and component-specific styles.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* ========================================
+   SITE HEADER
+   ======================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26, 21, 18, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
+}
+
+.site-header .site-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo:hover {
+  color: var(--color-primary);
+}
+
+.nav-logo img {
+  width: 120px;
+  height: auto;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  padding: var(--space-2);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.nav-toggle:hover {
+  background: var(--color-surface);
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: var(--space-1);
+}
+
+.nav-menu li {
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  text-decoration: none;
+}
+
+.nav-menu a:hover {
+  color: var(--color-primary);
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.nav-menu a[aria-current="page"] {
+  color: var(--color-primary);
+  background: rgba(212, 165, 116, 0.1);
+}
+
+/* ========================================
+   MOBILE NAVIGATION
+   ======================================== */
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 80vw;
+    background: var(--color-surface);
+    border-left: 1px solid var(--color-border);
+    flex-direction: column;
+    padding: var(--space-8) var(--space-5) var(--space-5);
+    gap: var(--space-2);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    z-index: 200;
+    overflow-y: auto;
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-menu a {
+    font-size: 1.125rem;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+    z-index: 150;
+  }
+
+  .nav-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* ========================================
+   SITE FOOTER
+   ======================================== */
+
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-9) var(--space-5) var(--space-7);
+}
+
+.footer-tagline {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-7);
+  max-width: none;
+}
+
+.footer-nav {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  margin-bottom: var(--space-7);
+}
+
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav h3 {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-4);
+}
+
+.footer-nav li {
+  margin-bottom: var(--space-2);
+}
+
+.footer-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer-nav a:hover {
+  color: var(--color-primary);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .footer-nav > ul {
+    text-align: center;
+  }
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-copy {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+  margin-bottom: 0;
+}
+
+/* ========================================
+   PHILOSOPHY / ABOUT SECTION
+   ======================================== */
+
+.philosophy-section {
+  padding: var(--space-9) var(--space-5);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.philosophy-section h2 {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.philosophy-content {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.philosophy-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.philosophy-block h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-3);
+  color: var(--color-primary);
+}
+
+.philosophy-block p {
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+  line-height: 1.7;
+}
+
+/* ========================================
+   HUB SECTION
+   ======================================== */
+
+.hub-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+.hub-feature {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.hub-feature h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2);
+}
+
+.hub-feature p {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin-bottom: 0;
+}
+
+/* ========================================
+   PLUGINS SECTION
+   ======================================== */
+
+.plugin-model {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  max-width: var(--content-width);
+  margin-inline: auto;
+  margin-bottom: var(--space-7);
+}
+
+.plugin-model h3 {
+  font-size: 1.375rem;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.plugin-model ul {
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.plugin-model li {
+  margin-bottom: var(--space-2);
+}
+
+/* ========================================
+   LICENSE CALLOUT
+   ======================================== */
+
+.license-callout {
+  background:
+    linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(212, 165, 116, 0.05) 100%);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+.license-callout h3 {
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+.license-callout p {
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+/* ========================================
+   404 PAGE
+   ======================================== */
+
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-9) var(--space-5);
+  position: relative;
+}
+
+.error-page::before {
+  content: '404';
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 25vw, 20rem);
+  font-weight: 700;
+  color: var(--color-surface);
+  z-index: 0;
+  opacity: 0.5;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+}
+
+.error-page-content {
+  position: relative;
+  z-index: 1;
+}
+
+.error-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: var(--space-4);
+}
+
+.error-page p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  max-width: 500px;
+}
+
+.error-recovery {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ========================================
+   ABOUT PAGE
+   ======================================== */
+
+.contributing-section {
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  max-width: var(--content-width);
+  margin-inline: auto;
+  margin-bottom: var(--space-7);
+}
+
+.contributing-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-3);
+  color: var(--color-primary);
+}
+
+.contributing-section p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.contributing-section .btn {
+  margin-top: var(--space-2);
+}
+
+/* ========================================
+   SERVERS / REQUIREMENTS BLOCK
+   ======================================== */
+
+.requirements-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-7);
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+.requirements-block h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+.requirements-block ul {
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.requirements-block li {
+  margin-bottom: var(--space-2);
+}
+
+/* ========================================
+   DECORATIVE ELEMENTS
+   ======================================== */
+
+/* Film sprocket decoration */
+.film-strip {
+  display: flex;
+  gap: var(--space-1);
+  justify-content: center;
+  padding: var(--space-4) 0;
+  opacity: 0.3;
+}
+
+.film-strip span {
+  width: 8px;
+  height: 8px;
+  background: var(--color-text-dim);
+  border-radius: 2px;
+}
+
+/* Divider */
+.section-divider {
+  width: 100%;
+  max-width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  margin: var(--space-7) auto;
+  border: none;
+}
+
+/* ========================================
+   SCROLL REVEAL ANIMATION
+   ======================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
