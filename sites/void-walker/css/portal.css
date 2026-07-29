@@ -1,0 +1,669 @@
+/**
+ * Void Walker - Portal & Void Aesthetics
+ * Dimensional membrane textures, portal swirls, rift effects
+ */
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES - VOID WALKER PALETTE
+   ========================================================================== */
+
+:root {
+  /* Core Palette */
+  --void-deep: #0A0A0F;
+  --void-deep-rgb: 10, 10, 15;
+  --dimensional-surface: #1A1A2E;
+  --shadow-purple: #2D2D44;
+  --void-membrane: #16162A;
+  --rift-violet: #6C63FF;
+  --rift-violet-rgb: 108, 99, 255;
+  --shadow-coral: #FF6B6B;
+  --membrane-white: #E8E8F0;
+  --membrane-edge: #2A2A40;
+
+  /* Semantic Colors */
+  --color-success: #4ADE80;
+  --color-warning: #FBBF24;
+  --color-error: #FF6B6B;
+  --color-info: #60A5FA;
+  --color-focus: #A78BFA;
+
+  /* Typography */
+  --font-headline: 'Orbitron', 'Exo 2', sans-serif;
+  --font-display: 'Exo 2', 'Orbitron', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-ui: 'Rajdhani', 'Exo 2', sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(var(--void-deep-rgb), 0.95);
+  --shadow-md: 0 4px 16px rgba(var(--void-deep-rgb), 0.97), 0 0 10px rgba(var(--rift-violet-rgb), 0.10);
+  --shadow-lg: 0 12px 40px rgba(var(--void-deep-rgb), 0.98), 0 0 24px rgba(var(--rift-violet-rgb), 0.15);
+  --shadow-portal: 0 0 16px rgba(var(--rift-violet-rgb), 0.45), 0 0 40px rgba(var(--rift-violet-rgb), 0.25);
+  --shadow-rift: 0 0 8px rgba(var(--rift-violet-rgb), 0.4), 0 0 20px rgba(var(--rift-violet-rgb), 0.2);
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-fast: 200ms var(--ease-smooth);
+  --transition-medium: 400ms var(--ease-smooth);
+  --transition-slow: 800ms var(--ease-smooth);
+}
+
+/* ==========================================================================
+   VOID BACKGROUND LAYER
+   ========================================================================== */
+
+.void-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--void-deep);
+  overflow: hidden;
+}
+
+.void-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(var(--rift-violet-rgb), 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(var(--rift-violet-rgb), 0.02) 0%, transparent 50%);
+  background-size: 100% 100%;
+}
+
+.void-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.void-depth-1 {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(var(--rift-violet-rgb), 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: void-pulse 8s ease-in-out infinite;
+}
+
+.void-depth-2 {
+  position: absolute;
+  bottom: -30%;
+  left: -15%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(var(--shadow-coral), 0.03) 0%, transparent 70%);
+  filter: blur(80px);
+  animation: void-pulse 12s ease-in-out infinite reverse;
+}
+
+@keyframes void-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ==========================================================================
+   FLOATING DEBRIS PARTICLES
+   ========================================================================== */
+
+.debris-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.debris-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--rift-violet);
+  border-radius: 50%;
+  opacity: 0.4;
+  box-shadow: 0 0 6px rgba(var(--rift-violet-rgb), 0.5);
+  animation: debris-orbit linear infinite;
+}
+
+.debris-particle:nth-child(odd) {
+  background: var(--membrane-white);
+  opacity: 0.2;
+  width: 2px;
+  height: 2px;
+}
+
+@keyframes debris-orbit {
+  0% {
+    transform: rotate(0deg) translateX(var(--orbit-radius, 100px)) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: rotate(360deg) translateX(var(--orbit-radius, 100px)) rotate(-360deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   DIMENSIONAL RIFT OVERLAY
+   ========================================================================== */
+
+.rift-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.rift-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(var(--rift-violet-rgb), 0.3), transparent);
+  animation: rift-glitch 4s ease-in-out infinite;
+}
+
+.rift-line-1 {
+  top: 15%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  animation-delay: 0s;
+}
+
+.rift-line-2 {
+  top: 45%;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  animation-delay: 1.5s;
+  opacity: 0.5;
+}
+
+.rift-line-3 {
+  top: 75%;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  animation-delay: 3s;
+}
+
+@keyframes rift-glitch {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleX(0.3);
+    filter: blur(0);
+  }
+  10% {
+    opacity: 0.6;
+    transform: scaleX(1);
+    filter: blur(1px);
+  }
+  20% {
+    opacity: 0;
+    transform: scaleX(0.5) translateX(20%);
+    filter: blur(2px);
+  }
+  30%, 90% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   SHADOW CREATURE
+   ========================================================================== */
+
+.shadow-creature {
+  position: fixed;
+  bottom: 10%;
+  left: 5%;
+  z-index: 3;
+  width: 120px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0.6;
+  animation: creature-drift 20s ease-in-out infinite;
+}
+
+.creature-body {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(var(--void-deep-rgb), 0.9) 0%, transparent 70%);
+  border-radius: 50% 50% 40% 40%;
+  filter: blur(2px);
+}
+
+.creature-eye {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--shadow-coral);
+  border-radius: 50%;
+  top: 35%;
+  box-shadow: 0 0 10px var(--shadow-coral), 0 0 20px rgba(255, 107, 107, 0.5);
+  animation: eye-glow 3s ease-in-out infinite;
+}
+
+.creature-eye.left {
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.creature-eye.right {
+  right: 30%;
+  animation-delay: 0.7s;
+}
+
+.creature-aura {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(ellipse at center, rgba(var(--shadow-coral), 0.1) 0%, transparent 70%);
+  animation: aura-pulse 4s ease-in-out infinite;
+}
+
+@keyframes creature-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  50% {
+    transform: translate(10px, -40px) scale(0.95);
+  }
+  75% {
+    transform: translate(-20px, -20px) scale(1.02);
+  }
+}
+
+@keyframes eye-glow {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 0 0 10px var(--shadow-coral), 0 0 20px rgba(255, 107, 107, 0.5);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--shadow-coral), 0 0 30px rgba(255, 107, 107, 0.7);
+  }
+}
+
+@keyframes aura-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* ==========================================================================
+   MAIN PORTAL ANIMATION
+   ========================================================================== */
+
+.main-portal {
+  position: fixed;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.portal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--rift-violet);
+}
+
+.portal-ring.outer {
+  inset: 0;
+  animation: portal-spin 20s linear infinite;
+}
+
+.portal-ring.middle {
+  inset: 30px;
+  border-width: 1px;
+  border-style: dashed;
+  animation: portal-spin 15s linear infinite reverse;
+}
+
+.portal-ring.inner {
+  inset: 60px;
+  border-width: 1px;
+  animation: portal-spin 10s linear infinite;
+}
+
+.portal-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, var(--rift-violet) 0%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: var(--shadow-portal);
+  animation: core-pulse 3s ease-in-out infinite;
+}
+
+.portal-swirl {
+  position: absolute;
+  inset: 80px;
+  background: conic-gradient(from 0deg, transparent, var(--rift-violet), transparent, rgba(var(--rift-violet-rgb), 0.3), transparent);
+  border-radius: 50%;
+  animation: portal-spin 8s linear infinite;
+  opacity: 0.5;
+  filter: blur(2px);
+}
+
+@keyframes portal-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes core-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  background: var(--rift-violet);
+  color: var(--membrane-white);
+  border-color: var(--rift-violet);
+  box-shadow: var(--shadow-portal);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(var(--rift-violet-rgb), 0.6), 0 0 48px rgba(var(--rift-violet-rgb), 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-focus);
+  border-color: var(--rift-violet);
+}
+
+.btn-secondary:hover {
+  background: rgba(var(--rift-violet-rgb), 0.1);
+  box-shadow: var(--shadow-rift);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--membrane-white);
+  border-color: var(--membrane-edge);
+}
+
+.btn-ghost:hover {
+  border-color: var(--rift-violet);
+  color: var(--rift-violet);
+}
+
+.btn-large {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1.05rem;
+}
+
+.btn-icon {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   CARDS
+   ========================================================================== */
+
+.feature-card {
+  background: var(--dimensional-surface);
+  border: 1px solid var(--membrane-edge);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-medium);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(var(--rift-violet-rgb), 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.feature-card:hover {
+  border-color: var(--rift-violet);
+  box-shadow: var(--shadow-portal);
+  transform: translateY(-4px);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  color: var(--rift-violet);
+  margin-bottom: var(--space-6);
+}
+
+.feature-title {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--membrane-white);
+  margin: 0 0 var(--space-3);
+  letter-spacing: 0.05em;
+}
+
+.feature-description {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(232, 232, 240, 0.7);
+  line-height: 1.7;
+  margin: 0 0 var(--space-4);
+}
+
+.feature-tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rift-violet);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(var(--rift-violet-rgb), 0.3);
+  border-radius: var(--radius-pill);
+}
+
+/* ==========================================================================
+   SECTION STRUCTURE
+   ========================================================================== */
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-16);
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rift-violet);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid rgba(var(--rift-violet-rgb), 0.3);
+  border-radius: var(--radius-pill);
+}
+
+.section-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: var(--membrane-white);
+  margin: 0 0 var(--space-6);
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+
+.section-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(232, 232, 240, 0.7);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ==========================================================================
+   FORM ELEMENTS
+   ========================================================================== */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  background: var(--dimensional-surface);
+  border: 1px solid var(--membrane-edge);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--membrane-white);
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--rift-violet);
+  box-shadow: 0 0 0 3px rgba(var(--rift-violet-rgb), 0.2), var(--shadow-rift);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(232, 232, 240, 0.4);
+}
+
+/* ==========================================================================
+   FOCUS STATES (ACCESSIBILITY)
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--rift-violet);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .void-depth-1,
+  .void-depth-2,
+  .rift-line,
+  .shadow-creature,
+  .main-portal {
+    animation: none !important;
+  }
+
+  .debris-particle {
+    animation: none !important;
+    opacity: 0.3;
+  }
+}
