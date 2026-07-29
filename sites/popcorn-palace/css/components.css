@@ -1,0 +1,465 @@
+/* ==========================================================================
+   COMPONENTS.CSS — Popcorn Palace
+   Header/nav, footer, buttons, cards, forms, badges, and interactive components.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Site Header & Navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(26, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity var(--duration-fast) var(--easing-deco);
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+  color: var(--color-primary);
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-logo__text {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-deco);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.nav-toggle__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.nav-menu__link {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: color var(--duration-fast) var(--easing-deco),
+              background-color var(--duration-fast) var(--easing-deco);
+}
+
+.nav-menu__link:hover {
+  color: var(--color-primary);
+  background-color: rgba(255, 215, 0, 0.08);
+}
+
+.nav-menu__link--primary {
+  color: var(--color-primary);
+}
+
+.nav-menu__link--muted {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.nav-menu__link[aria-current="page"] {
+  color: var(--color-primary);
+  background-color: rgba(255, 215, 0, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-deco);
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn--primary:hover {
+  background-color: #E6C200;
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(255, 215, 0, 0.1);
+  color: var(--color-primary);
+}
+
+.btn--large {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1rem;
+}
+
+.btn--small {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+}
+
+.btn--link {
+  background: none;
+  color: var(--color-primary);
+  padding: var(--space-1) 0;
+}
+
+.btn--link:hover {
+  text-decoration: underline;
+}
+
+.btn--small.btn--secondary {
+  padding: var(--space-2) var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Site Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-12);
+}
+
+.site-footer .container {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.footer-tagline {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+
+.footer-nav__column h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.footer-nav__column ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-nav__column a {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition: color var(--duration-fast) var(--easing-deco);
+}
+
+.footer-nav__column a:hover {
+  color: var(--color-primary);
+}
+
+.footer-copy {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   Details/Summary (FAQ)
+   -------------------------------------------------------------------------- */
+details.faq-item {
+  padding: 0;
+}
+
+details.faq-item summary {
+  display: block;
+  padding: var(--space-4) var(--space-6);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text);
+  list-style: none;
+  position: relative;
+  transition: background-color var(--duration-fast) var(--easing-deco);
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+details.faq-item summary::after {
+  content: '+';
+  position: absolute;
+  right: var(--space-6);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  transition: transform var(--duration-base) var(--easing-deco);
+}
+
+details.faq-item[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+details.faq-item summary:hover {
+  background-color: rgba(255, 215, 0, 0.05);
+}
+
+details.faq-item__answer {
+  padding: 0 var(--space-6) var(--space-6);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   Client Status Badges
+   -------------------------------------------------------------------------- */
+.client-status {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-sm);
+}
+
+.status-stable {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.status-beta {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+}
+
+.status-deprecated {
+  background-color: rgba(255, 82, 82, 0.2);
+  color: #FF5252;
+}
+
+/* --------------------------------------------------------------------------
+   404 Page
+   -------------------------------------------------------------------------- */
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.error-page__title {
+  font-size: clamp(4rem, 15vw, 10rem);
+  font-weight: 900;
+  color: var(--color-secondary);
+  line-height: 1;
+  margin-bottom: var(--space-4);
+  text-shadow: 0 0 60px rgba(139, 0, 0, 0.5);
+}
+
+.error-page__subtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.error-page__links {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Navigation
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+    padding: var(--space-16) var(--space-6) var(--space-6);
+    background-color: var(--color-bg);
+    border-left: 1px solid var(--color-border);
+    transform: translateX(100%);
+    transition: transform var(--duration-base) var(--easing-deco);
+    z-index: 200;
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-menu__link {
+    padding: var(--space-3) var(--space-4);
+    font-size: 1rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-nav__column ul {
+    align-items: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Marquee Lights Effect (Art Deco)
+   -------------------------------------------------------------------------- */
+.marquee-lights {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+.marquee-lights__bulb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  animation: bulb-glow 2s ease-in-out infinite;
+}
+
+.marquee-lights__bulb:nth-child(2) { animation-delay: 0.2s; }
+.marquee-lights__bulb:nth-child(3) { animation-delay: 0.4s; }
+.marquee-lights__bulb:nth-child(4) { animation-delay: 0.6s; }
+.marquee-lights__bulb:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes bulb-glow {
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 5px var(--color-primary); }
+  50% { opacity: 1; box-shadow: 0 0 15px var(--color-primary), 0 0 25px var(--color-marquee-glow); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-lights__bulb {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Reveal Animation
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-slow) var(--easing-deco),
+              transform var(--duration-slow) var(--easing-deco);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Utility Classes
+   -------------------------------------------------------------------------- */
+.text-center { text-align: center; }
+.text-primary { color: var(--color-primary); }
+.text-muted { color: var(--color-text-muted); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }

@@ -1,0 +1,649 @@
+/* ==========================================================================
+   THEME.CSS — Popcorn Palace
+   Typography scale, layout containers, page structure, grid systems.
+   @copyright 2026 Joe Huss <detain@interserver.net>
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Typography Scale
+   -------------------------------------------------------------------------- */
+h1,
+.h1 {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+h2,
+.h2 {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+}
+
+h3,
+.h3 {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+h4,
+.h4 {
+  font-family: var(--font-ui);
+  font-weight: var(--font-weight-ui);
+  font-size: 1.125rem;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+p {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  max-width: 70ch;
+}
+
+.lead {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-mono);
+}
+
+.number {
+  font-family: var(--font-number);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* --------------------------------------------------------------------------
+   Layout Containers
+   -------------------------------------------------------------------------- */
+.section {
+  padding-block: var(--space-16);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.container--narrow {
+  max-width: 800px;
+}
+
+/* --------------------------------------------------------------------------
+   Grid Systems — Using minmax(0, 1fr) per spec
+   -------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+  .grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-16);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-bg) 0%, #2A1515 50%, var(--color-bg) 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(139, 0, 0, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.hero__title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  margin-bottom: var(--space-6);
+  text-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  max-width: 65ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — Pitch
+   -------------------------------------------------------------------------- */
+.pitch {
+  padding-block: var(--space-16);
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.pitch h2 {
+  margin-bottom: var(--space-8);
+}
+
+.pitch ul {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: left;
+}
+
+.pitch li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.pitch li::before {
+  content: '★';
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — Features Overview
+   -------------------------------------------------------------------------- */
+.features-overview {
+  padding-block: var(--space-16);
+  text-align: center;
+}
+
+.features-overview h2 {
+  margin-bottom: var(--space-12);
+}
+
+.feature-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: left;
+  transition: transform var(--duration-base) var(--easing-deco),
+              box-shadow var(--duration-base) var(--easing-deco);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.feature-card__icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-card__title {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.feature-card__body {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — CTA Banner
+   -------------------------------------------------------------------------- */
+.cta-banner {
+  padding-block: var(--space-16);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, #5A0000 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-banner h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.cta-banner .btn {
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — Page Header
+   -------------------------------------------------------------------------- */
+.page-header {
+  padding-block: var(--space-16) var(--space-12);
+  text-align: center;
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-surface) 100%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header__title {
+  margin-bottom: var(--space-4);
+}
+
+.page-header__lead {
+  max-width: 60ch;
+  margin-inline: auto;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Page Structure — Content Sections
+   -------------------------------------------------------------------------- */
+.content-section {
+  padding-block: var(--space-12);
+}
+
+.content-section:nth-child(even) {
+  background-color: var(--color-surface);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-8);
+}
+
+/* --------------------------------------------------------------------------
+   Feature Detail
+   -------------------------------------------------------------------------- */
+.feature-detail {
+  padding: var(--space-8);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.feature-detail__icon {
+  width: 56px;
+  height: 56px;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.feature-detail h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Client Cards
+   -------------------------------------------------------------------------- */
+.client-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.client-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.client-card h2 {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.client-card__tagline {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-4);
+}
+
+.client-card ul {
+  margin-bottom: var(--space-4);
+}
+
+.client-card li {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding: var(--space-1) 0;
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.client-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Download Cards
+   -------------------------------------------------------------------------- */
+.download-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-6);
+}
+
+.download-card {
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.download-card__name {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+}
+
+.download-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Code Block
+   -------------------------------------------------------------------------- */
+.code-block {
+  background-color: #0D0D0D;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+  overflow-x: auto;
+}
+
+.code-block__label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  white-space: pre;
+}
+
+/* --------------------------------------------------------------------------
+   Hub Features
+   -------------------------------------------------------------------------- */
+.hub-feature {
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  border-left: 3px solid var(--color-primary);
+}
+
+.hub-feature__title {
+  font-size: 1.125rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.hub-feature__body {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   About Section
+   -------------------------------------------------------------------------- */
+.about-section {
+  padding-block: var(--space-12);
+}
+
+.about-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-6);
+}
+
+.about-section__body {
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ List
+   -------------------------------------------------------------------------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.faq-item {
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.faq-item__question {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.faq-item__answer {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.badge--stable {
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.badge--beta {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #FFC107;
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.badge--deprecated {
+  background-color: rgba(255, 82, 82, 0.15);
+  color: #FF5252;
+  border-color: rgba(255, 82, 82, 0.3);
+}
+
+.badge--default {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Marquee Decorations (Art Deco style)
+   -------------------------------------------------------------------------- */
+.deco-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primary) 20%, var(--color-primary) 80%, transparent 100%);
+  margin-block: var(--space-8);
+}
+
+.deco-border {
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+.deco-border::before,
+.deco-border::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-primary);
+}
+
+.deco-border::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.deco-border::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 70vh;
+    padding-block: var(--space-12);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section {
+    padding-block: var(--space-12);
+  }
+
+  .cta-banner {
+    padding-block: var(--space-12);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
