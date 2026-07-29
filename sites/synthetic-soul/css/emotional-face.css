@@ -1,0 +1,110 @@
+/* Synthetic Soul - Emotional Face Styles */
+
+.emotional-face {
+  position: relative;
+  filter: drop-shadow(0 0 30px rgba(78, 205, 196, 0.5));
+}
+
+.emotional-face-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotional-face-svg .face-base {
+  fill: none;
+  stroke: rgba(78, 205, 196, 0.2);
+  stroke-width: 2;
+}
+
+.emotional-face-svg .face-eye {
+  fill: var(--light);
+  transition: r 0.3s ease, transform 0.2s ease;
+  transform-origin: center;
+}
+
+.emotional-face-svg .face-pupil {
+  fill: var(--dark);
+  transition: cx 0.1s ease, cy 0.1s ease;
+}
+
+.emotional-face-svg .face-mouth {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: d 0.5s ease;
+}
+
+.emotional-face-svg .face-brow {
+  fill: none;
+  stroke: var(--secondary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: d 0.3s ease, transform 0.3s ease;
+}
+
+/* Glow filter definition is in SVG */
+.emotional-face-svg filter#faceGlow {
+  filter: url(#faceGlow);
+}
+
+/* Animation classes */
+.emotional-face.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.emotional-face.animate-glow {
+  animation: faceGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes faceGlow {
+  0% {
+    filter: drop-shadow(0 0 20px rgba(78, 205, 196, 0.4));
+  }
+  100% {
+    filter: drop-shadow(0 0 40px rgba(78, 205, 196, 0.8));
+  }
+}
+
+/* Expression modifiers */
+.emotional-face[data-expression="neutral"] .face-eye { r: 15; }
+.emotional-face[data-expression="curious"] .face-eye { r: 18; }
+.emotional-face[data-expression="happy"] .face-eye { r: 12; }
+.emotional-face[data-expression="concerned"] .face-eye { r: 16; }
+.emotional-face[data-expression="thoughtful"] .face-eye { r: 14; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .emotional-face,
+  .emotional-face-svg .face-eye {
+    animation: none;
+  }
+  
+  .emotional-face-svg .face-eye {
+    transition: none;
+  }
+  
+  .emotional-face-svg .face-mouth {
+    transition: none;
+  }
+  
+  .emotional-face-svg .face-brow {
+    transition: none;
+  }
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+  .emotional-face {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .emotional-face {
+    width: 120px;
+    height: 120px;
+  }
+}

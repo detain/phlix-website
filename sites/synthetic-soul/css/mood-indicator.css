@@ -1,0 +1,124 @@
+/* Synthetic Soul - Mood Indicator Styles */
+
+.mood-indicator {
+  --mood-color: #4ECDC4;
+}
+
+.mood-indicator .mood-face {
+  position: relative;
+}
+
+.mood-face-svg {
+  overflow: visible;
+}
+
+.mood-face-svg .mood-eye {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.mood-face-svg .mood-mouth {
+  transition: d 0.5s ease;
+}
+
+.mood-face-svg .mood-brow {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.mood-pulse {
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, var(--mood-color) 0%, transparent 70%);
+  opacity: 0.2;
+  animation: moodGlow 2s ease-in-out infinite;
+}
+
+@keyframes moodGlow {
+  0%, 100% { opacity: 0.1; transform: scale(0.9); }
+  50% { opacity: 0.3; transform: scale(1.1); }
+}
+
+.pulse-svg {
+  position: relative;
+  z-index: 1;
+}
+
+.pulse-svg .pulse-path {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 0;
+  animation: pulsePath 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsePath {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -60; }
+}
+
+.mood-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--mood-color);
+  transition: color 0.5s ease;
+}
+
+/* Mood state colors */
+.mood-indicator[data-mood="calm"] { --mood-color: #4ECDC4; }
+.mood-indicator[data-mood="engaged"] { --mood-color: #FFE66D; }
+.mood-indicator[data-mood="excited"] { --mood-color: #FF6B6B; }
+.mood-indicator[data-mood="contemplative"] { --mood-color: #C7F9CC; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mood-indicator {
+    top: auto;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.75rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .mood-face {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .mood-pulse {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .mood-label {
+    font-size: 0.625rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mood-face-svg .mood-eye,
+  .mood-face-svg .mood-brow {
+    animation: none;
+    transition: none;
+  }
+  
+  .mood-pulse::before {
+    animation: none;
+  }
+  
+  .pulse-svg .pulse-path {
+    animation: none;
+  }
+  
+  .mood-label {
+    transition: none;
+  }
+}
