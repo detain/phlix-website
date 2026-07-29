@@ -1,0 +1,65 @@
+# BUILD_LOG.md — Vinyl Vault
+
+## Build Summary
+
+Created complete brand kit site for **vinyl-vault** theme.
+
+## Files Generated
+
+### HTML Pages (9)
+- `index.html` — Home page with hero, pitch, features overview, CTA
+- `features.html` — All 8 features with detail cards
+- `clients.html` — 4 native clients + DLNA
+- `download.html` — Server install + client downloads + ecosystem
+- `plugins.html` — Plugin model + ecosystem
+- `docs.html` — Documentation links
+- `hub.html` — Phlix Hub information
+- `about.html` — Philosophy + FAQ (6 items)
+- `404.html` — Custom 404 page
+
+### CSS (3)
+- `css/base.css` — Reset, design tokens, base elements, focus/motion
+- `css/theme.css` — Typography, layout, page structure
+- `css/components.css` — Buttons, navigation, cards, badges, responsive
+
+### JavaScript (1)
+- `js/main.js` — Mobile nav, reduced motion, scroll reveals, active nav
+
+### Images (2)
+- `img/logo.svg` — Vinyl record logo with Phlix wordmark
+- `img/favicon.svg` — Minimal vinyl record favicon
+
+### Documentation (2)
+- `SITE.md` — Concept, color palette, typography, spatial system
+- `BUILD_LOG.md` — This file
+
+### Config (2)
+- `robots.txt` — Allow all except 404.html
+- `sitemap.xml` — All 8 canonical pages
+
+## Compliance Checklist
+
+- [x] Install command in hero CTA section of index.html
+- [x] Install command in download.html hero block
+- [x] License: MPL-2.0 (server/hub), MIT (clients/plugins)
+- [x] 4 native clients + DLNA (Roku, Samsung Tizen, Windows, Mobile, DLNA)
+- [x] 8 features from content.json
+- [x] 6 FAQ items from content.json
+- [x] Footer: 3 columns + "Open-source media, on your terms."
+- [x] No Google Fonts CDN — self-hosted fonts
+- [x] CSS `@copyright` in all CSS files
+- [x] Grid uses `minmax(0, 1fr)`
+- [x] All pages: OG + Twitter meta + twitter:creator=@detain
+- [x] Absolute URLs for og:image and canonical
+
+## Intentional Deviations
+
+- None. All content follows new_site.md specification.
+
+## Known Follow-ups
+
+- `og.png` needs to be generated via: `node tools/gen-og.mjs --site vinyl-vault`
+
+## Build Date
+
+2026-07-29
