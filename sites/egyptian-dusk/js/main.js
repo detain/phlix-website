@@ -456,8 +456,8 @@
         '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">' +
         '<ellipse cx="16" cy="20" rx="8" ry="5" fill="#D4A520" opacity="0.6"/>' +
         '<circle cx="16" cy="16" r="6" fill="#D4A520" opacity="0.5"/>' +
-        '<ellipse cx="10" cy="16" rx="4" ry="2" fill="#1A4890" opacity="0.5"/>' +
-        '<ellipse cx="22" cy="16" rx="4" ry="2" fill="#1A4890" opacity="0.5"/>' +
+        '<ellipse cx="10" cy="16" rx="4" ry="2" fill="#0D2B5E" opacity="0.5"/>' +
+        '<ellipse cx="22" cy="16" rx="4" ry="2" fill="#0D2B5E" opacity="0.5"/>' +
         '<circle cx="16" cy="16" r="3" fill="#D4A520"/>' +
         '</svg>';
       document.body.appendChild(div);
