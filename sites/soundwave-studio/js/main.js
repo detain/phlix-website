@@ -207,7 +207,7 @@
             if (entry.isIntersecting) {
               const tip = tips.find(t => entry.target.closest(t.selector));
               if (tip) {
-                setTimeout(() => showMascotBubble(tip.text), 1500);
+                setTimeout(() => window.showMascotBubble(tip.text), 1500);
                 tipObserver.unobserve(entry.target);
               }
             }
@@ -256,7 +256,7 @@
 
     for (const variant of variants) {
       const { start, end } = variant.activeRange;
-      let active = false;
+      let active;
 
       if (start <= end) {
         active = monthDay >= start && monthDay <= end;

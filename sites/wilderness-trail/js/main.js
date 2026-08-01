@@ -75,7 +75,7 @@
       document.documentElement.dataset.intensity = dim ? 'dim' : 'full';
       try {
         localStorage.setItem('wt-intensity', dim ? 'dim' : 'full');
-      } catch (_) {}
+      } catch (_) { /* intentionally empty — localStorage unavailable */ }
     });
   }
 
@@ -87,7 +87,7 @@
         document.documentElement.dataset.season = stored;
         return;
       }
-    } catch (_) {}
+    } catch (_) { /* intentionally empty — localStorage unavailable */ }
 
     const month = new Date().getMonth() + 1; // 1-12
     let season = null;
@@ -116,7 +116,7 @@
   try {
     var ms = JSON.parse(localStorage.getItem('wt-mascot'));
     if (ms && ms.dismissed) mascotState.dismissed = true;
-  } catch (_) {}
+  } catch (_) { /* intentionally empty — localStorage unavailable */ }
 
   var mascotEl    = document.querySelector('.mascot');
   var mascotClose = document.querySelector('.mascot__close');
@@ -152,7 +152,7 @@
     mascotClose.addEventListener('click', function (e) {
       e.stopPropagation();
       mascotState.dismissed = true;
-      try { localStorage.setItem('wt-mascot', JSON.stringify({ dismissed: true })); } catch (_) {}
+      try { localStorage.setItem('wt-mascot', JSON.stringify({ dismissed: true })); } catch (_) { /* intentionally empty */ }
       if (mascotEl) mascotEl.style.display = 'none';
     });
   }
@@ -262,7 +262,7 @@
     ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); } catch (_) {}
+    try { document.execCommand('copy'); } catch (_) { /* intentionally empty — execCommand may fail */ }
     document.body.removeChild(ta);
     var orig = btn.textContent;
     btn.textContent = 'Copied!';

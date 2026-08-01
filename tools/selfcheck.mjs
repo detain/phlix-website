@@ -213,7 +213,8 @@ function checkSite(slug) {
     if (narr) {
       const ids = [...narr[1].matchAll(/\bid:\s*["']([^"']+)["']/g)].map((m) => m[1]);
       const home = readFileSync(join(dir, 'index.html'), 'utf8');
-      const seen = ids.filter((id) => new RegExp(`id=["']${id}["']`).test(home));
+      const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const seen = ids.filter((id) => new RegExp(`id=["']${escapeRegex(id)}["']`).test(home));
       const absent = ids.filter((id) => !seen.includes(id));
       if (absent.length) fail(`index.html missing narrative section id(s): ${absent.join(', ')}`);
       const positions = seen.map((id) => home.indexOf(`id="${id}"`));

@@ -3,27 +3,42 @@
 [![Pages](https://github.com/detain/phlix-website/actions/workflows/pages.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/pages.yml)
 [![Lint](https://github.com/detain/phlix-website/actions/workflows/lint.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/lint.yml)
 [![Link Check](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml)
+[![Lighthouse](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml)
 
 The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native clients for Roku, Samsung Tizen, Windows, and Mobile.
 
-This repo ships **five concurrent design variants**, one per brand-identity concept in `phlix-server/docs/brand/`. Each variant lives in its own subtree under `variants/` and consumes the same shared content from `shared/content.json`, so they differ in visual language only.
+This repo ships **one brand-themed site per brand kit**: every kit in `brand-kits/<slug>.js` gets its own subtree under `sites/<slug>/` and consumes the same shared content from `shared/content.json`, so they differ in visual language only. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
 
-| # | Variant | Brand kit | Vibe | Live Preview |
-|---|---------|-----------|------|-------------|
-| 01 | [`minimalist-cinema-1`](variants/01-minimalist-cinema-1/) | Minimalist Cinema V1 (Ultra-Minimal) | Ultra-minimal, electric blue, single-column | https://detain.github.io/phlix-website/01-minimalist-cinema-1/ |
-| 02 | [`spotlight-projector-1`](variants/02-spotlight-projector-1/) | Projector Beam | Cinematic, premium, gold + black | https://detain.github.io/phlix-website/02-spotlight-projector-1/ |
-| 03 | [`retro-film-reel-1`](variants/03-retro-film-reel-1/) | Film Reel Badge | Nostalgic, friendly, red + cream + teal — Classic Diner | https://detain.github.io/phlix-website/03-retro-film-reel-1/ |
-| 04 | [`portal-hub-1`](variants/04-portal-hub-1/) | Portal Ring | Futuristic, glassmorphic, neon cyan + magenta | https://detain.github.io/phlix-website/04-portal-hub-1/ |
-| 05 | [`05-pixel-tech-1`](variants/05-pixel-tech-1/) | Pixel→Smooth | Cyberpunk, developer-energy, neon green + black | https://detain.github.io/phlix-website/05-pixel-tech-1/ |
+| Site | Brand kit | Live Preview |
+|------|-----------|-------------|
+| [`stellar-command`](sites/stellar-command/) | `brand-kits/stellar-command.js` | https://detain.github.io/phlix-website/stellar-command/ |
+| [`storm-chaser`](sites/storm-chaser/) | `brand-kits/storm-chaser.js` | https://detain.github.io/phlix-website/storm-chaser/ |
+| [`swiss-modernist`](sites/swiss-modernist/) | `brand-kits/swiss-modernist.js` | https://detain.github.io/phlix-website/swiss-modernist/ |
+| [`terraform`](sites/terraform/) | `brand-kits/terraform.js` | https://detain.github.io/phlix-website/terraform/ |
+| [`velocity-x`](sites/velocity-x/) | `brand-kits/velocity-x.js` | https://detain.github.io/phlix-website/velocity-x/ |
+| [`void-walker`](sites/void-walker/) | `brand-kits/void-walker.js` | https://detain.github.io/phlix-website/void-walker/ |
+
+Every other kit follows the same pattern — `brand-kits/` holds the full set, `sites/` holds the ones already built, and `npm run build` publishes `dist/<slug>/` for each kit that has a site plus a top-level gallery.
 
 ## Quick start
 
 ```bash
 npm install
-npm run dev:01     # preview the minimalist-cinema variant at http://localhost:5173
-npm run preview    # serve all five side-by-side at http://localhost:5174/<variant>/
-npm run build      # produce static dist/ with all variants under dist/<variant>/
-npm run test       # lint + link check
+npm run dev                                       # every site at http://localhost:5173/<slug>/
+node tools/dev-server.mjs --site abstract-canvas  # serve a single site
+npm run preview                                   # kit index + all sites at http://localhost:5174/
+npm run build                                     # static dist/ with each site under dist/<slug>/
+npm run test                                      # unit tests + lint + link check + meta audit
+```
+
+Per-site checks used while authoring, reviewing, or fixing a site:
+
+```bash
+npm run lint                                       # htmlhint + stylelint + eslint
+npm run a11y                                       # pa11y-ci sweep
+npm run meta                                       # per-page SEO / social meta audit
+node tools/kit-brief.mjs --site <slug>             # everything an authoring agent needs, in one call
+node tools/render-check.mjs --site <slug> --shots  # real-browser render defects + PNGs
 ```
 
 No PHP, no backend — the site is pure static HTML/CSS/JS. The Phlix server itself lives in [`detain/phlix-server`](https://github.com/detain/phlix-server).
@@ -32,11 +47,12 @@ No PHP, no backend — the site is pure static HTML/CSS/JS. The Phlix server its
 
 ```
 phlix-website/
+├── brand-kits/<slug>.js      one brand kit per site: palette, type, motion, voice
 ├── shared/
 │   ├── content.json          single source of marketing copy
-│   ├── data/                 client list, FAQ, feature matrix
-│   └── assets/               brand-neutral icons, screenshots
-├── variants/<NN>-<slug>/
+│   ├── data/                 brand-kits.json, font-sources.json
+│   └── assets/fonts/         vendored OFL font families + OFL.txt
+├── sites/<slug>/
 │   ├── index.html
 │   ├── features.html
 │   ├── clients.html
@@ -44,17 +60,34 @@ phlix-website/
 │   ├── plugins.html
 │   ├── docs.html             link-out + summary
 │   ├── about.html
+│   ├── hub.html
+│   ├── 404.html
+│   ├── SITE.md               kit brief the site was built from
+│   ├── BUILD_LOG.md
+│   ├── robots.txt
+│   ├── sitemap.xml
 │   ├── css/
 │   ├── js/
-│   └── img/                  variant-specific brand artwork
-├── reviews/<NN>-<slug>/      review outputs (one md file per dimension)
+│   ├── img/                  site-specific brand artwork
+│   └── reviews/
+├── reviews/<slug>/           review outputs (one md file per dimension)
+├── tools/                    dev-server, build, lint, a11y, og, sitemap, kit-brief
+├── new_site.md               brand-agnostic rulebook: what a site must contain
+├── orchestrator_prompt.md    agent pipeline driver (spawns author/review/fix workers)
+├── new_site_prompt.md        author-worker prompt
+├── regen_site_prompt.md      regenerate an existing site against its kit's experience schema
+├── review_site_prompt.md     review-worker prompt
+├── fix_site_prompt.md        fix-worker prompt
 ├── docs/
 │   ├── PLAN.md               full architecture + agent pipeline
+│   ├── AGENT_CONTRACTS.md    worker input/output contracts
+│   ├── REVIEW_RUBRICS.md     scoring rubric per review dimension
 │   └── HANDOFF_PROMPT.md     paste-into-fresh-session kickoff prompt
 └── .github/workflows/
-    ├── pages.yml             deploy variants to GH Pages
+    ├── pages.yml             deploy sites to GH Pages
     ├── lint.yml              html/css/js + a11y
-    └── linkcheck.yml         broken-link sweep
+    ├── linkcheck.yml         broken-link sweep
+    └── lighthouse.yml        Lighthouse CI budgets
 ```
 
 ## Brand source of truth
@@ -62,15 +95,16 @@ phlix-website/
 Brand kits, taglines, and prompt language live in
 [`phlix-server/docs/brand/`](https://github.com/detain/phlix-server/tree/master/docs/brand):
 `brand_identity.md`, `logo_concepts.md`, `dash_ui_prompts.md`, `svg_prompts.md`.
-Variants must consume those — do not invent new colors, fonts, or voice.
+Sites must consume those plus their own `brand-kits/<slug>.js` — do not invent
+new colors, fonts, or voice.
 
 ## Image generation
 
-No AI image-generation model is currently wired in. SVG and CSS-only artwork is preferred; placeholder images live in `shared/assets/placeholders/` and should be swapped for real renders later. Each variant's `img/` folder includes a `PROMPTS.md` with the exact SVG/Midjourney/DALL·E prompt that should produce the artwork once a model is available.
+No AI image-generation model is currently wired in. SVG and CSS-only artwork is preferred. Each site's `img/` folder includes a `PROMPTS.md` with the exact SVG/Midjourney/DALL·E prompt that should produce the artwork once a model is available.
 
 ## Variant Scores (Wave Review Summary)
 
-All 25 variants scored on 10 dimensions: Accessibility, Branding, Content Quality, CTA Funnel, Localization, Performance, Responsive, SEO, Social Metadata, Usability.
+Historical — scores for the legacy `variants/` tree (removed 2026-06-30). All 25 variants scored on 10 dimensions: Accessibility, Branding, Content Quality, CTA Funnel, Localization, Performance, Responsive, SEO, Social Metadata, Usability.
 
 | Variant | Wave 1 (Final) | Wave 2 | Wave 3 | Wave 4 | Wave 5 | Avg |
 |---------|----------------|--------|--------|--------|--------|-----|
@@ -109,7 +143,7 @@ bump all three packages together.
 ### eslint config
 
 `eslint.config.js` (flat config; `js.configs.recommended` +
-`globals.browser`) runs zero-warning on every variant in `variants/`.
+`globals.browser`) runs zero-warning on every site in `sites/`.
 Unused parameters are silenced via the standard
 `argsIgnorePattern: '^_'` convention — prefix any deliberately-unused
 parameter with `_` rather than disabling the rule inline.
@@ -132,8 +166,12 @@ This repository's own contents are MIT. The fonts vendored under
 Font License 1.1 and are redistributed under its terms, which require their
 copyright notices to travel with them. Those are in
 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), with the licence text bundled
-beside the fonts at `shared/assets/fonts/OFL.txt`. Regenerate both with
-`node tools/gen-font-notices.mjs` after adding a family.
+beside the fonts at `shared/assets/fonts/OFL.txt`. Regenerate both after adding
+a family:
+
+```bash
+node tools/gen-font-notices.mjs
+```
 
 Note that the **sites** this repo builds describe Phlix the software, which is
 licensed separately: Phlix Server and the Hub are MPL-2.0, and the shared
