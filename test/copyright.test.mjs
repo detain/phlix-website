@@ -80,6 +80,7 @@ import assert from 'node:assert/strict';
 import {
   injectCssComment,
   prependCssComment,
+  injectJsDocblock,
   prependJsDocblock,
   COPYRIGHT,
   MARKER,
@@ -325,6 +326,159 @@ describe('injectCssComment (CSS copyright injection)', () => {
 
     assert.equal(process_(input), null);
     assert.equal(injectCssComment(input), null);
+  });
+});
+
+describe('injectJsDocblock (JS docblock injection)', () => {
+  // Basic case: inject copyright into existing docblock
+  it('injects copyright into a simple docblock', () => {
+    const input = [
+      '/**',
+      ' * @module kit',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    const result = injectJsDocblock(input);
+    assert.ok(result !== null);
+    assert.ok(result.includes(COPYRIGHT));
+    assert.ok(result.includes('@module kit'));
+    assert.ok(result.includes('export const kit = {};'));
+  });
+
+  // With shebang: finds docblock after the shebang
+  it('finds docblock after shebang line', () => {
+    const input = [
+      '#!/usr/bin/env node',
+      '/**',
+      ' * @module kit',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    const result = injectJsDocblock(input);
+    assert.ok(result !== null);
+    assert.ok(result.includes(COPYRIGHT));
+    // Shebang should still be at start
+    assert.ok(result.startsWith('#!/usr/bin/env node'));
+    // Docblock and content should follow
+    assert.ok(result.includes('export const kit = {};'));
+  });
+
+  // No docblock at start (after optional shebang)
+  it('returns null when no docblock at file start', () => {
+    const input = [
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    assert.equal(injectJsDocblock(input), null);
+  });
+
+  // Unterminated docblock
+  it('returns null for unterminated docblock', () => {
+    const input = [
+      '/**',
+      ' * @module kit',
+      // no closing */
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    assert.equal(injectJsDocblock(input), null);
+  });
+
+  // Already has copyright marker
+  it('returns null when file already has copyright', () => {
+    const input = [
+      '/**',
+      ' * @module kit',
+      ' * @copyright 2026 Joe Huss <detain@interserver.net>',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    assert.equal(injectJsDocblock(input), null);
+  });
+
+  // Empty file
+  it('returns null for empty content', () => {
+    assert.equal(injectJsDocblock(''), null);
+  });
+
+  // Only shebang, no docblock
+  it('returns null for file with only shebang', () => {
+    const input = '#!/usr/bin/env node\n';
+    assert.equal(injectJsDocblock(input), null);
+  });
+
+  // Insertion point: after last content line, before @lines
+  it('inserts after last content line, before @lines', () => {
+    const input = [
+      '/**',
+      ' * @module kit',
+      ' * Some description text that is content',
+      ' * @author Joe',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    const result = injectJsDocblock(input);
+    assert.ok(result !== null);
+
+    const lines = result.split('\n');
+    const copyIdx = lines.findIndex((l) => l.includes('@copyright'));
+    const authorIdx = lines.findIndex((l) => l.includes('@author'));
+
+    // Copyright should be before @author line
+    assert.ok(copyIdx < authorIdx, 'copyright should come before @author');
+    assert.ok(copyIdx > 0);
+  });
+
+  // Insertion point: at docStart+1 when first line after opener is content
+  it('inserts at docStart+1 for minimal docblock', () => {
+    const input = [
+      '/**',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    const result = injectJsDocblock(input);
+    assert.ok(result !== null);
+
+    const lines = result.split('\n');
+    const copyIdx = lines.findIndex((l) => l.includes('@copyright'));
+
+    // insertAfter = docStart + 1 = 1, so splice at insertAfter + 1 = 2
+    assert.equal(copyIdx, 2);
+  });
+
+  // Idempotency: second call returns null
+  it('is idempotent: calling twice returns null second time', () => {
+    const input = [
+      '/**',
+      ' * @module kit',
+      ' */',
+      '',
+      'export const kit = {};',
+      '',
+    ].join('\n');
+
+    const first = injectJsDocblock(input);
+    assert.ok(first !== null);
+
+    const second = injectJsDocblock(first);
+    assert.equal(second, null);
   });
 });
 
