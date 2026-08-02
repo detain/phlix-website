@@ -102,8 +102,8 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -159,10 +159,9 @@
 
     blocks.forEach(function (block, i) {
       // Offset animation start for staggered effect
-      block.style.animationDelay = (i * 0.2) + 's';
+      block.style.animationDelay = i * 0.2 + 's';
     });
   }
 
   initTetrisAnimation();
-
 })();

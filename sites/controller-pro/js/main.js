@@ -39,21 +39,26 @@
 
   // Scroll reveal — only when motion is allowed
   if (!prefersReducedMotion) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .ecosystem-item, .info-block');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .ecosystem-item, .info-block',
+    );
 
     if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px',
+        },
+      );
 
       revealElements.forEach(function (el) {
         el.style.opacity = '0';
@@ -79,5 +84,4 @@
       }
     });
   });
-
 })();

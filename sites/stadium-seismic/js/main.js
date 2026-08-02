@@ -57,7 +57,7 @@
   // =================================================================
   if (!prefersReducedMotion.matches) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .hub-section, .plugin-model'
+      '.feature-card, .client-card, .download-card, .hub-section, .plugin-model',
     );
 
     if (revealElements.length > 0 && 'IntersectionObserver' in window) {
@@ -72,8 +72,8 @@
         },
         {
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
       revealElements.forEach(function (el) {
@@ -113,10 +113,9 @@
       if (target) {
         e.preventDefault();
         target.scrollIntoView({
-          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth'
+          behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
         });
       }
     });
   });
-
 })();

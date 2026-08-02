@@ -53,20 +53,25 @@
      Scroll Reveals (IntersectionObserver)
      ----------------------------------------------------------------------- */
   if (!prefersReducedMotion.matches) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
     if ('IntersectionObserver' in window && revealElements.length > 0) {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px',
+        },
+      );
 
       revealElements.forEach(function (el) {
         el.style.opacity = '0';
@@ -79,10 +84,9 @@
       var revealCSS = document.createElement('style');
       revealCSS.textContent = [
         '.is-revealed { opacity: 1 !important; transform: translateY(0) !important; }',
-        '.reduce-motion .is-revealed { transition: none !important; }'
+        '.reduce-motion .is-revealed { transition: none !important; }',
       ].join('\n');
       document.head.appendChild(revealCSS);
     }
   }
-
 })();

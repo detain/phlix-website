@@ -1,168 +1,265 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub — Phlix</title>
-  <meta name="description" content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports.">
-  <meta name="keywords" content="phlix hub, phlix remote access, NAT traversal, reverse tunnel, media server remote">
-  <link rel="canonical" href="https://detain.github.io/phlix-website/acoustic-nights/hub.html">
-  <meta name="theme-color" content="#D4A574">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hub — Phlix</title>
+    <meta
+      name="description"
+      content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports."
+    />
+    <meta
+      name="keywords"
+      content="phlix hub, phlix remote access, NAT traversal, reverse tunnel, media server remote"
+    />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/acoustic-nights/hub.html" />
+    <meta name="theme-color" content="#D4A574" />
 
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Phlix">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/acoustic-nights/hub.html">
-  <meta property="og:title" content="Hub — Phlix">
-  <meta property="og:description" content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports.">
-  <meta property="og:image" content="https://detain.github.io/phlix-website/acoustic-nights/img/og.png">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/acoustic-nights/hub.html"
+    />
+    <meta property="og:title" content="Hub — Phlix" />
+    <meta
+      property="og:description"
+      content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/acoustic-nights/img/og.png"
+    />
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Hub — Phlix">
-  <meta name="twitter:description" content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports.">
-  <meta name="twitter:image" content="https://detain.github.io/phlix-website/acoustic-nights/img/og.png">
-  <meta name="twitter:creator" content="@detain">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hub — Phlix" />
+    <meta
+      name="twitter:description"
+      content="Phlix Hub: reverse-tunnel relay for accessing your media server from anywhere. Self-hostable or use the public hub. NAT traversal without opening ports."
+    />
+    <meta
+      name="twitter:image"
+      content="https://detain.github.io/phlix-website/acoustic-nights/img/og.png"
+    />
+    <meta name="twitter:creator" content="@detain" />
 
-  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/components.css">
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <header class="site-header" role="banner">
-    <nav class="nav-primary" aria-label="Primary navigation">
-      <a class="nav-logo" href="./" aria-label="Phlix home"><img src="img/logo.svg" alt="Phlix logo" width="120" height="40"></a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <ul class="nav-menu" id="nav-menu" role="list" hidden>
-        <li><a href="./">Home</a></li>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="clients.html">Clients</a></li>
-        <li><a href="download.html">Download</a></li>
-        <li><a href="plugins.html">Plugins</a></li>
-        <li><a href="docs.html">Docs</a></li>
-        <li><a href="hub.html" aria-current="page">Hub</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="main-content" tabindex="-1">
-    <section class="page-header">
-      <div class="container">
-        <h1>Phlix Hub</h1>
-        <p class="lead">Sign in once. Access any of your servers from anywhere — without opening a port.</p>
-      </div>
-    </section>
-
-    <section class="content-section">
-      <div class="container container-narrow">
-        <h2>What the Hub does</h2>
-        <p>Most home networks sit behind Carrier-Grade NAT or a router that won't forward ports. Phlix Hub solves this with a reverse-tunnel relay: your server reaches out to the Hub, the Hub keeps that connection open, and your clients connect to the Hub to reach your server.</p>
-        <p style="margin-top: 1rem;">No port forwarding. No dynamic DNS. No third-party tunnel service. Just your server, a Hub, and your media.</p>
-
-        <h3 style="margin-top: 2rem;">How it works</h3>
-        <ul style="margin: 1rem 0 1rem 1.5rem; color: var(--color-text-muted);">
-          <li style="list-style: disc; margin-bottom: 0.5rem;"><strong>Your server</strong> opens a persistent outbound connection to the Hub</li>
-          <li style="list-style: disc; margin-bottom: 0.5rem;"><strong>The Hub</strong> assigns a unique address to your server and keeps a mapping</li>
-          <li style="list-style: disc; margin-bottom: 0.5rem;"><strong>Your clients</strong> connect to the Hub, which proxies traffic to your server through the tunnel</li>
-          <li style="list-style: disc;"><strong>Encryption</strong> is end-to-end — the Hub sees only encrypted traffic</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="content-section" style="background: linear-gradient(180deg, transparent, rgba(212, 165, 116, 0.04), transparent);">
-      <div class="container container-narrow">
-        <h2>Self-host or use the public hub</h2>
-
-        <div class="content-grid" style="margin-top: 2rem;">
-          <article class="feature-detail">
-            <svg class="feature-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="2" y1="12" x2="22" y2="12"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
-            <h2>Public Hub</h2>
-            <p>The hosted option. Zero configuration — point your server at <code>hub.phlix.io</code>, sign in, and go. No server of your own to maintain.</p>
-          </article>
-
-          <article class="feature-detail">
-            <svg class="feature-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-              <line x1="6" y1="6" x2="6.01" y2="6"/>
-              <line x1="6" y1="18" x2="6.01" y2="18"/>
-            </svg>
-            <h2>Self-hosted</h2>
-            <p>Run the Hub on your own VPS. Full control, your own user management, and your traffic never touches a third-party server. See <a href="https://github.com/detain/phlix-hub" style="color: var(--color-primary);">phlix-hub on GitHub</a>.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="content-section">
-      <div class="container container-narrow">
-        <h2>Hub mode in clients</h2>
-        <p>Every Phlix client supports Hub mode — a dropdown that shows all servers associated with your Hub account. Select one, and the client connects through the Hub's relay, no matter where in the world you are.</p>
-
-        <ul style="margin: 1.5rem 0 1.5rem 1.5rem; color: var(--color-text-muted);">
-          <li style="list-style: disc; margin-bottom: 0.5rem;">Sign in once with your Hub account</li>
-          <li style="list-style: disc; margin-bottom: 0.5rem;">See all your servers in one list</li>
-          <li style="list-style: disc; margin-bottom: 0.5rem;">Switch between servers instantly</li>
-          <li style="list-style: disc;">Connect from anywhere, through the Hub relay</li>
-        </ul>
-
-        <p>Hub mode is available in the Roku, Samsung Tizen, Windows, and Mobile clients.</p>
-      </div>
-    </section>
-
-    <section class="cta-banner">
-      <div class="container">
-        <h2>Ready to set up the Hub?</h2>
-        <p class="lead" style="max-width: 600px; margin: 0 auto 1.5rem;">Self-host the Hub or use the public one — either way, your media follows you.</p>
-        <a href="download.html" class="btn btn-primary btn-lg">Get Phlix</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" role="contentinfo">
-    <p class="footer-tagline">Open-source media, on your terms.</p>
-    <nav class="footer-nav container" aria-label="Footer navigation">
-      <div>
-        <h3>Product</h3>
-        <ul>
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home"
+          ><img src="img/logo.svg" alt="Phlix logo" width="120" height="40"
+        /></a>
+        <button
+          class="nav-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu" id="nav-menu" role="list" hidden>
+          <li><a href="./">Home</a></li>
           <li><a href="features.html">Features</a></li>
           <li><a href="clients.html">Clients</a></li>
           <li><a href="download.html">Download</a></li>
           <li><a href="plugins.html">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="hub.html" aria-current="page">Hub</a></li>
+          <li><a href="about.html">About</a></li>
         </ul>
-      </div>
-      <div>
-        <h3>Developers</h3>
-        <ul>
-          <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
-          <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
-          <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
-          <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Project</h3>
-        <ul>
-          <li><a href="https://github.com/detain">GitHub org</a></li>
-          <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
-          <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
-          <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
-        </ul>
-      </div>
-    </nav>
-    <p class="footer-copy">&copy; 2026 Phlix — MPL-2.0 (server/hub), MIT (clients/plugins)</p>
-  </footer>
+      </nav>
+    </header>
 
-  <script src="js/main.js" defer></script>
-</body>
+    <main id="main-content" tabindex="-1">
+      <section class="page-header">
+        <div class="container">
+          <h1>Phlix Hub</h1>
+          <p class="lead">
+            Sign in once. Access any of your servers from anywhere — without opening a port.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container container-narrow">
+          <h2>What the Hub does</h2>
+          <p>
+            Most home networks sit behind Carrier-Grade NAT or a router that won't forward ports.
+            Phlix Hub solves this with a reverse-tunnel relay: your server reaches out to the Hub,
+            the Hub keeps that connection open, and your clients connect to the Hub to reach your
+            server.
+          </p>
+          <p style="margin-top: 1rem">
+            No port forwarding. No dynamic DNS. No third-party tunnel service. Just your server, a
+            Hub, and your media.
+          </p>
+
+          <h3 style="margin-top: 2rem">How it works</h3>
+          <ul style="margin: 1rem 0 1rem 1.5rem; color: var(--color-text-muted)">
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              <strong>Your server</strong> opens a persistent outbound connection to the Hub
+            </li>
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              <strong>The Hub</strong> assigns a unique address to your server and keeps a mapping
+            </li>
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              <strong>Your clients</strong> connect to the Hub, which proxies traffic to your server
+              through the tunnel
+            </li>
+            <li style="list-style: disc">
+              <strong>Encryption</strong> is end-to-end — the Hub sees only encrypted traffic
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        class="content-section"
+        style="
+          background: linear-gradient(180deg, transparent, rgba(212, 165, 116, 0.04), transparent);
+        "
+      >
+        <div class="container container-narrow">
+          <h2>Self-host or use the public hub</h2>
+
+          <div class="content-grid" style="margin-top: 2rem">
+            <article class="feature-detail">
+              <svg
+                class="feature-detail-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                />
+              </svg>
+              <h2>Public Hub</h2>
+              <p>
+                The hosted option. Zero configuration — point your server at
+                <code>hub.phlix.io</code>, sign in, and go. No server of your own to maintain.
+              </p>
+            </article>
+
+            <article class="feature-detail">
+              <svg
+                class="feature-detail-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                <line x1="6" y1="6" x2="6.01" y2="6" />
+                <line x1="6" y1="18" x2="6.01" y2="18" />
+              </svg>
+              <h2>Self-hosted</h2>
+              <p>
+                Run the Hub on your own VPS. Full control, your own user management, and your
+                traffic never touches a third-party server. See
+                <a href="https://github.com/detain/phlix-hub" style="color: var(--color-primary)"
+                  >phlix-hub on GitHub</a
+                >.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container container-narrow">
+          <h2>Hub mode in clients</h2>
+          <p>
+            Every Phlix client supports Hub mode — a dropdown that shows all servers associated with
+            your Hub account. Select one, and the client connects through the Hub's relay, no matter
+            where in the world you are.
+          </p>
+
+          <ul style="margin: 1.5rem 0 1.5rem 1.5rem; color: var(--color-text-muted)">
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              Sign in once with your Hub account
+            </li>
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              See all your servers in one list
+            </li>
+            <li style="list-style: disc; margin-bottom: 0.5rem">
+              Switch between servers instantly
+            </li>
+            <li style="list-style: disc">Connect from anywhere, through the Hub relay</li>
+          </ul>
+
+          <p>Hub mode is available in the Roku, Samsung Tizen, Windows, and Mobile clients.</p>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div class="container">
+          <h2>Ready to set up the Hub?</h2>
+          <p class="lead" style="max-width: 600px; margin: 0 auto 1.5rem">
+            Self-host the Hub or use the public one — either way, your media follows you.
+          </p>
+          <a href="download.html" class="btn btn-primary btn-lg">Get Phlix</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p class="footer-tagline">Open-source media, on your terms.</p>
+      <nav class="footer-nav container" aria-label="Footer navigation">
+        <div>
+          <h3>Product</h3>
+          <ul>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Developers</h3>
+          <ul>
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li>
+              <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3>Project</h3>
+          <ul>
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li>
+              <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                >License (MPL-2.0)</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <p class="footer-copy">&copy; 2026 Phlix — MPL-2.0 (server/hub), MIT (clients/plugins)</p>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+  </body>
 </html>

@@ -10,13 +10,11 @@
   'use strict';
 
   /* ── Utility ───────────────────────────────────────────────────────────── */
-  const reducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Mobile nav toggle ─────────────────────────────────────────────────── */
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -77,7 +75,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       revealEls.forEach(function (el) {
@@ -94,11 +92,16 @@
   /* ── Easter egg: Konami code ───────────────────────────────────────────── */
   if (!reducedMotion) {
     const konami = [
-      'ArrowUp', 'ArrowUp',
-      'ArrowDown', 'ArrowDown',
-      'ArrowLeft', 'ArrowRight',
-      'ArrowLeft', 'ArrowRight',
-      'b', 'a'
+      'ArrowUp',
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowLeft',
+      'ArrowRight',
+      'b',
+      'a',
     ];
     let konamiIdx = 0;
 
@@ -133,11 +136,13 @@
       flash.setAttribute(
         'style',
         [
-          'position:fixed', 'inset:0', 'z-index:9999',
+          'position:fixed',
+          'inset:0',
+          'z-index:9999',
           'pointer-events:none',
           'background:radial-gradient(ellipse at center, rgba(231,76,60,0.25) 0%, transparent 70%)',
-          'animation:breakout-flash 600ms ease-out forwards'
-        ].join(';')
+          'animation:breakout-flash 600ms ease-out forwards',
+        ].join(';'),
       );
       document.body.appendChild(flash);
 
@@ -146,9 +151,12 @@
       msg.setAttribute(
         'style',
         [
-          'position:fixed', 'top:50%', 'left:50%',
+          'position:fixed',
+          'top:50%',
+          'left:50%',
           'transform:translate(-50%,-50%)',
-          'z-index:10000', 'pointer-events:none',
+          'z-index:10000',
+          'pointer-events:none',
           'font-family:var(--font-headline, sans-serif)',
           'font-size:clamp(1.5rem,5vw,3rem)',
           'font-weight:700',
@@ -156,8 +164,8 @@
           'text-transform:uppercase',
           'color:#F39C12',
           'text-shadow:0 0 30px rgba(243,156,18,0.8), 0 0 60px rgba(243,156,18,0.4)',
-          'animation:breakout-msg 1.5s ease-out forwards'
-        ].join(';')
+          'animation:breakout-msg 1.5s ease-out forwards',
+        ].join(';'),
       );
       msg.textContent = 'YOU BROKE FREE!';
       document.body.appendChild(msg);
@@ -183,7 +191,7 @@
         '  25% { opacity:1; transform:translate(-50%,-50%) scale(1.05); }',
         '  60% { opacity:1; transform:translate(-50%,-50%) scale(1.0); }',
         '  100%{ opacity:0; transform:translate(-50%,-50%) scale(1.0); }',
-        '}'
+        '}',
       ].join('');
       document.head.appendChild(style);
     }
@@ -212,14 +220,21 @@
     shard.setAttribute(
       'style',
       [
-        'position:fixed', 'top:0', 'left:0', 'right:0', 'bottom:0',
-        'z-index:9998', 'pointer-events:none',
+        'position:fixed',
+        'top:0',
+        'left:0',
+        'right:0',
+        'bottom:0',
+        'z-index:9998',
+        'pointer-events:none',
         'background:repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(74,74,74,0.05) 20px, rgba(74,74,74,0.05) 22px)',
-        'animation:shatter-in 400ms ease-out forwards'
-      ].join(';')
+        'animation:shatter-in 400ms ease-out forwards',
+      ].join(';'),
     );
     document.body.appendChild(shard);
-    setTimeout(function () { shard.remove(); }, 1000);
+    setTimeout(function () {
+      shard.remove();
+    }, 1000);
   }
 
   if (!document.getElementById('shatter-keyframes')) {
@@ -229,9 +244,8 @@
       '@keyframes shatter-in {',
       '  0%  { opacity:0; clip-path:polygon(50% 50%, 0 0, 100% 0); }',
       '  100%{ opacity:1; clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%); }',
-      '}'
+      '}',
     ].join('');
     document.head.appendChild(s);
   }
-
 })();

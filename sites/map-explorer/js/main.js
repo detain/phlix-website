@@ -26,7 +26,7 @@
     });
 
     // Close on link click
-    navLinks.forEach(link => {
+    navLinks.forEach((link) => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -57,9 +57,9 @@
     navMenu.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
 
-      const focusable = Array.from(navMenu.querySelectorAll(
-        'a[href], button:not([disabled]), textarea, input, select'
-      ));
+      const focusable = Array.from(
+        navMenu.querySelectorAll('a[href], button:not([disabled]), textarea, input, select'),
+      );
 
       if (focusable.length === 0) return;
 
@@ -80,9 +80,7 @@
   // Reduced Motion
   // =======================================================================
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  );
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function handleReducedMotion() {
     document.documentElement.classList.toggle('reduce-motion', prefersReducedMotion.matches);
@@ -97,13 +95,13 @@
 
   if (!prefersReducedMotion.matches) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
 
     if ('IntersectionObserver' in window && revealElements.length > 0) {
       const revealObserver = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('animate-fade-in-up');
               revealObserver.unobserve(entry.target);
@@ -113,11 +111,11 @@
         {
           root: null,
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
-      revealElements.forEach(el => {
+      revealElements.forEach((el) => {
         el.style.opacity = '0';
         revealObserver.observe(el);
       });
@@ -130,7 +128,7 @@
 
   const faqDetails = document.querySelectorAll('.faq-list details');
 
-  faqDetails.forEach(details => {
+  faqDetails.forEach((details) => {
     const summary = details.querySelector('summary');
 
     if (summary) {
@@ -143,7 +141,6 @@
       });
     }
   });
-
 })();
 
 /* @copyright 2026 Joe Huss <detain@interserver.net> */

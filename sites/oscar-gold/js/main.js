@@ -37,9 +37,7 @@
 
   // ─── Reduced Motion Check ──────────────────────────────────────────────────
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ─── Scroll Reveal (IntersectionObserver) ──────────────────────────────────
 
@@ -59,8 +57,8 @@
         {
           root: null,
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
       revealElements.forEach(function (el) {
@@ -99,7 +97,7 @@
           setTimeout(function () {
             btn.textContent = 'Copy';
           }, 2000);
-        }
+        },
       );
     });
   });
@@ -129,17 +127,20 @@
   if (siteHeader) {
     let lastScroll = 0;
 
-    window.addEventListener('scroll', function () {
-      const currentScroll = window.scrollY;
+    window.addEventListener(
+      'scroll',
+      function () {
+        const currentScroll = window.scrollY;
 
-      if (currentScroll > 10) {
-        siteHeader.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-      } else {
-        siteHeader.style.boxShadow = 'none';
-      }
+        if (currentScroll > 10) {
+          siteHeader.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+          siteHeader.style.boxShadow = 'none';
+        }
 
-      lastScroll = currentScroll;
-    }, { passive: true });
+        lastScroll = currentScroll;
+      },
+      { passive: true },
+    );
   }
-
 })();

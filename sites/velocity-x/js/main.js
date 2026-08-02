@@ -3,7 +3,7 @@
  * Extreme sports energy: kickflip transitions, grind-rail navigation, gravity-defying scroll
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ==========================================================================
@@ -17,27 +17,30 @@
   function initScrollAnimations() {
     if (prefersReducedMotion) {
       // Show all elements immediately
-      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
         el.classList.add('visible');
       });
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Stagger the animations
-          const delay = entry.target.dataset.delay || 0;
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, delay);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Stagger the animations
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     document.querySelectorAll('.animate-on-scroll').forEach((el, i) => {
       if (!el.dataset.delay) {
@@ -64,7 +67,7 @@
     });
 
     // Close on link click
-    links.querySelectorAll('.nav__link').forEach(link => {
+    links.querySelectorAll('.nav__link').forEach((link) => {
       link.addEventListener('click', () => {
         toggle.classList.remove('active');
         links.classList.remove('open');
@@ -110,13 +113,13 @@
      ACCORDION / DETAILS
      ========================================================================== */
   function initAccordion() {
-    document.querySelectorAll('.accordion__trigger').forEach(trigger => {
+    document.querySelectorAll('.accordion__trigger').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         const item = trigger.parentElement;
         const wasOpen = item.classList.contains('open');
 
         // Close all siblings
-        item.parentElement.querySelectorAll('.accordion__item').forEach(i => {
+        item.parentElement.querySelectorAll('.accordion__item').forEach((i) => {
           i.classList.remove('open');
         });
 
@@ -132,20 +135,20 @@
      TABS
      ========================================================================== */
   function initTabs() {
-    document.querySelectorAll('.tabs').forEach(tabGroup => {
+    document.querySelectorAll('.tabs').forEach((tabGroup) => {
       const triggers = tabGroup.querySelectorAll('.tabs__item');
       const panels = tabGroup.parentElement.querySelectorAll('.tab-panel');
 
-      triggers.forEach(trigger => {
+      triggers.forEach((trigger) => {
         trigger.addEventListener('click', () => {
           const target = trigger.dataset.tab;
 
           // Update triggers
-          triggers.forEach(t => t.classList.remove('active'));
+          triggers.forEach((t) => t.classList.remove('active'));
           trigger.classList.add('active');
 
           // Update panels
-          panels.forEach(panel => {
+          panels.forEach((panel) => {
             if (panel.dataset.tabPanel === target) {
               panel.hidden = false;
             } else {
@@ -163,7 +166,7 @@
   function initKickflipCards() {
     if (prefersReducedMotion) return;
 
-    document.querySelectorAll('.card[data-kickflip]').forEach(card => {
+    document.querySelectorAll('.card[data-kickflip]').forEach((card) => {
       card.addEventListener('mouseenter', () => {
         card.style.animation = 'kickflip 0.4s ease-out';
       });
@@ -217,7 +220,7 @@
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
 
-          parallaxElements.forEach(el => {
+          parallaxElements.forEach((el) => {
             const speed = parseFloat(el.dataset.parallax) || 0.5;
             const offset = scrollY * speed;
             el.style.transform = `translateY(${offset}px)`;
@@ -238,16 +241,19 @@
 
     const slashes = document.querySelectorAll('.slash-divider[data-reveal]');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animation = 'slashIn 0.6s ease-out forwards';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animation = 'slashIn 0.6s ease-out forwards';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
 
-    slashes.forEach(slash => observer.observe(slash));
+    slashes.forEach((slash) => observer.observe(slash));
   }
 
   /* ==========================================================================
@@ -256,7 +262,7 @@
   function initStickerBomb() {
     if (prefersReducedMotion) return;
 
-    document.querySelectorAll('[data-sticker]').forEach(el => {
+    document.querySelectorAll('[data-sticker]').forEach((el) => {
       el.addEventListener('mouseenter', () => {
         const splat = document.createElement('div');
         splat.className = 'splat splat--pink';
@@ -287,50 +293,53 @@
     const counters = document.querySelectorAll('.stat__number[data-count]');
     if (!counters.length) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.dataset.count, 10);
-          const duration = 1500;
-          const start = performance.now();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseInt(el.dataset.count, 10);
+            const duration = 1500;
+            const start = performance.now();
 
-          function update(currentTime) {
-            const elapsed = currentTime - start;
-            const progress = Math.min(elapsed / duration, 1);
+            function update(currentTime) {
+              const elapsed = currentTime - start;
+              const progress = Math.min(elapsed / duration, 1);
 
-            // Ease out
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(eased * target);
+              // Ease out
+              const eased = 1 - Math.pow(1 - progress, 3);
+              const current = Math.round(eased * target);
 
-            el.textContent = current.toLocaleString();
+              el.textContent = current.toLocaleString();
 
-            if (progress < 1) {
-              requestAnimationFrame(update);
-            } else {
-              el.textContent = target.toLocaleString();
+              if (progress < 1) {
+                requestAnimationFrame(update);
+              } else {
+                el.textContent = target.toLocaleString();
+              }
             }
+
+            if (prefersReducedMotion) {
+              el.textContent = target.toLocaleString();
+            } else {
+              requestAnimationFrame(update);
+            }
+
+            observer.unobserve(el);
           }
+        });
+      },
+      { threshold: 0.5 },
+    );
 
-          if (prefersReducedMotion) {
-            el.textContent = target.toLocaleString();
-          } else {
-            requestAnimationFrame(update);
-          }
-
-          observer.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => observer.observe(counter));
+    counters.forEach((counter) => observer.observe(counter));
   }
 
   /* ==========================================================================
      COPY TO CLIPBOARD
      ========================================================================== */
   function initCopyToClipboard() {
-    document.querySelectorAll('[data-copy]').forEach(btn => {
+    document.querySelectorAll('[data-copy]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const targetId = btn.dataset.copy;
         const target = document.getElementById(targetId);
@@ -357,11 +366,13 @@
      ========================================================================== */
   function initActiveNav() {
     const currentPath = window.location.pathname;
-    document.querySelectorAll('.nav__link').forEach(link => {
+    document.querySelectorAll('.nav__link').forEach((link) => {
       const href = link.getAttribute('href');
-      if (href === currentPath ||
-          (href !== '/' && currentPath.startsWith(href)) ||
-          (href === '/' && currentPath === '/')) {
+      if (
+        href === currentPath ||
+        (href !== '/' && currentPath.startsWith(href)) ||
+        (href === '/' && currentPath === '/')
+      ) {
         link.classList.add('active');
       }
     });
@@ -371,12 +382,12 @@
      KEYBOARD NAV — Trap focus in modals
      ========================================================================== */
   function initFocusTrap() {
-    document.querySelectorAll('[data-modal]').forEach(modal => {
+    document.querySelectorAll('[data-modal]').forEach((modal) => {
       modal.addEventListener('keydown', (e) => {
         if (e.key !== 'Tab') return;
 
         const focusable = modal.querySelectorAll(
-          'a[href], button:not([disabled]), textarea, input, select'
+          'a[href], button:not([disabled]), textarea, input, select',
         );
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
@@ -396,7 +407,7 @@
      SMOOTH SCROLL TO ANCHOR
      ========================================================================== */
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener('click', (e) => {
         const targetId = anchor.getAttribute('href');
         if (targetId === '#') return;
@@ -406,7 +417,7 @@
           e.preventDefault();
           target.scrollIntoView({
             behavior: prefersReducedMotion ? 'auto' : 'smooth',
-            block: 'start'
+            block: 'start',
           });
         }
       });
@@ -419,13 +430,13 @@
   function initLazyLoad() {
     if ('loading' in HTMLImageElement.prototype) {
       // Native lazy loading supported
-      document.querySelectorAll('img[data-src]').forEach(img => {
+      document.querySelectorAll('img[data-src]').forEach((img) => {
         img.src = img.dataset.src;
       });
     } else {
       // Fallback
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const img = entry.target;
             img.src = img.dataset.src;
@@ -434,10 +445,9 @@
         });
       });
 
-      document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+      document.querySelectorAll('img[data-src]').forEach((img) => observer.observe(img));
     }
   }
-
 
   /* ==========================================================================
      INIT
@@ -466,5 +476,4 @@
   } else {
     init();
   }
-
 })();

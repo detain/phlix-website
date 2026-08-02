@@ -5,7 +5,7 @@
  * ============================================================================
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ==========================================================================
@@ -54,13 +54,13 @@
         speed: 2 + Math.random() * 3,
         hue: Math.random() > 0.5 ? 280 : 189, // Purple or Cyan
         branchChance: 0.3,
-        branches: []
+        branches: [],
       };
     }
 
     drawArc(arc) {
       const progress = arc.life / arc.maxLife;
-      const alpha = progress < 0.2 ? progress * 5 : (1 - progress);
+      const alpha = progress < 0.2 ? progress * 5 : 1 - progress;
 
       this.ctx.beginPath();
       this.ctx.strokeStyle = `hsla(${arc.hue}, 80%, 60%, ${alpha})`;
@@ -78,17 +78,14 @@
       for (let i = 1; i < segments; i++) {
         const jitterX = (Math.random() - 0.5) * 40;
         const jitterY = (Math.random() - 0.5) * 40;
-        this.ctx.lineTo(
-          arc.startX + dx * i + jitterX,
-          arc.startY + dy * i + jitterY
-        );
+        this.ctx.lineTo(arc.startX + dx * i + jitterX, arc.startY + dy * i + jitterY);
       }
 
       this.ctx.lineTo(arc.endX, arc.endY);
       this.ctx.stroke();
 
       // Draw branches
-      arc.branches.forEach(branch => {
+      arc.branches.forEach((branch) => {
         this.ctx.beginPath();
         this.ctx.strokeStyle = `hsla(${arc.hue}, 70%, 50%, ${alpha * 0.7})`;
         this.ctx.lineWidth = 1;
@@ -122,7 +119,7 @@
             startX: midX,
             startY: midY,
             endX: midX + (Math.random() - 0.5) * 100,
-            endY: midY + (Math.random() - 0.5) * 100
+            endY: midY + (Math.random() - 0.5) * 100,
           });
         }
 
@@ -222,7 +219,7 @@
       });
 
       // Close nav on link click
-      mainNav.querySelectorAll('a').forEach(link => {
+      mainNav.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => {
           mainNav.classList.remove('active');
         });
@@ -231,7 +228,7 @@
 
     // Active nav highlighting
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.main-nav a').forEach(link => {
+    document.querySelectorAll('.main-nav a').forEach((link) => {
       const href = link.getAttribute('href');
       if (href === currentPage || (currentPage === '' && href === 'index.html')) {
         link.classList.add('active');
@@ -254,7 +251,7 @@
         hour12: false,
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
       });
     }
 
@@ -266,7 +263,7 @@
    * CARD INTERACTIONS
    * ========================================================================== */
   function initCardInteractions() {
-    document.querySelectorAll('.card').forEach(card => {
+    document.querySelectorAll('.card').forEach((card) => {
       const jitter = new ElectricJitter(card);
 
       card.addEventListener('mouseenter', () => {
@@ -288,7 +285,7 @@
    * BUTTON INTERACTIONS
    * ========================================================================== */
   function initButtonInteractions() {
-    document.querySelectorAll('.btn').forEach(btn => {
+    document.querySelectorAll('.btn').forEach((btn) => {
       btn.addEventListener('mouseenter', () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         btn.style.animation = 'electricJitter 0.1s linear 3';
@@ -314,29 +311,32 @@
   function initStatCounters() {
     const statNumbers = document.querySelectorAll('.stat-number[data-target]');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const target = parseInt(entry.target.dataset.target, 10);
-          animateCounter(entry.target, target);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = parseInt(entry.target.dataset.target, 10);
+            animateCounter(entry.target, target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
 
-    statNumbers.forEach(stat => observer.observe(stat));
+    statNumbers.forEach((stat) => observer.observe(stat));
   }
 
   /* ==========================================================================
    * PLAYPause CLICK HANDLER (example for media cards)
    * ========================================================================== */
   function initMediaCards() {
-    document.querySelectorAll('.poster-card').forEach(card => {
-      card.addEventListener('click', function() {
+    document.querySelectorAll('.poster-card').forEach((card) => {
+      card.addEventListener('click', function () {
         const wasPlaying = this.classList.contains('is-playing');
 
         // Remove playing from all
-        document.querySelectorAll('.poster-card.is-playing').forEach(c => {
+        document.querySelectorAll('.poster-card.is-playing').forEach((c) => {
           c.classList.remove('is-playing');
         });
 
@@ -357,16 +357,19 @@
 
     const animatedElements = document.querySelectorAll('.card, .section-title, .hero-content');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    animatedElements.forEach(el => {
+    animatedElements.forEach((el) => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -378,8 +381,8 @@
    * ZAP TRANSITION ON NAVIGATION
    * ========================================================================== */
   function initZapTransitions() {
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         const target = document.querySelector(targetId);
 
@@ -428,7 +431,7 @@
   function initPlayingCrackle() {
     const playingElements = document.querySelectorAll('.is-playing, [data-playing="true"]');
 
-    playingElements.forEach(el => {
+    playingElements.forEach((el) => {
       // Add crackle outline
       el.classList.add('playing-crackle');
 
@@ -475,7 +478,6 @@
     ArcBackground,
     ElectricJitter,
     thunderRumble,
-    animateCounter
+    animateCounter,
   };
-
 })();

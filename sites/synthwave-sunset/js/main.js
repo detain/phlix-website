@@ -58,7 +58,7 @@
      -------------------------------------------------------------------------- */
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
 
     var revealObserver = new IntersectionObserver(
@@ -70,7 +70,7 @@
           }
         });
       },
-      { rootMargin: '0px 0px -50px 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -50px 0px', threshold: 0.1 },
     );
 
     revealElements.forEach(function (el) {
@@ -87,15 +87,15 @@
         '.reduce-motion .client-card, ' +
         '.reduce-motion .download-card, ' +
         '.reduce-motion .feature-detail { ' +
-          'opacity: 1 !important; ' +
-          'transform: none !important; ' +
-          'transition: none !important; ' +
+        'opacity: 1 !important; ' +
+        'transform: none !important; ' +
+        'transition: none !important; ' +
         '}' +
         '.revealed { ' +
-          'opacity: 1 !important; ' +
-          'transform: translateY(0) !important; ' +
+        'opacity: 1 !important; ' +
+        'transform: translateY(0) !important; ' +
         '}' +
-      '</style>'
+        '</style>',
     );
   }
 
@@ -110,20 +110,23 @@
       if (!commandEl) return;
 
       var text = commandEl.textContent.trim();
-      navigator.clipboard.writeText(text).then(function () {
-        var original = btn.textContent;
-        btn.textContent = 'Copied!';
-        btn.style.color = 'var(--color-secondary)';
-        setTimeout(function () {
-          btn.textContent = original;
-          btn.style.color = '';
-        }, 2000);
-      }).catch(function () {
-        btn.textContent = 'Failed';
-        setTimeout(function () {
-          btn.textContent = 'Copy';
-        }, 2000);
-      });
+      navigator.clipboard
+        .writeText(text)
+        .then(function () {
+          var original = btn.textContent;
+          btn.textContent = 'Copied!';
+          btn.style.color = 'var(--color-secondary)';
+          setTimeout(function () {
+            btn.textContent = original;
+            btn.style.color = '';
+          }, 2000);
+        })
+        .catch(function () {
+          btn.textContent = 'Failed';
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+          }, 2000);
+        });
     });
   });
 })();

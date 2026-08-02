@@ -53,21 +53,24 @@
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .feature-detail, .client-card, .download-card'
+      '.feature-card, .feature-detail, .client-card, .download-card',
     );
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px'
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px',
+      },
+    );
 
     revealElements.forEach(function (el) {
       el.style.opacity = '0';
@@ -79,5 +82,4 @@
 
   /* ─── FAQ <details> animated marker ────────────────────────── */
   // Handled via CSS in theme.css
-
 })();

@@ -13,7 +13,7 @@ class GlitchSystem {
       glitchInterval: options.glitchInterval || 5000,
       glitchDuration: options.glitchDuration || 200,
       intensity: options.intensity || 1,
-      ...options
+      ...options,
     };
 
     this.glitchTimer = null;
@@ -39,19 +39,19 @@ class GlitchSystem {
     }
 
     // Static glitch states
-    this.elements.forEach(el => {
+    this.elements.forEach((el) => {
       el.dataset.glitchIntensity = '0';
     });
   }
 
   bindEvents() {
     // Hover glitch on feature cards
-    document.querySelectorAll('.feature-card').forEach(card => {
+    document.querySelectorAll('.feature-card').forEach((card) => {
       card.addEventListener('mouseenter', () => this.triggerElementGlitch(card));
     });
 
     // Click glitch on buttons
-    document.querySelectorAll('.btn').forEach(btn => {
+    document.querySelectorAll('.btn').forEach((btn) => {
       btn.addEventListener('click', (_e) => {
         this.triggerClickGlitch(btn);
       });
@@ -59,13 +59,17 @@ class GlitchSystem {
 
     // Scroll-based occasional glitches
     let lastScrollY = window.scrollY;
-    window.addEventListener('scroll', () => {
-      const scrollDelta = Math.abs(window.scrollY - lastScrollY);
-      if (scrollDelta > 50 && Math.random() < 0.3) {
-        this.triggerSubtleGlitch();
-      }
-      lastScrollY = window.scrollY;
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+        if (scrollDelta > 50 && Math.random() < 0.3) {
+          this.triggerSubtleGlitch();
+        }
+        lastScrollY = window.scrollY;
+      },
+      { passive: true },
+    );
   }
 
   startGlitchCycle() {
@@ -134,7 +138,9 @@ class GlitchSystem {
     this.isGlitching = true;
 
     // Get all glitchable elements
-    const glitchableElements = document.querySelectorAll('.hero-title, .section-title, .feature-title');
+    const glitchableElements = document.querySelectorAll(
+      '.hero-title, .section-title, .feature-title',
+    );
 
     if (glitchableElements.length === 0) {
       this.isGlitching = false;
@@ -191,7 +197,7 @@ class GlitchSystem {
 
   destroy() {
     this.stop();
-    this.elements.forEach(el => {
+    this.elements.forEach((el) => {
       el.classList.remove('is-glitching');
       el.style.textShadow = '';
       el.style.transform = '';
@@ -212,7 +218,7 @@ class ScanlineSystem {
 
   init() {
     if (this.reducedMotion) {
-      this.lines.forEach(line => {
+      this.lines.forEach((line) => {
         line.style.opacity = '0.1';
         line.style.animation = 'none';
       });
@@ -257,7 +263,7 @@ class ShadowCreature {
     if ('IntersectionObserver' in window) {
       this.observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               this.show();
             } else {
@@ -265,7 +271,7 @@ class ShadowCreature {
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
 
       // Observe the footer area where creature typically appears

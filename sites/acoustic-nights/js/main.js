@@ -59,7 +59,7 @@
   // --------------------------------------------------------------------------
   if (!prefersReducedMotion.matches) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item'
+      '.feature-card, .client-card, .download-card, .feature-detail, .faq-item',
     );
 
     if (revealElements.length > 0 && 'IntersectionObserver' in window) {
@@ -75,8 +75,8 @@
         {
           root: null,
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
       revealElements.forEach(function (el) {
@@ -111,10 +111,9 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
   });
-
 })();

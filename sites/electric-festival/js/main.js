@@ -35,14 +35,12 @@
   }
 
   /* ── Reduced motion ────────────────────────────────────────────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Scroll reveals (IntersectionObserver) ───────────────────────────────── */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .hub-feature'
+      '.feature-card, .client-card, .download-card, .feature-detail, .hub-feature',
     );
 
     var revealObserver = new IntersectionObserver(
@@ -54,7 +52,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
     );
 
     revealElements.forEach(function (el) {

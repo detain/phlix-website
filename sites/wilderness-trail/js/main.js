@@ -17,7 +17,7 @@
 
   /* ── Nav toggle ────────────────────────────────────────────────────────── */
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
       const isOpen = navMenu.classList.toggle('is-open');
@@ -54,7 +54,7 @@
             }
           });
         },
-        { threshold: 0.12 }
+        { threshold: 0.12 },
       );
       sections.forEach((s) => observer.observe(s));
     }
@@ -75,7 +75,9 @@
       document.documentElement.dataset.intensity = dim ? 'dim' : 'full';
       try {
         localStorage.setItem('wt-intensity', dim ? 'dim' : 'full');
-      } catch (_) { /* intentionally empty — localStorage unavailable */ }
+      } catch (_) {
+        /* intentionally empty — localStorage unavailable */
+      }
     });
   }
 
@@ -87,22 +89,24 @@
         document.documentElement.dataset.season = stored;
         return;
       }
-    } catch (_) { /* intentionally empty — localStorage unavailable */ }
+    } catch (_) {
+      /* intentionally empty — localStorage unavailable */
+    }
 
     const month = new Date().getMonth() + 1; // 1-12
     let season = null;
-    if (month >= 12 || month <= 2)     season = 'winter';
-    else if (month >= 6 && month <= 7)  season = 'wildflower';
-    else if (month >= 9 && month <= 11)  season = 'autumn';
+    if (month >= 12 || month <= 2) season = 'winter';
+    else if (month >= 6 && month <= 7) season = 'wildflower';
+    else if (month >= 9 && month <= 11) season = 'autumn';
 
     if (season) {
       document.documentElement.dataset.season = season;
       const banner = document.getElementById('season-banner-text');
       if (banner) {
         const messages = {
-          winter:    "Scout says: The seasons change the trail, but the summit's always worth it.",
-          wildflower:"Scout says: Wildflower season — the trail blooms all summer long.",
-          autumn:    "Scout says: Autumn ridge — the aspens are turning, and the fire's warm.",
+          winter: "Scout says: The seasons change the trail, but the summit's always worth it.",
+          wildflower: 'Scout says: Wildflower season — the trail blooms all summer long.',
+          autumn: "Scout says: Autumn ridge — the aspens are turning, and the fire's warm.",
         };
         banner.textContent = messages[season] || '';
       }
@@ -116,18 +120,21 @@
   try {
     var ms = JSON.parse(localStorage.getItem('wt-mascot'));
     if (ms && ms.dismissed) mascotState.dismissed = true;
-  } catch (_) { /* intentionally empty — localStorage unavailable */ }
+  } catch (_) {
+    /* intentionally empty — localStorage unavailable */
+  }
 
-  var mascotEl    = document.querySelector('.mascot');
+  var mascotEl = document.querySelector('.mascot');
   var mascotClose = document.querySelector('.mascot__close');
-  var mascotTip   = document.querySelector('.mascot__tip');
+  var mascotTip = document.querySelector('.mascot__tip');
 
   function getScoutTip(where) {
     var tips = {
-      'home:#trailhead-call':     "Lace up, friend — the trail starts right here.",
-      'home:.features-overview':  "Your whole library is the terrain. Every blaze marks a new summit.",
-      'download:#server':          "One line of code and you're the ranger. I'll tend the first fire.",
-      'about:.faq-list':          "Questions from the trailhead? I've got answers by the fire.",
+      'home:#trailhead-call': 'Lace up, friend — the trail starts right here.',
+      'home:.features-overview':
+        'Your whole library is the terrain. Every blaze marks a new summit.',
+      'download:#server': "One line of code and you're the ranger. I'll tend the first fire.",
+      'about:.faq-list': "Questions from the trailhead? I've got answers by the fire.",
     };
     return tips[where] || "The trail's in good hands, friend.";
   }
@@ -152,7 +159,11 @@
     mascotClose.addEventListener('click', function (e) {
       e.stopPropagation();
       mascotState.dismissed = true;
-      try { localStorage.setItem('wt-mascot', JSON.stringify({ dismissed: true })); } catch (_) { /* intentionally empty */ }
+      try {
+        localStorage.setItem('wt-mascot', JSON.stringify({ dismissed: true }));
+      } catch (_) {
+        /* intentionally empty */
+      }
       if (mascotEl) mascotEl.style.display = 'none';
     });
   }
@@ -168,7 +179,7 @@
         mascotState.logoClicks = 0;
         showMascotTip();
         if (mascotTip) {
-          mascotTip.textContent = "Sharper eyes than most, friend.";
+          mascotTip.textContent = 'Sharper eyes than most, friend.';
         }
         if (mascotEl) {
           mascotEl.classList.add('tip-visible');
@@ -183,7 +194,7 @@
 
   /* ── Typed-word easter egg: "summit" ─────────────────────────────────── */
   var typedBuffer = '';
-  var typedTimer  = null;
+  var typedTimer = null;
   var typedActive = false;
 
   function activateTypedEgg() {
@@ -211,7 +222,9 @@
       typedBuffer += e.key.toLowerCase();
       if (typedBuffer.length > 10) typedBuffer = typedBuffer.slice(-6);
       clearTimeout(typedTimer);
-      typedTimer = setTimeout(function () { typedBuffer = ''; }, 1500);
+      typedTimer = setTimeout(function () {
+        typedBuffer = '';
+      }, 1500);
       if (typedBuffer.includes('summit')) {
         typedBuffer = '';
         activateTypedEgg();
@@ -243,13 +256,18 @@
       var text = codeEl.textContent.trim();
       if (!text) return;
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function () {
-          var orig = btn.textContent;
-          btn.textContent = 'Copied!';
-          setTimeout(function () { btn.textContent = orig; }, 2000);
-        }).catch(function () {
-          fallbackCopy(text, btn);
-        });
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            var orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () {
+              btn.textContent = orig;
+            }, 2000);
+          })
+          .catch(function () {
+            fallbackCopy(text, btn);
+          });
       } else {
         fallbackCopy(text, btn);
       }
@@ -262,11 +280,17 @@
     ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); } catch (_) { /* intentionally empty — execCommand may fail */ }
+    try {
+      document.execCommand('copy');
+    } catch (_) {
+      /* intentionally empty — execCommand may fail */
+    }
     document.body.removeChild(ta);
     var orig = btn.textContent;
     btn.textContent = 'Copied!';
-    setTimeout(function () { btn.textContent = orig; }, 2000);
+    setTimeout(function () {
+      btn.textContent = orig;
+    }, 2000);
   }
 
   /* ── Smooth scroll for anchor links ───────────────────────────────────── */
@@ -303,7 +327,6 @@
     // Mascot will be shown by scroll-based reveal or after 3s idle
     setTimeout(showMascotTip, 3000);
   }
-
 })();
 
 /* @copyright 2026 Joe Huss <detain@interserver.net> */

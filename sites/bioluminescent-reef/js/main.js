@@ -271,6 +271,9 @@ if (intensityToggle) {
     note.classList.remove('is-hidden');
   }
 
+  // Make globally accessible for mascotAbyss()
+  window.showEggNote = showEggNote;
+
   function hideEggNote() {
     note.classList.add('is-hidden');
   }

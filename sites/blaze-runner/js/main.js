@@ -67,11 +67,11 @@
       this.x = x !== undefined ? x : Math.random() * canvas.width;
       this.y = y !== undefined ? y : canvas.height + 10;
       this.size = Math.random() * 3 + 1;
-      this.speedY = -(Math.random() * 0.8 + 0.3);  // rising
-      this.speedX = (Math.random() - 0.5) * 0.4;  // slight drift
+      this.speedY = -(Math.random() * 0.8 + 0.3); // rising
+      this.speedX = (Math.random() - 0.5) * 0.4; // slight drift
       this.opacity = Math.random() * 0.7 + 0.3;
       this.flickerRate = Math.random() * 0.05;
-      this.color = Math.random() > 0.6 ? '#FF4500' : (Math.random() > 0.5 ? '#FF6B00' : '#FFD700');
+      this.color = Math.random() > 0.6 ? '#FF4500' : Math.random() > 0.5 ? '#FF6B00' : '#FFD700';
       this.life = 1;
       this.decay = Math.random() * 0.003 + 0.001;
     }
@@ -83,7 +83,10 @@
       this.x += Math.sin(Date.now() * 0.001 + this.y * 0.01) * 0.1;
       this.life -= this.decay;
       // Flicker opacity
-      this.opacity = Math.max(0, Math.min(1, this.opacity + (Math.random() - 0.5) * this.flickerRate));
+      this.opacity = Math.max(
+        0,
+        Math.min(1, this.opacity + (Math.random() - 0.5) * this.flickerRate),
+      );
     };
 
     Ember.prototype.draw = function () {
@@ -110,10 +113,9 @@
       // Occasional burst
       if (Math.random() < 0.08) {
         for (var i = 0; i < 3; i++) {
-          particles.push(new Ember(
-            Math.random() * canvas.width,
-            canvas.height - Math.random() * 100
-          ));
+          particles.push(
+            new Ember(Math.random() * canvas.width, canvas.height - Math.random() * 100),
+          );
         }
       }
     }
@@ -199,7 +201,7 @@
       'height: 200px',
       'background: radial-gradient(ellipse at 50% 100%, rgba(255,69,0,0.15) 0%, transparent 70%)',
       'pointer-events: none',
-      'z-index: 0'
+      'z-index: 0',
     ].join(';');
     document.body.appendChild(overlay);
   }
@@ -209,7 +211,7 @@
   // ─── Scroll reveals ─────────────────────────────────────────────────────────
   if (!reducedMotion && 'IntersectionObserver' in window) {
     var revealTargets = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
     if (revealTargets.length > 0) {
       var observer = new IntersectionObserver(
@@ -222,7 +224,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       revealTargets.forEach(function (el) {

@@ -4,21 +4,21 @@
  *  Handles prefers-reduced-motion preference
  * ============================================================================ */
 
-(function() {
+(function () {
   'use strict';
 
   class PrefersReducedMotion {
     constructor() {
       this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedMotion = this.mediaQuery.matches;
-      
+
       this.init();
     }
 
     init() {
       // Set initial state on body
       this.updateBodyClass();
-      
+
       // Listen for changes
       this.mediaQuery.addEventListener('change', (e) => {
         this.reducedMotion = e.matches;
@@ -33,14 +33,16 @@
 
     dispatchEvent() {
       const event = new CustomEvent('motionPreferenceChange', {
-        detail: { reducedMotion: this.reducedMotion }
+        detail: { reducedMotion: this.reducedMotion },
       });
       document.dispatchEvent(event);
-      
+
       // Also dispatch on window
-      window.dispatchEvent(new CustomEvent('motionPreferenceChange', {
-        detail: { reducedMotion: this.reducedMotion }
-      }));
+      window.dispatchEvent(
+        new CustomEvent('motionPreferenceChange', {
+          detail: { reducedMotion: this.reducedMotion },
+        }),
+      );
     }
 
     /**
@@ -75,5 +77,4 @@
      -------------------------------------------------------------------------- */
   window.PrefersReducedMotion = PrefersReducedMotion;
   window.prefersReducedMotion = motionPref;
-
 })();

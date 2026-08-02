@@ -10,22 +10,22 @@ const SITE_CONFIG = {
   version: '1.0.0',
   author: 'PHLIX Brand Team',
   year: new Date().getFullYear(),
-  
+
   // API endpoints (placeholder)
   endpoints: {
     contact: '/api/contact',
     subscribe: '/api/subscribe',
-    status: '/api/status'
+    status: '/api/status',
   },
-  
+
   // Animation settings
   animations: {
     particleCount: 40,
     flareInterval: 6000,
     waveformUpdateRate: 60,
-    powerMeterUpdateRate: 50
+    powerMeterUpdateRate: 50,
   },
-  
+
   // Feature data
   features: [
     {
@@ -33,31 +33,31 @@ const SITE_CONFIG = {
       title: 'Stellar Capture',
       description: 'Full-spectrum energy harvesters extract power from every wavelength.',
       stat: { value: '99.7%', label: 'Capture Efficiency' },
-      icon: 'stellar-capture'
+      icon: 'stellar-capture',
     },
     {
       id: 'plasma-conversion',
       title: 'Plasma Conversion',
       description: 'Advanced fusion reactors convert captured stellar matter.',
       stat: { value: '2.4 PW', label: 'Output Capacity' },
-      icon: 'plasma-conversion'
+      icon: 'plasma-conversion',
     },
     {
       id: 'megastructure-routing',
       title: 'Megastructure Routing',
       description: 'Intelligent orbital rings route energy across the construct.',
       stat: { value: '<1ms', label: 'Signal Latency' },
-      icon: 'megastructure-routing'
+      icon: 'megastructure-routing',
     },
     {
       id: 'autonomous-maintenance',
       title: 'Autonomous Operation',
       description: 'Self-replicating nanomachine swarms maintain the structure.',
       stat: { value: '99.99%', label: 'Uptime Guarantee' },
-      icon: 'autonomous-maintenance'
-    }
+      icon: 'autonomous-maintenance',
+    },
   ],
-  
+
   // Technical specifications
   specs: [
     { label: 'Dyson Swarm Diameter', value: '2.8 AU' },
@@ -67,9 +67,9 @@ const SITE_CONFIG = {
     { label: 'Ring Rotation Period', value: '247 days' },
     { label: 'Plasma Temperature', value: '15,000,000 K' },
     { label: 'Maintenance Cycles', value: 'Continuous' },
-    { label: 'Design Lifetime', value: 'Billions of years' }
+    { label: 'Design Lifetime', value: 'Billions of years' },
   ],
-  
+
   // Power meter readings
   powerReadings: {
     peakPower: 3.846,
@@ -77,8 +77,8 @@ const SITE_CONFIG = {
     capturedTW: 2400,
     convertedTW: 2380,
     efficiency: 99.2,
-    stellarOutput: 73
-  }
+    stellarOutput: 73,
+  },
 };
 
 // Export for use

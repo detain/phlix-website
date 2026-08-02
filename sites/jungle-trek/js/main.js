@@ -59,8 +59,14 @@
       where: 'home:#the-expedition',
       say: 'SyncPlay locks every device to the same frame. Precision timing, precision exploration.',
     },
-    { where: 'home:#trek-now', say: "One command. You're the expedition leader now. Full throttle." },
-    { where: 'about:.faq-list', say: 'Questions? Data never lies. Answers are in the field notes.' },
+    {
+      where: 'home:#trek-now',
+      say: "One command. You're the expedition leader now. Full throttle.",
+    },
+    {
+      where: 'about:.faq-list',
+      say: 'Questions? Data never lies. Answers are in the field notes.',
+    },
   ];
 
   /* --------------------------------------------------------------------------

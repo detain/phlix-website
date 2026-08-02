@@ -65,7 +65,7 @@
     if (!('IntersectionObserver' in window)) return;
 
     var revealElements = document.querySelectorAll(
-      '.feature-card, .feature-detail, .client-card, .download-card, .faq-item'
+      '.feature-card, .feature-detail, .client-card, .download-card, .faq-item',
     );
 
     if (revealElements.length === 0) return;
@@ -82,8 +82,8 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -122,7 +122,7 @@
             setTimeout(function () {
               button.textContent = 'Copy';
             }, 2000);
-          }
+          },
         );
       });
 
@@ -143,7 +143,7 @@
     if (lines.length === 0) return;
 
     lines.forEach(function (line, index) {
-      line.style.animationDelay = (index * 150) + 'ms';
+      line.style.animationDelay = index * 150 + 'ms';
       line.classList.add('animate');
     });
   }
@@ -162,5 +162,4 @@
   } else {
     init();
   }
-
 })();

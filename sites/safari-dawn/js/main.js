@@ -3,7 +3,7 @@
  * @copyright 2024 Phlix
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ============================================
@@ -14,14 +14,14 @@
   const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen.toString());
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -30,7 +30,7 @@
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -40,7 +40,7 @@
     });
 
     // Trap focus in mobile menu
-    navMenu.addEventListener('keydown', function(e) {
+    navMenu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
       const focusable = navMenu.querySelectorAll('a, button');
@@ -66,25 +66,28 @@
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const revealElements = document.querySelectorAll('.reveal');
 
-    const revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      root: null,
-      rootMargin: '0px 0px -50px 0px',
-      threshold: 0.1
-    });
+    const revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1,
+      },
+    );
 
-    revealElements.forEach(function(el) {
+    revealElements.forEach(function (el) {
       revealObserver.observe(el);
     });
   } else {
     // Fallback: show all elements immediately
-    document.querySelectorAll('.reveal').forEach(function(el) {
+    document.querySelectorAll('.reveal').forEach(function (el) {
       el.classList.add('is-visible');
     });
   }
@@ -93,8 +96,8 @@
   // Smooth scroll for anchor links
   // ============================================
 
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -103,7 +106,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
@@ -115,7 +118,7 @@
 
   // Native <details>/<summary> works in all modern browsers
   // This script just ensures proper ARIA attributes
-  document.querySelectorAll('.faq-list details').forEach(function(details) {
+  document.querySelectorAll('.faq-list details').forEach(function (details) {
     const summary = details.querySelector('summary');
     if (summary) {
       summary.setAttribute('role', 'button');
@@ -130,7 +133,7 @@
   const currentPath = window.location.pathname;
   const navLinks = document.querySelectorAll('.nav-menu a');
 
-  navLinks.forEach(function(link) {
+  navLinks.forEach(function (link) {
     const href = link.getAttribute('href');
     if (href === './' || href === 'index.html') {
       if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
@@ -140,5 +143,4 @@
       link.setAttribute('aria-current', 'page');
     }
   });
-
 })();

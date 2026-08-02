@@ -58,7 +58,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
     );
 
     revealElements.forEach(function (el) {
@@ -91,7 +91,7 @@
           setTimeout(function () {
             copyBtn.textContent = 'Copy';
           }, 2000);
-        }
+        },
       );
     });
   });
@@ -122,7 +122,6 @@
       link.setAttribute('aria-current', 'page');
     }
   });
-
 })();
 
 /* ==========================================================================

@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ============================================
@@ -13,10 +13,10 @@
   const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen);
-      
+
       // Trap focus in mobile menu when open
       if (isOpen) {
         navMenu.querySelector('a')?.focus();
@@ -24,7 +24,7 @@
     });
 
     // Close on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -33,7 +33,7 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -48,28 +48,31 @@
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const revealElements = document.querySelectorAll('.reveal');
-    
-    if (revealElements.length > 0) {
-      const revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      });
 
-      revealElements.forEach(function(el) {
+    if (revealElements.length > 0) {
+      const revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1,
+        },
+      );
+
+      revealElements.forEach(function (el) {
         revealObserver.observe(el);
       });
     }
   } else {
     // Fallback: show all elements immediately
-    document.querySelectorAll('.reveal').forEach(function(el) {
+    document.querySelectorAll('.reveal').forEach(function (el) {
       el.classList.add('is-visible');
     });
   }
@@ -77,17 +80,17 @@
   // ============================================
   // Smooth scroll for anchor links
   // ============================================
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#' || targetId === '#main-content') return;
-      
+
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
@@ -99,17 +102,20 @@
   const header = document.querySelector('.site-header');
   if (header) {
     let lastScroll = 0;
-    window.addEventListener('scroll', function() {
-      const currentScroll = window.pageYOffset;
-      
-      if (currentScroll > 100) {
-        header.style.background = 'rgba(13, 13, 13, 0.98)';
-      } else {
-        header.style.background = 'rgba(13, 13, 13, 0.95)';
-      }
-      
-      lastScroll = currentScroll;
-    }, { passive: true });
-  }
+    window.addEventListener(
+      'scroll',
+      function () {
+        const currentScroll = window.pageYOffset;
 
+        if (currentScroll > 100) {
+          header.style.background = 'rgba(13, 13, 13, 0.98)';
+        } else {
+          header.style.background = 'rgba(13, 13, 13, 0.95)';
+        }
+
+        lastScroll = currentScroll;
+      },
+      { passive: true },
+    );
+  }
 })();

@@ -3,7 +3,7 @@
  * Starship bridge console — mobile nav, reduced motion, scroll reveals
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Reduced motion preference
@@ -14,7 +14,7 @@
   const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isExpanded = this.getAttribute('aria-expanded') === 'true';
       this.setAttribute('aria-expanded', String(!isExpanded));
       navMenu.classList.toggle('is-open', !isExpanded);
@@ -24,7 +24,7 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navToggle.setAttribute('aria-expanded', 'false');
         navMenu.classList.remove('is-open');
@@ -33,7 +33,7 @@
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navToggle.setAttribute('aria-expanded', 'false');
         navMenu.classList.remove('is-open');
@@ -43,7 +43,7 @@
     });
 
     // Trap focus in menu when open
-    navMenu.addEventListener('keydown', function(e) {
+    navMenu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
       const focusable = navMenu.querySelectorAll('a, button, [tabindex="0"]');
@@ -63,12 +63,12 @@
   // === SCROLL REVEALS ===
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .card'
+      '.feature-card, .client-card, .download-card, .feature-detail, .card',
     );
 
     const revealObserver = new IntersectionObserver(
-      function(entries) {
-        entries.forEach(function(entry) {
+      function (entries) {
+        entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('beam-up');
             revealObserver.unobserve(entry.target);
@@ -78,19 +78,19 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
-    revealElements.forEach(function(el) {
+    revealElements.forEach(function (el) {
       el.style.opacity = '0';
       revealObserver.observe(el);
     });
   }
 
   // === SMOOTH SCROLL FOR ANCHOR LINKS ===
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -99,7 +99,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update focus for accessibility
@@ -114,28 +114,32 @@
   if (header) {
     let ticking = false;
 
-    window.addEventListener('scroll', function() {
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          const currentScroll = window.pageYOffset;
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            const currentScroll = window.pageYOffset;
 
-          if (currentScroll > 50) {
-            header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
-          } else {
-            header.style.boxShadow = '';
-          }
+            if (currentScroll > 50) {
+              header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+            } else {
+              header.style.boxShadow = '';
+            }
 
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
   }
 
   // === CONSOLE POWER-UP EFFECT FOR CARDS ===
   if (!prefersReducedMotion) {
     const cards = document.querySelectorAll('.card, .feature-card, .client-card, .download-card');
-    cards.forEach(function(card) {
+    cards.forEach(function (card) {
       card.classList.add('console-power');
     });
   }
@@ -144,7 +148,7 @@
   const currentPath = window.location.pathname;
   const navLinks = document.querySelectorAll('.nav-link');
 
-  navLinks.forEach(function(link) {
+  navLinks.forEach(function (link) {
     const href = link.getAttribute('href');
     if (href === './' || href === 'index.html') {
       if (currentPath.endsWith('/') || currentPath.endsWith('index.html')) {
@@ -158,9 +162,8 @@
   // === BEACON PULSE FOR STATUS BADGES ===
   if (!prefersReducedMotion) {
     const statusBadges = document.querySelectorAll('.status-badge, .badge--stable');
-    statusBadges.forEach(function(badge) {
+    statusBadges.forEach(function (badge) {
       badge.classList.add('beacon-pulse');
     });
   }
-
 })();

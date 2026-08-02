@@ -17,9 +17,7 @@
   const qs = (sel, ctx = document) => ctx.querySelector(sel);
   const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* -------------------------------------------------------------------------
      SCROLL REVEAL — chapter section entrance
@@ -39,7 +37,7 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
     );
 
     targets.forEach((el) => io.observe(el));
@@ -119,9 +117,29 @@
     const monthDay = (now.getMonth() + 1) * 100 + now.getDate(); // MMDD as int
 
     const variants = [
-      { name: 'Space Race Christmas', active: [1215, 1231], overrides: { '--color-primary': '#00AFAF', '--color-secondary': '#E8543C', '--color-tertiary': '#F5EFE8' } },
-      { name: 'Harvest Harvest',      active: [1001, 1031], overrides: { '--color-primary': '#D4920A', '--color-secondary': '#E8543C', '--color-surface': '#1F1A0E' } },
-      { name: 'Valentine Teal',       active: [210, 214], overrides: { '--color-primary': '#E8543C', '--color-secondary': '#F2B705' } },
+      {
+        name: 'Space Race Christmas',
+        active: [1215, 1231],
+        overrides: {
+          '--color-primary': '#00AFAF',
+          '--color-secondary': '#E8543C',
+          '--color-tertiary': '#F5EFE8',
+        },
+      },
+      {
+        name: 'Harvest Harvest',
+        active: [1001, 1031],
+        overrides: {
+          '--color-primary': '#D4920A',
+          '--color-secondary': '#E8543C',
+          '--color-surface': '#1F1A0E',
+        },
+      },
+      {
+        name: 'Valentine Teal',
+        active: [210, 214],
+        overrides: { '--color-primary': '#E8543C', '--color-secondary': '#F2B705' },
+      },
     ];
 
     for (const v of variants) {
@@ -191,7 +209,8 @@
   function initTypedWordEgg() {
     const input = document.createElement('input');
     input.setAttribute('aria-label', 'easter-egg-trigger');
-    input.style.cssText = 'position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;z-index:9999;';
+    input.style.cssText =
+      'position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;z-index:9999;';
     document.body.appendChild(input);
 
     let typed = '';
@@ -199,7 +218,8 @@
     document.addEventListener('keydown', (e) => {
       // Disabled when focus in editable
       const tag = document.activeElement?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable)
+        return;
 
       if (e.key === 'Escape') {
         typed = '';
@@ -240,7 +260,7 @@
           io.disconnect();
         });
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     io.observe(footer);
@@ -338,5 +358,4 @@
   } else {
     init();
   }
-
 })();

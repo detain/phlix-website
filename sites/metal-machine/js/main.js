@@ -54,20 +54,25 @@
   // Scroll Reveals (IntersectionObserver)
   // ========================================================================
   if (!prefersReducedMotion.matches) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
     if ('IntersectionObserver' in window && revealElements.length > 0) {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      });
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1,
+        },
+      );
 
       revealElements.forEach(function (el) {
         el.style.opacity = '0';
@@ -79,7 +84,7 @@
       // Add revealed styles
       var style = document.createElement('style');
       style.textContent = [
-        '.revealed { opacity: 1 !important; transform: translateY(0) !important; }'
+        '.revealed { opacity: 1 !important; transform: translateY(0) !important; }',
       ].join('\n');
       document.head.appendChild(style);
     }
@@ -98,10 +103,9 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
   });
-
 })();

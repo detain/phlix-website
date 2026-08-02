@@ -62,8 +62,8 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -97,22 +97,25 @@
       button.className = 'btn btn-secondary code-copy-btn';
       button.textContent = 'Copy';
       button.setAttribute('aria-label', 'Copy code to clipboard');
-      
+
       block.querySelector('pre').appendChild(button);
-      
+
       button.addEventListener('click', function () {
         const code = block.querySelector('code').textContent;
-        navigator.clipboard.writeText(code).then(function () {
-          button.textContent = 'Copied!';
-          setTimeout(function () {
-            button.textContent = 'Copy';
-          }, 2000);
-        }).catch(function () {
-          button.textContent = 'Failed';
-          setTimeout(function () {
-            button.textContent = 'Copy';
-          }, 2000);
-        });
+        navigator.clipboard
+          .writeText(code)
+          .then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () {
+              button.textContent = 'Copy';
+            }, 2000);
+          })
+          .catch(function () {
+            button.textContent = 'Failed';
+            setTimeout(function () {
+              button.textContent = 'Copy';
+            }, 2000);
+          });
       });
     });
   }
@@ -123,13 +126,13 @@
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
-        
+
         const target = document.querySelector(targetId);
         if (target) {
           e.preventDefault();
           target.scrollIntoView({
             behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-            block: 'start'
+            block: 'start',
           });
           // Update focus for accessibility
           target.setAttribute('tabindex', '-1');

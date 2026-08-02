@@ -15,7 +15,7 @@ class PortalSystem {
       pulseSpeed: options.pulseSpeed || 0.002,
       rotationSpeed: options.rotationSpeed || 0.001,
       riftGlitchChance: options.riftGlitchChance || 0.02,
-      ...options
+      ...options,
     };
 
     this.init();
@@ -33,7 +33,7 @@ class PortalSystem {
 
   initReducedMotion() {
     // For reduced motion, ensure portals have some static glow
-    this.portals.forEach(portal => {
+    this.portals.forEach((portal) => {
       portal.style.opacity = '0.15';
       const core = portal.querySelector('.portal-core, .h-portal-core, .orb-core');
       if (core) {
@@ -43,7 +43,7 @@ class PortalSystem {
     });
 
     // Static rift lines
-    this.riftLines.forEach(rift => {
+    this.riftLines.forEach((rift) => {
       rift.style.opacity = '0.2';
       rift.style.animation = 'none';
     });
@@ -54,7 +54,7 @@ class PortalSystem {
     if ('IntersectionObserver' in window) {
       this.observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               this.activatePortal(entry.target);
             } else {
@@ -62,10 +62,10 @@ class PortalSystem {
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
 
-      this.portals.forEach(portal => {
+      this.portals.forEach((portal) => {
         this.observer.observe(portal);
       });
     }
@@ -97,12 +97,12 @@ class PortalSystem {
     }
 
     // Opacity fade based on scroll
-    this.portals.forEach(portal => {
+    this.portals.forEach((portal) => {
       const rect = portal.getBoundingClientRect();
       const isVisible = rect.top < windowHeight && rect.bottom > 0;
 
       if (isVisible && portal.classList.contains('hero-portal')) {
-        const opacity = Math.max(0, 1 - (scrollY / (windowHeight * 0.8)));
+        const opacity = Math.max(0, 1 - scrollY / (windowHeight * 0.8));
         portal.style.opacity = Math.min(0.3, opacity * 0.3);
       }
     });
@@ -203,7 +203,7 @@ class HeroPortal {
   }
 
   handleMouseLeave() {
-    this.rings.forEach(ring => {
+    this.rings.forEach((ring) => {
       ring.style.transform = '';
     });
   }

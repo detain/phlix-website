@@ -6,7 +6,7 @@
  * Mobile nav toggle, reduced-motion, scroll reveals
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ============================================================
@@ -17,14 +17,14 @@
   var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       var isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -33,7 +33,7 @@
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -43,7 +43,7 @@
     });
 
     // Trap focus in mobile menu
-    navMenu.addEventListener('keydown', function(e) {
+    navMenu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
       var focusable = navMenu.querySelectorAll('a, button');
@@ -78,23 +78,28 @@
      ============================================================ */
 
   if (!prefersReducedMotion.matches) {
-    var reveals = document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card, .hub-feature');
+    var reveals = document.querySelectorAll(
+      '.feature-card, .feature-detail, .client-card, .download-card, .hub-feature',
+    );
 
     if (reveals.length > 0 && 'IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      });
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1,
+        },
+      );
 
-      reveals.forEach(function(el) {
+      reveals.forEach(function (el) {
         el.classList.add('reveal');
         revealObserver.observe(el);
       });
@@ -105,8 +110,8 @@
      SMOOTH SCROLL FOR ANCHOR LINKS
      ============================================================ */
 
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       var targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -115,7 +120,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update URL without jumping
@@ -123,5 +128,4 @@
       }
     });
   });
-
 })();

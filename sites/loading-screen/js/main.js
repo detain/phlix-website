@@ -65,7 +65,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
       );
 
       revealElements.forEach(function (el) {
@@ -92,7 +92,7 @@
   var bootLines = document.querySelectorAll('.boot-text__line');
   if (bootLines.length > 0 && !prefersReducedMotion.matches) {
     bootLines.forEach(function (line, index) {
-      line.style.animationDelay = (index * 0.15) + 's';
+      line.style.animationDelay = index * 0.15 + 's';
     });
   }
 
@@ -115,5 +115,4 @@
       loadingFill.style.width = '100%';
     });
   }
-
 })();

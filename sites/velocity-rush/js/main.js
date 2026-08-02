@@ -159,7 +159,10 @@
     function inRange(now, from, to) {
       var m = now.getMonth() + 1;
       var d = now.getDate();
-      var fm = from[0], fd = from[1], tm = to[0], td = to[1];
+      var fm = from[0],
+        fd = from[1],
+        tm = to[0],
+        td = to[1];
       if (fm === tm) {
         return m === fm && d >= fd && d <= td;
       }
@@ -223,9 +226,9 @@
 
     // Page-specific tips
     var pageTip = {
-      'index.html': 'Zero to play — let\'s go! Your library\'s already warmed up.',
+      'index.html': "Zero to play — let's go! Your library's already warmed up.",
       'features.html': 'SyncPlay syncs every frame across every device. No drift, no lag.',
-      'download.html': 'One command to rule them all. You\'re the driver now.',
+      'download.html': "One command to rule them all. You're the driver now.",
       'about.html': 'Questions? Fast answers, no pit stops.',
     };
 
@@ -241,7 +244,7 @@
 
     // Show tip after delay
     var tipTimer = setTimeout(function () {
-      showTip(pageTip[path] || 'Zero to play — let\'s go!');
+      showTip(pageTip[path] || "Zero to play — let's go!");
     }, 2500);
 
     // Dismiss
@@ -341,7 +344,9 @@
 
         setTimeout(function () {
           badge.classList.remove('is-visible');
-          setTimeout(function () { badge.remove(); }, 300);
+          setTimeout(function () {
+            badge.remove();
+          }, 300);
         }, 2000);
       }
     });

@@ -3,7 +3,7 @@
  * Heartbeat pulses, mood tracking, nav toggle, scroll reveals
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ============================================
@@ -33,7 +33,7 @@
       document.body.style.overflow = 'hidden';
     }
 
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function () {
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
       if (isExpanded) {
         closeMenu();
@@ -43,7 +43,7 @@
     });
 
     // Close on escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('open')) {
         closeMenu();
         toggle.focus();
@@ -51,14 +51,18 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
-      if (!menu.contains(e.target) && !toggle.contains(e.target) && menu.classList.contains('open')) {
+    document.addEventListener('click', function (e) {
+      if (
+        !menu.contains(e.target) &&
+        !toggle.contains(e.target) &&
+        menu.classList.contains('open')
+      ) {
         closeMenu();
       }
     });
 
     // Close on resize to desktop
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
       if (window.innerWidth > 768 && menu.classList.contains('open')) {
         closeMenu();
       }
@@ -66,14 +70,18 @@
 
     // Header scroll effect
     if (header) {
-      window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset;
-        if (currentScroll > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      }, { passive: true });
+      window.addEventListener(
+        'scroll',
+        function () {
+          const currentScroll = window.pageYOffset;
+          if (currentScroll > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        },
+        { passive: true },
+      );
     }
   }
 
@@ -108,26 +116,31 @@
     // Track scroll for mood updates
     if (!prefersReducedMotion.matches) {
       let scrollTimeout;
-      window.addEventListener('scroll', function() {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(function() {
-          const scrollPercent = (window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100;
+      window.addEventListener(
+        'scroll',
+        function () {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function () {
+            const scrollPercent =
+              (window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100;
 
-          if (scrollPercent > 75) {
-            indicator.setAttribute('data-mood', 'excited');
-            currentMoodIndex = moods.indexOf('excited');
-          } else if (scrollPercent > 50) {
-            indicator.setAttribute('data-mood', 'engaged');
-            currentMoodIndex = moods.indexOf('engaged');
-          } else if (scrollPercent > 25) {
-            indicator.setAttribute('data-mood', 'contemplative');
-            currentMoodIndex = moods.indexOf('contemplative');
-          } else {
-            indicator.setAttribute('data-mood', 'calm');
-            currentMoodIndex = moods.indexOf('calm');
-          }
-        }, 100);
-      }, { passive: true });
+            if (scrollPercent > 75) {
+              indicator.setAttribute('data-mood', 'excited');
+              currentMoodIndex = moods.indexOf('excited');
+            } else if (scrollPercent > 50) {
+              indicator.setAttribute('data-mood', 'engaged');
+              currentMoodIndex = moods.indexOf('engaged');
+            } else if (scrollPercent > 25) {
+              indicator.setAttribute('data-mood', 'contemplative');
+              currentMoodIndex = moods.indexOf('contemplative');
+            } else {
+              indicator.setAttribute('data-mood', 'calm');
+              currentMoodIndex = moods.indexOf('calm');
+            }
+          }, 100);
+        },
+        { passive: true },
+      );
     }
   }
 
@@ -137,14 +150,14 @@
   function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
 
-    faqItems.forEach(function(item) {
+    faqItems.forEach(function (item) {
       const question = item.querySelector('.faq-item__question');
 
-      question.addEventListener('click', function() {
+      question.addEventListener('click', function () {
         const isOpen = item.classList.contains('open');
 
         // Close all others
-        faqItems.forEach(function(otherItem) {
+        faqItems.forEach(function (otherItem) {
           otherItem.classList.remove('open');
           otherItem.setAttribute('aria-expanded', 'false');
         });
@@ -157,7 +170,7 @@
       });
 
       // Keyboard accessibility
-      question.addEventListener('keydown', function(e) {
+      question.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           question.click();
@@ -172,7 +185,7 @@
   function initScrollReveal() {
     if (prefersReducedMotion.matches) {
       // Show all elements immediately for reduced motion
-      document.querySelectorAll('.reveal').forEach(function(el) {
+      document.querySelectorAll('.reveal').forEach(function (el) {
         el.classList.add('visible');
       });
       return;
@@ -182,19 +195,22 @@
 
     if (!reveals.length) return;
 
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
-    reveals.forEach(function(el) {
+    reveals.forEach(function (el) {
       observer.observe(el);
     });
   }
@@ -206,14 +222,14 @@
     const monitors = document.querySelectorAll('.heart-monitor__line');
 
     if (prefersReducedMotion.matches) {
-      monitors.forEach(function(line) {
+      monitors.forEach(function (line) {
         line.style.animation = 'none';
         line.style.opacity = '0.8';
       });
       return;
     }
 
-    monitors.forEach(function(line) {
+    monitors.forEach(function (line) {
       // Each monitor gets a slightly different timing
       const delay = Math.random() * 2;
       line.style.animationDelay = delay + 's';
@@ -226,26 +242,29 @@
   function initCodeBlocks() {
     const codeBlocks = document.querySelectorAll('.code-block');
 
-    codeBlocks.forEach(function(block) {
+    codeBlocks.forEach(function (block) {
       const copyBtn = block.querySelector('.code-block__copy');
       const code = block.querySelector('code');
 
       if (!copyBtn || !code) return;
 
-      copyBtn.addEventListener('click', function() {
+      copyBtn.addEventListener('click', function () {
         const text = code.textContent;
 
-        navigator.clipboard.writeText(text).then(function() {
-          copyBtn.textContent = 'Copied!';
-          setTimeout(function() {
-            copyBtn.textContent = 'Copy';
-          }, 2000);
-        }).catch(function() {
-          copyBtn.textContent = 'Failed';
-          setTimeout(function() {
-            copyBtn.textContent = 'Copy';
-          }, 2000);
-        });
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            copyBtn.textContent = 'Copied!';
+            setTimeout(function () {
+              copyBtn.textContent = 'Copy';
+            }, 2000);
+          })
+          .catch(function () {
+            copyBtn.textContent = 'Failed';
+            setTimeout(function () {
+              copyBtn.textContent = 'Copy';
+            }, 2000);
+          });
       });
     });
   }
@@ -258,14 +277,14 @@
 
     if (prefersReducedMotion.matches) return;
 
-    buttons.forEach(function(btn) {
-      btn.addEventListener('mouseenter', function() {
+    buttons.forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () {
         if (!prefersReducedMotion.matches) {
           btn.style.animation = 'heartbeat 0.6s ease-in-out';
         }
       });
 
-      btn.addEventListener('mouseleave', function() {
+      btn.addEventListener('mouseleave', function () {
         btn.style.animation = '';
       });
     });
@@ -275,8 +294,8 @@
   // Smooth Scroll for Anchor Links
   // ============================================
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -285,7 +304,7 @@
           e.preventDefault();
           target.scrollIntoView({
             behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-            block: 'start'
+            block: 'start',
           });
 
           // Update URL without jumping
@@ -302,20 +321,20 @@
     const circuits = document.querySelectorAll('.organic-circuit');
 
     if (prefersReducedMotion.matches) {
-      circuits.forEach(function(circuit) {
+      circuits.forEach(function (circuit) {
         circuit.style.animation = 'none';
       });
       return;
     }
 
-    circuits.forEach(function(circuit) {
+    circuits.forEach(function (circuit) {
       let offset = 0;
       const nodes = circuit.querySelectorAll('.organic-circuit__node');
       const lines = circuit.querySelectorAll('.organic-circuit__line');
 
       function animate() {
         offset += 0.02;
-        nodes.forEach(function(node, i) {
+        nodes.forEach(function (node, i) {
           const baseX = parseFloat(node.dataset.x) || 50;
           const baseY = parseFloat(node.dataset.y) || 50;
           const x = baseX + Math.sin(offset + i * 0.5) * 5;
@@ -324,7 +343,7 @@
           node.style.top = y + '%';
         });
 
-        lines.forEach(function(line, i) {
+        lines.forEach(function (line, i) {
           const length = parseFloat(line.dataset.length) || 50;
           const angle = parseFloat(line.dataset.angle) || 0;
           const x = parseFloat(line.dataset.startX) || 50;
@@ -366,5 +385,4 @@
   } else {
     init();
   }
-
 })();

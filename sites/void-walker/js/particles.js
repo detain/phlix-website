@@ -8,9 +8,9 @@ class DebrisSystem {
     this.container = container;
     this.particleCount = options.particleCount || 30;
     this.colors = options.colors || [
-      'rgba(108, 99, 255, 0.6)',   // rift-violet
-      'rgba(108, 99, 255, 0.4)',   // rift-violet dim
-      'rgba(232, 232, 240, 0.3)',  // membrane-white
+      'rgba(108, 99, 255, 0.6)', // rift-violet
+      'rgba(108, 99, 255, 0.4)', // rift-violet dim
+      'rgba(232, 232, 240, 0.3)', // membrane-white
       'rgba(255, 107, 107, 0.3)', // shadow-coral
     ];
     this.minSize = options.minSize || 1;
@@ -76,15 +76,15 @@ class DebrisSystem {
       `;
 
       // Set initial position
-      const initialX = Math.cos(startAngle * Math.PI / 180) * orbitRadius;
-      const initialY = Math.sin(startAngle * Math.PI / 180) * orbitRadius;
+      const initialX = Math.cos((startAngle * Math.PI) / 180) * orbitRadius;
+      const initialY = Math.sin((startAngle * Math.PI) / 180) * orbitRadius;
 
       this.container.appendChild(particle);
       this.particles.push({
         element: particle,
         x: initialX,
         y: initialY,
-        active: true
+        active: true,
       });
     }
   }
@@ -109,7 +109,7 @@ class DebrisSystem {
   }
 
   destroy() {
-    this.particles.forEach(p => {
+    this.particles.forEach((p) => {
       if (p.element && p.element.parentNode) {
         p.element.parentNode.removeChild(p.element);
       }

@@ -49,9 +49,8 @@
     const year = now.getFullYear();
 
     for (const v of variants) {
-      const active = v.start <= v.end
-        ? today >= v.start && today <= v.end
-        : today >= v.start || today <= v.end;
+      const active =
+        v.start <= v.end ? today >= v.start && today <= v.end : today >= v.start || today <= v.end;
       if (active) {
         document.documentElement.dataset.season = v.key;
         const banner = $('.season-banner');

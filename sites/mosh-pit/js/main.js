@@ -56,17 +56,20 @@
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card');
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      rootMargin: '0px 0px -50px 0px',
-      threshold: 0.1
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1,
+      },
+    );
 
     revealElements.forEach(function (el) {
       el.style.opacity = '0';
@@ -84,9 +87,9 @@
   // --------------------------------------------------------------------------
   // Focus trap for mobile nav (accessibility)
   // --------------------------------------------------------------------------
-  var focusableNavElements = navMenu ? navMenu.querySelectorAll(
-    'a[href], button, [tabindex]:not([tabindex="-1"])'
-  ) : [];
+  var focusableNavElements = navMenu
+    ? navMenu.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])')
+    : [];
 
   if (focusableNavElements.length > 0) {
     var firstNavElement = focusableNavElements[0];

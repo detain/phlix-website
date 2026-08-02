@@ -1,7 +1,7 @@
 /* @copyright 2026 Phlix — Arctic Passage Brand Kit */
 /* Main JavaScript — vanilla, dependency-free */
 
-(function() {
+(function () {
   'use strict';
 
   // Reduced motion check
@@ -31,14 +31,14 @@
     navToggle.addEventListener('click', toggleNav);
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (isOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
         closeNav();
       }
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen) {
         closeNav();
         navToggle.focus();
@@ -47,8 +47,8 @@
 
     // Close on nav link click (accessibility)
     var navLinks = navMenu.querySelectorAll('a');
-    navLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
         if (isOpen) closeNav();
       });
     });
@@ -56,25 +56,31 @@
 
   // Scroll reveal with IntersectionObserver
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
-    var revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
-    revealElements.forEach(function(el, index) {
+    revealElements.forEach(function (el, index) {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease ' + (index * 50) + 'ms, transform 0.5s ease ' + (index * 50) + 'ms';
+      el.style.transition =
+        'opacity 0.5s ease ' + index * 50 + 'ms, transform 0.5s ease ' + index * 50 + 'ms';
       revealObserver.observe(el);
     });
   }
@@ -83,17 +89,21 @@
   if (!prefersReducedMotion) {
     var auroraLayer = document.querySelector('.hero::before');
     if (auroraLayer) {
-      document.addEventListener('scroll', function() {
-        var scrolled = window.pageYOffset;
-        var rate = scrolled * 0.3;
-        auroraLayer.style.transform = 'translateY(' + rate + 'px)';
-      }, { passive: true });
+      document.addEventListener(
+        'scroll',
+        function () {
+          var scrolled = window.pageYOffset;
+          var rate = scrolled * 0.3;
+          auroraLayer.style.transform = 'translateY(' + rate + 'px)';
+        },
+        { passive: true },
+      );
     }
   }
 
   // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       var targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -102,10 +112,9 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
   });
-
 })();

@@ -8,7 +8,7 @@
 
   /* ─── Mobile nav toggle ──────────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
-  var navMenu   = document.querySelector('.nav-menu');
+  var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', function () {
@@ -35,12 +35,12 @@
   }
 
   /* ─── Scroll reveals (IntersectionObserver) ──────────────────── */
-  var prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    var revealEls = document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card, .hub-feature');
+    var revealEls = document.querySelectorAll(
+      '.feature-card, .feature-detail, .client-card, .download-card, .hub-feature',
+    );
     if (revealEls.length) {
       var observer = new IntersectionObserver(
         function (entries) {
@@ -51,7 +51,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       revealEls.forEach(function (el) {
@@ -77,7 +77,7 @@
             }
           });
         },
-        { threshold: 0.3 }
+        { threshold: 0.3 },
       );
 
       sections.forEach(function (section) {

@@ -7,9 +7,7 @@
   'use strict';
 
   // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ============================================
   // Mobile Navigation Toggle
@@ -51,7 +49,7 @@
   // ============================================
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .hub-block, .philosophy-block'
+      '.feature-card, .client-card, .download-card, .hub-block, .philosophy-block',
     );
 
     const revealObserver = new IntersectionObserver(
@@ -64,7 +62,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
     );
 
     revealElements.forEach(function (el) {

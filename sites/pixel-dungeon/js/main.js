@@ -37,7 +37,9 @@
       document.body.classList.toggle('intensity-reduced', calm);
       try {
         localStorage.setItem('pixel-dungeon-calm', calm ? 'true' : 'false');
-      } catch (e) { /* storage blocked */ }
+      } catch (e) {
+        /* storage blocked */
+      }
     });
   }
 
@@ -104,22 +106,26 @@
   if (siteLogo) {
     siteLogo.addEventListener('click', function (e) {
       // Don't count if focus was in an input
-      if (document.activeElement &&
-          (document.activeElement.tagName === 'INPUT' ||
-           document.activeElement.tagName === 'TEXTAREA' ||
-           document.activeElement.contentEditable === 'true')) {
+      if (
+        document.activeElement &&
+        (document.activeElement.tagName === 'INPUT' ||
+          document.activeElement.tagName === 'TEXTAREA' ||
+          document.activeElement.contentEditable === 'true')
+      ) {
         return;
       }
 
       logoClickCount++;
       clearTimeout(logoClickTimer);
-      logoClickTimer = setTimeout(function () { logoClickCount = 0; }, 2000);
+      logoClickTimer = setTimeout(function () {
+        logoClickCount = 0;
+      }, 2000);
 
       if (logoClickCount >= 5) {
         logoClickCount = 0;
         triggerCoinShower();
         triggerBlipVictory();
-        triggerRewardText('1UP! You\'ve found the secret stash!');
+        triggerRewardText("1UP! You've found the secret stash!");
       }
     });
   }
@@ -133,11 +139,13 @@
     for (let i = 0; i < 8; i++) {
       const coin = document.createElement('div');
       coin.className = 'coin-particle';
-      coin.style.left = (10 + Math.random() * 80) + '%';
-      coin.style.animationDelay = (i * 50) + 'ms';
+      coin.style.left = 10 + Math.random() * 80 + '%';
+      coin.style.animationDelay = i * 50 + 'ms';
       shower.appendChild(coin);
     }
-    setTimeout(function () { shower.classList.remove('active'); }, 2000);
+    setTimeout(function () {
+      shower.classList.remove('active');
+    }, 2000);
   }
 
   function triggerBlipVictory() {
@@ -156,7 +164,9 @@
     if (!reward) return;
     reward.textContent = text;
     reward.classList.add('active');
-    setTimeout(function () { reward.classList.remove('active'); }, 5000);
+    setTimeout(function () {
+      reward.classList.remove('active');
+    }, 5000);
 
     // Allow Esc to dismiss
     function onKey(e) {
@@ -180,12 +190,13 @@
   document.addEventListener('keydown', function (e) {
     // Skip if in input
     const el = document.activeElement;
-    if (el && (
-        el.tagName === 'INPUT' ||
+    if (
+      el &&
+      (el.tagName === 'INPUT' ||
         el.tagName === 'TEXTAREA' ||
         el.contentEditable === 'true' ||
-        el.getAttribute('contenteditable') === 'true'
-    )) {
+        el.getAttribute('contenteditable') === 'true')
+    ) {
       return;
     }
 
@@ -206,7 +217,9 @@
     }
 
     clearTimeout(continueTimer);
-    continueTimer = setTimeout(function () { typedBuffer = ''; }, 1500);
+    continueTimer = setTimeout(function () {
+      typedBuffer = '';
+    }, 1500);
 
     if (typedBuffer === CONTINUE_WORD) {
       typedBuffer = '';
@@ -218,7 +231,9 @@
     const cont = document.getElementById('easter-continue');
     if (!cont) return;
     cont.classList.add('active');
-    setTimeout(function () { cont.classList.remove('active'); }, 10000);
+    setTimeout(function () {
+      cont.classList.remove('active');
+    }, 10000);
 
     function onKey(e) {
       if (e.key === 'Escape') {
@@ -252,7 +267,9 @@
           localStorage.removeItem('pixel-dungeon-blip-dismissed');
         }
       }
-    } catch (e) { /* storage blocked */ }
+    } catch (e) {
+      /* storage blocked */
+    }
 
     // Dismiss button
     const dismissBtn = blip.querySelector('.blip-dismiss');
@@ -262,8 +279,13 @@
         blip.classList.add('dismissed');
         try {
           // 30-day TTL
-          localStorage.setItem('pixel-dungeon-blip-dismissed', String(Date.now() + 30 * 24 * 60 * 60 * 1000));
-        } catch (err) { /* storage blocked */ }
+          localStorage.setItem(
+            'pixel-dungeon-blip-dismissed',
+            String(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          );
+        } catch (err) {
+          /* storage blocked */
+        }
       });
     }
 
@@ -271,12 +293,14 @@
     const tip = blip.querySelector('.blip-tip');
     if (tip) {
       const page = document.body.dataset.page;
-      const section = (page === 'index') ? 'home' : page;
+      const section = page === 'index' ? 'home' : page;
       // Show tip after a delay
       setTimeout(function () {
         if (!blip.classList.contains('dismissed')) {
           tip.classList.add('visible');
-          setTimeout(function () { tip.classList.remove('visible'); }, 4000);
+          setTimeout(function () {
+            tip.classList.remove('visible');
+          }, 4000);
         }
       }, 3000);
     }
@@ -344,7 +368,8 @@
     const levelUp = document.getElementById('level-up');
     if (!levelUp) return;
     levelUp.classList.add('active');
-    setTimeout(function () { levelUp.classList.remove('active'); }, 1500);
+    setTimeout(function () {
+      levelUp.classList.remove('active');
+    }, 1500);
   };
-
 })();

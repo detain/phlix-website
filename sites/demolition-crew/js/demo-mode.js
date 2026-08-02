@@ -85,7 +85,7 @@ class DemoMode {
         position: fixed;
         width: ${8 + Math.random() * 16}px;
         height: ${6 + Math.random() * 12}px;
-        background: ${['#FF3838','#FFD93D','#6C5CE7','#3D4449','#4A5157'][Math.floor(Math.random()*5)]};
+        background: ${['#FF3838', '#FFD93D', '#6C5CE7', '#3D4449', '#4A5157'][Math.floor(Math.random() * 5)]};
         left: ${panelRect.left + Math.random() * panelRect.width}px;
         top: ${panelRect.top + Math.random() * panelRect.height}px;
         z-index: 9999;

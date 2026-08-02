@@ -83,7 +83,7 @@
         root: null,
         rootMargin: '0px 0px -50px 0px',
         threshold: 0.1,
-      }
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -132,7 +132,9 @@
   /* --------------------------------------------------------------------------
      Circuit Trace Hover Effect
      -------------------------------------------------------------------------- */
-  var interactiveElements = document.querySelectorAll('.feature-card, .client-card, .download-card');
+  var interactiveElements = document.querySelectorAll(
+    '.feature-card, .client-card, .download-card',
+  );
 
   interactiveElements.forEach(function (el) {
     el.addEventListener('mouseenter', function () {
@@ -145,10 +147,11 @@
   /* --------------------------------------------------------------------------
      Inline SVG Icons (ensure proper sizing)
      -------------------------------------------------------------------------- */
-  document.querySelectorAll('.feature-card-icon svg, .feature-detail-icon svg').forEach(function (svg) {
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '100%');
-    svg.style.display = 'block';
-  });
-
+  document
+    .querySelectorAll('.feature-card-icon svg, .feature-detail-icon svg')
+    .forEach(function (svg) {
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.style.display = 'block';
+    });
 })();

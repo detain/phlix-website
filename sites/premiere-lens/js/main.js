@@ -9,9 +9,7 @@
   'use strict';
 
   // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // === Mobile Navigation Toggle ===
   const navToggle = document.querySelector('.nav-toggle');
@@ -69,7 +67,7 @@
   // === Scroll Reveal Animation ===
   if (!prefersReducedMotion) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .feature-detail, .client-card, .download-card, .hub-feature'
+      '.feature-card, .feature-detail, .client-card, .download-card, .hub-feature',
     );
 
     if (revealElements.length > 0 && 'IntersectionObserver' in window) {
@@ -85,8 +83,8 @@
         {
           root: null,
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
       revealElements.forEach(function (el) {
@@ -134,7 +132,7 @@
             setTimeout(function () {
               button.textContent = 'Copy';
             }, 2000);
-          }
+          },
         );
       }
     });
@@ -169,7 +167,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update URL without jumping

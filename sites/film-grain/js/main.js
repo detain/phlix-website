@@ -4,7 +4,7 @@
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-(function() {
+(function () {
   'use strict';
 
   /* ========================================
@@ -57,9 +57,11 @@
 
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (navMenu.classList.contains('is-open') &&
-          !navMenu.contains(e.target) &&
-          !navToggle.contains(e.target)) {
+      if (
+        navMenu.classList.contains('is-open') &&
+        !navMenu.contains(e.target) &&
+        !navToggle.contains(e.target)
+      ) {
         closeNav();
       }
     });
@@ -100,8 +102,8 @@
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      }
+        rootMargin: '0px 0px -50px 0px',
+      },
     );
 
     revealElements.forEach((el) => {
@@ -155,8 +157,8 @@
         });
       },
       {
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     staggerContainers.forEach((container) => {
@@ -171,5 +173,4 @@
       staggerObserver.observe(container);
     });
   }
-
 })();

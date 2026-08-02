@@ -115,6 +115,11 @@
       if (mascotTip) mascotTip.classList.remove('mascot-tip--visible');
     }
 
+    function triggerMascotLand() {
+      showMascotTip();
+      setTimeout(hideMascotTip, 3000);
+    }
+
     function dismissMascot() {
       mascot.classList.add('mascot--hidden');
       localStorage.setItem(dismissedKey, '1');
@@ -188,11 +193,6 @@
       body.style.animation = 'mascot-float 4s ease-in-out infinite';
     }, 800);
     spawnPollen();
-  }
-
-  function triggerMascotLand() {
-    showMascotTip();
-    setTimeout(hideMascotTip, 3000);
   }
 
   function spawnPollen() {

@@ -139,16 +139,18 @@
     // localStorage not available — ignore
   }
 
-  var mascotPage = window.location.pathname.replace(/[^\/]*$/, '') || '/';
+  var mascotPage = window.location.pathname.replace(/[^/]*$/, '') || '/';
   var mascotDismissedPage = null;
   try {
     mascotDismissedPage = localStorage.getItem('librarian-dismissed-page');
-  } catch (e) {}
+  } catch (e) {
+    // localStorage not available — ignore
+  }
 
   function isMascotPageAllowed() {
     // The Librarian appears on Home, Features, and Download only
     var allowed = ['/', '/index.html', '/features.html', '/download.html'];
-    var path = window.location.pathname.replace(/\/[^\/]*$/, '');
+    var path = window.location.pathname.replace(/\/[^/]*$/, '');
     return allowed.indexOf(path) !== -1 || allowed.indexOf(window.location.pathname) !== -1;
   }
 
@@ -166,7 +168,9 @@
     try {
       localStorage.setItem('librarian-dismissed', 'true');
       localStorage.setItem('librarian-dismissed-page', mascotPage);
-  } catch (_e) {}
+    } catch (_e) {
+      // localStorage not available — ignore
+    }
   }
 
   // Show tip at specific section
@@ -475,11 +479,11 @@
   });
 
   /* ======================================================================
-     DIORAMA PARALLAX — hero_experience spec
-     Gentle parallax on scroll and pointer movement
-     Falls back to static hero on reduced-motion or no-JS
-     ====================================================================== */
-  var heroSection = document.querySelector('.hero');
+   DIORAMA PARALLAX — hero_experience spec
+      Gentle parallax on scroll and pointer movement
+      Falls back to static hero on reduced-motion or no-JS
+      ====================================================================== */
+  heroSection = document.querySelector('.hero');
   var lampGlow = document.querySelector('.lamp-glow--hero');
 
   if (heroSection && !motionQuery.matches) {

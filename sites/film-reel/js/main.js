@@ -75,7 +75,7 @@
   // ===== SCROLL REVEALS =====
   if (!prefersReducedMotion.matches) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail, .faq-list details'
+      '.feature-card, .client-card, .download-card, .feature-detail, .faq-list details',
     );
 
     if ('IntersectionObserver' in window && revealElements.length > 0) {
@@ -90,8 +90,8 @@
         },
         {
           threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        }
+          rootMargin: '0px 0px -50px 0px',
+        },
       );
 
       revealElements.forEach(function (el, index) {
@@ -113,7 +113,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update URL without jumping
@@ -147,17 +147,20 @@
       button.addEventListener('click', function () {
         const code = block.querySelector('code');
         if (code) {
-          navigator.clipboard.writeText(code.textContent || '').then(function () {
-            button.textContent = 'Copied!';
-            setTimeout(function () {
-              button.textContent = 'Copy';
-            }, 2000);
-          }).catch(function () {
-            button.textContent = 'Failed';
-            setTimeout(function () {
-              button.textContent = 'Copy';
-            }, 2000);
-          });
+          navigator.clipboard
+            .writeText(code.textContent || '')
+            .then(function () {
+              button.textContent = 'Copied!';
+              setTimeout(function () {
+                button.textContent = 'Copy';
+              }, 2000);
+            })
+            .catch(function () {
+              button.textContent = 'Failed';
+              setTimeout(function () {
+                button.textContent = 'Copy';
+              }, 2000);
+            });
         }
       });
 
@@ -172,9 +175,11 @@
 
   navLinks.forEach(function (link) {
     const href = link.getAttribute('href');
-    if (href === currentPath ||
-        (currentPath === '' && href === 'index.html') ||
-        (currentPath === 'index.html' && href === 'index.html')) {
+    if (
+      href === currentPath ||
+      (currentPath === '' && href === 'index.html') ||
+      (currentPath === 'index.html' && href === 'index.html')
+    ) {
       link.setAttribute('aria-current', 'page');
     }
   });
@@ -183,5 +188,4 @@
   if (!('showModal' in document.createElement('dialog'))) {
     // Fallback handled via CSS — no JS needed
   }
-
 })();

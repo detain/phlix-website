@@ -29,7 +29,7 @@ class SparkParticles {
       colors: ['#FF9F1A', '#E71D36', '#2EC4B6', '#FFD60A'],
       gravity: 0.15,
       friction: 0.98,
-      ...options
+      ...options,
     };
 
     this.init();
@@ -45,7 +45,10 @@ class SparkParticles {
 
   init() {
     this.resize();
-    window.addEventListener('resize', this.debounce(() => this.resize(), 250));
+    window.addEventListener(
+      'resize',
+      this.debounce(() => this.resize(), 250),
+    );
 
     // Track mouse position
     document.addEventListener('mousemove', (e) => {
@@ -59,13 +62,17 @@ class SparkParticles {
     });
 
     // Touch support
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        this.mouseX = e.touches[0].clientX;
-        this.mouseY = e.touches[0].clientY;
-        this.emitFromMouse(3);
-      }
-    }, { passive: true });
+    document.addEventListener(
+      'touchmove',
+      (e) => {
+        if (e.touches.length > 0) {
+          this.mouseX = e.touches[0].clientX;
+          this.mouseY = e.touches[0].clientY;
+          this.emitFromMouse(3);
+        }
+      },
+      { passive: true },
+    );
 
     document.addEventListener('touchend', () => {
       this.mouseX = -1000;
@@ -79,15 +86,11 @@ class SparkParticles {
     });
 
     // Emit sparks on hover for nav links
-    document.querySelectorAll('.nav-link, .btn, .feature-card').forEach(el => {
+    document.querySelectorAll('.nav-link, .btn, .feature-card').forEach((el) => {
       el.addEventListener('mouseenter', () => {
         if (this.reducedMotion) return;
         const rect = el.getBoundingClientRect();
-        this.emitBurst(
-          rect.left + rect.width / 2,
-          rect.top + rect.height / 2,
-          5
-        );
+        this.emitBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 5);
       });
     });
 
@@ -117,13 +120,15 @@ class SparkParticles {
       vx: vx !== undefined ? vx : Math.cos(angle) * speed,
       vy: vy !== undefined ? vy : Math.sin(angle) * speed,
       size: options.size || this.options.particleSize * (0.5 + Math.random()),
-      color: options.color || this.options.colors[Math.floor(Math.random() * this.options.colors.length)],
+      color:
+        options.color ||
+        this.options.colors[Math.floor(Math.random() * this.options.colors.length)],
       life: this.options.particleLife,
       maxLife: this.options.particleLife,
       gravity: options.gravity !== undefined ? options.gravity : this.options.gravity,
       friction: this.options.friction,
       trail: [],
-      maxTrail: 8
+      maxTrail: 8,
     };
   }
 
@@ -137,7 +142,7 @@ class SparkParticles {
         this.mouseX,
         this.mouseY,
         Math.cos(angle) * speed,
-        Math.sin(angle) * speed
+        Math.sin(angle) * speed,
       );
       this.particles.push(particle);
     }
@@ -166,7 +171,12 @@ class SparkParticles {
         const y = this.canvas.height + 20;
         const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.5;
         const speed = this.options.particleSpeed * (0.5 + Math.random() * 0.5);
-        const particle = this.createParticle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed);
+        const particle = this.createParticle(
+          x,
+          y,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed,
+        );
         this.particles.push(particle);
       }
     }, 100);
@@ -192,10 +202,15 @@ class SparkParticles {
       p.y += p.vy * dt;
 
       // Decay life
-      p.life -= (deltaTime / 1000);
+      p.life -= deltaTime / 1000;
 
       // Remove dead particles
-      if (p.life <= 0 || p.y > this.canvas.height + 50 || p.x < -50 || p.x > this.canvas.width + 50) {
+      if (
+        p.life <= 0 ||
+        p.y > this.canvas.height + 50 ||
+        p.x < -50 ||
+        p.x > this.canvas.width + 50
+      ) {
         this.particles.splice(i, 1);
       }
     }
@@ -209,7 +224,7 @@ class SparkParticles {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.particles.forEach(p => {
+    this.particles.forEach((p) => {
       const lifeRatio = p.life / p.maxLife;
       const alpha = Math.min(lifeRatio * 1.5, 1);
 
@@ -234,10 +249,7 @@ class SparkParticles {
       this.ctx.arc(p.x, p.y, p.size * lifeRatio, 0, Math.PI * 2);
 
       // Glow effect
-      const gradient = this.ctx.createRadialGradient(
-        p.x, p.y, 0,
-        p.x, p.y, p.size * 2
-      );
+      const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
       gradient.addColorStop(0, p.color);
       gradient.addColorStop(0.4, p.color);
       gradient.addColorStop(1, 'transparent');

@@ -3,7 +3,7 @@
  * Navigation toggle, reduced motion, scroll reveals
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ==========================================================================
@@ -36,7 +36,7 @@
       document.body.style.overflow = '';
     }
 
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function () {
       const isOpen = menu.classList.contains('open');
       if (isOpen) {
         closeMenu();
@@ -46,7 +46,7 @@
     });
 
     // Close on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('open')) {
         closeMenu();
         toggle.focus();
@@ -54,20 +54,22 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
-      if (menu.classList.contains('open') &&
-          !menu.contains(e.target) &&
-          !toggle.contains(e.target)) {
+    document.addEventListener('click', function (e) {
+      if (
+        menu.classList.contains('open') &&
+        !menu.contains(e.target) &&
+        !toggle.contains(e.target)
+      ) {
         closeMenu();
       }
     });
 
     // Trap focus within menu when open
-    menu.addEventListener('keydown', function(e) {
+    menu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
       const focusableElements = menu.querySelectorAll(
-        'a[href], button:not([disabled]), [tabindex="0"]'
+        'a[href], button:not([disabled]), [tabindex="0"]',
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -89,7 +91,7 @@
   function initScrollReveals() {
     if (prefersReducedMotion) {
       // Show all elements immediately if reduced motion preferred
-      document.querySelectorAll('.reveal').forEach(function(el) {
+      document.querySelectorAll('.reveal').forEach(function (el) {
         el.classList.add('revealed');
       });
       return;
@@ -101,11 +103,11 @@
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -50px 0px',
-      threshold: 0.1
+      threshold: 0.1,
     };
 
-    const revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
+    const revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('revealed');
           revealObserver.unobserve(entry.target);
@@ -113,7 +115,7 @@
       });
     }, observerOptions);
 
-    revealElements.forEach(function(el) {
+    revealElements.forEach(function (el) {
       revealObserver.observe(el);
     });
   }
@@ -126,7 +128,7 @@
     const faqTerms = document.querySelectorAll('.faq-list dt');
     if (!faqTerms.length) return;
 
-    faqTerms.forEach(function(term) {
+    faqTerms.forEach(function (term) {
       term.setAttribute('role', 'button');
       term.setAttribute('tabindex', '0');
       term.setAttribute('aria-expanded', 'false');
@@ -146,7 +148,7 @@
       }
 
       term.addEventListener('click', toggleFaq);
-      term.addEventListener('keydown', function(e) {
+      term.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           toggleFaq();
@@ -165,7 +167,7 @@
     const flickeringElements = document.querySelectorAll('.hud-flicker');
     if (!flickeringElements.length) return;
 
-    flickeringElements.forEach(function(el) {
+    flickeringElements.forEach(function (el) {
       el.style.animation = 'hudFlicker 8s infinite';
     });
   }
@@ -177,8 +179,8 @@
   function initSmoothScroll() {
     if (prefersReducedMotion) return;
 
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -187,7 +189,7 @@
           e.preventDefault();
           target.scrollIntoView({
             behavior: 'smooth',
-            block: 'start'
+            block: 'start',
           });
         }
       });
@@ -204,19 +206,23 @@
 
     let _lastScrollY = 0;
 
-    window.addEventListener('scroll', function() {
-      const scrollY = window.scrollY;
+    window.addEventListener(
+      'scroll',
+      function () {
+        const scrollY = window.scrollY;
 
-      if (scrollY > 100) {
-        header.style.background = 'rgba(10, 10, 10, 0.98)';
-        header.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.5)';
-      } else {
-        header.style.background = 'rgba(10, 10, 10, 0.95)';
-        header.style.boxShadow = 'none';
-      }
+        if (scrollY > 100) {
+          header.style.background = 'rgba(10, 10, 10, 0.98)';
+          header.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.5)';
+        } else {
+          header.style.background = 'rgba(10, 10, 10, 0.95)';
+          header.style.boxShadow = 'none';
+        }
 
-      _lastScrollY = scrollY;
-    }, { passive: true });
+        _lastScrollY = scrollY;
+      },
+      { passive: true },
+    );
   }
 
   /* ==========================================================================
@@ -237,5 +243,4 @@
   } else {
     init();
   }
-
 })();

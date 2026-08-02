@@ -4,7 +4,7 @@
  * @copyright Phlix Project
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Check for reduced motion preference
@@ -31,7 +31,7 @@
       document.body.style.overflow = '';
     }
 
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function () {
       if (menu.classList.contains('is-open')) {
         closeMenu();
       } else {
@@ -40,14 +40,18 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
-      if (!menu.contains(e.target) && !toggle.contains(e.target) && menu.classList.contains('is-open')) {
+    document.addEventListener('click', function (e) {
+      if (
+        !menu.contains(e.target) &&
+        !toggle.contains(e.target) &&
+        menu.classList.contains('is-open')
+      ) {
         closeMenu();
       }
     });
 
     // Close on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) {
         closeMenu();
         toggle.focus();
@@ -55,8 +59,8 @@
     });
 
     // Close on link click (accessibility)
-    menu.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
         if (menu.classList.contains('is-open')) {
           closeMenu();
         }
@@ -71,11 +75,11 @@
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -50px 0px',
-      threshold: 0.1
+      threshold: 0.1,
     };
 
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-in');
           observer.unobserve(entry.target);
@@ -84,15 +88,17 @@
     }, observerOptions);
 
     // Observe feature cards, client cards, download cards
-    document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card').forEach(function(el) {
-      el.style.opacity = '0';
-      observer.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card')
+      .forEach(function (el) {
+        el.style.opacity = '0';
+        observer.observe(el);
+      });
   }
 
   // Initialize on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       initMobileNav();
       initScrollReveal();
     });

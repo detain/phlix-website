@@ -22,11 +22,11 @@ export class AnimationController {
 
     const observerOptions = {
       threshold: options.threshold || 0.2,
-      rootMargin: options.rootMargin || '0px 0px -50px 0px'
+      rootMargin: options.rootMargin || '0px 0px -50px 0px',
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('reveal', 'active');
           observer.unobserve(entry.target);
@@ -34,8 +34,8 @@ export class AnimationController {
       });
     }, observerOptions);
 
-    elements.forEach(el => observer.unobserve(el));
-    elements.forEach(el => observer.observe(el));
+    elements.forEach((el) => observer.unobserve(el));
+    elements.forEach((el) => observer.observe(el));
     this.observers.push(observer);
   }
 
@@ -185,7 +185,7 @@ export class AnimationController {
     const cells = document.querySelectorAll('.cell');
     if (!cells.length || this.reducedMotion) return;
 
-    cells.forEach(cell => {
+    cells.forEach((cell) => {
       cell.addEventListener('mouseenter', () => {
         cell.style.animation = 'cellDivision 2.5s ease-in-out';
       });
@@ -200,21 +200,24 @@ export class AnimationController {
    * Setup intersection observer for triggering animations
    */
   createIntersectionObserver(callback, options = {}) {
-    return new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        callback(entry, entry.isIntersecting);
-      });
-    }, {
-      threshold: options.threshold || 0.3,
-      rootMargin: options.rootMargin || '0px'
-    });
+    return new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          callback(entry, entry.isIntersecting);
+        });
+      },
+      {
+        threshold: options.threshold || 0.3,
+        rootMargin: options.rootMargin || '0px',
+      },
+    );
   }
 
   /**
    * Cleanup all observers and animations
    */
   destroy() {
-    this.observers.forEach(observer => observer.disconnect());
+    this.observers.forEach((observer) => observer.disconnect());
     this.observers = [];
 
     if (this.animationFrameId) {

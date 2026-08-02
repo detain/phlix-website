@@ -54,7 +54,9 @@
      Scroll Reveals — IntersectionObserver fade-ins
      -------------------------------------------------------------------------- */
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
-    const revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    const revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
     const revealObserver = new IntersectionObserver(
       function (entries) {
@@ -68,8 +70,8 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -95,7 +97,7 @@
      -------------------------------------------------------------------------- */
   function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -130,7 +132,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
       }
     });
@@ -163,5 +165,4 @@
     `;
     document.head.appendChild(glitchStyle);
   }
-
 })();

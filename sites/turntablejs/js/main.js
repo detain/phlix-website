@@ -27,8 +27,8 @@
   const COMPANION_TIPS = [
     { where: 'home:#platter', say: 'Drop the beat. Get Phlix spinning.' },
     { where: 'home:#features-grid', say: 'Eight tracks. Every feature locked and loaded.' },
-    { where: 'home:#drop-the-beat', say: 'One command. Full control. Let\'s go.' },
-    { where: 'about:.faq-list', say: 'The FAQ. Like a good DJ, we\'ve got answers.' },
+    { where: 'home:#drop-the-beat', say: "One command. Full control. Let's go." },
+    { where: 'about:.faq-list', say: "The FAQ. Like a good DJ, we've got answers." },
   ];
 
   /* --------------------------------------------------------------------------

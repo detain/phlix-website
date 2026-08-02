@@ -82,16 +82,9 @@ function initReducedMotion() {
     applyMotion(reduced);
     try {
       localStorage.setItem('phlix-reduce-motion', String(reduced));
-    } catch (_) {}
-  });
-
-  // Listen for system preference changes
-  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
-    reduced = e.matches;
-    applyMotion(reduced);
-    try {
-      localStorage.setItem('phlix-reduce-motion', String(reduced));
-    } catch (_) {}
+    } catch (_) {
+      // localStorage not available — ignore
+    }
   });
 }
 

@@ -83,7 +83,9 @@ function initReducedMotion() {
     applyMotion(reduced);
     try {
       localStorage.setItem('phlix-quantum-reduce-motion', String(reduced));
-    } catch (_) { /* noop */ }
+    } catch (_) {
+      /* noop */
+    }
   });
 
   window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
@@ -91,7 +93,9 @@ function initReducedMotion() {
     applyMotion(reduced);
     try {
       localStorage.setItem('phlix-quantum-reduce-motion', String(reduced));
-    } catch (_) { /* noop */ }
+    } catch (_) {
+      /* noop */
+    }
   });
 }
 
@@ -130,7 +134,7 @@ function triggerWaveCollapse() {
 
   overlay.classList.add('is-active');
 
-  showMascotTip("Wave function collapsing — all states converging to one.");
+  showMascotTip('Wave function collapsing — all states converging to one.');
 
   setTimeout(() => {
     overlay.classList.remove('is-active');
@@ -225,7 +229,7 @@ function initMascot() {
   // Show tip after 1.5s (not on reduced motion)
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     setTimeout(() => {
-      showMascotTip("All states exist simultaneously. Observe to collapse the wave function.");
+      showMascotTip('All states exist simultaneously. Observe to collapse the wave function.');
     }, 1500);
   }
 
@@ -237,7 +241,9 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       try {
         localStorage.setItem('phlix-qubit-dismissed', 'true');
-      } catch (_) { /* noop */ }
+      } catch (_) {
+        /* noop */
+      }
     });
   }
 
@@ -281,7 +287,9 @@ function showMascotTip(text) {
         mascot.classList.add('is-dismissed');
         try {
           localStorage.setItem('phlix-qubit-dismissed', 'true');
-        } catch (_) { /* noop */ }
+        } catch (_) {
+          /* noop */
+        }
       }
     });
   }
@@ -383,17 +391,17 @@ function initQubitTips() {
   const tips = [
     {
       selector: '#hero-reveal',
-      text: "All states exist simultaneously. Observe to collapse the wave function.",
+      text: 'All states exist simultaneously. Observe to collapse the wave function.',
     },
     {
       selector: '.features-overview',
-      text: "Every electron finds its orbital. SyncPlay synchronizes all observers.",
+      text: 'Every electron finds its orbital. SyncPlay synchronizes all observers.',
     },
     {
       selector: '#download',
       text: "Initialize your quantum state. One command and you're decohering.",
     },
-    { selector: '.faq-list', text: "Transmission log: answers to the questions observers ask." },
+    { selector: '.faq-list', text: 'Transmission log: answers to the questions observers ask.' },
   ];
 
   const observer = new IntersectionObserver(

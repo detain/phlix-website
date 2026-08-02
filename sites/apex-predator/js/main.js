@@ -11,9 +11,7 @@
      Reduced Motion Check
      ───────────────────────────────────────────────────────────────────────── */
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ─────────────────────────────────────────────────────────────────────────
      Mobile Navigation Toggle
@@ -27,7 +25,8 @@
 
     // Toggle navigation open/closed
     function toggleNav(isOpen) {
-      const expanded = isOpen !== undefined ? isOpen : navToggle.getAttribute('aria-expanded') !== 'true';
+      const expanded =
+        isOpen !== undefined ? isOpen : navToggle.getAttribute('aria-expanded') !== 'true';
       navToggle.setAttribute('aria-expanded', String(expanded));
       mainNav.classList.toggle('is-open', expanded);
       document.body.style.overflow = expanded ? 'hidden' : '';
@@ -72,9 +71,7 @@
     mainNav.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
-      const focusable = mainNav.querySelectorAll(
-        'a[href], button:not([disabled])'
-      );
+      const focusable = mainNav.querySelectorAll('a[href], button:not([disabled])');
       const firstFocusable = focusable[0];
       const lastFocusable = focusable[focusable.length - 1];
 
@@ -108,8 +105,8 @@
         {
           root: null,
           rootMargin: '0px 0px -60px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
       revealElements.forEach(function (el) {
@@ -192,7 +189,7 @@
         },
         function () {
           // Clipboard failed — silently ignore
-        }
+        },
       );
     });
 
@@ -215,7 +212,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update URL without jumping
@@ -223,5 +220,4 @@
       }
     });
   });
-
 })();

@@ -73,20 +73,25 @@
 
   // === SCROLL REVEALS ===
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      root: null,
-      rootMargin: '0px 0px -50px 0px',
-      threshold: 0.1
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1,
+      },
+    );
 
     revealElements.forEach(function (el) {
       el.classList.add('reveal');
@@ -110,7 +115,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update URL without jumping
@@ -121,11 +126,12 @@
 
   // === STAGGERED ANIMATION FOR HERO ELEMENTS ===
   if (!prefersReducedMotion) {
-    var heroElements = document.querySelectorAll('.hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions');
+    var heroElements = document.querySelectorAll(
+      '.hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions',
+    );
     heroElements.forEach(function (el, index) {
-      el.style.animationDelay = (index * 100) + 'ms';
+      el.style.animationDelay = index * 100 + 'ms';
       el.classList.add('hero-animate');
     });
   }
-
 })();

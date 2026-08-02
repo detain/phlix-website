@@ -7,7 +7,7 @@
  * LICENCE: MPL-2.0
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ── Reduced motion ─────────────────────────────────────────────────── */
@@ -26,7 +26,11 @@
 
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('is-open')) {
+      if (
+        !navToggle.contains(e.target) &&
+        !navMenu.contains(e.target) &&
+        navMenu.classList.contains('is-open')
+      ) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
@@ -46,16 +50,19 @@
 
   /* ── Scroll reveals ─────────────────────────────────────────────────── */
   if (!prefersReducedMotion) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
+    );
 
-    document.querySelectorAll('.reveal').forEach(el => {
+    document.querySelectorAll('.reveal').forEach((el) => {
       revealObserver.observe(el);
     });
   }
@@ -92,7 +99,9 @@
         logoClickCount = 0;
         triggerLogoEasterEgg();
       } else {
-        logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
+        logoClickTimer = setTimeout(() => {
+          logoClickCount = 0;
+        }, 1000);
       }
     });
   }
@@ -116,8 +125,8 @@
 
   /* ── Easter egg: typed words ─────────────────────────────────────────── */
   const typedWordTriggers = {
-    'tape': triggerTapeEasterEgg,
-    'signal': triggerSignalEasterEgg
+    tape: triggerTapeEasterEgg,
+    signal: triggerSignalEasterEgg,
   };
 
   let typedBuffer = '';
@@ -134,7 +143,9 @@
 
     typedBuffer += char.toLowerCase();
     clearTimeout(typedTimer);
-    typedTimer = setTimeout(() => { typedBuffer = ''; }, 1000);
+    typedTimer = setTimeout(() => {
+      typedBuffer = '';
+    }, 1000);
 
     // Check triggers
     for (const [word, fn] of Object.entries(typedWordTriggers)) {
@@ -150,14 +161,19 @@
     // Show a spinning reel indicator near cursor
     const reel = document.createElement('div');
     reel.innerHTML = '◉';
-    reel.style.cssText = 'position:fixed;pointer-events:none;z-index:9999;font-size:24px;color:var(--color-primary);animation:reel-spin 0.5s linear infinite;';
+    reel.style.cssText =
+      'position:fixed;pointer-events:none;z-index:9999;font-size:24px;color:var(--color-primary);animation:reel-spin 0.5s linear infinite;';
     document.body.appendChild(reel);
 
     const style = document.createElement('style');
-    style.textContent = '@keyframes reel-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+    style.textContent =
+      '@keyframes reel-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
     document.head.appendChild(style);
 
-    setTimeout(() => { reel.remove(); style.remove(); }, 2000);
+    setTimeout(() => {
+      reel.remove();
+      style.remove();
+    }, 2000);
 
     if (window.showMascotBubble) window.showMascotBubble('Rolling it back.');
   }
@@ -190,11 +206,17 @@
         // Tips based on location
         const tips = [
           { selector: '#hero, .hero', text: 'Levels are set. Ready to press play?' },
-          { selector: '.feature-card, .feature-detail', text: 'Each one of these features is tuned for precision.' },
-          { selector: '#server, .download-section', text: 'One line, and you\'re the engineer. I\'ll monitor the levels.' }
+          {
+            selector: '.feature-card, .feature-detail',
+            text: 'Each one of these features is tuned for precision.',
+          },
+          {
+            selector: '#server, .download-section',
+            text: "One line, and you're the engineer. I'll monitor the levels.",
+          },
         ];
 
-        window.showMascotBubble = function(text) {
+        window.showMascotBubble = function (text) {
           if (mascotBubble) {
             mascotBubble.textContent = text;
             mascotBubble.classList.add('is-visible');
@@ -202,21 +224,26 @@
         };
 
         // Show tip on first scroll into relevant section
-        const tipObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const tip = tips.find(t => entry.target.closest(t.selector));
-              if (tip) {
-                setTimeout(() => window.showMascotBubble(tip.text), 1500);
-                tipObserver.unobserve(entry.target);
+        const tipObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const tip = tips.find((t) => entry.target.closest(t.selector));
+                if (tip) {
+                  setTimeout(() => window.showMascotBubble(tip.text), 1500);
+                  tipObserver.unobserve(entry.target);
+                }
               }
-            }
-          });
-        }, { threshold: 0.5 });
+            });
+          },
+          { threshold: 0.5 },
+        );
 
-        document.querySelectorAll('.hero, .feature-card, .feature-detail, #server').forEach(el => {
-          tipObserver.observe(el);
-        });
+        document
+          .querySelectorAll('.hero, .feature-card, .feature-detail, #server')
+          .forEach((el) => {
+            tipObserver.observe(el);
+          });
 
         // Dismiss button
         const dismissBtn = document.querySelector('.mascot__close');
@@ -234,24 +261,27 @@
   /* ── Seasonal activation ─────────────────────────────────────────────── */
   (function checkSeasonal() {
     const now = new Date();
-    const monthDay = (now.getMonth() + 1).toString().padStart(2, '0') + '-' + now.getDate().toString().padStart(2, '0');
+    const monthDay =
+      (now.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      now.getDate().toString().padStart(2, '0');
 
     const variants = [
       {
         name: 'New Year Session',
         activeRange: { start: '12-26', end: '01-07' },
-        cssVars: { '--color-secondary': '#E040FB', '--color-bg': '#0D0D12' }
+        cssVars: { '--color-secondary': '#E040FB', '--color-bg': '#0D0D12' },
       },
       {
         name: 'Summer Festival Mix',
         activeRange: { start: '06-21', end: '08-15' },
-        cssVars: { '--color-primary': '#00E5FF', '--color-secondary': '#FFD600' }
+        cssVars: { '--color-primary': '#00E5FF', '--color-secondary': '#FFD600' },
       },
       {
         name: 'Halloween Dead Air',
         activeRange: { start: '10-15', end: '11-01' },
-        cssVars: { '--color-primary': '#FF6D00', '--color-tertiary': '#AA00FF' }
-      }
+        cssVars: { '--color-primary': '#FF6D00', '--color-tertiary': '#AA00FF' },
+      },
     ];
 
     for (const variant of variants) {
@@ -282,8 +312,8 @@
   })();
 
   /* ── Smooth scroll for anchor links ─────────────────────────────────── */
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
       const id = this.getAttribute('href').slice(1);
       const target = document.getElementById(id);
       if (target) {
@@ -294,13 +324,13 @@
   });
 
   /* ── FAQ accordion ──────────────────────────────────────────────────── */
-  document.querySelectorAll('.faq-list__question').forEach(btn => {
+  document.querySelectorAll('.faq-list__question').forEach((btn) => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-list__item');
       const isOpen = item.classList.contains('is-open');
 
       // Close all
-      document.querySelectorAll('.faq-list__item').forEach(i => i.classList.remove('is-open'));
+      document.querySelectorAll('.faq-list__item').forEach((i) => i.classList.remove('is-open'));
 
       // Toggle current
       if (!isOpen) {
@@ -326,9 +356,8 @@
     const mascot = document.querySelector('.mascot');
     if (mascot) mascot.style.display = 'none';
 
-    document.querySelectorAll('.waveform-bar__line, .vu-meter__segment').forEach(el => {
+    document.querySelectorAll('.waveform-bar__line, .vu-meter__segment').forEach((el) => {
       el.style.animation = 'none';
     });
   }
-
 })();

@@ -73,7 +73,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
       );
 
       revealElements.forEach(function (el) {
@@ -135,14 +135,18 @@
     mascot.addEventListener('click', function () {
       grooveClickCount++;
       clearTimeout(grooveClickTimer);
-      grooveClickTimer = setTimeout(function () { grooveClickCount = 0; }, 600);
+      grooveClickTimer = setTimeout(function () {
+        grooveClickCount = 0;
+      }, 600);
 
       if (grooveClickCount >= 3) {
         grooveClickCount = 0;
         clearTimeout(grooveClickTimer);
         // Animate split
         mascot.classList.add('mascot--celebrating');
-        setTimeout(function () { mascot.classList.remove('mascot--celebrating'); }, 2000);
+        setTimeout(function () {
+          mascot.classList.remove('mascot--celebrating');
+        }, 2000);
       }
     });
   })();
@@ -186,7 +190,9 @@
           resetBuffer();
           // Trigger groove easter egg — cursor vinyl
           document.body.classList.add('groove-cursor');
-          setTimeout(function () { document.body.classList.remove('groove-cursor'); }, 3000);
+          setTimeout(function () {
+            document.body.classList.remove('groove-cursor');
+          }, 3000);
         }
       }
     });
@@ -208,7 +214,9 @@
 
       clickCount++;
       clearTimeout(clickTimer);
-      clickTimer = setTimeout(function () { clickCount = 0; }, 600);
+      clickTimer = setTimeout(function () {
+        clickCount = 0;
+      }, 600);
 
       if (clickCount >= 3) {
         clickCount = 0;
@@ -217,7 +225,9 @@
         var mascot = document.querySelector('.mascot');
         if (mascot && !mascot.classList.contains('mascot--hidden')) {
           mascot.classList.add('mascot--celebrating');
-          setTimeout(function () { mascot.classList.remove('mascot--celebrating'); }, 2000);
+          setTimeout(function () {
+            mascot.classList.remove('mascot--celebrating');
+          }, 2000);
         }
       }
     });
@@ -234,9 +244,12 @@
       var target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        target.scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 'auto'
+            : 'smooth',
+        });
       }
     });
   });
-
 })();

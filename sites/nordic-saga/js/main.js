@@ -23,7 +23,7 @@
 
   /* ── Nav Toggle (mobile) ──────────────────────────────────────────────── */
   const navToggle = document.querySelector('.nav-toggle');
-  const mainNav   = document.querySelector('.main-nav');
+  const mainNav = document.querySelector('.main-nav');
 
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', () => {
@@ -57,7 +57,7 @@
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     revealEls.forEach((el) => observer.observe(el));
@@ -131,8 +131,8 @@
   // typed-word: odin easter egg
   // typed-word: rune easter egg
   const typedBuffer = [];
-  const secretWords  = ['odin', 'rune'];
-  let typingTimeout  = null;
+  const secretWords = ['odin', 'rune'];
+  let typingTimeout = null;
 
   function resetBuffer() {
     typedBuffer.length = 0;
@@ -180,15 +180,15 @@
   });
 
   /* ── Mascot — Huginn ───────────────────────────────────────────────────── */
-  const mascot     = document.querySelector('.mascot');
-  const mascotTip  = document.querySelector('.mascot-tip');
-  const dismissBtn  = document.querySelector('.mascot-dismiss');
+  const mascot = document.querySelector('.mascot');
+  const mascotTip = document.querySelector('.mascot-tip');
+  const dismissBtn = document.querySelector('.mascot-dismiss');
 
   // Tips by section
   const tips = {
-    'home':     'The saga begins. Listen well.',
-    'features': 'Huginn and Muninn carry the same message — all must hear it at once.',
-    'download': 'Forge your hall. Then we return to the feast.',
+    home: 'The saga begins. Listen well.',
+    features: 'Huginn and Muninn carry the same message — all must hear it at once.',
+    download: 'Forge your hall. Then we return to the feast.',
   };
 
   function showMascotTip(message) {
@@ -272,10 +272,10 @@
 
   /* ── Seasonal Variant Detection ────────────────────────────────────────── */
   function getSeasonalVariant() {
-    const now     = new Date();
-    const month   = now.getMonth() + 1; // 1-12
-    const day     = now.getDate();
-    const isDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const now = new Date();
+    const month = now.getMonth() + 1; // 1-12
+    const day = now.getDate();
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     // Yule Night: Dec 21 – Jan 6
     if ((month === 12 && day >= 21) || (month === 1 && day <= 6)) {
@@ -283,7 +283,7 @@
     }
 
     // Midsummer: Jun 21 – Sep 21
-    if ((month === 6 && day >= 21) || (month === 7) || (month === 8) || (month === 9 && day <= 21)) {
+    if ((month === 6 && day >= 21) || month === 7 || month === 8 || (month === 9 && day <= 21)) {
       return 'midsummer';
     }
 
@@ -300,5 +300,4 @@
   if (variant !== 'default' && variant !== 'fjord') {
     document.body.classList.add(`seasonal-${variant}`);
   }
-
 })();

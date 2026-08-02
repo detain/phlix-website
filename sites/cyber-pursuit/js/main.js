@@ -3,7 +3,7 @@
  * Cyber Pursuit — Matrix Rain, Glitch Effects, Terminal Interactions
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ── Matrix Rain Canvas ─────────────────────────────────────────────────── */
@@ -21,7 +21,10 @@
     window.addEventListener('resize', resizeCanvas);
 
     // Matrix rain characters
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?/\\~`'.split('');
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?/\\~`'.split(
+        '',
+      );
     const fontSize = 14;
     let columns = Math.floor(matrixCanvas.width / fontSize);
     let drops = [];
@@ -71,13 +74,13 @@
   const mainNav = document.querySelector('.main-nav');
 
   if (navToggle && mainNav) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = mainNav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', isOpen);
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!mainNav.contains(e.target) && !navToggle.contains(e.target)) {
         mainNav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -85,7 +88,7 @@
     });
 
     // Close on escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && mainNav.classList.contains('open')) {
         mainNav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -98,20 +101,26 @@
 
   const revealElements = document.querySelectorAll('.reveal');
 
-  if (revealElements.length && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+  if (
+    revealElements.length &&
+    window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+  ) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
-    revealElements.forEach(el => revealObserver.observe(el));
+    revealElements.forEach((el) => revealObserver.observe(el));
   }
 
   /* ── Intensity Toggle ────────────────────────────────────────────────────── */
@@ -124,7 +133,7 @@
       applyStealthMode(true);
     }
 
-    intensityToggle.addEventListener('click', function() {
+    intensityToggle.addEventListener('click', function () {
       const isPressed = intensityToggle.getAttribute('aria-pressed') === 'true';
       const newState = !isPressed;
       intensityToggle.setAttribute('aria-pressed', newState);
@@ -160,7 +169,7 @@
       mascotGhost.style.display = 'none';
     }
 
-    mascotClose.addEventListener('click', function() {
+    mascotClose.addEventListener('click', function () {
       mascotGhost.style.display = 'none';
       localStorage.setItem('phlix-ghost-dismissed', 'true');
     });
@@ -168,8 +177,8 @@
 
   /* ── Code Copy Buttons ──────────────────────────────────────────────────── */
 
-  document.querySelectorAll('.code-copy').forEach(button => {
-    button.addEventListener('click', async function() {
+  document.querySelectorAll('.code-copy').forEach((button) => {
+    button.addEventListener('click', async function () {
       const targetId = this.getAttribute('data-copy');
       if (!targetId) return;
 
@@ -197,9 +206,12 @@
 
   const glitchElements = document.querySelectorAll('.site-wordmark, .hero-headline');
 
-  if (glitchElements.length && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    glitchElements.forEach(el => {
-      el.addEventListener('mouseenter', function() {
+  if (
+    glitchElements.length &&
+    window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+  ) {
+    glitchElements.forEach((el) => {
+      el.addEventListener('mouseenter', function () {
         this.style.animation = 'none';
         // Force reflow
         this.offsetHeight;
@@ -212,8 +224,11 @@
 
   const typingElements = document.querySelectorAll('.hero-eyebrow');
 
-  if (typingElements.length && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    typingElements.forEach(el => {
+  if (
+    typingElements.length &&
+    window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+  ) {
+    typingElements.forEach((el) => {
       const text = el.textContent;
       el.textContent = '';
       el.style.borderRight = '2px solid var(--color-primary)';
@@ -243,14 +258,18 @@
   const bootLines = document.querySelectorAll('.boot-line');
 
   if (bootLines.length && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    window.addEventListener('scroll', function() {
-      const scrollY = window.scrollY;
-      bootLines.forEach((line, index) => {
-        const speed = 0.1 + (index * 0.02);
-        line.style.transform = `translateX(${scrollY * speed}px)`;
-        line.style.opacity = 0.7 - (scrollY * 0.001);
-      });
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      function () {
+        const scrollY = window.scrollY;
+        bootLines.forEach((line, index) => {
+          const speed = 0.1 + index * 0.02;
+          line.style.transform = `translateX(${scrollY * speed}px)`;
+          line.style.opacity = 0.7 - scrollY * 0.001;
+        });
+      },
+      { passive: true },
+    );
   }
 
   /* ── Seasonal Banner (if active) ────────────────────────────────────────── */
@@ -265,5 +284,4 @@
       seasonSlot.innerHTML = `<div class="season-banner">${seasonalBanner}</div>`;
     }
   }
-
 })();

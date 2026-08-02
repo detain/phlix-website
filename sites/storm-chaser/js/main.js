@@ -3,7 +3,7 @@
  * Dynamic storm effects, vortex animation, rain particles, lightning
  */
 
-(function() {
+(function () {
   'use strict';
 
   /* ==========================================================================
@@ -12,11 +12,25 @@
 
   const StormIntensity = {
     levels: [
-      { threshold: 0,   label: 'Clear',   speed: 0,      lightning: 0,    rain: 0,   color: '#27AE60' },
-      { threshold: 100, label: 'Clouds',  speed: 6000,   lightning: 0.1,  rain: 0.3,  color: '#7F8C8D' },
-      { threshold: 500, label: 'Gusting', speed: 4000,   lightning: 0.3,  rain: 0.5,  color: '#F7981D' },
-      { threshold: 1000,label: 'Storm',   speed: 2000,   lightning: 0.5,  rain: 0.7,  color: '#E67E22' },
-      { threshold: 5000,label: 'Severe',  speed: 1000,   lightning: 0.7,  rain: 0.9,  color: '#C0392B' },
+      { threshold: 0, label: 'Clear', speed: 0, lightning: 0, rain: 0, color: '#27AE60' },
+      { threshold: 100, label: 'Clouds', speed: 6000, lightning: 0.1, rain: 0.3, color: '#7F8C8D' },
+      {
+        threshold: 500,
+        label: 'Gusting',
+        speed: 4000,
+        lightning: 0.3,
+        rain: 0.5,
+        color: '#F7981D',
+      },
+      { threshold: 1000, label: 'Storm', speed: 2000, lightning: 0.5, rain: 0.7, color: '#E67E22' },
+      {
+        threshold: 5000,
+        label: 'Severe',
+        speed: 1000,
+        lightning: 0.7,
+        rain: 0.9,
+        color: '#C0392B',
+      },
     ],
 
     current: null,
@@ -56,7 +70,7 @@
     setLibrarySize(size) {
       this.librarySize = size;
       this.update();
-    }
+    },
   };
 
   /* ==========================================================================
@@ -104,7 +118,12 @@
     },
 
     createParticles() {
-      const count = Math.floor(this.maxParticles * (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rain-intensity')) || 0.5));
+      const count = Math.floor(
+        this.maxParticles *
+          (parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue('--rain-intensity'),
+          ) || 0.5),
+      );
       this.particles = [];
 
       for (let i = 0; i < count; i++) {
@@ -119,17 +138,17 @@
         length: Math.random() * 20 + 10,
         speed: Math.random() * 10 + 15,
         opacity: Math.random() * 0.3 + 0.2,
-        angle: 15 // ~15 degree angle for wind effect
+        angle: 15, // ~15 degree angle for wind effect
       };
     },
 
     animate() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      this.particles.forEach(p => {
+      this.particles.forEach((p) => {
         // Draw rain drop
-        const endX = p.x + Math.cos(p.angle * Math.PI / 180) * p.length;
-        const endY = p.y + Math.sin(p.angle * Math.PI / 180) * p.length;
+        const endX = p.x + Math.cos((p.angle * Math.PI) / 180) * p.length;
+        const endY = p.y + Math.sin((p.angle * Math.PI) / 180) * p.length;
 
         this.ctx.beginPath();
         this.ctx.moveTo(p.x, p.y);
@@ -139,8 +158,8 @@
         this.ctx.stroke();
 
         // Update position
-        p.x += Math.cos(p.angle * Math.PI / 180) * p.speed;
-        p.y += Math.sin(p.angle * Math.PI / 180) * p.speed;
+        p.x += Math.cos((p.angle * Math.PI) / 180) * p.speed;
+        p.y += Math.sin((p.angle * Math.PI) / 180) * p.speed;
 
         // Reset if off screen
         if (p.y > this.canvas.height) {
@@ -164,7 +183,7 @@
       while (this.particles.length > targetCount) {
         this.particles.pop();
       }
-    }
+    },
   };
 
   /* ==========================================================================
@@ -217,7 +236,7 @@
 
     setChance(chance) {
       this.chance = chance;
-    }
+    },
   };
 
   /* ==========================================================================
@@ -248,7 +267,7 @@
           border: 2px solid rgba(247, 152, 29, ${0.1 + i * 0.05});
           transform: translate(-50%, -50%);
         `;
-        const size = 100 - (i * 20);
+        const size = 100 - i * 20;
         ring.style.width = `${size}%`;
         ring.style.height = `${size}%`;
         ring.style.animationDuration = `${8 - i * 2}s`;
@@ -279,7 +298,7 @@
       this.rings.forEach((ring) => {
         ring.style.animationDuration = `${speedMs / 1000}s`;
       });
-    }
+    },
   };
 
   /* ==========================================================================
@@ -302,16 +321,16 @@
      ========================================================================== */
 
   function initTabs() {
-    document.querySelectorAll('.tabs').forEach(tabsContainer => {
+    document.querySelectorAll('.tabs').forEach((tabsContainer) => {
       const buttons = tabsContainer.querySelectorAll('.tab-btn');
       const panels = tabsContainer.parentElement.querySelectorAll('.tab-panel');
 
-      buttons.forEach(btn => {
+      buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
           const target = btn.dataset.tab;
 
-          buttons.forEach(b => b.classList.remove('active'));
-          panels.forEach(p => p.classList.remove('active'));
+          buttons.forEach((b) => b.classList.remove('active'));
+          panels.forEach((p) => p.classList.remove('active'));
 
           btn.classList.add('active');
           const panel = document.getElementById(target);
@@ -326,13 +345,13 @@
      ========================================================================== */
 
   function initAccordions() {
-    document.querySelectorAll('.accordion-header').forEach(header => {
+    document.querySelectorAll('.accordion-header').forEach((header) => {
       header.addEventListener('click', () => {
         const item = header.parentElement;
         const isOpen = item.classList.contains('open');
 
         // Close all in same group
-        item.parentElement.querySelectorAll('.accordion-item').forEach(i => {
+        item.parentElement.querySelectorAll('.accordion-item').forEach((i) => {
           i.classList.remove('open');
         });
 
@@ -352,16 +371,19 @@
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.card, .section-title, .page-header').forEach(el => {
+    document.querySelectorAll('.card, .section-title, .page-header').forEach((el) => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -418,7 +440,7 @@
     dismiss(toast) {
       toast.style.animation = 'toast-slide-in 300ms ease-out reverse';
       setTimeout(() => toast.remove(), 300);
-    }
+    },
   };
 
   /* ==========================================================================
@@ -426,8 +448,8 @@
      ========================================================================== */
 
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', e => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
         const target = document.querySelector(anchor.getAttribute('href'));
         if (target) {
           e.preventDefault();
@@ -451,7 +473,7 @@
         hour12: false,
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
       });
     }
     update();
@@ -495,7 +517,7 @@
       RainSystem,
       LightningSystem,
       VortexSystem,
-      Toast
+      Toast,
     };
   }
 
@@ -505,5 +527,4 @@
   } else {
     init();
   }
-
 })();

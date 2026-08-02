@@ -4,7 +4,7 @@
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Mobile navigation toggle
@@ -50,19 +50,24 @@
 
   // Scroll reveal with Intersection Observer
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
-    const revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    const revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     revealElements.forEach((el, index) => {
       el.style.transitionDelay = `${index * 50}ms`;
@@ -70,14 +75,16 @@
     });
   } else {
     // Show all elements immediately if no animation
-    document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail').forEach(el => {
-      el.classList.add('revealed');
-    });
+    document
+      .querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail')
+      .forEach((el) => {
+        el.classList.add('revealed');
+      });
   }
 
   // Sound wave animation enhancement
   const soundWaves = document.querySelectorAll('.sound-wave');
-  soundWaves.forEach(wave => {
+  soundWaves.forEach((wave) => {
     wave.setAttribute('aria-hidden', 'true');
   });
 
@@ -85,9 +92,13 @@
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const navLinks = document.querySelectorAll('.nav-menu a');
 
-  navLinks.forEach(link => {
+  navLinks.forEach((link) => {
     const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html') || (currentPage === 'index.html' && href === './')) {
+    if (
+      href === currentPage ||
+      (currentPage === '' && href === 'index.html') ||
+      (currentPage === 'index.html' && href === './')
+    ) {
       link.setAttribute('aria-current', 'page');
     }
   });

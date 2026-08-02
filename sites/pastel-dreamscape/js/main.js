@@ -18,8 +18,8 @@
   /* ── Seasonal activation ─────────────────────────────────────────────────── */
   function activateSeasonal() {
     const now = new Date();
-    const mmdd = (now.getMonth() + 1).toString().padStart(2, '0') +
-                  (now.getDate()).toString().padStart(2, '0');
+    const mmdd =
+      (now.getMonth() + 1).toString().padStart(2, '0') + now.getDate().toString().padStart(2, '0');
     const variants = [
       { name: 'winter', range: ['1201', '0110'] },
       { name: 'spring', range: ['0320', '0515'] },
@@ -64,7 +64,9 @@
 
     // Focusable elements within nav for focus trap
     function getFocusable() {
-      return links.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      return links.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
     }
 
     // Close nav helper
@@ -169,15 +171,24 @@
       'Drop a file in and watch it bloom onto your shelf — so dreamy!',
       'One click and movie night stays in perfect step across every screen.',
       'Your big screen just became a cloud — float a movie up there anytime.',
-      'One line and you\'re the dreamer. Your library, your wonder, all yours.',
+      "One line and you're the dreamer. Your library, your wonder, all yours.",
     ];
 
     // Show tip for current section
     function showTip(index) {
       if (!tip) return;
-      const sections = ['hero', 'features-overview', 'library', 'syncplay', 'clients#roku', 'download'];
+      const sections = [
+        'hero',
+        'features-overview',
+        'library',
+        'syncplay',
+        'clients#roku',
+        'download',
+      ];
       const sectionId = sections[index % sections.length];
-      const currentPage = window.location.pathname.replace(/^\/(pastel-dreamscape\/)?/, '').replace('.html', '') || 'home';
+      const currentPage =
+        window.location.pathname.replace(/^\/(pastel-dreamscape\/)?/, '').replace('.html', '') ||
+        'home';
       tip.textContent = tips[index % tips.length];
       tip.setAttribute('aria-live', 'polite');
     }
@@ -186,14 +197,18 @@
 
     // Change tip on scroll/nav
     let scrollTimer;
-    window.addEventListener('scroll', function () {
-      if (prefersReducedMotion) return;
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(function () {
-        tipIndex++;
-        showTip(tipIndex);
-      }, 2000);
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (prefersReducedMotion) return;
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+          tipIndex++;
+          showTip(tipIndex);
+        }, 2000);
+      },
+      { passive: true },
+    );
 
     // Dismiss
     if (dismissBtn) {
@@ -226,7 +241,9 @@
 
       clickCount++;
       clearTimeout(timer);
-      timer = setTimeout(function () { clickCount = 0; }, 1500);
+      timer = setTimeout(function () {
+        clickCount = 0;
+      }, 1500);
 
       if (clickCount >= 5) {
         clickCount = 0;
@@ -254,7 +271,9 @@
         // Dismiss any active effects
         active = false;
         letters.length = 0;
-        document.querySelectorAll('.sparkle-word').forEach(function (el) { el.remove(); });
+        document.querySelectorAll('.sparkle-word').forEach(function (el) {
+          el.remove();
+        });
         return;
       }
 
@@ -304,7 +323,9 @@
         `transform:translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`,
       ].join(';');
       document.body.appendChild(bubble);
-      setTimeout(function () { bubble.remove(); }, 2000);
+      setTimeout(function () {
+        bubble.remove();
+      }, 2000);
     }
   }
 
@@ -313,7 +334,8 @@
     if (prefersReducedMotion) return;
     const colors = ['#F9A8D4', '#C4B5FD', '#A7F3D0', '#FBCBA9', '#93C5FD', '#A78BFA'];
     const container = document.createElement('div');
-    container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;';
+    container.style.cssText =
+      'position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;';
     document.body.appendChild(container);
 
     for (let i = 0; i < 40; i++) {
@@ -351,10 +373,13 @@
     if (existing) existing.remove();
     const reaction = document.createElement('div');
     reaction.className = 'mascot-tip';
-    reaction.style.cssText = 'position:fixed;bottom:140px;right:24px;opacity:1;transform:none;max-width:200px;';
+    reaction.style.cssText =
+      'position:fixed;bottom:140px;right:24px;opacity:1;transform:none;max-width:200px;';
     reaction.textContent = text;
     document.body.appendChild(reaction);
-    setTimeout(function () { reaction.remove(); }, 3000);
+    setTimeout(function () {
+      reaction.remove();
+    }, 3000);
   }
 
   /* ── Smooth scroll for anchor links ─────────────────────────────────────── */
@@ -370,5 +395,4 @@
     });
   }
   initSmoothScroll();
-
 })();

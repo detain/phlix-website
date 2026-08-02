@@ -194,7 +194,7 @@
       node.style.opacity = '0';
       node.style.transform = 'translateY(10px)';
       node.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-      node.style.transitionDelay = (i * 0.1) + 's';
+      node.style.transitionDelay = i * 0.1 + 's';
 
       setTimeout(function () {
         node.style.opacity = '1';

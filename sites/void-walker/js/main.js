@@ -3,7 +3,7 @@
    Navigation toggle, reduced motion, scroll reveals.
    ========================================================================== */
 
-(function() {
+(function () {
   'use strict';
 
   /* --------------------------------------------------------------------------
@@ -16,15 +16,15 @@
     const navLinks = navMenu.querySelectorAll('.nav-menu__link');
 
     // Toggle menu
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     // Close on link click
-    navLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
@@ -32,7 +32,7 @@
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -42,7 +42,7 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -51,12 +51,14 @@
     });
 
     // Trap focus in menu when open
-    navMenu.addEventListener('keydown', function(e) {
+    navMenu.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
 
-      const focusable = Array.from(navMenu.querySelectorAll(
-        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
-      ));
+      const focusable = Array.from(
+        navMenu.querySelectorAll(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
 
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -91,23 +93,28 @@
      Scroll Reveal (Intersection Observer)
      -------------------------------------------------------------------------- */
   if (!prefersReducedMotion.matches) {
-    const revealElements = document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card, .faq-item');
+    const revealElements = document.querySelectorAll(
+      '.feature-card, .feature-detail, .client-card, .download-card, .faq-item',
+    );
 
     if ('IntersectionObserver' in window && revealElements.length > 0) {
-      const revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      });
+      const revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -50px 0px',
+          threshold: 0.1,
+        },
+      );
 
-      revealElements.forEach(function(el) {
+      revealElements.forEach(function (el) {
         el.classList.add('reveal');
         revealObserver.observe(el);
       });
@@ -117,8 +124,8 @@
   /* --------------------------------------------------------------------------
      Smooth Scroll for Anchor Links
      -------------------------------------------------------------------------- */
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -127,7 +134,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // Update focus for accessibility
@@ -143,11 +150,10 @@
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   const navItems = document.querySelectorAll('.nav-menu__link');
 
-  navItems.forEach(function(link) {
+  navItems.forEach(function (link) {
     const href = link.getAttribute('href');
     if (href === currentPath || (currentPath === '' && href === 'index.html')) {
       link.setAttribute('aria-current', 'page');
     }
   });
-
 })();

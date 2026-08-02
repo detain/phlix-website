@@ -51,19 +51,24 @@
 
   // ---------- Scroll Reveals (IntersectionObserver) ----------
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .hub-feature');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .hub-feature',
+    );
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     revealElements.forEach(function (el) {
       el.classList.add('reveal');
@@ -77,7 +82,7 @@
     style.textContent = [
       '.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }',
       '.reveal.revealed { opacity: 1; transform: translateY(0); }',
-      '.reduce-motion .reveal { opacity: 1; transform: none; transition: none; }'
+      '.reduce-motion .reveal { opacity: 1; transform: none; transition: none; }',
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -94,5 +99,4 @@
       }
     });
   });
-
 })();

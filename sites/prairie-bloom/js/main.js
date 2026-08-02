@@ -6,13 +6,11 @@
   'use strict';
 
   /* ── Reduced Motion Guard ──────────────────────────────────────────── */
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Mobile Nav Toggle ─────────────────────────────────────────────── */
-  const navToggle  = document.querySelector('.nav-toggle');
-  const navMenu    = document.querySelector('.nav-menu');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
@@ -51,7 +49,7 @@
             }
           });
         },
-        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
       );
       revealEls.forEach((el) => observer.observe(el));
     }
@@ -75,7 +73,7 @@
       dot.style.left = Math.random() * 100 + 'vw';
       dot.style.animationDuration = 6 + Math.random() * 6 + 's';
       dot.style.animationDelay = Math.random() * 2 + 's';
-      dot.style.width  = 3 + Math.random() * 3 + 'px';
+      dot.style.width = 3 + Math.random() * 3 + 'px';
       dot.style.height = dot.style.width;
       particleContainer.appendChild(dot);
       setTimeout(() => dot.remove(), 14000);
@@ -100,11 +98,23 @@
 
     // Tips keyed by section anchor
     const tips = [
-      { where: 'home:#hero',                   say: 'Pull up a chair — the meadow\'s ready for you.' },
-      { where: 'home:.features-overview',      say: 'Watch together with SyncPlay — everyone stays in step, room to room.' },
-      { where: 'features:#syncplay',          say: 'That\'s the one for family movie night — lock every screen to one frame.' },
-      { where: 'features:#library',           say: 'Drop a show in and watch it bloom on your shelf. The meadow grows itself.' },
-      { where: 'download:#server',            say: 'One line of soil, and you\'re the gardener. I\'ll help tend the harvest.' },
+      { where: 'home:#hero', say: "Pull up a chair — the meadow's ready for you." },
+      {
+        where: 'home:.features-overview',
+        say: 'Watch together with SyncPlay — everyone stays in step, room to room.',
+      },
+      {
+        where: 'features:#syncplay',
+        say: "That's the one for family movie night — lock every screen to one frame.",
+      },
+      {
+        where: 'features:#library',
+        say: 'Drop a show in and watch it bloom on your shelf. The meadow grows itself.',
+      },
+      {
+        where: 'download:#server',
+        say: "One line of soil, and you're the gardener. I'll help tend the harvest.",
+      },
     ];
 
     // Build companion DOM
@@ -128,12 +138,12 @@
     `;
     document.body.appendChild(companion);
 
-    const sunnyEl    = document.getElementById('mascot-sunny');
-    const tipEl      = document.getElementById('mascot-tip');
+    const sunnyEl = document.getElementById('mascot-sunny');
+    const tipEl = document.getElementById('mascot-tip');
     const dismissBtn = document.getElementById('mascot-dismiss');
 
     let currentTip = null;
-    let tipTimeout  = null;
+    let tipTimeout = null;
 
     function showTip(index) {
       if (!tips[index]) return;
@@ -158,7 +168,10 @@
     // Sunny click → next tip
     sunnyEl.addEventListener('click', nextTip);
     sunnyEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextTip(); }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        nextTip();
+      }
     });
 
     // Dismiss
@@ -179,7 +192,7 @@
             }
           });
         },
-        { threshold: 0.4 }
+        { threshold: 0.4 },
       );
 
       tips.forEach((tip) => {
@@ -193,7 +206,7 @@
   /* ── Easter Egg 1: Logo Click 3× → Sunny Celebration ────────────────── */
   (function () {
     let clickCount = 0;
-    let clickTimer  = null;
+    let clickTimer = null;
 
     const logo = document.querySelector('.nav-logo, .hero__logo');
     if (!logo) return;
@@ -215,7 +228,9 @@
 
       clickCount++;
       clearTimeout(clickTimer);
-      clickTimer = setTimeout(() => { clickCount = 0; }, 800);
+      clickTimer = setTimeout(() => {
+        clickCount = 0;
+      }, 800);
 
       if (clickCount >= 3) {
         clickCount = 0;
@@ -234,8 +249,8 @@
   /* ── Easter Egg 2: Type "sunflower" → Golden Tint + Bloom ──────────── */
   (function () {
     const TARGET = 'sunflower';
-    let typed    = '';
-    let timer     = null;
+    let typed = '';
+    let timer = null;
     let isInInput = false;
 
     const tintEl = document.createElement('div');
@@ -249,7 +264,9 @@
     });
     document.addEventListener('focusout', () => {
       // Small delay to allow focus to move legitimately
-      setTimeout(() => { isInInput = false; }, 50);
+      setTimeout(() => {
+        isInInput = false;
+      }, 50);
     });
 
     document.addEventListener('keydown', (e) => {
@@ -274,31 +291,47 @@
 
       // Reset after 1.5s of no typing
       clearTimeout(timer);
-      timer = setTimeout(() => { typed = ''; }, 1500);
+      timer = setTimeout(() => {
+        typed = '';
+      }, 1500);
     });
   })();
 
   /* ── Seasonal Activation — live-js date gate ───────────────────────── */
   (function () {
-    const now  = new Date();
-    const monthDay = (now.getMonth() + 1).toString().padStart(2, '0') + '-' +
-                     now.getDate().toString().padStart(2, '0');
+    const now = new Date();
+    const monthDay =
+      (now.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      now.getDate().toString().padStart(2, '0');
 
     const variants = [
       {
         id: 'harvest',
         range: ['09-15', '11-15'],
-        overrides: { '--color-primary': '#D97A2E', '--color-bg': '#F5E8CC', '--color-surface': '#FBF1E0' },
+        overrides: {
+          '--color-primary': '#D97A2E',
+          '--color-bg': '#F5E8CC',
+          '--color-surface': '#FBF1E0',
+        },
       },
       {
         id: 'winter',
         range: ['11-25', '01-06'],
-        overrides: { '--color-primary': '#B83A3A', '--color-secondary': '#4E7C59', '--color-bg': '#F3ECE2' },
+        overrides: {
+          '--color-primary': '#B83A3A',
+          '--color-secondary': '#4E7C59',
+          '--color-bg': '#F3ECE2',
+        },
       },
       {
         id: 'spring',
         range: ['03-20', '05-31'],
-        overrides: { '--color-primary': '#6BAE75', '--color-secondary': '#A87DC8', '--color-bg': '#F4F2E6' },
+        overrides: {
+          '--color-primary': '#6BAE75',
+          '--color-secondary': '#A87DC8',
+          '--color-bg': '#F4F2E6',
+        },
       },
     ];
 
@@ -334,10 +367,11 @@
       if (!code) return;
       navigator.clipboard.writeText(code.textContent || '').then(() => {
         copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy';
+        }, 2000);
       });
     });
     block.appendChild(copyBtn);
   });
-
 })();

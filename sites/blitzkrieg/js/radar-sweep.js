@@ -4,22 +4,22 @@
  *  Ambient radar rotation effect
  * ============================================================================ */
 
-(function() {
+(function () {
   'use strict';
 
   class RadarSweep {
     constructor(element, options = {}) {
       this.element = element;
       this.options = {
-        speed: options.speed || 8000,      // Full rotation time in ms
+        speed: options.speed || 8000, // Full rotation time in ms
         color: options.color || 'rgba(0, 255, 136, 0.4)',
         gridColor: options.gridColor || 'rgba(42, 42, 74, 0.5)',
         size: options.size || 400,
-        ...options
+        ...options,
       };
-      
+
       this.enabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      
+
       if (this.enabled) {
         this.init();
       }
@@ -77,12 +77,12 @@
 
     startRotation() {
       if (!this.sweep) return;
-      
+
       const animate = () => {
         if (!this.enabled) return;
-        
+
         this.sweep.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-        
+
         requestAnimationFrame(() => {
           this.sweep.style.transition = `transform ${this.options.speed}ms linear`;
           this.sweep.style.transform = 'translate(-50%, -50%) rotate(360deg)';
@@ -113,8 +113,8 @@
      -------------------------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', () => {
     const radarContainers = document.querySelectorAll('.radar-container');
-    
-    radarContainers.forEach(container => {
+
+    radarContainers.forEach((container) => {
       // Only initialize if not already handled by CSS
       if (!container.querySelector('.radar-sweep-animated')) {
         new RadarSweep(container);
@@ -123,7 +123,7 @@
 
     // Mini radar in HUD display
     const miniRadars = document.querySelectorAll('.radar-mini');
-    miniRadars.forEach(radar => {
+    miniRadars.forEach((radar) => {
       const sweep = radar.querySelector('.radar-sweep-mini');
       if (sweep && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         // Already handled by CSS animation
@@ -135,5 +135,4 @@
      Expose Global
      -------------------------------------------------------------------------- */
   window.RadarSweep = RadarSweep;
-
 })();

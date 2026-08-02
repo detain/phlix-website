@@ -22,7 +22,7 @@ class RicochetPhysics {
       glowColor: 'rgba(46, 196, 182, 0.4)',
       maxLines: 8,
       fadeSpeed: 0.02,
-      ...options
+      ...options,
     };
 
     this.init();
@@ -107,7 +107,7 @@ class RicochetPhysics {
       vy: 0,
       phase: i * 0.5,
       amplitude: 15 + Math.random() * 10,
-      element: null
+      element: null,
     }));
 
     // Create SVG circles for nodes
@@ -126,12 +126,15 @@ class RicochetPhysics {
   }
 
   bindEvents() {
-    window.addEventListener('resize', this.debounce(() => {
-      this.handleResize();
-    }, 250));
+    window.addEventListener(
+      'resize',
+      this.debounce(() => {
+        this.handleResize();
+      }, 250),
+    );
 
     // Add trajectory lines on navigation
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.nav-link').forEach((link) => {
       link.addEventListener('click', (e) => {
         if (this.reducedMotion) return;
         const rect = link.getBoundingClientRect();
@@ -139,13 +142,13 @@ class RicochetPhysics {
           window.innerWidth * 0.5,
           window.innerHeight * 0.1,
           rect.left + rect.width / 2,
-          rect.top + rect.height / 2
+          rect.top + rect.height / 2,
         );
       });
     });
 
     // Add spark burst on card hover
-    document.querySelectorAll('.feature-card').forEach(card => {
+    document.querySelectorAll('.feature-card').forEach((card) => {
       card.addEventListener('mouseenter', () => {
         if (this.reducedMotion) return;
         this.emitSparks(card.getBoundingClientRect(), 5);
@@ -193,9 +196,12 @@ class RicochetPhysics {
 
     const lineData = {
       element: line,
-      x1, y1, x2, y2,
+      x1,
+      y1,
+      x2,
+      y2,
       progress: 0,
-      opacity: 0.8
+      opacity: 0.8,
     };
 
     this.lines.push(lineData);
@@ -261,12 +267,11 @@ class RicochetPhysics {
       const progress = Math.min(elapsed / duration, 1);
 
       // Eased progress with bounce
-      const eased = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      const eased =
+        progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
       const currentX = startX + tx * eased;
-      const currentY = startY + ty * eased + (progress * progress * 30); // gravity
+      const currentY = startY + ty * eased + progress * progress * 30; // gravity
       const opacity = 1 - progress;
       const scale = 1 - progress * 0.5;
 
@@ -303,7 +308,7 @@ class RicochetPhysics {
     });
 
     // Fade lines over time
-    this.lines = this.lines.filter(lineData => {
+    this.lines = this.lines.filter((lineData) => {
       lineData.opacity -= this.options.fadeSpeed;
       if (lineData.opacity <= 0) {
         if (lineData.element && lineData.element.parentNode) {
@@ -330,12 +335,12 @@ class RicochetPhysics {
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
     }
-    this.nodes.forEach(node => {
+    this.nodes.forEach((node) => {
       if (node.element && node.element.parentNode) {
         node.element.parentNode.removeChild(node.element);
       }
     });
-    this.lines.forEach(line => {
+    this.lines.forEach((line) => {
       if (line.element && line.element.parentNode) {
         line.element.parentNode.removeChild(line.element);
       }

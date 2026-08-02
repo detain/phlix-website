@@ -13,7 +13,7 @@ export class ParticleSystem {
       maxSize: options.maxSize || 6,
       minSpeed: options.minSpeed || 0.5,
       maxSpeed: options.maxSpeed || 1.5,
-      fadeSpeed: options.fadeSpeed || 0.005
+      fadeSpeed: options.fadeSpeed || 0.005,
     };
 
     this.particles = [];
@@ -53,7 +53,7 @@ export class ParticleSystem {
       y: -20,
       speed: this.randomBetween(this.options.minSpeed, this.options.maxSpeed),
       wobble: Math.random() * Math.PI * 2,
-      wobbleSpeed: this.randomBetween(0.01, 0.03)
+      wobbleSpeed: this.randomBetween(0.01, 0.03),
     });
   }
 
@@ -128,7 +128,7 @@ export class ParticleSystem {
 
   destroy() {
     this.stop();
-    this.particles.forEach(p => p.element.remove());
+    this.particles.forEach((p) => p.element.remove());
     this.particles = [];
   }
 }

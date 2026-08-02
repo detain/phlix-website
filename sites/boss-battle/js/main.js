@@ -68,7 +68,7 @@
       if (e.key !== 'Tab') return;
 
       const focusableElements = navMenu.querySelectorAll(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -88,7 +88,9 @@
      ============================================================ */
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    const revealElements = document.querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card, .ecosystem-item');
+    const revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .feature-detail, .download-card, .ecosystem-item',
+    );
 
     const revealObserver = new IntersectionObserver(
       function (entries) {
@@ -102,8 +104,8 @@
       {
         root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-      }
+        threshold: 0.1,
+      },
     );
 
     revealElements.forEach(function (el) {
@@ -147,7 +149,7 @@
         e.preventDefault();
         target.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
+          block: 'start',
         });
 
         // If nav is open, close it
@@ -159,5 +161,4 @@
       }
     });
   });
-
 })();

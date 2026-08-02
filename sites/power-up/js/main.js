@@ -57,15 +57,9 @@
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function handleReducedMotion() {
-    document.documentElement.style.setProperty(
-      '--transition-fast', '0.01ms'
-    );
-    document.documentElement.style.setProperty(
-      '--transition-base', '0.01ms'
-    );
-    document.documentElement.style.setProperty(
-      '--transition-slow', '0.01ms'
-    );
+    document.documentElement.style.setProperty('--transition-fast', '0.01ms');
+    document.documentElement.style.setProperty('--transition-base', '0.01ms');
+    document.documentElement.style.setProperty('--transition-slow', '0.01ms');
   }
 
   if (prefersReducedMotion.matches) {
@@ -83,15 +77,17 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
     );
 
-    document.querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card').forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(24px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card')
+      .forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+      });
 
     // Add revealed class styles
     var style = document.createElement('style');

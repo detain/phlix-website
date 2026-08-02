@@ -23,21 +23,27 @@
    -------------------------------------------------------------------------- */
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)');
 
-function getReducedMotion() { return prefersReducedMotion().matches; }
+function getReducedMotion() {
+  return prefersReducedMotion().matches;
+}
 
 function onReduceMotionChange(e) {
   document.documentElement.classList.toggle('reduced-motion', e.matches);
   if (e.matches) {
     // Cancel any ongoing animations, restore state
-    document.querySelectorAll('.animate-sfumato, .animate-fade-in, .animate-bloom')
-      .forEach(el => {
+    document
+      .querySelectorAll('.animate-sfumato, .animate-fade-in, .animate-bloom')
+      .forEach((el) => {
         el.style.animationPlayState = 'paused';
         el.style.opacity = '';
         el.style.transform = '';
       });
   } else {
-    document.querySelectorAll('.animate-sfumato, .animate-fade-in, .animate-bloom')
-      .forEach(el => { el.style.animationPlayState = ''; });
+    document
+      .querySelectorAll('.animate-sfumato, .animate-fade-in, .animate-bloom')
+      .forEach((el) => {
+        el.style.animationPlayState = '';
+      });
   }
 }
 
@@ -49,10 +55,10 @@ if (getReducedMotion()) {
 /* --------------------------------------------------------------------------
    2. Mobile nav toggle
    -------------------------------------------------------------------------- */
-const navToggle  = document.querySelector('.nav-toggle');
-const navMenu    = document.querySelector('.nav-menu');
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
 const navOverlay = document.querySelector('.nav-overlay');
-const navClose   = document.querySelector('.nav-menu__close');
+const navClose = document.querySelector('.nav-menu__close');
 
 function openNav() {
   if (!navMenu) return;
@@ -77,13 +83,14 @@ function closeNav() {
 
 navToggle?.addEventListener('click', () => {
   const isOpen = navMenu?.classList.contains('is-open');
-  if (isOpen) closeNav(); else openNav();
+  if (isOpen) closeNav();
+  else openNav();
 });
 
 navOverlay?.addEventListener('click', closeNav);
 navClose?.addEventListener('click', closeNav);
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && navMenu?.classList.contains('is-open')) {
     closeNav();
   }
@@ -99,18 +106,18 @@ function initScrollReveals() {
   if (!targets.length) return;
 
   const io = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           io.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
   );
 
-  targets.forEach(el => io.observe(el));
+  targets.forEach((el) => io.observe(el));
 }
 
 /* --------------------------------------------------------------------------
@@ -149,16 +156,16 @@ loadCalmMode();
    5. Seasonal variant activation (live-js date gate)
    -------------------------------------------------------------------------- */
 const SEASONAL_RANGES = [
-  { id: 'advent',    start: [12, 1],  end: [12, 31] },
-  { id: 'carnivale', start: [2, 1],   end: [2, 28]  },
-  { id: 'estate',    start: [6, 21],  end: [9, 22]  },
-  { id: 'autunno',   start: [9, 23],  end: [11, 30] },
+  { id: 'advent', start: [12, 1], end: [12, 31] },
+  { id: 'carnivale', start: [2, 1], end: [2, 28] },
+  { id: 'estate', start: [6, 21], end: [9, 22] },
+  { id: 'autunno', start: [9, 23], end: [11, 30] },
 ];
 
 function getSeasonId() {
   const now = new Date();
   const month = now.getMonth() + 1; // 1-indexed
-  const day   = now.getDate();
+  const day = now.getDate();
 
   for (const s of SEASONAL_RANGES) {
     const [sm, sd] = s.start;
@@ -166,7 +173,7 @@ function getSeasonId() {
     // Simple comparison: if month is between start and end
     if (month === sm && day >= sd) return s.id;
     if (month === em && day <= ed) return s.id;
-    if (month > sm && month < em)  return s.id;
+    if (month > sm && month < em) return s.id;
   }
   return null;
 }
@@ -185,13 +192,15 @@ applySeasonalVariant();
    -------------------------------------------------------------------------- */
 function initFaq() {
   const items = document.querySelectorAll('.faq-item');
-  items.forEach(item => {
+  items.forEach((item) => {
     const btn = item.querySelector('.faq-item__question');
     if (!btn) return;
     btn.addEventListener('click', () => {
       const isOpen = item.hasAttribute('open');
       // Close all others (optional single-open)
-      items.forEach(i => { if (i !== item) i.removeAttribute('open'); });
+      items.forEach((i) => {
+        if (i !== item) i.removeAttribute('open');
+      });
       if (!isOpen) item.setAttribute('open', '');
     });
   });
@@ -217,7 +226,9 @@ function loadMascotDismissal() {
 function dismissMascot() {
   if (!mascotEl) return;
   mascotDismissed = true;
-  try { localStorage.setItem('phlix-piero-dismissed', '1'); } catch (_) {}
+  try {
+    localStorage.setItem('phlix-piero-dismissed', '1');
+  } catch (_) {}
   mascotEl.style.display = 'none';
 }
 
@@ -234,10 +245,10 @@ function initMascotTips() {
   const section = detectCurrentSection();
   if (tip && section) {
     const tipTexts = {
-      'hero':           'Welcome to the atelier. Every work here is a masterpiece.',
-      'features-grid':  'Each tool is a pigment on the palette — used with care and intention.',
-      'server':         "One command, and you are the master of your own studio. I'll hold the light.",
-      'faq-section':    'Questions, like paintings, deserve patient, measured answers.',
+      hero: 'Welcome to the atelier. Every work here is a masterpiece.',
+      'features-grid': 'Each tool is a pigment on the palette — used with care and intention.',
+      server: "One command, and you are the master of your own studio. I'll hold the light.",
+      'faq-section': 'Questions, like paintings, deserve patient, measured answers.',
     };
     const text = Object.entries(tipTexts).find(([k]) => section.includes(k))?.[1];
     if (text) {
@@ -266,7 +277,7 @@ function detectCurrentSection() {
 let logoClickCount = 0;
 let lanternFlareTimer = null;
 
-document.querySelectorAll('.nav-logo, .site-header__inner > a, .hero__content a').forEach(el => {
+document.querySelectorAll('.nav-logo, .site-header__inner > a, .hero__content a').forEach((el) => {
   el.addEventListener('click', () => {
     logoClickCount++;
     if (logoClickCount >= 5) {
@@ -278,8 +289,8 @@ document.querySelectorAll('.nav-logo, .site-header__inner > a, .hero__content a'
 
 function triggerLanternFlare() {
   // Flash Piero's lantern or the logo area
-  const target = mascotEl?.querySelector('.mascot__figure') ||
-                 document.querySelector('.site-header');
+  const target =
+    mascotEl?.querySelector('.mascot__figure') || document.querySelector('.site-header');
   if (!target) return;
 
   target.classList.add('easter-lantern-flare');
@@ -291,7 +302,7 @@ function triggerLanternFlare() {
   }, 5000);
 
   // Allow Esc to dismiss
-  const escHandler = e => {
+  const escHandler = (e) => {
     if (e.key === 'Escape') {
       target.classList.remove('easter-lantern-flare');
       clearTimeout(lanternFlareTimer);
@@ -307,7 +318,7 @@ const TARGET_WORD = 'pigment';
 let brushCursorActive = false;
 let brushTimer = null;
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
   // Skip if focus is in an input/textarea
   const tag = document.activeElement?.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
@@ -329,7 +340,9 @@ document.addEventListener('keydown', e => {
   }
 
   clearTimeout(brushTimer);
-  brushTimer = setTimeout(() => { typedBuffer = ''; }, 1000);
+  brushTimer = setTimeout(() => {
+    typedBuffer = '';
+  }, 1000);
 });
 
 function enterBrushCursor() {

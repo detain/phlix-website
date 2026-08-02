@@ -67,7 +67,7 @@
   /* ─── Scroll Reveal (IntersectionObserver) ───────────────── */
   if (!prefersReducedMotion.matches && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .ecosystem-item, .faq-item, .plugin-step'
+      '.feature-card, .client-card, .download-card, .ecosystem-item, .faq-item, .plugin-step',
     );
 
     if (revealElements.length > 0) {
@@ -80,19 +80,21 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
       );
 
       revealElements.forEach(function (el) {
         el.style.opacity = '0';
         el.style.transform = 'translateY(1.5rem)';
-        el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        el.style.transition =
+          'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
         revealObserver.observe(el);
       });
 
       // Add revealed state styles
       var style = document.createElement('style');
-      style.textContent = '.revealed { opacity: 1 !important; transform: translateY(0) !important; }';
+      style.textContent =
+        '.revealed { opacity: 1 !important; transform: translateY(0) !important; }';
       document.head.appendChild(style);
     }
   }
@@ -105,5 +107,4 @@
       bar.style.height = '50%';
     });
   }
-
 })();

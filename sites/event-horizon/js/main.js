@@ -22,7 +22,11 @@
 
     // Close on outside click
     document.addEventListener('click', function (e) {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('is-open')) {
+      if (
+        !navToggle.contains(e.target) &&
+        !navMenu.contains(e.target) &&
+        navMenu.classList.contains('is-open')
+      ) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
@@ -46,25 +50,31 @@
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-    var revealItems = document.querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card');
+    var revealItems = document.querySelectorAll(
+      '.feature-card, .client-card, .feature-detail, .download-card',
+    );
 
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px'
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px',
+      },
+    );
 
     revealItems.forEach(function (item) {
       item.style.opacity = '0';
       item.style.transform = 'translateY(20px)';
-      item.style.transition = 'opacity 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)';
+      item.style.transition =
+        'opacity 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)';
       revealObserver.observe(item);
     });
   }
@@ -76,11 +86,13 @@
   motionQuery.addEventListener('change', function () {
     if (motionQuery.matches) {
       // Remove inline styles if user enables reduced motion
-      document.querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card').forEach(function (el) {
-        el.style.opacity = '';
-        el.style.transform = '';
-        el.style.transition = '';
-      });
+      document
+        .querySelectorAll('.feature-card, .client-card, .feature-detail, .download-card')
+        .forEach(function (el) {
+          el.style.opacity = '';
+          el.style.transform = '';
+          el.style.transition = '';
+        });
     }
   });
 
@@ -116,22 +128,24 @@
 
       copyBtn.addEventListener('click', function () {
         var text = codeBlock.textContent;
-        navigator.clipboard.writeText(text).then(function () {
-          copyBtn.textContent = 'Copied!';
-          setTimeout(function () {
-            copyBtn.textContent = 'Copy';
-          }, 2000);
-        }).catch(function () {
-          copyBtn.textContent = 'Failed';
-          setTimeout(function () {
-            copyBtn.textContent = 'Copy';
-          }, 2000);
-        });
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            copyBtn.textContent = 'Copied!';
+            setTimeout(function () {
+              copyBtn.textContent = 'Copy';
+            }, 2000);
+          })
+          .catch(function () {
+            copyBtn.textContent = 'Failed';
+            setTimeout(function () {
+              copyBtn.textContent = 'Copy';
+            }, 2000);
+          });
       });
 
       parent.style.position = 'relative';
       parent.appendChild(copyBtn);
     }
   });
-
 })();

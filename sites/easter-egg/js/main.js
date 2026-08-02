@@ -8,9 +8,7 @@
   'use strict';
 
   // ─── Reduced Motion Detection ───────────────────────────────────────────
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ─── Mobile Navigation Toggle ─────────────────────────────────────────────
   const navToggle = document.querySelector('.nav-toggle');
@@ -61,13 +59,15 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
     );
 
-    document.querySelectorAll('.feature-card, .client-card, .download-card, .faq-item, .ecosystem-item').forEach((el) => {
-      el.classList.add('reveal-on-scroll');
-      revealObserver.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .client-card, .download-card, .faq-item, .ecosystem-item')
+      .forEach((el) => {
+        el.classList.add('reveal-on-scroll');
+        revealObserver.observe(el);
+      });
   } else {
     // Fallback: show all elements immediately
     document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
@@ -77,7 +77,18 @@
 
   // ─── Easter Egg: Konami Code Reveal ─────────────────────────────────────
   // Hidden surprise for keen observers
-  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  const konamiCode = [
+    'ArrowUp',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowLeft',
+    'ArrowRight',
+    'b',
+    'a',
+  ];
   let konamiIndex = 0;
 
   function handleKonamiKey(e) {
@@ -119,10 +130,10 @@
       confetti.className = 'confetti-piece';
       confetti.style.left = Math.random() * 100 + 'vw';
       confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+      confetti.style.animationDuration = 2 + Math.random() * 2 + 's';
       confetti.style.animationDelay = Math.random() * 0.5 + 's';
       confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-      confetti.style.width = (5 + Math.random() * 10) + 'px';
+      confetti.style.width = 5 + Math.random() * 10 + 'px';
       confetti.style.height = confetti.style.width;
       document.body.appendChild(confetti);
 
@@ -146,14 +157,17 @@
       logoClickCount++;
 
       if (logoClickTimer) clearTimeout(logoClickTimer);
-      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
+      logoClickTimer = setTimeout(() => {
+        logoClickCount = 0;
+      }, 1000);
 
       if (logoClickCount >= 5) {
         logoClickCount = 0;
         spawnConfetti();
         const easterMsg = document.createElement('div');
         easterMsg.innerHTML = '🎉 You found a secret! Phlix loves easter eggs.';
-        easterMsg.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--color-primary);color:var(--color-cornsilk);padding:16px 24px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:var(--shadow-lg);animation:fadeInUp 0.3s ease';
+        easterMsg.style.cssText =
+          'position:fixed;bottom:20px;right:20px;background:var(--color-primary);color:var(--color-cornsilk);padding:16px 24px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:var(--shadow-lg);animation:fadeInUp 0.3s ease';
         document.body.appendChild(easterMsg);
         setTimeout(() => {
           easterMsg.style.animation = 'fadeOutDown 0.3s ease forwards';
@@ -188,7 +202,7 @@
 
   // ─── Hidden Navigation Trick (hover reveal on certain elements) ──────────
   const hiddenHints = document.querySelectorAll('[data-easter-hint]');
-  hiddenHints.forEach(el => {
+  hiddenHints.forEach((el) => {
     el.style.cursor = 'pointer';
     el.addEventListener('mouseenter', () => {
       const hint = el.getAttribute('data-easter-hint');
@@ -197,5 +211,4 @@
       }
     });
   });
-
 })();

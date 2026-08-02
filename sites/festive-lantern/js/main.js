@@ -154,7 +154,9 @@
         mascot.classList.remove('lumen-dismissed');
         try {
           localStorage.removeItem('phlix-lumen-dismissed');
-        } catch (e) {}
+        } catch (e) {
+          // localStorage not available — ignore
+        }
         restoreBtn.style.display = 'none';
       });
     }
@@ -194,7 +196,9 @@
         mascot.classList.add('lumen-dismissed');
         try {
           localStorage.setItem('phlix-lumen-dismissed', 'true');
-        } catch (e) {}
+        } catch (e) {
+          // localStorage not available — ignore
+        }
         if (restoreBtn) restoreBtn.style.display = '';
       });
     }

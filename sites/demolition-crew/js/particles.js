@@ -31,9 +31,7 @@ class DebrisParticleSystem {
   _init() {
     this._resize();
     window.addEventListener('resize', () => this._resize());
-    this._prefersReducedMotion
-      ? this._renderStatic()
-      : this._start();
+    this._prefersReducedMotion ? this._renderStatic() : this._start();
   }
 
   _resize() {
@@ -135,8 +133,12 @@ class DebrisParticleSystem {
     // Static dust overlay for reduced motion
     this.ctx.clearRect(0, 0, this.width, this.height);
     const gradient = this.ctx.createRadialGradient(
-      this.width * 0.5, this.height, 0,
-      this.width * 0.5, this.height, this.height * 0.6
+      this.width * 0.5,
+      this.height,
+      0,
+      this.width * 0.5,
+      this.height,
+      this.height * 0.6,
     );
     gradient.addColorStop(0, 'rgba(45,52,54,0.7)');
     gradient.addColorStop(1, 'transparent');

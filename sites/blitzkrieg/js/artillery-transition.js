@@ -4,7 +4,7 @@
  *  Three-phase chamber/aim/fire page transitions
  * ============================================================================ */
 
-(function() {
+(function () {
   'use strict';
 
   class ArtilleryTransition {
@@ -12,9 +12,9 @@
       this.options = {
         duration: options.duration || 800,
         easing: options.easing || 'cubic-bezier(0.16, 1, 0.3, 1)',
-        ...options
+        ...options,
       };
-      
+
       this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.isTransitioning = false;
     }
@@ -37,13 +37,13 @@
       try {
         // Phase 1: Chamber
         await this.chamber(element);
-        
+
         // Phase 2: Aim
         await this.aim(element);
-        
+
         // Phase 3: Fire
         await this.fire(element);
-        
+
         // Execute callback
         callback();
       } finally {
@@ -53,28 +53,28 @@
     }
 
     chamber(element) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         element.style.transition = `transform ${this.options.duration * 0.3}ms ${this.options.easing}`;
         element.style.transform = 'scale(0.95) translateY(10px)';
-        
+
         setTimeout(resolve, this.options.duration * 0.3);
       });
     }
 
     aim(element) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         element.style.transition = `transform ${this.options.duration * 0.3}ms ${this.options.easing}`;
         element.style.transform = 'scale(1.02) translateY(-5px)';
-        
+
         setTimeout(resolve, this.options.duration * 0.3);
       });
     }
 
     fire(element) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         element.style.transition = `transform ${this.options.duration * 0.4}ms ${this.options.easing}`;
         element.style.transform = 'scale(1) translateY(0)';
-        
+
         setTimeout(resolve, this.options.duration * 0.4);
       });
     }
@@ -83,7 +83,7 @@
      * Page exit transition
      */
     exit() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (this.reducedMotion) {
           resolve();
           return;
@@ -106,7 +106,7 @@
 
         requestAnimationFrame(() => {
           overlay.style.opacity = '1';
-          
+
           setTimeout(() => {
             resolve();
             overlay.remove();
@@ -127,17 +127,17 @@
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href]');
     if (!link) return;
-    
+
     const href = link.getAttribute('href');
-    
+
     // Only handle internal links
     if (link.hostname !== window.location.hostname) return;
     if (href.startsWith('#') || href.startsWith('?')) return;
     if (!href.endsWith('.html')) return;
     if (href === window.location.pathname) return;
-    
+
     e.preventDefault();
-    
+
     artillery.exit().then(() => {
       window.location.href = href;
     });
@@ -147,5 +147,4 @@
      Expose Global
      -------------------------------------------------------------------------- */
   window.ArtilleryTransition = ArtilleryTransition;
-
 })();

@@ -3,7 +3,7 @@
  * Steampunk clockwork brand kit
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Check for reduced motion preference
@@ -14,7 +14,7 @@
   const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       const isOpen = navMenu.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen);
 
@@ -25,7 +25,7 @@
     });
 
     // Close on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -34,7 +34,7 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -45,13 +45,13 @@
   // Scroll Reveal Animation
   if (!prefersReducedMotion) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .ecosystem-item, .feature-detail'
+      '.feature-card, .client-card, .download-card, .ecosystem-item, .feature-detail',
     );
 
     if (revealElements.length > 0 && 'IntersectionObserver' in window) {
       const revealObserver = new IntersectionObserver(
-        function(entries) {
-          entries.forEach(function(entry) {
+        function (entries) {
+          entries.forEach(function (entry) {
             if (entry.isIntersecting) {
               entry.target.classList.add('fade-in-up');
               revealObserver.unobserve(entry.target);
@@ -60,11 +60,11 @@
         },
         {
           threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        }
+          rootMargin: '0px 0px -50px 0px',
+        },
       );
 
-      revealElements.forEach(function(el) {
+      revealElements.forEach(function (el) {
         el.style.opacity = '0';
         revealObserver.observe(el);
       });
@@ -72,8 +72,8 @@
   }
 
   // Smooth scroll for anchor links (fallback for older browsers)
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -81,7 +81,7 @@
       if (target) {
         e.preventDefault();
         target.scrollIntoView({
-          behavior: prefersReducedMotion ? 'auto' : 'smooth'
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
         });
 
         // Update focus for accessibility
@@ -94,11 +94,11 @@
   // FAQ accordion keyboard accessibility
   const faqDetails = document.querySelectorAll('.faq-list details');
 
-  faqDetails.forEach(function(details) {
+  faqDetails.forEach(function (details) {
     const summary = details.querySelector('summary');
 
     if (summary) {
-      summary.addEventListener('keydown', function(e) {
+      summary.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           details.toggleAttribute('open');
@@ -106,5 +106,4 @@
       });
     }
   });
-
 })();

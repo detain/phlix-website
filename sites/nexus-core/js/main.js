@@ -74,13 +74,17 @@ function initReducedMotion() {
   on(btn, 'click', () => {
     reduced = !reduced;
     applyMotion(reduced);
-    try { localStorage.setItem('nexus-reduce-motion', String(reduced)); } catch (_) {}
+    try {
+      localStorage.setItem('nexus-reduce-motion', String(reduced));
+    } catch (_) {}
   });
 
   window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
     reduced = e.matches;
     applyMotion(reduced);
-    try { localStorage.setItem('nexus-reduce-motion', String(reduced)); } catch (_) {}
+    try {
+      localStorage.setItem('nexus-reduce-motion', String(reduced));
+    } catch (_) {}
   });
 }
 
@@ -112,7 +116,7 @@ function initSeasonal() {
       document.body.classList.add(variant.class);
       const banner = qs('.seasonal-banner');
       if (banner) {
-        banner.textContent = "The nexus shifts frequency. Energy recalibrated.";
+        banner.textContent = 'The nexus shifts frequency. Energy recalibrated.';
         banner.style.display = 'block';
       }
       break;
@@ -139,7 +143,9 @@ function initLogoEgg() {
     }
 
     clearTimeout(sprayTimeout);
-    sprayTimeout = setTimeout(() => { clickCount = 0; }, 2000);
+    sprayTimeout = setTimeout(() => {
+      clickCount = 0;
+    }, 2000);
   });
 }
 
@@ -152,9 +158,11 @@ function triggerEnergyBurst() {
   }
 
   overlay.classList.add('is-active');
-  showMascotTip("Energy sync achieved.");
+  showMascotTip('Energy sync achieved.');
 
-  setTimeout(() => { overlay.classList.remove('is-active'); }, 3000);
+  setTimeout(() => {
+    overlay.classList.remove('is-active');
+  }, 3000);
 
   const escHandler = (e) => {
     if (e.key === 'Escape') {
@@ -200,7 +208,7 @@ function triggerDiffraction() {
   }
 
   overlay.classList.add('is-active');
-  showMascotTip("The core responds to your command.");
+  showMascotTip('The core responds to your command.');
 
   clearTimeout(diffractionTimeout);
   diffractionTimeout = setTimeout(dismissDiffraction, 4000);
@@ -238,7 +246,7 @@ function initMascot() {
 
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     setTimeout(() => {
-      showMascotTip("Welcome to the core. I am Orb — your guide to connection.");
+      showMascotTip('Welcome to the core. I am Orb — your guide to connection.');
     }, 1500);
   }
 
@@ -247,7 +255,9 @@ function initMascot() {
     on(dismissBtn, 'click', (e) => {
       e.stopPropagation();
       mascot.classList.add('is-dismissed');
-      try { localStorage.setItem('nexus-orb-dismissed', 'true'); } catch (_) {}
+      try {
+        localStorage.setItem('nexus-orb-dismissed', 'true');
+      } catch (_) {}
     });
   }
 
@@ -265,7 +275,7 @@ function initMascot() {
     mascotClicks++;
     if (mascotClicks >= 3) {
       mascotClicks = 0;
-      showMascotTip("Orb expands its rings, showing a full orbital system.");
+      showMascotTip('Orb expands its rings, showing a full orbital system.');
     }
   });
 }
@@ -285,7 +295,9 @@ function showMascotTip(text) {
       const mascot = qs('#mascot-orb');
       if (mascot) {
         mascot.classList.add('is-dismissed');
-        try { localStorage.setItem('nexus-orb-dismissed', 'true'); } catch (_) {}
+        try {
+          localStorage.setItem('nexus-orb-dismissed', 'true');
+        } catch (_) {}
       }
     });
   }
@@ -312,29 +324,34 @@ function initScrollParallax() {
 
   let ticking = false;
 
-  on(window, 'scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
+  on(
+    window,
+    'scroll',
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
 
-        if (scrollY < window.innerHeight && hero) {
-          hero.style.transform = `translateY(${scrollY * 0.1}px)`;
-        }
-
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const inView = rect.top < window.innerHeight && rect.bottom > 0;
-          if (inView) {
-            const offset = (rect.top / window.innerHeight - 0.5) * 10;
-            card.style.transform = `translateY(${offset}px)`;
+          if (scrollY < window.innerHeight && hero) {
+            hero.style.transform = `translateY(${scrollY * 0.1}px)`;
           }
-        });
 
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+          cards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const inView = rect.top < window.innerHeight && rect.bottom > 0;
+            if (inView) {
+              const offset = (rect.top / window.innerHeight - 0.5) * 10;
+              card.style.transform = `translateY(${offset}px)`;
+            }
+          });
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
 }
 
 /* --------------------------------------------------------------------------
@@ -358,7 +375,8 @@ function initScrollReveal() {
   qsa('.feature-card, .ar-panel, .client-card, .faq-item, .section').forEach((el) => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+    el.style.transition =
+      'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
     observer.observe(el);
   });
 
@@ -379,17 +397,23 @@ function initOrbTips() {
   if (!qs('#mascot-orb')) return;
 
   const tips = [
-    { selector: '#hero-core', text: "Welcome to the core. I am Orb — your guide to connection." },
-    { selector: '.feature-cards', text: "Each stream flows through me. Everything connects." },
-    { selector: '#syncplay', text: "SyncPlay creates an orbital lock — all devices move together." },
-    { selector: '#hub', text: "The Hub extends my reach across any distance." },
-    { selector: '.faq-list', text: "Your questions map new pathways through the nexus." },
+    { selector: '#hero-core', text: 'Welcome to the core. I am Orb — your guide to connection.' },
+    { selector: '.feature-cards', text: 'Each stream flows through me. Everything connects.' },
+    {
+      selector: '#syncplay',
+      text: 'SyncPlay creates an orbital lock — all devices move together.',
+    },
+    { selector: '#hub', text: 'The Hub extends my reach across any distance.' },
+    { selector: '.faq-list', text: 'Your questions map new pathways through the nexus.' },
   ];
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (
+          entry.isIntersecting &&
+          !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
           const tip = tips.find((t) => entry.target.matches(t.selector));
           if (tip) showMascotTip(tip.text);
           observer.unobserve(entry.target);

@@ -4,7 +4,7 @@
    @copyright 2026 Joe Huss <detain@interserver.net>
    ========================================================================== */
 
-(function() {
+(function () {
   'use strict';
 
   // ─── Mobile Navigation ────────────────────────────────────────────────────
@@ -52,21 +52,24 @@
 
   if (!reducedMotion && 'IntersectionObserver' in window) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
 
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
     revealElements.forEach((el) => {
       el.style.opacity = '0';
@@ -83,9 +86,12 @@
 
   navLinks.forEach((link) => {
     const href = link.getAttribute('href');
-    if (href === currentPath || (currentPath === 'index.html' && href === './') || (currentPath === '' && href === './')) {
+    if (
+      href === currentPath ||
+      (currentPath === 'index.html' && href === './') ||
+      (currentPath === '' && href === './')
+    ) {
       link.setAttribute('aria-current', 'page');
     }
   });
-
 })();

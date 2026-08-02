@@ -1,168 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plugins — Phlix Wabi-Sabi</title>
-  <meta name="description" content="Phlix has a plugin system with a versioned manifest contract. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://detain.github.io/phlix-website/wabi-sabi/plugins.html">
-  <meta property="og:title" content="Plugins — Phlix Wabi-Sabi">
-  <meta property="og:description" content="Phlix has a plugin system with a versioned manifest contract. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory.">
-  <meta property="og:image" content="https://detain.github.io/phlix-website/wabi-sabi/img/og.png">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/wabi-sabi/plugins.html">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:creator" content="@detain">
-  <meta name="theme-color" content="#7C5230">
-  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/components.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plugins — Phlix Wabi-Sabi</title>
+    <meta
+      name="description"
+      content="Phlix has a plugin system with a versioned manifest contract. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://detain.github.io/phlix-website/wabi-sabi/plugins.html" />
+    <meta property="og:title" content="Plugins — Phlix Wabi-Sabi" />
+    <meta
+      property="og:description"
+      content="Phlix has a plugin system with a versioned manifest contract. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/wabi-sabi/img/og.png"
+    />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/wabi-sabi/plugins.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@detain" />
+    <meta name="theme-color" content="#7C5230" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <header class="topbar no-print" role="banner">
-    <div class="topbar__inner">
-      <a href="index.html" class="topbar__wordmark">Phlix</a>
-      <nav aria-label="Primary navigation">
-        <ul class="topbar__nav">
-          <li class="nav--default"><a href="index.html">The Library</a></li>
-          <li class="nav--primary"><a href="features.html">Craft</a></li>
-          <li class="nav--default"><a href="clients.html">Vessels</a></li>
-          <li class="nav--primary"><a href="download.html">Begin</a></li>
-          <li class="nav--muted"><a href="plugins.html" aria-current="page">Plugins</a></li>
-          <li class="nav--muted"><a href="docs.html">Docs</a></li>
-          <li class="nav--default"><a href="hub.html">The Gateway</a></li>
-          <li class="nav--muted"><a href="about.html">The Path</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main-content">
-
-    <section class="hero" aria-labelledby="plugins-hero-heading">
-      <div class="hero__content" style="padding-block: var(--space-16);">
-        <p class="hero__eyebrow animate-fade-in-up">Plugins</p>
-        <h1 class="hero__headline animate-fade-in-up stagger-1" id="plugins-hero-heading">Extending Phlix</h1>
-        <p class="hero__subheadline animate-fade-in-up stagger-2">
-          The plugin system has a versioned manifest contract.
-          Implement LifecycleInterface, ship a manifest, drop it in the plugins directory.
-        </p>
+    <header class="topbar no-print" role="banner">
+      <div class="topbar__inner">
+        <a href="index.html" class="topbar__wordmark">Phlix</a>
+        <nav aria-label="Primary navigation">
+          <ul class="topbar__nav">
+            <li class="nav--default"><a href="index.html">The Library</a></li>
+            <li class="nav--primary"><a href="features.html">Craft</a></li>
+            <li class="nav--default"><a href="clients.html">Vessels</a></li>
+            <li class="nav--primary"><a href="download.html">Begin</a></li>
+            <li class="nav--muted"><a href="plugins.html" aria-current="page">Plugins</a></li>
+            <li class="nav--muted"><a href="docs.html">Docs</a></li>
+            <li class="nav--default"><a href="hub.html">The Gateway</a></li>
+            <li class="nav--muted"><a href="about.html">The Path</a></li>
+          </ul>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section class="section" aria-labelledby="plugin-model-heading">
-      <div class="container container--narrow">
-        <div class="section__header mb-8">
-          <div class="kintsugi-divider"></div>
-          <h2 class="section__heading" id="plugin-model-heading">How it works</h2>
-        </div>
-        <div class="grid" style="gap: var(--space-6);">
-          <div class="feature-card reveal">
-            <h3 class="feature-card__title">LifecycleInterface</h3>
-            <p class="feature-card__body">
-              Every plugin implements LifecycleInterface. It tells Phlix when your
-              plugin is being installed, started, stopped, and removed — and Phlix
-              respects that contract across versions.
-            </p>
-          </div>
-          <div class="feature-card reveal">
-            <h3 class="feature-card__title">Versioned manifest</h3>
-            <p class="feature-card__body">
-              Each plugin ships a manifest.json that declares its identity, its
-              dependencies, and which Phlix version it requires. The loader validates
-              everything before the plugin runs.
-            </p>
-          </div>
-          <div class="feature-card reveal">
-            <h3 class="feature-card__title">Drop-in discovery</h3>
-            <p class="feature-card__body">
-              Drop a plugin folder into the plugins directory. The loader finds it,
-              validates it, and starts it — no configuration, no service restart
-              required.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--surface" aria-labelledby="plugin-starter-heading">
-      <div class="container container--narrow">
-        <div class="download-chapter reveal">
-          <p class="download-chapter__label">Start here</p>
-          <h2 class="download-chapter__heading" id="plugin-starter-heading">phlix-plugin-example</h2>
-          <p class="download-chapter__body">
-            The smallest working plugin. It implements LifecycleInterface, declares
-            a manifest, and does one useful thing. Use it as a template.
-          </p>
-          <p class="mt-4">
-            <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer" class="btn btn--primary">
-              View on GitHub
-            </a>
+    <main id="main-content">
+      <section class="hero" aria-labelledby="plugins-hero-heading">
+        <div class="hero__content" style="padding-block: var(--space-16)">
+          <p class="hero__eyebrow animate-fade-in-up">Plugins</p>
+          <h1 class="hero__headline animate-fade-in-up stagger-1" id="plugins-hero-heading">
+            Extending Phlix
+          </h1>
+          <p class="hero__subheadline animate-fade-in-up stagger-2">
+            The plugin system has a versioned manifest contract. Implement LifecycleInterface, ship
+            a manifest, drop it in the plugins directory.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="cta-section" aria-labelledby="plugins-cta-heading">
+      <section class="section" aria-labelledby="plugin-model-heading">
+        <div class="container container--narrow">
+          <div class="section__header mb-8">
+            <div class="kintsugi-divider"></div>
+            <h2 class="section__heading" id="plugin-model-heading">How it works</h2>
+          </div>
+          <div class="grid" style="gap: var(--space-6)">
+            <div class="feature-card reveal">
+              <h3 class="feature-card__title">LifecycleInterface</h3>
+              <p class="feature-card__body">
+                Every plugin implements LifecycleInterface. It tells Phlix when your plugin is being
+                installed, started, stopped, and removed — and Phlix respects that contract across
+                versions.
+              </p>
+            </div>
+            <div class="feature-card reveal">
+              <h3 class="feature-card__title">Versioned manifest</h3>
+              <p class="feature-card__body">
+                Each plugin ships a manifest.json that declares its identity, its dependencies, and
+                which Phlix version it requires. The loader validates everything before the plugin
+                runs.
+              </p>
+            </div>
+            <div class="feature-card reveal">
+              <h3 class="feature-card__title">Drop-in discovery</h3>
+              <p class="feature-card__body">
+                Drop a plugin folder into the plugins directory. The loader finds it, validates it,
+                and starts it — no configuration, no service restart required.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--surface" aria-labelledby="plugin-starter-heading">
+        <div class="container container--narrow">
+          <div class="download-chapter reveal">
+            <p class="download-chapter__label">Start here</p>
+            <h2 class="download-chapter__heading" id="plugin-starter-heading">
+              phlix-plugin-example
+            </h2>
+            <p class="download-chapter__body">
+              The smallest working plugin. It implements LifecycleInterface, declares a manifest,
+              and does one useful thing. Use it as a template.
+            </p>
+            <p class="mt-4">
+              <a
+                href="https://github.com/detain/phlix-plugin-example"
+                rel="noopener noreferrer"
+                class="btn btn--primary"
+              >
+                View on GitHub
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section" aria-labelledby="plugins-cta-heading">
+        <div class="container">
+          <div class="kintsugi-divider kintsugi-divider--center"></div>
+          <p class="cta-section__tagline" id="plugins-cta-heading">Ready to build?</p>
+          <a
+            href="https://github.com/detain/phlix-plugin-example"
+            rel="noopener noreferrer"
+            class="btn btn--primary btn--lg"
+          >
+            Start from the example
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
       <div class="container">
-        <div class="kintsugi-divider kintsugi-divider--center"></div>
-        <p class="cta-section__tagline" id="plugins-cta-heading">Ready to build?</p>
-        <a href="https://github.com/detain/phlix-plugin-example" rel="noopener noreferrer" class="btn btn--primary btn--lg">
-          Start from the example
-        </a>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer__grid">
-        <div>
-          <p class="footer__col-heading">Product</p>
-          <ul class="footer__links">
-            <li><a href="features.html">Features</a></li>
-            <li><a href="clients.html">Clients</a></li>
-            <li><a href="download.html">Download</a></li>
-            <li><a href="plugins.html">Plugins</a></li>
-          </ul>
+        <div class="footer__grid">
+          <div>
+            <p class="footer__col-heading">Product</p>
+            <ul class="footer__links">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="clients.html">Clients</a></li>
+              <li><a href="download.html">Download</a></li>
+              <li><a href="plugins.html">Plugins</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer__col-heading">Developers</p>
+            <ul class="footer__links">
+              <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+              <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+              <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+              <li>
+                <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer__col-heading">Project</p>
+            <ul class="footer__links">
+              <li><a href="https://github.com/detain">GitHub org</a></li>
+              <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+              <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+              <li>
+                <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                  >License (MPL-2.0)</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <p class="footer__col-heading">Developers</p>
-          <ul class="footer__links">
-            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
-            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
-            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
-            <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer__col-heading">Project</p>
-          <ul class="footer__links">
-            <li><a href="https://github.com/detain">GitHub org</a></li>
-            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
-            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
-            <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <p class="footer__tagline">Nothing lasts. Nothing is lost. Nothing is finished.</p>
-        <div class="footer__legal">
-          <a href="https://github.com/detain/phlix-server/blob/master/LICENSE">MPL-2.0</a>
-          <span>Phlix Server and Hub</span>
-          <span>&middot;</span>
-          <span>Shared libraries, plugins, clients: MIT</span>
+        <div class="footer__bottom">
+          <p class="footer__tagline">Nothing lasts. Nothing is lost. Nothing is finished.</p>
+          <div class="footer__legal">
+            <a href="https://github.com/detain/phlix-server/blob/master/LICENSE">MPL-2.0</a>
+            <span>Phlix Server and Hub</span>
+            <span>&middot;</span>
+            <span>Shared libraries, plugins, clients: MIT</span>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script src="js/main.js"></script>
-</body>
+    <script src="js/main.js"></script>
+  </body>
 </html>

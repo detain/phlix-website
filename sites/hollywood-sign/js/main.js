@@ -26,7 +26,7 @@
     });
 
     // Close on link click
-    navLinks.forEach(link => {
+    navLinks.forEach((link) => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
@@ -73,13 +73,13 @@
 
   if (!prefersReducedMotion.matches) {
     const revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
 
     if (revealElements.length && 'IntersectionObserver' in window) {
       const revealObserver = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('revealed');
               revealObserver.unobserve(entry.target);
@@ -89,11 +89,11 @@
         {
           root: null,
           rootMargin: '0px 0px -50px 0px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
 
-      revealElements.forEach(el => {
+      revealElements.forEach((el) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -111,5 +111,4 @@
     }
   `;
   document.head.appendChild(style);
-
 })();

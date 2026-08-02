@@ -14,13 +14,12 @@
 /* ---- Seasonal variant activation ---- */
 (function seasonalActivator() {
   const now = new Date();
-  const monthDay = ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-                   ('0' + now.getDate()).slice(-2);
+  const monthDay = ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 
   const variants = [
-    { key: 'harvest',  start: '09-15', end: '10-31' },
-    { key: 'midwinter',start: '12-01', end: '01-06' },
-    { key: 'spring',   start: '03-15', end: '05-15' },
+    { key: 'harvest', start: '09-15', end: '10-31' },
+    { key: 'midwinter', start: '12-01', end: '01-06' },
+    { key: 'spring', start: '03-15', end: '05-15' },
   ];
 
   for (const v of variants) {
@@ -32,39 +31,37 @@
 })();
 
 /* ---- Reduced motion ---- */
-const prefersReducedMotion =
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const isQuietMode = () =>
-  document.body.classList.contains('quiet-mode') || prefersReducedMotion;
+const isQuietMode = () => document.body.classList.contains('quiet-mode') || prefersReducedMotion;
 
 /* ---- Scroll reveal ---- */
 (function initScrollReveal() {
   if (isQuietMode()) {
     // Show everything immediately when motion is reduced
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
     return;
   }
 
   const io = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           io.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
   );
 
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 })();
 
 /* ---- Mobile nav toggle ---- */
 (function initNav() {
   const toggle = document.querySelector('.nav-toggle');
-  const menu   = document.querySelector('.nav-menu');
+  const menu = document.querySelector('.nav-menu');
   if (!toggle || !menu) return;
 
   function openMenu() {
@@ -87,7 +84,7 @@ const isQuietMode = () =>
   });
 
   // Close on outside click
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !toggle.contains(e.target)) {
       menu.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
@@ -95,7 +92,7 @@ const isQuietMode = () =>
   });
 
   // Close on Escape
-  document.addEventListener('keydown', e => {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && menu.classList.contains('is-open')) {
       closeMenu();
     }
@@ -108,8 +105,7 @@ const isQuietMode = () =>
   if (!toggle) return;
 
   // Restore preference
-  if (localStorage.getItem('cottagecore-bloom-quiet') === 'true' ||
-      prefersReducedMotion) {
+  if (localStorage.getItem('cottagecore-bloom-quiet') === 'true' || prefersReducedMotion) {
     document.body.classList.add('quiet-mode');
     toggle.checked = true;
   }
@@ -123,25 +119,27 @@ const isQuietMode = () =>
 
 /* ---- Mascot: Primrose ---- */
 (function initMascot() {
-  const mascot    = document.getElementById('mascot');
-  const tip       = document.getElementById('mascot-tip');
+  const mascot = document.getElementById('mascot');
+  const tip = document.getElementById('mascot-tip');
   const tipClose = document.querySelector('.mascot-tip-close');
   if (!mascot) return;
 
   const TOOLTIPS = {
-    'home':           "Come in through the garden gate — there's always something wonderful blooming.",
-    'features':       "Each of these blooms does something special. Hover to see what makes it grow.",
-    'features-page':  "I've visited every corner of this garden — take your time, pick what speaks to you.",
-    'download':       "One line, and your own garden begins. I'll help it grow.",
-    'about':          "Questions? Tend to them like I tend the flowers — one petal at a time.",
+    home: "Come in through the garden gate — there's always something wonderful blooming.",
+    features: 'Each of these blooms does something special. Hover to see what makes it grow.',
+    'features-page':
+      "I've visited every corner of this garden — take your time, pick what speaks to you.",
+    download: "One line, and your own garden begins. I'll help it grow.",
+    about: 'Questions? Tend to them like I tend the flowers — one petal at a time.',
   };
 
   function getTipKey() {
     const page = document.body.dataset.page || '';
-    if (page === 'home')     return 'home';
-    if (page === 'features') return window.location.pathname.includes('/features.html') ? 'features-page' : 'features';
+    if (page === 'home') return 'home';
+    if (page === 'features')
+      return window.location.pathname.includes('/features.html') ? 'features-page' : 'features';
     if (page === 'download') return 'download';
-    if (page === 'about')    return 'about';
+    if (page === 'about') return 'about';
     return null;
   }
 
@@ -161,7 +159,10 @@ const isQuietMode = () =>
   }
 
   function hideTip() {
-    if (tip) { tip.classList.remove('is-visible'); tipVisible = false; }
+    if (tip) {
+      tip.classList.remove('is-visible');
+      tipVisible = false;
+    }
     clearTimeout(hoverTimer);
   }
 
@@ -173,7 +174,7 @@ const isQuietMode = () =>
     mascot.addEventListener('mouseleave', hideTip);
     // Dismiss tip on close button
     if (tipClose) {
-      tipClose.addEventListener('click', e => {
+      tipClose.addEventListener('click', (e) => {
         e.stopPropagation();
         hideTip();
       });
@@ -197,9 +198,9 @@ const isQuietMode = () =>
         for (let i = 0; i < 12; i++) {
           const p = document.createElement('div');
           p.className = 'shower-petal';
-          p.style.left = (10 + Math.random() * 80) + '%';
-          p.style.animationDuration = (2 + Math.random() * 2) + 's';
-          p.style.animationDelay = (Math.random() * 0.8) + 's';
+          p.style.left = 10 + Math.random() * 80 + '%';
+          p.style.animationDuration = 2 + Math.random() * 2 + 's';
+          p.style.animationDelay = Math.random() * 0.8 + 's';
           shower.appendChild(p);
         }
         setTimeout(() => shower.remove(), 3500);
@@ -222,9 +223,9 @@ const isQuietMode = () =>
         for (let i = 0; i < 16; i++) {
           const p = document.createElement('div');
           p.className = 'shower-petal';
-          p.style.left = (5 + Math.random() * 90) + '%';
-          p.style.animationDuration = (2.5 + Math.random() * 2) + 's';
-          p.style.animationDelay = (Math.random() * 0.6) + 's';
+          p.style.left = 5 + Math.random() * 90 + '%';
+          p.style.animationDuration = 2.5 + Math.random() * 2 + 's';
+          p.style.animationDelay = Math.random() * 0.6 + 's';
           shower.appendChild(p);
         }
         setTimeout(() => shower.remove(), 4000);
@@ -270,15 +271,21 @@ const isQuietMode = () =>
   }
 
   function hideReward() {
-    if (reward) { reward.classList.remove('is-visible'); }
+    if (reward) {
+      reward.classList.remove('is-visible');
+    }
     clearTimeout(exitTimer);
   }
 
-  document.addEventListener('keydown', e => {
+  document.addEventListener('keydown', (e) => {
     // Disable while in form fields
     if (['INPUT', 'TEXTAREA', 'CONTENTEDITABLE'].includes(e.target.tagName)) return;
     // Never preventDefault on typing
-    if (e.key === 'Escape') { hideReward(); typed = ''; return; }
+    if (e.key === 'Escape') {
+      hideReward();
+      typed = '';
+      return;
+    }
 
     // Only collect letter characters
     if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
@@ -299,12 +306,12 @@ const isQuietMode = () =>
 
 /* ---- FAQ accordion enhancements ---- */
 (function initFAQ() {
-  document.querySelectorAll('.faq-item').forEach(item => {
+  document.querySelectorAll('.faq-item').forEach((item) => {
     // Ensure keyboard toggle works with native details-like behavior
     const summary = item.querySelector('summary');
     if (!summary) return;
 
-    summary.addEventListener('click', e => {
+    summary.addEventListener('click', (e) => {
       // Let the native toggle happen; we just ensure styles update
       item.addEventListener('toggle', () => {}, { once: true });
     });
@@ -313,7 +320,7 @@ const isQuietMode = () =>
 
 /* ---- Visitor paths redirect ---- */
 (function initVisitorPaths() {
-  document.querySelectorAll('.path-btn').forEach(btn => {
+  document.querySelectorAll('.path-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.target;
       if (target) window.location.href = target;
@@ -334,10 +341,14 @@ function triggerPetalShower() {
   for (let i = 0; i < 20; i++) {
     const p = document.createElement('div');
     p.className = 'shower-petal';
-    p.style.left = (Math.random() * 100) + '%';
-    p.style.animationDuration = (2 + Math.random() * 3) + 's';
-    p.style.animationDelay = (Math.random() * 1) + 's';
-    p.style.background = ['rgba(200,85,106,0.5)', 'rgba(139,122,181,0.4)', 'rgba(122,158,107,0.35)'][i % 3];
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = 2 + Math.random() * 3 + 's';
+    p.style.animationDelay = Math.random() * 1 + 's';
+    p.style.background = [
+      'rgba(200,85,106,0.5)',
+      'rgba(139,122,181,0.4)',
+      'rgba(122,158,107,0.35)',
+    ][i % 3];
     shower.appendChild(p);
   }
 
@@ -350,7 +361,7 @@ function triggerPetalShower() {
   const logo = document.querySelector('.nav-logo');
   if (!logo) return;
 
-  logo.addEventListener('click', e => {
+  logo.addEventListener('click', (e) => {
     // Only count plain clicks, not nav
     if (isQuietMode()) return;
     logoClicks++;

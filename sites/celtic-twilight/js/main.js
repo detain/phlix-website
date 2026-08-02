@@ -52,8 +52,8 @@
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        var links = Array.from(navMenu.querySelectorAll('a'));
-        var idx = links.indexOf(document.activeElement);
+        links = Array.from(navMenu.querySelectorAll('a'));
+        idx = links.indexOf(document.activeElement);
         if (idx > 0) links[idx - 1].focus();
       }
     });

@@ -3,7 +3,7 @@
  * Smooth section switching with starship bridge feel
  */
 
-(function() {
+(function () {
   'use strict';
 
   class Navigation {
@@ -11,24 +11,24 @@
       this.navLinks = document.querySelectorAll('.nav-link');
       this.sections = document.querySelectorAll('.section');
       this.activeSection = 'dashboard';
-      
+
       this.init();
     }
-    
+
     init() {
       this.bindEvents();
       this.setInitialState();
     }
-    
+
     bindEvents() {
-      this.navLinks.forEach(link => {
+      this.navLinks.forEach((link) => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const sectionId = link.getAttribute('data-section');
           this.navigateTo(sectionId);
         });
       });
-      
+
       // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -36,33 +36,33 @@
         }
       });
     }
-    
+
     setInitialState() {
       // Set dashboard as active
       this.updateActiveNav('dashboard');
       this.updateActiveSection('dashboard');
     }
-    
+
     navigateTo(sectionId) {
       if (sectionId === this.activeSection) return;
-      
+
       // Update navigation
       this.updateActiveNav(sectionId);
-      
+
       // Update sections with animation
       this.updateActiveSection(sectionId);
-      
+
       this.activeSection = sectionId;
-      
+
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      
+
       // Announce for screen readers
       this.announceSection(sectionId);
     }
-    
+
     updateActiveNav(sectionId) {
-      this.navLinks.forEach(link => {
+      this.navLinks.forEach((link) => {
         const linkSection = link.getAttribute('data-section');
         if (linkSection === sectionId) {
           link.classList.add('active');
@@ -71,9 +71,9 @@
         }
       });
     }
-    
+
     updateActiveSection(sectionId) {
-      this.sections.forEach(section => {
+      this.sections.forEach((section) => {
         const sectionIdAttr = section.getAttribute('id');
         if (sectionIdAttr === sectionId) {
           section.classList.add('active');
@@ -85,7 +85,7 @@
         }
       });
     }
-    
+
     announceSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (section) {

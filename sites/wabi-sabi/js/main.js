@@ -37,14 +37,17 @@
       return;
     }
 
-    const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    const io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+    );
 
     document.querySelectorAll('.reveal').forEach(function (el) {
       el.style.opacity = '0';
@@ -73,7 +76,7 @@
     }
 
     var bowl = mascotEl.querySelector('.mascot__bowl');
-    var tip  = mascotEl.querySelector('.mascot__tip');
+    var tip = mascotEl.querySelector('.mascot__tip');
     var dismissBtn = mascotEl.querySelector('.mascot__dismiss');
     var clickCount = 0;
     var hoverTimer = null;
@@ -84,10 +87,10 @@
 
     // Tip data — keyed by CSS selector
     var tips = [
-      { selector: '#hero, .hero',        say: 'The library is ready to hold what you bring.' },
-      { selector: '.features-overview',  say: 'Every feature is built for slowness and presence.' },
-      { selector: '#server',             say: 'One line to run. The rest is just opening your hands.' },
-      { selector: '.faq-list',          say: 'Your questions are always welcome here.' },
+      { selector: '#hero, .hero', say: 'The library is ready to hold what you bring.' },
+      { selector: '.features-overview', say: 'Every feature is built for slowness and presence.' },
+      { selector: '#server', say: 'One line to run. The rest is just opening your hands.' },
+      { selector: '.faq-list', say: 'Your questions are always welcome here.' },
     ];
 
     function showTip(text) {
@@ -106,19 +109,24 @@
     }
 
     // Show tip on first view of a tracked section
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !entry.target._mascotTipShown) {
-          entry.target._mascotTipShown = true;
-          var match = tips.find(function (t) {
-            return entry.target.matches(t.selector) || entry.target.querySelector(t.selector);
-          });
-          if (match) {
-            setTimeout(function () { showTip(match.say); }, 800);
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !entry.target._mascotTipShown) {
+            entry.target._mascotTipShown = true;
+            var match = tips.find(function (t) {
+              return entry.target.matches(t.selector) || entry.target.querySelector(t.selector);
+            });
+            if (match) {
+              setTimeout(function () {
+                showTip(match.say);
+              }, 800);
+            }
           }
-        }
-      });
-    }, { threshold: 0.3 });
+        });
+      },
+      { threshold: 0.3 },
+    );
 
     tips.forEach(function (t) {
       var el = document.querySelector(t.selector);
@@ -142,7 +150,10 @@
     });
 
     bowl.addEventListener('mouseleave', function () {
-      if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
+      if (hoverTimer) {
+        clearTimeout(hoverTimer);
+        hoverTimer = null;
+      }
       hideTip();
     });
 
@@ -193,22 +204,29 @@
     // Scroll past footer
     var footer = document.querySelector('.footer');
     if (footer) {
-      var footerIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) {
-            // Footer has scrolled out of view — past the footer
-            showBrushstroke();
-            footerIO.disconnect();
-          }
-        });
-      }, { threshold: 0 });
+      var footerIO = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) {
+              // Footer has scrolled out of view — past the footer
+              showBrushstroke();
+              footerIO.disconnect();
+            }
+          });
+        },
+        { threshold: 0 },
+      );
       footerIO.observe(footer);
     }
 
     // §19.8: disable while typing
     document.addEventListener('keydown', function (e) {
       var tag = document.activeElement && document.activeElement.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement && document.activeElement.contentEditable === 'true') {
+      if (
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        (document.activeElement && document.activeElement.contentEditable === 'true')
+      ) {
         // Don't trigger egg while typing — but also do NOT call preventDefault
         return;
       }
@@ -225,9 +243,10 @@
     // Autumn Maple:  10-10 .. 11-20
     // Midwinter Still: 01-05 .. 02-10
     var now = new Date();
-    var mmdd = (now.getMonth() + 1).toString().padStart(2, '0') +
-               '-' +
-               now.getDate().toString().padStart(2, '0');
+    var mmdd =
+      (now.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      now.getDate().toString().padStart(2, '0');
 
     function inRange(mmdd, start, end) {
       return mmdd >= start && mmdd <= end;
@@ -272,5 +291,4 @@
   } else {
     init();
   }
-
 })();

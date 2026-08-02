@@ -1,191 +1,286 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plugins — Phlix</title>
-  <meta name="description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta name="keywords" content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server">
-  
-  <link rel="canonical" href="https://detain.github.io/phlix-website/achievement-unlocked/plugins.html">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Phlix">
-  <meta property="og:url" content="https://detain.github.io/phlix-website/achievement-unlocked/plugins.html">
-  <meta property="og:title" content="Plugins — Phlix">
-  <meta property="og:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta property="og:image" content="https://detain.github.io/phlix-website/achievement-unlocked/img/og.png">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Plugins — Phlix">
-  <meta name="twitter:description" content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.">
-  <meta name="twitter:image" content="https://detain.github.io/phlix-website/achievement-unlocked/img/og.png">
-  <meta name="twitter:creator" content="@detain">
-  
-  <meta name="theme-color" content="#1A1A2E">
-  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-  
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/components.css">
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plugins — Phlix</title>
+    <meta
+      name="description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="keywords"
+      content="phlix, media server, plex alternative, jellyfin alternative, self-hosted streaming, php media server"
+    />
 
-  <header class="site-header" role="banner">
-    <nav class="nav-primary" aria-label="Primary navigation">
-      <a class="nav-logo" href="./" aria-label="Phlix home">
-        <img src="img/logo.svg" alt="Phlix logo" width="120" height="40">
-      </a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <ul class="nav-menu" id="nav-menu" role="list">
-        <li><a href="./">Home</a></li>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="clients.html">Clients</a></li>
-        <li><a href="download.html">Download</a></li>
-        <li><a href="plugins.html" aria-current="page">Plugins</a></li>
-        <li><a href="docs.html">Docs</a></li>
-        <li><a href="hub.html">Hub</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
+    <link
+      rel="canonical"
+      href="https://detain.github.io/phlix-website/achievement-unlocked/plugins.html"
+    />
+    <meta name="robots" content="index, follow" />
 
-  <main id="main-content" tabindex="-1">
-    <header class="page-header">
-      <div class="site-container">
-        <h1>Plugins</h1>
-        <p class="lead">Extend Phlix with a versioned plugin contract — drop in, the loader picks it up.</p>
-      </div>
-    </header>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phlix" />
+    <meta
+      property="og:url"
+      content="https://detain.github.io/phlix-website/achievement-unlocked/plugins.html"
+    />
+    <meta property="og:title" content="Plugins — Phlix" />
+    <meta
+      property="og:description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      property="og:image"
+      content="https://detain.github.io/phlix-website/achievement-unlocked/img/og.png"
+    />
 
-    <section class="content-section">
-      <div class="site-container">
-        <div class="plugin-model">
-          <h3>Plugin Model</h3>
-          <p>Phlix uses <code>LifecycleInterface</code> + a manifest schema for plugin discovery. Implement the interface, ship a manifest, drop your plugin into the <code>plugins/</code> directory. The loader handles the rest.</p>
-        </div>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Plugins — Phlix" />
+    <meta
+      name="twitter:description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
+    <meta
+      name="twitter:image"
+      content="https://detain.github.io/phlix-website/achievement-unlocked/img/og.png"
+    />
+    <meta name="twitter:creator" content="@detain" />
 
-        <div class="content-grid">
-          <article class="hub-feature">
-            <h3>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-              LifecycleInterface
-            </h3>
-            <p style="color: var(--color-text-muted); margin-bottom: 0;">Every plugin implements the lifecycle contract: <code>onEnable()</code>, <code>onDisable()</code>, <code>onInstall()</code>, and <code>onUninstall()</code> hooks.</p>
-          </article>
+    <meta name="theme-color" content="#1A1A2E" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
 
-          <article class="hub-feature">
-            <h3>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14,2 14,8 20,8"/>
-              </svg>
-              Manifest Schema
-            </h3>
-            <p style="color: var(--color-text-muted); margin-bottom: 0;">A versioned <code>manifest.json</code> declares your plugin's name, version, dependencies, and which hooks it subscribes to.</p>
-          </article>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-          <article class="hub-feature">
-            <h3>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7,10 12,15 17,10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Drop-in Loading
-            </h3>
-            <p style="color: var(--color-text-muted); margin-bottom: 0;">Placed in <code>plugins/</code>, the server automatically discovers, validates, and activates your plugin on restart.</p>
-          </article>
-        </div>
-
-        <h2 style="margin-top: var(--space-8); margin-bottom: var(--space-5);">Ecosystem Plugins</h2>
-        <p style="color: var(--color-text-muted); margin-bottom: var(--space-5);">The community has built plugins for metadata providers, additional transcoders, and more.</p>
-
-        <div class="content-grid">
-          <article class="download-card">
-            <h3>phlix-plugin-example</h3>
-            <p>Reference metadata-provider plugin — the smallest working starter</p>
-            <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-secondary" rel="noopener noreferrer" target="_blank">View on GitHub</a>
-          </article>
-        </div>
-
-        <h2 style="margin-top: var(--space-8); margin-bottom: var(--space-5);">Write Your Own</h2>
-        <p style="color: var(--color-text-muted); margin-bottom: var(--space-5);">Start with the example plugin — it demonstrates the full plugin lifecycle, manifest format, and metadata provider interface.</p>
-
-        <p>
-          <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-primary" rel="noopener noreferrer" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-            </svg>
-            phlix-plugin-example
-          </a>
-        </p>
-      </div>
-    </section>
-
-    <section class="cta-banner">
-      <div class="site-container">
-        <h2>Ready to Build?</h2>
-        <div class="cta-banner-buttons">
-          <a href="https://detain.github.io/phlix-docs" class="btn btn-primary" rel="noopener noreferrer">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-            Plugin Documentation
-          </a>
-          <a href="https://github.com/detain/phlix-plugin-example" class="btn btn-secondary" rel="noopener noreferrer" target="_blank">
-            View Example
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" role="contentinfo">
-    <p class="footer-tagline">Open-source media, on your terms.</p>
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <div class="footer-col">
-        <h3>Product</h3>
-        <ul>
+    <header class="site-header" role="banner">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a class="nav-logo" href="./" aria-label="Phlix home">
+          <img src="img/logo.svg" alt="Phlix logo" width="120" height="40" />
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul class="nav-menu" id="nav-menu" role="list">
+          <li><a href="./">Home</a></li>
           <li><a href="features.html">Features</a></li>
           <li><a href="clients.html">Clients</a></li>
           <li><a href="download.html">Download</a></li>
-          <li><a href="plugins.html">Plugins</a></li>
+          <li><a href="plugins.html" aria-current="page">Plugins</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          <li><a href="hub.html">Hub</a></li>
+          <li><a href="about.html">About</a></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Developers</h3>
-        <ul>
-          <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
-          <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
-          <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
-          <li><a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Project</h3>
-        <ul>
-          <li><a href="https://github.com/detain">GitHub org</a></li>
-          <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
-          <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
-          <li><a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a></li>
-        </ul>
-      </div>
-    </nav>
-    <p class="footer-copy">&copy; 2025 Phlix — MPL-2.0 (server/hub) / MIT (clients/plugins)</p>
-  </footer>
+      </nav>
+    </header>
 
-  <script src="js/main.js" defer></script>
-</body>
+    <main id="main-content" tabindex="-1">
+      <header class="page-header">
+        <div class="site-container">
+          <h1>Plugins</h1>
+          <p class="lead">
+            Extend Phlix with a versioned plugin contract — drop in, the loader picks it up.
+          </p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="site-container">
+          <div class="plugin-model">
+            <h3>Plugin Model</h3>
+            <p>
+              Phlix uses <code>LifecycleInterface</code> + a manifest schema for plugin discovery.
+              Implement the interface, ship a manifest, drop your plugin into the
+              <code>plugins/</code> directory. The loader handles the rest.
+            </p>
+          </div>
+
+          <div class="content-grid">
+            <article class="hub-feature">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                LifecycleInterface
+              </h3>
+              <p style="color: var(--color-text-muted); margin-bottom: 0">
+                Every plugin implements the lifecycle contract: <code>onEnable()</code>,
+                <code>onDisable()</code>, <code>onInstall()</code>, and
+                <code>onUninstall()</code> hooks.
+              </p>
+            </article>
+
+            <article class="hub-feature">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14,2 14,8 20,8" />
+                </svg>
+                Manifest Schema
+              </h3>
+              <p style="color: var(--color-text-muted); margin-bottom: 0">
+                A versioned <code>manifest.json</code> declares your plugin's name, version,
+                dependencies, and which hooks it subscribes to.
+              </p>
+            </article>
+
+            <article class="hub-feature">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7,10 12,15 17,10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Drop-in Loading
+              </h3>
+              <p style="color: var(--color-text-muted); margin-bottom: 0">
+                Placed in <code>plugins/</code>, the server automatically discovers, validates, and
+                activates your plugin on restart.
+              </p>
+            </article>
+          </div>
+
+          <h2 style="margin-top: var(--space-8); margin-bottom: var(--space-5)">
+            Ecosystem Plugins
+          </h2>
+          <p style="color: var(--color-text-muted); margin-bottom: var(--space-5)">
+            The community has built plugins for metadata providers, additional transcoders, and
+            more.
+          </p>
+
+          <div class="content-grid">
+            <article class="download-card">
+              <h3>phlix-plugin-example</h3>
+              <p>Reference metadata-provider plugin — the smallest working starter</p>
+              <a
+                href="https://github.com/detain/phlix-plugin-example"
+                class="btn btn-secondary"
+                rel="noopener noreferrer"
+                target="_blank"
+                >View on GitHub</a
+              >
+            </article>
+          </div>
+
+          <h2 style="margin-top: var(--space-8); margin-bottom: var(--space-5)">Write Your Own</h2>
+          <p style="color: var(--color-text-muted); margin-bottom: var(--space-5)">
+            Start with the example plugin — it demonstrates the full plugin lifecycle, manifest
+            format, and metadata provider interface.
+          </p>
+
+          <p>
+            <a
+              href="https://github.com/detain/phlix-plugin-example"
+              class="btn btn-primary"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+              phlix-plugin-example
+            </a>
+          </p>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div class="site-container">
+          <h2>Ready to Build?</h2>
+          <div class="cta-banner-buttons">
+            <a
+              href="https://detain.github.io/phlix-docs"
+              class="btn btn-primary"
+              rel="noopener noreferrer"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              Plugin Documentation
+            </a>
+            <a
+              href="https://github.com/detain/phlix-plugin-example"
+              class="btn btn-secondary"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View Example
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p class="footer-tagline">Open-source media, on your terms.</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-col">
+          <h3>Product</h3>
+          <ul>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="download.html">Download</a></li>
+            <li><a href="plugins.html">Plugins</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Developers</h3>
+          <ul>
+            <li><a href="https://detain.github.io/phlix-docs">Documentation</a></li>
+            <li><a href="https://github.com/detain/phlix-server">Server source</a></li>
+            <li><a href="https://github.com/detain/phlix-plugin-example">Plugin example</a></li>
+            <li>
+              <a href="https://detain.github.io/phlix-docs/reference/api.html">API reference</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Project</h3>
+          <ul>
+            <li><a href="https://github.com/detain">GitHub org</a></li>
+            <li><a href="https://github.com/detain/phlix-server/issues">Issues</a></li>
+            <li><a href="https://github.com/detain/phlix-hub">Hub</a></li>
+            <li>
+              <a href="https://github.com/detain/phlix-server/blob/master/LICENSE"
+                >License (MPL-2.0)</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <p class="footer-copy">&copy; 2025 Phlix — MPL-2.0 (server/hub) / MIT (clients/plugins)</p>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+  </body>
 </html>

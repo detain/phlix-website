@@ -9,15 +9,13 @@
   /* ============================================================
      1. REDUCED MOTION CHECK
      ============================================================ */
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
      2. MOBILE NAV TOGGLE
      ============================================================ */
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu   = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
     // Open/close on toggle button click
@@ -65,7 +63,7 @@
 
       const focusable = Array.from(navMenu.querySelectorAll('a'));
       const first = focusable[0];
-      const last  = focusable[focusable.length - 1];
+      const last = focusable[focusable.length - 1];
 
       if (e.shiftKey) {
         if (document.activeElement === first) {
@@ -86,9 +84,7 @@
      ============================================================ */
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     const animateOnScroll = function () {
-      const targets = document.querySelectorAll(
-        '.animate-on-scroll, .stagger-children'
-      );
+      const targets = document.querySelectorAll('.animate-on-scroll, .stagger-children');
       if (!targets.length) return;
 
       const observer = new IntersectionObserver(
@@ -100,7 +96,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       targets.forEach(function (el) {
@@ -116,11 +112,9 @@
     }
   } else {
     // Fallback: show everything immediately if no IntersectionObserver
-    document.querySelectorAll('.animate-on-scroll, .stagger-children').forEach(
-      function (el) {
-        el.classList.add('is-visible');
-      }
-    );
+    document.querySelectorAll('.animate-on-scroll, .stagger-children').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 
   /* ============================================================
@@ -149,7 +143,7 @@
           setTimeout(function () {
             btn.textContent = 'COPY';
           }, 2000);
-        }
+        },
       );
     });
   });
@@ -181,5 +175,4 @@
       }
     }, 200);
   });
-
 })();

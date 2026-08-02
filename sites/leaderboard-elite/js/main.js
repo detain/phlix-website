@@ -37,7 +37,11 @@
 
     // Close on outside click
     document.addEventListener('click', function (e) {
-      if (!menu.contains(e.target) && !toggle.contains(e.target) && menu.classList.contains('is-open')) {
+      if (
+        !menu.contains(e.target) &&
+        !toggle.contains(e.target) &&
+        menu.classList.contains('is-open')
+      ) {
         closeMenu();
       }
     });
@@ -60,7 +64,9 @@
   function initScrollReveals() {
     if (prefersReducedMotion.matches) return;
 
-    const reveals = document.querySelectorAll('.feature-card, .client-card, .download-card, .feature-detail');
+    const reveals = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .feature-detail',
+    );
 
     if (!reveals.length) return;
 
@@ -76,14 +82,15 @@
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      }
+        rootMargin: '0px 0px -50px 0px',
+      },
     );
 
     reveals.forEach(function (el, index) {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease ' + (index * 0.05) + 's, transform 0.5s ease ' + (index * 0.05) + 's';
+      el.style.transition =
+        'opacity 0.5s ease ' + index * 0.05 + 's, transform 0.5s ease ' + index * 0.05 + 's';
       observer.observe(el);
     });
   }

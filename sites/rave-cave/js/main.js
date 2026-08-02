@@ -76,15 +76,17 @@
       {
         rootMargin: '0px 0px -50px 0px',
         threshold: 0.1,
-      }
+      },
     );
 
-    document.querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card').forEach((el) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      revealObserver.observe(el);
-    });
+    document
+      .querySelectorAll('.feature-card, .feature-detail, .client-card, .download-card')
+      .forEach((el) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        revealObserver.observe(el);
+      });
 
     // Add CSS for revealed state
     const style = document.createElement('style');
@@ -100,9 +102,7 @@
     navMenu.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
 
-      const focusableElements = navMenu.querySelectorAll(
-        'a[href], button:not([disabled])'
-      );
+      const focusableElements = navMenu.querySelectorAll('a[href], button:not([disabled])');
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
 

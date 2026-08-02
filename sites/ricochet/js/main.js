@@ -6,7 +6,7 @@
  * animations for the Ricochet site.
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Check for reduced motion preference
@@ -41,7 +41,7 @@
     });
 
     // Close on link click
-    navLinks.querySelectorAll('.nav-link').forEach(link => {
+    navLinks.querySelectorAll('.nav-link').forEach((link) => {
       link.addEventListener('click', () => {
         toggle.setAttribute('aria-expanded', 'false');
         navLinks.classList.remove('open');
@@ -58,7 +58,7 @@
   // ==========================================================================
 
   const initCopyButtons = () => {
-    document.querySelectorAll('.code-copy').forEach(btn => {
+    document.querySelectorAll('.code-copy').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const text = btn.getAttribute('data-copy');
         if (!text) return;
@@ -121,11 +121,11 @@
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -10% 0px',
-      threshold: 0.1
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
           // Optionally unobserve after animation
@@ -135,7 +135,7 @@
     }, observerOptions);
 
     // Observe all scroll-animate elements
-    document.querySelectorAll('.pitch-item, .feature-card, .scroll-animate').forEach(el => {
+    document.querySelectorAll('.pitch-item, .feature-card, .scroll-animate').forEach((el) => {
       observer.observe(el);
     });
 
@@ -153,7 +153,7 @@
   const initPitchItems = () => {
     if (prefersReducedMotion) {
       // Show all items immediately if reduced motion
-      document.querySelectorAll('.pitch-item').forEach(item => {
+      document.querySelectorAll('.pitch-item').forEach((item) => {
         item.classList.add('visible');
       });
       return;
@@ -162,7 +162,7 @@
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -5% 0px',
-      threshold: 0.1
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -176,7 +176,7 @@
       });
     }, observerOptions);
 
-    document.querySelectorAll('.pitch-item').forEach(item => {
+    document.querySelectorAll('.pitch-item').forEach((item) => {
       observer.observe(item);
     });
   };
@@ -186,7 +186,7 @@
   // ==========================================================================
 
   const initMuzzleFlash = () => {
-    document.querySelectorAll('.btn-muzzle').forEach(btn => {
+    document.querySelectorAll('.btn-muzzle').forEach((btn) => {
       btn.addEventListener('mousedown', () => {
         if (prefersReducedMotion) return;
         const flash = btn.querySelector('.muzzle-flash');
@@ -236,7 +236,7 @@
   const initActiveNav = () => {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.nav-link').forEach((link) => {
       const href = link.getAttribute('href');
       if (href === currentPath || (currentPath === '' && href === 'index.html')) {
         link.classList.add('active');
@@ -268,7 +268,7 @@
   // ==========================================================================
 
   const initDialogs = () => {
-    document.querySelectorAll('[data-dialog-target]').forEach(trigger => {
+    document.querySelectorAll('[data-dialog-target]').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         const dialogId = trigger.getAttribute('data-dialog-target');
         const dialog = document.getElementById(dialogId);
@@ -279,7 +279,7 @@
       });
     });
 
-    document.querySelectorAll('[data-dialog-close]').forEach(closeBtn => {
+    document.querySelectorAll('[data-dialog-close]').forEach((closeBtn) => {
       closeBtn.addEventListener('click', () => {
         const dialog = closeBtn.closest('.dialog');
         if (dialog) {
@@ -290,7 +290,7 @@
     });
 
     // Close on overlay click
-    document.querySelectorAll('.dialog-overlay').forEach(overlay => {
+    document.querySelectorAll('.dialog-overlay').forEach((overlay) => {
       overlay.addEventListener('click', () => {
         overlay.classList.remove('show');
         document.body.style.overflow = '';
@@ -300,7 +300,7 @@
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        document.querySelectorAll('.dialog.show').forEach(dialog => {
+        document.querySelectorAll('.dialog.show').forEach((dialog) => {
           dialog.classList.remove('show');
         });
         document.body.style.overflow = '';
@@ -313,8 +313,8 @@
   // ==========================================================================
 
   const initSmoothScroll = () => {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -326,7 +326,7 @@
 
           window.scrollTo({
             top: targetPosition,
-            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
           });
         }
       });
@@ -338,7 +338,7 @@
   // ==========================================================================
 
   const initForms = () => {
-    document.querySelectorAll('form[data-validate]').forEach(form => {
+    document.querySelectorAll('form[data-validate]').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -346,7 +346,7 @@
         const formData = new FormData(form);
 
         // Basic validation
-        form.querySelectorAll('[required]').forEach(field => {
+        form.querySelectorAll('[required]').forEach((field) => {
           if (!field.value.trim()) {
             isValid = false;
             field.classList.add('error');
@@ -365,7 +365,7 @@
     });
 
     // Inline validation on blur
-    document.querySelectorAll('input[required], textarea[required]').forEach(field => {
+    document.querySelectorAll('input[required], textarea[required]').forEach((field) => {
       field.addEventListener('blur', () => {
         if (!field.value.trim()) {
           field.classList.add('error');
@@ -383,14 +383,14 @@
   const initLazyLoad = () => {
     if ('loading' in HTMLImageElement.prototype) {
       // Native lazy loading supported
-      document.querySelectorAll('img[data-src]').forEach(img => {
+      document.querySelectorAll('img[data-src]').forEach((img) => {
         img.src = img.dataset.src;
       });
     } else {
       // Fallback for older browsers
       const lazyImages = document.querySelectorAll('img[data-src]');
       const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const img = entry.target;
             img.src = img.dataset.src;
@@ -400,7 +400,7 @@
         });
       });
 
-      lazyImages.forEach(img => imageObserver.observe(img));
+      lazyImages.forEach((img) => imageObserver.observe(img));
     }
   };
 
@@ -491,5 +491,4 @@
   } else {
     init();
   }
-
 })();

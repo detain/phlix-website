@@ -47,7 +47,7 @@
 
   if (!reducedMotion && 'IntersectionObserver' in window) {
     var revealElements = document.querySelectorAll(
-      '.feature-card, .client-card, .download-card, .feature-detail'
+      '.feature-card, .client-card, .download-card, .feature-detail',
     );
 
     if (revealElements.length > 0) {
@@ -60,7 +60,7 @@
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
       );
 
       revealElements.forEach(function (el) {
@@ -90,5 +90,4 @@
       });
     });
   }
-
 })();

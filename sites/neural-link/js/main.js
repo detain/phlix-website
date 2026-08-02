@@ -4,7 +4,7 @@
  * @copyright 2026 Phlix <detain@interserver.net>
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ---- Mobile Navigation Toggle ----
@@ -12,7 +12,7 @@
   var navMenu = document.querySelector('.nav-menu');
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    navToggle.addEventListener('click', function () {
       var isOpen = navToggle.getAttribute('aria-expanded') === 'true';
       navToggle.setAttribute('aria-expanded', String(!isOpen));
       navMenu.classList.toggle('is-open', !isOpen);
@@ -25,7 +25,7 @@
     });
 
     // Close on Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
         navToggle.setAttribute('aria-expanded', 'false');
         navMenu.classList.remove('is-open');
@@ -34,7 +34,7 @@
     });
 
     // Close on outside click
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navToggle.setAttribute('aria-expanded', 'false');
         navMenu.classList.remove('is-open');
@@ -47,28 +47,33 @@
   var motionAllowed = !prefersReducedMotion.matches;
 
   // Listen for changes
-  prefersReducedMotion.addEventListener('change', function(e) {
+  prefersReducedMotion.addEventListener('change', function (e) {
     motionAllowed = !e.matches;
   });
 
   // ---- Scroll Reveals (if motion allowed) ----
   if (motionAllowed && 'IntersectionObserver' in window) {
-    var revealElements = document.querySelectorAll('.feature-card, .client-card, .download-card, .faq-list dt');
+    var revealElements = document.querySelectorAll(
+      '.feature-card, .client-card, .download-card, .faq-list dt',
+    );
 
-    var revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      },
+    );
 
-    revealElements.forEach(function(el) {
+    revealElements.forEach(function (el) {
       el.style.opacity = '0';
       el.style.transform = 'translateY(20px)';
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
