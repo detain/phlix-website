@@ -67,4 +67,19 @@ const toolArgs = (tool === 'css')
   : [...(t.extraArgs ?? []), ...files, ...rest];
 
 const child = spawn('npx', ['--no-install', t.bin, ...toolArgs], { stdio: 'inherit', cwd: projectRoot });
-child.on('exit', (code) => process.exit(code ?? 1));
+child.on('exit', (code) => {
+  // Always print a corpus size and an exit code, even on success.
+  //
+  // stylelint prints NOTHING when it is happy, and htmlhint's own summary is
+  // easy to lose in 1260 lines of "Config loaded". That silence is what let
+  // S268's defect hide: `npm run lint` was `run-p` without --continue-on-error,
+  // so a failing sibling KILLED lint:css mid-run, and a killed task and a clean
+  // task looked identical in the CI log — no output either way. 3859 stylelint
+  // errors sat behind that ambiguity across 40 consecutive red runs.
+  //
+  // A gate that inspected zero files also passes every assertion it makes, so
+  // the file count is the part that makes a green here mean something. Read
+  // this line, not the absence of complaints.
+  console.log(`[lint:${tool}] ${t.bin} inspected ${files.length} files -> exit ${code ?? 1}`);
+  process.exit(code ?? 1);
+});

@@ -17,14 +17,38 @@ jobs:
       - run: npm ci
       - name: Format check
         run: npm run format:check
-      - name: Lint (html / css / js)
-        run: npm run lint
+      # The three linters are SEPARATE steps, each with `if: !cancelled()`, and
+      # that is deliberate — see S268. They used to be one `npm run lint`, which
+      # is `run-p`, and run-p KILLS its siblings the moment one task fails.
+      # `lint:js` always failed first, so `lint:css` was killed ~4s into a 17s
+      # run and had never once completed: 0 green runs of this workflow in 40,
+      # and 3859 stylelint errors nobody had ever seen. As separate steps each
+      # linter gets its own row in the checks UI, so "did not run" is visible
+      # instead of being indistinguishable from "ran and passed".
+      # `!cancelled()` (not `always()`) so a real cancellation still stops them,
+      # but a failure in an earlier linter does not hide a later one.
+      - name: Lint HTML (htmlhint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:html
+      - name: Lint CSS (stylelint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:css
+      - name: Lint JS (eslint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:js
       - name: npm audit (moderate severity gate)
+        if: ${{ !cancelled() }}
         # Tightened from high -> moderate (S2): after S1 re-classified deps to
         # tooling-only + existing overrides, `npm audit` reports 0 vulnerabilities,
         # so a moderate gate is achievable and exits 0. See PR for evidence.
         run: npm audit --audit-level=moderate
+      # Also `!cancelled()`: this step and the audit above had never executed in
+      # any run of this workflow, because an earlier step failed every time and
+      # GitHub skips subsequent steps by default. `continue-on-error` only stops
+      # a FAILING step from failing the job; it does nothing for a step that is
+      # never reached.
       - name: Accessibility (pa11y-ci, soft-fail until pages exist)
+        if: ${{ !cancelled() }}
         run: npm run a11y
         continue-on-error: true
 
