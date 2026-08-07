@@ -61,8 +61,14 @@ const readJson = (p) => JSON.parse(readFileSync(resolve(root, p), 'utf8'));
 
 // Strip // line comments and /* */ block comments so no assertion below can be
 // satisfied by the explanatory text in its own subject file.
+//
+// ⚠ Block comments are only stripped when the `/*` OPENS A LINE. The naive
+// /\/\*[\s\S]*?\*\//g also eats the `/**/` inside glob literals: it rewrites
+// tools/a11y.mjs's `const PAGES = 'sites/**/index.html'` to `'sitesindex.html'`
+// and, in the sibling linkcheck guard, turned 'dist/**/*.html' into
+// 'dist*.html' and failed an assertion against perfectly correct code.
 function stripComments(src) {
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  return src.replace(/^[ \t]*\/\*[\s\S]*?\*\//gm, '').replace(/^\s*\/\/.*$/gm, '');
 }
 
 test('the glob override no longer reaches pa11y-ci’s globby', () => {
