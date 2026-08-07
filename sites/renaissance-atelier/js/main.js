@@ -129,7 +129,11 @@ function applyCalmMode(calm) {
   document.documentElement.dataset.calm = String(calm);
   try {
     localStorage.setItem('phlix-calm', calm ? '1' : '0');
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: localStorage.setItem throws when storage is blocked
+    // (private mode, cookies disabled, quota full). Calm mode is already
+    // applied to the DOM above; only the cross-visit persistence is lost.
+  }
   calmToggle?.setAttribute('aria-checked', String(calm));
 }
 
@@ -140,7 +144,11 @@ function loadCalmMode() {
       applyCalmMode(saved === '1');
       return;
     }
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: an unreadable localStorage is indistinguishable from
+    // "no preference stored", and both take the same path — execution falls
+    // through to the applyCalmMode(false) default below.
+  }
   // Default: full intensity (no calm)
   applyCalmMode(false);
 }
@@ -215,7 +223,11 @@ let mascotDismissed = false;
 function loadMascotDismissal() {
   try {
     mascotDismissed = localStorage.getItem('phlix-piero-dismissed') === '1';
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: on throw the assignment never happens, so
+    // mascotDismissed retains its initial `false` and the mascot is shown —
+    // the same outcome as a first visit.
+  }
   if (mascotEl && mascotDismissed) {
     mascotEl.style.display = 'none';
     return;
@@ -228,7 +240,10 @@ function dismissMascot() {
   mascotDismissed = true;
   try {
     localStorage.setItem('phlix-piero-dismissed', '1');
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: the mascot is hidden for this page view regardless
+    // (see below); only the "stay dismissed next visit" promise is lost.
+  }
   mascotEl.style.display = 'none';
 }
 

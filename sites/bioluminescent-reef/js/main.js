@@ -218,7 +218,13 @@ if (intensityToggle) {
       e.preventDefault();
       logoClicks++;
       if (logoClicks === 5) {
-        showEggNote('Something stirs in the hadal darkness…');
+        // Cross-closure call: showEggNote() is defined inside easterTypedWord()
+        // further down this file and published as window.showEggNote there.
+        // Addressed through `window` so the dependency is explicit and matches
+        // the publication site; a bare identifier resolved through the global
+        // scope chain at click time (which works, since both IIFEs have run by
+        // then) but hid the contract from readers and from ESLint's no-undef.
+        window.showEggNote('Something stirs in the hadal darkness…');
         // Spiral reaction (mascot easter_interactions[0])
         container.querySelector('.abyss__figure').style.animation = 'none';
         container
