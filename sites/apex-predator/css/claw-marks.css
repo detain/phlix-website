@@ -19,7 +19,7 @@
   height: 4px;
   background: repeating-linear-gradient(
     90deg,
-    var(--ap-primary) 0px,
+    var(--ap-primary) 0,
     var(--ap-primary) 8px,
     transparent 8px,
     transparent 16px,
@@ -40,7 +40,7 @@
   height: 3px;
   background: repeating-linear-gradient(
     90deg,
-    transparent 0px,
+    transparent 0,
     transparent 20px,
     var(--ap-primary) 20px,
     var(--ap-primary) 28px,
@@ -203,7 +203,7 @@
   width: 20px;
   height: 20px;
   background: var(--ap-primary);
-  border-radius: 50% 30% 50% 30%;
+  border-radius: 50% 30%;
   opacity: 0.6;
   transform: scale(0);
   transition: transform 0.3s ease;
@@ -259,21 +259,15 @@
 .tracking-overlay::after {
   content: '';
   position: absolute;
-  border: 1px solid rgba(199, 0, 57, 0.2);
+  border: 1px solid rgb(199, 0, 57, 0.2);
 }
 
 .tracking-overlay::before {
-  top: 20%;
-  left: 10%;
-  right: 10%;
-  bottom: 20%;
+  inset: 20% 10%;
 }
 
 .tracking-overlay::after {
-  top: 30%;
-  left: 20%;
-  right: 20%;
-  bottom: 30%;
+  inset: 30% 20%;
 }
 
 .reticle-corner {
@@ -322,7 +316,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgb(0, 0, 0, 0.5) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -344,8 +338,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(144, 12, 63, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgba(199, 0, 57, 0.08) 0%, transparent 40%);
+    radial-gradient(ellipse at 30% 20%, rgb(144, 12, 63, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgb(199, 0, 57, 0.08) 0%, transparent 40%);
   pointer-events: none;
 }
 
@@ -367,7 +361,7 @@
   color: var(--ap-success);
   padding: 0.25rem 0.5rem;
   border: 1px solid var(--ap-success);
-  background: rgba(0, 168, 107, 0.1);
+  background: rgb(0, 168, 107, 0.1);
   opacity: 0;
   transform: scale(0.8);
   transition:
@@ -388,7 +382,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(199, 0, 57, 0.1);
+  background: rgb(199, 0, 57, 0.1);
   border-left: 3px solid var(--ap-primary);
 }
 
@@ -403,9 +397,12 @@
 /* ============================================
    PACK FORMATION (for grouped elements)
    ============================================ */
+/* `gap: -20px` used to sit here. `gap` does not accept negative lengths, so it
+   was invalid and every browser dropped the declaration — removing it changes
+   nothing on screen. Spacing between pack members is already done by the
+   `margin-left` pair below. */
 .pack-formation {
   display: flex;
-  gap: -20px;
 }
 
 .pack-formation > * {
@@ -452,7 +449,7 @@
   50% {
     box-shadow:
       0 0 20px var(--ap-primary),
-      0 0 40px rgba(199, 0, 57, 0.5);
+      0 0 40px rgb(199, 0, 57, 0.5);
     transform: translate(-50%, -50%) scale(1.1);
   }
 }
