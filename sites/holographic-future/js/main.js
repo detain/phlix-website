@@ -110,7 +110,9 @@ function initSeasonal() {
     const [sm, sd] = variant.start;
     const [em, ed] = variant.end;
 
-    let active = false;
+    // Declared without an initialiser: both arms of the if/else below assign
+    // unconditionally, so any initial value here would be dead (no-useless-assignment).
+    let active;
     if (sm > em) {
       // Cross-year: Dec 15 – Jan 5
       active = m > sm || (m === sm && d >= sd) || m < em || (m === em && d <= ed);
@@ -260,7 +262,11 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       return;
     }
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: an unreadable localStorage is treated exactly like
+    // "never dismissed" — we fall through and show the mascot, as on a first
+    // visit. There is no other outcome to choose and nothing to report.
+  }
 
   const tip = qs('.mascot-tip');
 
@@ -279,7 +285,11 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       try {
         localStorage.setItem('phlix-lux-dismissed', 'true');
-      } catch (_) {}
+      } catch (_ignored) {
+        // Ignored by design: the dismissal has already been applied to the DOM
+        // on the line above, so the user's click is honoured for this page
+        // view. Only persistence across reloads is lost.
+      }
     });
   }
 
@@ -324,7 +334,11 @@ function showMascotTip(text) {
         mascot.classList.add('is-dismissed');
         try {
           localStorage.setItem('phlix-lux-dismissed', 'true');
-        } catch (_) {}
+        } catch (_ignored) {
+          // Ignored by design: same contract as the dismiss button above — the
+          // DOM change on the line above is the user-visible effect; storage is
+          // only the memory of it.
+        }
       }
     });
   }

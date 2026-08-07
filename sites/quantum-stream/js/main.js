@@ -222,7 +222,11 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       return;
     }
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: an unreadable localStorage is treated exactly like
+    // "never dismissed" — we fall through and show the mascot, as on a first
+    // visit. There is no other outcome to choose and nothing to report.
+  }
 
   const tip = qs('.mascot-tip');
 

@@ -76,7 +76,11 @@ function initReducedMotion() {
     applyMotion(reduced);
     try {
       localStorage.setItem('nexus-reduce-motion', String(reduced));
-    } catch (_) {}
+    } catch (_ignored) {
+      // Ignored by design: applyMotion() above has already applied the toggle,
+      // so the accessibility preference takes effect immediately. A blocked
+      // localStorage only costs us the memory of it on the next visit.
+    }
   });
 
   window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
@@ -84,7 +88,11 @@ function initReducedMotion() {
     applyMotion(reduced);
     try {
       localStorage.setItem('nexus-reduce-motion', String(reduced));
-    } catch (_) {}
+    } catch (_ignored) {
+      // Ignored by design: as above. This branch mirrors the OS-level
+      // prefers-reduced-motion change, which the media query will report again
+      // on the next load anyway, so nothing is actually lost.
+    }
   });
 }
 
@@ -105,7 +113,9 @@ function initSeasonal() {
     const [sm, sd] = variant.start;
     const [em, ed] = variant.end;
 
-    let active = false;
+    // Declared without an initialiser: both arms of the if/else below assign
+    // unconditionally, so any initial value here would be dead (no-useless-assignment).
+    let active;
     if (sm > em) {
       active = m > sm || (m === sm && d >= sd) || m < em || (m === em && d <= ed);
     } else {
@@ -240,7 +250,11 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       return;
     }
-  } catch (_) {}
+  } catch (_ignored) {
+    // Ignored by design: an unreadable localStorage is treated exactly like
+    // "never dismissed" — we fall through and show the mascot, as on a first
+    // visit. There is no other outcome to choose and nothing to report.
+  }
 
   const tip = qs('.mascot-tip');
 
@@ -257,7 +271,11 @@ function initMascot() {
       mascot.classList.add('is-dismissed');
       try {
         localStorage.setItem('nexus-orb-dismissed', 'true');
-      } catch (_) {}
+      } catch (_ignored) {
+        // Ignored by design: the dismissal has already been applied to the DOM
+        // on the line above, so the user's click is honoured for this page
+        // view. Only persistence across reloads is lost.
+      }
     });
   }
 
@@ -297,7 +315,11 @@ function showMascotTip(text) {
         mascot.classList.add('is-dismissed');
         try {
           localStorage.setItem('nexus-orb-dismissed', 'true');
-        } catch (_) {}
+        } catch (_ignored) {
+          // Ignored by design: same contract as the dismiss button above — the
+          // DOM change on the line above is the user-visible effect; storage is
+          // only the memory of it.
+        }
       }
     });
   }

@@ -167,7 +167,11 @@
         mascot.style.display = 'none';
         try {
           localStorage.setItem('mascot-dismissed', '1');
-        } catch (e) {}
+        } catch (_ignored) {
+          // Ignored by design: the mascot is already hidden on the line above,
+          // so the click is honoured for this page view. A blocked
+          // localStorage only costs persistence across reloads.
+        }
       });
     }
 
@@ -177,7 +181,11 @@
         mascot.style.display = 'none';
         return;
       }
-    } catch (e) {}
+    } catch (_ignored) {
+      // Ignored by design: an unreadable localStorage is treated exactly like
+      // "never dismissed" — fall through and leave the mascot visible, as on a
+      // first visit.
+    }
 
     // Easter: click-hold on logo shows confetti (handled via CSS + JS click counter)
   })();

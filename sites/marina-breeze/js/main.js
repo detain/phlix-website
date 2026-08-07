@@ -306,7 +306,12 @@
         clearInterval(tipInterval);
         try {
           sessionStorage.setItem('binnacle-dismissed', '1');
-        } catch (err) {}
+        } catch (_ignored) {
+          // Ignored by design: sessionStorage throws when storage is blocked
+          // (private mode, cookies disabled). The three lines above have
+          // already hidden the mascot and stopped the tip interval, so the
+          // dismissal holds for this page view; only the memory of it is lost.
+        }
       });
     }
 
@@ -316,7 +321,11 @@
         mascotDismissed = true;
         clearInterval(tipInterval);
       }
-    } catch (err) {}
+    } catch (_ignored) {
+      // Ignored by design: an unreadable sessionStorage is indistinguishable
+      // from "not dismissed in this session", and both mean the same thing —
+      // leave the mascot visible. Nothing further to do.
+    }
 
     mascot.addEventListener('click', function (e) {
       if (e.target === dismissBtn || dismissBtn.contains(e.target)) return;
