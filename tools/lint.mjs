@@ -27,6 +27,53 @@ if (!tool) {
 // Pages base path `/phlix-website/`, which resolves nowhere in the source tree.
 // linkinator would report those as broken. Check dist/ instead if you want them.
 const ROOT_HTML = ['*.html'];
+
+// ---------------------------------------------------------------------------
+// `links`: why it scans dist/ and why concurrency is pinned low
+// ---------------------------------------------------------------------------
+// linkinator validates LIVE urls, so both of these matter a great deal.
+//
+// 1. CONCURRENCY. linkinator defaults to **100 simultaneous connections**. The
+//    old target (sites/**/*.html) is 1258 files carrying 4671 links, and the
+//    overwhelming majority point at one host — detain.github.io. That run
+//    rate-limits GitHub Pages within seconds: 196 links came back [429], and
+//    the host kept returning 429 to ordinary single curl requests for more than
+//    20 minutes AFTER the run finished. A page that returned 200 before the run
+//    returned 429 after it. So the job was corrupting its own measurement, and
+//    consecutive runs (the weekly cron plus any PR) poison each other.
+//    `--retry` alone does NOT fix this: Fastly answers with `retry-after: 0`,
+//    so an honoured retry fires immediately and simply re-hits the limit. The
+//    concurrency cap is the part that actually works; --retry is a belt to its
+//    braces. --timeout stops a hung socket stalling the job forever (the old
+//    run also produced 11 links in state [0], no status at all).
+//
+// 2. SCOPE. sites/ holds 138 site directories. `npm run build` only emits the
+//    ones that have a loadable brand-kits/<slug>.js — 76 of them — and dist/ is
+//    what GitHub Pages publishes. The other 62 are not on the internet, so
+//    every absolute self-reference they contain is a guaranteed 404: 653 of the
+//    843 distinct broken urls were exactly that, correctly-written links to
+//    pages that are simply not deployed. Checking them told us nothing about
+//    the published site and buried the ~121 real defects underneath.
+//    dist/**/*.html is the artifact that actually ships, so that is what gets
+//    checked. Consequence: `npm run linkcheck` needs `npm run build` first, and
+//    zero matched files is a FAILURE for this target rather than a skip — see
+//    `requiresFiles` below. An unbuilt dist/ silently "passing" would be the
+//    purest form of the fake green this whole file exists to prevent.
+//
+// ⚠ Do NOT try to make this offline with --url-rewrite-search/--url-rewrite-replace.
+// It was tried, A/B'd against a no-rewrite control on dist/velocity-x/index.html,
+// and it SILENTLY DROPS the rewritten links: the control reported the canonical,
+// the og:image and the JSON-LD logo as three separate broken urls, and with the
+// rewrite in place all three vanished from the report entirely — neither OK nor
+// BROKEN, just absent. That is a fake pass, not a fix.
+const LINKS_ARGS = [
+  '--silent',
+  '--concurrency', '8',
+  '--retry',
+  '--retry-errors',
+  '--timeout', '30000',
+];
+
 const PRETTIER_PATTERNS = [
   ...ROOT_HTML,
   'sites/**/*.html',
@@ -36,11 +83,12 @@ const PRETTIER_PATTERNS = [
   'docs/**/*.md',
 ];
 
+// `links` targets dist/, NOT sites/ — see the long note above `LINKS_ARGS`.
 const targets = {
   html: { bin: 'htmlhint', patterns: [...ROOT_HTML, 'sites/**/*.html'] },
   css:  { bin: 'stylelint', patterns: ['sites/**/*.css'] },
   js:   { bin: 'eslint',    patterns: ['sites/**/*.js', 'tools/**/*.mjs'] },
-  links:{ bin: 'linkinator', patterns: ['sites/**/*.html'], extraArgs: ['--silent'] },
+  links:{ bin: 'linkinator', patterns: ['dist/**/*.html'], extraArgs: LINKS_ARGS, requiresFiles: true },
   'format-check': { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--check'] },
   format:         { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--write'] },
 };
@@ -58,6 +106,18 @@ const configPath = resolve(projectRoot, '.stylelintrc.json');
 const files = t.patterns.flatMap((p) => globSync(p, { cwd: projectRoot })).filter(Boolean);
 
 if (files.length === 0) {
+  // For most targets an empty match is benign (a fresh checkout with no built
+  // sites). For `links` it is NOT: its corpus is dist/, which only exists after
+  // `npm run build`, so "no files" means the build was never run and the gate
+  // would report success having checked absolutely nothing.
+  if (t.requiresFiles) {
+    console.error(
+      `[lint:${tool}] no files match ${t.patterns.join(', ')} -> exit 1\n` +
+      `[lint:${tool}] this target checks the BUILT artifact; run \`npm run build\` first. ` +
+      `Refusing to report success on an empty corpus.`,
+    );
+    process.exit(1);
+  }
   console.log(`[lint:${tool}] no files match ${t.patterns.join(', ')} — skipping`);
   process.exit(0);
 }

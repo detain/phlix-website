@@ -22,4 +22,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # `linkcheck` validates the BUILT artifact (dist/**/*.html), because that
+      # is what GitHub Pages publishes. sites/ holds 138 site directories but
+      # only the 76 with a loadable brand kit are ever deployed, so checking
+      # sites/ produced 653 guaranteed-404s for pages that are not on the
+      # internet. tools/lint.mjs FAILS rather than skips if dist/ is absent, so
+      # forgetting this step cannot turn into a silent pass.
+      - run: npm run build
       - run: npm run linkcheck
