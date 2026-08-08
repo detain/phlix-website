@@ -48,6 +48,8 @@ No PHP, no backend — the site is pure static HTML/CSS/JS. The Phlix server its
 ```
 phlix-website/
 ├── brand-kits/<slug>.js      one brand kit per site: palette, type, motion, voice
+├── brand-kits/expected-kits.json
+│                             the pinned list of kits the build expects (see below)
 ├── shared/
 │   ├── content.json          single source of marketing copy
 │   ├── data/                 brand-kits.json, font-sources.json
@@ -130,6 +132,30 @@ Historical — scores for the legacy `variants/` tree (removed 2026-06-30). All 
 - og:site_name added to 9 index files, twitter:creator to all 25
 
 ## Tooling notes
+
+### Adding or removing a brand kit — update `brand-kits/expected-kits.json`
+
+`npm run build` fails if `brand-kits/*.js` does not match the list pinned in
+`brand-kits/expected-kits.json`, and it fails if any kit will not `import()`.
+Both are deliberate. Adding a kit is therefore a two-file change: drop in
+`brand-kits/<slug>.js` **and** add the filename to the pin (`kits` and `count`).
+The build error names the exact file and what to do.
+
+Why the pin exists at all: the build used to warn and skip past any kit it
+could not load, then report the length of the list it had just filtered. 79 kit
+files were reported as "76 brand kit(s), 76 built site(s)", exit 0 — both
+numbers counted the survivors, so the sentence was self-consistent no matter
+how many kits broke. Three kits had been silently dropped for months, each with
+a complete site subtree that was never published. A count taken from the
+directory would have caught those, but it still self-adjusts to a *deletion*
+(78/78/78 is just as self-consistent), so the expected list is pinned
+independently and compared as an exact set in both directions. It is
+hand-maintained on purpose: there is no regeneration flag, because a manifest a
+tool can rewrite from its own subject is not a pin.
+
+A kit must be an ES module — this package is `"type": "module"`, so
+`module.exports = kit` or `window.X = kit` exports **nothing**. Use
+`export default kit`.
 
 ### Stylelint v17 / `stylelint-config-standard` v40
 
