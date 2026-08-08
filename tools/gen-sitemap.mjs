@@ -43,10 +43,18 @@ export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
  * The `--site <slug>` path is different and still reads `sites/`: a per-kit
  * sitemap is written into the source tree by a regen agent, before any build
  * exists, and it describes that kit's own authored pages.
+ *
+ * ⚠ `root` exists because this module and `tools/build.mjs` disagreed about what
+ * "the project root" means: build.mjs uses `process.cwd()` (so it can be pointed
+ * at a fixture), while this file derives its root from its own location. A build
+ * run in a fixture therefore emitted a sitemap describing THIS repo's tree into
+ * the fixture's dist/. That was silent while the scan target was `sites/` — the
+ * real sites/ is never empty, so the wrong answer always looked like an answer.
+ * Callers that set their own root must pass it.
  */
-export function sitemapUrls(onlySlug = null) {
+export function sitemapUrls(onlySlug = null, root = ROOT) {
   const urls = new Set();
-  const cwd = onlySlug ? SITES : DIST;
+  const cwd = join(root, onlySlug ? 'sites' : 'dist');
   const pattern = onlySlug ? `${onlySlug}/*.html` : '*/*.html';
   for (const rel of globSync(pattern, { cwd })) {
     const [slug, file] = rel.split('/');
@@ -60,7 +68,7 @@ export function sitemapUrls(onlySlug = null) {
   // Same failure shape as the `links` gate's empty corpus: refuse, don't emit.
   if (!onlySlug && urls.size === 0) {
     throw new Error(
-      `[gen-sitemap] no pages under ${DIST}/*/*.html — the site-wide sitemap is built from the ` +
+      `[gen-sitemap] no pages under ${cwd}/*/*.html — the site-wide sitemap is built from the ` +
         'deploy artifact, so run `npm run build` first. Refusing to emit an empty sitemap.',
     );
   }

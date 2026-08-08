@@ -283,7 +283,11 @@ describe('tools/build.mjs reports a count taken from the filesystem', () => {
   });
 
   // The real repo's own numbers, stated with their denominator.
-  it('the real brand-kits/ directory and the real dist/ agree', () => {
+  // ⚠ Named for what it actually compares. It used to say "and the real dist/
+  // agree", which it has never checked — it reads brand-kits/ and the pin, and
+  // touches no build output at all. A test name that claims more coverage than
+  // the body has is how a gap stays invisible.
+  it('the real brand-kits/ directory and the pinned kit list agree', () => {
     strictEqual(
       pin.count,
       kitFilesOnDisk.length,

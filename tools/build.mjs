@@ -214,7 +214,11 @@ writeFileSync(join(DIST, 'index.html'), indexPage(kitSummaries), 'utf8');
 writeFileSync(join(DIST, '404.html'), errorPage(errorKits), 'utf8');
 
 // Sitemap of every built site's canonical URLs + robots.txt that references it.
-const urls = sitemapUrls();
+// ROOT is passed explicitly: this script's root is `process.cwd()` so it can be
+// aimed at a fixture, while gen-sitemap.mjs defaults to a root derived from its
+// own file location. Without this argument a fixture build emits a sitemap
+// describing the phlix-website checkout instead of the tree it just built.
+const urls = sitemapUrls(null, ROOT);
 writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
 
