@@ -63,7 +63,6 @@ import { SITE_URL } from '../tools/gen-sitemap.mjs';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const KITS_DIR = join(ROOT, 'brand-kits');
 const BUILD = join(ROOT, 'tools', 'build.mjs');
-const BASE_PATH = new URL(SITE_URL).pathname.replace(/\/+$/, '');
 
 // The same filter tools/build.mjs applies. Kept in step with it deliberately:
 // if the build's glob changes, this test's corpus must change with it.
@@ -120,12 +119,15 @@ function makeFixture(kits, { pinFiles = null } = {}) {
   );
 
   // The root templates build.mjs injects into. 404.html must carry the no-JS
-  // gallery link for the site's real base path or the build fails on that check
-  // instead of the one under test.
+  // gallery link as the site's real FULLY-QUALIFIED url or the build fails on
+  // that check instead of the one under test. (It was `${BASE_PATH}/` until
+  // S277: Pages serves this one document for any missing path, so a site-
+  // absolute href is right in a browser but unresolvable to the offline `links`
+  // gate, which reads it as the filesystem path "phlix-website/".)
   writeFileSync(join(dir, 'index.html'), '<html><head></head><body>gallery</body></html>', 'utf8');
   writeFileSync(
     join(dir, '404.html'),
-    `<html><head></head><body><a href="${BASE_PATH}/">home</a></body></html>`,
+    `<html><head></head><body><a href="${SITE_URL}/">home</a></body></html>`,
     'utf8',
   );
   return dir;
@@ -281,7 +283,11 @@ describe('tools/build.mjs reports a count taken from the filesystem', () => {
   });
 
   // The real repo's own numbers, stated with their denominator.
-  it('the real brand-kits/ directory and the real dist/ agree', () => {
+  // ⚠ Named for what it actually compares. It used to say "and the real dist/
+  // agree", which it has never checked — it reads brand-kits/ and the pin, and
+  // touches no build output at all. A test name that claims more coverage than
+  // the body has is how a gap stays invisible.
+  it('the real brand-kits/ directory and the pinned kit list agree', () => {
     strictEqual(
       pin.count,
       kitFilesOnDisk.length,

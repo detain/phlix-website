@@ -214,7 +214,11 @@ writeFileSync(join(DIST, 'index.html'), indexPage(kitSummaries), 'utf8');
 writeFileSync(join(DIST, '404.html'), errorPage(errorKits), 'utf8');
 
 // Sitemap of every built site's canonical URLs + robots.txt that references it.
-const urls = sitemapUrls();
+// ROOT is passed explicitly: this script's root is `process.cwd()` so it can be
+// aimed at a fixture, while gen-sitemap.mjs defaults to a root derived from its
+// own file location. Without this argument a fixture build emits a sitemap
+// describing the phlix-website checkout instead of the tree it just built.
+const urls = sitemapUrls(null, ROOT);
 writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
 
@@ -343,10 +347,19 @@ function errorPage(kits) {
   }
   // The no-JS fallback link is hard-coded in 404.html; if site.url ever moves,
   // that link silently rots — fail the build instead.
-  const fallbackHref = `href="${BASE_PATH}/"`;
+  //
+  // It is the FULLY-QUALIFIED url, not the site-absolute `${BASE_PATH}/`.
+  // Pages serves this one document for any missing path, so a relative href
+  // would resolve against the requested URL rather than against 404.html; and
+  // the site-absolute form, correct as it is in a browser, is unresolvable to
+  // the offline `links` gate, which reads it as the filesystem path
+  // "phlix-website/" and reports it broken. The absolute URL is the only
+  // spelling that is right for both, and checking it against SITE_URL rather
+  // than BASE_PATH also pins the host, not just the base path.
+  const fallbackHref = `href="${SITE_URL}/"`;
   if (!template.includes(fallbackHref)) {
     throw new Error(
-      `build: root 404.html no-JS gallery link does not match site.url base path ` +
+      `build: root 404.html no-JS gallery link does not match site.url ` +
         `(expected ${fallbackHref} for ${SITE_URL})`,
     );
   }
