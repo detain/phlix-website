@@ -21,6 +21,7 @@ import { globSync } from 'glob';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SITES = join(ROOT, 'sites');
+const DIST = join(ROOT, 'dist');
 
 export const SITE_URL = String(
   JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8')).site.url,
@@ -31,16 +32,37 @@ export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
 /**
  * Every canonical URL across the built site HTML pages, sorted & de-duplicated.
  * Pass `slug` to scope the result to a single kit.
+ *
+ * ⚠ The site-wide sitemap is derived from `dist/`, NOT from `sites/`.
+ * `sites/` holds 138 directories; `npm run build` emits only the ones with a
+ * loadable `brand-kits/<slug>.js` (79 at the time of writing). Scanning the
+ * source tree advertised ~59 sites that are not on the internet — every one of
+ * those `<loc>` entries is a 404 to a crawler, and they fed straight back into
+ * the `links` gate's corpus. The sitemap must describe what SHIPS.
+ *
+ * The `--site <slug>` path is different and still reads `sites/`: a per-kit
+ * sitemap is written into the source tree by a regen agent, before any build
+ * exists, and it describes that kit's own authored pages.
  */
 export function sitemapUrls(onlySlug = null) {
   const urls = new Set();
+  const cwd = onlySlug ? SITES : DIST;
   const pattern = onlySlug ? `${onlySlug}/*.html` : '*/*.html';
-  for (const rel of globSync(pattern, { cwd: SITES })) {
+  for (const rel of globSync(pattern, { cwd })) {
     const [slug, file] = rel.split('/');
     // Per-kit 404 pages are reached only through the root 404 shim and carry
     // noindex — they are not canonical destinations, so keep them out.
     if (file === '404.html') continue;
     urls.add(file === 'index.html' ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${slug}/${file}`);
+  }
+  // An empty site-wide sitemap is never legitimate, and a zero-entry <urlset>
+  // is indistinguishable from a healthy one to anything that does not count.
+  // Same failure shape as the `links` gate's empty corpus: refuse, don't emit.
+  if (!onlySlug && urls.size === 0) {
+    throw new Error(
+      `[gen-sitemap] no pages under ${DIST}/*/*.html — the site-wide sitemap is built from the ` +
+        'deploy artifact, so run `npm run build` first. Refusing to emit an empty sitemap.',
+    );
   }
   return [...urls].sort();
 }
@@ -82,7 +104,8 @@ if (resolve(process.argv[1] ?? '') === fileURLToPath(import.meta.url)) {
     writeFileSync(join(out, 'robots.txt'), robotsTxt(slug), 'utf8');
     console.log(`[gen-sitemap] wrote sites/${slug}/sitemap.xml (${urls.length} URLs) + robots.txt`);
   } else {
-    const DIST = resolve(ROOT, 'dist');
+    // sitemapUrls() reads DIST and throws on an empty one, so the mkdir here is
+    // only so the write below has somewhere to land on an already-built tree.
     mkdirSync(DIST, { recursive: true });
     const urls = sitemapUrls();
     writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');

@@ -343,10 +343,19 @@ function errorPage(kits) {
   }
   // The no-JS fallback link is hard-coded in 404.html; if site.url ever moves,
   // that link silently rots — fail the build instead.
-  const fallbackHref = `href="${BASE_PATH}/"`;
+  //
+  // It is the FULLY-QUALIFIED url, not the site-absolute `${BASE_PATH}/`.
+  // Pages serves this one document for any missing path, so a relative href
+  // would resolve against the requested URL rather than against 404.html; and
+  // the site-absolute form, correct as it is in a browser, is unresolvable to
+  // the offline `links` gate, which reads it as the filesystem path
+  // "phlix-website/" and reports it broken. The absolute URL is the only
+  // spelling that is right for both, and checking it against SITE_URL rather
+  // than BASE_PATH also pins the host, not just the base path.
+  const fallbackHref = `href="${SITE_URL}/"`;
   if (!template.includes(fallbackHref)) {
     throw new Error(
-      `build: root 404.html no-JS gallery link does not match site.url base path ` +
+      `build: root 404.html no-JS gallery link does not match site.url ` +
         `(expected ${fallbackHref} for ${SITE_URL})`,
     );
   }

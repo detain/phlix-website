@@ -144,7 +144,18 @@
       <h1>This page doesn&rsquo;t exist</h1>
       <p>The address may be mistyped, or the page may have moved.</p>
       <ul class="links">
-        <li><a class="primary" href="/phlix-website/">Brand kit gallery</a></li>
+        <!-- Absolute, not "/phlix-website/" and not "./".
+             GitHub Pages serves this one document for ANY missing path, and a
+             browser resolves a relative href against the *requested* URL, not
+             against 404.html — so "./" from /phlix-website/foo/bar points at
+             /phlix-website/foo/, which is not the gallery. The site-absolute
+             form is correct in a browser but unresolvable to the offline
+             linkcheck (it reads as the filesystem path "phlix-website/"), so
+             the fully-qualified URL is the only spelling that is right for
+             both. It must stay in step with shared/content.json `site.url`. -->
+        <li>
+          <a class="primary" href="https://detain.github.io/phlix-website/">Brand kit gallery</a>
+        </li>
       </ul>
     </main>
 
