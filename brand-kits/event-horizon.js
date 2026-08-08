@@ -1363,7 +1363,8 @@ const brandKit = {
       },
     ],
     restore_window: "Any time before the 30-day period expires.",
-    consumption irreversibility: "Permanent and complete. Not even the singularity returns what it takes.",
+    consumption_irreversibility:
+      "Permanent and complete. Not even the singularity returns what it takes.",
   },
 
 };

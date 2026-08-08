@@ -8,7 +8,32 @@
 const stellarCommand = {
   name: 'Stellar Command',
   slug: 'stellar-command',
-  
+
+  // Canonical top-level fields read by tools/build.mjs when it renders this
+  // kit's gallery card. This kit predates the canonical schema and kept its
+  // identity under `concept` / `palette`; those stay exactly as they were for
+  // back-compat, and the fields below mirror them in the shape the build reads.
+  // Every value here is lifted verbatim from `concept` / `palette` below — no
+  // new brand decisions are made in this block.
+  archetype: 'Sage',
+  tagline_primary: 'Bridge of a starship managing your media fleet',
+  personality: ['Commanding', 'Strategic', 'Precise', 'Analytical', 'Immersive'],
+
+  // `colors` is the canonical name for the palette; the keys are mapped
+  // one-for-one from `palette` below, not re-chosen.
+  colors: {
+    primary: { name: 'Deep Space Navy', hex: '#0B132B' },
+    secondary: { name: 'Hull Plating Blue', hex: '#1C2541' },
+    tertiary: { name: 'Console Teal-Blue', hex: '#3A506B' },
+    accent: { name: 'Navigation Beacon Cyan', hex: '#5BC0BE' },
+    background: { name: 'Deep Space Navy', hex: '#0B132B' },
+    surface: { name: 'Hull Plating Blue', hex: '#1C2541' },
+    text: { name: 'Bridge White', hex: '#FFFFFF' },
+    success: { name: 'Systems Online', hex: '#4ECDC4' },
+    warning: { name: 'Caution Yellow', hex: '#FFE66D' },
+    error: { name: 'Red Alert', hex: '#FF6B6B' },
+  },
+
   // Core palette
   palette: {
     primary: '#0B132B',     // Deep space navy
@@ -219,7 +244,12 @@ const stellarCommand = {
   },
 };
 
-// Export for use
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = stellarCommand;
-}
+// Export for use.
+//
+// This package is `"type": "module"`, so the CommonJS `module.exports` this file
+// used to carry exported NOTHING: `module` is not defined in an ES module, the
+// `typeof` guard swallowed that, and `import()` resolved to an empty namespace.
+// tools/build.mjs then skipped the kit and left the site undeployed. Keep the
+// ESM exports below as the only export path.
+export default stellarCommand;
+export { stellarCommand };

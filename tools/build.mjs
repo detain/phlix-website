@@ -54,9 +54,63 @@ rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
 // Discover every brand kit (brand-kits/*.js, excluding *.worklog.md etc.).
+//
+// `kitFiles` is the DENOMINATOR for everything below: the set of kits that are
+// supposed to exist, read off the filesystem before a single one is imported.
+// It must never be recomputed from, filtered by, or intersected with the set of
+// kits that successfully loaded — that is precisely the bug this block replaced.
+// The build used to `console.warn` + `continue` past an unloadable kit and then
+// report `kitSummaries.length` — a count of what LOADED. Three broken kits
+// (event-horizon.js: a syntax error; stellar-command.js and terraform.js: CJS
+// exports in a "type": "module" package, so an empty namespace) turned 79 files
+// into a perfectly self-consistent "76 brand kit(s), 76 built site(s)", exit 0,
+// for months. All three had a complete site/ subtree that was never deployed.
 const kitFiles = readdirSync(SRC_KITS)
   .filter((name) => name.endsWith('.js') && !name.endsWith('.worklog.js'))
   .sort();
+
+// ...and the glob alone is still not enough. A count taken from the directory
+// self-adjusts to a DELETION: remove a kit file and 78-found/78-loaded/78-built
+// agrees with itself just as happily as 76/76/76 did. So the glob is checked
+// against a pin that is NOT derived from the directory — brand-kits/expected-kits.json,
+// hand-maintained, no regeneration flag. That file is what makes a missing kit
+// detectable at all.
+const EXPECTED = JSON.parse(readFileSync(resolve(SRC_KITS, 'expected-kits.json'), 'utf8'));
+{
+  const expected = EXPECTED.kits;
+  if (!Array.isArray(expected) || expected.length === 0) {
+    throw new Error('build: brand-kits/expected-kits.json has no "kits" array — the pin is vacuous');
+  }
+  if (expected.length !== EXPECTED.count) {
+    throw new Error(
+      `build: brand-kits/expected-kits.json is internally inconsistent — ` +
+        `"count" says ${EXPECTED.count} but "kits" lists ${expected.length}`,
+    );
+  }
+  // Exact set comparison, both directions. Never a substring or a bare count:
+  // a rename is a deletion plus an addition and must not cancel out.
+  const onDisk = new Set(kitFiles);
+  const pinned = new Set(expected);
+  const missing = expected.filter((f) => !onDisk.has(f));
+  const unpinned = kitFiles.filter((f) => !pinned.has(f));
+  if (missing.length || unpinned.length) {
+    const lines = [
+      `build: brand-kits/*.js does not match the pin in brand-kits/expected-kits.json`,
+      `  pinned:  ${expected.length}`,
+      `  on disk: ${kitFiles.length}`,
+    ];
+    if (missing.length) {
+      lines.push(`  MISSING from disk (${missing.length}): ${missing.join(', ')}`);
+    }
+    if (unpinned.length) {
+      lines.push(`  NOT in the pin (${unpinned.length}): ${unpinned.join(', ')}`);
+    }
+    lines.push(
+      `  If this change is intentional, update brand-kits/expected-kits.json ("kits" AND "count").`,
+    );
+    throw new Error(lines.join('\n'));
+  }
+}
 
 // Base path the Pages site is published under ('/phlix-website' for a project
 // site, '' for a user/org site). The 404 shim needs it to strip the prefix off
@@ -65,17 +119,26 @@ const BASE_PATH = new URL(SITE_URL).pathname.replace(/\/+$/, '');
 
 const kitSummaries = [];
 const errorKits = {};
+// Every kit that could not be turned into a usable object, with the reason.
+// Collected rather than thrown on first sight so one run reports ALL of them;
+// three separate red builds to find three broken kits is how they accumulate.
+const loadFailures = [];
 for (const file of kitFiles) {
   let kit;
   try {
     const mod = await import(pathToFileURL(join(SRC_KITS, file)).href);
     kit = mod.default ?? mod.brandKit;
   } catch (err) {
-    console.warn(`[build] skipping ${file}: ${err.message}`);
+    loadFailures.push({ file, reason: `${err.constructor.name}: ${err.message}` });
     continue;
   }
   if (!kit || typeof kit !== 'object') {
-    console.warn(`[build] skipping ${file}: no brand kit export`);
+    loadFailures.push({
+      file,
+      reason:
+        'no brand kit export — expected `export default <kit>` or `export { brandKit }`. ' +
+        'This package is "type": "module", so `module.exports` / `window.X` export nothing.',
+    });
     continue;
   }
 
@@ -112,6 +175,31 @@ for (const file of kitFiles) {
   });
 }
 
+// A kit that will not load is a BUILD FAILURE, not a warning. It means a site
+// listed in the README silently stops being published while the build still
+// exits 0 and reports a number that agrees with itself.
+if (loadFailures.length) {
+  const lines = [
+    `build: ${loadFailures.length} of ${kitFiles.length} brand kit(s) in brand-kits/ could not be loaded:`,
+    ...loadFailures.map(({ file, reason }) => `  ✗ ${file}: ${reason}`),
+    `Fix the kit(s) above, or remove them from brand-kits/ AND from brand-kits/expected-kits.json.`,
+  ];
+  throw new Error(lines.join('\n'));
+}
+
+// The invariant that keeps the reported number honest: one summary per file
+// found on disk. `kitFiles.length` came from readdirSync, `kitSummaries.length`
+// from the import loop, and they are compared rather than one being derived
+// from the other. Unreachable while `loadFailures` is empty and the loop
+// `continue`s only on a recorded failure — which is the point: if a future edit
+// adds a third way to skip a kit, this is what catches it.
+if (kitSummaries.length !== kitFiles.length) {
+  throw new Error(
+    `build: kit accounting mismatch — ${kitFiles.length} kit file(s) on disk but ` +
+      `${kitSummaries.length} summarised. A kit was dropped without being recorded as a failure.`,
+  );
+}
+
 // Sort: built sites first (alphabetical), then unbuilt (alphabetical).
 kitSummaries.sort((a, b) => Number(b.built) - Number(a.built) || a.slug.localeCompare(b.slug));
 
@@ -137,9 +225,34 @@ if (existsSync(resolve(ROOT, '_headers'))) {
 
 const builtCount = kitSummaries.filter((k) => k.built).length;
 const themed404Count = Object.values(errorKits).filter((k) => k.has404).length;
+
+// Independent confirmation that the sites claimed as built are actually on disk
+// in dist/. `builtCount` is the loop's own bookkeeping; this re-reads dist/ and
+// counts directories that really contain an index.html. If cpSync ever fails
+// quietly, or a filter drops the entry file, the two disagree and the build reds
+// instead of announcing sites that were never emitted.
+const emittedSiteDirs = readdirSync(DIST, { withFileTypes: true })
+  .filter((e) => e.isDirectory() && e.name !== 'assets')
+  .filter((e) => existsSync(join(DIST, e.name, 'index.html')))
+  .map((e) => e.name)
+  .sort();
+if (emittedSiteDirs.length !== builtCount) {
+  const claimed = kitSummaries.filter((k) => k.built).map((k) => k.slug);
+  throw new Error(
+    `build: ${builtCount} site(s) claimed built but ${emittedSiteDirs.length} emitted into dist/\n` +
+      `  claimed but absent: ${claimed.filter((s) => !emittedSiteDirs.includes(s)).join(', ') || '(none)'}\n` +
+      `  in dist/ but unclaimed: ${emittedSiteDirs.filter((s) => !claimed.includes(s)).join(', ') || '(none)'}`,
+  );
+}
+
+// State the denominator. "76 brand kit(s), 76 built site(s)" was the original
+// lie: both numbers counted only the kits that loaded, so the sentence was true
+// and useless. The first number below is the file count from the brand-kits/
+// glob; the second is directories verified in dist/.
 console.log(
-  `[build] ${kitSummaries.length} brand kit(s), ${builtCount} built site(s) + index + 404 shim ` +
-    `(${themed404Count} themed) + sitemap (${urls.length} URLs) → ${DIST}`,
+  `[build] ${kitFiles.length} brand kit file(s) on disk (pinned: ${EXPECTED.count}), ` +
+    `${kitSummaries.length} loaded, ${emittedSiteDirs.length} site(s) emitted to dist/ ` +
+    `+ index + 404 shim (${themed404Count} themed) + sitemap (${urls.length} URLs) → ${DIST}`,
 );
 for (const k of kitSummaries) {
   console.log(`  ${k.built ? '✓' : '·'} ${k.slug}${k.built ? '' : ' (no site yet)'}`);
