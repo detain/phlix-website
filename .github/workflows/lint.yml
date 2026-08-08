@@ -47,10 +47,17 @@ jobs:
       # GitHub skips subsequent steps by default. `continue-on-error` only stops
       # a FAILING step from failing the job; it does nothing for a step that is
       # never reached.
-      - name: Accessibility (pa11y-ci, soft-fail until pages exist)
+      # No `continue-on-error` any more. It used to be blanket-true, and that is
+      # how `npm run a11y` managed to crash on startup in every run this repo
+      # has ever had without anyone noticing: a TypeError out of globby and a
+      # clean pass were the same green tick. tools/a11y.mjs now separates the
+      # two — pa11y-ci's exit 2 (pages have findings) is reported and tolerated,
+      # while any other non-zero exit means the harness itself did not run and
+      # FAILS the job. So the ~842 pre-existing WCAG2AA contrast findings do not
+      # red the build, but a re-break of the harness does.
+      - name: Accessibility (pa11y-ci)
         if: ${{ !cancelled() }}
         run: npm run a11y
-        continue-on-error: true
 
   # Additive job, deliberately NOT folded into `lint` above: before this, no
   # workflow in this repo ran any test at all (`grep -rln 'test:unit\|npm test'
