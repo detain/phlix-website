@@ -42,7 +42,7 @@
 
 import { match, notStrictEqual, ok, strictEqual } from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -280,6 +280,112 @@ describe('tools/build.mjs and tools/kit-inventory.mjs agree', () => {
       strictEqual(buildOk, expectZero === 0, `unexpected verdict for "${label}"`);
     });
   }
+});
+
+// ---------------------------------------------------------------------------
+// The lint gate's own sub-corpus pin (S281)
+// ---------------------------------------------------------------------------
+// `lint:js` prints "eslint inspected N files", but N comes from the same globs
+// it is reporting on. If `brand-kits/*.js` stopped matching, eslint would still
+// see 191 files under sites/ and tools/, print a plausible number, and exit 0
+// with the 79 build-critical kit files unchecked. tools/lint.mjs therefore
+// counts the brand-kit slice separately against `count` in
+// brand-kits/expected-kits.json — an independent denominator — and prints it.
+describe('tools/lint.mjs pins the brand-kits sub-corpus independently', () => {
+  const LINT = join(ROOT, 'tools', 'lint.mjs');
+
+  // Runs the REAL tools/lint.mjs against a fixture root. `--no-eslintrc`-style
+  // config is unnecessary: every red below fires before eslint is spawned.
+  function runLintJs(cwd) {
+    return run(process.execPath, [join(cwd, 'tools', 'lint.mjs'), 'js'], cwd);
+  }
+
+  function lintFixture({ kitCount, pinCount }) {
+    const dir = mkdtempSync(join(tmpdir(), 'phlix-lintpin-'));
+    tempRoots.push(dir);
+    mkdirSync(join(dir, 'brand-kits'), { recursive: true });
+    mkdirSync(join(dir, 'tools'), { recursive: true });
+    mkdirSync(join(dir, 'node_modules'), { recursive: true });
+    writeFileSync(join(dir, 'package.json'), JSON.stringify({ type: 'module' }, null, 2), 'utf8');
+    // eslint v9+ refuses to run without a flat config, and its absence would
+    // exit 2 — i.e. the happy-path control would red for a reason that has
+    // nothing to do with the pin under test.
+    writeFileSync(join(dir, 'eslint.config.js'), 'export default [];\n', 'utf8');
+    writeFileSync(join(dir, 'tools', 'lint.mjs'), readFileSync(LINT, 'utf8'), 'utf8');
+    // tools/lint.mjs resolves projectRoot from its own location and imports
+    // `glob`; symlink the real node_modules so the fixture can load it.
+    rmSync(join(dir, 'node_modules'), { recursive: true, force: true });
+    symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'), 'dir');
+    const kits = [];
+    for (let i = 0; i < kitCount; i += 1) {
+      const name = `kit${i}.js`;
+      writeFileSync(join(dir, 'brand-kits', name), validKit(`kit${i}`, `Kit ${i}`), 'utf8');
+      kits.push(name);
+    }
+    writeFileSync(
+      join(dir, 'brand-kits', 'expected-kits.json'),
+      JSON.stringify({ count: pinCount, kits }, null, 2),
+      'utf8',
+    );
+    return dir;
+  }
+
+  it('prints the sub-corpus denominator and passes when it matches', () => {
+    const { code, stdout, stderr } = runLintJs(lintFixture({ kitCount: 3, pinCount: 3 }));
+    match(
+      stdout,
+      /sub-corpus brand-kits\/\*\.js: 3 \/ 3 \(pinned by brand-kits\/expected-kits\.json\)/,
+      `no sub-corpus denominator printed. Got:\n${stdout}\n${stderr}`,
+    );
+    strictEqual(code, 0, `expected a clean lint:js, got:\n${stdout}\n${stderr}`);
+  });
+
+  it('reds when the brand-kit slice SHRINKS below the pin', () => {
+    const { code, stdout, stderr } = runLintJs(lintFixture({ kitCount: 2, pinCount: 3 }));
+    notStrictEqual(code, 0, 'a shrunken sub-corpus must red lint:js');
+    match(stdout + stderr, /contributed 2 file\(s\) to the lint corpus but .*pins 3/, `got:\n${stdout}\n${stderr}`);
+  });
+
+  // ⚠ THE ANTI-VACUITY CASE for the LINT gate. Zero brand kits leaves the other
+  // 191 files matching, so without this the gate lints a partial corpus, prints
+  // a number derived from that corpus, and exits 0.
+  it('reds when the brand-kit slice is EMPTY, even though other patterns still match', () => {
+    const dir = lintFixture({ kitCount: 0, pinCount: 3 });
+    // Give the OTHER patterns something to match, so the overall corpus is
+    // non-empty and the generic `files.length === 0` branch is NOT what fires.
+    writeFileSync(join(dir, 'tools', 'filler.mjs'), 'export const x = 1;\n', 'utf8');
+    const { code, stdout, stderr } = runLintJs(dir);
+    notStrictEqual(code, 0, 'an empty brand-kit slice must red lint:js');
+    match(stdout + stderr, /contributed 0 file\(s\) to the lint corpus but .*pins 3/, `got:\n${stdout}\n${stderr}`);
+  });
+
+  // ⚠ THE MUTATION THAT SURVIVED THE FIRST VERSION OF THIS CHECK, and the
+  // reason it is written the way it is. The pin originally re-globbed
+  // `brand-kits/*.js` itself. Neutering the TARGET pattern to `brand-kits/*.jsx`
+  // therefore dropped all 79 kits from eslint's corpus (270 -> 191 files
+  // inspected) while the pin reported a serene "79 / 79" and the gate exited 0
+  // — a check measuring something other than what the tool consumed. It now
+  // filters the list that is actually handed to the linter.
+  it('reds when the TARGET GLOB stops matching kits, even though the pin file is untouched', () => {
+    const dir = lintFixture({ kitCount: 3, pinCount: 3 });
+    writeFileSync(join(dir, 'tools', 'filler.mjs'), 'export const x = 1;\n', 'utf8');
+    const src = readFileSync(join(dir, 'tools', 'lint.mjs'), 'utf8');
+    const neutered = src.replace("patterns: ['brand-kits/*.js',", "patterns: ['brand-kits/*.jsx',");
+    // Non-vacuity: a replace that matched nothing would leave the tool intact
+    // and this test would assert a red that never had a cause.
+    notStrictEqual(neutered, src, 'the glob mutation did not apply — this test would prove nothing');
+    writeFileSync(join(dir, 'tools', 'lint.mjs'), neutered, 'utf8');
+
+    const { code, stdout, stderr } = runLintJs(dir);
+    notStrictEqual(code, 0, 'a glob that no longer reaches the kits must red lint:js');
+    match(stdout + stderr, /contributed 0 file\(s\) to the lint corpus but .*pins 3/, `got:\n${stdout}\n${stderr}`);
+  });
+
+  it('reds on a pin of zero — a pin that pins nothing', () => {
+    const { code, stdout, stderr } = runLintJs(lintFixture({ kitCount: 0, pinCount: 0 }));
+    notStrictEqual(code, 0, 'a zero pin must be fatal, not trivially satisfied');
+    match(stdout + stderr, /pins nothing/, `got:\n${stdout}\n${stderr}`);
+  });
 });
 
 // Non-vacuity for this file itself: the tool list must not be empty, or every

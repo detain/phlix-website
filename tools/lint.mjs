@@ -11,6 +11,7 @@
 
 import { spawn } from 'node:child_process';
 import { globSync } from 'glob';
+import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -99,7 +100,26 @@ const targets = {
   // the 80 files differ from .prettierrc.json, almost entirely single-vs-double
   // quotes, which is an ~80k-line reformat of data files. Counted and stated in
   // the S281 worklog; it is a separate change, not a rider on a bug fix.
-  js:   { bin: 'eslint',    patterns: ['brand-kits/*.js', 'sites/**/*.js', 'tools/**/*.mjs'] },
+  js:   {
+    bin: 'eslint',
+    patterns: ['brand-kits/*.js', 'sites/**/*.js', 'tools/**/*.mjs'],
+    // See `pinnedSubcorpus` below: 79 of those files are the brand kits, and
+    // that 79 is asserted against a manifest rather than against the glob.
+    //
+    // ⚠ `test` is applied to the file list this script is about to hand the
+    // linter — NOT to a re-glob of the pattern above. The first version of this
+    // check re-globbed `brand-kits/*.js`, and a mutation proved it decorative:
+    // changing the target pattern to `brand-kits/*.jsx` dropped all 79 kits from
+    // eslint's corpus (270 -> 191 files inspected) while the pin cheerfully
+    // reported "79 / 79" and the gate exited 0. A check that measures something
+    // other than what the tool actually consumed is not a check.
+    pinnedSubcorpus: {
+      label: 'brand-kits/*.js',
+      test: (f) => /^brand-kits\/[^/]+\.js$/.test(f),
+      pinFile: 'brand-kits/expected-kits.json',
+      pinKey: 'count',
+    },
+  },
   links:{ bin: 'linkinator', patterns: ['dist/**/*.html'], extraArgs: LINKS_ARGS, requiresFiles: true },
   'format-check': { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--check'] },
   format:         { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--write'] },
@@ -132,6 +152,56 @@ if (files.length === 0) {
   }
   console.log(`[lint:${tool}] no files match ${t.patterns.join(', ')} — skipping`);
   process.exit(0);
+}
+
+// ---------------------------------------------------------------------------
+// The sub-corpus pin (S281)
+// ---------------------------------------------------------------------------
+// The file count printed at the bottom of this script is honest about how many
+// files the linter saw, but it is derived from the very globs it is reporting
+// on — so it self-adjusts. If `brand-kits/*.js` stopped matching (a mistyped
+// pattern, a moved directory, someone "tidying" the list), `lint:js` would still
+// find 191 files under sites/ and tools/, still print a plausible number, and
+// still exit 0, with 79 files of build-critical JavaScript silently unchecked
+// again. That is the same defect this step exists to remove, one layer up.
+//
+// So the brand-kit slice of the corpus is counted separately and compared to an
+// INDEPENDENT denominator: `count` in brand-kits/expected-kits.json, the
+// hand-maintained pin build.mjs already uses. Drift in either direction is a
+// failure. An empty slice therefore cannot pass either.
+//
+// The slice is taken from `files` — the exact list about to be passed to the
+// linter — so neutering the glob above is caught. See the ⚠ on `test`.
+if (t.pinnedSubcorpus) {
+  const { label, test: inSlice, pinFile, pinKey } = t.pinnedSubcorpus;
+  const matched = files.filter(inSlice);
+  let expected;
+  try {
+    expected = JSON.parse(readFileSync(resolve(projectRoot, pinFile), 'utf8'))[pinKey];
+  } catch (err) {
+    console.error(`[lint:${tool}] cannot read the sub-corpus pin ${pinFile}: ${err.message} -> exit 1`);
+    process.exit(1);
+  }
+  if (!Number.isInteger(expected) || expected <= 0) {
+    console.error(
+      `[lint:${tool}] ${pinFile} "${pinKey}" is ${JSON.stringify(expected)} — a pin of zero ` +
+        `pins nothing, so this check would be satisfied by an empty corpus -> exit 1`,
+    );
+    process.exit(1);
+  }
+  console.log(
+    `[lint:${tool}] sub-corpus ${label}: ${matched.length} / ${expected} ` +
+      `(pinned by ${pinFile}) of ${files.length} file(s) being linted`,
+  );
+  if (matched.length !== expected) {
+    console.error(
+      `[lint:${tool}] ${label} contributed ${matched.length} file(s) to the lint corpus but ` +
+        `${pinFile} pins ${expected} -> exit 1\n` +
+        `[lint:${tool}] Refusing to lint a partial corpus and report success. If the kit set really ` +
+        `changed, update ${pinFile} ("kits" AND "count") in the same commit.`,
+    );
+    process.exit(1);
+  }
 }
 
 const toolArgs = (tool === 'css')
