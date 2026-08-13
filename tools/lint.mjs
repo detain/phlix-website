@@ -87,7 +87,19 @@ const PRETTIER_PATTERNS = [
 const targets = {
   html: { bin: 'htmlhint', patterns: [...ROOT_HTML, 'sites/**/*.html'] },
   css:  { bin: 'stylelint', patterns: ['sites/**/*.css'] },
-  js:   { bin: 'eslint',    patterns: ['sites/**/*.js', 'tools/**/*.mjs'] },
+  // `brand-kits/*.js` added by S281. Until then this corpus — 79 files of
+  // build-critical JavaScript, the input to every site the repo publishes — was
+  // linted by NOTHING: not eslint, not prettier, not format:check. That is how
+  // event-horizon.js shipped a plain SyntaxError (an unquoted object key
+  // containing a space) and sat undeployed for months; eslint cannot parse it
+  // either, so this target would have reported it on the commit that introduced
+  // it. Measured backlog when the pattern was added: ONE error, `no-dupe-keys`
+  // in cybernetic-surge.js:282, fixed in the same commit.
+  // ⚠ The prettier/`format-check` corpus is deliberately NOT widened here: 78 of
+  // the 80 files differ from .prettierrc.json, almost entirely single-vs-double
+  // quotes, which is an ~80k-line reformat of data files. Counted and stated in
+  // the S281 worklog; it is a separate change, not a rider on a bug fix.
+  js:   { bin: 'eslint',    patterns: ['brand-kits/*.js', 'sites/**/*.js', 'tools/**/*.mjs'] },
   links:{ bin: 'linkinator', patterns: ['dist/**/*.html'], extraArgs: LINKS_ARGS, requiresFiles: true },
   'format-check': { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--check'] },
   format:         { bin: 'prettier', patterns: PRETTIER_PATTERNS, extraArgs: ['--write'] },

@@ -8,14 +8,24 @@
  * what `npm run build` will publish; use `npm run dev` (tools/dev-server.mjs)
  * to preview the source tree directly.
  *
- * Kit discovery matches tools/build.mjs: every brand-kits/*.js is imported and
- * its `slug` read, so the preview index lists all 50 kits and marks the ones
- * that have no site yet.
+ * Kit discovery goes through tools/kit-inventory.mjs — the same rules
+ * tools/build.mjs applies — so the preview index lists every kit on disk and
+ * marks the ones that have no site yet.
+ *
+ * ⚠ S281: this script used to `console.warn` + `continue` past any kit it could
+ * not import (and past any kit that exported nothing), then announce
+ * `${KITS.length} kit(s) discovered from brand-kits/*.js` — a count of the
+ * survivors, byte for byte the S278 build.mjs defect. It also returned `[]` for
+ * a missing brand-kits/ directory and served a cheerful empty index. An
+ * unloadable, deleted or unpinned kit is now FATAL and the denominator is
+ * printed on every run.
  *
  * Usage:
  *   node tools/preview-all.mjs
  *   node tools/preview-all.mjs --port 5175
  *   node tools/preview-all.mjs --src            # ignore dist/, serve sites/ only
+ *   node tools/preview-all.mjs --check          # validate the kit corpus, print
+ *                                               # the denominator, bind no port
  *
  * URLs:
  *   http://localhost:5174/                  — kit index
@@ -28,14 +38,16 @@
  */
 
 import http from 'node:http';
-import { pathToFileURL } from 'node:url';
 import path from 'node:path';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
+
+import { denominatorLine, kitInventory } from './kit-inventory.mjs';
 
 const argv = process.argv.slice(2);
 const portIdx = argv.indexOf('--port');
 const PORT = portIdx >= 0 ? parseInt(argv[portIdx + 1], 10) : 5174;
 const SRC_ONLY = argv.includes('--src');
+const CHECK_ONLY = argv.includes('--check');
 
 const ROOT = process.cwd();
 const KITS_DIR = path.join(ROOT, 'brand-kits');
@@ -43,37 +55,25 @@ const SITES_DIR = path.join(ROOT, 'sites');
 const DIST_DIR = path.join(ROOT, 'dist');
 
 /**
- * Discover the brand kits the same way tools/build.mjs does: import every
- * brand-kits/*.js and read its default (or `brandKit`) export.
+ * Discover the brand kits the same way tools/build.mjs does: every
+ * brand-kits/*.js is imported, checked against brand-kits/expected-kits.json,
+ * and its `slug` read.
+ *
+ * `kitInventory()` THROWS on an unloadable kit, on a kit that is on disk but not
+ * pinned (or pinned but not on disk), and on an empty corpus. Nothing here
+ * filters the result afterwards: the moment this function returns fewer kits
+ * than there are files, the count it feeds the index page stops being a
+ * denominator and becomes a self-adjusting tally of the survivors.
  */
 async function discoverKits() {
-  if (!existsSync(KITS_DIR)) return [];
-  const files = readdirSync(KITS_DIR)
-    .filter((name) => name.endsWith('.js') && !name.endsWith('.worklog.js'))
-    .sort();
-
-  const kits = [];
-  for (const file of files) {
-    let kit;
-    try {
-      const mod = await import(pathToFileURL(path.join(KITS_DIR, file)).href);
-      kit = mod.default ?? mod.brandKit;
-    } catch (err) {
-      console.warn(`[preview-all] skipping ${file}: ${err.message}`);
-      continue;
-    }
-    if (!kit || typeof kit !== 'object') {
-      console.warn(`[preview-all] skipping ${file}: no brand kit export`);
-      continue;
-    }
-    const slug = kit.slug || path.basename(file, '.js');
-    kits.push({
-      slug,
-      name: kit.name || slug,
-      built: existsSync(path.join(SITES_DIR, slug, 'index.html')),
-    });
-  }
-  return kits.sort((a, b) => a.slug.localeCompare(b.slug));
+  const inventory = await kitInventory(KITS_DIR, 'preview-all');
+  const kits = inventory.kits.map(({ slug, name }) => ({
+    slug,
+    name,
+    built: existsSync(path.join(SITES_DIR, slug, 'index.html')),
+  }));
+  kits.sort((a, b) => a.slug.localeCompare(b.slug));
+  return { inventory, kits };
 }
 
 const MIME = {
@@ -165,8 +165,27 @@ ${links}
   res.end(html);
 }
 
-const KITS = await discoverKits();
+// A kit corpus this script cannot fully account for is fatal BEFORE anything
+// binds a port. Reported as a message + exit 1 rather than an unhandled
+// rejection, so the reason is the first thing on screen.
+let INVENTORY;
+let KITS;
+try {
+  ({ inventory: INVENTORY, kits: KITS } = await discoverKits());
+} catch (err) {
+  console.error(`[preview-all] ${err.message}`);
+  process.exit(1);
+}
 const SLUGS = new Set(KITS.map((k) => k.slug));
+
+// The denominator, printed on every run including `--check`. A bare exit 0 does
+// not distinguish "previewed every kit" from "found none"; this line does.
+console.log(`[preview-all] ${denominatorLine(INVENTORY)}`);
+
+if (CHECK_ONLY) {
+  console.log('[preview-all] --check: kit corpus is complete; not binding a port.');
+  process.exit(0);
+}
 
 /** Serving root for one slug: dist/<slug>/ when built, else sites/<slug>/. */
 function baseForSlug(slug) {
@@ -245,8 +264,14 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   const source = SRC_ONLY ? 'sites/ (--src)' : 'dist/ when present, else sites/';
+  const withSites = KITS.filter((k) => k.built).length;
   console.log(`[preview-all] Listening on http://localhost:${PORT}`);
-  console.log(`[preview-all] ${KITS.length} kit(s) discovered from brand-kits/*.js`);
+  // Both numbers state their denominator. The old line was
+  // `${KITS.length} kit(s) discovered`, where KITS was the post-filter survivor
+  // list — true, self-consistent, and unable to reveal anything it had dropped.
+  console.log(
+    `[preview-all] ${withSites} / ${INVENTORY.total} kit(s) have a site (pinned corpus: ${INVENTORY.pinned})`,
+  );
   console.log(`[preview-all] Serving: ${source}`);
   console.log('[preview-all] Press Ctrl+C to stop.');
 });
