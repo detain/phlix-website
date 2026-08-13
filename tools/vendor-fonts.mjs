@@ -61,8 +61,9 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join, posix, relative, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { dirname, join, posix, relative, resolve } from 'node:path';
+
+import { denominatorLine, kitInventory } from './kit-inventory.mjs';
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..');
 const KITS_DIR = join(ROOT, 'brand-kits');
@@ -222,22 +223,27 @@ function cssNum(value) {
 // kit inventory
 // ---------------------------------------------------------------------------
 
-/** Every brand kit as `{ slug, fonts }`, sorted by slug. */
+/**
+ * Every brand kit as `{ slug, fonts }`, sorted by slug.
+ *
+ * ⚠ S281: this used to `console.warn` + `continue` past an unimportable kit and
+ * — worse — `continue` with NO message at all past a kit that exported nothing,
+ * then hand the survivors to `--sources`, `--emit` and `--check`. A kit dropped
+ * here loses its fonts from shared/data/font-sources.json and from the pool,
+ * and every downstream count agrees with itself about it. Same defect as
+ * S278's build.mjs; it now goes through the shared, fail-loud inventory.
+ *
+ * Sort order is by SLUG (a kit may rename itself away from its filename), so it
+ * is re-applied after the inventory returns its file-order list.
+ */
 async function loadKits() {
-  const out = [];
-  for (const file of readdirSync(KITS_DIR).filter((f) => f.endsWith('.js')).sort()) {
-    let kit;
-    try {
-      const mod = await import(pathToFileURL(join(KITS_DIR, file)).href);
-      kit = mod.default ?? mod.brandKit;
-    } catch (err) {
-      console.warn(`[fonts] skipping ${file}: ${err.message}`);
-      continue;
-    }
-    if (!kit || typeof kit !== 'object') continue;
-    out.push({ slug: kit.slug || basename(file, '.js'), fonts: kit.fonts || {} });
-  }
-  return out;
+  const inventory = await kitInventory(KITS_DIR, 'fonts');
+  // Printed on every run, success included: `--sources`/`--emit` writing 79 of
+  // 79 kits and writing 76 of 79 produce output that is otherwise identical.
+  console.log(`[fonts] ${denominatorLine(inventory)}`);
+  return inventory.kits
+    .map(({ slug, kit }) => ({ slug, fonts: kit.fonts || {} }))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
 /**
@@ -1023,7 +1029,18 @@ if (!argv.length || has('--help') || has('-h') || !VERBS.some(has)) {
 /** Sites the selected verb applies to. `--all` beats an explicit `--site` list. */
 const selection = has('--all') ? allSlugs() : siteArgs;
 
-const kits = await loadKits();
+// An incomplete kit corpus is fatal before any verb runs — `--sources` would
+// otherwise rewrite font-sources.json with the missing kit's families removed,
+// and `--download` would then prune its WOFF2 from the pool. Reported as a
+// message + exit 1 rather than an unhandled rejection.
+let kits;
+try {
+  kits = await loadKits();
+} catch (err) {
+  console.error(`[fonts] ${err.message}`);
+  process.exit(1);
+}
+
 let sources = existsSync(SOURCES_FILE) ? JSON.parse(readFileSync(SOURCES_FILE, 'utf8')) : null;
 
 if (has('--sources')) sources = await buildSources(kits);

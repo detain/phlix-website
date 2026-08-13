@@ -279,7 +279,6 @@ const brandKit = {
     success: {
       name: "System Green",
       hex: "#00FF9F",
-      hex: "#00FF9F",
       rgb: "rgb(0, 255, 159)",
       hsl: "hsl(158, 100%, 50%)",
       usage: "Success states, online indicators, upgrade complete.",
