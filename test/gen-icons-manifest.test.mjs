@@ -39,6 +39,12 @@
 //     byte-for-byte, so gutting the defaults (or reordering keys) also goes
 //     RED — nothing here passes merely because the tool stopped touching the
 //     file altogether.
+//   * exit-away mutation (finding 3): removing the REFUSED classification or
+//     the non-zero exit in main() turns the CLI test
+//     `CLI exits non-zero and reports REFUSED when a manifest cannot be parsed`
+//     RED; making EVERY error a refusal turns its companion
+//     `CLI exits zero when every manifest parses (the routine-skip case stays
+//     green)` RED. Both legs spawn the real CLI over a --sites-root fixture.
 //
 // WHY EVERY FIXTURE IS BUILT FRESH IN mkdtemp
 // --------------------------------------------
@@ -50,11 +56,26 @@
 
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { mergeManifest, parseExistingManifest, writeSiteManifest } from '../tools/gen-icons.mjs';
+import {
+  isManifestRefusal,
+  mergeManifest,
+  parseExistingManifest,
+  writeSiteManifest,
+} from '../tools/gen-icons.mjs';
+
+const TOOL = new URL('../tools/gen-icons.mjs', import.meta.url).pathname;
 
 const tempRoots = [];
 after(() => {
@@ -243,4 +264,104 @@ test('mergeManifest: existing keys win even when falsy, order is existing-first'
   assert.equal(merged.theme_color, '#00F5FF');
   assert.equal(merged.lang, 'en', 'absent key must be filled');
   assert.deepEqual(Object.keys(merged), ['name', 'orientation', 'theme_color', 'lang']);
+});
+
+// ── 8. REFUSAL is classified apart from routine errors (finding 3) ──────────
+//
+// The CLI fails the run ONLY on a manifest REFUSAL — an authored file whose
+// bytes we declined to guess at. Other writeSiteManifest throws (e.g. the
+// ENOENT from reading a missing index.html, the raster failures a bad SVG
+// causes) stay routine per-site skips. This pins `isManifestRefusal` in both
+// directions so the CLI classifier cannot pass by marking everything, or
+// nothing, a refusal.
+test('isManifestRefusal separates refusals from routine errors', () => {
+  const dir = makeSite({ title: 'Phlix', themeColor: '#123456' });
+  const manifestPath = join(dir, 'manifest.webmanifest');
+  writeFileSync(manifestPath, '{not json');
+  let refusal = null;
+  try {
+    writeSiteManifest(dir, { dryRun: true });
+  } catch (e) {
+    refusal = e;
+  }
+  assert.ok(refusal instanceof Error, 'the malformed fixture must throw');
+  assert.equal(isManifestRefusal(refusal), true, 'a parse refusal must be classifiable');
+
+  // A routine, non-refusal error from the same entry point: no manifest at all
+  // is the FRESH case (returns {} — proves nothing here), so force a plain fs
+  // error instead: a directory in place of the file makes readFileSync throw
+  // EISDIR, which is NOT a refusal — the tool never saw bytes it declined.
+  const dir2 = makeSite({ title: 'Phlix', themeColor: '#123456' });
+  mkdirSync(join(dir2, 'manifest.webmanifest'));
+  let routine = null;
+  try {
+    writeSiteManifest(dir2, { dryRun: true });
+  } catch (e) {
+    routine = e;
+  }
+  assert.ok(routine instanceof Error, 'the EISDIR fixture must throw');
+  assert.equal(isManifestRefusal(routine), false, 'a plain fs error is not a refusal');
+});
+
+// ── 9. CLI exit code, BOTH directions (finding 3: refusals must not exit 0) ─
+//
+// Runs the real CLI in a child process against a --sites-root fixture (the
+// dry-run affordance the tool gained with S426 review; `--dry-run` also skips
+// the rsvg probe, so this passes on this box, which has NO rsvg-convert).
+// Refusal → exit non-zero with the ⛔/FAILED lines, authored bytes untouched;
+// clean fixture → exit 0. A mutation removing the exit or the classification
+// goes RED here by name.
+function cliFixtureSite(sitesRoot, slug, manifestBytes) {
+  const dir = join(sitesRoot, slug);
+  mkdirSync(join(dir, 'img'), { recursive: true });
+  writeFileSync(
+    join(dir, 'index.html'),
+    `<!doctype html>\n<html><head><title>Phlix</title></head><body></body></html>\n`,
+  );
+  // A byte of SVG is enough: --dry-run never rasterises, it only checks the
+  // file exists before deciding the site participates.
+  writeFileSync(join(dir, 'img', 'favicon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
+  if (manifestBytes !== null) {
+    writeFileSync(join(dir, 'manifest.webmanifest'), manifestBytes);
+  }
+  return dir;
+}
+
+function runCli(sitesRoot) {
+  return spawnSync(process.execPath, [TOOL, '--dry-run', '--sites-root', sitesRoot], {
+    encoding: 'utf8',
+  });
+}
+
+test('CLI exits non-zero and reports REFUSED when a manifest cannot be parsed', () => {
+  const sitesRoot = mkdtempSync(join(tmpdir(), 'phlix-gen-icons-cli-'));
+  tempRoots.push(sitesRoot);
+  const good = cliFixtureSite(sitesRoot, 'good-site', null);
+  const bad = cliFixtureSite(sitesRoot, 'bad-site', '{oops not json');
+
+  const res = runCli(sitesRoot);
+  assert.notEqual(res.status, 0, 'a refusal must fail the run (finding 3)');
+  assert.match(res.stderr, /⛔/, 'the refusal must be reported with the distinct marker');
+  assert.match(res.stderr, /FAILED: 1 manifest\(s\) REFUSED/);
+  // The refusal must not take unrelated sites down unreported, nor touch bytes.
+  assert.equal(readFileSync(join(bad, 'manifest.webmanifest'), 'utf8'), '{oops not json');
+  assert.ok(!existsSync(join(good, 'manifest.webmanifest')), 'dryRun: good site still unwritten');
+});
+
+test('CLI exits zero when every manifest parses (the routine-skip case stays green)', () => {
+  const sitesRoot = mkdtempSync(join(tmpdir(), 'phlix-gen-icons-cli-'));
+  tempRoots.push(sitesRoot);
+  cliFixtureSite(sitesRoot, 'fresh-site', null);
+  cliFixtureSite(sitesRoot, 'authored-site', '{"name":"Phlix","lang":"en"}\n');
+  // The routine-skip class the exit code must NOT fire on: a real site (has
+  // index.html, so it is listed) with no favicon.svg — main() records a ⚠ and
+  // the run still ends green.
+  const skipDir = join(sitesRoot, 'no-favicon-site');
+  mkdirSync(skipDir, { recursive: true });
+  writeFileSync(join(skipDir, 'index.html'), '<!doctype html><html><head></head></html>\n');
+
+  const res = runCli(sitesRoot);
+  assert.equal(res.status, 0, `clean run must exit 0; stderr was: ${res.stderr}`);
+  assert.doesNotMatch(res.stderr, /⛔|REFUSED/);
+  assert.match(res.stdout, /no img\/favicon\.svg/, 'the routine skip must still be reported');
 });

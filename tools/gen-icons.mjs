@@ -16,6 +16,9 @@
  *   node tools/gen-icons.mjs                    # every site
  *   node tools/gen-icons.mjs --site <slug>       # one site
  *   node tools/gen-icons.mjs --dry-run
+ *   node tools/gen-icons.mjs --sites-root <dir>  # walk DIR instead of sites/
+ *                                                  (dry-run affordance for
+ *                                                  tooling and tests)
  *
  * Idempotent: PNGs are rewritten, and the <head> edit is skipped when the
  * manifest link is already present.
@@ -25,8 +28,10 @@
  * (order, casing and values), fills only the keys the file lacks with the
  * tool's defaults, and overwrites ONLY the icon-derived key the tool owns
  * outright: `icons`. A site with no manifest still gets the full canonical
- * document, byte-for-byte as before this change. The ownership decision and
- * its measured costs are documented on `writeSiteManifest` below.
+ * document, byte-for-byte as before this change. A manifest that cannot be
+ * parsed is REFUSED loudly: its bytes stay untouched and the run exits
+ * non-zero, so scheduled automation cannot ignore it. The ownership decision
+ * and its measured costs are documented on `writeSiteManifest` below.
  *
  * Fonts: like `gen-og.mjs`, this rasterises through librsvg, which resolves
  * `font-family` via fontconfig. The pool's WOFF2 files are not installed
@@ -46,12 +51,16 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..');
-const SITES = join(ROOT, 'sites');
 
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
 const siteFlag = argv.indexOf('--site');
 const only = siteFlag === -1 ? null : argv[siteFlag + 1];
+/* --sites-root points the walk at a tree other than this checkout's `sites/`.
+ * A dry-run affordance for tooling and tests — never used against the live
+ * tree from CI; the repo's own invocations run without the flag. */
+const sitesFlag = argv.indexOf('--sites-root');
+const SITES = sitesFlag === -1 ? join(ROOT, 'sites') : resolve(argv[sitesFlag + 1]);
 
 function have(bin) {
   try {
@@ -108,8 +117,25 @@ const ICONS = [
 ];
 
 /**
+ * A REFUSAL: authored bytes we could not parse, left untouched on purpose.
+ * Stamped so the CLI can tell "we declined to guess" (a human must fix the
+ * file — the run FAILS) apart from routine per-site skips like an un-rasterisable
+ * SVG (the run continues and stays green). Review S426 finding 3.
+ */
+function manifestRefusal(message, cause) {
+  const err = new Error(message, cause === undefined ? undefined : { cause });
+  err.manifestRefusal = true;
+  return err;
+}
+
+/** True iff this error is a manifest REFUSAL (see `manifestRefusal`). */
+export function isManifestRefusal(err) {
+  return err instanceof Error && err.manifestRefusal === true;
+}
+
+/**
  * Read and parse a site's existing manifest. Absent file → `{}` (fresh-site
- * case). Malformed file → a loud per-site throw: silently overwriting bytes we
+ * case). Malformed file → a loud REFUSAL throw: silently overwriting bytes we
  * could not parse is how authored data dies, so refuse instead of guessing.
  */
 export function parseExistingManifest(path) {
@@ -119,16 +145,16 @@ export function parseExistingManifest(path) {
   try {
     parsed = JSON.parse(raw);
   } catch (e) {
-    throw new Error(
+    throw manifestRefusal(
       `${path}: manifest.webmanifest is not valid JSON — refusing to merge into bytes we cannot read`,
-      { cause: e },
+      e,
     );
   }
   if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
     const shape = Array.isArray(parsed)
       ? 'an array'
       : `a ${parsed === null ? 'null' : typeof parsed}`;
-    throw new Error(
+    throw manifestRefusal(
       `${path}: manifest.webmanifest parsed to ${shape}, not an object — refusing to merge`,
     );
   }
@@ -203,10 +229,20 @@ function manifestDefaults(dir) {
  *     lowercase. The <head> theme-color meta remains the live tab colour.
  *   - `name`/`description`/`start_url` likewise freeze at authored values; a
  *     title or copy change needs the manifest key deleted to propagate.
- *   - Existing manifests missing `scope` (nexus-core, cyber-pursuit,
- *     pastel-dreamscape) gain `scope:"./"` on the next run — a no-op
- *     semantically: the spec default scope is the manifest's own directory,
- *     identical to "./".
+ *   - Existing manifests missing `scope` — all 13 of the hand-authored ones
+ *     at the pin: cyber-pursuit, nexus-core, pastel-dreamscape,
+ *     synthwave-sunset, mid-century-modern, cybernetic-surge, inferno,
+ *     vinyl-vault, neon-noir, quantum-stream, demolition-crew,
+ *     wilderness-trail, ricochet — gain `scope:"./"` on the next run. The
+ *     append is a semantic no-op, per-case rather than by identity: the
+ *     spec's absent-scope default is the START URL's directory, not the
+ *     manifest's. For the 10 sites with a relative `start_url` ("./", or
+ *     demolition-crew's "./index.html") that directory is the manifest's
+ *     own either way; for the 3 with an absolute `start_url`
+ *     (cyber-pursuit "/cyber-pursuit/", neon-noir "/neon-noir/",
+ *     pastel-dreamscape "/sites/pastel-dreamscape/") it coincides only
+ *     because each is served under a directory matching its
+ *     trailing-slashed start_url.
  */
 export function writeSiteManifest(dir, { dryRun = false } = {}) {
   const path = join(dir, 'manifest.webmanifest');
@@ -218,7 +254,11 @@ export function writeSiteManifest(dir, { dryRun = false } = {}) {
 }
 
 function main() {
-  if (!have('rsvg-convert')) {
+  // rsvg-convert is needed ONLY to raster PNGs, which --dry-run never writes.
+  // Gating the probe on the write path keeps `--dry-run` runnable on hosts
+  // without librsvg (CI gate boxes), which is what lets the manifest legs —
+  // including the refusal exit below — be exercised anywhere.
+  if (!dryRun && !have('rsvg-convert')) {
     console.error('[gen-icons] rsvg-convert not found. Install librsvg2-bin and re-run.');
     process.exit(1);
   }
@@ -232,6 +272,7 @@ function main() {
   let pngCount = 0;
   let headCount = 0;
   let manifestCount = 0;
+  let refusalCount = 0;
   const skipped = [];
 
   for (const slug of slugs) {
@@ -291,7 +332,14 @@ function main() {
     try {
       writeSiteManifest(dir, { dryRun });
     } catch (e) {
-      skipped.push(`${slug}: ${e.message}`);
+      if (isManifestRefusal(e)) {
+        // Distinct from a routine raster skip: REFUSED authored bytes are a
+        // failure the operator must fix, not noise the run shrugs off.
+        refusalCount += 1;
+        console.error(`  ⛔ ${e.message}`);
+      } else {
+        skipped.push(`${slug}: ${e.message}`);
+      }
       continue;
     }
     manifestCount += 1;
@@ -327,6 +375,17 @@ function main() {
     `\n[gen-icons] ${dryRun ? 'would write' : 'wrote'} ${pngCount} PNG(s), ` +
       `${manifestCount} manifest(s), wired ${headCount} page head(s) across ${slugs.length} site(s)`,
   );
+  // Fail the run iff authored bytes were REFUSED (finding 3): automation that
+  // exits 0 while silently declining to merge a site's manifest is how a
+  // corrupted authored file survives every scheduled regen unnoticed.
+  // Routine skips (no SVG, raster failure, missing index.html, head-anchor
+  // misses) stay warnings — they never silently discard authored data.
+  if (refusalCount > 0) {
+    console.error(
+      `[gen-icons] FAILED: ${refusalCount} manifest(s) REFUSED — fix the JSON and re-run`,
+    );
+    process.exit(1);
+  }
 }
 
 // Importable seam: tests and tooling import the pure helpers above; the CLI
