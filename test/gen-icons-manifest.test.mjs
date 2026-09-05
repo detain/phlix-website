@@ -111,8 +111,9 @@ const CANONICAL_ICONS = [
 // is deliberately crafted to disagree with the authored manifest (different
 // title, different theme colour) so a wholesale-clobber regression cannot hide
 // behind input/output agreement. Expectation: only `icons` — the icon-derived
-// key the tool owns — moves to the canonical set; every other byte, including
-// key ORDER and hex casing, is the authored one.
+// key the tool owns — moves to the canonical set; every other key keeps its
+// value, position and casing (JSON re-indent of array values is serialiser
+// formatting); ORDER and hex casing in particular are the authored ones.
 test('writeSiteManifest preserves every hand-authored key and re-owns only icons', () => {
   const dir = makeSite({ title: 'Totally Different Title', themeColor: '#ABCDEF' });
   const authored = {
