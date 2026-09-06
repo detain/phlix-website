@@ -28,14 +28,15 @@ npm run dev                                       # every site at http://localho
 node tools/dev-server.mjs --site abstract-canvas  # serve a single site
 npm run preview                                   # kit index + all sites at http://localhost:5174/
 npm run build                                     # static dist/ with each site under dist/<slug>/
-npm run test                                      # unit tests + lint + link check + meta audit
+npm run test                                      # unit tests + lint + link check (after build) + meta audit
 ```
 
 Per-site checks used while authoring, reviewing, or fixing a site:
 
 ```bash
-npm run lint                                       # htmlhint + stylelint + eslint
-npm run a11y                                       # pa11y-ci sweep
+npm run lint                                       # htmlhint + stylelint + eslint (incl. brand-kits/*.js)
+npm run a11y                                       # pa11y-ci sweep (A11Y_STRICT=1 gates on findings)
+npm run linkcheck                                  # linkinator over dist/**/*.html — run npm run build first
 npm run meta                                       # per-page SEO / social meta audit
 node tools/kit-brief.mjs --site <slug>             # everything an authoring agent needs, in one call
 node tools/render-check.mjs --site <slug> --shots  # real-browser render defects + PNGs
@@ -73,7 +74,9 @@ phlix-website/
 │   ├── img/                  site-specific brand artwork
 │   └── reviews/
 ├── reviews/<slug>/           review outputs (one md file per dimension)
-├── tools/                    dev-server, build, lint, a11y, og, sitemap, kit-brief
+├── test/                     node:test suites pinning the build + lint/a11y/link gates
+├── tools/                    dev-server, build, lint, a11y, og, sitemap, kit-brief,
+│                             kit-inventory (shared kit walker), gen-icons
 ├── new_site.md               brand-agnostic rulebook: what a site must contain
 ├── orchestrator_prompt.md    agent pipeline driver (spawns author/review/fix workers)
 ├── new_site_prompt.md        author-worker prompt
@@ -87,8 +90,8 @@ phlix-website/
 │   └── HANDOFF_PROMPT.md     paste-into-fresh-session kickoff prompt
 └── .github/workflows/
     ├── pages.yml             deploy sites to GH Pages
-    ├── lint.yml              html/css/js + a11y
-    ├── linkcheck.yml         broken-link sweep
+    ├── lint.yml              html/css/js + a11y + node:test unit job
+    ├── linkcheck.yml         npm run build, then broken-link sweep of dist/
     └── lighthouse.yml        Lighthouse CI budgets
 ```
 
@@ -153,6 +156,13 @@ independently and compared as an exact set in both directions. It is
 hand-maintained on purpose: there is no regeneration flag, because a manifest a
 tool can rewrite from its own subject is not a pin.
 
+`tools/build.mjs`, `tools/preview-all.mjs` and `tools/vendor-fonts.mjs` all walk
+the kits through one shared `tools/kit-inventory.mjs`, so an unloadable kit, an
+empty corpus and a pin mismatch are fatal in every one of them.
+`node tools/preview-all.mjs --check` validates the corpus and binds no port.
+`tools/lint.mjs` checks the same pin against the `brand-kits/*.js` slice of the
+`lint:js` corpus.
+
 A kit must be an ES module — this package is `"type": "module"`, so
 `module.exports = kit` or `window.X = kit` exports **nothing**. Use
 `export default kit`.
@@ -169,7 +179,8 @@ bump all three packages together.
 ### eslint config
 
 `eslint.config.js` (flat config; `js.configs.recommended` +
-`globals.browser`) runs zero-warning on every site in `sites/`.
+`globals.browser`) runs zero-warning on `brand-kits/*.js`, every site in
+`sites/`, and `tools/*.mjs`.
 Unused parameters are silenced via the standard
 `argsIgnorePattern: '^_'` convention — prefix any deliberately-unused
 parameter with `_` rather than disabling the rule inline.
@@ -177,7 +188,7 @@ parameter with `_` rather than disabling the rule inline.
 ### Node 24
 
 `engines.node` is `>=24`. The CI workflows use Node-24-native action
-majors (`actions/checkout@v6`, `actions/setup-node@v6`) — the older
+majors (`actions/checkout@v7`, `actions/setup-node@v7`) — the older
 `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` env shim is no longer needed and
 has been removed. See
 [`phlix-docs / dev / contributing`](https://detain.github.io/phlix-docs/dev/contributing#ci-github-actions-policy)
