@@ -60,9 +60,12 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const STEP_TOKEN = 'S472AUDFIXX9L3';
 
 // Patched floors, re-derived 2026-09-11 against `npm audit --audit-level=moderate`
-// at tip 9303026f. If you bump a package past its floor, fine — at or above is
-// the assertion. If an advisory's fixed version changes, re-derive and raise
-// the floor; do not lower it.
+// at tip 9303026f; +5 floors added 2026-10-08 from the advisory-drift re-green
+// (the six-GHSA inventory measured at tip 59cd8ec3, five of them cleared
+// lockfile-only by targeted `npm update` — see scripts/audit-gate.mjs for the
+// two that could NOT be cleared and are allow-listed there instead). If you bump
+// a package past its floor, fine — at or above is the assertion. If an advisory's
+// fixed version changes, re-derive and raise the floor; do not lower it.
 const AUDIT_FLOORS = [
   {
     pkg: 'js-yaml',
@@ -77,6 +80,41 @@ const AUDIT_FLOORS = [
     ghsa: 'GHSA-2wm5-q62r-hmrv',
     vulnerable: '<2.9.4',
     why: 'slow rejection of oversized malformed color strings',
+  },
+  {
+    pkg: 'compression',
+    floor: '1.8.2',
+    ghsa: 'GHSA-vc2v-76pw-4v95',
+    vulnerable: '<1.8.2',
+    why: 'Denial of Service via memory leak on premature response close',
+  },
+  {
+    pkg: 'proxy-addr',
+    floor: '2.0.8',
+    ghsa: 'GHSA-jqcg-44mw-7w3h',
+    vulnerable: '>=1.1.0 <2.0.8',
+    why: 'IP spoofing via IPv4-mapped IPv6 trust subnet',
+  },
+  {
+    pkg: 'shell-quote',
+    floor: '1.11.0',
+    ghsa: 'GHSA-pqg4-j6r4-53mv',
+    vulnerable: '>=1.8.4 <1.11.0',
+    why: 'quote() command injection via a line terminator in a token after a { comment } token',
+  },
+  {
+    pkg: 'source-map-js',
+    floor: '1.2.2',
+    ghsa: 'GHSA-68fv-2mgg-jv7q',
+    vulnerable: '>=1.0.0 <1.2.2',
+    why: 'event-loop denial of service through indexed source-map section offsets',
+  },
+  {
+    pkg: 'http-cache-semantics',
+    floor: '4.3.0',
+    ghsa: 'GHSA-ch52-4w7c-c8xp',
+    vulnerable: '<=4.2.0',
+    why: 'max-stale handling can disclose cross-user cached responses',
   },
 ];
 
@@ -141,22 +179,37 @@ test(`security audit floors are held in the lockfile [${STEP_TOKEN}]`, () => {
 });
 
 test('floor gate refuses the pre-patch lockfile (negative control)', () => {
-  // Fabricated lock exactly as tip 9303026f measured it — both vulnerable.
+  // Fabricated lock exactly as tip 59cd8ec3 measured it — the two originals
+  // below floor plus the five advisories the 2026-10-08 `npm update` cleared.
   const prePatchLock = {
     packages: {
       'node_modules/js-yaml': { version: '4.3.1' },
       'node_modules/colord': { version: '2.9.3' },
+      'node_modules/compression': { version: '1.8.1' },
+      'node_modules/proxy-addr': { version: '2.0.7' },
+      'node_modules/shell-quote': { version: '1.10.0' },
+      'node_modules/source-map-js': { version: '1.2.1' },
+      'node_modules/http-cache-semantics': { version: '4.2.0' },
     },
   };
   const refusals = floorRefusals(prePatchLock);
-  assert.equal(refusals.length, 2, 'a lock with both packages below floor must be refused twice');
-  assert.match(refusals.join('\n'), /GHSA-2883-xcg3-v3hh/);
-  assert.match(refusals.join('\n'), /GHSA-2wm5-q62r-hmrv/);
+  assert.equal(
+    refusals.length,
+    AUDIT_FLOORS.length,
+    `a lock with every package below floor must be refused ${AUDIT_FLOORS.length} times, got ${refusals.length}`,
+  );
+  for (const { ghsa } of AUDIT_FLOORS) {
+    assert.match(refusals.join('\n'), new RegExp(ghsa), `refusals must name ${ghsa}`);
+  }
 });
 
 test('floor gate refuses a lock missing an audited entry (silent-empty defence)', () => {
-  const partial = { packages: { 'node_modules/colord': { version: '2.10.0' } } };
-  const refusals = floorRefusals(partial);
+  // Full at-floor lock with exactly ONE entry removed: must refuse once, loudly.
+  const full = { packages: {} };
+  for (const { pkg, floor } of AUDIT_FLOORS)
+    full.packages[`node_modules/${pkg}`] = { version: floor };
+  delete full.packages['node_modules/js-yaml'];
+  const refusals = floorRefusals(full);
   assert.equal(refusals.length, 1, 'a missing js-yaml entry must be a refusal, not a silent skip');
   assert.match(refusals[0], /js-yaml/);
 
@@ -189,11 +242,22 @@ test('semver floor comparison is numeric, not lexical (comparator self-check)', 
     ['3.14.0', '4.3.2'],
   ];
   for (const [version, floor] of yes) {
-    assert.equal(isAtLeast(version, floor, 'selftest'), true, `${version} should satisfy >=${floor}`);
+    assert.equal(
+      isAtLeast(version, floor, 'selftest'),
+      true,
+      `${version} should satisfy >=${floor}`,
+    );
   }
   for (const [version, floor] of no) {
-    assert.equal(isAtLeast(version, floor, 'selftest'), false, `${version} should NOT satisfy >=${floor}`);
+    assert.equal(
+      isAtLeast(version, floor, 'selftest'),
+      false,
+      `${version} should NOT satisfy >=${floor}`,
+    );
   }
-  assert.throws(() => isAtLeast('2.9.4-beta.1', '2.9.4', 'selftest'), /cannot compare/,
-    'unknown version shapes must halt, not be guessed at');
+  assert.throws(
+    () => isAtLeast('2.9.4-beta.1', '2.9.4', 'selftest'),
+    /cannot compare/,
+    'unknown version shapes must halt, not be guessed at',
+  );
 });

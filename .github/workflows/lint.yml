@@ -36,12 +36,23 @@ jobs:
       - name: Lint JS (eslint)
         if: ${{ !cancelled() }}
         run: npm run lint:js
-      - name: npm audit (moderate severity gate)
+      - name: npm audit (allow-list gate)
         if: ${{ !cancelled() }}
-        # Tightened from high -> moderate (S2): after S1 re-classified deps to
-        # tooling-only + existing overrides, `npm audit` reports 0 vulnerabilities,
-        # so a moderate gate is achievable and exits 0. See PR for evidence.
-        run: npm audit --audit-level=moderate
+        # Was: `npm audit --audit-level=moderate` (the S2 tightening — see git
+        # history). Registry-side advisory drift reddened that bare step on
+        # 2026-10-07 (run 37802257237). Five of the seven reported advisories
+        # had in-range patches and were cleared lockfile-only; two do not have
+        # any reachable fix (braces GHSA-vfj7: 3.0.3 is the newest release
+        # ever published; basic-ftp GHSA-c475: patched 6.2.1 is unreachable
+        # under get-uri's ^5.x declaration at every upstream generation).
+        # The allow-list lives IN scripts/audit-gate.mjs, not here — every
+        # entry carries its justification, an UPSTREAM WATCH removal plan,
+        # and a re-verify-by date; test/audit-gate.test.mjs pins its
+        # integrity. Exit codes: 0 clean-or-allowed-only, 1 any other
+        # advisory id, 2 broken/unreadable audit (an unread verdict is never
+        # a green one). Raw exit is preserved: no continue-on-error, no
+        # `|| true`.
+        run: node scripts/audit-gate.mjs
       # Also `!cancelled()`: this step and the audit above had never executed in
       # any run of this workflow, because an earlier step failed every time and
       # GitHub skips subsequent steps by default. `continue-on-error` only stops

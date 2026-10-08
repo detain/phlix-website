@@ -29,8 +29,9 @@
 //   2. .github/workflows/lint.yml runs the three linters as SEPARATE steps, so
 //      each gets its own row in the checks UI and "never ran" is visible rather
 //      than being indistinguishable from "ran and passed".
-//   3. Each of those steps, plus npm audit and a11y, carries `!cancelled()`, so
-//      an earlier failure cannot skip a later gate.
+//   3. Each of those steps, plus the npm-audit gate (scripts/audit-gate.mjs
+//      since the 2026-10-08 re-green) and a11y, carries `!cancelled()`, so an
+//      earlier failure cannot skip a later gate.
 //   4. The workflow file was actually parsed. A check that matched nothing
 //      passes every assertion it makes.
 //
@@ -105,11 +106,16 @@ test('no gate in the lint job can be skipped by an earlier failure', () => {
   const blocks = workflowCode.split(/^\s+- (?=name:|uses:|run:)/m).slice(1);
   assert.ok(blocks.length >= 6, `only ${blocks.length} step blocks parsed from lint.yml`);
 
+  // The bare `npm audit --audit-level=moderate` step was replaced 2026-10-08
+  // by `node scripts/audit-gate.mjs` (an allow-list gate that is STRICTER: it
+  // reddens on any un-allowlisted advisory id at any severity — see the header
+  // of scripts/audit-gate.mjs). Pin the replacement with the same !cancelled()
+  // law; test/audit-gate.test.mjs pins the gate's behaviour itself.
   const mustNotBeSkippable = [
     'npm run lint:html',
     'npm run lint:css',
     'npm run lint:js',
-    'npm audit',
+    'node scripts/audit-gate.mjs',
     'npm run a11y',
   ];
   for (const cmd of mustNotBeSkippable) {
@@ -124,4 +130,25 @@ test('no gate in the lint job can be skipped by an earlier failure', () => {
         `exactly this reason.`,
     );
   }
+});
+
+test('the audit-gate step reports raw exit — no neutering wrappers', () => {
+  const blocks = workflowCode.split(/^\s+- (?=name:|uses:|run:)/m).slice(1);
+  const block = blocks.find((b) => b.includes('run: node scripts/audit-gate.mjs'));
+  assert.ok(block, 'lint.yml has no step running scripts/audit-gate.mjs');
+  // The gate's three-way exit-code law (0 pass / 1 violation / 2 broken audit)
+  // only means something if GitHub sees the raw code. These are the exact
+  // neutering vectors this repo's history already got burned by (a11y ran for
+  // its entire life under a blanket continue-on-error).
+  assert.doesNotMatch(
+    block,
+    /continue-on-error/,
+    'the audit-gate step must not carry continue-on-error',
+  );
+  assert.doesNotMatch(
+    block,
+    /\|\|\s*true/,
+    'the audit-gate step must not swallow its exit with `|| true`',
+  );
+  assert.doesNotMatch(block, /;\s*exit\s+0/, 'the audit-gate step must not force a green exit');
 });
