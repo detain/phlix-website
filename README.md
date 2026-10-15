@@ -9,14 +9,14 @@ The marketing / landing site for **[Phlix](https://github.com/detain/phlix-serve
 
 This repo ships **one brand-themed site per brand kit**: every kit in `brand-kits/<slug>.js` gets its own subtree under `sites/<slug>/` and consumes the same shared content from `shared/content.json`, so they differ in visual language only. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
 
-| Site | Brand kit | Live Preview |
-|------|-----------|-------------|
+| Site                                        | Brand kit                       | Live Preview                                            |
+| ------------------------------------------- | ------------------------------- | ------------------------------------------------------- |
 | [`stellar-command`](sites/stellar-command/) | `brand-kits/stellar-command.js` | https://detain.github.io/phlix-website/stellar-command/ |
-| [`storm-chaser`](sites/storm-chaser/) | `brand-kits/storm-chaser.js` | https://detain.github.io/phlix-website/storm-chaser/ |
+| [`storm-chaser`](sites/storm-chaser/)       | `brand-kits/storm-chaser.js`    | https://detain.github.io/phlix-website/storm-chaser/    |
 | [`swiss-modernist`](sites/swiss-modernist/) | `brand-kits/swiss-modernist.js` | https://detain.github.io/phlix-website/swiss-modernist/ |
-| [`terraform`](sites/terraform/) | `brand-kits/terraform.js` | https://detain.github.io/phlix-website/terraform/ |
-| [`velocity-x`](sites/velocity-x/) | `brand-kits/velocity-x.js` | https://detain.github.io/phlix-website/velocity-x/ |
-| [`void-walker`](sites/void-walker/) | `brand-kits/void-walker.js` | https://detain.github.io/phlix-website/void-walker/ |
+| [`terraform`](sites/terraform/)             | `brand-kits/terraform.js`       | https://detain.github.io/phlix-website/terraform/       |
+| [`velocity-x`](sites/velocity-x/)           | `brand-kits/velocity-x.js`      | https://detain.github.io/phlix-website/velocity-x/      |
+| [`void-walker`](sites/void-walker/)         | `brand-kits/void-walker.js`     | https://detain.github.io/phlix-website/void-walker/     |
 
 Every other kit follows the same pattern — `brand-kits/` holds the full set, `sites/` holds the ones already built, and `npm run build` publishes `dist/<slug>/` for each kit that has a site plus a top-level gallery.
 
@@ -97,42 +97,20 @@ phlix-website/
 
 ## Brand source of truth
 
-Brand kits, taglines, and prompt language live in
-[`phlix-server/docs/brand/`](https://github.com/detain/phlix-server/tree/master/docs/brand):
-`brand_identity.md`, `logo_concepts.md`, `dash_ui_prompts.md`, `svg_prompts.md`.
-Sites must consume those plus their own `brand-kits/<slug>.js` — do not invent
-new colors, fonts, or voice.
+The brand source of truth lives in this repo: copy in
+`shared/content.json`, visual language per site in `brand-kits/<slug>.js`.
+(The former `phlix-server/docs/brand/` directory was removed after the
+phlix-docs merge — server commit `77e681fd` — and those files exist nowhere in
+the estate; do not point at it.) Sites must consume the shared content plus
+their own kit — do not invent new colors, fonts, or voice.
 
 ## Image generation
 
 No AI image-generation model is currently wired in. SVG and CSS-only artwork is preferred. Each site's `img/` folder includes a `PROMPTS.md` with the exact SVG/Midjourney/DALL·E prompt that should produce the artwork once a model is available.
 
-## Variant Scores (Wave Review Summary)
+## Historical variant scoring
 
-Historical — scores for the legacy `variants/` tree (removed 2026-06-30). All 25 variants scored on 10 dimensions: Accessibility, Branding, Content Quality, CTA Funnel, Localization, Performance, Responsive, SEO, Social Metadata, Usability.
-
-| Variant | Wave 1 (Final) | Wave 2 | Wave 3 | Wave 4 | Wave 5 | Avg |
-|---------|----------------|--------|--------|--------|--------|-----|
-| 01-minimalist-cinema | **80** | 71 | 61 | 79 | 75 | **73.2** |
-| 02-spotlight-projector | **79** | 68 | 72 | **83** | 79 | **76.2** |
-| 03-retro-film-reel | **57** | 78 | FAIL* | 78 | **81** | **73.5** |
-| 04-portal-hub | **78** | 55 | FAIL* | 72 | 76 | **70.3** |
-| 05-pixel-tech | **82** | 62 | FAIL* | 80 | 74 | **74.5** |
-
-\* Wave 3 variants 03, 04, 05 scored qualitative FAIL due to systematic brand aesthetic mismatches.
-
-**Top performers:** 02-spotlight-projector-4 (83), 05-pixel-tech-1 (82), 03-retro-film-reel-5 (81)
-
-**Full comparison:** See [reviews/COMPARISON.md](reviews/COMPARISON.md)
-
-## Phase I Fixes Applied (2026-05-21)
-- Removed Google Fonts CDN from 01-minimalist-cinema-5, 04-portal-hub-4
-- Fixed brand CSS variables (colors/fonts) in 01-minimalist-cinema-5, 04-portal-hub-4
-- og:image: relative → absolute URLs (97 HTML files)
-- sitemap.xml: root → variant-specific URLs (13 files)
-- Muted text contrast fixed for WCAG AA (01-4, 02-4, 02-5, 03-4)
-- Mobile nav focus trap added to 05-pixel-tech-5
-- og:site_name added to 9 index files, twitter:creator to all 25
+The legacy `variants/` wave-score summary and the 2026-05-21 Phase I fix list moved to [reviews/COMPARISON.md](reviews/COMPARISON.md#legacy-wave-scores--phase-i-fixes-migrated-from-readmemd-2026-10-15) (2026-10-15).
 
 ## Tooling notes
 
@@ -150,7 +128,7 @@ files were reported as "76 brand kit(s), 76 built site(s)", exit 0 — both
 numbers counted the survivors, so the sentence was self-consistent no matter
 how many kits broke. Three kits had been silently dropped for months, each with
 a complete site subtree that was never published. A count taken from the
-directory would have caught those, but it still self-adjusts to a *deletion*
+directory would have caught those, but it still self-adjusts to a _deletion_
 (78/78/78 is just as self-consistent), so the expected list is pinned
 independently and compared as an exact set in both directions. It is
 hand-maintained on purpose: there is no regeneration flag, because a manifest a
@@ -202,7 +180,7 @@ This repository's own contents are MIT. The fonts vendored under
 `shared/assets/fonts/` are **not** ours — all 70 families are under the SIL Open
 Font License 1.1 and are redistributed under its terms, which require their
 copyright notices to travel with them. Those are in
-[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), with the licence text bundled
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), with the license text bundled
 beside the fonts at `shared/assets/fonts/OFL.txt`. Regenerate both after adding
 a family:
 
