@@ -364,7 +364,7 @@ function buildPlugins(slug, content) {
 <a href="https://github.com/detain/phlix-plugin-example">github.com/detain/phlix-plugin-example</a></code></pre>
 
       <h2>Ecosystem plugins</h2>
-      <p>The plugin contract makes it easy to add metadata providers, transcode pipelines, or anything else you can imagine.</p>
+      <p>The public <a href="https://github.com/detain/phlix-plugins">phlix-plugins catalog</a> is live with official plugins pinned by commit and checksum, and the plugin contract makes it easy to add metadata providers, transcode pipelines, or anything else you can imagine.</p>
 
       <h2>Write your own</h2>
       <p>Start from <a href="https://github.com/detain/phlix-plugin-example">phlix-plugin-example</a> for the smallest working starter.</p>

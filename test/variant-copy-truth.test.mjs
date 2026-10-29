@@ -61,7 +61,17 @@
 // five r2 arms (see the registry block) bind each/any quantifiers, the
 // uses/knows/prompts/signs-into/connect-through verbs, the Hub-connectivity/
 // setting/credentials targets, the passive direction, and dot-list
-// enumerations that reach Tizen.
+// enumerations that reach Tizen. The M-WEBSITE-10 class — the public
+// phlix-plugins plugin catalog IS LIVE (twenty-one cataloged plugin names —
+// eight functional/metadata backends plus community themes and the reference
+// example — every entry pinned to
+// an exact commit with a verified sha256 the server checks before install; the
+// admin Plugins page browses and installs it by default) yet was marketed as a
+// future directory — is cured at its two review-cited rows (a8597e21-era,
+// stale-verified here) plus four hand-authored kit survivors this sweep cures,
+// regression-banned by the plugin-catalog literals + shape pairs at the end of
+// the registry, and law 7 pins the SSOT ecosystem entry, the pairing's teeth,
+// and every cure against drift and amputation.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -397,6 +407,68 @@ const FORBIDDEN = [
   [
     /\b(?:every|all|each|any)\s+clients?\b[^.\n]{0,45}?(?:·|•)[^.\n]{0,30}?\btizen\b/i,
     'a universal-quantifier client label whose dot-separated enumeration reaches Samsung Tizen (the cosmic-odyssey signal-path node — on the markup-collapsed form)',
+  ],
+  // M-WEBSITE-10 (review website__pm M4): the LIVE public plugin directory
+  // marketed as future. Truth coordinates (same-turn cross-read at this
+  // commit): detain/phlix-plugins@fd6bc4a — plugins.json is THE default
+  // catalog the Phlix admin Plugins section loads (README §Plugins): twenty-one
+  // unique names at fd6bc4a — the eight functional/metadata backends (AniDB,
+  // AniList, Last.fm, MusicBrainz, MyAnimeList, OMDb, OpenSubtitles, Trakt)
+  // plus community themes and the reference example; schemaVersion 2 pins every
+  // entry to an exact
+  // commit (`ref`) + codeload-tarball sha256 (`artifactSha256`) which the
+  // server verifies BEFORE installing (README §Catalog format); CI
+  // validate-catalog + the update-checksums pushes keep it current (HEAD is
+  // one such push). The review's verbatim carriers — ambient-pulse/plugins
+  // .html "Coming soon — a plugin directory…" and speakeasy-gold's "community
+  // plugins coming soon" code comment — were copy-cured at a8597e21 (stale
+  // but true, the M8 cited-rows precedent); this lane swept the CLASS and
+  // cured the four hand-authored survivors still shipping: hollywood-sign
+  // "compatible plugins will be listed here", speakeasy-gold "Watch this
+  // space as the community fills the shelves", renaissance-atelier "The
+  // ecosystem starts with the reference plugin… the collection will hold
+  // providers for additional metadata sources" (five metadata providers are
+  // listed TODAY), and cottagecore-bloom "the community will grow the
+  // selection". Each is cured to shipped truth riding its own sentence
+  // structure, and the ROOT CAUSE — the per-kit overlay diverging from the
+  // SSOT — is closed at the source too: shared/content.json ecosystem now
+  // enumerates phlix-plugins (law 7 pins it; the fact source went stale while
+  // the catalog shipped, exactly the M2–M4 diagnosis). The literals below
+  // regression-ban the four cured sentences verbatim; the pairs bind the
+  // class structurally so re-voiced or split shapes cannot re-open it — a
+  // catalog noun within one clause of a future-tense label, in either
+  // direction, is the fiction. Precision guards, measured green tree-wide and
+  // in the artifact at this commit: every branch is word-boundary anchored
+  // ("plugin development" cannot pair — the "in" has no \b after "plug|in"),
+  // the gap classes carry no digits or markup so no heading can reach a
+  // distant footer, "watch this space" binds only catalog nouns (cosmic-
+  // horror's "The void fills the shelves" art prose stays out), and honest
+  // capability roadmaps (backlot "Future: transcoder, auth, and storage
+  // backends"; the renaissance cure's "can grow to hold") use verbs outside
+  // the label set.
+  [
+    /compatible plugins will be listed here/i,
+    'the hollywood-sign "compatible plugins will be listed here" future narration (the catalog lists them today)',
+  ],
+  [
+    /watch this space as the community fills the shelves/i,
+    'the speakeasy-gold empty-shelf narration (twenty-one cataloged plugins are already on the shelves)',
+  ],
+  [
+    /the ecosystem starts with the reference plugin/i,
+    'the renaissance-atelier starts-with-only-the-example underclaim (five metadata providers alone are listed today)',
+  ],
+  [
+    /the community will grow the selection/i,
+    'the cottagecore-bloom selection-is-future framing (the catalog selection exists today)',
+  ],
+  [
+    /\b(?:plugins?|catalog(?:ue)?|marketplaces?|directories|directory|ecosystem)[a-z ,:.—–"'\n]{0,32}?\b(?:coming\s+soon|in\s+development|will\s+be\s+listed|not\s+yet\s+(?:live|available|shipped)|watch\s+this\s+space)\b/i,
+    'a plugin-catalog noun paired with a future-tense label inside one clause (the M-WEBSITE-10 class — the directory is live)',
+  ],
+  [
+    /\b(?:coming\s+soon|in\s+development|will\s+be\s+listed|not\s+yet\s+(?:live|available|shipped)|watch\s+this\s+space)[a-z ,:.—–"'\n]{0,32}?\b(?:plugins?|catalog(?:ue)?|marketplaces?|directory|ecosystem)\b/i,
+    'a future-tense label paired ahead of its plugin-catalog noun (the mirrored split — badge/value and structured shapes)',
   ],
 ];
 
@@ -879,12 +951,21 @@ test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', (
 // backlot parenthetical scope, the cavern possessive-passive model, the
 // license-list coordination, the kit art-spec, the blitzkrieg tautology, and
 // the card-grid heading family.
-const M9R2_ARMS = FORBIDDEN.slice(-5);
+// Identity-anchored (M-WEBSITE-10 lane, minimal surgery): the original
+// FORBIDDEN.slice(-5) pinned these arms by TAIL POSITION, so any later
+// registry family rotated the window out from under the proof (law 7's M10
+// block fired exactly that). Anchoring by the arms' own reason-strings keeps
+// the semantics — same five arms, same conviction set — position-independent.
+const M9R2_ARMS = FORBIDDEN.filter(([, what]) =>
+  /r1-proven law hole|with\/using bridge|"any client, and the Hub|Hub-then-universal-client|dot-separated enumeration/.test(
+    what,
+  ),
+);
 test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor', () => {
   assert.equal(
     M9R2_ARMS.length,
     5,
-    'the r2 quantifier family stopped being the registry tail — law 6 anchors moved',
+    'the r2 quantifier family left the registry (or a foreign family matched the identity anchors) — law 6 anchors moved',
   );
   const SURVIVORS = [
     // r1 ISSUE 1 items 1-12 (verbatim carriers, a81bd712):
@@ -940,4 +1021,126 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
       );
     }
   }
+});
+
+// Law 7 (M-WEBSITE-10): the plugin-catalog arms have teeth, the SSOT carries
+// the catalog fact they police, and the five cures stay cured. Mirrors law 5
+// (natives teeth) and law 6 (parent-commit conviction proofs) in idiom.
+// Identity-anchored, same lesson as law 6's r2 fix — never slice by position:
+// the four M10 literals are the only registry sources quoting their sentences;
+// the two shape pairs are the only sources carrying the escaped
+// "watch\\s+this\\s+space" alternation branch (the speakeasy literal is
+// single-spaced and stays out).
+const M10_LITERALS = FORBIDDEN.filter(([re]) =>
+  /will be listed here|fills the shelves|starts with the reference plugin|grow the selection/.test(
+    re.source,
+  ),
+);
+const M10_PAIRS = FORBIDDEN.filter(([re]) => re.source.includes('watch\\s+this\\s+space'));
+test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its cures stay cured', () => {
+  // Eight arms: four named literals + two shape pairs. If the registry loses
+  // them the law stops guarding — fail loud here, not silently in law 1.
+  assert.equal(M10_LITERALS.length, 4, 'an M-WEBSITE-10 literal left the registry');
+  assert.equal(M10_PAIRS.length, 2, 'the M-WEBSITE-10 shape pairs left the registry');
+
+  // SSOT: the fact source must enumerate the catalog. The root cause this
+  // item names is the overlay drifting from content.json AFTER features ship —
+  // here the catalog shipped and content.json never said so. If the estate
+  // ever delists the catalog repo this fails LOUD: a deliberate
+  // re-adjudication, never silent drift.
+  const eco = JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8')).ecosystem;
+  const catalogEntry = eco.find((e) => e.name === 'phlix-plugins');
+  assert.ok(
+    catalogEntry,
+    'shared/content.json ecosystem lost the phlix-plugins catalog entry — the pairing law polices a fact the SSOT no longer carries',
+  );
+  assert.match(
+    catalogEntry.repo,
+    /github\.com\/detain\/phlix-plugins$/,
+    'the SSOT catalog entry no longer points at the live catalog repo',
+  );
+  assert.match(
+    catalogEntry.what,
+    /catalog/i,
+    'the SSOT catalog entry no longer says what it is: a catalog',
+  );
+
+  // Teeth: every pre-cure survivor, both review-cited fictions, and the split
+  // shapes must convict — raw or markup-collapsed, the same engines law 1
+  // runs. A matcher that silently stopped pairing reddens this probe instead
+  // of shipping the fiction.
+  const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
+  for (const fiction of [
+    '<p>Coming soon — a plugin directory for sharing and discovering community-built plugins.</p>', // ambient-pulse, review-cited original
+    '<pre>  # ... community plugins coming soon</pre>', // speakeasy-gold, review-cited original
+    '<p>As the plugin ecosystem grows, compatible plugins will be listed here.</p>', // hollywood-sign survivor
+    '<p>Watch this space as the community fills the shelves.</p>', // speakeasy-gold survivor
+    '<p>The ecosystem starts with the reference plugin. As the community grows, the collection will hold providers for additional metadata sources.</p>', // renaissance-atelier survivor
+    '<p>As the plugin contract matures, the community will grow the selection.</p>', // cottagecore-bloom survivor
+    '<h3>Plugin catalog</h3><span>Coming soon</span>', // badge/value split — convicts on the collapsed pass
+    'status: "coming soon", topic: "plugin catalog"', // structured key/value split
+    '<p>The plugin directory is not yet live.</p>', // paraphrase inside the pair perimeter
+  ]) {
+    assert.ok(engine(fiction), `the plugin-catalog law lost its teeth: /${fiction}/ would ship`);
+  }
+
+  // Acquittals (WEB-06r4 negative-proof standard, permanent): the honest
+  // neighbors this sweep measured and kept legal. Overreach reddens here.
+  for (const legal of [
+    '<p>The plugin directory is live — share and discover community-built plugins through the public phlix-plugins catalog.</p>', // the a8597e21 model cure
+    '<p>The plugin directory is live — the public phlix-plugins catalog lists official plugins, each pinned to an exact commit and verified by sha256 checksum before install.</p>', // the hollywood cure
+    '<p>The shelves are stocked — the public phlix-plugins catalog lists community plugins, pinned to exact commits and verified by checksum.</p>', // the speakeasy cure
+    '<p>The collection is already on the shelf — the contract is open, so the collection can grow to hold custom transcoding pipelines and specialised renderer backends as authors write them.</p>', // the renaissance cure + honest roadmap
+    '<p>Phlix documentation includes plugin development, lifecycle hooks, manifest schema, and the plugin example repo.</p>', // the "plug|in development" \b trap
+    '<li>Future: transcoder, auth, and storage backends</li>', // backlot honest plugin-TYPE roadmap
+    '<p>The plugin ecosystem grows as more developers extend Phlix.</p>', // library-amber present tense
+    '<p>Drop the plugin directory into plugins/ and the loader discovers it on the next server start.</p>', // filesystem noun, no future label
+    '<p>The void fills the shelves.</p>', // cosmic-horror kit art prose
+  ]) {
+    assert.ok(
+      !engine(legal),
+      `the plugin-catalog law over-reaches: honest copy /${legal}/ convicts`,
+    );
+  }
+
+  // Cures stay cured (anti-amputation, law 5 idiom): each cured page still
+  // carries its shipped-catalog truth where the fiction used to sit.
+  for (const [rel, needle] of [
+    ['sites/ambient-pulse/plugins.html', /The plugin directory is live/i], // a8597e21-era, pinned as model copy
+    [
+      'sites/hollywood-sign/plugins.html',
+      /The plugin directory is live[^\n]*phlix-plugins catalog lists official plugins/is,
+    ],
+    ['sites/speakeasy-gold/plugins.html', /The shelves are stocked/i],
+    ['sites/renaissance-atelier/plugins.html', /already on the shelf/i],
+    ['sites/cottagecore-bloom/plugins.html', /selection is growing/i],
+  ]) {
+    const flat = stripMarkup(readFileSync(join(ROOT, rel), 'utf8'));
+    assert.match(flat, needle, `${rel}: the M-WEBSITE-10 cure drifted away`);
+  }
+
+  // Real coordinates (WEB-08 idiom): every cured row that names the catalog
+  // links the live catalog repo — prose truth without a reachable source is
+  // half a cure. The legacy render.mjs scaffold template (not the deployed
+  // build path — build.mjs ships the sources above) carries the same href so
+  // the historical generator cannot mint fresh linkless copy.
+  for (const rel of [
+    'sites/ambient-pulse/plugins.html',
+    'sites/hollywood-sign/plugins.html',
+    'sites/speakeasy-gold/plugins.html',
+    'sites/renaissance-atelier/plugins.html',
+    'sites/cottagecore-bloom/plugins.html',
+  ]) {
+    const raw = readFileSync(join(ROOT, rel), 'utf8');
+    assert.match(
+      raw,
+      /href="https:\/\/github\.com\/detain\/phlix-plugins"/,
+      `${rel}: the M-WEBSITE-10 cure lost its link to the live catalog repo`,
+    );
+  }
+  assert.match(
+    readFileSync(join(ROOT, 'tools', 'render.mjs'), 'utf8'),
+    /The public <a href="https:\/\/github\.com\/detain\/phlix-plugins">phlix-plugins catalog<\/a> is live/,
+    'tools/render.mjs: the generated plugins page no longer links the live catalog repo',
+  );
 });
