@@ -23,6 +23,7 @@
 import http from 'node:http';
 import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { CSP_HEADER } from './csp.mjs';
 
 const argv = process.argv.slice(2);
 
@@ -52,21 +53,14 @@ function discoverSites() {
 
 const ALL_SITES = discoverSites();
 
-// Content-Security-Policy baseline for phlix-website — kept byte-identical to
-// the production policy in `_headers`, so a CSP violation shows up locally
-// instead of only on Pages. Fonts are self-hosted (no external CDN) and no
-// inline scripts are allowed.
-const CSP = [
-  "default-src 'self'",
-  "script-src 'self'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
-  "font-src 'self'",
-  "connect-src 'self'",
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-].join('; ');
+// Content-Security-Policy served as a real header locally, so violations show
+// up in dev instead of only on a front that is not in today's deploy path. The
+// string is tools/csp.mjs — the SAME source of truth the build injects as meta
+// and `_headers` declares for a headers-capable host. (A private copy used to
+// live here claiming byte-identity with `_headers` in a comment; it had
+// drifted into a policy the real pages could not run. test/csp-gate.test.mjs
+// law 3 forbids re-forking it.)
+const CSP = CSP_HEADER;
 
 // MIME types
 const MIME = {

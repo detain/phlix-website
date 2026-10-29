@@ -8,8 +8,10 @@
  * WHY: typography is a primary brand-kit dimension (`brand-kits/<slug>.js` →
  * `fonts{}`), and it was not rendering on 45 of 50 sites — broken `src` paths,
  * `src: local()`-only blocks, or an external `fonts.googleapis.com` <link> that
- * both violates new_site.md §7 ("self-host fonts, no CDNs") and the documented
- * CSP in `_headers` (`font-src 'self'`). See plan_site_regen.md §0.4.
+ * both violates new_site.md §7 ("self-host fonts, no CDNs") and the CSP
+ * `font-src` (self-hosted for kit sites; the one fonts.gstatic.com allowance
+ * exists solely for the root gallery's stylesheet — see tools/csp.mjs).
+ * See plan_site_regen.md §0.4.
  *
  * LAYOUT DECISION — one shared, deduplicated pool, not 50 per-site copies:
  *

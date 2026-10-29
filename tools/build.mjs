@@ -24,6 +24,7 @@ import {
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { SITE_URL, buildSitemap, robotsTxt, sitemapUrls } from './gen-sitemap.mjs';
+import { CSP_META_TAG } from './csp.mjs';
 
 /**
  * Simple CSS minifier - removes comments, collapses whitespace, optimizes.
@@ -213,6 +214,14 @@ writeFileSync(join(DIST, 'index.html'), indexPage(kitSummaries), 'utf8');
 // uses to hand off to each kit's own themed 404 page.
 writeFileSync(join(DIST, '404.html'), errorPage(errorKits), 'utf8');
 
+// Ship the CSP INSIDE the documents (review website__devops M-WEBSITE-03): the
+// deploy host is GitHub Pages, which has no custom-response-header mechanism
+// and ignores `_headers` entirely. The meta-expressable directives therefore
+// ride in every emitted page; `frame-ancestors` is header-only (browsers drop
+// it in meta) and stays out — see tools/csp.mjs and the README security
+// section for the honest host-config split.
+const cspPages = injectCspMeta(DIST);
+
 // Sitemap of every built site's canonical URLs + robots.txt that references it.
 // ROOT is passed explicitly: this script's root is `process.cwd()` so it can be
 // aimed at a fixture, while gen-sitemap.mjs defaults to a root derived from its
@@ -222,7 +231,10 @@ const urls = sitemapUrls(null, ROOT);
 writeFileSync(join(DIST, 'sitemap.xml'), buildSitemap(urls), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
 
-// Cloudflare Pages headers file (S4: Content-Security-Policy)
+// The `_headers` file is emitted for a headers-supporting origin only (it is
+// inert on GitHub Pages — kept because it is the config to activate if the
+// site is ever fronted by Cloudflare). The live, shipped policy is the meta
+// tag injected above; both forms come from tools/csp.mjs.
 if (existsSync(resolve(ROOT, '_headers'))) {
   cpSync(resolve(ROOT, '_headers'), join(DIST, '_headers'));
 }
@@ -256,7 +268,8 @@ if (emittedSiteDirs.length !== builtCount) {
 console.log(
   `[build] ${kitFiles.length} brand kit file(s) on disk (pinned: ${EXPECTED.count}), ` +
     `${kitSummaries.length} loaded, ${emittedSiteDirs.length} site(s) emitted to dist/ ` +
-    `+ index + 404 shim (${themed404Count} themed) + sitemap (${urls.length} URLs) → ${DIST}`,
+    `+ index + 404 shim (${themed404Count} themed) + sitemap (${urls.length} URLs) ` +
+    `+ CSP meta on ${cspPages} HTML page(s) → ${DIST}`,
 );
 for (const k of kitSummaries) {
   console.log(`  ${k.built ? '✓' : '·'} ${k.slug}${k.built ? '' : ' (no site yet)'}`);
@@ -406,4 +419,46 @@ function minifyCssDir(dir) {
       writeFileSync(fullPath, minified, 'utf8');
     }
   }
+}
+
+/**
+ * Inject the CSP meta tag as the FIRST element of <head> in every HTML file
+ * under `dir`, and return how many files were stamped.
+ *
+ * Position is the point: a meta CSP governs only content that appears after it
+ * during parsing, so any <script>/<link> that precedes the tag would load
+ * ungoverned. Head-first also beats the build's own manifest injection (which
+ * rides at </head>), pinning the policy over the gallery's inline scripts.
+ *
+ * Every miss is a hard build failure, never a silent partial ship: zero HTML
+ * found, a page without <head>, or a page that already carries the tag (a
+ * double injection would ship two conflicting policies — the first wins) all
+ * throw with the offending path.
+ */
+function injectCspMeta(dir) {
+  const files = [];
+  const walk = (d) => {
+    for (const entry of readdirSync(d, { withFileTypes: true })) {
+      const fullPath = join(d, entry.name);
+      if (entry.isDirectory()) walk(fullPath);
+      else if (entry.isFile() && entry.name.endsWith('.html')) files.push(fullPath);
+    }
+  };
+  walk(dir);
+  if (files.length === 0) {
+    throw new Error(`build: CSP injection found no HTML under ${dir} — the site did not ship`);
+  }
+  for (const file of files) {
+    const html = readFileSync(file, 'utf8');
+    if (html.includes(CSP_META_TAG)) {
+      throw new Error(`build: CSP meta already present in ${file} — refusing to double-inject`);
+    }
+    const head = /<head\b[^>]*>/i.exec(html);
+    if (!head) {
+      throw new Error(`build: ${file} has no <head> to carry the CSP meta`);
+    }
+    const at = head.index + head[0].length;
+    writeFileSync(file, html.slice(0, at) + `\n` + CSP_META_TAG + html.slice(at), 'utf8');
+  }
+  return files.length;
 }

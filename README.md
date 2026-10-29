@@ -191,6 +191,35 @@ environment protection rules remain owner settings actions
 (`Settings → Branches / Environments`) — the workflow gating closes the
 publish path, not a bypass via a differently-triggered action.
 
+## Security headers — the honest split (what ships vs what the host must do)
+
+This site is served by **GitHub Pages**, which ignores `_headers` entirely: it
+has no custom-response-header mechanism. So the repo separates what it can
+enforce from the artifact alone from what only a fronting host could do
+(review `website__devops` M-WEBSITE-03):
+
+| Surface                             | Form                                                                                                      | Live on GitHub Pages?                                                                                                          |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `tools/build.mjs` + `tools/csp.mjs` | CSP as `<meta http-equiv>` injected into **every** page emitted to `dist/` (723 HTML files at 2026-10-29) | **Yes** — this is the shipped CSP                                                                                              |
+| `_headers` (copied into `dist/`)    | CSP header + `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy`          | Only if the origin is ever fronted by a headers-supporting host (Cloudflare Pages/Workers, nginx, …) — kept ready for that day |
+| `tools/dev-server.mjs`              | The header form served locally during `npm run dev`                                                       | Yes (dev only)                                                                                                                 |
+
+What the policy cannot cover on today's host is a **host-config TODO for the
+owner**: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and
+the CSP's own `frame-ancestors 'self'` directive (browsers ignore
+`frame-ancestors` inside a `<meta>`) are all unenforced until a
+headers-capable front serves `_headers`. Fronting GitHub Pages with Cloudflare
+(or moving host) is the decision that makes them real.
+
+The allowances in the policy are measured, not aspirational: the gallery and
+404 shim run inline scripts and 8 kit pages carry inline islands, so
+`script-src` must allow `'unsafe-inline'` or the site disables itself; the root
+gallery's stylesheet is the only external font source (kits self-host woff2).
+`test/csp-gate.test.mjs` pins all of it: meta/header forms split at exactly the
+platform boundary, `_headers` byte-matches the single source in
+`tools/csp.mjs`, and both a constructed fixture build **and** the real repo
+build must stamp the meta tag as the first element of every emitted page.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
