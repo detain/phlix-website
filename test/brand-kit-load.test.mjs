@@ -124,7 +124,10 @@ function makeFixture(kits, { pinFiles = null } = {}) {
   // S277: Pages serves this one document for any missing path, so a site-
   // absolute href is right in a browser but unresolvable to the offline `links`
   // gate, which reads it as the filesystem path "phlix-website/".)
-  writeFileSync(join(dir, 'index.html'), '<html><head></head><body>gallery</body></html>', 'utf8');
+  // The root index.html is the REAL landing template since M-WEBSITE-05:
+  // build.mjs pins its hero copy against shared/content.json (assertLandingHero)
+  // and throws on anything else.
+  writeFileSync(join(dir, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
   writeFileSync(
     join(dir, '404.html'),
     `<html><head></head><body><a href="${SITE_URL}/">home</a></body></html>`,

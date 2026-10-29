@@ -118,6 +118,16 @@ const EXPECTED = JSON.parse(readFileSync(resolve(SRC_KITS, 'expected-kits.json')
 // location.pathname before reading the kit slug.
 const BASE_PATH = new URL(SITE_URL).pathname.replace(/\/+$/, '');
 
+// shared/content.json resolved from THIS script, not from process.cwd(): the
+// root index.html is a hand-authored landing page whose hero/install copy must
+// stay byte-equal to the content SSOT (the same discipline as the 404 fallback
+// link below). Fixture builds in test/ run with cwd=tmpdir but must still be
+// measured against the repo's canonical copy — exactly like SITE_URL above,
+// which gen-sitemap.mjs likewise derives from the script location.
+const LANDING_CONTENT = JSON.parse(
+  readFileSync(new URL('../shared/content.json', import.meta.url), 'utf8'),
+);
+
 const kitSummaries = [];
 const errorKits = {};
 // Every kit that could not be turned into a usable object, with the reason.
@@ -336,8 +346,68 @@ function keepInSite(src) {
   );
 }
 
+/**
+ * The root page is the value-prop landing (review website__newcomer
+ * M-WEBSITE-05: it used to be a bare skin gallery with no hero and no path to
+ * install). Its hero copy and install command are hand-authored IN THE
+ * TEMPLATE — like the 404 fallback link, the build is what keeps them honest:
+ * if content.json and the template drift apart in either direction, fail loud
+ * instead of shipping a landing page that quietly contradicts its own SSOT.
+ * Whitespace is folded on both sides because prettier re-wraps long prose
+ * lines in HTML; it never changes the words.
+ */
+function assertLandingHero(template) {
+  const foldWs = (s) => s.replace(/\s+/g, ' ').trim();
+  const folded = foldWs(template);
+  const c = LANDING_CONTENT;
+  // The headline must be the H1 specifically — a stray occurrence anywhere
+  // else on the page (a <title>, say) is not a value-prop heading. Proven
+  // necessary by law 7 of test/root-value-prop.test.mjs: an h1-substitution
+  // mutation sails past a bare includes() because the title carries the words.
+  const h1 = /<h1[^>]*>([\s\S]*?)<\/h1>/.exec(template);
+  if (!h1 || foldWs(h1[1].replace(/<[^>]*>/g, '')) !== foldWs(c.hero.headline)) {
+    throw new Error(
+      `build: root index.html no longer carries the hero headline from shared/content.json ` +
+        `IN ITS <h1> (expected ${JSON.stringify(c.hero.headline)}) — ` +
+        `the landing page's value prop and its SSOT have drifted.`,
+    );
+  }
+  for (const [what, needle] of [
+    ['hero subheadline', c.hero.subheadline],
+    ['install command (install.primary.command)', c.install.primary.command],
+    ['install docs link (install.docs_url)', c.install.docs_url],
+    ['secondary CTA href', c.hero.secondary_cta.href],
+  ]) {
+    if (!folded.includes(foldWs(needle))) {
+      throw new Error(
+        `build: root index.html no longer carries the ${what} from shared/content.json — ` +
+          `the landing hero and its SSOT have drifted. Keep them byte-equal ` +
+          `(same discipline as the 404 no-JS fallback link).`,
+      );
+    }
+  }
+  // The primary CTA must resolve on the root page. Its target comes from the
+  // SSOT itself: since M-WEBSITE-05 that is an on-page anchor (a fragment link
+  // cannot 404); the historic value named a /download path that never existed.
+  const ctaHref = c.hero.primary_cta.href;
+  if (!/^#.+/.test(ctaHref)) {
+    throw new Error(
+      `build: shared/content.json hero.primary_cta.href is ${JSON.stringify(ctaHref)} — ` +
+        `the root landing's primary CTA must be an on-page #anchor (site-absolute paths ` +
+        `like /download have no target at the Pages root).`,
+    );
+  }
+  if (!template.includes(`href="${ctaHref}"`) || !template.includes(`id="${ctaHref.slice(1)}"`)) {
+    throw new Error(
+      `build: root index.html lost the primary CTA (href="${ctaHref}") or its target ` +
+        `section (id="${ctaHref.slice(1)}") — the landing page must offer a working path to get Phlix.`,
+    );
+  }
+}
+
 function indexPage(kits) {
   const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
+  assertLandingHero(template);
   const inject = `<script>` + `window.__PHLIX_KITS__=${JSON.stringify(kits)};` + `</script>`;
   // Inject in <head> so it runs before the page's main inline script reads it.
   if (!template.includes('</head>')) {

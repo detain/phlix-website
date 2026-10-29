@@ -101,7 +101,9 @@ function makeFixture({ deployed, authoredOnly = [] }) {
     JSON.stringify({ count: deployed.length, kits: deployed.map((s) => `${s}.js`).sort() }),
     'utf8',
   );
-  writeFileSync(join(dir, 'index.html'), '<html><head></head><body>gallery</body></html>', 'utf8');
+  // Real landing template — build.mjs pins its hero copy against
+  // shared/content.json (assertLandingHero, M-WEBSITE-05); a stub throws.
+  writeFileSync(join(dir, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
   writeFileSync(
     join(dir, '404.html'),
     `<html><head></head><body><a href="${SITE_URL}/">home</a></body></html>`,

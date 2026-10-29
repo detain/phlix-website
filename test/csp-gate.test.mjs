@@ -139,11 +139,11 @@ function makeFixture() {
     'utf8',
   );
 
-  writeFileSync(
-    join(dir, 'index.html'),
-    '<!doctype html><html><head><meta charset="utf-8"></head><body><script>gallery()</script></body></html>',
-    'utf8',
-  );
+  // The REAL root landing template. Since M-WEBSITE-05, build.mjs fail-loud
+  // pins its hero/install copy against shared/content.json (assertLandingHero),
+  // so a toy stub no longer survives the build this law measures — and a copy
+  // of the shipped template is the honest fixture anyway.
+  writeFileSync(join(dir, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
   writeFileSync(
     join(dir, '404.html'),
     `<html><head><meta charset="utf-8"><script>shim()</script></head><body><a href="${SITE_URL}/">home</a></body></html>`,

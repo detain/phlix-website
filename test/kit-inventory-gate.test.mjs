@@ -96,7 +96,9 @@ function makeFixture(kits, { pinFiles = null, pinCount = null, sites = true } = 
     JSON.stringify({ count: pinCount ?? files.length, kits: files }, null, 2),
     'utf8',
   );
-  writeFileSync(join(dir, 'index.html'), '<html><head></head><body>gallery</body></html>', 'utf8');
+  // Real landing template — build.mjs pins its hero copy against
+  // shared/content.json (assertLandingHero, M-WEBSITE-05); a stub throws.
+  writeFileSync(join(dir, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
   // The no-JS gallery link must be the site's real fully-qualified URL or
   // tools/build.mjs reds on THAT check instead of the one under test (S277).
   writeFileSync(

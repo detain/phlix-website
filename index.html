@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phlix Website Brand Kits</title>
+    <title>Phlix — Your media. Your library. Your Phlix.</title>
+    <meta
+      name="description"
+      content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -81,29 +85,81 @@
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
       }
 
-      header {
-        padding: 0.75rem 2rem 0.85rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+      /* ── Site header: thin identity + escape hatches, never the content ── */
+      .site-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.9rem 2rem;
+        border-bottom: 1px solid var(--border);
       }
 
-      header::after {
+      .wordmark {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .site-head nav {
+        display: flex;
+        gap: 1.25rem;
+      }
+
+      .site-head nav a {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        color: var(--text-secondary);
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .site-head nav a:hover {
+        color: var(--accent);
+      }
+
+      /* ── Layout column ── */
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem 3rem;
+      }
+
+      /* ── Hero: the value proposition, first thing on the page ── */
+      .hero {
+        text-align: center;
+        padding: clamp(3rem, 9vh, 6rem) 0 2.5rem;
+        position: relative;
+      }
+
+      .hero::after {
         content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
+        display: block;
         width: 120px;
         height: 1px;
+        margin: 2.5rem auto 0;
         background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      }
+
+      .hero-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.8rem;
+        color: var(--accent-alt);
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        margin-bottom: 0.9rem;
       }
 
       h1 {
         font-size: clamp(1.9rem, 4vw, 2.75rem);
         font-weight: 800;
         letter-spacing: -0.02em;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.6rem;
         background: linear-gradient(
           135deg,
           var(--text-primary) 0%,
@@ -115,23 +171,190 @@
         background-clip: text;
       }
 
+      .hero-sub {
+        max-width: 620px;
+        margin: 0 auto 1.4rem;
+        font-size: 1.02rem;
+        line-height: 1.65;
+        color: var(--text-secondary);
+      }
+
+      .hero-cta {
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.1rem;
+      }
+
+      .btn {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--bg-deep);
+        box-shadow: 0 6px 24px rgba(232, 255, 71, 0.18);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 8px 30px rgba(232, 255, 71, 0.3);
+      }
+
+      .btn-secondary {
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .hero-free {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.76rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.04em;
+      }
+
+      .pitch {
+        list-style: none;
+        max-width: 680px;
+        margin: 1.8rem auto 0;
+        text-align: left;
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .pitch li {
+        position: relative;
+        padding-left: 1.5rem;
+        font-size: 0.94rem;
+        color: var(--text-primary);
+      }
+
+      .pitch li::before {
+        content: '▸';
+        position: absolute;
+        left: 0.2rem;
+        color: var(--accent);
+      }
+
+      /* ── Install: the primary CTA target, copy is content.json SSOT verbatim ── */
+      .install {
+        margin: 2rem auto;
+        padding: 2rem clamp(1.2rem, 4vw, 2.5rem);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      .install h2,
+      .themes h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.5rem;
+      }
+
+      .install .label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.82rem;
+        color: var(--accent-alt);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 1rem;
+      }
+
+      .cmd {
+        position: relative;
+        background: var(--bg-deep);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        overflow-x: auto;
+      }
+
+      .cmd code {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.86rem;
+        color: var(--accent);
+        white-space: pre;
+      }
+
+      .install .requirements {
+        margin-top: 1rem;
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+
+      .install .fine {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .install-links {
+        margin-top: 1.2rem;
+        display: flex;
+        gap: 1.4rem;
+        flex-wrap: wrap;
+      }
+
+      .install-links a {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.82rem;
+        color: var(--accent-alt);
+      }
+
+      .install-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ── Themes: the brand-kit gallery, contextualised below the fold ── */
+      .themes {
+        padding-top: 2rem;
+      }
+
+      .themes-head {
+        text-align: center;
+        margin-bottom: 0.9rem;
+      }
+
+      .themes-head p {
+        font-size: 0.94rem;
+        color: var(--text-secondary);
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
       .subtitle {
         font-family: 'Space Mono', monospace;
         font-size: 0.875rem;
         color: var(--text-secondary);
         text-transform: uppercase;
         letter-spacing: 0.2em;
-      }
-
-      main {
-        padding: 0.5rem 1rem 2rem;
-        max-width: none;
-        margin: 0;
+        text-align: center;
+        margin-bottom: 0.9rem;
       }
 
       /* One continuous grid for every variant. Cards are ordered by set and
-           grouped only by color (no per-set section blocks), so rows can mix the
-           tail of one set with the head of the next without a forced row break. */
+         grouped only by color (no per-set section blocks), so rows can mix the
+         tail of one set with the head of the next without a forced row break. */
       .variants-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -174,9 +397,9 @@
       }
 
       /* Hover: enlarge the preview into an UNDISTORTED ~3x-wide / ~2x-tall
-           popout that stays while the cursor is over it. The container stretches
-           by (--zoom-x, --zoom-y); the iframe counter-stretches (below) so the
-           net scale is uniform — the site grows without distorting. */
+         popout that stays while the cursor is over it. The container stretches
+         by (--zoom-x, --zoom-y); the iframe counter-stretches (below) so the
+         net scale is uniform — the site grows without distorting. */
       .variant-card:hover .preview-container {
         transform: scale(var(--zoom-x), var(--zoom-y));
         box-shadow:
@@ -188,9 +411,9 @@
 
       .preview-container iframe {
         /* Render the variant at full desktop width (PREVIEW_WIDTH px) then
-               scale the whole frame down so the entire width of the site is
-               visible inside the card, instead of a clipped narrow viewport.
-               --preview-scale is set per-card in JS from the card's width. */
+           scale the whole frame down so the entire width of the site is
+           visible inside the card, instead of a clipped narrow viewport.
+           --preview-scale is set per-card in JS from the card's width. */
         width: 1280px;
         height: calc(100% / var(--preview-scale, 0.25));
         border: none;
@@ -204,7 +427,7 @@
       }
 
       /* Counter-stretch so container(--zoom-x,--zoom-y) ∘ iframe scale nets to
-           a uniform (--preview-scale * --zoom-x) in both axes → no distortion. */
+         a uniform (--preview-scale * --zoom-x) in both axes → no distortion. */
       .variant-card:hover .preview-container iframe {
         transform: scale(
           var(--preview-scale, 0.25),
@@ -284,7 +507,7 @@
       }
 
       /* Each chip is tinted with one of the variant's own palette colours
-           (set inline as --chip-color), foreground border + soft background. */
+         (set inline as --chip-color), foreground border + soft background. */
       .chip {
         font-size: 0.72rem;
         color: var(--text-primary);
@@ -323,7 +546,7 @@
       }
 
       /* Cards whose brand kit has no built site yet: dimmed, not clickable,
-           and never zoom on hover (there is no preview to enlarge). */
+         and never zoom on hover (there is no preview to enlarge). */
       .variant-card.unbuilt {
         cursor: default;
         opacity: 0.72;
@@ -381,6 +604,23 @@
         margin-top: 2rem;
       }
 
+      footer .foot-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.4rem;
+        flex-wrap: wrap;
+        margin-top: 0.8rem;
+      }
+
+      footer a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        color: var(--accent);
+      }
+
       /* Staggered entrance animation */
       .variant-card {
         opacity: 0;
@@ -414,7 +654,8 @@
         background: var(--text-secondary);
       }
 
-      /* Hover instruction */
+      /* Hover instruction — fixed chip, but it only speaks while the gallery
+         is on screen (the hero and install sections fill the first fold). */
       .hover-hint {
         position: fixed;
         bottom: 2rem;
@@ -427,14 +668,23 @@
         padding: 0.5rem 1rem;
         border-radius: 20px;
         border: 1px solid var(--border);
-        opacity: 0.7;
+        opacity: 0;
+        pointer-events: none;
         transition: opacity 0.3s ease;
         z-index: 100;
       }
 
+      .hover-hint.shown {
+        opacity: 0.7;
+      }
+
       @media (max-width: 768px) {
         main {
-          padding: 1rem;
+          padding: 0 1rem 2rem;
+        }
+
+        .site-head {
+          padding: 0.8rem 1rem;
         }
 
         .variants-grid {
@@ -455,21 +705,88 @@
     </style>
   </head>
   <body>
-    <header>
-      <h1>Phlix Brand Kits</h1>
-      <p class="subtitle">
-        Brand-kit site previews — each kit is a full marketing skin for Phlix, the open-source PHP
-        media server. Open one to see how the same product speaks in a different voice.
-      </p>
+    <header class="site-head">
+      <a class="wordmark" href="./">Phlix</a>
+      <nav>
+        <a href="https://detain.github.io/phlix-docs">Docs</a>
+        <a href="https://github.com/detain/phlix-server">GitHub</a>
+      </nav>
     </header>
 
-    <main id="variants-container">
-      <!-- Brand-kit cards are injected here by JavaScript -->
+    <main>
+      <section class="hero">
+        <p class="hero-eyebrow">Self-hosted media server</p>
+        <h1>Your media. Your library. Your Phlix.</h1>
+        <p class="hero-sub">
+          An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop,
+          phone, and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows
+          you anywhere.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#install">Get Phlix</a>
+          <a class="btn btn-secondary" href="https://detain.github.io/phlix-docs">Read the docs</a>
+        </div>
+        <p class="hero-free">
+          Free and open source — server and hub under MPL-2.0, shared libraries, plugins and clients
+          under MIT. Run Phlix on your own hardware.
+        </p>
+        <ul class="pitch">
+          <li>100% self-hostable — your library never leaves your hardware unless you say so</li>
+          <li>Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync</li>
+          <li>Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles</li>
+          <li>Plugin system with a versioned manifest contract</li>
+        </ul>
+      </section>
+
+      <section id="install" class="install">
+        <h2>Install Phlix</h2>
+        <p class="label">One line, on a fresh Ubuntu or Debian host</p>
+        <pre
+          class="cmd"
+        ><code>curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
+        <p class="requirements">
+          PHP 8.3+, MySQL, ffmpeg. The installer targets a fresh Ubuntu/Debian host and also
+          compiles the Swoole and php-uv extensions from source, skipping the build when they
+          already load.
+        </p>
+        <p class="fine">
+          Prompts for install path, database credentials and hostname when run in a terminal; runs
+          fully unattended when piped or given -y. Default ports: HTTP on :8096 behind HAProxy on
+          :80/:443, DLNA discovery on 1900/udp.
+        </p>
+        <p class="install-links">
+          <a href="https://detain.github.io/phlix-docs/install/linux">Linux install guide</a>
+          <a href="https://github.com/detain/phlix-server/releases">Latest server releases</a>
+          <a href="#themes">Browse the themes below</a>
+        </p>
+      </section>
+
+      <section id="themes" class="themes">
+        <div class="themes-head">
+          <h2>Your server, your look: official brand-kit themes</h2>
+          <p>
+            Every Phlix marketing skin in the estate, live. Each brand kit is a full themed site —
+            open one to see how the same product speaks in a different voice.
+          </p>
+        </div>
+        <p class="subtitle">Brand-kit site previews — hover to enlarge, click to open.</p>
+        <div id="variants-container">
+          <!-- Brand-kit cards are injected here by JavaScript -->
+        </div>
+      </section>
     </main>
 
     <div class="hover-hint">Hover to preview &middot; Click to open</div>
 
-    <footer>Phlix Website Brand Kits &middot; Built with intention</footer>
+    <footer>
+      Open-source media, on your terms.
+      <div class="foot-links">
+        <a href="https://detain.github.io/phlix-docs">Documentation</a>
+        <a href="https://github.com/detain/phlix-server">Server source</a>
+        <a href="https://github.com/detain/phlix-hub">Hub</a>
+        <a href="https://github.com/detain/phlix-server/blob/master/LICENSE">License (MPL-2.0)</a>
+      </div>
+    </footer>
 
     <script>
       // tools/build.mjs injects window.__PHLIX_KITS__ — one entry per brand
@@ -670,6 +987,20 @@
           clearTimeout(resizeTimer);
           resizeTimer = setTimeout(applyAllPreviewScales, 150);
         });
+
+        // The hover instruction belongs to the gallery, not to the page: only
+        // show it while the gallery section is actually on screen.
+        const hint = document.querySelector('.hover-hint');
+        if (hint) {
+          new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                hint.classList.toggle('shown', entry.isIntersecting);
+              }
+            },
+            { rootMargin: '-20% 0px -20% 0px' },
+          ).observe(container);
+        }
       }
 
       init();
