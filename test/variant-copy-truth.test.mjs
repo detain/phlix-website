@@ -957,7 +957,10 @@ function tizenHubEnumerationViolations(text) {
     for (const [re, what] of HUB_ENUM_ARMS) {
       for (const m of c.matchAll(re)) {
         const tPos = m.index + m[0].toLowerCase().lastIndexOf('tizen') + 'tizen'.length;
-        if (/\bdirect/i.test(c.slice(tPos, tPos + 45))) continue; // honest direct-play row
+        // Bounded (r7-3): the old /\bdirect/i let 'in every direction' launder a
+        // check-marked Tizen row (the r7 P-C probe). 'Direct play', 'directly' and
+        // 'direct connection' keep their honest skip; 'direction' loses it.
+        if (/\bdirect(?:ly)?\b/i.test(c.slice(tPos, tPos + 45))) continue; // honest direct-play row
         const runStart = Math.max(0, c.lastIndexOf('.', m.index) + 1);
         let runEnd = c.indexOf('.', tPos);
         if (runEnd === -1) runEnd = Math.min(c.length, m.index + 220);
@@ -1063,7 +1066,11 @@ const ROOT_TEMPLATES = new Set(['index.html', '404.html', '_headers']);
 // scans this file with ONLY those regions blanked — affirmative prose,
 // helpers and test code outside the sentinels are policed like any tracked
 // file. Both directions are pinned in law 10 (sentinel must not become a
-// second amnesia hole).
+// second amnesia hole). The r8-F2 split of duties: law 1's fingerprint sweep
+// stays RAW outside the sentinels (commented-out markup can be re-lived; a
+// fingerprint does not need a reader), while law 10's census polices this file
+// on the narrower CLAIM SURFACE — masked regions minus comments/meta, see
+// censusSurface (a fabrication sentence nobody renders makes no shipped claim).
 const SELF_LAW = 'test/variant-copy-truth.test.mjs';
 const LIT_BEGIN_RE = /^\s*\/\/[^\S\n]*LIT-FIXTURE-BEGIN\b/;
 const LIT_END_RE = /^\s*\/\/[^\S\n]*LIT-FIXTURE-END\b/;
@@ -1129,11 +1136,7 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
     if (law1Exemption(rel)) continue;
     scanned++;
     const text = readFileSync(join(ROOT, rel), 'utf8');
-    paired += assertCleanBothForms(
-      rel === SELF_LAW ? maskLitRegions(text) : text,
-      rel,
-      rel,
-    );
+    paired += assertCleanBothForms(rel === SELF_LAW ? maskLitRegions(text) : text, rel, rel);
   }
   // Non-vacuity: the perimeter must actually be the whole tree, not a filter
   // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
@@ -1440,7 +1443,7 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
     '<h3>Plugin catalog</h3><span>Coming soon</span>', // badge/value split — convicts on the collapsed pass
     'status: "coming soon", topic: "plugin catalog"', // structured key/value split
     '<p>The plugin directory is not yet live.</p>', // paraphrase inside the pair perimeter
-  // LIT-FIXTURE-END law7-plugin-fixture-plants
+    // LIT-FIXTURE-END law7-plugin-fixture-plants
   ]) {
     assert.ok(engine(fiction), `the plugin-catalog law lost its teeth: /${fiction}/ would ship`);
   }
@@ -1546,6 +1549,10 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
       'hub-tunnel diagram node (library-amber S4)',
       '<section><h2>How the Hub works</h2><p>Your devices reach in through the same tunnel.</p><div class="hub-node"><h4>Your devices</h4><p>Roku, Tizen, Windows, mobile at a friend&rsquo;s house</p></div></section>',
     ],
+    [
+      'direction-laundered check-row (r7 P-C — the forward-skip boundary ask)',
+      '<section><h2>Hub Mode in Clients</h2><p>The Roku, Windows, and Mobile clients support Hub mode.</p><ul><li><span>\u2713</span> Samsung Tizen works in every direction</li></ul></section>',
+    ],
   ];
   for (const [name, plant] of PLANTS) {
     const violations = tizenHubEnumerationViolations(plant);
@@ -1559,8 +1566,11 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
   // every shape the r1/r2 reviews adjudicated TRUE, kept legal by the direct-
   // frame / DLNA-scope acquittals or by sitting outside a hub window.
   const CONTROLS = [
-    // oscar-gold / android-dreams model pair (r1-adjudicated keep):
-    '<section><h2>Hub mode in clients</h2><p>Hub mode is available in the Roku, Windows, and Mobile clients. Samsung Tizen uses direct connection when you are away.</p></section>',
+    // oscar-gold model sentence, verbatim from sites/oscar-gold/hub.html (r5-1
+    // restore). The prior comment claimed an 'android-dreams model pair' — false
+    // attribution, grep-verified this landing: sites/android-dreams/hub.html
+    // carries ZERO Tizen mentions (its hub-mode paragraph names the triple only).
+    '<section><h2>Hub mode in clients</h2><p>Hub mode is available in the Roku, Windows, and Mobile clients. Samsung Tizen uses direct connection when on the same network.</p></section>',
     // desert-horizon per-client row inside a hub grid (r2-acquitted family):
     '<section><h2>Hub mode in the clients</h2><div><span>Roku</span><span>Hub mode built in</span></div><div><span>Samsung Tizen</span><span>Direct play + HLS transcoded on your TV</span></div><div><span>Windows</span><span>Hub mode built in</span></div></section>',
     // movie-camera card grid under "Hub Mode in Clients" (r2-acquitted):
@@ -1619,6 +1629,20 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
     cure('sites/prairie-bloom/hub.html'),
     /Works with: Roku, Windows, and Mobile \(iOS \+ Android\)/,
     'prairie-bloom: the works-with cure drifted',
+  );
+  // Regrowth pin (r5-1): the restored CONTROL #0 quotes the SHIPPED oscar-gold
+  // sentence verbatim — so the shipped sentence is itself guarded. A carrier edit
+  // that drifts the truth, or reintroduces the away-frame beside the TV client,
+  // reddens here with the CONTROL #0 quote left honest.
+  assert.match(
+    cure('sites/oscar-gold/hub.html'),
+    /Hub mode is available in the Roku, Windows, and Mobile clients\. Samsung Tizen uses direct connection when on the same network\./,
+    'oscar-gold: the hub-mode truth sentence CONTROL #0 quotes has drifted — re-pin the control from the shipped copy',
+  );
+  assert.doesNotMatch(
+    cure('sites/oscar-gold/hub.html'),
+    /Tizen.{0,90}(?:when you are away|away from home|anywhere)/i,
+    'oscar-gold: the away×Tizen fiction is regrowing beside the truth sentence',
   );
 });
 // LIT-FIXTURE-END law8-test-fixtures
@@ -1703,55 +1727,197 @@ test('law 9: the CRF-23/28 arm convicts every shape and acquits the honest CRF 2
 // ON PURPOSE with its own controls. The sweep becomes permanent.
 // (Server-mode truth carried here because law 10 is policed like every other
 // file: the TV client is direct-connection today, per hubRelay.ts:385.)
-const CENSUS_WINDOW = 3; // ± raw lines that make a mention Hub-adjacent
+//
+// Truth-word BOUNDARY REGISTER (r5-2, re-audited sibling-by-sibling this landing):
+// an unbounded alternative launders through longer words that state no capability.
+//   'direct' → \bdirect(?:ly)?\b   ('direction' was laundering the P-A plant)
+//   'dials?' → \bdials?\b          (leading bound; 'radials' family shut out)
+//   'stable' → \bstable\b          ('unstable' is not a status acquittal)
+//   'beta'   → \bbeta\b            ('alphabet' family shut out)
+//   'desktop'→ \bdesktop\b
+// INTENTIONAL stem matches, documented decisions not oversights: 'transcod'
+// (transcode/transcoded/transcoding are ALL the honest capability word — every
+// expansion keeps the meaning) and the two-token phrases 'native channel',
+// 'react native', 'smart tv', 'server mode', 'no hub', 'only today' — a suffix
+// growth cannot recreate the second token, so no bound is needed.
+const CENSUS_WINDOW = 3; // ± lines of the CLAIM SURFACE that make a mention Hub-adjacent
 const CENSUS_CLAIM_RE = /\bhub\b|\brelay\b|\btunnel\b/i; // the connectivity-claim surface
+// Additive anaphora (r5-3 P-B): a sentence that bolts the TV client ONTO another
+// sentence's reach claim by 'same goes for / likewise / as well / too' IS a
+// connect-claim inside the separation frame. Sentence-local by construction —
+// the markers name the frame, never a word fragment.
+const CENSUS_ANAPHORA_RE = /\bsame goes for\b|likewise|\bas well\b|\btoo\b/i;
+// Connectivity predicates — the verbs and nouns that turn a 'hub' token into a
+// reach claim when its own sentence can carry one (used by the sentence-local
+// claim detection in tizenCensusFindings). Shared shape with the separation
+// frame's verb list, extended with the carrier grammar the reviews enumerated
+// ('support', 'available', 'works … with', 'Hub mode'). EVERY stem is
+// word-initially anchored: the unanchored legacy list collides with 'design'
+// via 'sign' — caught live on docs/PLAN.md's 'design variants' sentence the
+// first time this predicate ran over the whole tree.
+const CENSUS_PREDICATE_RE =
+  /\b(?:connect|reach|sync|join|open|tunnel|sign|support|availab|mode|work)/i;
 const CENSUS_TRUTH_RE =
-  /\bdirect|dials?\b|\bdlna\b|\bhls\b|transcod|server[-\s]?mode|no[\s-]+hub|not.{0,15}hub|only\s+today|smart\s+tv|stable|native\s+channel|desktop|react\s+native|beta/i;
+  /\bdirect(?:ly)?\b|\bdials?\b|\bdlna\b|\bhls\b|transcod|server[-\s]?mode|no[\s-]+hub|not.{0,15}hub|only\s+today|smart\s+tv|\bstable\b|native\s+channel|\bdesktop\b|react\s+native|\bbeta\b/i;
+// The away×direct INVERSION (r7-4 P-D — decision: ARM, not disclose): 'direct'
+// inside a sentence that ALSO frames the TV client as reachable away from home
+// is the fabrication shape, not the honest capability frame. Sentence-local, so
+// the cured separation idiom (claim in one sentence, the TV client named in
+// another) still reaches the frames below untouched. Refusing the truth frame
+// falls through to the separation frame, where a Tizen sentence carrying the
+// connection verb (or an additive anaphora) convicts — exactly the P-D shape.
+// Bare 'remote' is deliberately NOT in the inversion set: measured live-tree
+// collision — an honest per-device card says 'with a remote-optimized UI'
+// (movie-camera/hub.html:243); device-adjective is not a reach claim.
+function tizenDirectWhileAway(sents) {
+  return sents.some(
+    (s) =>
+      /\btizen\b/i.test(s) &&
+      /\bdirect(?:ly)?\b/i.test(s) &&
+      /\b(?:away|anywhere|out of the house)\b/i.test(s),
+  );
+}
 const CENSUS_REPO_RE = /github\.com|phlix-tizen|tizen-client|[-_.\/"]tizen["'`._\/-]|keyword/i;
 function censusRepoContext(line, col) {
   return CENSUS_REPO_RE.test(line.slice(Math.max(0, col - 50), col + 52));
 }
+// LAW-10 CLAIM SURFACE (r8-F2): comments and <meta> tags carry no shipped copy,
+// so they can neither convict nor be convicted here. Removals are newline-and-
+// column-preserving (blanked to spaces) so the reported line numbers stay true.
+// The asymmetry with law 1 is DELIBERATE and stated in law 10's own header:
+// law 1 hunts fingerprint literals that commented-out markup could re-live from,
+// so it scans raw text outside sentinels; law 10 classifies capability SENTENCES,
+// and a sentence inside a comment is a sentence no visitor ever reads.
+function stripHtmlClaimSurface(src) {
+  return src
+    .replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ''))
+    .replace(/<meta\b[^>]*>/gi, (m) => m.replace(/[^\n]/g, ''));
+}
+function stripMdClaimSurface(src) {
+  return src.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ''));
+}
+// String-aware JS comment removal. A '//' is a line comment only at true line
+// start or after a punctuator — never inside 'x // y' string content, never the
+// division of `a / b`. Block spans are blanked in place. Apostrophes inside //
+// comments cannot break the pass (the comment branch consumes to EOL before
+// quote tracking resumes on the next line). Stated limits: template literals
+// keep their multi-line string state (contents are copy and stay surface); a
+// regex literal that ENDS in a quote-adjacent slash could skew the heuristic —
+// none exists in this repo's .mjs corpus (measured), and any such skew only
+// BLANKS more surface from classification while law 1 still scans it raw.
+function stripJsClaimSurface(src) {
+  let inBlock = false;
+  let quote = null;
+  return src
+    .split('\n')
+    .map((line) => {
+      let out = '';
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (inBlock) {
+          if (ch === '*' && line[i + 1] === '/') inBlock = false;
+          out += ' ';
+          continue;
+        }
+        if (quote) {
+          out += ch;
+          if (ch === '\\') out += line[++i] ?? '';
+          else if (ch === quote) quote = null;
+          continue;
+        }
+        if (ch === "'" || ch === '"' || ch === '`') {
+          quote = ch;
+          out += ch;
+          continue;
+        }
+        if (ch === '/' && line[i + 1] === '/') {
+          const prev = out.trimEnd();
+          const last = prev[prev.length - 1];
+          if (prev === '' || /[[/{(,;:+*/%!?=>&|~-]$/.test(last)) break; // rest is a line comment
+          i++; // division slash — step past its partner
+          out += '/';
+          continue;
+        }
+        if (ch === '/' && line[i + 1] === '*') {
+          inBlock = true;
+          out += ' ';
+          continue;
+        }
+        out += ch;
+      }
+      return out;
+    })
+    .join('\n');
+}
+function censusSurface(rel, text) {
+  if (rel === SELF_LAW) return stripJsClaimSurface(maskLitRegions(text));
+  if (/\.html$/i.test(rel)) return stripHtmlClaimSurface(text);
+  if (/\.md$/i.test(rel)) return stripMdClaimSurface(text);
+  if (/\.(?:mjs|cjs|js)$/i.test(rel)) return stripJsClaimSurface(text);
+  return text;
+}
 function tizenCensusFindings(rel, text) {
   if (law1Exemption(rel))
     return { disposed: (text.match(/\btizen\b/gi) || []).length, unframed: [], reason: 'archive' };
-  const effective = rel === SELF_LAW ? maskLitRegions(text) : text;
-  const lines = effective.split('\n');
+  const lines = censusSurface(rel, text).split('\n');
   let disposed = 0;
   const unframed = [];
   for (let li = 0; li < lines.length; li++) {
     const re = /\btizen\b/gi;
     let m;
     while ((m = re.exec(lines[li]))) {
-      const win = lines
-        .slice(Math.max(0, li - CENSUS_WINDOW), li + CENSUS_WINDOW + 1)
-        .join('\n');
+      const win = lines.slice(Math.max(0, li - CENSUS_WINDOW), li + CENSUS_WINDOW + 1).join('\n');
+      const sents = win.split(/(?<=[.!?])\s+/);
+      // Sentence-local claim detection — completing the window→sentence
+      // migration this region has been on since the separation frame. A hub
+      // token is a claim only inside a sentence that COULD claim connectivity:
+      // one naming a client/platform, or carrying a connectivity predicate.
+      // 'portal hub' as brand-kit design vocabulary beside a true roster (the
+      // GitHub-description line in docs/PLAN.md — caught live by the r5-2
+      // boundary cure, which stripped its old 'self-hostable'-laundered 'stable'
+      // acquittal) is not a reach claim. The frame refuses ANY tizen sentence
+      // that carries a connect-verb or anaphora itself, so no fiction walks
+      // through this door: see the pf-plant control in the fixtures below.
+      const claimSents = sents.filter(
+        (s) =>
+          CENSUS_CLAIM_RE.test(s) &&
+          (/\broku\b|\btizen\b|\bwindows\b|\bmobile\b|\bdlna\b|clients?\b|devices?\b/i.test(s) ||
+            CENSUS_PREDICATE_RE.test(s)),
+      );
+      const tizenSaysConnect = sents.some(
+        (s) =>
+          /\btizen\b/i.test(s) &&
+          (CENSUS_CLAIM_RE.test(s) ||
+            /connect|reach|sync|join|open|tunnel|sign/i.test(s) ||
+            CENSUS_ANAPHORA_RE.test(s)),
+      );
       let frame;
       if (censusRepoContext(lines[li], m.index)) frame = 'repo/package/identifier';
-      else if (!CENSUS_CLAIM_RE.test(win))
-        frame = 'connectivity-word-free prose (roster/card/keyword/inventory)';
-      else if (CENSUS_TRUTH_RE.test(win))
-        frame = 'claim-window with an honest capability frame (direct play, DLNA, server-mode, status)';
+      else if (!CENSUS_CLAIM_RE.test(win) || (claimSents.length === 0 && !tizenSaysConnect))
+        frame =
+          'connectivity-word-free prose (roster/card/keyword/inventory; hub token only in non-claim vocabulary)';
+      else if (CENSUS_TRUTH_RE.test(win) && !tizenDirectWhileAway(sents))
+        frame =
+          'claim-window with an honest capability frame (direct play, DLNA, server-mode, status)';
       else {
         // Separation frame — the established cure idiom. The TV-client mention
         // and the connectivity claim must live in DIFFERENT sentences, and
         // EVERY claim sentence in the window must state the explicit hub
         // triple while excluding the direct-only client. A sentence that names
         // it beside a connective verb IS the claim and never qualifies; a
-        // universal-reach sentence naming no exclusive triple convicts too.
-        const sents = win.split(/(?<=[.!?])\s+/);
-        const claimSents = sents.filter((s) => CENSUS_CLAIM_RE.test(s));
-        const tizenSaysConnect = sents.some(
-          (s) =>
-            /\btizen\b/i.test(s) &&
-            (CENSUS_CLAIM_RE.test(s) || /connect|reach|sync|join|open|tunnel|sign/i.test(s)),
-        );
+        // universal-reach sentence naming no exclusive triple convicts too;
+        // since r5-3 an ADDITIVE ANAPHORA beside the TV client ('same goes
+        // for', 'likewise', 'as well', bare 'too') is a connect-claim by the
+        // same reasoning — the P-B class.
         const tripleExcludesTizen =
           claimSents.length > 0 &&
           claimSents.every(
-            (s) => !/\btizen\b/i.test(s) && /\broku\b/i.test(s) && /\b(?:windows|mobile)\b/i.test(s),
+            (s) =>
+              !/\btizen\b/i.test(s) && /\broku\b/i.test(s) && /\b(?:windows|mobile)\b/i.test(s),
           );
         if (!tizenSaysConnect && tripleExcludesTizen)
-          frame = 'explicit-hub-triple claim sentence with the TV client stated OUTSIDE it (the cured idiom)';
+          frame =
+            'explicit-hub-triple claim sentence with the TV client stated OUTSIDE it (the cured idiom)';
       }
       if (frame) disposed++;
       else unframed.push({ line: li + 1, frag: lines[li].trim().slice(0, 120) });
@@ -1778,35 +1944,177 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
     0,
     `tizen mentions outside every disposition frame — a new fabrication shape or a carrier class the frames never met:\n  ${unframed.join('\n  ')}`,
   );
-  // Non-vacuity: measured at this tip ~1650 tracked occurrences (~1400
-  // outside archives). A collapsed walk reddens here instead of shipping.
+  // Non-vacuity: re-pinned FROM MEASURED RED by the r8 landing. The r7-era
+  // floor (1400) counted the RAW walk; the F2 claim surface acquits comment
+  // and <meta> mentions by design, so the honest denominator moved 1400-floor
+  // → measured 1280 → floor 1200 (≈6% collapse margin). A dropped comment
+  // mention never makes the walk vacuous — it makes it SHORTER.
   assert.ok(
-    disposedTotal >= 1400,
+    disposedTotal >= 1200,
     `the census disposed only ${disposedTotal} mentions over ${filesWithMentions} files; the walk collapsed`,
   );
-  assert.ok(filesWithMentions >= 200, `only ${filesWithMentions} files carry the word; perimeter moved`);
+  assert.ok(
+    filesWithMentions >= 200,
+    `only ${filesWithMentions} files carry the word; perimeter moved`,
+  );
 
   // Frame teeth (synthetic carriers BEYOND law 8's .html perimeter — the r4
   // ask). Each plant is a Tizen claim framed beside the connectivity word;
   // if any frame class ever launders it, this reddens.
   // LIT-FIXTURE-BEGIN law10-frame-teeth-plants
   const plant = (file, body) => tizenCensusFindings(file, body).unframed;
-  assert.equal(plant('docs/x.md', 'note\n\nThe Samsung Tizen app works through the Hub relay.\n').length, 1, 'a docs-plant Tizen claim escaped the census');
-  assert.equal(plant('shared/x.json', '{"t": "all users get Hub mode on Samsung Tizen"}\n').length, 1, 'a JSON-field Tizen claim escaped the census');
-  assert.equal(plant('sites/x/d.svg', '<svg><text y="9">Tizen joins the Hub tunnel</text></svg>\n').length, 1, 'an SVG-text Tizen claim escaped the census');
-  assert.equal(plant('sites/x/hub.html', 'Your Roku, Samsung Tizen, Windows and Mobile devices each open the Hub.\n').length, 1, 'an html roster plant escaped the census');
-  assert.equal(plant('docs/z.md', 'Roku, Windows and Mobile sync through the Hub.\nYour Tizen too connects that way.\n').length, 1, 'an ellipsis-split reach claim escaped the census');
+  assert.equal(
+    plant('docs/x.md', 'note\n\nThe Samsung Tizen app works through the Hub relay.\n').length,
+    1,
+    'a docs-plant Tizen claim escaped the census',
+  );
+  assert.equal(
+    plant('shared/x.json', '{"t": "all users get Hub mode on Samsung Tizen"}\n').length,
+    1,
+    'a JSON-field Tizen claim escaped the census',
+  );
+  assert.equal(
+    plant('sites/x/d.svg', '<svg><text y="9">Tizen joins the Hub tunnel</text></svg>\n').length,
+    1,
+    'an SVG-text Tizen claim escaped the census',
+  );
+  assert.equal(
+    plant(
+      'sites/x/hub.html',
+      'Your Roku, Samsung Tizen, Windows and Mobile devices each open the Hub.\n',
+    ).length,
+    1,
+    'an html roster plant escaped the census',
+  );
+  assert.equal(
+    plant(
+      'docs/z.md',
+      'Roku, Windows and Mobile sync through the Hub.\nYour Tizen too connects that way.\n',
+    ).length,
+    1,
+    'an ellipsis-split reach claim escaped the census',
+  );
   // Sibling-green controls (the no-overreach proof): true shapes at every
   // frame stay green THROUGH THE SAME classifier law 10 runs on the tree.
   const LEGAL = [
     ['README.md', 'git clone https://github.com/detain/phlix-tizen-client\n'],
-    ['sites/x/index.html', 'Clients: Roku · Samsung Tizen · Windows · Mobile (beta) · any DLNA device\n'],
-    ['sites/x/hub.html', 'The Hub tunnels to your desktop.\nSamsung Tizen plays directly over your LAN.\n'],
+    [
+      'sites/x/index.html',
+      'Clients: Roku · Samsung Tizen · Windows · Mobile (beta) · any DLNA device\n',
+    ],
+    [
+      'sites/x/hub.html',
+      'The Hub tunnels to your desktop.\nSamsung Tizen plays directly over your LAN.\n',
+    ],
     ['docs/y.md', 'Tizen is server-mode only today; there is no hub-mode UI.\n'],
     ['shared/content.json', '"id": "tizen", "name": "Samsung Tizen"\n'],
+    // The live shape the r5-2 boundary cure caught (docs/PLAN.md:114 — its old
+    // acquittal laundered through unbounded 'stable' inside 'self-hostable'):
+    // a true roster whose window's only hub token is brand-kit design vocabulary.
+    [
+      'docs/PLAN.md',
+      'Marketing site for Phlix — a self-hostable PHP media server with Roku, Tizen, Windows, and Mobile clients. Ships five design variants from the brand kits (retro film reel, portal hub, pixel-tech).\n',
+    ],
   ];
   for (const [file, body] of LEGAL)
-    assert.equal(plant(file, body).length, 0, `the census overreaches a true shape in ${file}: ${body}`);
+    assert.equal(
+      plant(file, body).length,
+      0,
+      `the census overreaches a true shape in ${file}: ${body}`,
+    );
+  // The convicted plants the reviews handed this lane (r5/r7 P-letters). Each was
+  // measured GREEN under the pre-r8 engine — the laundering is the red this
+  // landing pays for:
+  assert.equal(
+    plant('docs/pa.md', 'The Samsung Tizen app works through the Hub relay in every direction.\n')
+      .length,
+    1,
+    'P-A: "in every direction" laundered through the unbounded truth word',
+  );
+  assert.equal(
+    plant(
+      'docs/pb.md',
+      'The Roku, Windows, and Mobile clients connect through the Phlix Hub when you are away. Same goes for Samsung Tizen.\n',
+    ).length,
+    1,
+    'P-B: an additive anaphora bolted the TV client onto the reach claim',
+  );
+  assert.equal(
+    plant(
+      'docs/pd.md',
+      'The Roku, Windows, and Mobile clients connect through the Phlix Hub when you are away. Samsung Tizen uses direct connection when you are away.\n',
+    ).length,
+    1,
+    'P-D: the away×Tizen inversion laundered through the truth frame',
+  );
+  // The discriminating GREEN pair: the SHIPPED oscar-gold sentence, same window
+  // shape, direct + on-the-network (no away) — truth frame, not inversion.
+  assert.equal(
+    plant(
+      'docs/pe.md',
+      'The Roku, Windows, and Mobile clients connect through the Phlix Hub when you are away. Samsung Tizen uses direct connection when on the same network.\n',
+    ).length,
+    0,
+    'P-E: the shipped truth sentence must stay green',
+  );
+  // r8-F2 acquittal surface: comments and <meta> carry no copy, so they carry no
+  // claim — and the acquittal is DISCRIMINATING: the same sentence as a string
+  // literal still convicts.
+  assert.equal(
+    plant(
+      'docs/PLAN.md',
+      '<!-- The Samsung Tizen app works through the Hub relay when you are away. -->\n',
+    ).length,
+    0,
+    'an HTML-commented claim in markdown convicted law 10 — the acquittal surface leaks',
+  );
+  assert.equal(
+    plant(
+      'sites/x/index.html',
+      '<!-- The Samsung Tizen app works through the Hub relay when you are away. -->\n<meta name="description" content="The Samsung Tizen app works through the Hub relay when you are away." />\n',
+    ).length,
+    0,
+    'a commented or meta-carried HTML claim convicted law 10 — the acquittal surface leaks',
+  );
+  assert.equal(
+    plant(
+      'tools/x.mjs',
+      "// The Samsung Tizen app works through the Hub relay when you are away.\nconst note = 'ok'; // tizen hub relay mention\n",
+    ).length,
+    0,
+    'a JS-comment claim convicted law 10 — the acquittal surface leaks',
+  );
+  assert.equal(
+    plant(
+      'tools/x.mjs',
+      "const note = 'The Samsung Tizen app works through the Hub relay when you are away.';\n",
+    ).length,
+    1,
+    'a string-literal claim in .mjs escaped law 10 — the extractor over-acquits',
+  );
+  // r8-N1: hub.html carriers hold NO self-exemption (structural pin) and the
+  // r8 probe's exact carrier shape stays convicted.
+  assert.equal(
+    law1Exemption('sites/arctic-passage/hub.html'),
+    null,
+    'a hub.html carrier gained a self-exemption — the r8-N1 premise must stay false',
+  );
+  assert.equal(
+    plant(
+      'sites/arctic-passage/hub.html',
+      '<p>Samsung Tizen connects through the Phlix Hub when you are away.</p>\n',
+    ).length,
+    1,
+    'the hub.html carrier shape found a way out of law 10',
+  );
+  // The door-check for the sentence-local vocabulary frame (pf): a Tizen
+  // sentence carrying its own connect-verb must convict EVEN WHEN the window's
+  // hub token sits in a predicate-free, roster-free vocabulary sentence.
+  assert.equal(
+    plant('docs/pf.md', 'Your Samsung Tizen connects. The hub palette is teal.\n').length,
+    1,
+    'the non-claim-vocabulary frame laundered a connect-verb Tizen sentence',
+  );
   // LIT-FIXTURE-END law10-frame-teeth-plants
 
   // Masking discipline both directions (the self-reference rework's lock):
@@ -1817,10 +2125,19 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
   const probe =
     'x\n// LIT-FIXTURE-BEGIN t\nSamsung Tizen clients can be configured to use Hub mode as well.\n// LIT-FIXTURE-END t\nSamsung Tizen app works through the Hub tunnel from the couch.\n';
   const probed = maskLitRegions(probe);
-  assert.ok(!/configured to use Hub mode/.test(probed), 'LIT-FIXTURE region was not blanked — masking is decorative');
-  assert.ok(/works through the Hub tunnel/.test(probed), 'masking blanked text OUTSIDE the region — it over-reaches');
+  assert.ok(
+    !/configured to use Hub mode/.test(probed),
+    'LIT-FIXTURE region was not blanked — masking is decorative',
+  );
+  assert.ok(
+    /works through the Hub tunnel/.test(probed),
+    'masking blanked text OUTSIDE the region — it over-reaches',
+  );
   // LIT-FIXTURE-END law10-mask-discipline-controls
-  assert.throws(() => maskLitRegions('// LIT-FIXTURE-BEGIN t\nopen forever\n'), /left open|unpaired/);
+  assert.throws(
+    () => maskLitRegions('// LIT-FIXTURE-BEGIN t\nopen forever\n'),
+    /left open|unpaired/,
+  );
   assert.throws(() => maskLitRegions('// LIT-FIXTURE-END t\nearly close\n'), /unpaired/);
 });
 
@@ -1857,7 +2174,9 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'the TV-card pairing lost a direction (forward and mirrored must both stand)',
   );
   assert.equal(
-    M12_ARMS.filter(([, what]) => /dangling-publish|store-publication|store-availability/.test(what)).length,
+    M12_ARMS.filter(([, what]) =>
+      /dangling-publish|store-publication|store-availability/.test(what),
+    ).length,
     3,
     'the publication-shape subfamily drifted from 3 arms',
   );
@@ -1926,9 +2245,17 @@ test('law 11: the package-format family convicts every shape and acquits the shi
   // mobile answer states the sideload/source truth verbatim. If the estate changes
   // (a store listing goes real), the registry moves WITH the SSOT — not before it.
   const ssot = JSON.parse(readFileSync(join(ROOT, 'shared/content.json'), 'utf8'));
-  assert.equal(ssot.clients.length, 5, 'the SSOT clients[] roster moved — re-derive every client law');
+  assert.equal(
+    ssot.clients.length,
+    5,
+    'the SSOT clients[] roster moved — re-derive every client law',
+  );
   for (const client of ssot.clients)
-    assert.equal(client.store_url, null, `SSOT clients[].${client.name} claims a store_url — the arms below are now liars and must move with the truth`);
+    assert.equal(
+      client.store_url,
+      null,
+      `SSOT clients[].${client.name} claims a store_url — the arms below are now liars and must move with the truth`,
+    );
   const taglines = Object.fromEntries(ssot.clients.map((c) => [c.name, c.tagline]));
   assert.equal(taglines['Roku'], 'Native Roku channel', 'the Roku SSOT tagline drifted');
   assert.equal(taglines['Samsung Tizen'], 'Smart TV app', 'the Tizen SSOT tagline drifted');
@@ -1951,10 +2278,16 @@ test('law 11: the package-format family convicts every shape and acquits the shi
   };
   for (const [rel, needle] of Object.entries(CURED)) {
     const text = readFileSync(join(ROOT, rel), 'utf8');
-    assert.ok(text.includes(needle), `${rel} lost its cure copy — the M12 fiction class stands un-netted there`);
+    assert.ok(
+      text.includes(needle),
+      `${rel} lost its cure copy — the M12 fiction class stands un-netted there`,
+    );
     for (const [re, what] of M12_ARMS) {
       assert.ok(!re.test(text), `${rel} re-entered the package-format class: ${what}`);
-      assert.ok(!re.test(stripMarkup(text)), `${rel} (markup-collapsed) re-entered the package-format class: ${what}`);
+      assert.ok(
+        !re.test(stripMarkup(text)),
+        `${rel} (markup-collapsed) re-entered the package-format class: ${what}`,
+      );
     }
   }
 });
@@ -2001,7 +2334,10 @@ test('law 12: the phantom community contact family convicts every carrier shape 
     'DISCORD.GG/Phlix is live now', // case variant — the case-insensitive fingerprint is the M11 lesson applied
     '<h4>Community</h4>\n<p>Join the Discord and talk to other fans.</p>', // verb→platform pairing split across nodes (convicts on the collapsed pass)
   ]) {
-    assert.ok(engine(fiction), `the phantom community contact law lost its teeth: /${fiction}/ would ship`);
+    assert.ok(
+      engine(fiction),
+      `the phantom community contact law lost its teeth: /${fiction}/ would ship`,
+    );
   }
   // GREENS (negative controls, run through the SAME engine law 1/2 use): every
   // honest webhook-notification copy verbatim from the shipping tree, the review's
@@ -2025,18 +2361,26 @@ test('law 12: the phantom community contact family convicts every carrier shape 
     'Join the community — every question is welcome.', // honest community prose, platform-free
     'No Discord or Telegram to join: support runs through GitHub issues and the docs.', // the EXPLICIT denial — verb gap crosses the colon? it must stay green
   ]) {
-    assert.ok(!engine(legal), `a phantom community contact arm overreaches honest copy: /${legal}/`);
+    assert.ok(
+      !engine(legal),
+      `a phantom community contact arm overreaches honest copy: /${legal}/`,
+    );
   }
   // Engine wiring proof (law 5/6/9 discipline): the plants convict THROUGH the
   // FORBIDDEN loop law 1/2 run — assertClean must throw on a planted line, and the
   // structural (dead-anchor) arm must throw too, so no plant is a paper tiger.
   assert.throws(
-    () => assertClean('<li><a href="https://discord.gg/phlix">Discord</a></li>', 'planted community invite'),
+    () =>
+      assertClean(
+        '<li><a href="https://discord.gg/phlix">Discord</a></li>',
+        'planted community invite',
+      ),
     /phantom community contact/,
     'the community fingerprint arms are not wired into the assertClean engine law 1/2 run',
   );
   assert.throws(
-    () => assertClean('<a href="#" class="card"><h3>Telegram</h3></a>', 'planted dead community card'),
+    () =>
+      assertClean('<a href="#" class="card"><h3>Telegram</h3></a>', 'planted dead community card'),
     /phantom community contact/,
     'the dead-anchor structural arm is not wired into the assertClean engine law 1/2 run',
   );
@@ -2051,8 +2395,43 @@ test('law 12: the phantom community contact family convicts every carrier shape 
     const text = readFileSync(join(ROOT, rel), 'utf8');
     for (const [re, what] of COMMUNITY_ARMS) {
       assert.ok(!re.test(text), `${rel} re-entered the phantom community contact class: ${what}`);
-      if (/\.html$/i.test(rel)) assert.ok(!re.test(stripMarkup(text)), `${rel} (markup-collapsed) re-entered: ${what}`);
+      if (/\.html$/i.test(rel))
+        assert.ok(!re.test(stripMarkup(text)), `${rel} (markup-collapsed) re-entered: ${what}`);
     }
   }
 });
 // LIT-FIXTURE-END law12-community-fixture-section
+
+// ── REGISTRY DISCIPLINE (r8-F1): named registration, zero runtime extension ──────────
+// The estate idiom this file invented for sweep survivors: a survivor is never
+// a naked arm — it enters the SHARED FORBIDDEN literal as a [RegExp, name] pair
+// and each consuming law filters its family by name (M9R2_ARMS, M12_ARMS,
+// COMMUNITY_ARMS all pin their family's census length, so a foreign entry
+// joining a family reddens that law too). Zero sweep survivors needed naming on
+// the r8 landing (the carrier tree was clean at landing — r7 §2/r8 §4); this
+// test makes the idiom permanent instead of folk custom: every registration is
+// named, and NOTHING extends the registries at runtime — a pushed arm can be
+// forgotten by every family census while living on, un-named.
+test('registry discipline: every arm is a named registration and the registries never grow at runtime', () => {
+  for (const [name, registry] of [
+    ['FORBIDDEN', FORBIDDEN],
+    ['HUB_ENUM_ARMS', HUB_ENUM_ARMS],
+  ]) {
+    assert.ok(registry.length > 0, `${name} is empty — the sweep has no teeth`);
+    registry.forEach(([re, what], i) => {
+      assert.ok(re instanceof RegExp, `${name}[${i}] is not a [RegExp, name] pair`);
+      assert.equal(typeof what, 'string', `${name}[${i}] has no name`);
+      assert.ok(what.trim().length > 0, `${name}[${i}] registered with an empty name`);
+    });
+  }
+  // The pattern below is self-inert: its own source carries '\.push\(' (a
+  // literal backslash between the word and the paren), which the regex — a
+  // literal dot then paren — cannot match.
+  const src = readFileSync(join(ROOT, SELF_LAW), 'utf8');
+  const naked = src.match(/\b(?:FORBIDDEN|HUB_ENUM_ARMS)\.push\(/g) || [];
+  assert.equal(
+    naked.length,
+    0,
+    `the registries grew at runtime (${naked.join(', ')}) — move the entry into the literal, named`,
+  );
+});
