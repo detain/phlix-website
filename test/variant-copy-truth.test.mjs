@@ -1824,6 +1824,142 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
   assert.throws(() => maskLitRegions('// LIT-FIXTURE-END t\nearly close\n'), /unpaired/);
 });
 
+// ── M-WEBSITE-12: PACKAGE-FORMAT & STORE-PUBLICATION LAW (law 11) ────────────────
+// Writer review M2 (re-briefed as website__newcomer M12): download cards named the
+// wrong artifact extension for a platform and taglined publication on a store that
+// ships nothing of ours — five shipped carriers plus four review-era originals swept
+// by a8597e21 without a net. The eight registry arms (identity token "M12": three
+// extension fingerprints, the two-directional TV-card pairing, and three publication/
+// availability claim shapes) went live under laws 1/2 at ce0db83e; this law is the
+// promised teeth: family census, conviction/acquittal fixtures, the SSOT pins, and the
+// cures-stay-cured needles. (Header narrative stays fingerprint-free — law 1 polices
+// this file outside the sentinels; plants below re-state cured fictions.)
+// LIT-FIXTURE-BEGIN law11-package-format-fixture-section (plants re-state cured fictions)
+const M12_ARMS = FORBIDDEN.filter(([, what]) => /\bM12\b/.test(what));
+
+test('law 11: the package-format family convicts every shape and acquits the shipped truth', () => {
+  // Identity anchoring (law 9/12 doctrine): if the family leaves the registry — or a
+  // foreign arm joins it — this law stops guarding and must fail loud HERE. Census:
+  // three extension fingerprints + two pairing directions + three publication shapes.
+  assert.equal(
+    M12_ARMS.length,
+    8,
+    'the package-format family no longer anchors to exactly 8 registry arms (identity: "M12") — law 11 anchors moved',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /package-format fiction fingerprint/.test(what)).length,
+    3,
+    'the extension-fingerprint subfamily drifted from 3 arms',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /wrong-format claim/.test(what)).length,
+    2,
+    'the TV-card pairing lost a direction (forward and mirrored must both stand)',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /dangling-publish|store-publication|store-availability/.test(what)).length,
+    3,
+    'the publication-shape subfamily drifted from 3 arms',
+  );
+  const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
+  // REDS: the review-era originals and the parent survivors verbatim (the shapes
+  // a8597e21/ce0db83e swept), plus syntax carriers the naked literal alone could
+  // not see — case variants, the label/value hop (M8r2 class), the heading→copy
+  // card split (convicts on the markup-collapsed pass), and both availability orders.
+  for (const fiction of [
+    'Native Roku channel. sideload the .pkg or submit to the Roku store.', // apex-predator:203 review-era verbatim (lowercase sentence + wrong extension + store fiction — all three defects in one line)
+    'Native Roku channel — sideload the .pkg', // metal-machine:205 review-era verbatim
+    'Smart TV app — sideload the .tpk package', // mountain-summit:196 review-era verbatim (Tizen ships the signed .wgt)
+    'Native Roku channel — sideload the .ipk or submit to the Roku store.', // rave-cave:118 review-era verbatim
+    'Native channel — sideload or publish', // cosmic-odyssey:160 parent survivor verbatim (dangling publish — nothing publishes it)
+    'Native channel — sideload or publish to the store', // solarpunk-eden:215 parent survivor verbatim
+    'Smart TV app. Sideload the .zip from GitHub.', // pixel-dungeon:141 parent survivor verbatim (a bare .zip named for the TV client)
+    'Native Roku channel. Direct publishing to Roku Store.', // demolition-crew/clients.html:181 parent survivor verbatim
+    'Smart TV app — sideload the .TPK package', // case variant — the case-insensitive fingerprint is the M11 lesson applied
+    '{ "label": "Samsung Tizen", "value": "Sideload release.zip" }', // the kit label/value hop: the pairing convicts through JSON syntax
+    '<h4>SAMSUNG TIZEN</h4><p>Sideload the .zip from GitHub.</p>', // heading→copy card split — convicts only through the markup-collapse pass
+    'The Channel Store is live with Phlix now.', // availability claim, store-first order
+    'Phlix is available on the Roku store.', // availability claim, verb-first order
+    'Sideload or publish to the Roku Channel Store.', // the dangling-publish tagline fused with a publication claim
+  ]) {
+    assert.ok(engine(fiction), `the package-format law lost its teeth: /${fiction}/ would ship`);
+  }
+  // GREENS (negative controls, run through the SAME engine law 1/2 use): the honest
+  // majority copy verbatim from the shipping tree, the negated store forms, the SSOT
+  // FAQ sentence, the schema label (hyphen-joined — the noun gap is space-only), and
+  // the card-adjacency torture pairs (a Roku card's honest .zip beside a Tizen card
+  // in either order must NOT cross-convict — the phlix.zip lookbehinds are the whole
+  // point of their existence). Over-reach reddens HERE — that is what this list is for.
+  for (const legal of [
+    'Sideload phlix.zip from GitHub releases — not on the Channel Store yet', // mega-man:148 / nexus-core:119 honest Roku copy
+    'Native Roku channel — sideload phlix.zip from GitHub releases. Not on the Channel Store yet.', // apex-predator:203 cured at ce0db83e's parent
+    'Native channel — sideload phlix.zip from GitHub releases', // cosmic-odyssey/solarpunk-eden cure shape
+    'Smart TV app. Sideload the .wgt via Tizen Studio.', // pixel-dungeon:141 cure shape
+    'Native Roku channel. Sideload phlix.zip from GitHub releases. Quick resume, 4K HDR, surround sound passthrough.', // demolition-crew:181 cure shape (facts kept, fiction replaced)
+    'Sideload phlix.zip from GitHub releases — the channel is not on the Roku Store yet.', // digital-combat-zone:153
+    'Native Roku channel — sideload the package from GitHub releases; not on the Channel Store yet.', // acoustic-nights:157 — format-free honest copy
+    'Release APK direct — no Play Store listing yet', // blaze-runner:245 — the noun survives, the negation stands
+    'Build from source with Xcode — no TestFlight yet', // blaze-runner:255
+    'which 404s; the Tizen client is not published to the store.', // inferno:162 — verb+store with no real store noun and a negation
+    'Yes — React Native, currently in beta. It is not in the App Store or Google Play yet — Android installs from the release APK on GitHub, and iOS is build-from-source today.', // shared/content.json:153 SSOT FAQ answer verbatim
+    'app-store-tiles', // brand_kit_schema.js:1450 layout label — hyphen, not the space gap
+    '<h3>Roku</h3>\n<p>Sideload phlix.zip from GitHub releases</p>\n<h3>Samsung Tizen</h3>\n<p>Sign and deploy the .wgt via Tizen Studio</p>', // blaze-runner:214-225 ROKU-then-TIZEN adjacency (measured 29-char collapsed gap)
+    '<h4>SAMSUNG TIZEN</h4><p>Smart TV app. Sideload the .wgt via Tizen Studio.</p><h4>ROKU</h4><p>Native channel — sideload phlix.zip from GitHub releases.</p>', // reverse-order torture pair (metal-machine card shape)
+  ]) {
+    assert.ok(!engine(legal), `a package-format arm overreaches honest copy: /${legal}/`);
+  }
+  // Engine wiring proof (law 5/6/9/12 discipline): the plants convict THROUGH the
+  // FORBIDDEN loop law 1/2 run — assertClean must throw on a planted line naming the
+  // family, so no arm is a paper tiger parked in the registry.
+  assert.throws(
+    () => assertClean('Native Roku channel — sideload the .pkg', 'planted package-format claim'),
+    /M12/,
+    'the extension-fingerprint arms are not wired into the assertClean engine law 1/2 run',
+  );
+  assert.throws(
+    () => assertClean('Native channel — sideload or publish', 'planted dangling-publish tagline'),
+    /M12/,
+    'the publication-shape arms are not wired into the assertClean engine law 1/2 run',
+  );
+  // SSOT pins (the fact source the arms encode): every clients[] entry stores a null
+  // store_url, the Roku/Tizen taglines name the platform not a store, and the FAQ
+  // mobile answer states the sideload/source truth verbatim. If the estate changes
+  // (a store listing goes real), the registry moves WITH the SSOT — not before it.
+  const ssot = JSON.parse(readFileSync(join(ROOT, 'shared/content.json'), 'utf8'));
+  assert.equal(ssot.clients.length, 5, 'the SSOT clients[] roster moved — re-derive every client law');
+  for (const client of ssot.clients)
+    assert.equal(client.store_url, null, `SSOT clients[].${client.name} claims a store_url — the arms below are now liars and must move with the truth`);
+  const taglines = Object.fromEntries(ssot.clients.map((c) => [c.name, c.tagline]));
+  assert.equal(taglines['Roku'], 'Native Roku channel', 'the Roku SSOT tagline drifted');
+  assert.equal(taglines['Samsung Tizen'], 'Smart TV app', 'the Tizen SSOT tagline drifted');
+  const mobileFaq = ssot.faq.find((f) => f.q === 'Is there a mobile app?');
+  assert.ok(mobileFaq, 'the SSOT lost the mobile FAQ row the arms acquit');
+  assert.equal(
+    mobileFaq.a,
+    'Yes — React Native, currently in beta. It is not in the App Store or Google Play yet — Android installs from the release APK on GitHub, and iOS is build-from-source today.',
+    'the SSOT mobile FAQ answer moved — law 11 acquittals must re-measure against the new text',
+  );
+  // Cures-stay-cured needles (this law's own carriers): the five ce0db83e-touched
+  // files stay free of the family on BOTH forms, and each still carries its cure —
+  // so a revert-to-fiction AND a drive-by reword both redden.
+  const CURED = {
+    'sites/cosmic-odyssey/download.html': 'sideload phlix.zip from GitHub releases',
+    'sites/solarpunk-eden/download.html': 'sideload phlix.zip from GitHub releases',
+    'sites/pixel-dungeon/download.html': 'Sideload the .wgt via Tizen Studio',
+    'sites/demolition-crew/clients.html': 'Sideload phlix.zip from GitHub releases',
+    'sites/nexus-core/download.html': 'Sideload phlix.zip from GitHub releases',
+  };
+  for (const [rel, needle] of Object.entries(CURED)) {
+    const text = readFileSync(join(ROOT, rel), 'utf8');
+    assert.ok(text.includes(needle), `${rel} lost its cure copy — the M12 fiction class stands un-netted there`);
+    for (const [re, what] of M12_ARMS) {
+      assert.ok(!re.test(text), `${rel} re-entered the package-format class: ${what}`);
+      assert.ok(!re.test(stripMarkup(text)), `${rel} (markup-collapsed) re-entered the package-format class: ${what}`);
+    }
+  }
+});
+// LIT-FIXTURE-END law11-package-format-fixture-section
+
 // ── M-WEBSITE-14: PHANTOM COMMUNITY CONTACT LAW (law 12) ─────────────────────────
 // Writer review M3's community-link fictions (vanity invite 404; dead `#` Discord
 // card; Discussions claims) were copy-cured by a8597e21 with no net under them —
