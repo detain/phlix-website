@@ -1484,7 +1484,7 @@ const brandKit = {
   // ── proof_strategy ──────────────────────────────────────────────────────────
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A brass observatory placard: '5 native client platforms. NTP-synced SyncPlay. HLS + FFmpeg transcoding. Live TV + DVR. Self-hosted on your hardware.'  — drawn from content.json facts." },
+      { type: "spec-numbers",     format: "A brass observatory placard: '4 native clients. NTP-synced SyncPlay. HLS + FFmpeg transcoding. Live TV + DVR. Self-hosted on your hardware.'  — drawn from content.json facts." },
       { type: "github",           format: "A modest 'from the observatory archive' row with the real phlix-server repo link, star count, and issue count (never hard-coded, always live)." },
       { type: "quotes-from-docs", format: "One precise, true line from the philosophy section of the docs, framed as an engraved brass plate: a fundamental principle of the project." },
     ],

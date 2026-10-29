@@ -1505,7 +1505,7 @@ const brandKit = {
     signals: [
       {
         type: "spec-numbers",
-        format: "A brass workshop placard listing real capabilities: 5 native client platforms (Roku, Tizen, Windows, Mobile, DLNA), NTP-precise SyncPlay, HLS + FFmpeg transcoding, plugin versioned contract.",
+        format: "A brass workshop placard listing real capabilities: 4 native client platforms (Roku, Tizen, Windows, Mobile) + DLNA, NTP-precise SyncPlay, HLS + FFmpeg transcoding, plugin versioned contract.",
       },
       {
         type: "github",

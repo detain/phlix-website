@@ -1329,7 +1329,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A magma-wall placard of real capabilities: native clients on 5 platforms, SyncPlay with ±50ms device lock, HLS + FFmpeg transcoding, Live TV + DVR support." },
+      { type: "spec-numbers",     format: "A magma-wall placard of real capabilities: 4 native clients + DLNA, SyncPlay with ±50ms device lock, HLS + FFmpeg transcoding, Live TV + DVR support." },
       { type: "github",           format: "A 'From the projection booth' row showing the live phlix-server GitHub repo card with stars and open-issues counts (real, never hard-coded)." },
       { type: "quotes-from-docs", format: "A single declarative true line from the docs about self-hosting framed in an obsidian card: 'Your media. Your library. Your Phlix.'" },
     ],

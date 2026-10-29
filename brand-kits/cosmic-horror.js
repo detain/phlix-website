@@ -1529,7 +1529,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A 'Cabinet of Capacities' — archival placard listing real specs from content.json: 5 native client platforms, NTP-locked SyncPlay, full FFmpeg codec support, multi-protocol streaming (HLS, DLNA, direct)." },
+      { type: "spec-numbers", format: "A 'Cabinet of Capacities' — archival placard listing real specs from content.json: 4 native client platforms, NTP-locked SyncPlay, full FFmpeg codec support, multi-protocol streaming (HLS, DLNA, direct)." },
       { type: "github", format: "A 'Repository Reliquary' displaying the real phlix-server repo with live star count and issue tracker link — set as a modest carved-stone plaque in an academic style." },
       { type: "technical-credibility", format: "One line verbatim from the hero copy affirming technical sovereignty: 'Your media. Your library. Your Phlix.' — set as an archival inscription." },
     ],

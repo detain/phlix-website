@@ -1547,7 +1547,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A kente-bordered placard of real specifications: 8 native feature pillars (SyncPlay, Library, Transcode, Auth, Live TV, DLNA, Plugins, Hub), FFmpeg transcoding, HLS streaming, 5 client platforms." },
+      { type: "spec-numbers",     format: "A kente-bordered placard of real specifications: 8 native feature pillars (SyncPlay, Library, Transcode, Auth, Live TV, DLNA, Plugins, Hub), FFmpeg transcoding, HLS streaming, 4 native clients + DLNA." },
       { type: "github",           format: "A modest 'from the projection booth' kente-chevron-divided row linking phlix-server repo with live star count and issue tracker — real numbers, no fabrication." },
       { type: "quotes-from-docs", format: "One verbatim line from the actual docs (from content.json FAQ): 'No — run Phlix on your LAN and use the Hub's reverse-tunnel relay to reach it from your phone at a friend's house.' Set as a framed altar-card quote in Warm Star White." },
     ],
