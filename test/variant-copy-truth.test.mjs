@@ -102,7 +102,14 @@
 // stale-verified here) plus four hand-authored kit survivors this sweep cures,
 // regression-banned by the plugin-catalog literals + shape pairs at the end of
 // the registry, and law 7 pins the SSOT ecosystem entry, the pairing's teeth,
-// and every cure against drift and amputation.
+// and every cure against drift and amputation. The M-WEBSITE-12 class — wrong
+// package-format extensions named for the sideload-only Roku/Tizen artifacts,
+// and store-publication/availability claims for stores that do not carry Phlix
+// (re-briefed as website__newcomer M12; the SSOT clients[] store_url set and the
+// FAQ mobile answer are the fact source) — was swept by sibling lanes with NO
+// law armed; this lane arms naked fingerprints, the bare-.zip TV-card pairing
+// with an honest-name lookbehind, and the store verb/noun pairs, and law 11
+// holds teeth, acquittals, the SSOT pins, and every cure against drift.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -520,6 +527,67 @@ const FORBIDDEN = [
   [
     /\b(?:coming\s+soon|in\s+development|will\s+be\s+listed|not\s+yet\s+(?:live|available|shipped)|watch\s+this\s+space)[a-z ,:.—–"'\n]{0,32}?\b(?:plugins?|catalog(?:ue)?|marketplaces?|directory|ecosystem)\b/i,
     'a future-tense label paired ahead of its plugin-catalog noun (the mirrored split — badge/value and structured shapes)',
+  ],
+  // M-WEBSITE-12 (review website__writer M2 / re-brief website__newcomer M12): the
+  // package-format + store-availability fiction class. Truth (same-turn disk
+  // cross-read at this tip): the Roku deliverable is phlix.zip sideloaded from
+  // GitHub releases and the Tizen deliverable is a signed .wgt via Tizen Studio —
+  // neither is published to its store; Windows ships its installer and mobile an
+  // APK, both from GitHub releases; no Phlix app is in the App Store or Google
+  // Play. The SSOT agrees and law 11 pins it: every shared/content.json clients[]
+  // entry carries store_url null, and the FAQ's mobile answer states the store
+  // truth verbatim. The review era's carriers (a .pkg named for the Roku
+  // artifact, .tpk/.ipk named for Tizen, the "submit to the Roku store"
+  // publication claim) were swept by sibling lanes WITHOUT a law — measured:
+  // zero registry arm bound the class before this block, so every swept sibling
+  // could re-enter in total silence (the M11 naked-fingerprint lesson, this time
+  // with no net at all). The independent census at this tip found the class
+  // still alive in FOUR shipped carriers — cosmic-odyssey's and solarpunk-eden's
+  // dangling-publish taglines, pixel-dungeon's Tizen-card bare .zip, demolition-
+  // crew's "Direct publishing to Roku Store" — all cured by this lane. The
+  // naked fingerprints convict because nothing honest prints those extensions
+  // (measured zero in-scan tree-wide); the TV↔zip pairs bind the wrong-format
+  // claim across a heading→copy card split on the markup-collapse pass, with a
+  // phlix-name lookbehind so an adjacent honest Roku card (blaze-runner and
+  // metal-machine sit 29/31 chars from their Tizen headings — measured) cannot
+  // false-convict; the store pairs bind publication verbs to real store nouns in
+  // both directions, sentence-local (their gap classes carry no period), with
+  // negation lookbehinds — so the honest majority copy ("not on the Channel
+  // Store yet", "no Play Store listing yet", "the Tizen client is not published
+  // to the store") and the "app-store-tiles" schema label (hyphen — the noun gap
+  // is space-only) stay green BY MEASUREMENT: law 11 acquittals plus the
+  // whole-tree/artifact rescan every run.
+  [
+    /\.pkg\b/i,
+    'an M12 package-format fiction fingerprint (.pkg — the Roku deliverable is phlix.zip; apex-predator/metal-machine-era carriers, swept without a law)',
+  ],
+  [
+    /\.tpk\b/i,
+    'an M12 package-format fiction fingerprint (.tpk — Tizen ships the signed .wgt; mountain-summit-era carrier, swept without a law)',
+  ],
+  [
+    /\.ipk\b/i,
+    'an M12 package-format fiction fingerprint (.ipk — no estate deliverable ships under it; rave-cave-era carrier, swept without a law)',
+  ],
+  [
+    /\b(?:samsung\s+tizen|tizen|smart\s+tv)[a-z .,:—–"'()\n]{0,40}?(?<!phlix)\.zip\b/i,
+    'the M12 wrong-format claim: a Tizen/Smart-TV card naming a bare .zip as the package (Tizen ships the .wgt — the pixel-dungeon survivor; the period-carrying gap binds the heading→copy split on the markup-collapsed pass; honest phlix.zip is lookbehind-acquitted, so card adjacency cannot false-convict)',
+  ],
+  [
+    /(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:samsung\s+tizen|tizen|smart\s+tv)\b/i,
+    'the mirrored M12 bare-.zip-then-TV-card split (reverse card order of the same wrong-format claim; same phlix.zip acquittal)',
+  ],
+  [
+    /\bsideload\s+or\s+publish/i,
+    'the M12 dangling-publish tagline (cosmic-odyssey/solarpunk-eden "Native channel — sideload or publish" — the channel is sideload-only; there is no store publication to choose)',
+  ],
+  [
+    /(?<!\bnot\s)(?<!\bno\s)(?<!\bnever\s)\b(?:submit(?:ting|ted)?|publish(?:ing|ed)?|list(?:ing|ed)?)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|for)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b/i,
+    'an M12 store-publication claim reaching a real store noun (the apex-predator-era "submit to the Roku store" and demolition-crew-era "Direct publishing to Roku Store" class — sideload-only reality)',
+  ],
+  [
+    /\b(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b[a-z ,:—–"'()\n]{0,24}?\b(?:live|available|launches|ships)\b|(?<!\bnot\s)(?<!\bno\s)\b(?:available|listed|live)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|from)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b/i,
+    'an M12 store-availability claim in either order ("the Channel Store is live", "available on the Roku store") — the negated honest forms stay outside',
   ],
 ];
 // LIT-FIXTURE-END forbidden-pattern-registry
