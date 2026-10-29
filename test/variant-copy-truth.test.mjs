@@ -9,14 +9,17 @@
 // of marketing FACTS; a brand kit may declare copy_overlay (hero eyebrow /
 // headline / subheadline, CTA labels, section headings) and site_architecture
 // .nav label renames — legal re-voicing, "Facts stay locked". chrome-velocity
+// LIT-FIXTURE-BEGIN chrome-velocity-header-quotes (the founding violation, quoted to ban)
 // crossed that line: it shipped a hero title "Zero to Play in Under a Second",
 // a subheadline claiming "built at Formula 1 pit-wall speed — no lag, no
 // compromise, no excuses", and a tagline repeating the timing promise — into
+// LIT-FIXTURE-END chrome-velocity-header-quotes
 // the page <title>/og:title/twitter:title, the hand-authored hero, the kit
 // file's tagline_primary (which tools/build.mjs injects verbatim into the
 // published root gallery via __PHLIX_KITS__), and its site-local
 // content.json. No estate measurement backs a sub-second start.
 //
+// LIT-FIXTURE-BEGIN self-header-evidence-quotes (forbidden literals quoted to be retracted)
 // Two sibling claims named by the same review were already retracted by the
 // truth sweeps and stay retracted under this law: "5 Native Clients" (the SSOT
 // counts four native clients; the r2 sweep also retired desert-horizon's
@@ -35,6 +38,7 @@
 // the class's registry arm from the adjacency literal to the naked 23/28
 // fingerprint — the same lesson M8r2 taught, that an adjacency-only net lets a
 // swept class re-enter through label/value hops and wraps in total silence.
+// LIT-FIXTURE-END self-header-evidence-quotes
 // See law 9 for the conviction set and the honest-CRF-23 acquittals. The
 // M-WEBSITE-07 positive-fabrication class (unlimited-viewers
 // marketing and invented sync benchmarks around watch parties, groups and
@@ -43,20 +47,25 @@
 // the SHIPPED mobile apps (live `latest` prerelease APK; iOS build-from-source)
 // narrated as "coming soon"/"in development" by nexus-core and cyber-pursuit —
 // is regression-banned verbatim, alongside its two inverted cousins fixed in
+// LIT-FIXTURE-BEGIN header-m8-regression-quotes
 // the same sweep: demolition-crew badging its (beta) Android card "Stable" and
 // its iOS card "In Review" (no store submission exists to review). The r2 round
 // widened the M8 literals into shape-aware pairs after review M-WEBSITE-08__r1
 // proved the original three anchored only plural/compound whole phrases —
 // per-platform singular regressions ("The Android app coming soon…") re-opened
-// the class in total silence. See the M8 block below for the pairing law and
+// the class in total silence.
+// LIT-FIXTURE-END header-m8-regression-quotes See the M8 block below for the pairing law and
 // the markup-collapse pass that kills label/value splits across tags. The
 // M-WEBSITE-09 class — Samsung Tizen hub-mode claims in BOTH directions (the
 // retired "coming soon"/"in development" underclaims and the a8597e21-era
 // four-client overclaim, plus two invented capabilities) — is cured across 80
 // files and regression-banned by the Tizen/universal-quantifier pairs at the
 // end of the registry. Review M-WEBSITE-09__r1 then caught the quantifier pair
-// being every/all-only: twelve surviving "each/any native client supports Hub
-// mode"-shaped sentences re-fabricated the exact swept fiction past the net
+// being every/all-only:
+// LIT-FIXTURE-BEGIN header-r1-quantifier-quote
+// twelve surviving "each/any native client supports Hub
+// mode"-shaped sentences
+// LIT-FIXTURE-END header-r1-quantifier-quote re-fabricated the exact swept fiction past the net
 // (plus eight more the r2 sweep found: four with/credentials pair forms in
 // tetris-grid, psychedelic-groove, and egyptian-dusk hub + archive-journey,
 // and four hub-word-free reverse-order reach claims in warp-drive,
@@ -68,13 +77,16 @@
 // uses/knows/prompts/signs-into/connect-through verbs, the Hub-connectivity/
 // setting/credentials targets, the passive direction, and dot-list
 // enumerations that reach Tizen. Review M-WEBSITE-09__r2 then caught what NO
-// sentence law can see: five NAMED-ENUMERATION / DIAGRAM carriers — a ✓-grid
+// sentence law can see:
+// LIT-FIXTURE-BEGIN header-r2-survivors-quotes (the five carriers, quoted to log their cure)
+// five NAMED-ENUMERATION / DIAGRAM carriers — a ✓-grid
 // row (arctic-passage), a "Works on Roku, Samsung Tizen, Windows, and Mobile"
 // checklist li (bio-engineering), an SVG device row beside a Hub indicator
 // (electric-festival), a hub-tunnel diagram node (library-amber) and a
 // "Works with:" tail under the true triple (prairie-bloom) — each enumerating
 // the client set WITH Tizen inside a hub-mode section and therefore shipping
-// the same swept fiction with no quantifier anywhere. The five are cured to
+// the same swept fiction with no quantifier anywhere.
+// LIT-FIXTURE-END header-r2-survivors-quotes The five are cured to
 // the established idiom and the class is policed by the STRUCTURAL hub-window
 // guard below (law 8): inside the span of an h1-h6 that names the Hub, a
 // works-carrier, a check-mark row, or a Roku…Tizen…Windows/Mobile roster is
@@ -123,18 +135,23 @@
 //   1. no forbidden claim in ANY TRACKED TEXT FILE — the whole repo minus a
 //      short list of exemptions that each carry a NAMED REASON (review
 //      archives quoting claims as evidence, authoring records logging their
-//      cure, the law doc's adjudication row, and this file's own registry).
+//      cure, and the law doc's adjudication row). M9r4 RETIRED this file's own
+//      blanket exemption — law 1 now scans the law file with only its
+//      structurally marked LIT-FIXTURE regions blanked (see maskLitRegions).
 //      r2 rewrote this law from an enumerated input set to the tracked tree
 //      after review website__writer M6r1 caught the enumeration going blind:
 //      brand_kit_schema.js — the BASE kit that seeds every future kit's
 //      proof_strategy — sat outside the walk while still teaching the banned
+// LIT-FIXTURE-BEGIN law1-rewrite-narration-quote
 //      "5 native clients" count. Enumerating inputs is how a law goes stale;
+// LIT-FIXTURE-END law1-rewrite-narration-quote
 //      `git ls-files` is the denominator and exemptions must be justified.
 //      HTML files are scanned twice: once as written, once with markup
 //      collapsed to plain text (M8r2) — a claim split across a tag boundary
 //      (badge label in one node, future-tense value in the next) is the same
 //      claim to a reader and must be the same claim to the law. r4 adds the
 //      SHAPE-AWARE natives pairing (see assertNativesShape): a count bound to
+// LIT-FIXTURE-BEGIN natives-shape-example-quotes (the pairing guard documented via the shapes it binds)
 //      the words "native clients" through a key hop, one element hop, or bare
 //      adjacency is a client-count claim even when no literal like
 //      "5 native clients" ever appears — { label: "Native Clients",
@@ -149,6 +166,7 @@
 //      ordinals and "+"-decorated surface badges never bind, and every
 //      legitimate number in the tree ("5" User Profiles, "5 client paths",
 //      "8 native features", "Five ways to watch") stays green by measurement.
+// LIT-FIXTURE-END natives-shape-example-quotes
 //   2. no forbidden claim in the ARTIFACT — a real tools/build.mjs run into a
 //      throwaway root (same isolation idiom as test/public-hub-truth.test.mjs
 //      law 2: repo dist/ is rebuilt by test/csp-gate.test.mjs mid-run, so
@@ -187,6 +205,7 @@ const BUILD = join(ROOT, 'tools', 'build.mjs');
 // [pattern, what it was] — every entry is verbatim or near-verbatim member of
 // the M-WEBSITE-06 evidence set, or (M8r2) a shape-aware pair derived from a
 // named member of it. Case-insensitive: pages vary capitalisation.
+// LIT-FIXTURE-BEGIN forbidden-pattern-registry (the law's own data re-states each banned claim)
 const FORBIDDEN = [
   [/under a second/i, 'the "Zero to Play in Under a Second" timing promise'],
   [/pit-wall speed/i, 'the "built at Formula 1 pit-wall speed" claim'],
@@ -320,7 +339,7 @@ const FORBIDDEN = [
   // Windows (phlix-windows-client src/renderer/resolveConfig.ts:8-31 hubGetConfig,
   // app:'server'|'hub') and Mobile (phlix-mobile-client src/hub/HubAuthService.ts,
   // SettingsScreen.tsx:94 handleHubSignIn). Tizen is SERVER-MODE ONLY today:
-  // phlix-tizen-client src/api/hubRelay.ts:386 "Tizen is server-mode only today
+  // phlix-tizen-client src/api/hubRelay.ts:385 "Tizen is server-mode only today
   // (no hub-mode UI — S353 resolveConfig)", :372-373 the hub-relay context is
   // "written by a future hub-mode session; absent today → nothing opens", and
   // resolveConfig.ts:9 "Tizen has no hub-config IPC like the Windows/Electron".
@@ -503,6 +522,7 @@ const FORBIDDEN = [
     'a future-tense label paired ahead of its plugin-catalog noun (the mirrored split — badge/value and structured shapes)',
   ],
 ];
+// LIT-FIXTURE-END forbidden-pattern-registry
 
 // build.mjs keepInSite() in miniature — review archives under sites/*/reviews/
 // quote the fabricated sentences AS EVIDENCE and must not redden the scan.
@@ -553,12 +573,14 @@ function stripMarkup(text) {
 }
 
 // ── r4 (review M-WEBSITE-06__r3): SHAPE-AWARE natives miscount pairing ──────
+// LIT-FIXTURE-BEGIN natives-pairing-shape-quotes (split shapes quoted to teach the binder)
 // The literal registry needs "5 native clients" contiguous. Split shapes —
 // { label: "Native Clients", value: "5" }, "Native Clients":"5", HTML badge
 // cards, meta content="Six native clients" — carry the same claim through
 // syntax instead of prose, and r3 proved the label-based perimeter walked
 // right past cyber-pursuit:1361 while r4's own sweep then caught the
-// word-form "Six" family shipping in velocity-rush. This guard PAIRS a small
+// word-form "Six" family shipping in velocity-rush.
+// LIT-FIXTURE-END natives-pairing-shape-quotes This guard PAIRS a small
 // standalone count with the noun "native clients" across exactly the
 // structural hops copy uses — never through new meaning — and demands the
 // SSOT-derived truth. Precision notes (each learned from a corpus false
@@ -734,6 +756,7 @@ function assertNativesShape(text, label) {
   return bindings.length;
 }
 
+// LIT-FIXTURE-BEGIN law8-hub-engine-registry (guard comment + arms data re-state the shapes it binds)
 // ── M-WEBSITE-09 r3 (review M-WEBSITE-09__r2): HUB-WINDOW TIZEN-ENUMERATION ──
 // The r1/r2 rounds policed SENTENCES; the r2 review's independent census found
 // the family that claims hub-mode support STRUCTURALLY instead — a ✓ client
@@ -790,6 +813,7 @@ const HUB_ENUM_ARMS = [
     'a client roster — grid, SVG text run, or diagram node — enumerating Roku, Samsung Tizen, and Windows/Mobile inside a Hub-mode window (the electric-festival/library-amber carrier class)',
   ],
 ];
+// LIT-FIXTURE-END law8-hub-engine-registry
 let hubWindowCount = 0; // non-vacuity counter, asserted by law 8
 function hubModeWindows(text) {
   const heads = [];
@@ -923,6 +947,54 @@ const TRACKED = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' 
 // first files the original enumerated law scanned — they stay explicit.
 const ROOT_TEMPLATES = new Set(['index.html', '404.html', '_headers']);
 
+// ── M-WEBSITE-09 r4: the law scans ITSELF (structural fixture masking) ──────
+// The old exemption skipped this whole file because its pattern registry and
+// evidence quotes necessarily RE-STATE forbidden literals — blanket amnesia
+// that would equally let a future fabricated ASSERTION hide among the quotes.
+// Review M-WEBSITE-09__r3's brief named it: the law was blind to its own
+// fixtures. The cure is structural, not raw-occurrence-based: every
+// self-convicting line sits inside an explicit LIT-FIXTURE region, and law 1
+// scans this file with ONLY those regions blanked — affirmative prose,
+// helpers and test code outside the sentinels are policed like any tracked
+// file. Both directions are pinned in law 10 (sentinel must not become a
+// second amnesia hole).
+const SELF_LAW = 'test/variant-copy-truth.test.mjs';
+const LIT_BEGIN_RE = /^\s*\/\/[^\S\n]*LIT-FIXTURE-BEGIN\b/;
+const LIT_END_RE = /^\s*\/\/[^\S\n]*LIT-FIXTURE-END\b/;
+function litRegionAudit(text) {
+  let depth = 0;
+  let begins = 0;
+  for (const line of text.split('\n')) {
+    if (LIT_BEGIN_RE.test(line)) {
+      depth++;
+      begins++;
+    } else if (LIT_END_RE.test(line)) {
+      depth--;
+      if (depth < 0) throw new Error(`unpaired LIT-FIXTURE-END line: ${line.trim()}`);
+    }
+  }
+  if (depth !== 0) throw new Error(`${depth} LIT-FIXTURE region(s) left open — no silent holes`);
+  return begins;
+}
+function maskLitRegions(text) {
+  litRegionAudit(text);
+  let depth = 0;
+  return text
+    .split('\n')
+    .map((line) => {
+      if (LIT_BEGIN_RE.test(line)) {
+        depth++;
+        return '';
+      }
+      if (LIT_END_RE.test(line)) {
+        depth--;
+        return '';
+      }
+      return depth > 0 ? '' : line;
+    })
+    .join('\n');
+}
+
 function law1Exemption(rel) {
   const segments = rel.split('/');
   // Root reviews/ and every sites/*/reviews/ archive quote the fabricated
@@ -934,11 +1006,12 @@ function law1Exemption(rel) {
   // carriers are adjudicated conflict records that quote the bad count to log
   // its resolution (nordic-saga:67, obsidian-pulse:58, speakeasy-gold:63).
   if (!ships(rel)) return 'authoring record — documents a cure, does not carry copy';
+  // LIT-FIXTURE-BEGIN new-site-exemption-rationale-quote
   // The estate law doc's §19.14 conflict row (:834) quotes "5 native clients"
-  // precisely to teach that content.json wins on facts.
+  // LIT-FIXTURE-END new-site-exemption-rationale-quote precisely to teach that content.json wins on facts.
   if (rel === 'new_site.md') return 'law adjudication row — quotes the false count to fix it';
-  // This file: the FORBIDDEN registry and the WHY header are literals by design.
-  if (rel === 'test/variant-copy-truth.test.mjs') return 'the law itself (pattern registry)';
+  // (M9r4) NO whole-file exemption for this law file any more — law 1 scans
+  // it with only its marked LIT-FIXTURE regions blanked (maskLitRegions).
   return null;
 }
 
@@ -949,7 +1022,12 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
   for (const rel of scanSet) {
     if (law1Exemption(rel)) continue;
     scanned++;
-    paired += assertCleanBothForms(readFileSync(join(ROOT, rel), 'utf8'), rel, rel);
+    const text = readFileSync(join(ROOT, rel), 'utf8');
+    paired += assertCleanBothForms(
+      rel === SELF_LAW ? maskLitRegions(text) : text,
+      rel,
+      rel,
+    );
   }
   // Non-vacuity: the perimeter must actually be the whole tree, not a filter
   // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
@@ -971,6 +1049,26 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
   );
   // The r2 blind spot specifically: the base schema must be inside the set.
   assert.ok(scanSet.includes('brand_kit_schema.js'), 'brand_kit_schema.js left the perimeter');
+  // M9r4 both-direction self-pin. (a) The fixture regions must exist and be
+  // structurally sound; (b) the RAW law file must still convict — the
+  // evidence quotes are real, so nobody may sanitize them away to buy a green
+  // self-scan (that would trade one blindness for amputation of the registry).
+  const selfRaw = readFileSync(join(ROOT, SELF_LAW), 'utf8');
+  assert.ok(
+    litRegionAudit(selfRaw) >= 3,
+    'expected at least three LIT-FIXTURE regions (header quotes, pattern registry, test plants) — the masking is not load-bearing',
+  );
+  let rawConvicted = null;
+  try {
+    assertCleanBothForms(selfRaw, SELF_LAW, SELF_LAW);
+  } catch (err) {
+    rawConvicted = err.message;
+  }
+  assert.ok(
+    rawConvicted !== null,
+    'the law file no longer self-convicts raw — its forbidden-literal fixtures were deleted; ' +
+      'the LIT-FIXTURE regions must CARRY them (law stays teeth-full), not scrubbed prose',
+  );
 });
 
 test('law 2: the Pages artifact of a real build carries zero forbidden claims', () => {
@@ -995,8 +1093,9 @@ test('law 2: the Pages artifact of a real build carries zero forbidden claims', 
   }
   // r4 structural non-vacuity: the artifact pairing scan must be seeing real
   // stat-card pairs (measured 125 = 70 as-written + 55 collapsed at this
+  // LIT-FIXTURE-BEGIN law2-artifact-quote
   // commit). The velocity-rush "Six native clients" descriptions this law now
-  // kills reached dist in the r4 sweep — a shape-blind artifact scan passed
+  // LIT-FIXTURE-END law2-artifact-quote kills reached dist in the r4 sweep — a shape-blind artifact scan passed
   // them, so the floor is part of the cure.
   assert.ok(
     paired >= 60,
@@ -1062,9 +1161,10 @@ test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', (
       're-adjudicate new_site.md §19.14 and re-derive this law on purpose',
   );
 
+  // LIT-FIXTURE-BEGIN law5-survivor-shape-quote
   // cyber-pursuit: the r3 survivor ({ label: "Native Clients", value: "5" },
   // f73714e7-era) must still pair its label with the SSOT count. A cure that
-  // deleted the stat instead of correcting it would leave zero bindings.
+  // LIT-FIXTURE-END law5-survivor-shape-quote deleted the stat instead of correcting it would leave zero bindings.
   const kit = readFileSync(join(ROOT, 'brand-kits', 'cyber-pursuit.js'), 'utf8');
   const kitFindings = nativesShapeFindings(kit);
   assert.equal(kitFindings.violations.length, 0, 'cyber-pursuit stat miscount is back');
@@ -1116,6 +1216,7 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
     5,
     'the r2 quantifier family left the registry (or a foreign family matched the identity anchors) — law 6 anchors moved',
   );
+  // LIT-FIXTURE-BEGIN law6-survivor-pins (parent-commit fictions pinned verbatim)
   const SURVIVORS = [
     // r1 ISSUE 1 items 1-12 (verbatim carriers, a81bd712):
     'Each native client supports Hub mode: sign in once, and the client lists all servers registered to your account.',
@@ -1138,6 +1239,7 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
     'Once your server is registered with the Hub, sign in once on any client and the Mirror does the rest.',
     'Sign in on any client with your Hub credentials — and the archive follows you across the Nile.',
   ];
+  // LIT-FIXTURE-END law6-survivor-pins
   for (const claim of SURVIVORS) {
     const hits = M9R2_ARMS.filter(([re]) => re.test(claim));
     assert.ok(
@@ -1147,10 +1249,12 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
   }
   // Mutation probes named by the review: a fresh plant reddens, the shipped
   // truth sentence does not.
+  // LIT-FIXTURE-BEGIN law6-mutation-probe-quotes
   assert.ok(
     M9R2_ARMS.some(([re]) => re.test('Each native client supports Hub mode today.')),
     'the review-named planted fiction "Each native client supports Hub mode" went GREEN',
   );
+  // LIT-FIXTURE-END law6-mutation-probe-quotes
   for (const legal of [
     'The Roku, Windows, and Mobile clients support Hub mode. When enabled, the client connects through the Hub relay instead of directly to your server.',
     'The Roku, Windows, and Mobile clients all include Hub mode.',
@@ -1219,6 +1323,7 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
   // runs. A matcher that silently stopped pairing reddens this probe instead
   // of shipping the fiction.
   const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
+  // LIT-FIXTURE-BEGIN law7-plugin-fixture-plants (the plugin-catalog fictions, quoted to ban)
   for (const fiction of [
     '<p>Coming soon — a plugin directory for sharing and discovering community-built plugins.</p>', // ambient-pulse, review-cited original
     '<pre>  # ... community plugins coming soon</pre>', // speakeasy-gold, review-cited original
@@ -1229,6 +1334,7 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
     '<h3>Plugin catalog</h3><span>Coming soon</span>', // badge/value split — convicts on the collapsed pass
     'status: "coming soon", topic: "plugin catalog"', // structured key/value split
     '<p>The plugin directory is not yet live.</p>', // paraphrase inside the pair perimeter
+  // LIT-FIXTURE-END law7-plugin-fixture-plants
   ]) {
     assert.ok(engine(fiction), `the plugin-catalog law lost its teeth: /${fiction}/ would ship`);
   }
@@ -1294,6 +1400,7 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
   );
 });
 
+// LIT-FIXTURE-BEGIN law8-test-fixtures (preamble + plants + cure-pins quote the fiction to prove the hub-window arms bind)
 // Law 8 (M9 r3, review M-WEBSITE-09__r2): the structural hub-window guard has
 // teeth on EVERY carrier shape the review named — ✓-grid, "Works on/with"
 // prose list, SVG device row, diagram node — and its two local acquittals keep
@@ -1408,7 +1515,9 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
     'prairie-bloom: the works-with cure drifted',
   );
 });
+// LIT-FIXTURE-END law8-test-fixtures
 
+// LIT-FIXTURE-BEGIN law9-crf-fixture-section (plants + naked-23/28 quotes by design)
 // ── M-WEBSITE-11: THE CRF-23/28 ENCODING FICTION, SHAPE-AWARE ARM ──────────
 // be34d142 corrected the SSOT transcode body to "H.264 defaults to CRF 23"
 // (shared/content.json) and the WEB-01-era sweeps cured every shipped carrier.
@@ -1474,4 +1583,137 @@ test('law 9: the CRF-23/28 arm convicts every shape and acquits the honest CRF 2
     /CRF 23\/28|encoding claim/,
     'the CRF arm is not wired into the assertClean engine law 1/2 run',
   );
+});
+// LIT-FIXTURE-END law9-crf-fixture-section
+
+// ── M-WEBSITE-09 r4: WHOLE-TREE TIZEN CENSUS-AS-GATE (law 10) ────────────────
+// r1/r2/r3 each chased survivors AFTER publication, because every guard so far
+// binds sentences or .html windows. A claim phrased past the arms, or sitting
+// in a carrier no window reads (docs, JSON fields, raw SVG text outside a
+// heading window), still ships. The census inverts the burden of proof: every
+// tizen-word occurrence on every tracked shipping surface must fall into a
+// NAMED disposition frame. A new mention in an unknown shape reddens this gate
+// and forces a human to disposition it — cure the copy, or widen a frame class
+// ON PURPOSE with its own controls. The sweep becomes permanent.
+// (Server-mode truth carried here because law 10 is policed like every other
+// file: the TV client is direct-connection today, per hubRelay.ts:385.)
+const CENSUS_WINDOW = 3; // ± raw lines that make a mention Hub-adjacent
+const CENSUS_CLAIM_RE = /\bhub\b|\brelay\b|\btunnel\b/i; // the connectivity-claim surface
+const CENSUS_TRUTH_RE =
+  /\bdirect|dials?\b|\bdlna\b|\bhls\b|transcod|server[-\s]?mode|no[\s-]+hub|not.{0,15}hub|only\s+today|smart\s+tv|stable|native\s+channel|desktop|react\s+native|beta/i;
+const CENSUS_REPO_RE = /github\.com|phlix-tizen|tizen-client|[-_.\/"]tizen["'`._\/-]|keyword/i;
+function censusRepoContext(line, col) {
+  return CENSUS_REPO_RE.test(line.slice(Math.max(0, col - 50), col + 52));
+}
+function tizenCensusFindings(rel, text) {
+  if (law1Exemption(rel))
+    return { disposed: (text.match(/\btizen\b/gi) || []).length, unframed: [], reason: 'archive' };
+  const effective = rel === SELF_LAW ? maskLitRegions(text) : text;
+  const lines = effective.split('\n');
+  let disposed = 0;
+  const unframed = [];
+  for (let li = 0; li < lines.length; li++) {
+    const re = /\btizen\b/gi;
+    let m;
+    while ((m = re.exec(lines[li]))) {
+      const win = lines
+        .slice(Math.max(0, li - CENSUS_WINDOW), li + CENSUS_WINDOW + 1)
+        .join('\n');
+      let frame;
+      if (censusRepoContext(lines[li], m.index)) frame = 'repo/package/identifier';
+      else if (!CENSUS_CLAIM_RE.test(win))
+        frame = 'connectivity-word-free prose (roster/card/keyword/inventory)';
+      else if (CENSUS_TRUTH_RE.test(win))
+        frame = 'claim-window with an honest capability frame (direct play, DLNA, server-mode, status)';
+      else {
+        // Separation frame — the established cure idiom. The TV-client mention
+        // and the connectivity claim must live in DIFFERENT sentences, and
+        // EVERY claim sentence in the window must state the explicit hub
+        // triple while excluding the direct-only client. A sentence that names
+        // it beside a connective verb IS the claim and never qualifies; a
+        // universal-reach sentence naming no exclusive triple convicts too.
+        const sents = win.split(/(?<=[.!?])\s+/);
+        const claimSents = sents.filter((s) => CENSUS_CLAIM_RE.test(s));
+        const tizenSaysConnect = sents.some(
+          (s) =>
+            /\btizen\b/i.test(s) &&
+            (CENSUS_CLAIM_RE.test(s) || /connect|reach|sync|join|open|tunnel|sign/i.test(s)),
+        );
+        const tripleExcludesTizen =
+          claimSents.length > 0 &&
+          claimSents.every(
+            (s) => !/\btizen\b/i.test(s) && /\broku\b/i.test(s) && /\b(?:windows|mobile)\b/i.test(s),
+          );
+        if (!tizenSaysConnect && tripleExcludesTizen)
+          frame = 'explicit-hub-triple claim sentence with the TV client stated OUTSIDE it (the cured idiom)';
+      }
+      if (frame) disposed++;
+      else unframed.push({ line: li + 1, frag: lines[li].trim().slice(0, 120) });
+    }
+  }
+  return { disposed, unframed };
+}
+
+test('law 10: the whole-tree tizen census — every mention sits in a named disposition frame', () => {
+  const unframed = [];
+  let disposedTotal = 0;
+  let filesWithMentions = 0;
+  for (const rel of TRACKED.filter((f) => TEXT_EXT.test(f) || ROOT_TEMPLATES.has(f))) {
+    const { disposed, unframed: u } = tizenCensusFindings(
+      rel,
+      readFileSync(join(ROOT, rel), 'utf8'),
+    );
+    disposedTotal += disposed;
+    if (disposed || u.length) filesWithMentions++;
+    for (const f of u) unframed.push(`${rel}:${f.line} — ${f.frag}`);
+  }
+  assert.equal(
+    unframed.length,
+    0,
+    `tizen mentions outside every disposition frame — a new fabrication shape or a carrier class the frames never met:\n  ${unframed.join('\n  ')}`,
+  );
+  // Non-vacuity: measured at this tip ~1650 tracked occurrences (~1400
+  // outside archives). A collapsed walk reddens here instead of shipping.
+  assert.ok(
+    disposedTotal >= 1400,
+    `the census disposed only ${disposedTotal} mentions over ${filesWithMentions} files; the walk collapsed`,
+  );
+  assert.ok(filesWithMentions >= 200, `only ${filesWithMentions} files carry the word; perimeter moved`);
+
+  // Frame teeth (synthetic carriers BEYOND law 8's .html perimeter — the r4
+  // ask). Each plant is a Tizen claim framed beside the connectivity word;
+  // if any frame class ever launders it, this reddens.
+  // LIT-FIXTURE-BEGIN law10-frame-teeth-plants
+  const plant = (file, body) => tizenCensusFindings(file, body).unframed;
+  assert.equal(plant('docs/x.md', 'note\n\nThe Samsung Tizen app works through the Hub relay.\n').length, 1, 'a docs-plant Tizen claim escaped the census');
+  assert.equal(plant('shared/x.json', '{"t": "all users get Hub mode on Samsung Tizen"}\n').length, 1, 'a JSON-field Tizen claim escaped the census');
+  assert.equal(plant('sites/x/d.svg', '<svg><text y="9">Tizen joins the Hub tunnel</text></svg>\n').length, 1, 'an SVG-text Tizen claim escaped the census');
+  assert.equal(plant('sites/x/hub.html', 'Your Roku, Samsung Tizen, Windows and Mobile devices each open the Hub.\n').length, 1, 'an html roster plant escaped the census');
+  assert.equal(plant('docs/z.md', 'Roku, Windows and Mobile sync through the Hub.\nYour Tizen too connects that way.\n').length, 1, 'an ellipsis-split reach claim escaped the census');
+  // Sibling-green controls (the no-overreach proof): true shapes at every
+  // frame stay green THROUGH THE SAME classifier law 10 runs on the tree.
+  const LEGAL = [
+    ['README.md', 'git clone https://github.com/detain/phlix-tizen-client\n'],
+    ['sites/x/index.html', 'Clients: Roku · Samsung Tizen · Windows · Mobile (beta) · any DLNA device\n'],
+    ['sites/x/hub.html', 'The Hub tunnels to your desktop.\nSamsung Tizen plays directly over your LAN.\n'],
+    ['docs/y.md', 'Tizen is server-mode only today; there is no hub-mode UI.\n'],
+    ['shared/content.json', '"id": "tizen", "name": "Samsung Tizen"\n'],
+  ];
+  for (const [file, body] of LEGAL)
+    assert.equal(plant(file, body).length, 0, `the census overreaches a true shape in ${file}: ${body}`);
+  // LIT-FIXTURE-END law10-frame-teeth-plants
+
+  // Masking discipline both directions (the self-reference rework's lock):
+  // a fiction quoted INSIDE a sentinel is invisible to the scanner; the same
+  // sentence OUTSIDE it convicts; an unpaired sentinel throws. The exemption
+  // is structural — never raw-occurrence amnesia.
+  // LIT-FIXTURE-BEGIN law10-mask-discipline-controls
+  const probe =
+    'x\n// LIT-FIXTURE-BEGIN t\nSamsung Tizen clients can be configured to use Hub mode as well.\n// LIT-FIXTURE-END t\nSamsung Tizen app works through the Hub tunnel from the couch.\n';
+  const probed = maskLitRegions(probe);
+  assert.ok(!/configured to use Hub mode/.test(probed), 'LIT-FIXTURE region was not blanked — masking is decorative');
+  assert.ok(/works through the Hub tunnel/.test(probed), 'masking blanked text OUTSIDE the region — it over-reaches');
+  // LIT-FIXTURE-END law10-mask-discipline-controls
+  assert.throws(() => maskLitRegions('// LIT-FIXTURE-BEGIN t\nopen forever\n'), /left open|unpaired/);
+  assert.throws(() => maskLitRegions('// LIT-FIXTURE-END t\nearly close\n'), /unpaired/);
 });
