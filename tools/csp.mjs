@@ -27,9 +27,11 @@
 //     note claimed "322 … across variants"; the `variants/` tree was deleted
 //     2026-06-30 and the real number is measured above).
 //   * `https://fonts.googleapis.com` / `https://fonts.gstatic.com` — the root
-//     gallery stylesheet comes from Google Fonts (2 of its `<link>`s + the
-//     woff2 it pulls). Every kit site self-hosts woff2 under
-//     shared/assets/fonts; only the gallery reaches out.
+//     gallery stylesheet comes from Google Fonts (its 3 `<link>`s — 2
+//     preconnect + 1 stylesheet — plus the woff2 that sheet pulls). Every kit
+//     site self-hosts woff2 under shared/assets/fonts; counting references
+//     outside the CSP meta itself, `dist/index.html` is the only page that
+//     reaches out (measured on the built tree, 2026-10-29).
 //   * `data:` images — 19 shipped pages inline data-URI images.
 //
 // WHAT META CSP CANNOT EXPRESS (why the header form exists)
