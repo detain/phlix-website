@@ -48,7 +48,20 @@
 // retired "coming soon"/"in development" underclaims and the a8597e21-era
 // four-client overclaim, plus two invented capabilities) — is cured across 80
 // files and regression-banned by the Tizen/universal-quantifier pairs at the
-// end of the registry.
+// end of the registry. Review M-WEBSITE-09__r1 then caught the quantifier pair
+// being every/all-only: twelve surviving "each/any native client supports Hub
+// mode"-shaped sentences re-fabricated the exact swept fiction past the net
+// (plus eight more the r2 sweep found: four with/credentials pair forms in
+// tetris-grid, psychedelic-groove, and egyptian-dusk hub + archive-journey,
+// and four hub-word-free reverse-order reach claims in warp-drive,
+// nexus-core, nordic-saga, and the cosmic-odyssey hero line — the latter
+// family is invisible to any sentence-local law and is swept, table-
+// dispositioned, and disclosed, not netted). All are cured to the
+// explicit-triple idiom and the
+// five r2 arms (see the registry block) bind each/any quantifiers, the
+// uses/knows/prompts/signs-into/connect-through verbs, the Hub-connectivity/
+// setting/credentials targets, the passive direction, and dot-list
+// enumerations that reach Tizen.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -342,6 +355,48 @@ const FORBIDDEN = [
   [
     /tizen\s+clients?\s+can\s+be\s+configured/i,
     'the map-explorer "Samsung Tizen clients can be configured to use Hub mode" overclaim (no hub-config path exists — resolveConfig.ts:9)',
+  ],
+  // M-WEBSITE-09 r2 (review M-WEBSITE-09__r1 ISSUE 2): the r1 quantifier arm
+  // paired only every/all with {supports|has|…} verbs and hub {mode|toggle}
+  // targets, and the review's own probes proved "Each native client supports
+  // Hub mode" and "Every Phlix client … automatically uses Hub" sat SILENT
+  // GREEN — each/any quantifiers and the uses/knows/prompts/signs-into/
+  // through-the-Hub shapes re-fabricated the exact swept fiction. These five
+  // arms are structural pairings, never blanket literals: each binds a
+  // universal quantifier to a client noun AND a hub word (or, for the
+  // enumeration arm, to Tizen inside a separator list) within one sentence
+  // window, and every adjudicated-legal shape stays green BY MEASUREMENT at
+  // this commit: the explicit-triple cures carry no quantifier; backlot's
+  // parenthetical scope ("Each client (Roku, Windows, Mobile) supports Hub")
+  // is spared because parentheses break the N1 gap; cavern-depths' "in each
+  // client's settings" because the passive arm exempts `each`; the license
+  // coordination "all official clients, and the hub" because N1b demands the
+  // Hub act as a clause subject; the kit art-spec "Render each client as a
+  // device silhouette…(HLS, Hub mode…)" because no paired verb bridges it;
+  // and blitzkrieg's tautology "any client connected to the same Hub" because
+  // the passive arm exempts that post-modifier (r1 disclosed-keep family).
+  // Disclosed residual gaps (sweep-policed, not net-policed): a wrongly
+  // scoped PARENTHETICAL enumeration, hub-word-free reach claims whose hub-
+  // ness comes only from page context, and quantifier-free paraphrases.
+  [
+    /\b(?:every|all|each|any)\s+(?:(?:the|four|official|native|phlix|remote)\s+)*clients?(?:\s+app)?\s*(?:[—–‒-][^.\n<>()]{1,70}[—–‒-]\s*)?(?:[a-z]+\s+)?(?:supports?|has|have|includes?|ships?|uses?|knows?|prompts?|signs?|reaches?|connects?|configur(?:es?|ing)|enables?|works?|appears?)\b[^.\n<>]{0,80}?\bhub\b/i,
+    'a universal-quantifier client claim actively reaching a Hub capability (each/any forms — the r1-proven law hole; the real hub-mode set is Roku, Windows, Mobile)',
+  ],
+  [
+    /\b(?:every|all|each|any)\s+(?:(?:the|native|phlix|official|remote)\s+)*clients?\b(?:\s+(?:configured|signed\s+in|sign(?:s)?\s+in))?[^.\n<>]{0,24}?\b(?:with|using)\b[^.\n<>]{0,24}?\bhub\b/i,
+    'a universal-quantifier client paired with Hub credentials/tooling through a with/using bridge ("every client configured with your Hub credentials", "any client with your Hub credentials")',
+  ],
+  [
+    /\b(?:every|all|each|any)\s+(?:(?:the|native|phlix|official|remote)\s+)*clients?\b,\s+and\s+the\s+hub\s+(?:tells|routes|lists|knows|remembers|handles|finds|does)/i,
+    'an "any client, and the Hub <verbs>" coordinate claim — the Hub acting for every client (the license-list coordination "clients, and the hub." has no subject verb and stays legal)',
+  ],
+  [
+    /\bhub\b[^.\n<>]{0,45}?\b(?:in|for|on|from|with)\s+(?:every|all|any)\s+(?:(?:the|native|phlix|your|official|remote)\s+)*clients?(?! connected\s+to\b)/i,
+    'a passive/imperative Hub-then-universal-client claim ("Enable Hub mode in any Phlix client", "access it from any client") — exempting `each` (cavern model) and the "connected to" tautology (blitzkrieg model)',
+  ],
+  [
+    /\b(?:every|all|each|any)\s+clients?\b[^.\n]{0,45}?(?:·|•)[^.\n]{0,30}?\btizen\b/i,
+    'a universal-quantifier client label whose dot-separated enumeration reaches Samsung Tizen (the cosmic-odyssey signal-path node — on the markup-collapsed form)',
   ],
 ];
 
@@ -811,5 +866,78 @@ test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', (
   );
   for (const n of vrFindings.bindings) {
     assert.equal(n, SSOT_NATIVES, 'velocity-rush natives count drifted from the SSOT');
+  }
+});
+
+// Law 6 (M9 r2): the r2 quantifier arms have teeth, and the adjudicated legal
+// shapes stay green. The REDS below are VERBATIM survivors from the reviewed
+// commit a81bd712 (review M-WEBSITE-09__r1 ISSUE 1, items 1-12, plus the four
+// with/credentials forms this sweep newly found); each must match at least one
+// r2 arm — this is the red-on-parent proof, pinned in-process so the CI
+// shallow checkout never needs history. The GREENS are the negative controls
+// the review demanded stay legal: the explicit-triple cure idiom, the
+// backlot parenthetical scope, the cavern possessive-passive model, the
+// license-list coordination, the kit art-spec, the blitzkrieg tautology, and
+// the card-grid heading family.
+const M9R2_ARMS = FORBIDDEN.slice(-5);
+test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor', () => {
+  assert.equal(
+    M9R2_ARMS.length,
+    5,
+    'the r2 quantifier family stopped being the registry tail — law 6 anchors moved',
+  );
+  const SURVIVORS = [
+    // r1 ISSUE 1 items 1-12 (verbatim carriers, a81bd712):
+    'Each native client supports Hub mode: sign in once, and the client lists all servers registered to your account.',
+    'Each native client supports Hub mode. When you sign in with your Hub account, the client discovers all your registered servers automatically and you can switch between them without reconfiguring anything.',
+    'Every native client supports Hub connectivity.',
+    'Enable Hub mode in any Phlix client to connect through the Hub instead of directly to your server.',
+    'Enable Hub mode in any Phlix client to connect through the Hub instead of directly to your LAN server.',
+    'Any Phlix client signs into the Hub with the same account.',
+    'Every Phlix client — web, mobile, TV — automatically uses Hub when remote.',
+    'Each Phlix client supports connecting directly to a server on your local network or through the Hub for remote access.',
+    'Each client app has a Hub setting in its server connection flow.',
+    'Every Phlix client knows how to reach the Hub.',
+    'Sign in once on any client, and the Hub tells your client where to find you.',
+    'Sign in once, and every client configured with your Hub credentials can reach your server from anywhere.',
+    'On first run, each client prompts you to sign in to the Hub.',
+    'Any Client Roku · Tizen · Mobile',
+    // newly found by the r2 sweep (with/credentials forms):
+    'Sign in once to the Hub, add your server, and access it from any client — anywhere in the world.',
+    'When you open any Phlix client and sign in, the Hub routes traffic through that connection.',
+    'Once your server is registered with the Hub, sign in once on any client and the Mirror does the rest.',
+    'Sign in on any client with your Hub credentials — and the archive follows you across the Nile.',
+  ];
+  for (const claim of SURVIVORS) {
+    const hits = M9R2_ARMS.filter(([re]) => re.test(claim));
+    assert.ok(
+      hits.length >= 1,
+      `the r1 survivor "${claim}" now slips the net again — every r2 arm missed it`,
+    );
+  }
+  // Mutation probes named by the review: a fresh plant reddens, the shipped
+  // truth sentence does not.
+  assert.ok(
+    M9R2_ARMS.some(([re]) => re.test('Each native client supports Hub mode today.')),
+    'the review-named planted fiction "Each native client supports Hub mode" went GREEN',
+  );
+  for (const legal of [
+    'The Roku, Windows, and Mobile clients support Hub mode. When enabled, the client connects through the Hub relay instead of directly to your server.',
+    'The Roku, Windows, and Mobile clients all include Hub mode.',
+    "Enable Hub mode in each client's settings. The client will register with your Hub.",
+    'Hub mode is available in the Roku, Windows, and Mobile clients. Samsung Tizen uses direct connection.',
+    'Each client (Roku, Windows, Mobile) supports Hub mode and direct LAN playback.',
+    'Phlix server, all official clients, the Hub, and the documentation are freely available.',
+    'The server, all official clients, and the hub are maintained by the detain org.',
+    'Render each client as a device silhouette with its name, spec-row highlights (HLS, Hub mode, SyncPlay, etc.).',
+    'Register your server with the Hub using a simple token. Once registered, your server is accessible from any client connected to the same Hub.',
+    'All clients</h2><p>Roku channel</p><p>Samsung Tizen app</p><p>Windows — Hub mode built-in</p>',
+  ]) {
+    for (const [re, what] of M9R2_ARMS) {
+      assert.ok(
+        !re.test(legal),
+        `adjudicated-legal copy "${legal}" is netted by the arm for ${what} — overreach`,
+      );
+    }
   }
 });
