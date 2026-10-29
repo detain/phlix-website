@@ -191,6 +191,17 @@ environment protection rules remain owner settings actions
 (`Settings → Branches / Environments`) — the workflow gating closes the
 publish path, not a bypass via a differently-triggered action.
 
+**`dist/` is never committed — the deployed site is built from source.** `dist/`
+is gitignored; the Pages artifact is produced fresh on every deploy by
+`pages.yml`'s `build` job (`npm run build`, then `upload-pages-artifact`). A
+claim that reads false on the deployed page is therefore always a SOURCE bug,
+and `test/public-hub-truth.test.mjs` guards both layers: it scans every build
+input and a real throwaway-root build of them, so the fabricated
+public-hub domains (`hub.phlix.io/.org/.dev/.app/.tv`) removed by the
+content-truth sweep can never ride back in, and law 4 reddens if the CI ever
+stops rebuilding at deploy time (which would make a stale committed tree
+load-bearing again).
+
 ## Security headers — the honest split (what ships vs what the host must do)
 
 This site is served by **GitHub Pages**, which ignores `_headers` entirely: it
