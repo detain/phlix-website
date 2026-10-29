@@ -1419,7 +1419,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A framed salon placard listing real capabilities: 5 native clients (Roku, Tizen, Windows, Mobile, DLNA), SyncPlay with NTP sync over any network, HLS + FFmpeg adaptive transcoding." },
+      { type: "spec-numbers", format: "A framed salon placard listing real capabilities: 4 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay with NTP sync over any network, HLS + FFmpeg adaptive transcoding." },
       { type: "github", format: "A modest 'from the workshop' line crediting phlix-server with live GitHub star count (no invented numbers — live data only)." },
       { type: "quotes-from-docs", format: "One true, verbatim line from the official docs about self-hosting freedom, set in a small ornate frame as if Lily had handwritten it." },
     ],

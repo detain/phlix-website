@@ -1717,7 +1717,7 @@ const brandKit = {
       {
         type: "spec-numbers",
         format:
-          "A cosmic fact-stone on the page: '5 native clients, SyncPlay across NTP-sync, " +
+          "A cosmic fact-stone on the page: '4 native clients, SyncPlay across NTP-sync, " +
           "HLS + FFmpeg on every device, live TV + DVR, 100% self-hosted, zero corporate." +
           "' Real numbers from content.json.",
       },

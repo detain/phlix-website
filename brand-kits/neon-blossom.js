@@ -1540,7 +1540,7 @@ const brandKit = {
   proof_strategy: {
     signals: [
       { type: "github-link", format: "A single line linking to phlix-server with live star + fork counts. Rendered as a 'straight from the gardener' note." },
-      { type: "client-count", format: "A small, glowing stat: '5 native clients. One library. Everywhere.' Pulled from the real content.json clients array." },
+      { type: "client-count", format: "A small, glowing stat: '4 native clients. One library. Everywhere.' Pulled from the real content.json clients array." },
       { type: "quote-from-story", format: "One exact sentence from the kit's own story field: 'A place where beauty is electric, darkness is velvet, and every press of play opens a garden gate into the extraordinary.' Rendered as a framed garden-wall quote." },
     ],
     placement: "A subtle 'whispers from visitors' band between the hero features and the mid-page proof, styled as faint text on dark surfaces — no aggressive selling.",

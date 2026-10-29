@@ -1450,7 +1450,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A mission-control readout of real capabilities: 8 core features, 5 native clients, NTP time-sync across devices, HLS + FFmpeg transcoding." },
+      { type: "spec-numbers",     format: "A mission-control readout of real capabilities: 8 core features, 4 native clients, NTP time-sync across devices, HLS + FFmpeg transcoding." },
       { type: "github",           format: "A 'from the bridge' row linking the real phlix-server repo with live star and issue counts (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "One precise line from the docs (verbatim: 'BSD-3-Clause across the board') set as a mission-brief quote in a constellation-line frame." },
     ],

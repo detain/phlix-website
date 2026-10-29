@@ -942,7 +942,7 @@ const brandKit = {
       { id: "hero-signal",       source: "copy_overlay.hero",  treatment: "Full-bleed obsidian hero with animated electric-blue pulse scan line; headline and CTAs emerge as the line traverses.", weight: "hero" },
       { id: "core-features",     source: "feature_casting",     treatment: "Three hero features (library, syncplay, transcode) laid out as isolated technical diagrams on a precision grid.", weight: "major" },
       { id: "precision-proof",   source: "proof_strategy",      treatment: "Trust signals rendered as a horizontal 'specification band': real client count, GitHub activity, technical spec excerpt.", weight: "minor" },
-      { id: "client-hardware",   source: "page_blueprints.clients", treatment: "Five native clients rendered as hardware device silhouettes, each showing its native playback capability.", weight: "major" },
+      { id: "client-hardware",   source: "page_blueprints.clients", treatment: "Four native clients rendered as hardware device silhouettes, each showing its native playback capability.", weight: "major" },
       { id: "download-station",  source: "conversion_funnel",   treatment: "Download page opening as a precision 'workbench': server install snippet centered, client selector below.", weight: "major" },
     ],
   },
@@ -1087,7 +1087,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A horizontal 'spec band' in monospaced font: '5 native clients / SyncPlay precision time-sync / HLS + FFmpeg transcoding / DLNA ContentDirectory / Phlix Hub reverse-tunnel relay' — pure technical capabilities." },
+      { type: "spec-numbers",     format: "A horizontal 'spec band' in monospaced font: '4 native clients / SyncPlay precision time-sync / HLS + FFmpeg transcoding / DLNA ContentDirectory / Phlix Hub reverse-tunnel relay' — pure technical capabilities." },
       { type: "github",           format: "A single line linking to the phlix-server GitHub repo with live star count and issue tracker — 'From the source code:' followed by the link." },
       { type: "quotes-from-docs", format: "One short technical assertion from the official docs, set in a blockquote with a hairline left border, optical-white text: 'Anything FFmpeg can read. Direct play when the client supports it; transcoded HLS otherwise.'" },
     ],

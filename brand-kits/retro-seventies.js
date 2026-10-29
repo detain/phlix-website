@@ -1299,7 +1299,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A warm lobby placard: 8 solid features, 5 native clients, SyncPlay over real NTP time sync, HLS + FFmpeg transcoding. All real, all verifiable from the site and the docs." },
+      { type: "spec-numbers",     format: "A warm lobby placard: 8 solid features, 4 native clients, SyncPlay over real NTP time sync, HLS + FFmpeg transcoding. All real, all verifiable from the site and the docs." },
       { type: "github",           format: "A modest 'from the equipment room' row linking phlix-server with its live star count and issue tracker — no hard-coded numbers, always live." },
       { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the docs on self-hosting, set as a framed warm-glow quote card." },
     ],

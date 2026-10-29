@@ -1441,7 +1441,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "Real capability stats: '8 features. 5 native clients. One command line.' — plain Anton numerals in Electric Yellow on black, no marketing copy." },
+      { type: "spec-numbers", format: "Real capability stats: '8 features. 4 native clients. One command line.' — plain Anton numerals in Electric Yellow on black, no marketing copy." },
       { type: "github", format: "The live phlix-server GitHub repo link with its real current star count and issue tracker link (pulled via API, never hard-coded)." },
       { type: "quotes-from-docs", format: "One true line lifted verbatim from the site copy: '100% self-hostable — your library never leaves your hardware unless you say so' — rendered as a Space Mono monospace quote." },
     ],

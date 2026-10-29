@@ -1225,7 +1225,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A quiet stone placard: '8 features, 5 native clients, SyncPlay across any distance, live TV with DVR, and the whole thing fits on one quiet server.'" },
+      { type: "spec-numbers",     format: "A quiet stone placard: '8 features, 4 native clients, SyncPlay across any distance, live TV with DVR, and the whole thing fits on one quiet server.'" },
       { type: "github",           format: "A modest line linking to the phlix-server repository with real live star counts and issue counts pulled from the real repository." },
       { type: "quotes-from-docs", format: "One true line from the documentation: verbatim text set as a framed quote. Example: 'Your library never leaves your hardware unless you say so.'" },
     ],

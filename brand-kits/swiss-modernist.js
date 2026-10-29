@@ -1434,7 +1434,7 @@ const brandKit = {
     hero: {
       eyebrow: "Structure. Precision. Control.",
       headline: "Your media. Grid. Logic.",
-      subheadline: "An open-source media server built on Swiss precision: multi-user profiles, real-time SyncPlay, transcoding that knows your network, and hub access without the internet.",
+      subheadline: "An open-source media server built on Swiss precision: multi-user profiles, real-time SyncPlay, transcoding that knows your network, and hub access without opening ports.",
       primary_cta: { label: "Install" },
       secondary_cta: { label: "Read the spec" },
     },
@@ -1543,7 +1543,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "Real capability counts in Barlow Condensed Black: 5 native clients, 8 core features, plugin contract, FFmpeg transcoding profiles. No adjectives." },
+      { type: "spec-numbers",     format: "Real capability counts in Barlow Condensed Black: 4 native clients, 8 core features, plugin contract, FFmpeg transcoding profiles. No adjectives." },
       { type: "github",           format: "A modest row linking the real phlix-server repo with live star count and issue count (never hard-coded). Also link phlix-hub for relay infrastructure." },
       { type: "quotes-from-docs", format: "One short line of truth pulled from the docs about self-hosting transparency, set in a Rule Gray box. Verbatim, attributed to 'docs.phlix'." },
     ],

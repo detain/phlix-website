@@ -1341,7 +1341,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A soft cloud-styled card listing real, verifiable capabilities from the product: 5 native clients, NTP-synced SyncPlay, HLS adaptive streaming + FFmpeg transcoding." },
+      { type: "spec-numbers",     format: "A soft cloud-styled card listing real, verifiable capabilities from the product: 4 native clients, NTP-synced SyncPlay, HLS adaptive streaming + FFmpeg transcoding." },
       { type: "github",           format: "A gentle 'woven into the dream' small row linking the real phlix-server repo with live GitHub star count and open issues — no invented numbers." },
       { type: "quotes-from-docs", format: "One true, short line lifted verbatim from the docs about self-hosting, set as a soft lavender quote card: 'Open-source media, on your terms.'" },
     ],

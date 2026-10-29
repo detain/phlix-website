@@ -1369,7 +1369,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A starburst badge: '5 native clients. SyncPlay locked to NTP. FFmpeg transcoding. Yours to host.' Real specs pulled from content.json." },
+      { type: "spec-numbers", format: "A starburst badge: '4 native clients. SyncPlay locked to NTP. FFmpeg transcoding. Yours to host.' Real specs pulled from content.json." },
       { type: "github", format: "A modest code-style row: 'From the projection booth: phlix-server on GitHub' with live star/issue counts (never hard-coded)." },
       { type: "quotes-from-docs", format: "One short true line from the docs (verbatim): 'Your library never leaves your hardware unless you say so' — set in a framed speech bubble with Dotty pointing at it." },
     ],

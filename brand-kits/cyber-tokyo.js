@@ -1493,7 +1493,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A dashboard readout of real capabilities pulled from content.json — 8 native channels, NTP-synced SyncPlay, HLS + FFmpeg transcoding, 5 native clients + DLNA." },
+      { type: "spec-numbers",     format: "A dashboard readout of real capabilities pulled from content.json — 8 native channels, NTP-synced SyncPlay, HLS + FFmpeg transcoding, 4 native clients + DLNA." },
       { type: "github",           format: "A 'from the server logs' row linking the real phlix-server repo with its live star count and issue tracker (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the phlix-docs about self-hosting, set as a framed signal-dispatch quote." },
     ],

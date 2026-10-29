@@ -1515,7 +1515,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A lobby placard of real Phlix capabilities pulled from content.json — 5 native clients, SyncPlay with NTP time-sync, HLS adaptive bitrate + FFmpeg transcoding, Live TV with DVR." },
+      { type: "spec-numbers",     format: "A lobby placard of real Phlix capabilities pulled from content.json — 4 native clients, SyncPlay with NTP time-sync, HLS adaptive bitrate + FFmpeg transcoding, Live TV with DVR." },
       { type: "github",           format: "A modest 'from the projection booth' placard linking the real phlix-server repo with its live star count and active issue count (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "One true line lifted from the founding mission, set as a framed lobby-card quote: 'Built in PHP 8.3+ on Workerman.' Honest, technical, opulent." },
     ],

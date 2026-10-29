@@ -1506,7 +1506,7 @@ const brandKit = {
         type: "spec-numbers",
         format:
           "A marble-paneled placard showing real Phlix capabilities: " +
-          "'5 native clients. SyncPlay time-sync. HLS + FFmpeg. " +
+          "'4 native clients. SyncPlay time-sync. HLS + FFmpeg. " +
           "Multi-profile auth. LiveTV + DVR.'",
       },
       {
