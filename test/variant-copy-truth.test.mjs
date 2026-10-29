@@ -30,7 +30,13 @@
 // and the swiss-modernist "hub access without the internet" (written before
 // the relay existed; now "without opening ports").
 // "CRF 23/28" was retired by be34d142 in favor of the honest "H.264 defaults
-// to CRF 23". The M-WEBSITE-07 positive-fabrication class (unlimited-viewers
+// to CRF 23"; the M-WEBSITE-11 lane re-derived the shipped surfaces clean of
+// it (every surviving literal sits only in exempt review archives) and widened
+// the class's registry arm from the adjacency literal to the naked 23/28
+// fingerprint — the same lesson M8r2 taught, that an adjacency-only net lets a
+// swept class re-enter through label/value hops and wraps in total silence.
+// See law 9 for the conviction set and the honest-CRF-23 acquittals. The
+// M-WEBSITE-07 positive-fabrication class (unlimited-viewers
 // marketing and invented sync benchmarks around watch parties, groups and
 // share links) joins the list below, cured to the server's real caps — see the
 // per-entry comments for both-sides coordinates. And the M-WEBSITE-08 class —
@@ -197,7 +203,20 @@ const FORBIDDEN = [
     /8 native \+ DLNA clients/i,
     'the "8 native + DLNA clients" miscount (SSOT §19.14: four native clients, plus any DLNA device)',
   ],
-  [/CRF 23\/28/, 'the retracted "CRF 23/28" encoding claim (be34d142)'],
+  // M-WEBSITE-11 (shape-aware era, per the M8r2 label/value-split lesson): the
+  // original arm was the adjacency literal /CRF 23\/28/ — a kit stat
+  // { label: "CRF", value: "23/28" }, a case variant, a wrap around the slash,
+  // or the reversed order would have re-shipped the retracted number through a
+  // green net. The arm now binds the fiction FINGERPRINT: a naked 23/28 number
+  // pair, whitespace/newline-tolerant around the slash, digit-bounded both
+  // sides so longer numerics (2023/28, 123/289) cannot self-convict. Nothing
+  // honest prints 23/28 — the true encoding sentence is a single CRF value
+  // (measured: zero in-scan tree-wide, laws 1/2 green on the widened arm);
+  // the conviction set and the SSOT-verbatim acquittals are pinned by law 9.
+  [
+    /(?<!\d)23\s*\/\s*28(?!\d)/,
+    'the retracted "CRF 23/28" encoding claim in any shape (be34d142: honest copy is "H.264 defaults to CRF 23"; the naked 23/28 pair IS the fiction)',
+  ],
   [/without the internet/i, 'the swiss "hub access without the internet" claim'],
   // M-WEBSITE-07 (positive-fabrication class, review website__pm): capability
   // numbers around watch parties / groups / links with no estate measurement
@@ -1387,5 +1406,72 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
     cure('sites/prairie-bloom/hub.html'),
     /Works with: Roku, Windows, and Mobile \(iOS \+ Android\)/,
     'prairie-bloom: the works-with cure drifted',
+  );
+});
+
+// ── M-WEBSITE-11: THE CRF-23/28 ENCODING FICTION, SHAPE-AWARE ARM ──────────
+// be34d142 corrected the SSOT transcode body to "H.264 defaults to CRF 23"
+// (shared/content.json) and the WEB-01-era sweeps cured every shipped carrier.
+// Re-derived at this tip the fiction survives ONLY in the exempt review
+// archives and in this registry — zero on any law-1 in-scan surface, zero in
+// the law-2 Pages artifact, zero split/wrap forms tree-wide. The gap law 1
+// still carried was SHAPE, not content: this class's arm was the adjacency
+// literal /CRF 23\/28/, the exact pre-M8r2 design that the label/value-split
+// lesson proved fatal — "per-platform singular regressions re-opened the
+// class in total silence". The arm now binds the naked 23/28 number pair:
+// whitespace/newline-tolerant around the slash (the WEB-06 wrap-split lesson),
+// case-free by construction (digits), and digit-bounded so "2023/28" and
+// "123/289" cannot self-convict while "…CRF 23/28." still does. Acquittal is
+// not a hope but a measurement: the SSOT body runs through the same engine
+// below VERBATIM, and laws 1/2 re-scan the whole tree and artifact on every
+// run with the widened arm in FORBIDDEN.
+const CRF_ARMS = FORBIDDEN.filter(([, what]) => /encoding claim/.test(what));
+test('law 9: the CRF-23/28 arm convicts every shape and acquits the honest CRF 23 family', () => {
+  // Identity anchoring (M-WEBSITE-10 minimal-surgery doctrine): if the family
+  // leaves the registry — or a foreign arm joins it — this law stops guarding
+  // and must fail loud HERE, not silently in law 1.
+  assert.equal(
+    CRF_ARMS.length,
+    1,
+    'the CRF-23/28 family no longer anchors to exactly one registry arm (identity: "encoding claim") — law 9 anchors moved',
+  );
+  const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
+  // REDS: the pre-be34d142 SSOT sentence verbatim, plus every shape the
+  // adjacency literal could not see — a regression through any of these must
+  // convict on the raw or the markup-collapsed form.
+  for (const fiction of [
+    'CRF 23/28 libx264/libx265 with HLS master and variant playlists', // the retired SSOT body, verbatim (be34d142 parent)
+    'CRF 23/28', // the adjacency original — kept red by construction
+    'crf 23/28 — FFmpeg quality', // case variant, invisible to the old case-sensitive arm
+    'FFmpeg quality: 23/28 CRF', // reversed order — never bound by adjacency
+    'label: "CRF", value: "23/28"', // kit stat-card label/value hop (the M8r2 class)
+    '23 / 28', // spaced slash
+    '23/\n28', // newline wrap-split (the WEB-06 law-lesson form)
+    'defaults to 23/28.', // sentence-final period: digit-bounded, still convicted
+    'transcoding CRF23/28 with HLS', // no space after CRF
+    '<dd>23/<span>28</span></dd>', // markup-split number — convicts on the collapsed pass
+  ]) {
+    assert.ok(engine(fiction), `the CRF-23/28 law lost its teeth: /${fiction}/ would ship`);
+  }
+  // GREENS (negative controls, sibling-green by the same engine the tree
+  // runs): honest single-value CRF copy — including the live SSOT transcode
+  // body verbatim — and digit-boundary noise. An over-reach reddens HERE,
+  // which is precisely the ask "no overreach on honest 'CRF 23' mentions".
+  for (const legal of [
+    'QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. libx264/libx265 transcoding (H.264 defaults to CRF 23) with HLS master and variant playlists.', // shared/content.json transcode body, verbatim at this tip
+    'H.264 defaults to CRF 23', // the corrected sentence alone
+    'CRF 23 or CRF 20, your pick', // honest neighbors, no slash pair
+    'the 2023/28 and 123/289 backlog', // digit-bounded numerics — acquittal proven, not hoped
+    '23/29 and 22/28 splits', // near-miss pairs that are NOT the fingerprint
+    '1080p / 28 Mbps ceiling', // a slash that never carries 23 before it
+  ]) {
+    assert.ok(!engine(legal), `the widened CRF fingerprint overreaches honest copy: /${legal}/`);
+  }
+  // The engine wiring proof (r3 discipline): the plants convict THROUGH the
+  // same FORBIDDEN loop law 1 runs — assertClean must throw on one.
+  assert.throws(
+    () => assertClean('stat: { label: "CRF", value: "23/28" }', 'planted kit stat'),
+    /CRF 23\/28|encoding claim/,
+    'the CRF arm is not wired into the assertClean engine law 1/2 run',
   );
 });
