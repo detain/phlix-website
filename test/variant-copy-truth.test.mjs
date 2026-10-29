@@ -27,7 +27,12 @@
 // to CRF 23". The M-WEBSITE-07 positive-fabrication class (unlimited-viewers
 // marketing and invented sync benchmarks around watch parties, groups and
 // share links) joins the list below, cured to the server's real caps — see the
-// per-entry comments for both-sides coordinates.
+// per-entry comments for both-sides coordinates. And the M-WEBSITE-08 class —
+// the SHIPPED mobile apps (live `latest` prerelease APK; iOS build-from-source)
+// narrated as "coming soon"/"in development" by nexus-core and cyber-pursuit —
+// is regression-banned verbatim, alongside its two inverted cousins fixed in
+// the same sweep: demolition-crew badging its (beta) Android card "Stable" and
+// its iOS card "In Review" (no store submission exists to review).
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -93,7 +98,10 @@ const FORBIDDEN = [
   // sentence and regression-banned alongside 5/five. (The "8 native features"
   // family in other kits is a TRUE feature count — content.json carries eight
   // — and stays deliberately unforbidden.)
-  [/8 native \+ DLNA clients/i, 'the "8 native + DLNA clients" miscount (SSOT §19.14: four native clients, plus any DLNA device)'],
+  [
+    /8 native \+ DLNA clients/i,
+    'the "8 native + DLNA clients" miscount (SSOT §19.14: four native clients, plus any DLNA device)',
+  ],
   [/CRF 23\/28/, 'the retracted "CRF 23/28" encoding claim (be34d142)'],
   [/without the internet/i, 'the swiss "hub access without the internet" claim'],
   // M-WEBSITE-07 (positive-fabrication class, review website__pm): capability
@@ -109,11 +117,48 @@ const FORBIDDEN = [
   // based, hub invite links serve existing members — velocity-rush's claim is
   // cured to the verified local-account facts (UserProfileManager::
   // MAX_PROFILES_PER_USER = 5, phlix-server src/Auth/UserProfileManager.php:85).
-  [/unlimited (?:viewers|members|participants|observers|guests)/i, 'an "unlimited viewers/members" watch-party claim (real cap: MAX_MEMBERS = 50)'],
-  [/tested to \d+ simultaneous (?:viewers|members|observers)/i, 'a fabricated viewer-cap benchmark ("Tested to 20 simultaneous viewers")'],
-  [/sub-100 ?ms/i, 'the fabricated sub-100ms sync-latency figure (no estate measurement; contract tolerance is 2000ms)'],
-  [/up to 16 simultaneous observers/i, 'the quantum-stream "16 simultaneous observers" miscount (real cap: 50)'],
-  [/shareable library links/i, 'the velocity-rush "shareable library links without account creation" fabrication (no anonymous share links exist server- or hub-side)'],
+  [
+    /unlimited (?:viewers|members|participants|observers|guests)/i,
+    'an "unlimited viewers/members" watch-party claim (real cap: MAX_MEMBERS = 50)',
+  ],
+  [
+    /tested to \d+ simultaneous (?:viewers|members|observers)/i,
+    'a fabricated viewer-cap benchmark ("Tested to 20 simultaneous viewers")',
+  ],
+  [
+    /sub-100 ?ms/i,
+    'the fabricated sub-100ms sync-latency figure (no estate measurement; contract tolerance is 2000ms)',
+  ],
+  [
+    /up to 16 simultaneous observers/i,
+    'the quantum-stream "16 simultaneous observers" miscount (real cap: 50)',
+  ],
+  [
+    /shareable library links/i,
+    'the velocity-rush "shareable library links without account creation" fabrication (no anonymous share links exist server- or hub-side)',
+  ],
+  // M-WEBSITE-08 (review website__pm M2): shipped mobile apps narrated in the
+  // future tense. phlix-mobile-client publishes a live, non-draft `latest`
+  // prerelease carrying app-release.apk — Android installs from that release;
+  // iOS is build-from-source (no public TestFlight, no store listings — the
+  // honest FAQ sentence at shared/content.json states exactly this). Yet
+  // nexus-core's download hero shipped "Android and iOS apps coming soon" and
+  // cyber-pursuit's clients gallery carried "Coming soon: native iOS and
+  // Android apps" under an "In development" badge. The copy was cured
+  // (a8597e21-era sweeps); the literals below regression-ban the shipped-vs-
+  // coming fiction anywhere a tracked file tries to bring it back.
+  [
+    /android and ios apps coming soon/i,
+    'the nexus-core "Android and iOS apps coming soon" fiction (the APK prerelease ships today)',
+  ],
+  [
+    /coming soon: native ios and android/i,
+    'the cyber-pursuit "Coming soon: native iOS and Android apps" gallery fiction (same shipped-vs-coming class)',
+  ],
+  [
+    /mobile apps? (?:are )?coming soon/i,
+    'a generalized "mobile apps coming soon" narration of a shipped product (status SSOT: beta, installing today)',
+  ],
 ];
 
 // build.mjs keepInSite() in miniature — review archives under sites/*/reviews/
@@ -230,7 +275,10 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
   // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
   // sit well below so ordinary churn cannot trip them, and a collapsed
   // ls-files/extension filter (the class of bug that created r1) cannot pass.
-  assert.ok(scanSet.length >= 3000, `law 1 scan set has ${scanSet.length} files; the perimeter collapsed`);
+  assert.ok(
+    scanSet.length >= 3000,
+    `law 1 scan set has ${scanSet.length} files; the perimeter collapsed`,
+  );
   assert.ok(scanned >= 1500, `law 1 scanned only ${scanned} files; the perimeter is vacuous`);
   // The r2 blind spot specifically: the base schema must be inside the set.
   assert.ok(scanSet.includes('brand_kit_schema.js'), 'brand_kit_schema.js left the perimeter');
