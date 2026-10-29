@@ -7,17 +7,27 @@
  * no commit touched dependencies. Six advisories had published patches inside
  * their parents' declared ranges and were cleared lockfile-only by
  * `npm update compression proxy-addr shell-quote source-map-js http-cache-semantics`.
- * Two remain, and NEITHER has a reachable fix (proofs per entry below), so the
- * gate ships as a DOCUMENTED ALLOW-LIST, ported from phlix-windows-client
- * 74fc744/bb9276d: the audit passes only while the reported advisory-id set is a
- * subset of ALLOWED_ADVISORIES below, and turns red the moment ANY other
- * advisory appears — at any severity, unlike the bare --audit-level=moderate
- * step this replaces, which silently passed sub-threshold findings.
+ * The drift resurfaced on 2026-10-29 (lint run 40870590683 at tip 49543526) with
+ * three newly-unlisted ids: body-parser GHSA-27r3-jxmh-p828 was cleared
+ * lockfile-only (`npm update body-parser`; 1.20.9 is inside express's ~1.20.5
+ * declaration), and deepmerge GHSA-gcqx-w48m-w2h4 and zod GHSA-mrhx-c7xc-m3w5
+ * join the allow-list below — NEITHER has a reachable fix (proofs per entry).
+ * The braces entry from the 2026-10-08 era (GHSA-vfj7-8cjw-p6xm) was REMOVED as
+ * dead weight: the advisory was WITHDRAWN upstream on 2026-10-23 (gh api
+ * /advisories/GHSA-vfj7-8cjw-p6xm → withdrawn_at 2026-10-23T12:53:02Z; npm audit
+ * has not reported it since) — withdrawn entries must not linger as if live.
+ * The gate therefore ships as a DOCUMENTED ALLOW-LIST, ported from
+ * phlix-windows-client 74fc744/bb9276d: the audit passes only while the reported
+ * advisory-id set is a subset of ALLOWED_ADVISORIES below, and turns red the
+ * moment ANY other advisory appears — at any severity, unlike the bare
+ * --audit-level=moderate step this replaces, which silently passed
+ * sub-threshold findings.
  *
- * REACH: both allowed advisories sit in dev tooling only — every package in this
+ * REACH: every allowed advisory sits in dev tooling only — every package in this
  * repo's tree is devDependency-reachable (site builds output static files; nothing
  * of the audit's chain is served to users). npm's human output counts affected
- * PACKAGES (19 here); this gate dedupes by advisory id via the JSON parse below.
+ * PACKAGES (16 at 2026-10-29); this gate dedupes by advisory id via the JSON
+ * parse below (16 package keys → 3 advisory ids).
  *
  * ANTI-NEUTERING LAW:
  * A silent gate is worse than no gate. The script distinguishes "audit clean"
@@ -40,24 +50,6 @@ export const EXIT_STRUCTURE_ERROR = 2;
 // every run. Subset semantics: ANY advisory id missing here reddens the gate.
 export const ALLOWED_ADVISORIES = new Map([
   [
-    'GHSA-vfj7-8cjw-p6xm',
-    {
-      package: 'braces',
-      justification:
-        'dev-chain-only (stylelint -> fast-glob/micromatch -> braces; the site is static ' +
-        'output, nothing shipped to users); NO patched release exists — the advisory range ' +
-        'is <=3.0.3 and 3.0.3 is the newest version ever published (registry dist-tags + ' +
-        'version list verified 2026-10-08; GitHub advisory lists no first_patched_version), ' +
-        'so no bump can clear it; micromatch 4.0.8 (latest) still declares braces ^3.0.3. ' +
-        'The flaw is stack exhaustion via deeply nested brace globs — an attacker would ' +
-        'need to control the CSS file names/glob patterns stylelint is pointed at. ' +
-        'UPSTREAM WATCH (the removal plan): the moment a 3.0.4+ lands, `npm update braces` ' +
-        'resolves inside the existing ^3.0.3 declaration — then REMOVE this entry, its ' +
-        'justification, and the vfj7 fixtures in test/audit-gate.test.mjs. Re-verify ' +
-        'advisory status by 2027-01-03: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm',
-    },
-  ],
-  [
     'GHSA-c475-qrg2-pj4r',
     {
       package: 'basic-ftp',
@@ -78,6 +70,57 @@ export const ALLOWED_ADVISORIES = new Map([
         'clears it — then REMOVE this entry, its justification, and the c475 fixtures ' +
         'in test/audit-gate.test.mjs. Re-verify advisory status by 2027-01-03: ' +
         'https://github.com/advisories/GHSA-c475-qrg2-pj4r',
+    },
+  ],
+  [
+    'GHSA-gcqx-w48m-w2h4',
+    {
+      package: 'deepmerge',
+      justification:
+        'dev-chain-only (root devDependency google-fonts-helper ^3.7.4 -> deepmerge ' +
+        '^4.3.1; font-vendoring tooling on the build side only — the site emits static ' +
+        'files and nothing of this chain is served to users); NO patched release exists — ' +
+        'the advisory range is >=4.2.0 <=4.3.1 and 4.3.1 is the newest version ever ' +
+        'published (registry version list verified 2026-10-29; GitHub advisory lists no ' +
+        'first_patched_version), and a downgrade cannot escape: ^4.3.1 makes 4.3.1 the ' +
+        'MINIMUM installable under the parent, and every 4.x inside the parent range is ' +
+        'flagged. google-fonts-helper 3.7.4 (itself the latest release) is the only ' +
+        'declarer. The flaw is prototype poisoning of objects returned by mergeObject() ' +
+        'for crafted merge inputs — the inputs here are this repo\'s own font manifests, ' +
+        'never untrusted data. UPSTREAM WATCH (the removal plan): the moment a 4.3.2+ ' +
+        'lands, `npm update deepmerge` resolves inside the existing ^4.3.1 declaration — ' +
+        'then REMOVE this entry, its justification, and the gcqx fixtures in ' +
+        'test/audit-gate.test.mjs. Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-gcqx-w48m-w2h4',
+    },
+  ],
+  [
+    'GHSA-mrhx-c7xc-m3w5',
+    {
+      package: 'zod',
+      justification:
+        'dev-chain-only (pa11y-ci -> pa11y -> puppeteer -> chromium-bidi 17.0.2 -> zod ' +
+        '^3.24.1; the accessibility harness drives a LOCAL Chrome and zod parses internal ' +
+        'BiDi protocol messages — nothing external reaches the parser and nothing shipped ' +
+        'to users); a patched release EXISTS (4.6.6) but is UNREACHABLE at two axes: ' +
+        'the fix is CROSS-MAJOR from the parent\'s ^3.24.1 declaration and zod\'s newest ' +
+        'stable 3.x release is 3.25.76 — exactly what is installed, no 3.x backport was ' +
+        'ever published (registry version list verified 2026-10-29); and the puppeteer ' +
+        'chain is deliberately pinned by this repo\'s own overrides ' +
+        '("puppeteer": "25.8.0", "puppeteer-core": "25.8.0") — the S321 cure (34c99e33) ' +
+        'that dropped the permanently-unfixed extract-zip advisory (GHSA-jmr9-qjv8-65gv) ' +
+        'in favour of @puppeteer/browsers 3.2.1 modern-tar. Moving the chain requires ' +
+        're-auditing that cure, and S430 discipline ("overrides only when a parent range ' +
+        'blocks resolution, never majors", deps-audit-floors.test.mjs header) rejects ' +
+        'forcing a major across an unaudited API boundary for a memory-exhaustion DoS in ' +
+        'a code path that parses its own harness traffic. UPSTREAM WATCH (the removal ' +
+        'plan): the newest chromium-bidi (159.0.8130-0, verified 2026-10-29) already ' +
+        'declares zod ^4.6.5, whose range resolves past 4.6.6 — once a puppeteer release ' +
+        'pins a zod-^4.x chromium-bidi while keeping the S321 extract-zip-free ' +
+        '@puppeteer/browsers line, raise the overrides accordingly (verify extract-zip ' +
+        'stays gone), and REMOVE this entry, its justification, and the mrhx fixtures in ' +
+        'test/audit-gate.test.mjs. Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-mrhx-c7xc-m3w5',
     },
   ],
 ]);

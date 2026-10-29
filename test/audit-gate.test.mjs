@@ -1,13 +1,25 @@
 // Guard tests for scripts/audit-gate.mjs — the npm-audit allow-list gate wired
 // into .github/workflows/lint.yml (replacing the bare `npm audit
-// --audit-level=moderate` step). The gate exists because master went red on
-// 2026-10-07 (run 37802257237) from registry-side advisory drift with NO
-// in-range fix for two advisories: GHSA-vfj7-8cjw-p6xm (braces — 3.0.3 is the
-// newest release ever published) and GHSA-c475-qrg2-pj4r (basic-ftp — patched
-// at 6.2.1 but unreachable: get-uri declares ^5.x at every generation). It may
-// pass ONLY while every reported advisory id is explicitly allow-listed, and it
-// must fail LOUD on every neutering vector: unparseable JSON, unknown report
-// shape, a failed spawn, or a nonzero audit exit reporting zero advisories.
+// --audit-level=moderate` step). The gate exists because master goes red on
+// registry-side advisory drift with NO in-range fix for some advisories. Origin
+// story (2026-10-07/08): the first drift batch cleared five advisories
+// lockfile-only and allow-listed two — GHSA-vfj7-8cjw-p6xm (braces) and
+// GHSA-c475-qrg2-pj4r (basic-ftp). The second drift batch (2026-10-29, lint run
+// 40870590683 at tip 49543526) newly reported body-parser GHSA-27r3-jxmh-p828 —
+// cleared lockfile-only (`npm update body-parser` → 1.20.9, inside express's
+// ~1.20.5 declaration; pinned as a floor in test/deps-audit-floors.test.mjs) —
+// plus two that CANNOT be fixed in-range and joined the allow-list:
+// GHSA-gcqx-w48m-w2h4 (deepmerge — no patched release has ever existed) and
+// GHSA-mrhx-c7xc-m3w5 (zod — patched at 4.6.6, cross-major from chromium-bidi's
+// ^3.24.1, with the puppeteer chain deliberately pinned by the S321 override).
+// The braces entry was simultaneously REMOVED: the advisory was WITHDRAWN
+// upstream on 2026-10-23 and npm no longer reports it, so the exact set below
+// is [basic-ftp, deepmerge, zod] — withdrawn or cleared entries must not
+// linger as if live (windows-client precedent d991d74 dropping the ch52 entry).
+// The gate may pass ONLY while every reported advisory id is explicitly
+// allow-listed, and it must fail LOUD on every neutering vector: unparseable
+// JSON, unknown report shape, a failed spawn, or a nonzero audit exit reporting
+// zero advisories.
 //
 // Design ported from phlix-windows-client tests/unit/audit-gate.test.mjs
 // (vitest there; node:test + node:assert/strict here, matching this repo's
@@ -31,8 +43,9 @@ import {
   decide,
 } from '../scripts/audit-gate.mjs';
 
-const VFJ7 = 'GHSA-vfj7-8cjw-p6xm'; // braces (no patched release exists)
 const C475 = 'GHSA-c475-qrg2-pj4r'; // basic-ftp (patch unreachable under get-uri ^5.x)
+const GCQX = 'GHSA-gcqx-w48m-w2h4'; // deepmerge (no patched release exists)
+const MRHX = 'GHSA-mrhx-c7xc-m3w5'; // zod (4.6.6 cross-major; S321 override pins the chain)
 
 /** v3 npm-audit advisory object for an arbitrary GHSA (url carries the id). */
 function advisory(ghsa, name = 'some-package', severity = 'high') {
@@ -59,34 +72,43 @@ function v3Report(entries) {
 const json = (report) => JSON.stringify(report);
 
 describe('collectAdvisoryIds', () => {
-  it('dedupes the 19 affected dev-chain packages down to the two real advisories', () => {
-    // Condensed from the live `npm audit --json` on master after the in-range
-    // refresh: npm counts 19 vulnerable PACKAGES (the stylelint→micromatch→
-    // braces and @lhci/cli→get-uri→basic-ftp chains, plus dependents like
-    // stylelint-config-standard whose `via` entries are STRINGS naming their
-    // vulnerable dependency, not advisories). The advisory set is exactly two.
-    const bracesChain = ['braces', 'micromatch', 'fast-glob', 'globby', 'stylelint'];
+  it('dedupes the 16 affected dev-chain packages down to the three real advisories', () => {
+    // Condensed from the live `npm audit --json` on master after the 2026-10-29
+    // body-parser clear: npm counts 16 vulnerable PACKAGES (the three advisory
+    // roots basic-ftp/deepmerge/zod plus dependents like lighthouse or pa11y
+    // whose `via` entries are STRINGS naming their vulnerable dependency, not
+    // advisories). The advisory set is exactly three.
     const ftpChain = ['basic-ftp', 'get-uri', 'pac-proxy-agent', 'proxy-agent', '@lhci/cli'];
+    const mergeChain = ['deepmerge', 'google-fonts-helper'];
+    const zodChain = [
+      'zod',
+      'chromium-bidi',
+      'puppeteer',
+      'puppeteer-core',
+      '@puppeteer/browsers',
+      'pa11y',
+      'pa11y-ci',
+      'lighthouse',
+      '@lhci/utils',
+    ];
+    const asChain = (chain, rootPkg, ghsa) =>
+      Object.fromEntries(
+        chain.map((pkg) => [pkg, [pkg === rootPkg ? advisory(ghsa, rootPkg) : rootPkg]]),
+      );
     const report = v3Report({
-      ...Object.fromEntries(
-        bracesChain.map((pkg) => [pkg, [pkg === 'braces' ? advisory(VFJ7, 'braces') : 'braces']]),
-      ),
-      ...Object.fromEntries(
-        ftpChain.map((pkg) => [
-          pkg,
-          [pkg === 'basic-ftp' ? advisory(C475, 'basic-ftp') : 'basic-ftp'],
-        ]),
-      ),
+      ...asChain(ftpChain, 'basic-ftp', C475),
+      ...asChain(mergeChain, 'deepmerge', GCQX),
+      ...asChain(zodChain, 'zod', MRHX),
     });
-    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [C475, VFJ7]);
+    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [C475, GCQX, MRHX]);
   });
 
   it('collects every distinct advisory id across packages', () => {
     const report = v3Report({
-      a: [advisory(VFJ7, 'a')],
+      a: [advisory(GCQX, 'a')],
       b: [advisory('GHSA-aaaa-bbbb-cccc', 'b'), 'a'],
     });
-    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), ['GHSA-aaaa-bbbb-cccc', VFJ7]);
+    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), ['GHSA-aaaa-bbbb-cccc', GCQX]);
   });
 
   it('falls back to a github_advisory_id field when the url lacks a GHSA path', () => {
@@ -99,10 +121,10 @@ describe('collectAdvisoryIds', () => {
   it('reads the legacy v2 `advisories`-keyed shape', () => {
     const report = {
       auditReportVersion: 2,
-      advisories: { 100: { github_advisory_id: VFJ7, module_name: 'braces' } },
+      advisories: { 100: { github_advisory_id: C475, module_name: 'basic-ftp' } },
       metadata: {},
     };
-    assert.deepEqual([...collectAdvisoryIds(json(report))], [VFJ7]);
+    assert.deepEqual([...collectAdvisoryIds(json(report))], [C475]);
   });
 
   it('reads the npm-12 shape (auditReportVersion 2 carrying a `vulnerabilities` map)', () => {
@@ -111,11 +133,11 @@ describe('collectAdvisoryIds', () => {
     const report = {
       auditReportVersion: 2,
       vulnerabilities: {
-        braces: { name: 'braces', severity: 'high', via: [advisory(VFJ7, 'braces')], effects: [] },
+        zod: { name: 'zod', severity: 'high', via: [advisory(MRHX, 'zod')], effects: [] },
       },
       metadata: {},
     };
-    assert.deepEqual([...collectAdvisoryIds(json(report))], [VFJ7]);
+    assert.deepEqual([...collectAdvisoryIds(json(report))], [MRHX]);
   });
 
   it('throws on unparseable output instead of guessing', () => {
@@ -145,33 +167,28 @@ describe('decide — pass verdicts', () => {
     assert.deepEqual(verdict.allowed, []);
   });
 
-  it('passes the braces-only state (GHSA removed first) and names it as allowed', () => {
+  it('passes a single-advisory state (one GHSA cleared first) and names it as allowed', () => {
     const verdict = decide({
       exitCode: 1,
-      stdout: json(v3Report({ braces: [advisory(VFJ7, 'braces')] })),
+      stdout: json(v3Report({ deepmerge: [advisory(GCQX, 'deepmerge')] })),
     });
     assert.equal(verdict.code, EXIT_OK);
-    assert.deepEqual(verdict.allowed, [VFJ7]);
+    assert.deepEqual(verdict.allowed, [GCQX]);
   });
 
-  it('passes the live two-advisory state, each with its documented escape analysis', () => {
+  it('passes the live three-advisory state, each with its documented escape analysis', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
-          braces: [advisory(VFJ7, 'braces')],
           'basic-ftp': [advisory(C475, 'basic-ftp')],
+          deepmerge: [advisory(GCQX, 'deepmerge')],
+          zod: [advisory(MRHX, 'zod')],
         }),
       ),
     });
     assert.equal(verdict.code, EXIT_OK);
-    assert.deepEqual(verdict.allowed, [C475, VFJ7]);
-
-    const vfj7 = ALLOWED_ADVISORIES.get(VFJ7);
-    assert.equal(vfj7.package, 'braces');
-    assert.match(vfj7.justification, /NO patched release exists/);
-    assert.match(vfj7.justification, /UPSTREAM WATCH/);
-    assert.match(vfj7.justification, /Re-verify advisory status by 2027-01-03/);
+    assert.deepEqual(verdict.allowed, [C475, GCQX, MRHX]);
 
     const c475 = ALLOWED_ADVISORIES.get(C475);
     assert.equal(c475.package, 'basic-ftp');
@@ -179,26 +196,42 @@ describe('decide — pass verdicts', () => {
     assert.match(c475.justification, /cross-major override was rejected/);
     assert.match(c475.justification, /UPSTREAM WATCH/);
     assert.match(c475.justification, /Re-verify advisory status by 2027-01-03/);
+
+    const gcqx = ALLOWED_ADVISORIES.get(GCQX);
+    assert.equal(gcqx.package, 'deepmerge');
+    assert.match(gcqx.justification, /NO patched release exists/);
+    assert.match(gcqx.justification, /downgrade cannot escape/);
+    assert.match(gcqx.justification, /UPSTREAM WATCH/);
+    assert.match(gcqx.justification, /Re-verify advisory status by 2027-01-03/);
+
+    const mrhx = ALLOWED_ADVISORIES.get(MRHX);
+    assert.equal(mrhx.package, 'zod');
+    assert.match(mrhx.justification, /UNREACHABLE at two axes/);
+    assert.match(mrhx.justification, /CROSS-MAJOR/);
+    assert.match(mrhx.justification, /S321/);
+    assert.match(mrhx.justification, /UPSTREAM WATCH/);
+    assert.match(mrhx.justification, /Re-verify advisory status by 2027-01-03/);
   });
 
   it('matches allow-list entries case-insensitively (GHSA ids are case-insensitive by spec)', () => {
     const verdict = decide({
       exitCode: 1,
-      stdout: json(v3Report({ a: [advisory(VFJ7.toUpperCase(), 'a')] })),
+      stdout: json(v3Report({ a: [advisory(MRHX.toUpperCase(), 'a')] })),
     });
     assert.equal(verdict.code, EXIT_OK);
-    assert.deepEqual(verdict.allowed, [VFJ7]); // canonical key form surfaces downstream
+    assert.deepEqual(verdict.allowed, [MRHX]); // canonical key form surfaces downstream
   });
 });
 
 describe('decide — fail-loud verdicts', () => {
-  it('reddens when the allowed pair is joined by ANY new advisory', () => {
+  it('reddens when the allowed trio is joined by ANY new advisory', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
-          braces: [advisory(VFJ7, 'braces')],
           'basic-ftp': [advisory(C475, 'basic-ftp')],
+          deepmerge: [advisory(GCQX, 'deepmerge')],
+          zod: [advisory(MRHX, 'zod')],
           evil: [advisory('GHSA-dead-beef-cafe', 'evil')],
         }),
       ),
@@ -206,7 +239,20 @@ describe('decide — fail-loud verdicts', () => {
     assert.equal(verdict.code, EXIT_VIOLATION);
     assert.deepEqual(verdict.unknown, ['GHSA-dead-beef-cafe']);
     assert.match(verdict.problems.join(' '), /NOT on the allow-list: GHSA-dead-beef-cafe/);
-    assert.deepEqual(verdict.allowed, [C475, VFJ7]); // still reported for context
+    assert.deepEqual(verdict.allowed, [C475, GCQX, MRHX]); // still reported for context
+  });
+
+  it('reddens a withdrawn-era id that npm stopped reporting (braces, stale in the list)', () => {
+    // The gate is subset-based, so the DELETED vfj7 entry no longer shelters it:
+    // if the braces advisory were ever un-withdrawn and re-reported, the gate
+    // reddens until a human re-justifies it. This is the regression guard for
+    // the 2026-10-29 removal — the id must be UNKNOWN again.
+    const verdict = decide({
+      exitCode: 1,
+      stdout: json(v3Report({ braces: [advisory('GHSA-vfj7-8cjw-p6xm', 'braces')] })),
+    });
+    assert.equal(verdict.code, EXIT_VIOLATION);
+    assert.deepEqual(verdict.unknown, ['GHSA-vfj7-8cjw-p6xm']);
   });
 
   it('reddens even when npm itself exits 0 below its --audit-level threshold (stricter than the bare step)', () => {
@@ -257,8 +303,12 @@ describe('decide — fail-loud verdicts', () => {
 });
 
 describe('allow-list integrity', () => {
-  it('contains EXACTLY the two justified entries (vfj7/braces, c475/basic-ftp) — additions/removals must be a reviewed decision', () => {
-    assert.deepEqual([...ALLOWED_ADVISORIES.keys()].sort(), [C475, VFJ7]);
+  it('contains EXACTLY the three justified entries (c475/basic-ftp, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
+    assert.deepEqual([...ALLOWED_ADVISORIES.keys()].sort(), [C475, GCQX, MRHX]);
+  });
+
+  it('no longer carries the withdrawn braces entry (GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23)', () => {
+    assert.equal(ALLOWED_ADVISORIES.has('GHSA-vfj7-8cjw-p6xm'), false);
   });
 
   it('keys every entry in the canonical npm-reported GHSA form', () => {
@@ -277,7 +327,8 @@ describe('allow-list integrity', () => {
   it('names the package each allowed advisory was reported against in the live lockfile', () => {
     // If the gate script and the allow-list keys ever drift apart (id typo,
     // renamed package), the live-state test above and this pin both react.
-    assert.equal(ALLOWED_ADVISORIES.get(VFJ7).package, 'braces');
     assert.equal(ALLOWED_ADVISORIES.get(C475).package, 'basic-ftp');
+    assert.equal(ALLOWED_ADVISORIES.get(GCQX).package, 'deepmerge');
+    assert.equal(ALLOWED_ADVISORIES.get(MRHX).package, 'zod');
   });
 });

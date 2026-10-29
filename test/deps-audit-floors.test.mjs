@@ -62,8 +62,11 @@ const STEP_TOKEN = 'S472AUDFIXX9L3';
 // Patched floors, re-derived 2026-09-11 against `npm audit --audit-level=moderate`
 // at tip 9303026f; +5 floors added 2026-10-08 from the advisory-drift re-green
 // (the six-GHSA inventory measured at tip 59cd8ec3, five of them cleared
-// lockfile-only by targeted `npm update` — see scripts/audit-gate.mjs for the
-// two that could NOT be cleared and are allow-listed there instead). If you bump
+// lockfile-only by targeted `npm update`); +1 floor added 2026-10-29 from the
+// second drift re-green at tip 49543526 (body-parser 1.20.9 cleared lockfile-
+// only — see scripts/audit-gate.mjs for the advisories that could NOT be
+// cleared and are allow-listed there instead, and for the braces entry dropped
+// after its advisory was withdrawn upstream). If you bump
 // a package past its floor, fine — at or above is the assertion. If an advisory's
 // fixed version changes, re-derive and raise the floor; do not lower it.
 const AUDIT_FLOORS = [
@@ -115,6 +118,13 @@ const AUDIT_FLOORS = [
     ghsa: 'GHSA-ch52-4w7c-c8xp',
     vulnerable: '<=4.2.0',
     why: 'max-stale handling can disclose cross-user cached responses',
+  },
+  {
+    pkg: 'body-parser',
+    floor: '1.20.9',
+    ghsa: 'GHSA-27r3-jxmh-p828',
+    vulnerable: '<1.20.9',
+    why: 'Denial of Service via trailing bytes after a compressed request body',
   },
 ];
 
@@ -180,7 +190,9 @@ test(`security audit floors are held in the lockfile [${STEP_TOKEN}]`, () => {
 
 test('floor gate refuses the pre-patch lockfile (negative control)', () => {
   // Fabricated lock exactly as tip 59cd8ec3 measured it — the two originals
-  // below floor plus the five advisories the 2026-10-08 `npm update` cleared.
+  // below floor plus the five advisories the 2026-10-08 `npm update` cleared,
+  // plus body-parser 1.20.8 as tip 49543526 measured it before the 2026-10-29
+  // in-range clear.
   const prePatchLock = {
     packages: {
       'node_modules/js-yaml': { version: '4.3.1' },
@@ -190,6 +202,7 @@ test('floor gate refuses the pre-patch lockfile (negative control)', () => {
       'node_modules/shell-quote': { version: '1.10.0' },
       'node_modules/source-map-js': { version: '1.2.1' },
       'node_modules/http-cache-semantics': { version: '4.2.0' },
+      'node_modules/body-parser': { version: '1.20.8' },
     },
   };
   const refusals = floorRefusals(prePatchLock);
