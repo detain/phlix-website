@@ -39,6 +39,14 @@
 // network but not CPU — scores in CI land at-or-above these bands, so the
 // slack protects against flakes, not against decay: every bound is still
 // inside one spec generation of the measured reality.
+//
+// VENUE RE-PIN (first real CI run 40860475250, 2026-10-29): every bound held
+// on the ubuntu-26.04 runner EXCEPT the gallery's mobile speed-index, which
+// measured 3876–4094ms there (vs 2867–2919ms on the baseline box — CI
+// runners' simulated-throttling CPU profile paints later). Re-pinned from
+// the MEASURED CI numbers (max +10%, rounded outward) exactly as the host
+// numbers were: 3300 -> 4600. All other budgets remain as derived above;
+// desktop passed clean on CI unchanged (2 URL(s) asserted, 0 failures).
 
 module.exports = {
   ci: {
@@ -67,7 +75,7 @@ module.exports = {
         'largest-contentful-paint': ['error', { maxNumericValue: 3300 }],
         'cumulative-layout-shift': ['error', { maxNumericValue: 0.11 }],
         'total-blocking-time': ['error', { maxNumericValue: 250 }],
-        'speed-index': ['error', { maxNumericValue: 3300 }],
+        'speed-index': ['error', { maxNumericValue: 4600 }],
         'resource-summary:total:size': ['error', { maxNumericValue: 1000000 }],
       },
     },
