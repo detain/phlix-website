@@ -589,6 +589,44 @@ const FORBIDDEN = [
     /\b(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b[a-z ,:—–"'()\n]{0,24}?\b(?:live|available|launches|ships)\b|(?<!\bnot\s)(?<!\bno\s)\b(?:available|listed|live)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|from)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b/i,
     'an M12 store-availability claim in either order ("the Channel Store is live", "available on the Roku store") — the negated honest forms stay outside',
   ],
+  // M-WEBSITE-14 (review website__writer M3, armed per the M-WEBSITE-13 STALE-close
+  // follow-up): the PHANTOM COMMUNITY CONTACT class. The a8597e21 truth sweep cured the
+  // vanity invite (a Discord URL whose invite 404s at the API), the dead-`#` Discord
+  // card, and the GitHub-Discussions claim made while the repo's Discussions are OFF —
+  // but NO law arm bound the family: every cured carrier could re-enter in total silence
+  // (the M11 naked-fingerprint lesson, and M12's "no net at all"). The census at this
+  // tip measures zero convictions across the shipping surface, and the honest
+  // webhook-notification copy — which names Discord/Telegram as the USER'S notification
+  // backends, never as Phlix's own channels — acquits through every arm: law 12 pins
+  // both directions, and the platform WORDS stay free (they are real plugin targets).
+  [
+    /discord\.gg|discordapp\.com\/invite/i,
+    'the M3 phantom community contact fingerprint — a Discord invite URL (the 404 vanity invite the ricochet kits shipped, and every future vanity; no Phlix invite exists — discord.com/invite/phlix answers Unknown Invite 10006)',
+  ],
+  [
+    /\bdiscord\s+server\b/i,
+    'the M3 phantom community contact noun — a "Discord server" Phlix supposedly runs (the demolition-crew docs-era trio claim; the honest webhook enumeration never pairs the platform with the channel noun — measured zero)',
+  ],
+  [
+    /\b(?:telegram|whatsapp)\s+(?:group|channel|chat|line)\b/i,
+    'the M3 phantom community contact noun, messaging siblings (a Telegram group or WhatsApp line that exists nowhere — the bare platform word in the webhook lists stays free)',
+  ],
+  [
+    /\bt\.me\/[a-z0-9_.-]+|\bwa\.me\/\d+/i,
+    'the M3 phantom community contact URL — a t.me/ or wa.me/ handle (nothing honest emits one; measured zero tree-wide)',
+  ],
+  [
+    /\bgithub\s+discussions\b|github\.com\/[^\s"'<>]*\/discussions/i,
+    'the M3 phantom community contact claim — GitHub Discussions by product name or /discussions URL, while the server repo reports has_discussions false (honest "start with a discussion issue" is issues prose, not the product name; cured button is /issues)',
+  ],
+  [
+    /href=["']#["'][^>]{0,240}>\s*(?:<[^>]{0,40}>\s*)?(?:join\s+)?(?:the\s+|our\s+)?(?:discord|telegram|whatsapp)\b/i,
+    'the M3 phantom community contact STRUCTURE — a dead "#" anchor whose first visible text is a messaging platform (the storm-chaser-era card: a join-card promising real-time discussion behind a do-nothing href; skip links and the "Open Web App" placeholder name no platform, so they acquit by measurement)',
+  ],
+  [
+    /\b(?:join|chat\s+(?:with|on)|message|contact|ping|reach|head\s+to)\b[a-z ,:—–"'()\n]{0,24}?(?:our|the|a|an)?\s*\b(?:discord|telegram|whatsapp)\b/i,
+    'the M3 phantom community contact pairing — a join/contact verb reaching a messaging platform inside one period-free window (Phlix runs no official Discord/Telegram/WhatsApp presence; "Send events to Discord, Slack, Telegram" carries no contact verb — law 12 acquits it verbatim)',
+  ],
 ];
 // LIT-FIXTURE-END forbidden-pattern-registry
 
@@ -1785,3 +1823,100 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
   assert.throws(() => maskLitRegions('// LIT-FIXTURE-BEGIN t\nopen forever\n'), /left open|unpaired/);
   assert.throws(() => maskLitRegions('// LIT-FIXTURE-END t\nearly close\n'), /unpaired/);
 });
+
+// ── M-WEBSITE-14: PHANTOM COMMUNITY CONTACT LAW (law 12) ─────────────────────────
+// Writer review M3's community-link fictions (vanity invite 404; dead `#` Discord
+// card; Discussions claims) were copy-cured by a8597e21 with no net under them —
+// the M-WEBSITE-13 STALE close logged the gap and the owner commissioned this arm.
+// The family now dies structurally: naked invite/contact fingerprints, the channel
+// nouns, the Discussions product name, and the two pairing shapes (dead-anchor→
+// platform, contact-verb→platform) all bind in the shared FORBIDDEN registry, so
+// law 1 (whole tracked tree), law 2 (Pages artifact) and every assertCleanBothForms
+// run carry the teeth. Acquittals are MEASURED, not hoped: the seven webhook-
+// notification copies name platforms as the user's backends and must stay green.
+// LIT-FIXTURE-BEGIN law12-community-fixture-section (plants re-state cured fictions)
+const COMMUNITY_ARMS = FORBIDDEN.filter(([, what]) => /phantom community contact/.test(what));
+
+test('law 12: the phantom community contact family convicts every carrier shape and acquits the webhook truth', () => {
+  // Identity anchoring (law 9 doctrine): if the family leaves the registry — or a
+  // foreign arm joins it — this law stops guarding and must fail loud HERE.
+  assert.equal(
+    COMMUNITY_ARMS.length,
+    7,
+    'the phantom community contact family no longer anchors to exactly 7 registry arms (identity: "phantom community contact") — law 12 anchors moved',
+  );
+  const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
+  // REDS: the review-era carriers verbatim (the parent of the cure shipped these)
+  // plus shapes the naked literal alone could not see. A regression through any of
+  // them must convict on the raw or the markup-collapsed pass.
+  for (const fiction of [
+    '<a href="https://discord.gg/phlix" class="btn btn--ghost">Discord</a>', // ricochet about-era vanity invite (the review's carrier #1)
+    '<li><a href="https://discord.gg/phlix" rel="noopener">Discord</a></li>', // ricochet index-era footer li (carrier #2)
+    '<a href="#" class="card" data-reveal style="--reveal-i:1">\n<h3>Discord</h3>\n<p>Join the storm. Real-time discussion and support.</p>', // storm-chaser dead card (carrier #3) verbatim shape
+    '<a href="https://discordapp.com/invite/phlix">chat here</a>', // the invite host's other domain
+    'GitHub Discussions, Discord server, and community support.', // demolition-crew docs-era subtitle (carrier #4) verbatim
+    '<a href="https://github.com/detain/phlix-server/discussions">GitHub Discussions</a>', // the phantom Discussions URL + product name
+    'Questions? Ask in our GitHub discussions.', // lowercase product-name prose
+    'Join our Telegram group for release alerts.', // the Telegram fabrication family
+    'Chat on WhatsApp — the Phlix support line.', // the WhatsApp fabrication family
+    'write to t.me/phlixteam', // the t.me handle fingerprint
+    'or dial wa.me/15550100000 any time', // the wa.me handle fingerprint
+    'label: "Discord Server", href: "#"', // the kit label/value hop (M8r2 class): the noun convicts through JSON syntax
+    'DISCORD.GG/Phlix is live now', // case variant — the case-insensitive fingerprint is the M11 lesson applied
+    '<h4>Community</h4>\n<p>Join the Discord and talk to other fans.</p>', // verb→platform pairing split across nodes (convicts on the collapsed pass)
+  ]) {
+    assert.ok(engine(fiction), `the phantom community contact law lost its teeth: /${fiction}/ would ship`);
+  }
+  // GREENS (negative controls, run through the SAME engine law 1/2 use): every
+  // honest webhook-notification copy verbatim from the shipping tree, the review's
+  // own non-flagged "Discord Notifier" card, the cured community posture, honest
+  // issues-workflow prose, legit external developer links, and the kit's telegram
+  // metaphor. Over-reach reddens HERE — that is what this list is for.
+  for (const legal of [
+    '<h3 class="card__title">Discord Notifier</h3>', // demolition-crew/hub.html:137 — "not flagged" by the review itself
+    'Rich embed notifications to Discord webhooks on new content, recording complete, and', // hub.html:139
+    'Send to Pushover, Discord, Telegram, email, Slack, Matrix, Gotify, NTfy, or any', // demolition-crew/plugins.html:155
+    'Send notifications to Slack, Discord, Telegram when media events occur.', // quantum-stream/plugins.html:128
+    'Send events to Discord, Slack, Telegram, or any webhook endpoint. The storm reports', // storm-chaser/plugins.html:132
+    'Sends alerts to Discord, Telegram, Slack, and email when new content is added,', // velocity-x/plugins.html:163
+    'Notification backends (Pushover, Discord, Slack)', // jungle-trek/plugins.html:162
+    'Discord, or your own webhook when a recording finishes or a new episode drops.', // neon-blossom/plugins.html:268
+    'File an issue, or start with a discussion issue and label it question.', // movie-camera honest issues prose
+    '<a href="https://github.com/detain/phlix-server/issues">GitHub Issues</a>', // the cured carrier #4 button
+    'Docs: <a href="https://detain.github.io/phlix-docs">Docs</a> · <a href="https://github.com/detain/phlix-server">GitHub</a> · <a href="https://developer.roku.com">Roku developer portal</a>', // cured ricochet posture + legit external dev link
+    '<a href="#" aria-label="Open Web App">Open Web App</a>', // ricochet/clients.html:164 — the surviving dead-anchor placeholder names NO platform
+    'Precise and understated — a telegram from the workshop, never a cry of alarm.', // brand-kits/copper-steampunk.js:874 metaphor, lowercase, no channel noun
+    'Join the community — every question is welcome.', // honest community prose, platform-free
+    'No Discord or Telegram to join: support runs through GitHub issues and the docs.', // the EXPLICIT denial — verb gap crosses the colon? it must stay green
+  ]) {
+    assert.ok(!engine(legal), `a phantom community contact arm overreaches honest copy: /${legal}/`);
+  }
+  // Engine wiring proof (law 5/6/9 discipline): the plants convict THROUGH the
+  // FORBIDDEN loop law 1/2 run — assertClean must throw on a planted line, and the
+  // structural (dead-anchor) arm must throw too, so no plant is a paper tiger.
+  assert.throws(
+    () => assertClean('<li><a href="https://discord.gg/phlix">Discord</a></li>', 'planted community invite'),
+    /phantom community contact/,
+    'the community fingerprint arms are not wired into the assertClean engine law 1/2 run',
+  );
+  assert.throws(
+    () => assertClean('<a href="#" class="card"><h3>Telegram</h3></a>', 'planted dead community card'),
+    /phantom community contact/,
+    'the dead-anchor structural arm is not wired into the assertClean engine law 1/2 run',
+  );
+  // Cures-stay-cured needles (M12 law-11 idiom): the review's four carriers at their
+  // HEAD faces, asserted free of the family through the same both-forms call law 1 runs.
+  for (const rel of [
+    'sites/ricochet/about.html',
+    'sites/ricochet/index.html',
+    'sites/storm-chaser/about.html',
+    'sites/demolition-crew/docs.html',
+  ]) {
+    const text = readFileSync(join(ROOT, rel), 'utf8');
+    for (const [re, what] of COMMUNITY_ARMS) {
+      assert.ok(!re.test(text), `${rel} re-entered the phantom community contact class: ${what}`);
+      if (/\.html$/i.test(rel)) assert.ok(!re.test(stripMarkup(text)), `${rel} (markup-collapsed) re-entered: ${what}`);
+    }
+  }
+});
+// LIT-FIXTURE-END law12-community-fixture-section
