@@ -20,9 +20,15 @@
 // Two sibling claims named by the same review were already retracted by the
 // truth sweeps and stay retracted under this law: "5 Native Clients" (the SSOT
 // counts four native clients; the r2 sweep also retired desert-horizon's
-// "8 native + DLNA clients" — same miscount class, see the pattern registry)
-// and the swiss-modernist "hub access without the
-// internet" (written before the relay existed; now "without opening ports").
+// "8 native + DLNA clients" — same miscount class, see the pattern registry;
+// r4 caught the class still breathing in two more carriers the literal law
+// could not see — cyber-pursuit's { label: "Native Clients", value: "5" }
+// proof_strategy stat, cured to "4" matching its own shipped trust-stat, and
+// velocity-rush's SHIPPED og/twitter descriptions "Six native clients." — a
+// word-form count beyond the 5/five literal family, cured to the §19.14
+// sentence)
+// and the swiss-modernist "hub access without the internet" (written before
+// the relay existed; now "without opening ports").
 // "CRF 23/28" was retired by be34d142 in favor of the honest "H.264 defaults
 // to CRF 23". The M-WEBSITE-07 positive-fabrication class (unlimited-viewers
 // marketing and invented sync benchmarks around watch parties, groups and
@@ -48,6 +54,23 @@
 // fix report, not policed here. This file kills only the claims the review
 // named, wherever they try to come back.
 //
+// KNOWN SHAPE LIMITATIONS (r4, stated honestly per review M6r3 (3d)):
+// the pairing law binds a count to the noun "native clients" through a
+// punctuation gap, one key hop (label/value/count), or one element hop
+// between sibling nodes. It deliberately does NOT bind: (a) counts decorated
+// with "+" ("5+" headline badges) and (b) counts beside compound relief words
+// ("Five windows/weapons", "Six cockpits", "Native Clients + DLNA", "5 client
+// paths", "8 native features") — the r2 sweep table dispositioned that
+// surface-enumeration family legal (four natives plus any DLNA device counted
+// as surfaces), and r3 concurred it is owner-wave positive-pin material, not
+// this law's prey. The one laundering-proof exception: a compound "N+ native
+// clients" inside a SINGLE string is a count claim and dies as a raw-form
+// literal — applied to collapsed markup it would (and in development, did)
+// re-convict the very sibling-badge family this paragraph exempts. A
+// fabrication that hides behind a "+" badge element or a relief noun stays
+// outside the pairing net by design; a bare count paired directly to the noun
+// 1..12, digit or word, in any key/value/adjacency shape, cannot.
+//
 // The laws:
 //
 //   1. no forbidden claim in ANY TRACKED TEXT FILE — the whole repo minus a
@@ -63,17 +86,38 @@
 //      HTML files are scanned twice: once as written, once with markup
 //      collapsed to plain text (M8r2) — a claim split across a tag boundary
 //      (badge label in one node, future-tense value in the next) is the same
-//      claim to a reader and must be the same claim to the law.
+//      claim to a reader and must be the same claim to the law. r4 adds the
+//      SHAPE-AWARE natives pairing (see assertNativesShape): a count bound to
+//      the words "native clients" through a key hop, one element hop, or bare
+//      adjacency is a client-count claim even when no literal like
+//      "5 native clients" ever appears — { label: "Native Clients",
+//      value: "5" }, {"Native Clients":"5"}, <div>5</div><div>Native
+//      Clients</div>, meta content="Six native clients", and word-counted
+//      splits. The r3 review proved the label-based perimeter was blind to
+//      exactly this shape, and r4's own sweep then found a SHIPPED sibling the
+//      r3 probe class had also missed (velocity-rush's "Six native clients"
+//      og/twitter descriptions — word forms beyond 5/five were outside every
+//      literal). The pairing guard is structural, not a blanket number scan:
+//      digits inside tag attributes/comments are masked away, zero-padded
+//      ordinals and "+"-decorated surface badges never bind, and every
+//      legitimate number in the tree ("5" User Profiles, "5 client paths",
+//      "8 native features", "Five ways to watch") stays green by measurement.
 //   2. no forbidden claim in the ARTIFACT — a real tools/build.mjs run into a
 //      throwaway root (same isolation idiom as test/public-hub-truth.test.mjs
 //      law 2: repo dist/ is rebuilt by test/csp-gate.test.mjs mid-run, so
-//      reading it here would race);
+//      reading it here would race). The r4 pairing guard applies here too, so
+//      a split-shape claim cannot reach the Pages build;
 //   3. the chrome-velocity hero keeps the SSOT fact set after the cure
 //      (platforms + feature rail re-voiced, not deleted) and the root gallery
 //      manifest carries the cured tagline — a "cure" that quietly amputated
 //      the facts or the identity could not pass;
 //   4. the tagline published twice (kit file feeds the root gallery; the
-//      site-local content.json ships verbatim) agrees with itself.
+//      site-local content.json ships verbatim) agrees with itself;
+//   5. (r4) the natives shape law has teeth and its cures stay cured: the
+//      truth count is DERIVED from the SSOT enumeration, the cyber-pursuit
+//      survivor and the velocity-rush metas are pinned at the derived truth,
+//      and both scans must actually observe bound pairs (a matcher that
+//      silently stopped pairing reddens the law instead of passing it).
 
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -259,11 +303,217 @@ function assertClean(text, label) {
 function stripMarkup(text) {
   return text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
 }
-function assertCleanBothForms(text, relPath, label) {
-  assertClean(text, label);
-  if (/\.html$/i.test(relPath)) {
-    assertClean(stripMarkup(text), `${label} (markup-collapsed)`);
+
+// ── r4 (review M-WEBSITE-06__r3): SHAPE-AWARE natives miscount pairing ──────
+// The literal registry needs "5 native clients" contiguous. Split shapes —
+// { label: "Native Clients", value: "5" }, "Native Clients":"5", HTML badge
+// cards, meta content="Six native clients" — carry the same claim through
+// syntax instead of prose, and r3 proved the label-based perimeter walked
+// right past cyber-pursuit:1361 while r4's own sweep then caught the
+// word-form "Six" family shipping in velocity-rush. This guard PAIRS a small
+// standalone count with the noun "native clients" across exactly the
+// structural hops copy uses — never through new meaning — and demands the
+// SSOT-derived truth. Precision notes (each learned from a corpus false
+// positive during development, see the fix report):
+//   - tag/comment interiors are masked to position-preserving \u0001 runs so
+//     numerals inside style="…var(--space-7)" cannot pair with copy; quoted
+//     CONTENT attributes (content/alt/title/aria-label/placeholder) are the
+//     reader-visible exception;
+//   - zero-padded numerals ("02", "03") are list ordinals, never counts;
+//   - "+"-decorated numerals ("5+" badges) belong to the surface-enumeration
+//     family the r2 table dispositioned legal;
+//   - only the NEAREST count on either side of a noun is tried, and a noun
+//     already paired on its left is never re-paired on its right, so
+//     "4 native clients. One library." and adjacent stat cards cannot bleed.
+const SSOT_BULLETS = JSON.parse(
+  readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'),
+).pitch_bullets;
+const SSOT_NATIVES_LINE = (SSOT_BULLETS || []).find((b) => /^Native clients on /i.test(b));
+if (!SSOT_NATIVES_LINE) {
+  throw new Error('shared/content.json lost the "Native clients on …" pitch bullet');
+}
+const SSOT_NATIVES_MATCH = SSOT_NATIVES_LINE.match(
+  /^Native clients on (.+?), plus any DLNA device$/i,
+);
+if (!SSOT_NATIVES_MATCH) {
+  throw new Error(
+    `SSOT native-clients bullet changed shape; re-derive deliberately: ${SSOT_NATIVES_LINE}`,
+  );
+}
+// Roku, Samsung Tizen, Windows, Mobile → 4. If the estate genuinely gains a
+// native client, this number moves with the SSOT — law 5 pins it so the move
+// is a deliberate re-adjudication, never silent drift.
+const SSOT_NATIVES = SSOT_NATIVES_MATCH[1].split(',').length;
+
+// Noun with evasion-tolerant word separation (masked tags/comments are
+// \u0001; JS concat is quote-plus-quote). Letters never separate the words.
+const NATIVES_SEP = '(?:\\s|\\+|-|_|\u0001|&nbsp;|&#0*160;|["\']\\s*\\+\\s*["\']\\s*)+';
+const NATIVES_NOUN_RE = new RegExp(`native${NATIVES_SEP}clients?\\b`, 'gi');
+const WORD2N = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+};
+const NATIVES_COUNT_RE =
+  /(?<![\w.])(?:[1-9]|1[0-2])(?![\w.,%/:~+-])|(?<![\w])(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)(?![\w])/gi;
+
+const COPY_ATTR = /\b(?:content|alt|title|aria-label|placeholder)\s*=\s*$/i;
+function maskMarkup(text) {
+  return text.replace(/<!--[\s\S]*?-->|<[^>]*>/g, (m) => {
+    if (m.startsWith('<!--')) return '\u0001'.repeat(m.length);
+    // Split on double-quoted segments; prettier normalises attributes to "…".
+    const parts = m.split(/("[^"]*")/);
+    let lastUnquoted = '';
+    return parts
+      .map((p, i) => {
+        if (p.length > 1 && p.startsWith('"') && p.endsWith('"') && i % 2 === 1) {
+          return COPY_ATTR.test(lastUnquoted) ? p : '\u0001'.repeat(p.length);
+        }
+        lastUnquoted = p;
+        return '\u0001'.repeat(p.length);
+      })
+      .join('');
+  });
+}
+
+// Can everything between a count and the noun be pure structure? Runs of
+// punctuation, HTML comments, at most ONE closing and ONE opening tag
+// (adjacent siblings — crossing a card boundary needs two closes), and up to
+// two recognised key words (label/value/count…). Anything else carries
+// meaning and breaks the pair.
+const GAP_TAG_HOP = /^(?:<!--[\s\S]*?-->|<\/?[a-zA-Z][^<>]*>)/;
+const GAP_KEY_HOP = /^(?:label|title|name|value|count|number|total|stat|stats|metric)s?(?![\w])/i;
+function gapBinds(gap) {
+  if (gap.length > 120) return false;
+  let rest = gap;
+  let closes = 0;
+  let opens = 0;
+  let keys = 0;
+  while (rest.length > 0) {
+    const punct = rest.match(/^[\s.,;:!?'"`|/\\()[\]{}=#*+\u2013\u2014\u00b7-]+/);
+    if (punct) {
+      rest = rest.slice(punct[0].length);
+      continue;
+    }
+    const entity = rest.match(/^&(?:nbsp|mdash|ndash|hellip|#0*160;?|#[xX]0*[aA]0;?)/i);
+    if (entity) {
+      rest = rest.slice(entity[0].length);
+      continue;
+    }
+    const hop = rest.match(GAP_TAG_HOP);
+    if (hop) {
+      if (/^<\//.test(hop[0])) closes++;
+      else if (!/^<!--/.test(hop[0])) opens++;
+      if (closes > 1 || opens > 1) return false;
+      rest = rest.slice(hop[0].length);
+      continue;
+    }
+    const key = rest.match(GAP_KEY_HOP);
+    if (key) {
+      keys++;
+      if (keys > 2) return false;
+      rest = rest.slice(key[0].length);
+      continue;
+    }
+    return false;
   }
+  return true;
+}
+
+function nativesShapeFindings(text) {
+  if (!/native/i.test(text)) return { bindings: [], violations: [] };
+  const scan = maskMarkup(text);
+  const nouns = [...scan.matchAll(NATIVES_NOUN_RE)].map((m) => ({
+    start: m.index,
+    end: m.index + m[0].length,
+  }));
+  const counts = [];
+  for (const m of scan.matchAll(NATIVES_COUNT_RE)) {
+    const raw = m[0];
+    const n = /^\d+$/.test(raw)
+      ? parseInt(raw.replace(/^0(?=\d)/, ''), 10)
+      : WORD2N[raw.toLowerCase()];
+    if (n >= 1 && n <= 12) counts.push({ start: m.index, end: m.index + raw.length, n });
+  }
+  const bindings = [];
+  const violations = [];
+  for (const noun of nouns) {
+    let bound = null;
+    for (let i = counts.length - 1; i >= 0; i--) {
+      const c = counts[i];
+      if (c.end > noun.start) continue;
+      if (gapBinds(text.slice(c.end, noun.start))) bound = c;
+      break; // only the nearest preceding count can be this noun's value
+    }
+    if (!bound) {
+      for (const c of counts) {
+        if (c.start < noun.end) continue;
+        if (gapBinds(text.slice(noun.end, c.start))) bound = c;
+        break; // nothing claimed on the left — the nearest right count is it
+      }
+    }
+    if (!bound) continue;
+    bindings.push(bound.n);
+    if (bound.n !== SSOT_NATIVES) {
+      violations.push({
+        count: scan.slice(bound.start, bound.end),
+        line: text.slice(0, noun.start).split('\n').length,
+      });
+    }
+  }
+  return { bindings, violations };
+}
+
+// Returns the number of count↔noun pairs actually evaluated (non-vacuity).
+function assertNativesShape(text, label) {
+  const { bindings, violations } = nativesShapeFindings(text);
+  for (const v of violations) {
+    assert.fail(
+      `${label}:${v.line}: a native-clients count of "${v.count}" is back — the SSOT ` +
+        `(shared/content.json enumeration, §19.14) says ${SSOT_NATIVES}. The split-shape ` +
+        `pairing law (r4) binds counts through key hops, one element hop, or bare adjacency.`,
+    );
+  }
+  return bindings.length;
+}
+
+// r4: the pairing guard refuses to bind "+"-decorated badges to the noun —
+// that is the surface-enumeration family the r2 table dispositioned legal
+// (nordic-saga's "5+" card beside the honest four-plus-DLNA sentence). But a
+// compound "N+ native clients" INSIDE ONE STRING claims N-or-more NATIVE
+// clients, and the "+" exemption must not launder it, so it dies as a literal.
+// RAW FORM ONLY, and that is load-bearing: once tags collapse, "5+" and
+// "Native clients" from two sibling elements sit adjacent and would match —
+// the r4 suite caught exactly that self-inflicted false positive. A claim
+// across a tag boundary is a badge family (legal); a compound inside one
+// string is a count claim (fatal). Zero matches tracked tree + artifact.
+const NATIVES_COMPOUND_RE =
+  /(?:[5-9]|five|six|seven|eight|nine|ten|eleven|twelve)\+ native clients/i;
+
+function assertCleanBothForms(text, relPath, label) {
+  let paired = assertNativesShape(text, label);
+  assertClean(text, label);
+  assert.ok(
+    !NATIVES_COMPOUND_RE.test(text),
+    `${label}: an "N+ native clients" compound claim is back — there are exactly four;` +
+      ` the "+" badge exemption covers separate badge ELEMENTS (surface enumeration),` +
+      ` never a same-string compound`,
+  );
+  if (/\.html$/i.test(relPath)) {
+    const flat = stripMarkup(text);
+    assertClean(flat, `${label} (markup-collapsed)`);
+    paired += assertNativesShape(flat, `${label} (markup-collapsed)`);
+  }
+  return paired;
 }
 
 const tempRoots = [];
@@ -330,10 +580,11 @@ function law1Exemption(rel) {
 test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)', () => {
   const scanSet = TRACKED.filter((f) => TEXT_EXT.test(f) || ROOT_TEMPLATES.has(f));
   let scanned = 0;
+  let paired = 0;
   for (const rel of scanSet) {
     if (law1Exemption(rel)) continue;
     scanned++;
-    assertCleanBothForms(readFileSync(join(ROOT, rel), 'utf8'), rel, rel);
+    paired += assertCleanBothForms(readFileSync(join(ROOT, rel), 'utf8'), rel, rel);
   }
   // Non-vacuity: the perimeter must actually be the whole tree, not a filter
   // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
@@ -344,6 +595,15 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
     `law 1 scan set has ${scanSet.length} files; the perimeter collapsed`,
   );
   assert.ok(scanned >= 1500, `law 1 scanned only ${scanned} files; the perimeter is vacuous`);
+  // r4: the pairing guard must actually be pairing. Measured at this commit:
+  // 300 count↔noun pairs over the tracked tree (187 as-written + 113
+  // markup-collapsed). A matcher that silently stopped binding — the exact
+  // failure class r3 caught in the literal law — reddens this floor instead
+  // of passing green.
+  assert.ok(
+    paired >= 150,
+    `law 1 pairing guard bound only ${paired} count↔noun pairs; it went shape-blind`,
+  );
   // The r2 blind spot specifically: the base schema must be inside the set.
   assert.ok(scanSet.includes('brand_kit_schema.js'), 'brand_kit_schema.js left the perimeter');
 });
@@ -360,13 +620,23 @@ test('law 2: the Pages artifact of a real build carries zero forbidden claims', 
     'artifact HTML count collapsed below the published set',
   );
 
+  let paired = 0;
   for (const rel of files) {
-    assertCleanBothForms(
+    paired += assertCleanBothForms(
       readFileSync(join(dist, rel), { encoding: TEXT_EXT.test(rel) ? 'utf8' : 'latin1' }),
       rel,
       `dist/${rel}`,
     );
   }
+  // r4 structural non-vacuity: the artifact pairing scan must be seeing real
+  // stat-card pairs (measured 125 = 70 as-written + 55 collapsed at this
+  // commit). The velocity-rush "Six native clients" descriptions this law now
+  // kills reached dist in the r4 sweep — a shape-blind artifact scan passed
+  // them, so the floor is part of the cure.
+  assert.ok(
+    paired >= 60,
+    `law 2 pairing guard bound only ${paired} count↔noun pairs; it went shape-blind`,
+  );
 });
 
 test('law 3: the cure kept the facts and the identity (traceable revoice, not amputation)', () => {
@@ -410,4 +680,47 @@ test('law 4: the tagline published twice agrees with itself', () => {
     JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8')).site,
     'chrome-velocity/content.json site block drifted from the SSOT site block',
   );
+});
+
+// Law 5 (r4): the split-shape cures stay cured, positively — the pairing
+// guard's own teeth, pinned so a future edit cannot satisfy law 1 by quietly
+// deleting the truthful claims it once policed.
+test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', () => {
+  // The truth is DERIVED from the SSOT enumeration, not copied prose. If the
+  // estate genuinely gains (or loses) a native client this fails LOUD and the
+  // §19.14 adjudication must be re-run deliberately — numbers move with the
+  // source of fact, never silently with the law.
+  assert.equal(
+    SSOT_NATIVES,
+    4,
+    'shared/content.json no longer enumerates exactly four native clients — ' +
+      're-adjudicate new_site.md §19.14 and re-derive this law on purpose',
+  );
+
+  // cyber-pursuit: the r3 survivor ({ label: "Native Clients", value: "5" },
+  // f73714e7-era) must still pair its label with the SSOT count. A cure that
+  // deleted the stat instead of correcting it would leave zero bindings.
+  const kit = readFileSync(join(ROOT, 'brand-kits', 'cyber-pursuit.js'), 'utf8');
+  const kitFindings = nativesShapeFindings(kit);
+  assert.equal(kitFindings.violations.length, 0, 'cyber-pursuit stat miscount is back');
+  assert.ok(
+    kitFindings.bindings.includes(SSOT_NATIVES),
+    'cyber-pursuit no longer pairs "Native Clients" with the SSOT count — the stat was amputated, not cured',
+  );
+
+  // velocity-rush: the r4 sweep's shipped finding — og + twitter + the page's
+  // own description all enumerated "Four native clients … plus any DLNA
+  // device"; every natives count on this page must be the truth, and the
+  // three claims must still EXIST (>= 3 bindings: cure-by-deletion is not a
+  // cure).
+  const vr = readFileSync(join(ROOT, 'sites', 'velocity-rush', 'clients.html'), 'utf8');
+  const vrFindings = nativesShapeFindings(vr);
+  assert.equal(vrFindings.violations.length, 0, 'a velocity-rush client-count miscount is back');
+  assert.ok(
+    vrFindings.bindings.length >= 3,
+    `velocity-rush carries ${vrFindings.bindings.length} native-clients claims; the cure shipped deletion`,
+  );
+  for (const n of vrFindings.bindings) {
+    assert.equal(n, SSOT_NATIVES, 'velocity-rush natives count drifted from the SSOT');
+  }
 });
