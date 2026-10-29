@@ -19,7 +19,9 @@
 //
 // Two sibling claims named by the same review were already retracted by the
 // truth sweeps and stay retracted under this law: "5 Native Clients" (the SSOT
-// counts four native clients) and the swiss-modernist "hub access without the
+// counts four native clients; the r2 sweep also retired desert-horizon's
+// "8 native + DLNA clients" — same miscount class, see the pattern registry)
+// and the swiss-modernist "hub access without the
 // internet" (written before the relay existed; now "without opening ports").
 // "CRF 23/28" was retired by be34d142 in favor of the honest "H.264 defaults
 // to CRF 23". The M-WEBSITE-07 positive-fabrication class (unlimited-viewers
@@ -38,10 +40,16 @@
 //
 // The laws:
 //
-//   1. no forbidden claim in any BUILD INPUT (root templates, brand-kit data
-//      including internal brief fields, shared content, every sites/ file
-//      that keepInSite lets ship — including chrome-velocity's site-local
-//      content.json, which ships verbatim);
+//   1. no forbidden claim in ANY TRACKED TEXT FILE — the whole repo minus a
+//      short list of exemptions that each carry a NAMED REASON (review
+//      archives quoting claims as evidence, authoring records logging their
+//      cure, the law doc's adjudication row, and this file's own registry).
+//      r2 rewrote this law from an enumerated input set to the tracked tree
+//      after review website__writer M6r1 caught the enumeration going blind:
+//      brand_kit_schema.js — the BASE kit that seeds every future kit's
+//      proof_strategy — sat outside the walk while still teaching the banned
+//      "5 native clients" count. Enumerating inputs is how a law goes stale;
+//      `git ls-files` is the denominator and exemptions must be justified.
 //   2. no forbidden claim in the ARTIFACT — a real tools/build.mjs run into a
 //      throwaway root (same isolation idiom as test/public-hub-truth.test.mjs
 //      law 2: repo dist/ is rebuilt by test/csp-gate.test.mjs mid-run, so
@@ -79,6 +87,13 @@ const FORBIDDEN = [
   [/no lag, no compromise/i, 'the "no lag, no compromise, no excuses" promise'],
   [/5 native clients/i, 'the "5 Native Clients" miscount (SSOT counts four)'],
   [/five native clients/i, 'the "five native clients" miscount, spelled'],
+  // r2 sweep (review website__writer M6r1): the same miscount class wearing a
+  // different number. desert-horizon shipped "8 native + DLNA clients" while
+  // its own enumeration lists four natives + DLNA; cured to the §19.14
+  // sentence and regression-banned alongside 5/five. (The "8 native features"
+  // family in other kits is a TRUE feature count — content.json carries eight
+  // — and stays deliberately unforbidden.)
+  [/8 native \+ DLNA clients/i, 'the "8 native + DLNA clients" miscount (SSOT §19.14: four native clients, plus any DLNA device)'],
   [/CRF 23\/28/, 'the retracted "CRF 23/28" encoding claim (be34d142)'],
   [/without the internet/i, 'the swiss "hub access without the internet" claim'],
   // M-WEBSITE-07 (positive-fabrication class, review website__pm): capability
@@ -123,7 +138,8 @@ function ships(relPath) {
 
 // Same decode discipline as test/public-hub-truth.test.mjs: text scanned utf8,
 // everything else latin1 so an ASCII claim cannot hide in a mangled decode.
-const TEXT_EXT = /\.(?:html|css|js|mjs|json|md|txt|xml|svg|yml|yaml)$/i;
+// r2 adds `cjs` — lighthouserc*.cjs sat outside every extension regex.
+const TEXT_EXT = /\.(?:html|css|cjs|js|mjs|json|md|txt|xml|svg|yml|yaml)$/i;
 
 function walk(dir, base = '') {
   const out = [];
@@ -171,22 +187,53 @@ function builtDist() {
   return artifact;
 }
 
-test('law 1: no fabricated fact-claim in any build input', () => {
-  for (const rel of ['index.html', '404.html', '_headers']) {
+// law 1 perimeter (r2): every git-tracked text file. An exemption is a file
+// that LEGALLY QUOTES a banned claim instead of teaching or shipping one, and
+// it names its reason; a blind spot is only sound when it is known and clean,
+// and the r1 review proved this perimeter neither was for brand_kit_schema.js.
+const TRACKED = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' })
+  .split('\n')
+  .filter(Boolean);
+
+// `_headers` matches no extension pattern, and the root templates were the
+// first files the original enumerated law scanned — they stay explicit.
+const ROOT_TEMPLATES = new Set(['index.html', '404.html', '_headers']);
+
+function law1Exemption(rel) {
+  const segments = rel.split('/');
+  // Root reviews/ and every sites/*/reviews/ archive quote the fabricated
+  // sentences AS EVIDENCE; build.mjs never copies a `reviews` dir (:341).
+  if (segments.includes('reviews'))
+    return 'review archive — quotes claims as evidence, never ships (build.mjs:341)';
+  // Authoring-process records — now exempted repo-wide on the same base-name
+  // rule, not only under sites/: the three sites/*/{BUILD_LOG,REGEN_PLAN}.md
+  // carriers are adjudicated conflict records that quote the bad count to log
+  // its resolution (nordic-saga:67, obsidian-pulse:58, speakeasy-gold:63).
+  if (!ships(rel)) return 'authoring record — documents a cure, does not carry copy';
+  // The estate law doc's §19.14 conflict row (:834) quotes "5 native clients"
+  // precisely to teach that content.json wins on facts.
+  if (rel === 'new_site.md') return 'law adjudication row — quotes the false count to fix it';
+  // This file: the FORBIDDEN registry and the WHY header are literals by design.
+  if (rel === 'test/variant-copy-truth.test.mjs') return 'the law itself (pattern registry)';
+  return null;
+}
+
+test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)', () => {
+  const scanSet = TRACKED.filter((f) => TEXT_EXT.test(f) || ROOT_TEMPLATES.has(f));
+  let scanned = 0;
+  for (const rel of scanSet) {
+    if (law1Exemption(rel)) continue;
+    scanned++;
     assertClean(readFileSync(join(ROOT, rel), 'utf8'), rel);
   }
-  for (const file of walk(join(ROOT, 'shared'))) {
-    if (!TEXT_EXT.test(file)) continue;
-    assertClean(readFileSync(join(ROOT, 'shared', file), 'utf8'), `shared/${file}`);
-  }
-  for (const file of walk(join(ROOT, 'brand-kits'))) {
-    if (!/\.(?:js|json)$/i.test(file)) continue;
-    assertClean(readFileSync(join(ROOT, 'brand-kits', file), 'utf8'), `brand-kits/${file}`);
-  }
-  for (const file of walk(join(ROOT, 'sites'))) {
-    if (!ships(file) || !TEXT_EXT.test(file)) continue;
-    assertClean(readFileSync(join(ROOT, 'sites', file), 'utf8'), `sites/${file}`);
-  }
+  // Non-vacuity: the perimeter must actually be the whole tree, not a filter
+  // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
+  // sit well below so ordinary churn cannot trip them, and a collapsed
+  // ls-files/extension filter (the class of bug that created r1) cannot pass.
+  assert.ok(scanSet.length >= 3000, `law 1 scan set has ${scanSet.length} files; the perimeter collapsed`);
+  assert.ok(scanned >= 1500, `law 1 scanned only ${scanned} files; the perimeter is vacuous`);
+  // The r2 blind spot specifically: the base schema must be inside the set.
+  assert.ok(scanSet.includes('brand_kit_schema.js'), 'brand_kit_schema.js left the perimeter');
 });
 
 test('law 2: the Pages artifact of a real build carries zero forbidden claims', () => {

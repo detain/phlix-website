@@ -1657,7 +1657,7 @@ const brandKit = {
   // e.g.  : see below
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A lobby placard of real capabilities pulled from content.json — 5 native clients, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding." },
+      { type: "spec-numbers",     format: "A lobby placard of real capabilities pulled from content.json — four native clients — Roku, Tizen, Windows, Mobile (beta) — plus any DLNA device; SyncPlay over NTP-synced devices; HLS + FFmpeg transcoding." },
       { type: "github",           format: "A modest 'from the projection booth' row linking the real phlix-server repo with its live star / issue counts (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "One short, true line lifted from the docs about self-hosting, set as a framed lobby-card quote." },
     ],

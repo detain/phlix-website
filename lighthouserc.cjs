@@ -4,7 +4,7 @@
 // ----------------------------
 // Until 2026-10-29 this repo had a `npm run lhci` script, a workflow that ran
 // it, and NO CONFIG AT ALL — `lhci autorun` with no lighthouserc file fails
-// its healthcheck in under a second (exit 1, "Configuration file not found"),
+// its healthcheck almost instantly (exit 1, "Configuration file not found"),
 // which the workflow swallowed with `continue-on-error: true`. The step has
 // therefore never asserted a single thing about a single page; every green
 // "Lighthouse CI" check on record (all on dependabot PRs — the workflow only
