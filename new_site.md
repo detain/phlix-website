@@ -299,7 +299,8 @@ so styling and reviews stay portable.
 ### 3.7 `hub.html`
 
 - `.page-header` ("Phlix Hub") → "What the Hub does" (reverse-tunnel relay, NAT
-  traversal) → "Self-host or use the public hub" → "Hub mode in clients" →
+  traversal) → "Self-host the Hub" (no hosted hub is run; never advertise a
+  public one) → "Hub mode in clients" →
   closing `.cta-banner`.
 
 ### 3.8 `about.html`
