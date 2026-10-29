@@ -100,7 +100,7 @@ const brandKit = {
     "view at 200 mph. Every screen is a race start. Every title is a lap record " +
     "waiting to be broken.",
 
-  tagline_primary: "Zero to Play in Under a Second.",
+  tagline_primary: "Zero to Play. Flat Out.",
 
   tagline_secondary: [
     "Built for the fast lane.",
@@ -1168,7 +1168,7 @@ const brandKit = {
     hero: {
       eyebrow: "Zero to Play",
       headline: "Pit Wall Precision. Flat Out.",
-      subheadline: "Five lights out. Your library on every screen. SyncPlay locked to a precision timebase. Phlix is a media server built at Formula 1 pit-wall speed — no lag, no compromise, no excuses.",
+      subheadline: "Five lights out. An open-source PHP media server with pit-wall precision — your library on every screen: Roku, Samsung TV, Windows desktop, phone, and any DLNA device. SyncPlay locked to a precision timebase, with Live TV, transcoding, and a hub that follows you anywhere.",
       primary_cta: { label: "Box This Lap" },
       secondary_cta: { label: "Review the Telemetry" },
     },
