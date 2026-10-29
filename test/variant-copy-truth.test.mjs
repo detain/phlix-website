@@ -137,6 +137,19 @@
 // outside the pairing net by design; a bare count paired directly to the noun
 // 1..12, digit or word, in any key/value/adjacency shape, cannot.
 //
+// WRONG-FORMAT FAMILY FLOOR (r6, stated honestly per review M-WEBSITE-12__r5
+// finding 2's offered option): the package-format arms bind the three
+// sweep-era extension fingerprints and the TV-card pairing; a wrong-format
+// claim phrased for a different kit (an apt/rpm/deb-style bundle named for
+// the Roku deliverable, with no pairing noun inside the 40-char collapsed
+// window) convict only incidentally. That acquittal boundary is the measured
+// floor of this family, not a silent hole — pinning the boundary is r5
+// plant-(b) GREEN material in law 11's acquittal list. The store-claim side
+// of the family carries NO such boundary after r6: the publication and
+// availability arms reach the compound store noun and the presence shape,
+// and the store-domain href carrier nets the attribute class — every store
+// claim shape the reviews measured now dies in prose OR markup.
+//
 // The laws:
 //
 //   1. no forbidden claim in ANY TRACKED TEXT FILE — the whole repo minus a
@@ -582,12 +595,16 @@ const FORBIDDEN = [
     'the M12 dangling-publish tagline (cosmic-odyssey/solarpunk-eden "Native channel — sideload or publish" — the channel is sideload-only; there is no store publication to choose)',
   ],
   [
-    /(?<!\bnot\s)(?<!\bno\s)(?<!\bnever\s)\b(?:submit(?:ting|ted)?|publish(?:ing|ed)?|list(?:ing|ed)?)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|for)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b/i,
-    'an M12 store-publication claim reaching a real store noun (the apex-predator-era "submit to the Roku store" and demolition-crew-era "Direct publishing to Roku Store" class — sideload-only reality)',
+    /(?<!\bnot\s)(?<!\bno\s)(?<!\bnever\s)\b(?:submit(?:ting|ted)?|publish(?:ing|ed)?|list(?:ing|ed)?)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|for)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)(?:\s+channel)?\s*store\b/i,
+    'an M12 store-publication claim reaching a real store noun (the apex-predator-era "submit to the Roku store" and demolition-crew-era "Direct publishing to Roku Store" class — sideload-only reality; the r6 move adds the optional intervening "Channel" so the compound "Roku Channel Store" can no longer lock the noun slot past the modifier)',
   ],
   [
-    /\b(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b[a-z ,:—–"'()\n]{0,24}?\b(?:live|available|launches|ships)\b|(?<!\bnot\s)(?<!\bno\s)\b(?:available|listed|live)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|from)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)\s*store\b/i,
-    'an M12 store-availability claim in either order ("the Channel Store is live", "available on the Roku store") — the negated honest forms stay outside',
+    /\b(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)(?:\s+channel)?\s*store\b[a-z ,:—–"'()\n]{0,24}?\b(?:live|available|launches|ships)\b|(?<!\bnot\s)(?<!\bno\s)\b(?:available|listed|live)\b[a-z ,:—–"'()\n]{0,24}?\b(?:to|on|in|from)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)(?:\s+channel)?\s*store\b|(?<!\bnot\s)(?<!\bno\s)(?<!\bnever\s)\bnow\b[a-z ,:—–"'()\n]{0,24}?\b(?:on|in|inside|at)\s+(?:the\s+)?(?:roku|channel|samsung(?:\s+apps)?|google\s+play|play|app|apple|ocean|amazon)(?:\s+channel)?\s*store\b/i,
+    'an M12 store-availability/presence claim in any shape ("the Channel Store is live", "available on the Roku store") — the negated honest forms stay outside; the r6 move extends the noun group over the compound "Channel" hop and adds the presence shape (now on/in/inside [the] … store, not/no/never-guarded), curing the r2/r5 measured escapes "Now published to the Roku Channel Store", "Phlix is available on the Roku Channel Store" and "Phlix is now on the Channel Store"',
+  ],
+  [
+    /href\s*=\s*["']?[^"'\s>]*\b(?:channelstore\.roku\.com|apps\.samsung\.com|play\.google\.com|apps\.apple\.com|itunes\.apple\.com|marketplace\.microsoft\.com)\b/i,
+    'an M12 store-domain href carrier (a card CTA whose href attribute points at a store that does not carry Phlix — the velocity-rush-era "Get the channel" → channelstore.roku.com survivor, the r2 F1 class hiding in an attribute where prose arms cannot reach it; the law binds the HREF, so bare-URL comment prose like inferno/download.html:161 and generic portals outside the store-domain set like my.roku.com acquit by design)',
   ],
   // M-WEBSITE-14 (review website__writer M3, armed per the M-WEBSITE-13 STALE-close
   // follow-up): the PHANTOM COMMUNITY CONTACT class. The a8597e21 truth sweep cured the
@@ -2149,7 +2166,13 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
 // extension fingerprints, the two-directional TV-card pairing, and three publication/
 // availability claim shapes) went live under laws 1/2 at ce0db83e; this law is the
 // promised teeth: family census, conviction/acquittal fixtures, the SSOT pins, and the
-// cures-stay-cured needles. (Header narrative stays fingerprint-free — law 1 polices
+// cures-stay-cured needles. The r6 move (review M-WEBSITE-12__r5) makes the family
+// nine: a STRUCTURAL store-domain href carrier netted the velocity-rush CTA survivor
+// (cured to the five-sibling GitHub pattern), and the two store-claim prose arms now
+// reach over the compound "Channel" hop and the negation-guarded presence shape; the
+// census below carries 3/2/3/1, and the family's remaining floor (new-kit wrong-format
+// phrasings pairing only incidentally) is stated in the header above, not left silent.
+// (Header narrative stays fingerprint-free — law 1 polices
 // this file outside the sentinels; plants below re-state cured fictions.)
 // LIT-FIXTURE-BEGIN law11-package-format-fixture-section (plants re-state cured fictions)
 const M12_ARMS = FORBIDDEN.filter(([, what]) => /\bM12\b/.test(what));
@@ -2157,11 +2180,12 @@ const M12_ARMS = FORBIDDEN.filter(([, what]) => /\bM12\b/.test(what));
 test('law 11: the package-format family convicts every shape and acquits the shipped truth', () => {
   // Identity anchoring (law 9/12 doctrine): if the family leaves the registry — or a
   // foreign arm joins it — this law stops guarding and must fail loud HERE. Census:
-  // three extension fingerprints + two pairing directions + three publication shapes.
+  // three extension fingerprints + two pairing directions + three publication shapes
+  // + one structural store-domain href carrier (the r6 move per review __r5 finding 1).
   assert.equal(
     M12_ARMS.length,
-    8,
-    'the package-format family no longer anchors to exactly 8 registry arms (identity: "M12") — law 11 anchors moved',
+    9,
+    'the package-format family no longer anchors to exactly 9 registry arms (identity: "M12") — law 11 anchors moved',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /package-format fiction fingerprint/.test(what)).length,
@@ -2179,6 +2203,11 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     ).length,
     3,
     'the publication-shape subfamily drifted from 3 arms',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /store-domain href/.test(what)).length,
+    1,
+    'the structural store-domain href carrier drifted out of (or multiplied inside) the family',
   );
   const engine = (probe) => FORBIDDEN.some(([re]) => re.test(probe) || re.test(stripMarkup(probe)));
   // REDS: the review-era originals and the parent survivors verbatim (the shapes
@@ -2200,6 +2229,12 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'The Channel Store is live with Phlix now.', // availability claim, store-first order
     'Phlix is available on the Roku store.', // availability claim, verb-first order
     'Sideload or publish to the Roku Channel Store.', // the dangling-publish tagline fused with a publication claim
+    'Now published to the Roku Channel Store.', // r5 finding 2 plant (a) verbatim — the compound noun used to lock the slot past the modifier; the r6 extension convicts it (publication arm, verb-first)
+    'Phlix is available on the Roku Channel Store.', // r5 finding 2 plant (a) — availability arm, verb-first, compound hop
+    'Submit to Roku Channel Store', // r5 finding 2 plant (a) — no leading "the"; the compound hop still binds
+    'Phlix is now on the Channel Store', // r5 finding 2 plant (a) — presence claim with NO publication/availability predicate — the r6 presence shape nets it
+    '<a href="https://channelstore.roku.com" class="client-card-link" target="_blank" rel="noopener noreferrer">Get the channel</a>', // r5 finding 1 verbatim class — the velocity-rush card CTA: a store-domain promise bound in an HREF, invisible to every prose arm (no verb, domain compound) — the structural carrier convicts
+    '<a\n  href="https://apps.samsung.com/tv/applications.chn"\n  class="btn"\n>Download from the Samsung Apps Store</a>', // prettier-wrapped multi-line attribute — the carrier is href-anchored, so newlines between <a and href cannot launder it
   ]) {
     assert.ok(engine(fiction), `the package-format law lost its teeth: /${fiction}/ would ship`);
   }
@@ -2217,6 +2252,10 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'Native Roku channel. Sideload phlix.zip from GitHub releases. Quick resume, 4K HDR, surround sound passthrough.', // demolition-crew:181 cure shape (facts kept, fiction replaced)
     'Sideload phlix.zip from GitHub releases — the channel is not on the Roku Store yet.', // digital-combat-zone:153
     'Native Roku channel — sideload the package from GitHub releases; not on the Channel Store yet.', // acoustic-nights:157 — format-free honest copy
+    '<a href="https://my.roku.com" class="btn btn-secondary mt-4" style="width: 100%">View in Store</a>', // inferno:154-era — the carrier binds STORE DOMAINS, not the words "store": my.roku.com is the Roku account portal (link-your-device page), outside the no-Phlix store set, so this generic-portal CTA acquits by design
+    '<!-- `https://apps.samsung.com` 302s to www.samsung.com/galaxystore,', // inferno:161 verbatim bare-URL comment prose — the r2 F1 pinning ask: a store domain quoted in an honest engineering comment is NOT an href attribute, and the structural carrier acquits exactly this shape
+    'Native Roku channel. Sideload the deb.zip from GitHub releases.', // r5 plant (b) pinned as the family floor's stated boundary — a new-kit wrong-format claim with no TV noun inside the 40-char collapsed pairing window acquits; the WHY header says so out loud
+    'Phlix is not now on the Channel Store.', // the presence shape negation-guarded — honest negated compound copy stays green through the r6 arm
     'Release APK direct — no Play Store listing yet', // blaze-runner:245 — the noun survives, the negation stands
     'Build from source with Xcode — no TestFlight yet', // blaze-runner:255
     'which 404s; the Tizen client is not published to the store.', // inferno:162 — verb+store with no real store noun and a negation
@@ -2267,14 +2306,18 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'the SSOT mobile FAQ answer moved — law 11 acquittals must re-measure against the new text',
   );
   // Cures-stay-cured needles (this law's own carriers): the five ce0db83e-touched
-  // files stay free of the family on BOTH forms, and each still carries its cure —
-  // so a revert-to-fiction AND a drive-by reword both redden.
+  // files plus the r6-cured velocity-rush card stay free of the family on BOTH
+  // forms, and each still carries its cure — so a revert-to-fiction AND a
+  // drive-by reword both redden. (velocity-rush/clients.html is the r5 F1 carrier:
+  // its CTA href moved to the five-sibling GitHub pattern, and the new structural
+  // carrier now nets the file itself against any store-domain return.)
   const CURED = {
     'sites/cosmic-odyssey/download.html': 'sideload phlix.zip from GitHub releases',
     'sites/solarpunk-eden/download.html': 'sideload phlix.zip from GitHub releases',
     'sites/pixel-dungeon/download.html': 'Sideload the .wgt via Tizen Studio',
     'sites/demolition-crew/clients.html': 'Sideload phlix.zip from GitHub releases',
     'sites/nexus-core/download.html': 'Sideload phlix.zip from GitHub releases',
+    'sites/velocity-rush/clients.html': 'href="https://github.com/detain/phlix-roku-client"',
   };
   for (const [rel, needle] of Object.entries(CURED)) {
     const text = readFileSync(join(ROOT, rel), 'utf8');
