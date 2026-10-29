@@ -22,7 +22,10 @@
 // counts four native clients) and the swiss-modernist "hub access without the
 // internet" (written before the relay existed; now "without opening ports").
 // "CRF 23/28" was retired by be34d142 in favor of the honest "H.264 defaults
-// to CRF 23".
+// to CRF 23". The M-WEBSITE-07 positive-fabrication class (unlimited-viewers
+// marketing and invented sync benchmarks around watch parties, groups and
+// share links) joins the list below, cured to the server's real caps — see the
+// per-entry comments for both-sides coordinates.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -78,6 +81,24 @@ const FORBIDDEN = [
   [/five native clients/i, 'the "five native clients" miscount, spelled'],
   [/CRF 23\/28/, 'the retracted "CRF 23/28" encoding claim (be34d142)'],
   [/without the internet/i, 'the swiss "hub access without the internet" claim'],
+  // M-WEBSITE-07 (positive-fabrication class, review website__pm): capability
+  // numbers around watch parties / groups / links with no estate measurement
+  // behind them. Authoritative caps: SyncPlay rooms hold GroupState::
+  // MAX_MEMBERS = 50 (phlix-server src/Session/SyncPlay/GroupState.php:106,
+  // rejected at :388) — the "unlimited viewers" original and the velocity-x
+  // "Tested to 20 simultaneous viewers with sub-100ms sync accuracy" and
+  // quantum-stream "Sub-100ms ... up to 16 simultaneous observers" fabrications
+  // are cured to that truth (TimeSync has no sub-100ms guarantee; the sync
+  // tolerance is a 2000ms default, SPEC §group position). And no anonymous
+  // "shareable library link" exists on either host: server auth is account-
+  // based, hub invite links serve existing members — velocity-rush's claim is
+  // cured to the verified local-account facts (UserProfileManager::
+  // MAX_PROFILES_PER_USER = 5, phlix-server src/Auth/UserProfileManager.php:85).
+  [/unlimited (?:viewers|members|participants|observers|guests)/i, 'an "unlimited viewers/members" watch-party claim (real cap: MAX_MEMBERS = 50)'],
+  [/tested to \d+ simultaneous (?:viewers|members|observers)/i, 'a fabricated viewer-cap benchmark ("Tested to 20 simultaneous viewers")'],
+  [/sub-100 ?ms/i, 'the fabricated sub-100ms sync-latency figure (no estate measurement; contract tolerance is 2000ms)'],
+  [/up to 16 simultaneous observers/i, 'the quantum-stream "16 simultaneous observers" miscount (real cap: 50)'],
+  [/shareable library links/i, 'the velocity-rush "shareable library links without account creation" fabrication (no anonymous share links exist server- or hub-side)'],
 ];
 
 // build.mjs keepInSite() in miniature — review archives under sites/*/reviews/
