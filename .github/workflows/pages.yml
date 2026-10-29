@@ -31,8 +31,13 @@ jobs:
   # (format, three linters, audit-gate, a11y) plus the `unit` job's command.
   # Step separation and `if: !cancelled()` follow the S268 law documented in
   # lint.yml — every gate gets its own visible row, and an earlier failure
-  # never hides whether a later gate ran. No continue-on-error anywhere in
-  # this file; test/deploy-gate.test.mjs reddens on any neutering vector.
+  # never hides whether a later gate ran. The neutering surface is pinned by
+  # test/deploy-gate.test.mjs — each law below red-mutation-proven at r2:
+  # continue-on-error (job or step), `|| true`, forced `exit 0`, the `needs:`
+  # chain, the command mirror, job-level `if:` (only absent/`success()` — an
+  # `always()` resurrecting build over red gates reddens, review M4) and
+  # step-level `if:` (only absent/`!cancelled()` — an `if: false` skipping a
+  # gate row reddens, review M7).
   gates:
     runs-on: ubuntu-26.04
     steps:

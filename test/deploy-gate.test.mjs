@@ -38,6 +38,16 @@
 //   6. The S268 skippability law carried into the mirror: every gate command
 //      that `!cancelled()` guards in lint.yml must be likewise guarded in
 //      the gates job, so an earlier failure can never hide a later verdict.
+//   7. The conditional surface, job level: gates/build/deploy carry no `if:`
+//      at all, or exactly `success()`. Anything else reddens — `if: always()`
+//      resurrected `build` over red gates (M4 mutation: red audit, published
+//      site, suite green); `if: false` silently un-deploys the chain.
+//   8. The conditional surface, step level: every `if:` on a step in pages.yml
+//      is exactly `!cancelled()` (or absent) — a guard, never a disable.
+//      `if: false` on a gates step skipped the row while the job stayed green
+//      (M7 mutation); because the whole normalized expression is matched,
+//      disguises like `!cancelled() && false` cannot pass either.
+//      (7 and 8 are the r2 close of review website__devops M-WEBSITE-02.)
 //
 // WHEN THIS FAILS
 // ---------------
@@ -97,6 +107,19 @@ function cancelledGuardedCommands(job) {
   return job.steps
     .filter((s) => s && typeof s.run === 'string' && String(s.if ?? '').includes('!cancelled()'))
     .map((s) => s.run.trim());
+}
+
+/** Normalize any GitHub Actions conditional to a comparable expression body:
+ *  `${{ !cancelled() }}` and the bare `!cancelled()` (and the YAML booleans
+ *  `true`/`false`) all collapse to their whitespace-stripped inner text; an
+ *  absent `if:` collapses to '' — GitHub's implicit `success()` default.
+ *  Whitespace is stripped so no brace/space formatting trick widens or narrows
+ *  an allow-list match. */
+function normalizedIf(value) {
+  if (value === undefined || value === null) return '';
+  const text = String(value).trim();
+  const braced = text.match(/^\$\{\{([\s\S]*)\}\}$/);
+  return (braced ? braced[1] : text).replace(/\s+/g, '');
 }
 
 test('the deploy workflows parse and contain the jobs this test reasons about', () => {
@@ -224,4 +247,68 @@ test('S268 skippability law holds in the mirror', () => {
     );
   }
   assert.ok(guarded.size >= 4, `expected lint.yml to guard at least 4 commands, found ${guarded.size}`);
+});
+
+// ─── Conditional-surface sweep (review website__devops M-WEBSITE-02, r2) ─────────
+// The six laws above swept continue-on-error and shell-level swallows but left
+// job- and step-level `if:` unguarded, and the review reproduced two silent
+// neuters through that open surface — with the whole suite still green:
+//   M4: `if: ${{ always() }}` on build → gates red (audit) → build still runs
+//       → build green → deploy runs → site publishes behind a red security
+//       gate. The needs: chain is bypassed, and no r1 law noticed.
+//   M7: `if: ${{ false }}` on the gates "Format check" step → the step skips,
+//       the job stays green, that gate evaporates. Invisible to the S268
+//       parity test because format:check and test:unit are unguarded in
+//       lint.yml, so their gates twins had nothing to match against.
+// These two laws close the surface with allow-lists on the WHOLE normalized
+// expression — a guard can never decay into a disable.
+
+test('job-level if cannot neuter the needs chain (M4 law)', () => {
+  // An absent `if:` is GitHub's default `success()` — run only when every
+  // needed job succeeded. Exactly that pair is allowed, nothing else:
+  //   `always()` → resurrects build/deploy over red gates (the M4 mutation);
+  //   `false`    → a silent un-deploy — the chain becomes theater, and an
+  //                editor could park production behind an invisible switch;
+  //   any other form → a decision for deliberate re-pinning with review,
+  //                never silent drift.
+  const JOB_IF_ALLOWLIST = new Set(['', 'success()']);
+  for (const id of ['gates', 'build', 'deploy']) {
+    const job = pagesDoc.jobs[id];
+    assert.ok(job && typeof job === 'object', `pages.yml has no \`${id}\` job to sweep`);
+    const expr = normalizedIf(job.if);
+    assert.ok(
+      JOB_IF_ALLOWLIST.has(expr),
+      `job \`${id}\` carries \`if: ${JSON.stringify(job.if)}\`. On the deploy path a job ` +
+        `condition may only be absent or \`success()\`: anything else can run the job ` +
+        `against its own needs verdict (review website__devops M-WEBSITE-02, M4). If a ` +
+        `different form is genuinely needed, widen this allow-list deliberately and keep ` +
+        `the chain test honest — never delete this law to go green.`,
+    );
+  }
+});
+
+test('every step-level if in pages.yml guards, never disables (M7 law)', () => {
+  // Extends the S268 law from "commands lint.yml guards are guarded in gates"
+  // to EVERY conditional on the deploy path: a step's `if:` may be absent or
+  // exactly `!cancelled()` — the one form that guarantees the step still gets
+  // its visible row after an earlier failure without forcing it past a
+  // cancellation. `if: false` (the M7 mutation) and `if: always()` reddens
+  // here, and because the whole normalized expression must match — not merely
+  // contain — `!cancelled()`, disguises like `${{ !cancelled() && false }}`
+  // cannot smuggle a disable inside a guard.
+  const STEP_IF_ALLOWLIST = new Set(['', '!cancelled()']);
+  for (const [jobId, job] of Object.entries(pagesDoc.jobs ?? {})) {
+    assert.ok(Array.isArray(job.steps) && job.steps.length > 0, `job \`${jobId}\` has no steps to sweep`);
+    for (const step of job.steps) {
+      const expr = normalizedIf(step.if);
+      assert.ok(
+        STEP_IF_ALLOWLIST.has(expr),
+        `step ${JSON.stringify(step.name ?? step.run ?? step.uses)} in job \`${jobId}\` carries ` +
+          `\`if: ${JSON.stringify(step.if)}\`. Steps on the deploy path may only be guarded with ` +
+          `\`if: \${{ !cancelled() }}\`; any other condition is a skip or a force, and a ` +
+          `skippable gate row is theater instead of teeth (review website__devops ` +
+          `M-WEBSITE-02, M7).`,
+      );
+    }
+  }
 });
