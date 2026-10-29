@@ -1,5 +1,17 @@
 name: Deploy to GitHub Pages
 
+# PRODUCTION DEPLOY IS BLOCKED WHEN GATES RED (review website__devops M2).
+# `build` below carries `needs: gates`, so a red lint/unit/audit verdict can
+# no longer coexist with a published site. Before this, the push trigger
+# published unconditionally: on 2026-10-29 the same SHA (bdd102aad) shows run
+# 40861349153 (Lint — audit-gate step FAILED) next to run 40861349019 (this
+# workflow — deploy SUCCEEDED). GitHub Actions `needs:` cannot span workflows,
+# so the gates are MIRRORED here as a dedicated job; lint.yml stays the PR
+# gate. test/deploy-gate.test.mjs pins the mirror command-for-command — the
+# very suite this job runs — so editing lint.yml without mirroring it here
+# turns the deploy path red on the next push. That test is the drift tripwire;
+# keep both files in step.
+
 on:
   push:
     branches: [master]
@@ -15,7 +27,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Mirror of .github/workflows/lint.yml: the whole `lint` job's gate steps
+  # (format, three linters, audit-gate, a11y) plus the `unit` job's command.
+  # Step separation and `if: !cancelled()` follow the S268 law documented in
+  # lint.yml — every gate gets its own visible row, and an earlier failure
+  # never hides whether a later gate ran. No continue-on-error anywhere in
+  # this file; test/deploy-gate.test.mjs reddens on any neutering vector.
+  gates:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Format check
+        run: npm run format:check
+      - name: Lint HTML (htmlhint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:html
+      - name: Lint CSS (stylelint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:css
+      - name: Lint JS (eslint)
+        if: ${{ !cancelled() }}
+        run: npm run lint:js
+      - name: npm audit (allow-list gate)
+        if: ${{ !cancelled() }}
+        run: node scripts/audit-gate.mjs
+      - name: Accessibility (pa11y-ci)
+        if: ${{ !cancelled() }}
+        run: npm run a11y
+      - name: Unit tests (node:test)
+        if: ${{ !cancelled() }}
+        run: npm run test:unit
+
   build:
+    needs: gates
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7

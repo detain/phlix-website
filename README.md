@@ -89,7 +89,7 @@ phlix-website/
 │   ├── REVIEW_RUBRICS.md     scoring rubric per review dimension
 │   └── HANDOFF_PROMPT.md     paste-into-fresh-session kickoff prompt
 └── .github/workflows/
-    ├── pages.yml             deploy sites to GH Pages
+    ├── pages.yml             GH Pages deploy, gated: gates -> build -> deploy
     ├── lint.yml              html/css/js + a11y + node:test unit job
     ├── linkcheck.yml         npm run build, then broken-link sweep of dist/
     └── lighthouse.yml        Lighthouse CI budgets
@@ -171,6 +171,25 @@ majors (`actions/checkout@v7`, `actions/setup-node@v7`) — the older
 has been removed. See
 [`phlix-docs / dev / contributing`](https://detain.github.io/phlix-docs/dev/contributing#ci-github-actions-policy)
 for the cross-repo action-version policy.
+
+### Production deploys are gated
+
+**Deploy blocked when gates red.** A push to `master` reaches GitHub Pages only
+through `pages.yml`'s `gates` job, which mirrors `lint.yml`'s `lint` + `unit`
+jobs step-for-step (format check, htmlhint, stylelint, eslint,
+`node scripts/audit-gate.mjs`, pa11y, `npm run test:unit`); `build` runs with
+`needs: gates` and `deploy` with `needs: build`, so a red gate means no Pages
+artifact is ever produced. `test/deploy-gate.test.mjs` pins the mirror
+command-for-command as the drift tripwire — it executes in both workflows'
+unit legs, so adding or dropping a lint.yml gate without mirroring it
+immediately blocks the deploy path instead of silently narrowing it. (GitHub
+Actions `needs:` cannot span workflows, which is why the commands are mirrored
+rather than referenced.) One caveat lives outside this repo and cannot be
+enforced from it: `master` has no branch protection and the `github-pages`
+environment is default-only, so required status checks on `Lint`/`unit` and
+environment protection rules remain owner settings actions
+(`Settings → Branches / Environments`) — the workflow gating closes the
+publish path, not a bypass via a differently-triggered action.
 
 ## License
 
