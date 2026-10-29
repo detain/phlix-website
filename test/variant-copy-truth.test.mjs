@@ -32,7 +32,12 @@
 // narrated as "coming soon"/"in development" by nexus-core and cyber-pursuit —
 // is regression-banned verbatim, alongside its two inverted cousins fixed in
 // the same sweep: demolition-crew badging its (beta) Android card "Stable" and
-// its iOS card "In Review" (no store submission exists to review).
+// its iOS card "In Review" (no store submission exists to review). The r2 round
+// widened the M8 literals into shape-aware pairs after review M-WEBSITE-08__r1
+// proved the original three anchored only plural/compound whole phrases —
+// per-platform singular regressions ("The Android app coming soon…") re-opened
+// the class in total silence. See the M8 block below for the pairing law and
+// the markup-collapse pass that kills label/value splits across tags.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -55,6 +60,10 @@
 //      proof_strategy — sat outside the walk while still teaching the banned
 //      "5 native clients" count. Enumerating inputs is how a law goes stale;
 //      `git ls-files` is the denominator and exemptions must be justified.
+//      HTML files are scanned twice: once as written, once with markup
+//      collapsed to plain text (M8r2) — a claim split across a tag boundary
+//      (badge label in one node, future-tense value in the next) is the same
+//      claim to a reader and must be the same claim to the law.
 //   2. no forbidden claim in the ARTIFACT — a real tools/build.mjs run into a
 //      throwaway root (same isolation idiom as test/public-hub-truth.test.mjs
 //      law 2: repo dist/ is rebuilt by test/csp-gate.test.mjs mid-run, so
@@ -85,7 +94,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BUILD = join(ROOT, 'tools', 'build.mjs');
 
 // [pattern, what it was] — every entry is verbatim or near-verbatim member of
-// the M-WEBSITE-06 evidence set. Case-insensitive: pages vary capitalisation.
+// the M-WEBSITE-06 evidence set, or (M8r2) a shape-aware pair derived from a
+// named member of it. Case-insensitive: pages vary capitalisation.
 const FORBIDDEN = [
   [/under a second/i, 'the "Zero to Play in Under a Second" timing promise'],
   [/pit-wall speed/i, 'the "built at Formula 1 pit-wall speed" claim'],
@@ -139,14 +149,31 @@ const FORBIDDEN = [
   ],
   // M-WEBSITE-08 (review website__pm M2): shipped mobile apps narrated in the
   // future tense. phlix-mobile-client publishes a live, non-draft `latest`
-  // prerelease carrying app-release.apk — Android installs from that release;
-  // iOS is build-from-source (no public TestFlight, no store listings — the
-  // honest FAQ sentence at shared/content.json states exactly this). Yet
-  // nexus-core's download hero shipped "Android and iOS apps coming soon" and
-  // cyber-pursuit's clients gallery carried "Coming soon: native iOS and
-  // Android apps" under an "In development" badge. The copy was cured
-  // (a8597e21-era sweeps); the literals below regression-ban the shipped-vs-
-  // coming fiction anywhere a tracked file tries to bring it back.
+  // prerelease carrying app-release.apk (re-verified at the r2 lane via
+  // `gh api .../releases`: exactly one release, that one) — Android installs
+  // from that release today; iOS is build-from-source (no public TestFlight,
+  // no store listings — the honest FAQ sentence at shared/content.json states
+  // exactly this). Yet nexus-core's download hero shipped "Android and iOS
+  // apps coming soon" and cyber-pursuit's clients gallery carried "Coming
+  // soon: native iOS and Android apps" under an "In development" badge. The
+  // copy was cured (a8597e21-era sweeps) and the rows added (1c43786a); the
+  // literals below regression-ban the shipped-vs-coming fiction anywhere a
+  // tracked file tries to bring it back.
+  //
+  // r2 (review M-WEBSITE-08__r1 ISSUE 1): the first trio anchored whole
+  // plural/compound phrases only, and the review's planted probe
+  // "<p>The Android app coming soon for phones. The iOS app is coming soon
+  // too.</p>" sat SILENT GREEN. The shapes below pair the mobile nouns with
+  // the future-tense family in BOTH directions with a bounded word gap, so
+  // per-platform singular forms ("Android app coming soon", "iOS app is
+  // coming soon", "the Android version is coming soon"), label/value splits
+  // ("In development: mobile apps"), structured splits (JSON "platform":
+  // "mobile app" beside "status": "coming soon") and — via the markup-
+  // collapse pass — badge/value splits across tags all redden. The gap
+  // classes are letters and spaces (plus JSON punctuation for the structured
+  // pair) with hard length bounds, so unrelated roadmap copy one sentence
+  // away stays outside the law; the whole tracked tree scans clean under
+  // these patterns at this commit (measured, not assumed).
   [
     /android and ios apps coming soon/i,
     'the nexus-core "Android and iOS apps coming soon" fiction (the APK prerelease ships today)',
@@ -156,8 +183,32 @@ const FORBIDDEN = [
     'the cyber-pursuit "Coming soon: native iOS and Android apps" gallery fiction (same shipped-vs-coming class)',
   ],
   [
-    /mobile apps? (?:are )?coming soon/i,
-    'a generalized "mobile apps coming soon" narration of a shipped product (status SSOT: beta, installing today)',
+    /(?:android|ios|mobile)[a-z ]{0,10}(?:app|apps|version|clients?)[a-z ]{0,10}coming soon/i,
+    'a per-platform "app/version coming soon" narration of the shipped product (r1 probe: "The Android app coming soon for phones.")',
+  ],
+  [
+    /(?:coming soon|in development)[ :.—-]{1,3}(?:the |a |native )*(?:android|ios|mobile)[a-z ,]{0,14}(?:app|apps|version|clients?)/i,
+    'a future-tense label paired with its mobile value ("Coming soon: native iOS and Android apps", "In development: the mobile app")',
+  ],
+  [
+    /(?:android|ios|mobile)[a-z ]{0,12}(?:app|apps|version|clients?)[a-z ]{0,12}(?:\bin development\b|\bdevelopment builds?\b|\bdev builds?\b)/i,
+    'a mobile app/version/client narrated as "in development" or "development build" (the APK prerelease ships today)',
+  ],
+  [
+    /(?:android|ios|mobile)[a-z_ ",:\n]{0,20}(?:app|apps|version|clients?)[a-z_ ",:\n]{0,20}(?:coming soon|\bin development\b|\bdevelopment builds?\b|\bdev builds?\b)/i,
+    'a structured key/value split of the mobile-future claim (JSON-style "mobile app" … "coming soon" pairs)',
+  ],
+  [
+    /(?:coming soon|\bin development\b|\bdevelopment builds?\b|\bdev builds?\b)[a-z_ ",:\n]{0,20}(?:android|ios|mobile)[a-z ,_"]{0,16}(?:app|apps|version|clients?)/i,
+    'a structured future-claim key paired ahead of its mobile value (the reverse JSON split)',
+  ],
+  [
+    /(?:android|ios|mobile)[a-z ]{0,4}coming soon/i,
+    'a directly adjacent platform-then-future claim — with the markup-collapse pass this catches badge/value splits across tags',
+  ],
+  [
+    /coming soon[a-z ]{0,4}(?:android|ios|mobile)/i,
+    'a directly adjacent future-then-platform claim — the mirror split of the same fiction',
   ],
 ];
 
@@ -199,6 +250,19 @@ function walk(dir, base = '') {
 function assertClean(text, label) {
   for (const [pattern, what] of FORBIDDEN) {
     assert.ok(!pattern.test(text), `${label}: ${what} is back — /${pattern.source}/ matched`);
+  }
+}
+
+// M8r2: a claim split across markup (heading in one node, badge value in the
+// next) is one claim to a reader. Collapse tags to spaces and re-run the same
+// registry so the bounded-gap pairs above can bridge what the tags bridged.
+function stripMarkup(text) {
+  return text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+}
+function assertCleanBothForms(text, relPath, label) {
+  assertClean(text, label);
+  if (/\.html$/i.test(relPath)) {
+    assertClean(stripMarkup(text), `${label} (markup-collapsed)`);
   }
 }
 
@@ -269,7 +333,7 @@ test('law 1: no fabricated fact-claim in ANY tracked file (whole-tree perimeter)
   for (const rel of scanSet) {
     if (law1Exemption(rel)) continue;
     scanned++;
-    assertClean(readFileSync(join(ROOT, rel), 'utf8'), rel);
+    assertCleanBothForms(readFileSync(join(ROOT, rel), 'utf8'), rel, rel);
   }
   // Non-vacuity: the perimeter must actually be the whole tree, not a filter
   // accident. Measured at the r2 commit: scan set 4710, scanned 2795; floors
@@ -297,8 +361,9 @@ test('law 2: the Pages artifact of a real build carries zero forbidden claims', 
   );
 
   for (const rel of files) {
-    assertClean(
+    assertCleanBothForms(
       readFileSync(join(dist, rel), { encoding: TEXT_EXT.test(rel) ? 'utf8' : 'latin1' }),
+      rel,
       `dist/${rel}`,
     );
   }
