@@ -61,7 +61,20 @@
 // five r2 arms (see the registry block) bind each/any quantifiers, the
 // uses/knows/prompts/signs-into/connect-through verbs, the Hub-connectivity/
 // setting/credentials targets, the passive direction, and dot-list
-// enumerations that reach Tizen. The M-WEBSITE-10 class — the public
+// enumerations that reach Tizen. Review M-WEBSITE-09__r2 then caught what NO
+// sentence law can see: five NAMED-ENUMERATION / DIAGRAM carriers — a ✓-grid
+// row (arctic-passage), a "Works on Roku, Samsung Tizen, Windows, and Mobile"
+// checklist li (bio-engineering), an SVG device row beside a Hub indicator
+// (electric-festival), a hub-tunnel diagram node (library-amber) and a
+// "Works with:" tail under the true triple (prairie-bloom) — each enumerating
+// the client set WITH Tizen inside a hub-mode section and therefore shipping
+// the same swept fiction with no quantifier anywhere. The five are cured to
+// the established idiom and the class is policed by the STRUCTURAL hub-window
+// guard below (law 8): inside the span of an h1-h6 that names the Hub, a
+// works-carrier, a check-mark row, or a Roku…Tizen…Windows/Mobile roster is
+// the fiction — while the adjudicated-true shapes (per-client direct-play
+// rows, DLNA-carrying system rosters, and the same enumerations OUTSIDE any
+// hub heading) stay green by local acquittal. The M-WEBSITE-10 class — the public
 // phlix-plugins plugin catalog IS LIVE (twenty-one cataloged plugin names —
 // eight functional/metadata backends plus community themes and the reference
 // example — every entry pinned to
@@ -702,6 +715,120 @@ function assertNativesShape(text, label) {
   return bindings.length;
 }
 
+// ── M-WEBSITE-09 r3 (review M-WEBSITE-09__r2): HUB-WINDOW TIZEN-ENUMERATION ──
+// The r1/r2 rounds policed SENTENCES; the r2 review's independent census found
+// the family that claims hub-mode support STRUCTURALLY instead — a ✓ client
+// grid, an SVG device row, a diagram node label, or a "Works on/with" bullet
+// under a hub-mode heading, each enumerating the client set WITH Samsung Tizen
+// in it. No quantifier appears anywhere in that family, so no sentence arm
+// (N1–N5 or the r1 pairs) could ever see it. Truth unchanged (disk re-read at
+// this round): Tizen has no hub-mode UI — phlix-tizen-client
+// src/api/hubRelay.ts:372-373 the hub context is "written by a future hub-mode
+// session; absent today → nothing opens", :385-386 "Tizen is server-mode only
+// today (no hub-mode UI — S353 resolveConfig)", src/resolveConfig.ts:9 "no
+// hub-config IPC like the Windows/Electron"; the shipped hub-mode set is
+// exactly the Roku/Windows/Mobile triple (roku ApiClient.brs GET /me/servers +
+// relay proxy; windows renderer resolveConfig app:'hub'; mobile
+// HubAuthService/RelayTokenProvider).
+//
+// The guard is SECTION-SCOPED by design: the identical four-client enumeration
+// is TRUE when its predicate is native/direct — "Native clients on Roku,
+// Samsung Tizen, Windows, Mobile, plus any DLNA device" is the SSOT pitch
+// bullet, and art-nouveau-garden's feature-list "Works on Roku, Samsung Tizen,
+// Windows, mobile (beta)…" sits under a non-hub heading. A blanket literal
+// would convict the truth. Only the window from an h1-h6 whose text names the
+// Hub to the NEXT heading of the same or a higher level (nested sub-headings
+// belong to the section) carries a hub-mode claim. Inside it, on the
+// markup-collapsed text, three carrier shapes convict: a works/available/
+// supported/compatible verb reaching Roku→Tizen (S2/S5 class), a check-mark
+// reaching Tizen (S1 class), and a Roku…Tizen…Windows/Mobile roster with no
+// sentence period between the client tokens (S3/S4 grids, SVG <text> runs,
+// comma-list nodes; the period-block is what keeps a true triple sentence from
+// pairing with the next element's Tizen row). Two LOCAL acquittals keep the
+// adjudicated-true shapes green: a Tizen mention that frames itself as
+// direct-play within 45 chars ("Samsung Tizen — direct play + HLS transcoded"
+// — the desert-horizon/holographic-future/movie-camera row family the review
+// acquitted), and a sentence run that ends in DLNA — the five-surface system
+// roster ("…Windows, Mobile and DLNA", swiss-modernist's clients-table link-
+// desc): the hub-mode fiction carriers never carry DLNA, the SSOT truth rows
+// always do. Disclosed perimeter limit (r4 precedent — shape guards state
+// what they do NOT bind): the engine polices HTML hub-heading windows (tracked
+// tree via law 1, Pages artifact via law 2); enumerations in JS/JSON kit
+// art-specs, hub-word-free prose outside any hub heading, and quantifier-free
+// paraphrases stay census-policed, not net-policed.
+const HUB_HEAD_RE = /<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi;
+const HUB_ENUM_ARMS = [
+  [
+    /\b(?:works?|available|supported|compatible)\b[^.]{0,16}?\b(?:on|with|across)\b[^.]{0,100}?\broku\b[^.]{0,100}?\btizen\b/gi,
+    'a works/available carrier under a Hub heading enumerating Samsung Tizen among the Hub-mode clients (the bio-engineering/prairie-bloom li class)',
+  ],
+  [
+    /[\u2713\u2714\u2611][^.]{0,90}?\btizen\b/gi,
+    'a check-marked client row reaching Samsung Tizen inside a Hub-mode grid (the arctic-passage ✓-row class)',
+  ],
+  [
+    /\broku\b[^.]{0,90}?\btizen\b[^.]{0,90}?\b(?:win(?:dows)?|mobile)\b/gi,
+    'a client roster — grid, SVG text run, or diagram node — enumerating Roku, Samsung Tizen, and Windows/Mobile inside a Hub-mode window (the electric-festival/library-amber carrier class)',
+  ],
+];
+let hubWindowCount = 0; // non-vacuity counter, asserted by law 8
+function hubModeWindows(text) {
+  const heads = [];
+  for (const m of text.matchAll(HUB_HEAD_RE)) {
+    heads.push({
+      start: m.index,
+      end: m.index + m[0].length,
+      level: Number(m[1]),
+      label: m[2]
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    });
+  }
+  const wins = [];
+  for (let i = 0; i < heads.length; i++) {
+    if (!/\bhub\b/i.test(heads[i].label)) continue;
+    let end = Math.min(text.length, heads[i].end + 4000);
+    for (let j = i + 1; j < heads.length; j++) {
+      if (heads[j].level <= heads[i].level) {
+        end = heads[j].start;
+        break;
+      }
+    }
+    wins.push({ label: heads[i].label, flat: stripMarkup(text.slice(heads[i].start, end)) });
+  }
+  return wins;
+}
+function tizenHubEnumerationViolations(text) {
+  const found = [];
+  for (const win of hubModeWindows(text)) {
+    hubWindowCount++;
+    const c = win.flat;
+    if (!/\btizen\b/i.test(c)) continue;
+    for (const [re, what] of HUB_ENUM_ARMS) {
+      for (const m of c.matchAll(re)) {
+        const tPos = m.index + m[0].toLowerCase().lastIndexOf('tizen') + 'tizen'.length;
+        if (/\bdirect/i.test(c.slice(tPos, tPos + 45))) continue; // honest direct-play row
+        const runStart = Math.max(0, c.lastIndexOf('.', m.index) + 1);
+        let runEnd = c.indexOf('.', tPos);
+        if (runEnd === -1) runEnd = Math.min(c.length, m.index + 220);
+        if (/\bdlna\b/i.test(c.slice(runStart, Math.min(runEnd, runStart + 260)))) continue; // five-surface system roster
+        found.push({ what, heading: win.label, frag: m[0].slice(0, 90) });
+      }
+    }
+  }
+  return found;
+}
+function assertTizenHubEnumeration(text, label) {
+  for (const v of tizenHubEnumerationViolations(text)) {
+    assert.fail(
+      `${label}: ${v.what} is back — the shipped hub-mode clients are the Roku, Windows, and ` +
+        `Mobile triple only (Tizen is server-mode-only: phlix-tizen-client hubRelay.ts:385). ` +
+        `Hub heading "${v.heading}" carries "${v.frag}"`,
+    );
+  }
+}
+
 // r4: the pairing guard refuses to bind "+"-decorated badges to the noun —
 // that is the surface-enumeration family the r2 table dispositioned legal
 // (nordic-saga's "5+" card beside the honest four-plus-DLNA sentence). But a
@@ -728,6 +855,9 @@ function assertCleanBothForms(text, relPath, label) {
     const flat = stripMarkup(text);
     assertClean(flat, `${label} (markup-collapsed)`);
     paired += assertNativesShape(flat, `${label} (markup-collapsed)`);
+    // M9 r3: the structural hub-window guard reads the RAW form (heading
+    // structure is the perimeter) and collapses each window itself.
+    if (/\btizen\b/i.test(text)) assertTizenHubEnumeration(text, label);
   }
   return paired;
 }
@@ -1142,5 +1272,120 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
     readFileSync(join(ROOT, 'tools', 'render.mjs'), 'utf8'),
     /The public <a href="https:\/\/github\.com\/detain\/phlix-plugins">phlix-plugins catalog<\/a> is live/,
     'tools/render.mjs: the generated plugins page no longer links the live catalog repo',
+  );
+});
+
+// Law 8 (M9 r3, review M-WEBSITE-09__r2): the structural hub-window guard has
+// teeth on EVERY carrier shape the review named — ✓-grid, "Works on/with"
+// prose list, SVG device row, diagram node — and its two local acquittals keep
+// the adjudicated-true shapes green (the review's own negative-control ask:
+// legitimate non-hub-mode Tizen mentions stay green). Plants convict, truth
+// passes: same red-on-planted-fiction / green-on-shipped-truth discipline as
+// the r2 clone probes, pinned in-process so CI never needs the scratch clone.
+test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape and acquits the true ones', () => {
+  // Non-vacuity: laws 1-2 already walked the tracked tree and the artifact
+  // through the engine (measured 212 hub windows in tizen-carrying tracked
+  // HTML alone, before the artifact pass). A window parser that silently
+  // stopped finding Hub headings reddens here instead of going blind.
+  assert.ok(
+    hubWindowCount >= 100,
+    `the hub-window engine read ${hubWindowCount} windows across laws 1-2; the structural perimeter collapsed`,
+  );
+
+  // One plant per carrier shape, in the verbatim family the review enumerated.
+  const PLANTS = [
+    [
+      '✓-grid row (arctic-passage S1)',
+      '<section><h2>Hub Mode in Clients</h2><p>The Roku, Windows, and Mobile clients support Hub mode.</p><ul><li><span>\u2713</span> Roku client</li><li><span>\u2713</span> Samsung Tizen client</li><li><span>\u2713</span> Windows client</li></ul></section>',
+    ],
+    [
+      'works-carrier checklist li (bio-engineering S2 / prairie-bloom S5)',
+      '<section><h2>Hub mode in clients</h2><p>Phlix clients support Hub mode.</p><ul><li>Sign in once with your Hub account</li><li>Works on Roku, Samsung Tizen, Windows, and Mobile</li></ul></section>',
+    ],
+    [
+      'works-with tail under the true triple (prairie-bloom S5 verbatim)',
+      '<section><h2>Hub Mode in Clients</h2><p>The Roku, Windows, and Mobile clients support Hub mode.</p><p>Works with: Roku, Samsung Tizen, Windows, and Mobile (iOS + Android).</p></section>',
+    ],
+    [
+      'SVG device row beside the hub indicator (electric-festival S3)',
+      '<section><h3>Hub mode in clients</h3><svg viewBox="0 0 200 80"><text x="35">Roku</text><text x="75">Tizen</text><text x="115">Win</text><text x="155">Mobile</text><circle cx="180"/><text x="180">H</text></svg></section>',
+    ],
+    [
+      'hub-tunnel diagram node (library-amber S4)',
+      '<section><h2>How the Hub works</h2><p>Your devices reach in through the same tunnel.</p><div class="hub-node"><h4>Your devices</h4><p>Roku, Tizen, Windows, mobile at a friend&rsquo;s house</p></div></section>',
+    ],
+  ];
+  for (const [name, plant] of PLANTS) {
+    const violations = tizenHubEnumerationViolations(plant);
+    assert.ok(
+      violations.length >= 1,
+      `the hub-window guard lost its teeth: planted ${name} fiction ships green`,
+    );
+  }
+
+  // Acquittals (review-demanded negative controls — overreach reddens here):
+  // every shape the r1/r2 reviews adjudicated TRUE, kept legal by the direct-
+  // frame / DLNA-scope acquittals or by sitting outside a hub window.
+  const CONTROLS = [
+    // oscar-gold / android-dreams model pair (r1-adjudicated keep):
+    '<section><h2>Hub mode in clients</h2><p>Hub mode is available in the Roku, Windows, and Mobile clients. Samsung Tizen uses direct connection when you are away.</p></section>',
+    // desert-horizon per-client row inside a hub grid (r2-acquitted family):
+    '<section><h2>Hub mode in the clients</h2><div><span>Roku</span><span>Hub mode built in</span></div><div><span>Samsung Tizen</span><span>Direct play + HLS transcoded on your TV</span></div><div><span>Windows</span><span>Hub mode built in</span></div></section>',
+    // movie-camera card grid under "Hub Mode in Clients" (r2-acquitted):
+    '<section><h2>Hub Mode in Clients</h2><p>The Roku, Windows, and Mobile clients support Hub mode.</p><div><h4>Roku</h4><p>Hub mode enabled. Browse your full library.</p></div><div><h4>Samsung Tizen</h4><p>Direct play + HLS transcoded, with a remote-optimized UI.</p></div><div><h4>Windows</h4><p>Hub mode enabled.</p></div></section>',
+    // swiss-modernist clients-table link-desc (r2-acquitted DLNA scope):
+    '<section><h2>Hub mode in clients</h2><p>Capabilities and status for Roku, Samsung Tizen, Windows, Mobile and DLNA.</p></section>',
+    // the SSOT pitch bullet under a hub-named heading (native ≠ hub-mode):
+    '<section><h2>Phlix Hub</h2><ul><li>Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device</li></ul></section>',
+    // art-nouveau-garden feature-list "Works on" li — outside any hub heading:
+    '<section><h2>Why Phlix</h2><ul><li>Works on Roku, Samsung Tizen, Windows, mobile (beta), and any DLNA device you already own</li></ul></section>',
+    // abstract-canvas hero: native streams + a separate hub clause:
+    '<section><h1>Your frame.</h1><p>Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device. Synchronized playback, and a hub that reaches you anywhere.</p></section>',
+    // meta keywords (pre-heading head region, never a claim window):
+    '<html><head><meta name="keywords" content="phlix, roku, samsung tizen, windows, mobile" /></head><body><h2>Hub Mode</h2><p>The triple.</p></body></html>',
+  ];
+  for (const [i, legal] of CONTROLS.entries()) {
+    const violations = tizenHubEnumerationViolations(legal);
+    assert.equal(
+      violations.length,
+      0,
+      `the hub-window guard over-reaches: adjudicated-true control #${i} convicts — "${(violations[0] ?? {}).frag}"`,
+    );
+  }
+
+  // The five r3 cures stay cured (anti-amputation: each page keeps its true
+  // hub-mode triple where the carrier stood, not a deleted section).
+  const cure = (rel) => stripMarkup(readFileSync(join(ROOT, rel), 'utf8'));
+  assert.match(
+    cure('sites/arctic-passage/hub.html'),
+    /\u2713 Roku client \u2713 Windows client \u2713 Mobile client/,
+    'arctic-passage: the hub-mode grid lost its true triple rows',
+  );
+  assert.doesNotMatch(
+    cure('sites/arctic-passage/hub.html'),
+    /Samsung Tizen/,
+    'arctic-passage: a Tizen row is back in the hub-mode grid',
+  );
+  assert.match(
+    cure('sites/bio-engineering/hub.html'),
+    /Works on Roku, Windows, and Mobile/,
+    'bio-engineering: the works-carrier cure drifted',
+  );
+  const ef = cure('sites/electric-festival/hub.html');
+  assert.doesNotMatch(ef, /\bTizen\b/, 'electric-festival: Tizen is back in the device row');
+  assert.match(
+    ef,
+    /Roku Win Mobile H/,
+    'electric-festival: the SVG lost its true device labels instead of losing the Tizen one',
+  );
+  assert.match(
+    cure('sites/library-amber/hub.html'),
+    /Roku, Windows, and mobile at a friend/,
+    'library-amber: the diagram-node cure drifted',
+  );
+  assert.match(
+    cure('sites/prairie-bloom/hub.html'),
+    /Works with: Roku, Windows, and Mobile \(iOS \+ Android\)/,
+    'prairie-bloom: the works-with cure drifted',
   );
 });
