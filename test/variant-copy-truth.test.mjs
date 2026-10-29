@@ -43,7 +43,12 @@
 // proved the original three anchored only plural/compound whole phrases —
 // per-platform singular regressions ("The Android app coming soon…") re-opened
 // the class in total silence. See the M8 block below for the pairing law and
-// the markup-collapse pass that kills label/value splits across tags.
+// the markup-collapse pass that kills label/value splits across tags. The
+// M-WEBSITE-09 class — Samsung Tizen hub-mode claims in BOTH directions (the
+// retired "coming soon"/"in development" underclaims and the a8597e21-era
+// four-client overclaim, plus two invented capabilities) — is cured across 80
+// files and regression-banned by the Tizen/universal-quantifier pairs at the
+// end of the registry.
 //
 // WHAT IS DELIBERATELY NOT FORBIDDEN
 // ----------------------------------
@@ -253,6 +258,90 @@ const FORBIDDEN = [
   [
     /coming soon[a-z ]{0,4}(?:android|ios|mobile)/i,
     'a directly adjacent future-then-platform claim — the mirror split of the same fiction',
+  ],
+  // M-WEBSITE-09 (review website__pm M9): the Samsung Tizen hub-mode claim
+  // class, both fiction directions. Truth: the shipped hub-mode clients are
+  // Roku (phlix-roku-client source/lib/ApiClient.brs:979 + AppContext.brs:56-108),
+  // Windows (phlix-windows-client src/renderer/resolveConfig.ts:8-31 hubGetConfig,
+  // app:'server'|'hub') and Mobile (phlix-mobile-client src/hub/HubAuthService.ts,
+  // SettingsScreen.tsx:94 handleHubSignIn). Tizen is SERVER-MODE ONLY today:
+  // phlix-tizen-client src/api/hubRelay.ts:386 "Tizen is server-mode only today
+  // (no hub-mode UI — S353 resolveConfig)", :372-373 the hub-relay context is
+  // "written by a future hub-mode session; absent today → nothing opens", and
+  // resolveConfig.ts:9 "Tizen has no hub-config IPC like the Windows/Electron".
+  // Its relay CONSUMER is shipped and tested (S298) but no UI opens it — so
+  // "coming soon" is also false: nothing is scheduled; the honest copy states
+  // the direct-connection capability (SSOT shared/content.json tizen
+  // highlights: "Vue 3 + Vite", "Direct play + HLS transcoded",
+  // "Remote-optimized UI"). The pre-a8597e21 carriers atlantis and
+  // stellar-command shipped exactly the two underclaim sentences banned
+  // verbatim below; a8597e21 "cured" them by DELETING the honest triple-list
+  // sentence and widening the hub-mode list to four — the overclaim direction
+  // this sweep removes (80 files, 115 sites/ + tools/render.mjs lines). Two
+  // further fabrications join the registry: neon-underground's "background Hub
+  // mode — your library syncs even when the app is closed" (no background-sync
+  // capability exists in the windows or mobile sources) and map-explorer's
+  // "Samsung Tizen clients can be configured to use Hub mode as well".
+  // Like M8r2, these are shape-aware pairs, measured green tree-wide at this
+  // commit: the bridge classes exclude sentence periods and markup, and the
+  // proximity pair is deliberately ≤24 chars so cured card rows ("Samsung
+  // Tizen — direct play on your TV" beside "Windows — Hub mode built-in")
+  // stay legal on the raw scan and are cut off by "+" / tag boundaries on the
+  // collapsed one. The honest oscar-gold model ("Hub mode is available in the
+  // Roku, Windows, and Mobile clients. Samsung Tizen uses direct connection…")
+  // sits inside this perimeter by construction: the sentence-final period
+  // blocks the forward pair.
+  [
+    /samsung\s+tizen\s+support\s+coming\s+soon/i,
+    'the atlantis "Samsung Tizen support coming soon" underclaim (nothing is scheduled; hub-mode UI is simply absent)',
+  ],
+  [
+    /samsung\s+tizen\s+support\s+is\s+in\s+development/i,
+    'the stellar-command "Samsung Tizen support is in development" underclaim (same class)',
+  ],
+  [
+    /(?:samsung\s+tizen|tizen)[a-z ,:—–-]{0,16}(?:support|clients?|hub\s+mode)[a-z ,:—–-]{0,16}(?:coming\s+soon|in\s+development|planned|upcoming)/i,
+    'a Tizen hub-mode capability narrated as future work (per-platform split of the underclaim pair)',
+  ],
+  [
+    /(?:coming\s+soon|in\s+development|planned)[ :.—–-]{1,3}(?:the\s+|a\s+|native\s+|samsung\s+)?(?:samsung\s+)?tizen\b/i,
+    'a future-tense label paired with a Tizen value ("Coming soon: a Samsung Tizen hub client")',
+  ],
+  [
+    /\bhub\s+mode\s+is\s+(?:available|built\s+into)[a-z ,—–"'\n]{0,70}?\btizen\b/i,
+    'a hub-mode-availability claim reaching Samsung Tizen (overclaim pair — Tizen is server-mode only today)',
+  ],
+  [
+    /\btizen\b[a-z ,—–-]{0,24}hub\s+mode/i,
+    'a directly adjacent Tizen-then-hub-mode claim (the cured row/card split of the same overclaim)',
+  ],
+  [
+    /\b(?:every|all)\s+(?:(?:the|four|official|native|phlix)\s+)*clients?\s*(?:[—–(\u2014][^.\n<>]{0,70}[)—]\s*)?(?:supports?|support|has|have|includes?|include|ships?|can\s+(?:operate|connect)|speaks?)\b[^.\n<>]{0,45}?hub\s+(?:mode|toggle)/i,
+    'a universal "every/all clients support Hub mode" quantifier (the real set is Roku, Windows, Mobile — the swept fiction family)',
+  ],
+  [
+    /\bhub\s+(?:mode|toggle)[^.\n<>]{0,45}?\b(?:built\s+into|in|for|on)\s+(?:every|all)\b[^.\n<>]{0,45}?clients?/i,
+    'the passive/heading direction of the same universal quantifier ("Hub mode is built into every client", "Hub mode in every client")',
+  ],
+  [
+    /\btizen\b(?![a-z ,()—–"\n]{0,20}?\bwindows\b\s*[—–-])[a-z ,()—–"\n]{0,20}?hub\s+(?:mode|toggle)/i,
+    'a Tizen value reaching a Hub-mode claim across a comma/paren split ("Native clients (Roku, Samsung Tizen, Windows) support Hub mode") — guarded so a cured Tizen row beside a true "Windows — Hub mode" row stays legal',
+  ],
+  [
+    /every\s+client\s+speaks\s+hub/i,
+    'the copper-steampunk "every client speaks Hub" quantifier (same class, different voice)',
+  ],
+  [
+    /background\s+hub\s+mode/i,
+    'the neon-underground "background Hub mode" fiction (no background-sync capability exists in any client source)',
+  ],
+  [
+    /library\s+syncs\s+even\s+when\s+the\s+app\s+is\s+closed/i,
+    'the neon-underground closed-app sync claim (fabricated; zero in the windows/mobile sources)',
+  ],
+  [
+    /tizen\s+clients?\s+can\s+be\s+configured/i,
+    'the map-explorer "Samsung Tizen clients can be configured to use Hub mode" overclaim (no hub-config path exists — resolveConfig.ts:9)',
   ],
 ];
 

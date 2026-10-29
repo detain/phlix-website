@@ -418,7 +418,7 @@ function buildHub(slug, _content) {
       <p>You can run your own <a href="https://github.com/detain/phlix-hub">phlix-hub</a> instance, or use the public relay &mdash; no configuration required.</p>
 
       <h2>Hub mode in clients</h2>
-      <p>Every official client supports Hub mode. When enabled, the client connects through the Hub relay instead of directly to your LAN server.</p>
+      <p>The Roku, Windows, and Mobile clients support Hub mode. When enabled, the client connects through the Hub relay instead of directly to your LAN server.</p>
     </div>
     <section class="cta-banner">
       <div class="cta-banner-inner">
