@@ -1400,6 +1400,15 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
     'the review-named planted fiction "Each native client supports Hub mode" went GREEN',
   );
   // LIT-FIXTURE-END law6-mutation-probe-quotes
+  // M9r10 self-reference carve-out: these adjudicated-LEGAL model strings
+  // RE-STATE claim sentences (hub × TV-client shapes verbatim) purely to prove
+  // the arms acquit them, so — exactly like the convicted fictions in the
+  // region above — they sit inside a named LIT-FIXTURE region. That is the
+  // structural rule the r9 review prescribes: every claim-shape literal in
+  // this file lives inside a named region; the sentinel is data marking, not
+  // file-wide amnesia (law 1 still scans everything outside; law 13 still
+  // demands zero claim windows on this file's masked surface).
+  // LIT-FIXTURE-BEGIN law6-legal-model-quotes (acquittal models re-state the true claim shape to prove the arms spare it)
   for (const legal of [
     'The Roku, Windows, and Mobile clients support Hub mode. When enabled, the client connects through the Hub relay instead of directly to your server.',
     'The Roku, Windows, and Mobile clients all include Hub mode.',
@@ -1419,6 +1428,7 @@ test('law 6: the M9-r2 quantifier arms are red on every parent-commit survivor',
       );
     }
   }
+  // LIT-FIXTURE-END law6-legal-model-quotes
 });
 
 // Law 7 (M-WEBSITE-10): the plugin-catalog arms have teeth, the SSOT carries
@@ -1892,12 +1902,32 @@ function censusSurface(rel, text) {
   if (/\.(?:mjs|cjs|js)$/i.test(rel)) return stripJsClaimSurface(text);
   return text;
 }
-function tizenCensusFindings(rel, text) {
+// The single frame classifier (M9r10): law 10's census and law 13's carrier
+// inventory read the SAME walk — one engine, no drift between two copies.
+// Every TV-client mention on the claim surface is disposed into exactly one
+// named frame; mentions disposed into a HUB-CLAIM frame (the honest-capability
+// window or the cured-separation idiom) are additionally collected as CLAIM
+// WINDOWS — the window whose file law 13 registers BY NAME. A frame acquittal
+// says the sentence is true; the inventory separately demands that the file
+// carrying it is a known carrier, so fabricated copy dressed in honest
+// vocabulary cannot open a silent new carrier.
+const CENSUS_FRAME_HONEST =
+  'claim-window with an honest capability frame (direct play, DLNA, server-mode, status)';
+const CENSUS_FRAME_SEPARATION =
+  'explicit-hub-triple claim sentence with the TV client stated OUTSIDE it (the cured idiom)';
+const CENSUS_CLAIM_FRAMES = new Set([CENSUS_FRAME_HONEST, CENSUS_FRAME_SEPARATION]);
+function tizenFrameFindings(rel, text) {
   if (law1Exemption(rel))
-    return { disposed: (text.match(/\btizen\b/gi) || []).length, unframed: [], reason: 'archive' };
+    return {
+      disposed: (text.match(/\btizen\b/gi) || []).length,
+      unframed: [],
+      claims: [],
+      reason: 'archive',
+    };
   const lines = censusSurface(rel, text).split('\n');
   let disposed = 0;
   const unframed = [];
+  const claims = [];
   for (let li = 0; li < lines.length; li++) {
     const re = /\btizen\b/gi;
     let m;
@@ -1933,8 +1963,7 @@ function tizenCensusFindings(rel, text) {
         frame =
           'connectivity-word-free prose (roster/card/keyword/inventory; hub token only in non-claim vocabulary)';
       else if (CENSUS_TRUTH_RE.test(win) && !tizenDirectWhileAway(sents))
-        frame =
-          'claim-window with an honest capability frame (direct play, DLNA, server-mode, status)';
+        frame = CENSUS_FRAME_HONEST;
       else {
         // Separation frame — the established cure idiom. The TV-client mention
         // and the connectivity claim must live in DIFFERENT sentences, and
@@ -1951,15 +1980,21 @@ function tizenCensusFindings(rel, text) {
             (s) =>
               !/\btizen\b/i.test(s) && /\broku\b/i.test(s) && /\b(?:windows|mobile)\b/i.test(s),
           );
-        if (!tizenSaysConnect && tripleExcludesTizen)
-          frame =
-            'explicit-hub-triple claim sentence with the TV client stated OUTSIDE it (the cured idiom)';
+        if (!tizenSaysConnect && tripleExcludesTizen) frame = CENSUS_FRAME_SEPARATION;
       }
-      if (frame) disposed++;
-      else unframed.push({ line: li + 1, frag: lines[li].trim().slice(0, 120) });
+      if (frame) {
+        disposed++;
+        if (CENSUS_CLAIM_FRAMES.has(frame)) claims.push({ line: li + 1, frame });
+      } else unframed.push({ line: li + 1, frag: lines[li].trim().slice(0, 120) });
     }
   }
-  return { disposed, unframed };
+  return { disposed, unframed, claims };
+}
+// Law 10's stable view: disposition totals only. The claim-window collection
+// rides the same walk and is consumed by law 13's inventory.
+function tizenCensusFindings(rel, text) {
+  const { disposed, unframed, claims, reason } = tizenFrameFindings(rel, text);
+  return reason ? { disposed, unframed, claims, reason } : { disposed, unframed, claims };
 }
 
 test('law 10: the whole-tree tizen census — every mention sits in a named disposition frame', () => {
@@ -2484,6 +2519,298 @@ test('law 12: the phantom community contact family convicts every carrier shape 
   }
 });
 // LIT-FIXTURE-END law12-community-fixture-section
+
+// ── M-WEBSITE-09 r10: THE CLAIM-CARRIER INVENTORY (law 13) ──────────────────
+// Law 10's frames answer "is this sentence true?"; nobody asked "WHICH FILES
+// are allowed to carry hub-claim sentences at all?" The r9 review caught the
+// consequence: the honest-capability frame ACQUITS claim-shaped copy, so a new
+// fabrication dressed in honest vocabulary ('direct play + HLS transcoded'
+// beside a TV-client mention) can open a silent new carrier in a file nobody
+// ever adjudicated — the law 10 walk dispositions it and the tree stays green.
+// The r10 cure inverts the burden one more level, mirroring how law 10 itself
+// once inverted the sentence-arm game: every hub-CLAIM window the classifier
+// sees must live in a carrier REGISTERED BY NAME, with its shipped truth
+// pinned (cure-needle) and its window count frozen (a second, laundered window
+// in a known carrier reddens; so does a stale registration whose copy moved).
+// SELF-REFERENCE (r9's named issue): this file is origin-owned and carries
+// claim-shaped strings BY DESIGN (fixtures, registries, model quotes). The
+// carve-out is structural, never a blanket exemption: every such literal sits
+// inside a named LIT-FIXTURE region, the inventory walk still READS this file's
+// masked surface, and zero claim windows outside the regions is asserted —
+// add a claim sentence to affirmative code here and law 13 reddens naming
+// this file. law1Exemption(SELF_LAW) === null (pinned in law 10) keeps the
+// whole-file amnesia dead. Controls both directions ship below: a laundered
+// fresh carrier convicts; a legitimate sibling (roster/identifier mention,
+// no claim window) needs no registration and stays green.
+// LIT-FIXTURE-BEGIN carrier-inventory-registry-r10 (the inventory re-states each carrier's shipped claim sentence as its cure-needle)
+const TIZEN_CLAIM_CARRIERS = [
+  // [file, claim windows, named check, cure-needle against the whitespace-collapsed shipped text]
+  [
+    'brand-kits/abstract-canvas.js',
+    1,
+    'M9R10-C01 kit hero spec — the TV client rides the native-streams sentence beside the hub clause (renders into the built page; law 2 polices the artifact)',
+    /Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device\. Synchronized playback, fine-grain control, and a hub that reaches you anywhere/,
+  ],
+  [
+    'brand-kits/solarpunk-eden.js',
+    1,
+    'M9R10-C02 proof_strategy spec-numbers signal — the four-natives placard beside the hub fact set',
+    /4 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay with NTP time-sync/,
+  ],
+  [
+    'brand-kits/street-mural.js',
+    1,
+    'M9R10-C03 proof_strategy spec-numbers signal — the Wall Stats placard roster beside SyncPlay/transcode facts',
+    /4 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay over device sync/,
+  ],
+  [
+    'docs/PLAN.md',
+    1,
+    'M9R10-C04 page-plan table Clients row — the authoring record of what each client page shows, inside the stable-vs-beta frame',
+    /Roku, Tizen, Windows, Mobile, DLNA — what each looks like, what's stable vs beta/,
+  ],
+  [
+    'sites/abstract-canvas/index.html',
+    1,
+    'M9R10-C05 shipped hero — native streams to the five-surface roster; the hub clause is a separate reach sentence',
+    /Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device\. Synchronized playback, fine-grain control, and a hub that reaches you anywhere/,
+  ],
+  [
+    'sites/arcade-cabinet/hub.html',
+    1,
+    'M9R10-C06 hub pitch grid — the TV-client row states the direct-play truth between the true Roku/Windows hub rows',
+    /Samsung Tizen — direct play and HLS transcoding on your TV/,
+  ],
+  [
+    'sites/autumn-harvest/about.html',
+    1,
+    'M9R10-C07 the cured-separation model paragraph (r4 named survivor) — natives exist, trio connects, the TV client rides neither claim',
+    /Clients exist for Roku, Samsung Tizen, Windows, and Mobile\. SyncPlay keeps movie night together/,
+  ],
+  [
+    'sites/cosmic-horror/depths.html',
+    1,
+    'M9R10-C08 native-tech paragraph — the TV application stack sentence (Vue 3 + Vite, direct play) inside the per-client tour',
+    /Samsung Tizen application runs on Vue 3 and Vite, optimised for direct play/,
+  ],
+  [
+    'sites/cosmic-horror/hub.html',
+    1,
+    'M9R10-C09 per-client li grid — the TV row says direct play + HLS while the sibling rows carry the hub truth',
+    /<li>Samsung Tizen app — direct play \+ HLS transcoded<\/li>/,
+  ],
+  [
+    'sites/holographic-future/hub.html',
+    1,
+    'M9R10-C10 spec-row — the TV client named for its direct connect-screen path inside the hub spec grid',
+    /Samsung Tizen — direct connection from the app connect screen/,
+  ],
+  [
+    'sites/loading-screen/hub.html',
+    1,
+    'M9R10-C11 model-pair truth — trio support the claim; DLNA local-only; the TV app connects directly',
+    /Roku, Windows, and Mobile all support Hub mode\. DLNA discovery works only on the local network, while the Samsung Tizen app connects directly to your server/,
+  ],
+  [
+    'sites/map-explorer/hub.html',
+    1,
+    'M9R10-C12 model-pair truth — hub built into the trio; the TV app connects directly (r1-era adjudicated keep)',
+    /Hub mode is built into the Windows, Roku, and Mobile clients\. The Samsung Tizen app connects directly to your server/,
+  ],
+  [
+    'sites/neon-noir/clients.html',
+    1,
+    'M9R10-C13 direct-topology node label — the TV client sits inside the LAN-dialling diagram, not a hub-mode claim (r1+r2 adjudicated keep)',
+    /hub-node-label">Samsung Tizen<\/div> <div class="hub-node-sub">Smart TV App/,
+  ],
+  [
+    'sites/oscar-gold/hub.html',
+    1,
+    'M9R10-C14 the model pair CONTROL #0 quotes (law 8 regrowth pin) — trio available, TV direct on the same network',
+    /Hub mode is available in the Roku, Windows, and Mobile clients\. Samsung Tizen uses direct connection when on the same network/,
+  ],
+  [
+    'sites/quantum-stream/download.html',
+    1,
+    'M9R10-C15 constellation download card — the TV roster row states Smart TV + direct play + HLS',
+    /Samsung Tizen<\/h3> <p>Smart TV app with Vue 3 \+ Vite\. Direct play \+ HLS transcoded\./,
+  ],
+  [
+    'sites/street-mural/hub.html',
+    1,
+    'M9R10-C16 hub-client item row — the TV client says direct play while the sibling items carry hub-mode truth',
+    /<strong>Samsung Tizen<\/strong> — direct play on your TV/,
+  ],
+  [
+    'sites/wild-west/hub.html',
+    1,
+    'M9R10-C17 ecosystem-list row — the TV item states direct play between the hub-mode built-in items',
+    /<strong>Samsung Tizen<\/strong> — direct play on your TV/,
+  ],
+  [
+    'sites/wilderness-trail/download.html',
+    1,
+    'M9R10-C18 download-card anchor + body — the TV card states Smart TV, direct play (roster of install paths, not a hub claim)',
+    /clients\.html#tizen.*?Samsung Tizen.*?Smart TV app, direct play/,
+  ],
+];
+// LIT-FIXTURE-END carrier-inventory-registry-r10
+
+test('law 13: the claim-carrier inventory — every carrier registered BY NAME, the self-scan carved by structure', () => {
+  // Registry shape (the r8-F1 idiom, now for carriers not just arms): every
+  // entry names its file, its expected window count, a specific check name,
+  // and a cure-needle. The push-scan pattern is self-inert (its own source
+  // carries the backslash-dot form, which the literal-dot regex cannot
+  // match), same trick as the registry-discipline test.
+  const registered = new Map();
+  let registeredWindows = 0;
+  for (const [rel, windows, what, needle] of TIZEN_CLAIM_CARRIERS) {
+    assert.equal(typeof rel, 'string', 'a carrier registration is not a file path');
+    assert.ok(!registered.has(rel), `${rel} is registered twice — the inventory is a set`);
+    assert.ok(
+      Number.isInteger(windows) && windows > 0,
+      `${rel}: window count must be a positive integer`,
+    );
+    assert.ok(
+      typeof what === 'string' && /^M9R10-C\d\d /.test(what),
+      `${rel}: registration has no named check id (M9R10-CNN prefix) — ${what.slice(0, 40)}`,
+    );
+    assert.ok(needle instanceof RegExp, `${rel}: registration carries no cure-needle`);
+    registered.set(rel, { windows, what, needle });
+    registeredWindows += windows;
+  }
+  const src = readFileSync(join(ROOT, SELF_LAW), 'utf8');
+  const naked = src.match(/\bTIZEN_CLAIM_CARRIERS\.push\(/g) || [];
+  assert.equal(
+    naked.length,
+    0,
+    `the carrier inventory grew at runtime (${naked.join(', ')}) — entries are named literals`,
+  );
+
+  // The walk: the SAME classifier law 10 runs (tizenFrameFindings — one
+  // engine, no second copy to drift). Any claim window in an unregistered
+  // origin-owned file reddens by name; this file is walked too, and its
+  // masked surface must show zero (structural carve-out, stated below).
+  const unregistered = [];
+  const seenWindows = new Map();
+  let selfClaims = 0;
+  let walkTotal = 0;
+  for (const rel of TRACKED.filter((f) => TEXT_EXT.test(f) || ROOT_TEMPLATES.has(f))) {
+    const r = tizenFrameFindings(rel, readFileSync(join(ROOT, rel), 'utf8'));
+    if (r.reason === 'archive') continue;
+    seenWindows.set(rel, r.claims.length);
+    walkTotal += r.claims.length;
+    if (rel === SELF_LAW) {
+      selfClaims = r.claims.length;
+      continue;
+    }
+    if (r.claims.length > 0 && !registered.has(rel))
+      unregistered.push(
+        `${rel}: ${r.claims.length} claim window(s) at line(s) ${r.claims.map((c) => c.line).join(',')} — a carrier nobody registered by name; cure the copy or add a NAMED M9R10 entry (law 10 acquits the SENTENCE; law 13 polices the FILE)`,
+      );
+  }
+  assert.equal(
+    unregistered.length,
+    0,
+    `carriers escaped registration:\n  ${unregistered.join('\n  ')}`,
+  );
+  // Self-reference, both directions. (a) Zero claim windows may survive on
+  // this file's masked affirmative surface — the sentinel regions are the
+  // only lawful place for claim-shaped literals. (b) The regions must still
+  // CARRY them: the raw file read by this test's own module loader convicts
+  // (law 1's raw-self pin proves fixture amputation dies there; here the
+  // raw claim-surface count must strictly exceed the masked one).
+  assert.equal(
+    selfClaims,
+    0,
+    `the law file carries ${selfClaims} claim window(s) outside its named LIT-FIXTURE regions — move each re-stated claim into a region or cure it; a blanket self-exemption stays banned (M9r4, r9's structural carve-out)`,
+  );
+  const selfMasked = maskLitRegions(src);
+  const selfRawCount = (src.match(/\btizen\b/gi) || []).length;
+  const selfMaskedCount = (selfMasked.match(/\btizen\b/gi) || []).length;
+  assert.ok(
+    selfRawCount > selfMaskedCount,
+    `the LIT-FIXTURE regions carry no TV-client claim literals any more (raw ${selfRawCount} == masked ${selfMaskedCount}) — scrubbed fixtures amputate the law; the regions must re-state what they ban`,
+  );
+
+  // Registered carriers: the shipped files must still hold exactly the
+  // registered number of claim windows, and every cure-needle must still
+  // match the collapsed shipped text.
+  for (const [rel, { windows, what, needle }] of registered) {
+    const found = seenWindows.get(rel) ?? 0;
+    assert.equal(
+      found,
+      windows,
+      `${rel} (${what}): registered ${windows} claim window(s), the tree now shows ${found} — cure the copy back or rotate the pin from measurement, never silently`,
+    );
+    const flat = readFileSync(join(ROOT, rel), 'utf8').replace(/\s+/g, ' ');
+    assert.ok(
+      needle.test(flat),
+      `${rel} (${what}): the cure-needle no longer matches the shipped copy — the adjudicated truth sentence drifted or was amputated`,
+    );
+  }
+
+  // Non-vacuity (measured at the r10 landing): the inventory inventories.
+  assert.ok(
+    registered.size >= 15,
+    `only ${registered.size} carriers registered — the inventory collapsed below its measured floor`,
+  );
+  assert.ok(
+    walkTotal >= 15,
+    `the walk found only ${walkTotal} claim windows tree-wide — the classifier went blind`,
+  );
+  assert.equal(
+    registeredWindows,
+    walkTotal,
+    'registered window total does not equal the walked total — a window class moved without a rotation',
+  );
+
+  // Controls both directions (r9 ask): plant a NEW laundered carrier → red;
+  // legitimate siblings → green without any registration. In-process so CI
+  // runs them; the live-tree twins ran in the lane's mutation battery.
+  // LIT-FIXTURE-BEGIN law13-carrier-controls (plants re-state the laundered claim shape to prove the inventory binds)
+  const carrierWindows = (rel, body) => tizenFrameFindings(rel, body).claims;
+  const launderedFresh = carrierWindows(
+    'sites/planted-fresh/hub.html',
+    '<h2>Hub Mode in Clients</h2><p>Sign in once and the Hub lists all servers registered to your account.</p><p>Samsung Tizen — direct play + HLS transcoded on your TV</p>',
+  );
+  assert.equal(
+    launderedFresh.length,
+    1,
+    'control: the honest-vocabulary plant produced no claim window — the classifier basis moved',
+  );
+  const violationFor = (rel, count) =>
+    count > 0 && rel !== SELF_LAW && !registered.has(rel) ? [rel] : [];
+  assert.deepEqual(
+    violationFor('sites/planted-fresh/hub.html', launderedFresh.length),
+    ['sites/planted-fresh/hub.html'],
+    'control: a planted fresh carrier escaped the unregistered-carrier rule',
+  );
+  assert.deepEqual(
+    violationFor('sites/wild-west/hub.html', 1),
+    [],
+    'control: a registered carrier may not read as unregistered',
+  );
+  // The legitimate sibling shapes: an identifier mention and a hub-word-free
+  // roster — ZERO claim windows, so the inventory demands nothing of them.
+  assert.equal(
+    carrierWindows(
+      'sites/x/clients.html',
+      '<h2>Clients</h2><p>Native apps: Roku, Samsung Tizen, Windows, Mobile.</p><a href="https://github.com/detain/phlix-tizen-client">source</a>\n',
+    ).length,
+    0,
+    'control: a hub-word-free roster demanded registration — the inventory overreaches',
+  );
+  assert.equal(
+    carrierWindows(
+      'sites/x/download.html',
+      '<p>Sideload from the releases page; the phlix-tizen zip is the deliverable.</p>',
+    ).length,
+    0,
+    'control: an identifier mention demanded registration — the inventory overreaches',
+  );
+  // LIT-FIXTURE-END law13-carrier-controls
+});
 
 // ── REGISTRY DISCIPLINE (r8-F1): named registration, zero runtime extension ──────────
 // The estate idiom this file invented for sweep survivors: a survivor is never
