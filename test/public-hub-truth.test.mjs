@@ -29,7 +29,12 @@
 //   3. the artifact is non-vacuous AND carries the self-host truth where the
 //      review named it (midnight-jazz, event-horizon) and at the canonical
 //      FAQ floor across the whole published set;
-//   4. pages.yml still builds before it uploads.
+//   4. pages.yml still builds before it uploads;
+//   5. the M13r1 hosted-offer arms have teeth: the six shipped survivor
+//      bodies (parent commit, verbatim) and the review-named fresh plants
+//      each convict an M13r1 arm, while the honest anchor-then-verb idiom,
+//      its acquitted neighbours, and the variant-copy law 6 client
+//      sign-in/hub-mode family are netted by NOTHING in this registry.
 //
 // WHY A THROWAWAY ROOT AND NOT THE LOCAL `dist/`: test/csp-gate.test.mjs law
 // 5 rebuilds the repo's own `dist/` (`rmSync` + re-copy) inside the same
@@ -79,6 +84,39 @@ const FORBIDDEN = [
   [
     /\bdocs\.phlix\b/i,
     'the invented docs-attribution handle "docs.phlix" (new_site.md conflict table: quotes attribute to the project)',
+  ],
+  // M-WEBSITE-13 r1 ask 2 (review website__writer M3 family): the hosted-OFFER
+  // forms. The domain arms above killed the fake addresses, but heading-flip
+  // cures left hosted-service BODIES standing under honest "No hosted Hub"
+  // headings — six shipped pages promised a sign-up, a team-maintained hosted
+  // service, zero infrastructure, or a "sign in" behind a repository URL.
+  // Each arm binds the OFFER CONTEXT (a hosted service you join), never a bare
+  // verb: the honest anchor-then-verb idiom (afrofuturism/power-up/
+  // desert-mirage/arctic-passage — "run your own… sign in there…") and the
+  // variant-copy law 6 client sign-in/hub-mode family stay GREEN, pinned
+  // per-arm in law 5. "Free to use" alone would net honest free-software
+  // prose; "maintained by the Phlix team" alone would net the truthful
+  // plugins sentence in neural-link — the compound is the lie.
+  [
+    /free to use\s*[,.]?\s*maintained by the phlix team/i,
+    'M13r1 hosted-offer form: "free to use, maintained by the Phlix team" hosted-service bait',
+  ],
+  [
+    /\bsign[\s-]+up\b[\s\S]{0,40}?\b(?:add your servers?|your own server|access anywhere)\b/i,
+    'M13r1 hosted-offer form: a "sign up" flow into a hosted Hub (signup next to add-your-server/access-anywhere)',
+  ],
+  [
+    /\bsign\s+(?:in|up)\s+at\s+(?:<strong>\s*)?github\.com/i,
+    'M13r1 hosted-offer form: a service sign-in behind a repository URL ("sign in at github.com/…")',
+  ],
+  [/\bno infrastructure to manage\b/i, 'M13r1 hosted-offer form: "no infrastructure to manage"'],
+  [
+    /\bno configuration needed\.?\s+enable hub\b/i,
+    'M13r1 hosted-offer form: "no configuration needed — enable Hub" zero-setup hosted promise',
+  ],
+  [
+    /without hosting (?:your|their|its|our) own\b/i,
+    'M13r1 hosted-offer form: remote access "without hosting their own" infrastructure',
   ],
 ];
 
@@ -235,4 +273,144 @@ test('law 4: pages.yml still rebuilds from source before uploading (dist/ is nev
     'dist/ left .gitignore — the stale-committed-dist era ' +
       'this review flagged is returning; law 2 must then measure the COMMITTED tree, not a rebuild',
   );
+});
+
+// ── law 5 (M-WEBSITE-13 r1 ask 2): the hosted-offer arms, per-form ─────────
+// The domain family above killed the fake addresses; r1's mutation battery
+// then PROVED by plant that the hosted-OFFER sentences — "Sign up, add your
+// server", "no infrastructure to manage", a "sign in" behind a repo URL —
+// sailed through every arm green while shipping under honest "No hosted Hub"
+// headings. This law is the executed overlap check the review demanded: each
+// form is armed, each survivor convicts verbatim, and nothing honest — the
+// self-host idiom or variant-copy law 6's client family — is netted.
+const M13R1_ARMS = FORBIDDEN.filter(([, what]) => what.startsWith('M13r1 hosted-offer form'));
+
+test('law 5: the hosted-offer arms convict every survivor and acquit the self-host idiom', () => {
+  // Identity anchor (law 11/12 doctrine): exactly six M13r1 arms — if the
+  // family leaves the registry, or a foreign arm joins the marker, this law
+  // stops guarding and must fail loud HERE.
+  assert.equal(
+    M13R1_ARMS.length,
+    6,
+    'the hosted-offer family no longer anchors to exactly 6 registry arms ' +
+      '(marker: "M13r1 hosted-offer form") — law 5 anchors moved',
+  );
+
+  // The six shipped bodies, verbatim from parent commit 0e450d38 (sites/
+  // {tetris-grid,game-cartridge,celtic-twilight,film-noir,easter-egg,
+  // library-amber}/hub.html), cured in this same commit — every one must
+  // still convict, or the net has a hole exactly where r1 measured one.
+  // Quoted here as REGEX-ARM INPUT, and the arms below name no client/
+  // domain/platform token, so these lines sit outside every convicted
+  // family's shape (variant law 1 scans this file whole-tree: it passed at
+  // landing — if a future arm grows a shape that nets them, law 1 reddens,
+  // never silence).
+  // LIT-FIXTURE-BEGIN m13r1-survivor-pins (r1-convicted parents, quoted to ban)
+  const SURVIVORS = [
+    'Free to use, maintained by the Phlix team. Sign up, add your server, connect.',
+    'Sign up once, add your servers, access anywhere. Zero configuration.',
+    "The fastest path: sign in at github.com/detain/phlix-hub, point your server at the relay, and you're connected in minutes.",
+    "The project does not run a hosted Hub today. Sign in, register your server, and you're done — no infrastructure to manage.",
+    'No configuration needed. Enable Hub mode in your client and go.',
+    'Best for: most users who want remote access without hosting their own infrastructure.',
+  ];
+  // The fresh-plant forms r1 named (shape probes, not files):
+  const PLANTS = [
+    'Sign up to the Hub, add your server, and stream from anywhere.',
+    'The hosted Hub is free to use, maintained by the Phlix team.',
+    'Sign in at <strong>github.com/detain/phlix-hub</strong> and you are connected.',
+    'One account for every device — no infrastructure to manage.',
+    'No configuration needed. Enable Hub and go.',
+    'Watch from anywhere without hosting your own anything.',
+  ];
+  // LIT-FIXTURE-END m13r1-survivor-pins
+  for (const claim of [...SURVIVORS, ...PLANTS]) {
+    const hits = M13R1_ARMS.filter(([re]) => re.test(claim));
+    assert.ok(
+      hits.length >= 1,
+      `the hosted-offer claim "${claim}" now slips the net again — every M13r1 arm missed it`,
+    );
+  }
+
+  // GREEN battery, asserted against the WHOLE registry (all 13 arms): no new
+  // arm may overreach into the honest copy that ships beside it.
+  // LIT-FIXTURE-BEGIN m13r1-green-acquittals (verbatim tree sentences)
+  const LEGAL = [
+    // the anchor-then-verb models r1 named (afrofuturism / power-up /
+    // desert-mirage / arctic-passage):
+    'The project operates no public instance. Run phlix-hub on your own box, create your account there, and add your servers.',
+    "There is no public Hub today — the Hub is open-source software you run yourself on a VPS or any always-on box. Sign in, register your server, and you're connected.",
+    "There is no public Hub today — the Hub is open-source software you run yourself on a VPS or any always-on box. Register your server once, sign in on any client, and you're connected everywhere.",
+    'No hosted Hub to register with today — run your own, register your server, and start accessing it immediately. It costs nothing because it is yours.',
+    // the six cures, verbatim:
+    'The Hub is free, open-source software you run yourself. Deploy it, create your account, connect.',
+    'No hosted Hub exists to join. Run your own instance once, add your servers, and access them from anywhere.',
+    "The fastest path: run the Hub on your own box from github.com/detain/phlix-hub, point your server at your relay, and you're connected in minutes.",
+    "The project does not run a hosted Hub today. Stand up your own, sign in there, register your server, and you're done.",
+    'No hosted Hub to flip a switch for. Run your own, then enable Hub mode in your client.',
+    'Best for: most users who want remote access and are glad to run a small always-on box themselves.',
+    // neighbours the review acquitted — bare verbs and other contexts:
+    'There is no registry to sign up to and no build step.',
+    'Holding a tiny peace sign up toward the viewer with a knowing grin',
+    'No configuration needed. No manual port forwarding. The Hub handles it.',
+    'Access your library from anywhere. TLS encrypted. Zero configuration.',
+    'Hub mode is built in. One setting, zero configuration.',
+    'Bridge your storm across networks. Access anywhere, own everything.',
+    "These plugins are maintained by the Phlix team and demonstrate the range of what's possible.",
+  ];
+  // LIT-FIXTURE-END m13r1-green-acquittals
+  for (const legal of LEGAL) {
+    for (const [re, what] of FORBIDDEN) {
+      assert.ok(
+        !re.test(legal),
+        `honest copy "${legal}" is netted by the arm for ${what} — overreach`,
+      );
+    }
+  }
+
+  // Cross-family discipline (r1 ask 2): the variant-copy law 6 client
+  // sign-in/hub-mode family — its convicted fictions AND its adjudicated-
+  // legal models — must stay GREEN through every M13r1 arm. Different lie
+  // (client capability, not a hosted service), different net. The 28 strings
+  // are READ AT RUNTIME from that law's own named LIT-FIXTURE regions rather
+  // than duplicated here — this file sits inside variant-copy law 1's
+  // whole-tree scan perimeter, and that scan masks ONLY its own file, so
+  // claim-shaped literals may live in no other tracked file (measured the
+  // hard way: a duplicated survivor reddened law 1 at first landing). Read-
+  // don't-copy also kills drift: if law 6's family rotates, this check moves
+  // with it, and a missing/thinned region fails loud instead of going quiet.
+  const variantSrc = readFileSync(join(ROOT, 'test', 'variant-copy-truth.test.mjs'), 'utf8');
+  const law6Family = [];
+  for (const begin of [
+    'LIT-FIXTURE-BEGIN law6-survivor-pins',
+    'LIT-FIXTURE-BEGIN law6-legal-model-quotes',
+  ]) {
+    const a = variantSrc.indexOf(begin);
+    const b = variantSrc.indexOf(begin.replace('BEGIN', 'END'), a);
+    assert.ok(
+      a !== -1 && b !== -1 && a < b,
+      `the ${begin} region vanished from variant-copy-truth.test.mjs — law 6 moved its fixtures; re-anchor this read, do not delete it`,
+    );
+    for (const line of variantSrc.slice(a, b).split('\n')) {
+      const m = line.match(/^\s*(["'])(.*)\1,?\s*$/);
+      if (!m) continue;
+      assert.ok(
+        !m[2].includes('\\'),
+        `law 6 fixture line carries an escape (backslash) — this extractor is exact only for the backslash-free regions it measured: ${line.trim().slice(0, 60)}`,
+      );
+      law6Family.push(m[2]);
+    }
+  }
+  assert.ok(
+    law6Family.length >= 28,
+    `only ${law6Family.length} law 6 family strings extracted (floor 28 = 18 survivors + 10 legal models) — the regions went thin or the quote shape changed`,
+  );
+  for (const claim of law6Family) {
+    for (const [re, what] of M13R1_ARMS) {
+      assert.ok(
+        !re.test(claim),
+        `law 6 family sentence "${claim}" is netted by hosted-offer arm ${what} — family collision`,
+      );
+    }
+  }
 });
