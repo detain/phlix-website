@@ -8,9 +8,18 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-26.04
+    # Measured at landing (2026-10-30): this workflow's runs top out ~3 min;
+    # 15 bounds a stuck runner (the review's 1h01m33s Pages outlier class) with
+    # 5x headroom. Only the 6h default bounded it before.
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      # Actions are pinned by full commit SHA (review website__devops m1) — the
+      # estate-wide idiom from the 2026-10-08 migration sweep. Resolution proof:
+      # `git ls-remote https://github.com/actions/<name>` on 2026-10-30, tags are
+      # lightweight so the ref value IS the commit. The version comment is what
+      # dependabot's github-actions ecosystem reads when it bumps these.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
@@ -69,6 +78,19 @@ jobs:
       - name: Accessibility (pa11y-ci)
         if: ${{ !cancelled() }}
         run: npm run a11y
+      - name: Meta audit (check-meta)
+        if: ${{ !cancelled() }}
+        # review website__devops m3: `npm run meta` existed and README
+        # documented it, but no workflow ever ran it — canonical/og metadata
+        # could drift and deploy. Green + sub-second at landing; wired here
+        # AND mirrored into pages.yml's gates job (test/deploy-gate.test.mjs
+        # pins the command-for-command mirror, so adding it to only one file
+        # reddens the deploy path). selfcheck/render-check stay per-kit
+        # authoring gates: wiring selfcheck raw would gate production deploys
+        # on the 48-site pre-existing authoring-debt FAILs (measured 90/138
+        # pass at this tip) — an owner call, recorded with measurements and a
+        # floor-gate cure-spec in the W-min195 report.
+        run: npm run meta
 
   # Additive job, deliberately NOT folded into `lint` above: before this, no
   # workflow in this repo ran any test at all (`grep -rln 'test:unit\|npm test'
@@ -78,9 +100,10 @@ jobs:
   # gate a pull request. Node version, cache and install command mirror `lint`.
   unit:
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm

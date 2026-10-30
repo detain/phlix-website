@@ -15,18 +15,23 @@ on:
 jobs:
   links:
     runs-on: ubuntu-26.04
+    # Timeout bound (review website__devops m2): runs measure ~2 min; 15 caps
+    # a stuck runner with 5x headroom. Action SHAs pinned with resolve proof
+    # 2026-10-30 via git ls-remote (see pages.yml header note — same idiom).
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
       - run: npm ci
       # `linkcheck` validates the BUILT artifact (dist/**/*.html), because that
       # is what GitHub Pages publishes. sites/ holds 138 site directories but
-      # only the 76 with a loadable brand kit are ever deployed, so checking
-      # sites/ produced 653 guaranteed-404s for pages that are not on the
-      # internet. tools/lint.mjs FAILS rather than skips if dist/ is absent, so
-      # forgetting this step cannot turn into a silent pass.
+      # only the 79 with a loadable brand kit (brand-kits/expected-kits.json
+      # pins that count) are ever deployed, so checking sites/ produced 653
+      # guaranteed-404s for pages that were not on the internet. tools/lint.mjs
+      # FAILS rather than skips if dist/ is absent, so forgetting this step
+      # cannot turn into a silent pass.
       - run: npm run build
       - run: npm run linkcheck

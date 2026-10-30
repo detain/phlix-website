@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   # Mirror of .github/workflows/lint.yml: the whole `lint` job's gate steps
-  # (format, three linters, audit-gate, a11y) plus the `unit` job's command.
+  # (format, three linters, audit-gate, a11y, meta) plus the `unit` job's command.
   # Step separation and `if: !cancelled()` follow the S268 law documented in
   # lint.yml — every gate gets its own visible row, and an earlier failure
   # never hides whether a later gate ran. The neutering surface is pinned by
@@ -40,9 +40,18 @@ jobs:
   # gate row reddens, review M7).
   gates:
     runs-on: ubuntu-26.04
+    # review website__devops m2: 15 bounds a stuck runner (observed job maxima
+    # 2026-10-30: Lint run ~3 min, this chain's runs ≤ ~7 min; only the 6h
+    # GitHub default bounded it — see the 1h01m33s Pages outlier 39371489227).
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      # Actions pinned by commit SHA with resolve proof 2026-10-30 (`git
+      # ls-remote https://github.com/actions/<name>`; lightweight tags — the
+      # ref value IS the commit), estate idiom from the 2026-10-08 migration
+      # sweep. Version comments are what dependabot's github-actions
+      # ecosystem reads when it proposes bumps.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
@@ -68,30 +77,37 @@ jobs:
       - name: Unit tests (node:test)
         if: ${{ !cancelled() }}
         run: npm run test:unit
+      - name: Meta audit (check-meta)
+        if: ${{ !cancelled() }}
+        # Mirror of lint.yml's Meta audit step (review website__devops m3) —
+        # deploy-gate.test.mjs pins the two command sets against each other.
+        run: npm run meta
 
   build:
     needs: gates
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run build
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
