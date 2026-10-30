@@ -2708,14 +2708,14 @@ const TIZEN_CLAIM_CARRIERS = [
   [
     'brand-kits/solarpunk-eden.js',
     1,
-    'M9R10-C02 proof_strategy spec-numbers signal — the four-natives placard beside the hub fact set',
-    /5 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay with NTP time-sync/,
+    'M9R10-C02 proof_strategy spec-numbers signal — the five-natives placard beside the hub fact set',
+    /5 native clients \(Roku, Tizen, Windows, Mobile, the Linux console\) \+ DLNA, SyncPlay with NTP time-sync/,
   ],
   [
     'brand-kits/street-mural.js',
     1,
     'M9R10-C03 proof_strategy spec-numbers signal — the Wall Stats placard roster beside SyncPlay/transcode facts',
-    /5 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay over device sync/,
+    /5 native clients \(Roku, Tizen, Windows, Mobile, the Linux console\) \+ DLNA, SyncPlay over device sync/,
   ],
   [
     'docs/PLAN.md',

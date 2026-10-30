@@ -1613,7 +1613,7 @@ const brandKit = {
       {
         type: "spec-numbers",
         format:
-          "A sonar contact readout of real capabilities: native portals to 4 client " +
+          "A sonar contact readout of real capabilities: native portals to 5 client " +
           "platforms, NTP-synced SyncPlay, FFmpeg transcoding, HLS streaming, Hub " +
           "relay NAT traversal.",
       },

@@ -54,7 +54,7 @@
      Mascot Tips by Section
      -------------------------------------------------------------------------- */
   const MASCOT_TIPS = [
-    { where: 'home:#base-camp', say: 'Four trails converge. Enter the jungle — find your path.' },
+    { where: 'home:#base-camp', say: 'Five trails converge. Enter the jungle — find your path.' },
     {
       where: 'home:#the-expedition',
       say: 'SyncPlay locks every device to the same frame. Precision timing, precision exploration.',

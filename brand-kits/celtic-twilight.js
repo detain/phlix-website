@@ -1389,7 +1389,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A vellum-textured placard titled 'What the Library Holds': real native clients (Roku, Samsung Tizen, Windows, Mobile) plus any DLNA device, SyncPlay precision, FFmpeg transcoding capabilities, all pulled verbatim from content.json." },
+      { type: "spec-numbers", format: "A vellum-textured placard titled 'What the Library Holds': real native clients (Roku, Samsung Tizen, Windows, Mobile, the Linux console) plus any DLNA device, SyncPlay precision, FFmpeg transcoding capabilities, all pulled verbatim from content.json." },
       { type: "github", format: "A modest 'from the archive' row with the real phlix-server repo link, showing live star count and issue count — framed as 'The Keepers' Record'." },
       { type: "quotes-from-docs", format: "One short, true line from the Phlix docs about self-hosting and library stewardship, set in EB Garamond italic and framed by a gold ornament, positioned as 'The Lore Says'." },
     ],

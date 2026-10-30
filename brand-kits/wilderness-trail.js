@@ -1559,7 +1559,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A ranger station placard of real capabilities pulled from content.json — 4 native outposts, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, Live TV + DVR." },
+      { type: "spec-numbers",     format: "A ranger station placard of real capabilities pulled from content.json — 5 native outposts, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, Live TV + DVR." },
       { type: "github",           format: "A modest 'from the ranger archives' row linking the real phlix-server repo with its live star / issue counts (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "One short, true line about the freedom of self-hosting, lifted from the docs and set as a framed field-notes quote." },
     ],

@@ -1332,7 +1332,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A 'Wall Stats' placard: real numbers pulled from content.json—5 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay over device sync, HLS + FFmpeg transcode." },
+      { type: "spec-numbers",     format: "A 'Wall Stats' placard: real numbers pulled from content.json—5 native clients (Roku, Tizen, Windows, Mobile, the Linux console) + DLNA, SyncPlay over device sync, HLS + FFmpeg transcode." },
       { type: "github",           format: "A modest 'From the Spray Can' row: the real phlix-server repo with live star and issue counts (never hard-coded), plus a link to the hub repo." },
       { type: "quotes-from-docs", format: "One short, true line from the BSD license or docs about staying in control of your media, rendered as a painted quote on concrete." },
     ],

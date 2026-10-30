@@ -1535,7 +1535,7 @@ const brandKit = {
   // ── proof_strategy ──────────────────────────────────────────────────────────
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A glowing festival placard listing verifiable capabilities: 4 native pavilions (Roku, Samsung Tizen, Windows, Mobile) + DLNA, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding — real numbers from content.json." },
+      { type: "spec-numbers",     format: "A glowing festival placard listing verifiable capabilities: 5 native pavilions (Roku, Samsung Tizen, Windows, Mobile, the Linux console) + DLNA, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding — real numbers from content.json." },
       { type: "github",           format: "A modest 'from the projection booth' row linking the phlix-server repo with live star and issue counts (never hard-coded) — the real heartbeat of the project." },
       { type: "quotes-from-docs", format: "One short, true line lifted verbatim from the BSD-3-Clause license and docs about self-hosting: 'Your library never leaves your hardware unless you say so' — set as a framed lantern-keeper wisdom card." },
     ],

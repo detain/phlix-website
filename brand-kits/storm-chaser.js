@@ -534,7 +534,7 @@ const brandKit = {
         { where: "home:#hero",               say: "The storm is live. Your library is the supercell." },
         { where: "home:.features-overview",  say: "Every feature feeds the vortex. Add more, spin faster." },
         { where: "download:#server",          say: "One line to intercept the storm. Install now." },
-        { where: "download:#clients",         say: "Four clients, four screens. The chase never stops." },
+        { where: "download:#clients",         say: "Five clients, five screens. The chase never stops." },
         { where: "about:#faq",               say: "Storm FAQ — everything you need to know about the chase." },
       ],
       easter_interactions: [

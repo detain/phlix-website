@@ -1369,7 +1369,7 @@ const brandKit = {
       {
         type: "spec-numbers",
         format:
-          "A carved placard of real Phlix capabilities: 5 native client realms (Roku, Tizen, Windows, Mobile) + DLNA, " +
+          "A carved placard of real Phlix capabilities: 5 native client realms (Roku, Tizen, Windows, Mobile, the Linux console) + DLNA, " +
           "SyncPlay with NTP-style frame synchronization, HLS adaptive streaming with FFmpeg transcoding per-device.",
       },
       {

@@ -532,7 +532,7 @@ const brandKit = {
         { where: "home:#hero",              say: "The storm is charged. Ready to strike." },
         { where: "home:.features-overview", say: "Every feature generates voltage. More power to you." },
         { where: "download:#server",          say: "One line to harness the storm. Install now." },
-        { where: "download:#clients",         say: "Four clients, four discharge points. The storm is everywhere." },
+        { where: "download:#clients",         say: "Five clients, five discharge points. The storm is everywhere." },
         { where: "about:#faq",               say: "Electric FAQ — everything you need to know about the charge." },
       ],
       easter_interactions: [
