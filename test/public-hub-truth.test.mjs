@@ -34,7 +34,12 @@
 //      bodies (parent commit, verbatim) and the review-named fresh plants
 //      each convict an M13r1 arm, while the honest anchor-then-verb idiom,
 //      its acquitted neighbours, and the variant-copy law 6 client
-//      sign-in/hub-mode family are netted by NOTHING in this registry.
+//      sign-in/hub-mode family are netted by NOTHING in this registry;
+//   6. the M13r6 official-service-name arms have teeth: the bare phrase
+//      forms ("official Phlix Hub", "hosted Phlix Hub", "officially hosted
+//      by the project") convict WHOLE-SHAPE — no offer verb needed, no
+//      markup-split reliance — while the shipped self-host idiom, negated
+//      prose, and the repo/project appositive stay green.
 //
 // WHY A THROWAWAY ROOT AND NOT THE LOCAL `dist/`: test/csp-gate.test.mjs law
 // 5 rebuilds the repo's own `dist/` (`rmSync` + re-copy) inside the same
@@ -117,6 +122,29 @@ const FORBIDDEN = [
   [
     /without hosting (?:your|their|its|our) own\b/i,
     'M13r1 hosted-offer form: remote access "without hosting their own" infrastructure',
+  ],
+  // M-WEBSITE-13 r6 (review website__newcomer M13): the OFFICIAL-SERVICE-NAME
+  // forms. The M13r1 arms bind offer CONTEXT (a flow you join); a page can
+  // therefore announce the service BY NAME — "the official Phlix Hub", "our
+  // hosted Phlix Hub", "officially hosted by the project" — and stay green
+  // while asserting the exact thing the M-WEBSITE-04 sweep proved false: the
+  // project runs no public Hub. These arms convict the whole contiguous
+  // phrase (no markup-split reliance, no verb tail needed), and acquit the
+  // software-truth forms the estate ships: "self-hosted Phlix Hub instance"
+  // (afrofuturism/docs.html verbatim), the no/not/never negated shapes (law 9
+  // r6 store-arm doctrine), and the appositive repo/project/codebase/code/
+  // source naming of the same phrase (the repository IS official software).
+  [
+    /\bofficial\s+phlix\s+hub\b(?!\s*(?:repo(?:sitory)?|project|codebase|code|source)\b)/i,
+    'M13r6 official-service-name form: "official Phlix Hub" announced as a destination (the repo/project appositive acquits)',
+  ],
+  [
+    /\b(?<!\bself-)(?<!\bself\s)(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)hosted\s+phlix\s+(?:hub|service|instance)\b/i,
+    'M13r6 official-service-name form: "hosted Phlix Hub/service/instance" asserted to exist (self-hosted + no/not/never immediate negation guards acquit — law 9 r6 store-arm doctrine)',
+  ],
+  [
+    /\bofficially\s+hosted\b[^.\n<>]{0,40}?\b(?:by\s+)?(?:the\s+)?(?:phlix|project|team)\b/i,
+    'M13r6 official-service-name form: "officially hosted by Phlix/the project/the team" — public-service attribution the project never made',
   ],
 ];
 
@@ -410,6 +438,136 @@ test('law 5: the hosted-offer arms convict every survivor and acquit the self-ho
       assert.ok(
         !re.test(claim),
         `law 6 family sentence "${claim}" is netted by hosted-offer arm ${what} — family collision`,
+      );
+    }
+  }
+});
+
+// ── law 6 (M-WEBSITE-13 r6): the official-service-name arms, per-form ──────
+// The M13r1 family binds an offer FLOW (sign up → add your server). A page can
+// skip the flow entirely and NAME the service — "the official Phlix Hub",
+// "our hosted Phlix Hub", "officially hosted by the project" — and every r1
+// arm stays silent, yet the sentence still asserts a public instance the
+// project does not run (the M-WEBSITE-04 sweep proved those domains dead; the
+// ratified FAQ floor says "there is no public instance today"). These three
+// arms convict the WHOLE contiguous phrase — no offer verb, no markup-split
+// required — and the honest software-truth forms acquit by name: the
+// self-hosted idiom (afrofuturism/docs.html's shipped sentence, verbatim
+// below), the no/not/never negated shapes, and the repo/project/codebase/
+// code/source appositive ("the official Phlix Hub repository" IS true —
+// github.com/detain/phlix-hub is the official software).
+const M13R6_ARMS = FORBIDDEN.filter(([, what]) => what.startsWith('M13r6 official-service-name form'));
+
+test('law 6: the official-service-name arms convict the whole-shape phrase and acquit the honest forms', () => {
+  // Identity anchor (law 5 doctrine): exactly three M13r6 arms — if the
+  // family leaves the registry, or a foreign arm joins the marker, this law
+  // stops guarding and must fail loud HERE.
+  assert.equal(
+    M13R6_ARMS.length,
+    3,
+    'the official-service-name family no longer anchors to exactly 3 registry arms ' +
+      '(marker: "M13r6 official-service-name form") — law 6 anchors moved',
+  );
+
+  // RED battery — one plant per form plus the review-named whole-shape
+  // sentences. Each must convict at least one M13r6 arm; none is in the tree
+  // today (the r6 survivor scan measured zero), these are shape probes so a
+  // future re-voice cannot re-open the hole unnoticed.
+  // LIT-FIXTURE-BEGIN m13r6-shape-plants (convicted shapes quoted to ban)
+  const PLANTS = [
+    // G — the bare name as a destination:
+    'The official Phlix Hub is free to use.',
+    'Welcome to the official Phlix Hub — sign in and start streaming tonight.',
+    'Visit the official Phlix Hub to add your server.',
+    // H — the hosted-service name:
+    'Our hosted Phlix Hub reaches every room in the house.',
+    'A hosted Phlix service for your whole library.',
+    // I — the attribution of a public service to the project:
+    'Officially hosted by the Phlix team on our servers.',
+    'The Phlix Hub is officially hosted by the project, updated every week.',
+  ];
+  // LIT-FIXTURE-END m13r6-shape-plants
+  for (const claim of PLANTS) {
+    const hits = M13R6_ARMS.filter(([re]) => re.test(claim));
+    assert.ok(
+      hits.length >= 1,
+      `the official-service-name claim "${claim}" now slips the net again — every M13r6 arm missed it`,
+    );
+  }
+
+  // GREEN battery, asserted against the WHOLE registry: no new arm may
+  // overreach into the honest copy that ships beside it — in particular the
+  // self-host idiom, the negated shapes, and the repo appositive named above.
+  // LIT-FIXTURE-BEGIN m13r6-green-acquittals (verbatim / true-shape sentences)
+  const LEGAL = [
+    // the shipped afrofuturism/docs.html sentence, verbatim (self-host guard on H):
+    'Set up and manage a self-hosted Phlix Hub instance.',
+    // the repo/project appositive (G's exclusion arm):
+    'The official Phlix Hub repository is at github.com/detain/phlix-hub — run it on your own box.',
+    'the official Phlix Hub project welcomes pull requests',
+    // negated shapes (law 9 r6 store-arm doctrine on H — the no/not/never
+    // guards are immediate by the estate's ratified form: the negation sits
+    // directly ahead of the phrase it kills):
+    'There is no hosted Phlix Hub anywhere today — the project runs no public instance.',
+    'You are not hosted Phlix Hub bait — the software runs wherever you install it.',
+    'No hosted Phlix service, never a paid plan: deploy the code and stream.',
+    // the offered-by-this-deployment truth form (a kit owner's own box):
+    'This deployment provides its own Hub; sign in there with the account the owner created.',
+    // the ratified FAQ floor and anchor-then-verb idiom:
+    'The hub is self-hosted on a VPS or any always-on box — there is no public instance today.',
+    'There is no public Hub today — the Hub is open-source software you run yourself on a VPS or any always-on box. Sign in, register your server, and you are connected.',
+    // the official-* software attributions the estate ships (G requires Phlix+Hub contiguous):
+    'The plugin directory is live — the public phlix-plugins catalog lists official plugins.',
+    'Phlix server, all official clients, the Hub, and the documentation are freely available.',
+  ];
+  // LIT-FIXTURE-END m13r6-green-acquittals
+  for (const legal of LEGAL) {
+    for (const [re, what] of FORBIDDEN) {
+      assert.ok(
+        !re.test(legal),
+        `honest copy "${legal}" is netted by the arm for ${what} — overreach`,
+      );
+    }
+  }
+
+  // Cross-family discipline (law 5's mechanism): the variant-copy law 6
+  // client sign-in/hub-mode family — survivors AND adjudicated-legal models —
+  // must stay GREEN through every M13r6 arm. Read at runtime from the named
+  // LIT-FIXTURE regions (never duplicated here: this file sits inside
+  // variant-copy law 1's whole-tree scan, which masks only its OWN file, so
+  // claim-shaped literals live here only in regions outside every variant
+  // conviction — verified by the suite, not by hope).
+  const variantSrc = readFileSync(join(ROOT, 'test', 'variant-copy-truth.test.mjs'), 'utf8');
+  const law6Family = [];
+  for (const begin of [
+    'LIT-FIXTURE-BEGIN law6-survivor-pins',
+    'LIT-FIXTURE-BEGIN law6-legal-model-quotes',
+  ]) {
+    const a = variantSrc.indexOf(begin);
+    const b = variantSrc.indexOf(begin.replace('BEGIN', 'END'), a);
+    assert.ok(
+      a !== -1 && b !== -1 && a < b,
+      `the ${begin} region vanished from variant-copy-truth.test.mjs — law 6 moved its fixtures; re-anchor this read, do not delete it`,
+    );
+    for (const line of variantSrc.slice(a, b).split('\n')) {
+      const m = line.match(/^\s*(["'])(.*)\1,?\s*$/);
+      if (!m) continue;
+      assert.ok(
+        !m[2].includes('\\'),
+        `law 6 fixture line carries an escape (backslash) — this extractor is exact only for the backslash-free regions it measured: ${line.trim().slice(0, 60)}`,
+      );
+      law6Family.push(m[2]);
+    }
+  }
+  assert.ok(
+    law6Family.length >= 28,
+    `only ${law6Family.length} law 6 family strings extracted (floor 28 = 18 survivors + 10 legal models) — the regions went thin or the quote shape changed`,
+  );
+  for (const claim of law6Family) {
+    for (const [re, what] of M13R6_ARMS) {
+      assert.ok(
+        !re.test(claim),
+        `variant law 6 family sentence "${claim}" is netted by official-service-name arm ${what} — family collision`,
       );
     }
   }
