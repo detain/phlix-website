@@ -106,7 +106,8 @@
           <h1>Plugins</h1>
           <p class="page-lead">
             The interchangeable lenses of the observatory. A plugin is a small PHP package with a
-            versioned manifest; the loader finds it, and the lifecycle hooks tell it when to wake.
+            versioned plugin.json; the installer validates it, and the lifecycle hooks tell it when
+            to act.
           </p>
         </div>
       </div>
@@ -116,8 +117,8 @@
           <h2 class="section-title" id="model-heading">The plugin model</h2>
           <p>
             Every plugin implements <code>LifecycleInterface</code> and ships a manifest that
-            declares its version and capabilities. Drop it into the <code>plugins/</code> directory
-            and the loader picks it up — no core patching, no rebuild.
+            declares its version and capabilities. Install it at Settings → Plugins and the loader
+            registers it — no core patching, no rebuild.
           </p>
           <pre
             class="code-block"
@@ -214,9 +215,9 @@ https://github.com/detain/phlix-plugin-example</code></pre>
         <div class="container">
           <h2 class="section-title" id="write-heading">Write your own</h2>
           <p>
-            Copy <code>phlix-plugin-example</code>, rename the manifest, implement the lifecycle
-            methods you care about, and drop the folder in. The manifest is versioned, so the loader
-            can tell you plainly when a plugin was written against an older contract.
+            Copy phlix-plugin-example, rename the plugin.json, implement the lifecycle methods you
+            care about, and install it. The manifest is versioned, so the loader can tell you
+            plainly when a plugin was written against an older contract.
           </p>
           <p>
             <a
