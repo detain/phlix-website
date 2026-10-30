@@ -171,12 +171,13 @@
                   Every device gets the right quality on its own — dedicated profiles for phones,
                   web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly
                   with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size)
-                  and delivers it as adaptive HLS that rides out network hiccups. Phlix
-                  automatically detects each client's capabilities and picks the right quality
-                  profile — mobile devices get lower bitrate, 4K TVs get full quality. When direct
-                  play isn't supported, FFmpeg steps in to transcode on the fly. Per-device quality
-                  profiles remember your preferences, so your phone doesn't re-encode every time you
-                  start a new session.
+                  and delivers it as adaptive HLS that rides out network hiccups. If your server has
+                  a compatible Intel or AMD GPU, hardware profiles run the heavy work on it instead
+                  of the CPU. Phlix automatically detects each client's capabilities and picks the
+                  right quality profile — mobile devices get lower bitrate, 4K TVs get full quality.
+                  When direct play isn't supported, FFmpeg steps in to transcode on the fly.
+                  Per-device quality profiles remember your preferences, so your phone doesn't
+                  re-encode every time you start a new session.
                 </p>
               </div>
             </article>
@@ -197,11 +198,13 @@
                   One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN.
                   Passwords are protected with Argon2ID — today's strongest widely recommended
                   hashing — and sign-ins stay secure with tokens that refresh themselves. Rating
-                  filters from G to NC-17 keep kids' profiles to kids' content. Every family member
-                  can have their own profile with their own watch history, continue-watching queue,
-                  and ratings. Parents can lock profiles with a PIN and set content restrictions by
-                  rating level. All passwords are hashed with Argon2ID, and JWT tokens provide
-                  secure, stateless authentication with refresh token rotation.
+                  filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing
+                  identity too: OIDC, LDAP, and passkeys all work, so Phlix fits the sign-in you
+                  already run. Every family member can have their own profile with their own watch
+                  history, continue-watching queue, and ratings. Parents can lock profiles with a
+                  PIN and set content restrictions by rating level. All passwords are hashed with
+                  Argon2ID, and JWT tokens provide secure, stateless authentication with refresh
+                  token rotation.
                 </p>
               </div>
             </article>

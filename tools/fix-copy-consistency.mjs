@@ -273,6 +273,57 @@ function sweepPhrases(t) {
   return [t, n];
 }
 
+// P8 differentiator + BYO extensions (M-WEBSITE-11/15/20, W-min196): grow the
+// just-revoiced bodies and pitch bullet with the facts the review says have no
+// marketing surface — OIDC/LDAP/passkeys (server src/Plugins/{Oidc,Ldap},
+// WebAuthn F7 quintet), VAAPI hardware profiles (config/hwaccel_profiles.php),
+// hub federation Ed25519 proof-of-key (hub H-4/H-5), named scrobble plugins,
+// and the explicit bring-your-own-media line. OLD literals are this tip's new
+// bodies; they mirror shared/content.json byte-for-byte.
+
+// Like litSwap, but for EXTENDED pairs whose NEW text literally begins with
+// the OLD text (a grown sentence). Without the lookahead the grown shape would
+// re-match its own output on the next run — the house idempotency law.
+function litGrow(oldText, newText) {
+  const esc = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const tail = newText.startsWith(oldText) ? newText.slice(oldText.length) : '';
+  const tailGuard = tail
+    ? '(?!\\s+' + tail.trim().split(/\s+/).slice(0, 4).map(esc).join('\\s+') + ')'
+    : '';
+  const re = new RegExp(oldText.split(/\s+/).map(esc).join('\\s+') + tailGuard, 'g');
+  return (t) => {
+    let n = 0;
+    const out = t.replace(re, () => {
+      n++;
+      return newText;
+    });
+    return [out, n];
+  };
+}
+
+const EXTENDED = [
+  [
+    '100% self-hostable — your library never leaves your hardware unless you say so',
+    'Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy',
+  ],
+  [
+    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
+    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing identity too: OIDC, LDAP, and passkeys all work, so Phlix fits the sign-in you already run.",
+  ],
+  [
+    "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups.",
+    "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups. If your server has a compatible Intel or AMD GPU, hardware profiles run the heavy work on it instead of the CPU.",
+  ],
+  [
+    'Install plugins straight from Settings → Plugins and switch them on — extra metadata sources, account scrobblers, and add-ons. Want to build your own? A versioned contract and a minimal starter repo (phlix-plugin-example) show you the way in.',
+    "Install plugins straight from Settings → Plugins and switch them on — Trakt and Last.fm keep your watch history in step on services you already use (that's what scrobbling means), extra metadata providers sharpen artwork and subtitles, and more add-ons ship every month. Want to build your own? A versioned contract and a minimal starter repo (phlix-plugin-example) show you the way in.",
+  ],
+  [
+    'The hub is a small server you run in the cloud that connects your devices to your home server — no ports to open, no third-party tunnel. Sign in once and watch your library from anywhere. You run the hub, you own the relay.',
+    'The hub is a small server you run in the cloud that connects your devices to your home server — no ports to open, no third-party tunnel. Sign in once and watch your library from anywhere. You run the hub, you own the relay. Hubs can even link up with each other, each proving its identity with an Ed25519 signature.',
+  ],
+].map(([o, n]) => litGrow(o, n));
+
 // P7: the primary install-command block ends at `sudo bash` closed through any
 // of the three shipped shapes (`</code></pre>`, span-wrapped, or a wrapped
 // `</code\n>` inside a div). Insert after it, consuming only the closers that
@@ -307,6 +358,7 @@ const counts = {
   secMiss: [],
   revoiced: 0,
   phrases: 0,
+  extended: 0,
   releasesInserted: 0,
   releasesMiss: [],
 };
@@ -329,6 +381,10 @@ for (const f of files) {
   }
   [t, o] = sweepPhrases(t);
   counts.phrases += o;
+  for (const swap of EXTENDED) {
+    [t, o] = swap(t);
+    counts.extended += o;
+  }
   if (f.endsWith('/download.html')) {
     [t, o] = sweepReleases(t);
     if (o === 1) counts.releasesInserted++;
@@ -358,6 +414,7 @@ console.log(
       securityMisses: counts.secMiss,
       revoicedSwaps: counts.revoiced,
       phrasesSwapped: counts.phrases,
+      extendedSwaps: counts.extended,
       releasesPInserted: counts.releasesInserted,
       releasesMisses: counts.releasesMiss,
     },
