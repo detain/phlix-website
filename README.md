@@ -222,14 +222,18 @@ the CSP's own `frame-ancestors 'self'` directive (browsers ignore
 headers-capable front serves `_headers`. Fronting GitHub Pages with Cloudflare
 (or moving host) is the decision that makes them real.
 
-The allowances in the policy are measured, not aspirational: the gallery and
-404 shim run inline scripts and 8 kit pages carry inline islands, so
-`script-src` must allow `'unsafe-inline'` or the site disables itself; the root
-gallery's stylesheet is the only external font source (kits self-host woff2).
+The allowances in the policy are measured, not aspirational. `script-src`
+ships **without** `'unsafe-inline'` (review `website__writer` R-WEBSITE-06):
+the gallery renderer, the 404 shim, and every kit page island were extracted
+into js files, and the build fails if any executable inline script or `on*=`
+handler ever rides back into `dist/`. `style-src 'unsafe-inline'` remains
+because 497 pages carry inline `style=` attributes; the root gallery's Google
+Fonts stylesheet is still the only external font source (kits self-host woff2).
 `test/csp-gate.test.mjs` pins all of it: meta/header forms split at exactly the
 platform boundary, `_headers` byte-matches the single source in
-`tools/csp.mjs`, and both a constructed fixture build **and** the real repo
-build must stamp the meta tag as the first element of every emitted page.
+`tools/csp.mjs`, both a constructed fixture build **and** the real repo build
+must stamp the meta tag as the first element of every emitted page, and the
+shipped tree must contain zero inline executables.
 
 ## License
 

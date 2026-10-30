@@ -107,4 +107,18 @@
       bar.style.height = '50%';
     });
   }
+
+  /* ─── Copy install command (download page code-block) ────────────────────── */
+
+  // Extracted from the inline onclick on the download page's Copy button
+  // (review R-WEBSITE-06: script-src 'self' — handlers must live in files).
+  // Only <button> .btn-ghost elements inside a .code-block get the behavior;
+  // the <a> .btn-ghost elements every page carries stay plain links.
+  document.querySelectorAll('button.btn-ghost').forEach(function (btn) {
+    var block = btn.closest('.code-block');
+    if (!block) return;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(block.querySelector('code').textContent);
+    });
+  });
 })();

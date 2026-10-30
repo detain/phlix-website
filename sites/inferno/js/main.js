@@ -224,4 +224,16 @@
       }, 1000);
     }
   });
+
+  // ─── Copy install command (download page) ─────────────────────────────────
+  // Extracted from the inline onclick on the download page's copy button
+  // (review R-WEBSITE-06: script-src 'self' — handlers must live in files).
+  var copyCommandBtn = document.querySelector('button[aria-label="Copy command"]');
+  if (copyCommandBtn) {
+    copyCommandBtn.addEventListener('click', function () {
+      navigator.clipboard.writeText(
+        'curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash',
+      );
+    });
+  }
 })();

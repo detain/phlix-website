@@ -182,7 +182,15 @@ test('law 4: the primary CTA resolves — #install anchor to a real section, no 
 test('law 5: the gallery survives, contextualised, and BELOW the install section', () => {
   const html = template();
   assert.ok(html.includes('id="variants-container"'), 'the brand-kit gallery container vanished');
-  assert.ok(html.includes('__PHLIX_KITS__'), 'the gallery manifest contract vanished');
+  // R-WEBSITE-06 moved the renderer out of the inline island into a file
+  // (script-src ships without 'unsafe-inline'); the contract string now lives
+  // in that file, and the template's job is to load it.
+  assert.ok(
+    html.includes('src="shared/assets/js/gallery.js"'),
+    'the root template no longer loads the gallery renderer file',
+  );
+  const gallerySrc = readFileSync(join(ROOT, 'shared', 'assets', 'js', 'gallery.js'), 'utf8');
+  assert.ok(gallerySrc.includes('__PHLIX_KITS__'), 'the gallery manifest contract vanished');
   assert.ok(html.includes('variants-grid'), 'the gallery card grid vanished');
   const installAt = html.indexOf('id="install"');
   const galleryAt = html.indexOf('id="variants-container"');
@@ -241,9 +249,19 @@ test('law 6: in the built artifact every link resolves and no card points at a 4
 
   // (b) the gallery cards the page JS will build are cards on THIS manifest:
   // every built:true kit must exist in dist/ or its ./<slug>/index.html 404s.
-  const manifest = html.match(/window\.__PHLIX_KITS__=(\[.*?\]);<\/script>/);
-  assert.ok(manifest, 'no injected __PHLIX_KITS__ manifest in dist/index.html');
-  const kits = JSON.parse(manifest[1]);
+  // Since R-WEBSITE-06 the manifest is a FILE (script-src 'self' refuses the
+  // old inline injection), so the contract is measured where it now lives.
+  assert.match(
+    html,
+    /<script src="assets\/js\/kit-manifest\.js"><\/script>/,
+    'dist/index.html lost its kit-manifest.js script reference',
+  );
+  const manifestJs = readFileSync(join(dist, 'assets', 'js', 'kit-manifest.js'), 'utf8');
+  assert.ok(
+    manifestJs.startsWith('window.__PHLIX_KITS__=[') && manifestJs.endsWith('];'),
+    'kit-manifest.js is not the window.__PHLIX_KITS__=[...]; contract',
+  );
+  const kits = JSON.parse(manifestJs.slice('window.__PHLIX_KITS__='.length, -1));
   assert.ok(kits.length >= 3, `manifest has only ${kits.length} kits — non-vacuity`);
   const builtKits = kits.filter((k) => k.built);
   assert.ok(builtKits.length >= 3, 'no built sites in the manifest — non-vacuity');

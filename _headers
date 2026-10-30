@@ -14,11 +14,13 @@
 # line below is pinned byte-equal to it by test/csp-gate.test.mjs (law 2).
 #
 # Why each allowance exists (measured on the built tree, 2026-10-29):
-# - script-src 'unsafe-inline': the root gallery and 404 shim run inline
-#   scripts (the build injects the kit manifest; both pages have hand-authored
-#   inline logic) and 8 kit pages carry inline <script>/onclick islands. A
-#   strict script-src 'self' would disable the site it claims to protect — the
-#   previous "no unsafe-inline for scripts" note was never achievable here.
+# - script-src 'self' with NO 'unsafe-inline' (review website__writer
+#   R-WEBSITE-06): every former inline island — the root gallery renderer, the
+#   root 404 shim, and 8 kit pages' <script>/onclick islands — now lives in a
+#   js/ file, and tools/build.mjs fails the build on any executable inline
+#   script or on*= handler in dist/. The old allowance was 'unsafe-inline' and
+#   the note "a strict script-src 'self' would disable the site" — the cure
+#   moved the code instead of loosening the policy.
 # - style-src 'unsafe-inline': 497 shipped pages carry inline style= attributes
 #   and 43 carry inline <style> blocks. (The old note said "322 inline style=
 #   attributes across variants"; the variants/ tree was deleted 2026-06-30.)
@@ -40,7 +42,7 @@
 # No CSP violation-report endpoint exists in this repo (none is wired).
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin

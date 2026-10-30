@@ -381,3 +381,20 @@ function triggerPetalShower() {
     }
   });
 })();
+
+/* ---- Copy install command (download page) ---- */
+// Extracted from the inline onclick on the download page's Copy button
+// (review R-WEBSITE-06: script-src 'self' — handlers must live in files).
+// Guarded by existence checks: #install-command/.copy-btn ship on
+// download.html only.
+(function installCopy() {
+  const cmd = document.getElementById('install-command');
+  const btn = document.querySelector('.copy-btn');
+  if (!cmd || !btn) return;
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(cmd.textContent.trim()).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = 'Copy'), 2000);
+    });
+  });
+})();

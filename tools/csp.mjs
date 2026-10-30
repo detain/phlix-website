@@ -17,15 +17,23 @@
 //
 // WHAT THE POLICY IS FORCED TO ALLOW (measured on the built tree, not guessed)
 // ----------------------------------------------------------------------------
-//   * `script-src 'unsafe-inline'` — the root gallery and root 404 shim run
-//     inline scripts (by design: build.mjs injects the kit manifest and both
-//     pages have hand-authored inline logic), and 8 kit pages carry inline
-//     `<script>`/`onclick=` islands. A strict `script-src 'self'` would have
-//     disabled the gallery it protects.
+//   * `script-src 'self'` — NO 'unsafe-inline'. Until R-WEBSITE-06 the policy
+//     shipped `script-src 'self' 'unsafe-inline'` because the root gallery and
+//     the root 404 shim ran inline scripts and 8 kit pages carried inline
+//     `<script>`/`onclick=` islands. Every one of those islands has since been
+//     extracted into a js/ file (kit islands → the kits' own scripts; the root
+//     pair → shared/assets/js/{gallery,error-shim}.js; the build's manifest
+//     injections → dist/assets/js/{kit,error}-manifest.js), so the strict form
+//     is now the shipped form — and tools/build.mjs fails the build on any
+//     executable inline script or `on*=` handler in dist/, so it cannot rot
+//     back silently. `test/csp-gate.test.mjs` pins the strict policy and the
+//     zero-island artifact.
 //   * `style-src 'unsafe-inline'` — 497 shipped pages carry inline `style=`
 //     attributes, 43 carry inline `<style>` blocks (the `_headers` file's old
 //     note claimed "322 … across variants"; the `variants/` tree was deleted
-//     2026-06-30 and the real number is measured above).
+//     2026-06-30 and the real number is measured above). A cure like the
+//     script one would be a site-wide stylesheet refactor — deliberately not
+//     in this rider's scope.
 //   * `https://fonts.googleapis.com` / `https://fonts.gstatic.com` — the root
 //     gallery stylesheet comes from Google Fonts (its 3 `<link>`s — 2
 //     preconnect + 1 stylesheet — plus the woff2 that sheet pulls). Every kit
@@ -46,7 +54,7 @@
 /** Directives that a `<meta http-equiv>` CSP can carry. */
 export const CSP_META_DIRECTIVES = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data:",
   "font-src 'self' https://fonts.gstatic.com",

@@ -1329,10 +1329,11 @@ test('law 3: the cure kept the facts and the identity (traceable revoice, not am
   // The kit voice survived: eyebrow + headline + the grid metaphor stand pat.
   assert.match(hero, /Five lights out\./, 'the kit hero voice was erased, not cured');
 
-  // The published root gallery manifest carries the cured kit tagline.
-  const rootPage = readFileSync(join(builtDist(), 'index.html'), 'utf8');
+  // The published root gallery manifest carries the cured kit tagline. It is a
+  // FILE since R-WEBSITE-06 (script-src 'self') — same bytes, new address.
+  const manifestJs = readFileSync(join(builtDist(), 'assets', 'js', 'kit-manifest.js'), 'utf8');
   assert.match(
-    rootPage,
+    manifestJs,
     /Zero to Play\. Flat Out\./,
     'chrome-velocity lost its tagline in the root gallery instead of losing the claim',
   );

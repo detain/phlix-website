@@ -5,10 +5,10 @@
 // and which are still awaiting generation.
 //
 // The gallery is the hand-authored root index.html. dist/ is the GitHub Pages
-// publish root (GH Pages has no directory listing), so we inject the real list
-// of brand kits — including whether each has a built site — as a manifest; the
-// page renders its cards from that injected data with root-relative (./<slug>/)
-// links.
+// publish root (GH Pages has no directory listing), so we emit the real list
+// of brand kits — including whether each has a built site — as a manifest FILE
+// (script-src 'self' since R-WEBSITE-06); the page renders its cards from that
+// data with root-relative (./<slug>/) links.
 
 import {
   cpSync,
@@ -232,6 +232,10 @@ writeFileSync(join(DIST, '404.html'), errorPage(errorKits), 'utf8');
 // section for the honest host-config split.
 const cspPages = injectCspMeta(DIST);
 
+// script-src 'self' (R-WEBSITE-06): an inline island left in a shipped page is
+// dead code the CSP refuses to run. The build enforces the cure's invariant.
+const inlineScan = assertNoInlineExecutables(DIST);
+
 // Sitemap of every built site's canonical URLs + robots.txt that references it.
 // ROOT is passed explicitly: this script's root is `process.cwd()` so it can be
 // aimed at a fixture, while gen-sitemap.mjs defaults to a root derived from its
@@ -279,7 +283,9 @@ console.log(
   `[build] ${kitFiles.length} brand kit file(s) on disk (pinned: ${EXPECTED.count}), ` +
     `${kitSummaries.length} loaded, ${emittedSiteDirs.length} site(s) emitted to dist/ ` +
     `+ index + 404 shim (${themed404Count} themed) + sitemap (${urls.length} URLs) ` +
-    `+ CSP meta on ${cspPages} HTML page(s) → ${DIST}`,
+    `+ CSP meta on ${cspPages} HTML page(s) ` +
+    `+ script-src 'self' scan: ${inlineScan.scanned} page(s), 0 inline executables ` +
+    `(${inlineScan.exempt} data-only script blocks exempt) → ${DIST}`,
 );
 for (const k of kitSummaries) {
   console.log(`  ${k.built ? '✓' : '·'} ${k.slug}${k.built ? '' : ' (no site yet)'}`);
@@ -405,23 +411,52 @@ function assertLandingHero(template) {
   }
 }
 
+/**
+ * Emit a build-generated data manifest into dist/assets/js/. Manifests are
+ * FILES, never inline `<script>` blobs: the shipped CSP runs script-src
+ * 'self' (review website__writer R-WEBSITE-06), so inline executables would
+ * be silently refused by the browser. The pages' own scripts are deferred,
+ * and a classic `<script src>` in <head> executes during parsing — the
+ * manifest is on `window` before any consumer runs.
+ */
+function writeManifest(name, content) {
+  const dir = join(DIST, 'assets', 'js');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, name), content, 'utf8');
+}
+
 function indexPage(kits) {
   const template = readFileSync(resolve(ROOT, 'index.html'), 'utf8');
   assertLandingHero(template);
-  const inject = `<script>` + `window.__PHLIX_KITS__=${JSON.stringify(kits)};` + `</script>`;
-  // Inject in <head> so it runs before the page's main inline script reads it.
   if (!template.includes('</head>')) {
     throw new Error('build: root index.html is missing a </head> to inject site data');
   }
-  return template.replace('</head>', `  ${inject}\n</head>`);
+  // The shipped template points at shared/assets/js/gallery.js so it also runs
+  // when opened straight from the repo (where the manifest is absent and the
+  // page shows its build hint); in dist/ that source lives at
+  // assets/js/gallery.js. Test fixtures with stub roots carry no such
+  // reference — rewriting nothing is fine there; the PIN that the real
+  // template loads the renderer lives in root-value-prop law 5 and the
+  // dist-side assertions in csp-gate law 5 (a builder that silently accepted
+  // a reference-less REAL page is caught there, by the real page).
+  const html = template.replace('shared/assets/js/gallery.js', 'assets/js/gallery.js');
+  writeManifest('kit-manifest.js', `window.__PHLIX_KITS__=${JSON.stringify(kits)};`);
+  return html.replace('</head>', `  <script src="assets/js/kit-manifest.js"></script>\n</head>`);
 }
 
 /**
  * The root 404.html — GitHub Pages serves exactly one per Pages site, so this
- * is the only error document the host will ever hand back. Its inline shim
- * reads the injected manifest, works out which kit the requested path belongs
- * to, and swaps in that kit's own sites/<slug>/404.html (URL preserved) or
- * renders a kit-tinted generic 404.
+ * is the only error document the host will ever hand back. Its path-sniffing
+ * shim (assets/js/error-shim.js, a file since R-WEBSITE-06) reads the injected
+ * manifest, works out which kit the requested path belongs to, and swaps in
+ * that kit's own sites/<slug>/404.html (URL preserved) or renders a kit-tinted
+ * generic 404.
+ *
+ * The shim/manifest src is SITE_URL-ABSOLUTE, not relative: Pages serves this
+ * document for arbitrary deep URLs, and a relative src would resolve against
+ * the requested path instead of the publish root. (The no-JS fallback link
+ * below travels for the same reason — see its comment.) Stub fixture roots may
+ * lack the reference; the real template is pinned by csp-gate law 5.
  */
 function errorPage(kits) {
   const template = readFileSync(resolve(ROOT, '404.html'), 'utf8');
@@ -446,9 +481,13 @@ function errorPage(kits) {
         `(expected ${fallbackHref} for ${SITE_URL})`,
     );
   }
-  const inject =
-    `<script>` + `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};` + `</script>`;
-  return template.replace('</head>', `  ${inject}\n</head>`);
+  const html = template.replace(
+    'shared/assets/js/error-shim.js',
+    `${SITE_URL}/assets/js/error-shim.js`,
+  );
+  const manifestSrc = `${SITE_URL}/assets/js/error-manifest.js`;
+  writeManifest('error-manifest.js', `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};`);
+  return html.replace('</head>', `  <script src="${manifestSrc}"></script>\n</head>`);
 }
 
 function fixSymlinks(dir, distDir = DIST) {
@@ -498,7 +537,8 @@ function minifyCssDir(dir) {
  * Position is the point: a meta CSP governs only content that appears after it
  * during parsing, so any <script>/<link> that precedes the tag would load
  * ungoverned. Head-first also beats the build's own manifest injection (which
- * rides at </head>), pinning the policy over the gallery's inline scripts.
+ * rides at </head>), pinning the policy over every script and style the page
+ * goes on to load.
  *
  * Every miss is a hard build failure, never a silent partial ship: zero HTML
  * found, a page without <head>, or a page that already carries the tag (a
@@ -531,4 +571,64 @@ function injectCspMeta(dir) {
     writeFileSync(file, html.slice(0, at) + `\n` + CSP_META_TAG + html.slice(at), 'utf8');
   }
   return files.length;
+}
+
+/**
+ * Fail-loud scan (review website__writer R-WEBSITE-06): the shipped
+ * `script-src 'self'` executes NO inline script and no inline event handler,
+ * so any such island in dist/ is dead code the browser will silently refuse —
+ * the exact shape the site was in before the cure. The invariant is therefore
+ * encoded as a build law: zero executable inline scripts and zero `on*=`
+ * attributes across every emitted page. Data-only script blocks
+ * (application/ld+json, text/template) are exempt because the CSP never
+ * executes them; pages' <noscript> prose is untouched.
+ *
+ * Returns { scanned, exempt } so the caller can state the denominator, and so
+ * the exemptions themselves are counted — a scanner whose exempt list had
+ * grown to swallow the whole corpus would show up in that number.
+ */
+function assertNoInlineExecutables(dir) {
+  const DATA_ONLY_TYPES = new Set(['application/ld+json', 'text/template']);
+  const files = [];
+  const walk = (d) => {
+    for (const entry of readdirSync(d, { withFileTypes: true })) {
+      const fullPath = join(d, entry.name);
+      if (entry.isDirectory()) walk(fullPath);
+      else if (entry.isFile() && entry.name.endsWith('.html')) files.push(fullPath);
+    }
+  };
+  walk(dir);
+  const violations = [];
+  let exempt = 0;
+  for (const file of files) {
+    const html = readFileSync(file, 'utf8');
+    const rel = file.slice(dir.length + 1);
+    for (const m of html.matchAll(/<script\b([^>]*)>/gi)) {
+      const attrs = m[1];
+      if (/\bsrc\b/i.test(attrs)) continue; // file script — governed by 'self'
+      const type = /\btype\s*=\s*["']?([\w/+-]+)/i.exec(attrs);
+      if (type && DATA_ONLY_TYPES.has(type[1].toLowerCase())) {
+        exempt++;
+        continue;
+      }
+      violations.push(`${rel}: executable inline <script>${type ? ` (type="${type[1]}")` : ''}`);
+    }
+    for (const m of html.matchAll(/<[a-zA-Z][a-zA-Z0-9-]*\b[^>]*\son[a-z-]+\s*=/g)) {
+      violations.push(`${rel}: inline event handler — ${m[0].slice(0, 80)}…`);
+    }
+  }
+  if (violations.length) {
+    throw new Error(
+      [
+        `build: ${violations.length} inline executable script(s)/handler(s) found in dist/, but`,
+        `the shipped CSP is script-src 'self' — the browser refuses to run them.`,
+        `Extract each island into a js/ file (review website__writer R-WEBSITE-06):`,
+        ...violations.slice(0, 20).map((v) => `  ✗ ${v}`),
+        violations.length > 20 ? `  … and ${violations.length - 20} more` : '',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    );
+  }
+  return { scanned: files.length, exempt };
 }

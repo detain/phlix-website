@@ -284,4 +284,11 @@
       seasonSlot.innerHTML = `<div class="season-banner">${seasonalBanner}</div>`;
     }
   }
+
+  /* ── Themed 404: show the requested path (404.html only) ─────────────────── */
+
+  // Extracted from the inline island in 404.html (review R-WEBSITE-06:
+  // script-src 'self' — page scripts must live in files).
+  const requestedPath = document.getElementById('requested-path');
+  if (requestedPath) requestedPath.textContent = window.location.pathname;
 })();

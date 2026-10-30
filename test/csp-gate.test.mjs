@@ -24,7 +24,12 @@
 //   4. a constructed fixture build injects the exact meta tag into every HTML
 //      file, positioned before any script/stylesheet the policy must govern;
 //   5. the REAL repo build does the same for every page it emits (the
-//      denominator is the dist/ glob itself — no kit page can hide).
+//      denominator is the dist/ glob itself — no kit page can hide);
+//   6. `script-src` ships WITHOUT `'unsafe-inline'` (review website__writer
+//      R-WEBSITE-06), and the real built tree contains zero executable inline
+//      scripts and zero `on*=` handlers for that strictness to refuse;
+//   7. the build's inline-executable self-check reds BY NAME on a planted
+//      island — the cure cannot rot back into a hopeful comment.
 //
 // Like test/sitemap-source.test.mjs, nothing here asserts against a pre-
 // existing dist/ from a previous local run: tests 4 and 5 BUILDS the tree they
@@ -33,7 +38,7 @@
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -69,6 +74,14 @@ test('law 1: the policy splits exactly where the platform splits', () => {
   for (const floor of ["default-src 'self'", 'script-src', 'style-src', "base-uri 'self'"]) {
     assert.ok(CSP_META.includes(floor), `meta policy lost floor: ${floor}`);
   }
+  // R-WEBSITE-06: the script floor is STRICT. 'unsafe-inline' was only ever
+  // tolerated because the site's own islands needed it; they are files now.
+  assert.match(CSP_META, /script-src 'self';/, `script-src is not the strict 'self' floor: ${CSP_META}`);
+  assert.ok(!/script-src[^;]*unsafe-inline/.test(CSP_META), 'script-src regained unsafe-inline');
+  // Honesty about what is NOT cured: inline styles remain (497 pages' style=),
+  // so a rewrite that silently drops style-src 'unsafe-inline' — pretending
+  // the harder half of the job is done — reddens here too.
+  assert.match(CSP_META, /style-src 'self' 'unsafe-inline'/, 'style-src honesty lost');
 });
 
 test('law 2: _headers is honest about its host and byte-matches the SSOT', () => {
@@ -106,8 +119,10 @@ test('law 3: dev-server consumes the single source of truth', () => {
 
 /**
  * A fixture root shaped like the real repo where it matters: a root gallery
- * whose inline scripts the policy must govern, a kit page with a hand-authored
- * inline island and an inline event handler, and an empty-head page.
+ * whose scripts the policy must govern, a kit page whose behavior rides in a
+ * js/ FILE, and an empty-head page. Since R-WEBSITE-06 the build refuses
+ * executable inline islands outright, so the fixture — which law 4 requires
+ * to build CLEAN — carries none; law 7 plants them to prove the refusal.
  */
 function makeFixture() {
   const dir = mkdtempSync(join(tmpdir(), 'phlix-csp-'));
@@ -130,7 +145,7 @@ function makeFixture() {
   writeFileSync(
     join(dir, 'sites', 'alpha-kit', 'index.html'),
     '<!doctype html><html><head><link rel="stylesheet" href="css/theme.css"><script type="application/ld+json">{"@context":"https://schema.org"}</script></head>' +
-      '<body><button onclick="void 0">x</button><script>document.title;</script></body></html>',
+      '<body><button id="copy">x</button><script src="js/main.js" defer></script></body></html>',
     'utf8',
   );
   writeFileSync(
@@ -146,7 +161,7 @@ function makeFixture() {
   writeFileSync(join(dir, 'index.html'), readFileSync(join(ROOT, 'index.html'), 'utf8'), 'utf8');
   writeFileSync(
     join(dir, '404.html'),
-    `<html><head><meta charset="utf-8"><script>shim()</script></head><body><a href="${SITE_URL}/">home</a></body></html>`,
+    `<html><head><meta charset="utf-8"><script src="js/shim.js" defer></script></head><body><a href="${SITE_URL}/">home</a></body></html>`,
     'utf8',
   );
   return dir;
@@ -215,13 +230,98 @@ test('law 5: the real repo build ships the CSP on every page it emits', () => {
   for (const rel of emitted) {
     assertCspFirstInHead(readFileSync(join(ROOT, 'dist', rel), 'utf8'), `dist/${rel}`);
   }
-  // The gallery is the page whose inline scripts forced script-src
-  // 'unsafe-inline'; pin that its manifest injection still lands AFTER the
-  // policy tag (both ride in <head>, order decides governance).
+  // The gallery's manifest has been a FILE since R-WEBSITE-06 — script-src
+  // 'self' refuses the inline form it used to be. Pin that the reference still
+  // lands AFTER the policy tag (both ride in <head>, order decides
+  // governance) and that the emitted file carries the contract.
   const gallery = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
-  assert.ok(gallery.includes('window.__PHLIX_KITS__'), 'gallery manifest vanished');
+  assert.ok(gallery.includes('assets/js/kit-manifest.js'), 'gallery manifest reference vanished');
   assert.ok(
-    gallery.indexOf(CSP_META_TAG) < gallery.indexOf('window.__PHLIX_KITS__'),
+    gallery.indexOf(CSP_META_TAG) < gallery.indexOf('assets/js/kit-manifest.js'),
     'gallery manifest script runs before the CSP governs it',
   );
+  assert.match(
+    readFileSync(join(ROOT, 'dist', 'assets', 'js', 'kit-manifest.js'), 'utf8'),
+    /^window\.__PHLIX_KITS__=\[/,
+    'kit-manifest.js lost the window.__PHLIX_KITS__ contract',
+  );
+  // The REAL page must actually LOAD its extracted scripts (the builder
+  // rewrites the reference and test stubs may omit it — here is where the
+  // real tree is held to the cure): gallery.js published under the rewritten
+  // path, and the 404 shim via a SITE_URL-absolute src for deep URLs.
+  assert.match(gallery, /<script defer src="assets\/js\/gallery\.js"><\/script>/, 'dist gallery renderer vanished');
+  assert.ok(
+    existsSync(join(ROOT, 'dist', 'assets', 'js', 'gallery.js')),
+    'gallery.js was not published into dist/assets/js/',
+  );
+  const errPage = readFileSync(join(ROOT, 'dist', '404.html'), 'utf8');
+  assert.ok(
+    errPage.includes(`${SITE_URL}/assets/js/error-shim.js`),
+    'dist 404.html does not load the SITE_URL-absolute shim',
+  );
+  assert.ok(
+    errPage.includes(`${SITE_URL}/assets/js/error-manifest.js`),
+    'dist 404.html lost its error-manifest injection',
+  );
+  assert.match(
+    readFileSync(join(ROOT, 'dist', 'assets', 'js', 'error-manifest.js'), 'utf8'),
+    /^window\.__PHLIX_404__=\{/,
+    'error-manifest.js lost the window.__PHLIX_404__ contract',
+  );
+});
+
+test('law 6: the shipped tree contains zero inline executables (strict script-src is honest)', () => {
+  // script-src 'self' only protects a page that has nothing inline to run.
+  // Measure the real dist/ law 5 just built: no executable inline <script>,
+  // no `on*=` handler, in ANY emitted page — the same invariant the build's
+  // own assertNoInlineExecutables enforces, re-derived here independently
+  // (test and build tool are not allowed to share a bug).
+  const files = globSync('**/*.html', { cwd: join(ROOT, 'dist') });
+  const violations = [];
+  let dataOnly = 0;
+  for (const rel of files) {
+    const html = readFileSync(join(ROOT, 'dist', rel), 'utf8');
+    for (const m of html.matchAll(/<script\b([^>]*)>/gi)) {
+      const attrs = m[1];
+      if (/\bsrc\b/i.test(attrs)) continue;
+      const type = /\btype\s*=\s*["']?([\w/+-]+)/i.exec(attrs);
+      if (type && (type[1] === 'application/ld+json' || type[1] === 'text/template')) {
+        dataOnly++;
+        continue;
+      }
+      violations.push(`${rel}: executable inline <script${type ? ` type="${type[1]}"` : ''}>`);
+    }
+    for (const m of html.matchAll(/<[a-zA-Z][a-zA-Z0-9-]*\b[^>]*\son[a-z-]+\s*=/g)) {
+      violations.push(`${rel}: inline event handler — ${m[0].slice(0, 80)}…`);
+    }
+  }
+  assert.deepEqual(violations, [], 'inline executables shipped while script-src is strict');
+  // Non-vacuity: JSON-LD rides on dozens of pages — if the exempt path never
+  // fired, this scan would be green because it measured nothing.
+  assert.ok(
+    dataOnly >= 50,
+    `only ${dataOnly} data-only script blocks seen — the scanner or the site changed`,
+  );
+});
+
+test('law 7: the build reds BY NAME on planted inline islands (the cure has teeth)', () => {
+  const KIT_BASE =
+    '<!doctype html><html><head><link rel="stylesheet" href="css/theme.css"></head><body>' +
+    'CONTENT</body></html>';
+  const vectors = [
+    ['executable inline script', KIT_BASE.replace('CONTENT', '<script>alert(1)</script>'), /inline executable/],
+    ['inline event handler', KIT_BASE.replace('CONTENT', '<button onclick="alert(1)">x</button>'), /inline event handler/],
+  ];
+  for (const [what, pageHtml, expected] of vectors) {
+    const dir = makeFixture();
+    writeFileSync(join(dir, 'sites', 'alpha-kit', 'index.html'), pageHtml, 'utf8');
+    const built = runBuild(dir);
+    assert.notEqual(built.code, 0, `build accepted a planted ${what}`);
+    assert.match(built.out, expected, `inline-executable check fired but not BY NAME (${what}):\n${built.out}`);
+  }
+  // And the exemption is real: the same fixture with only JSON-LD inline
+  // builds clean (a blanket ban would have killed 101 data blocks too).
+  const clean = makeFixture();
+  const builtClean = runBuild(clean);
+  assert.equal(builtClean.code, 0, `de-islanded fixture failed:\n${builtClean.out}`);
 });

@@ -385,4 +385,24 @@
       banner.removeAttribute('hidden');
     }
   })();
+
+  /* ─── Install command copy buttons (index, download) ─────────────────────── */
+
+  // Extracted from the inline islands in index.html and download.html
+  // (review R-WEBSITE-06: script-src 'self' — page scripts must live in
+  // files). The download page's clipboard-availability guard now covers the
+  // landing too: strictly safer than the unguarded original.
+  document.querySelectorAll('.install-copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () {
+          btn.setAttribute('aria-label', 'Copied!');
+          setTimeout(function () {
+            btn.setAttribute('aria-label', 'Copy install command');
+          }, 2000);
+        });
+      }
+    });
+  });
 })();
