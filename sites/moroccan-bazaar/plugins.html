@@ -6,7 +6,7 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, drop-in loading. See phlix-plugin-example for a working reference implementation."
+      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, install-from-URL flow. See phlix-plugin-example for a working reference implementation."
     />
     <link
       rel="canonical"
@@ -21,7 +21,7 @@
     <meta property="og:title" content="Plugins — Phlix" />
     <meta
       property="og:description"
-      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, drop-in loading. See phlix-plugin-example for a working reference implementation."
+      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, install-from-URL flow. See phlix-plugin-example for a working reference implementation."
     />
     <meta
       property="og:image"
@@ -31,7 +31,7 @@
     <meta name="twitter:title" content="Plugins — Phlix" />
     <meta
       name="twitter:description"
-      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, drop-in loading. See phlix-plugin-example for a working reference implementation."
+      content="Phlix Plugin System: LifecycleInterface + manifest contract, versioned schema, install-from-URL flow. See phlix-plugin-example for a working reference implementation."
     />
     <meta
       name="twitter:image"
@@ -89,9 +89,9 @@
           <span class="label">Plugins</span>
           <h1>A plugin system with a real contract</h1>
           <p>
-            LifecycleInterface + manifest schema. Drop a plugin in, the loader picks it up. The
-            contract is versioned — a plugin you write today still works when Phlix ships new
-            releases.
+            LifecycleInterface + manifest schema. Install a plugin from Settings → Plugins and
+            enable it. The contract is versioned — a plugin you write today still works when Phlix
+            ships new releases.
           </p>
         </header>
 
@@ -99,13 +99,13 @@
           <h2>How it works</h2>
           <p class="prose">
             Each plugin lives in its own directory under <code>plugins/</code> and announces itself
-            with a <code>manifest.json</code>. The loader reads every manifest on startup, validates
+            with a <code>plugin.json</code>. The loader reads every installed manifest, validates
             the contract version, and registers the plugin's hooks. If a plugin's contract version
             doesn't match, Phlix logs a warning and skips it — it won't crash the server.
           </p>
 
           <div class="code-block">
-            <div class="code-label">plugins/phlix-plugin-example/manifest.json</div>
+            <div class="code-label">plugins/phlix-plugin-example/plugin.json</div>
             <code
               >{ "name": "phlix-plugin-example", "version": "1.0.0", "contract": "1.0",
               "description": "Reference metadata-provider plugin", "entry": "src/Plugin.php" }</code

@@ -13,17 +13,17 @@ Velocity Rush is a speed-first brand kit for Phlix media server, styled around n
 
 ## Pages
 
-| Page | Route | Description |
-|------|-------|-------------|
-| Home | `/velocity-rush/` | Blur-to-focus hero, speed grid features, lap records trust band, CTA |
-| Features | `/velocity-rush/features.html` | All 8 features as live lap-time readouts |
-| Clients | `/velocity-rush/clients.html` | 6 clients: Roku, Samsung Tizen, Windows, Android, iOS, Web |
-| Download | `/velocity-rush/download.html` | Server install one-liner + client selector + ecosystem repos |
-| Plugins | `/velocity-rush/plugins.html` | Plugin system with manifest.json example |
-| Docs | `/velocity-rush/docs.html` | Link to full documentation site |
-| Hub | `/velocity-rush/hub.html` | Phlix Hub relay diagram and features |
-| About | `/velocity-rush/about.html` | Philosophy, License, Contributing, FAQ |
-| 404 | `/velocity-rush/404.html` | "Wrong exit" error page |
+| Page     | Route                          | Description                                                          |
+| -------- | ------------------------------ | -------------------------------------------------------------------- |
+| Home     | `/velocity-rush/`              | Blur-to-focus hero, speed grid features, lap records trust band, CTA |
+| Features | `/velocity-rush/features.html` | All 8 features as live lap-time readouts                             |
+| Clients  | `/velocity-rush/clients.html`  | 6 clients: Roku, Samsung Tizen, Windows, Android, iOS, Web           |
+| Download | `/velocity-rush/download.html` | Server install one-liner + client selector + ecosystem repos         |
+| Plugins  | `/velocity-rush/plugins.html`  | Plugin system with plugin.json example                               |
+| Docs     | `/velocity-rush/docs.html`     | Link to full documentation site                                      |
+| Hub      | `/velocity-rush/hub.html`      | Phlix Hub relay diagram and features                                 |
+| About    | `/velocity-rush/about.html`    | Philosophy, License, Contributing, FAQ                               |
+| 404      | `/velocity-rush/404.html`      | "Wrong exit" error page                                              |
 
 ## Design System
 
@@ -70,16 +70,16 @@ Velocity Rush is a speed-first brand kit for Phlix media server, styled around n
 
 ## Navigation Labels (Velocity Rush branding)
 
-| Page | Label |
-|------|-------|
-| Home | LAUNCH |
-| Features | SPEED GRID |
-| Clients | PIT CREW |
-| Download | GET IN |
-| Hub | RELAY |
-| About | DATA |
-| Plugins | (demoted, linked from features) |
-| Docs | (demoted, footer link) |
+| Page     | Label                           |
+| -------- | ------------------------------- |
+| Home     | LAUNCH                          |
+| Features | SPEED GRID                      |
+| Clients  | PIT CREW                        |
+| Download | GET IN                          |
+| Hub      | RELAY                           |
+| About    | DATA                            |
+| Plugins  | (demoted, linked from features) |
+| Docs     | (demoted, footer link)          |
 
 ## File Structure
 

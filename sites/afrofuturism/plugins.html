@@ -6,7 +6,7 @@
     <title>Extensions — Phlix Plugins</title>
     <meta
       name="description"
-      content="Extend Phlix with plugins. Implement LifecycleInterface, ship a manifest, drop it in the plugins directory. See the reference plugin for the smallest working starter."
+      content="Extend Phlix with plugins. Implement LifecycleInterface, ship a manifest, install it from Settings → Plugins. See the reference plugin for the smallest working starter."
     />
     <meta name="keywords" content="phlix, plugins, extensions, metadata, lifecycleinterface" />
     <link rel="canonical" href="https://detain.github.io/phlix-website/afrofuturism/plugins.html" />
@@ -107,7 +107,8 @@
           <p class="page-header__eyebrow">Build your own stars</p>
           <h1 class="page-header__title">Extensions</h1>
           <p class="page-header__lead">
-            Phlix has a versioned plugin contract. Drop a plugin in, the loader picks it up. See
+            Phlix has a versioned plugin contract. Install a plugin from Settings → Plugins and
+            enable it. See
             <a
               href="https://github.com/detain/phlix-plugin-example"
               rel="noopener noreferrer"
@@ -124,13 +125,13 @@
           <h2 id="plugin-model-heading">The plugin model</h2>
           <p>
             Every plugin implements <code>LifecycleInterface</code> and ships a
-            <code>manifest.json</code>. The loader reads the manifest, validates the version
-            contract, and picks up the plugin automatically — no config file editing, no server
-            restart required for discovery.
+            <code>plugin.json</code>. The loader reads the manifest, validates the version contract,
+            and activates the plugin — no config file editing, no server restart required; some
+            plugins need a restart to take effect.
           </p>
           <div class="code-block">
             <code
-              >plugins/ my-metadata-plugin/ manifest.json # version, name, lifecycle hooks src/
+              >plugins/ my-metadata-plugin/ plugin.json # version, name, lifecycle hooks src/
               MyPlugin.php # implements LifecycleInterface</code
             >
           </div>

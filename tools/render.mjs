@@ -73,7 +73,11 @@ function htmlShell(slug, page, contentData, pageContent) {
   const ogImage = `/variants/${slug}${meta.og_image || '/img/og.png'}`;
   const canonical = `${site.url}/${page === 'index' ? '' : page + '.html'}`;
 
-  const primaryColor = brandColor(slug, 'primary', Object.keys(getBrandKit(slug).colors?.primary || {})[0] || 'electric_blue');
+  const primaryColor = brandColor(
+    slug,
+    'primary',
+    Object.keys(getBrandKit(slug).colors?.primary || {})[0] || 'electric_blue',
+  );
 
   return `<!doctype html>
 <html lang="${site.default_locale}">
@@ -152,15 +156,23 @@ ${pageContent}
     <div class="footer-inner">
       <p class="footer-tagline">${escHtml(contentData.footer?.tagline || site.name)}</p>
       <nav class="footer-nav" aria-label="Footer navigation">
-        ${(contentData.footer?.columns || []).map(col => `
+        ${(contentData.footer?.columns || [])
+          .map(
+            (col) => `
         <div class="footer-col">
           <h3>${escHtml(col.heading)}</h3>
           <ul role="list">
-            ${col.links.map(link => `
+            ${col.links
+              .map(
+                (link) => `
               <li><a href="${escHtml(link.href.startsWith('http') ? link.href : `/variants/${slug}/${link.href.replace(/^\//, '')}`)}">${escHtml(link.label)}</a></li>
-            `).join('\n            ')}
+            `,
+              )
+              .join('\n            ')}
           </ul>
-        </div>`).join('')}
+        </div>`,
+          )
+          .join('')}
       </nav>
       <p class="footer-copy">&copy; ${new Date().getFullYear()} ${escHtml(site.name)} &mdash; BSD-3-Clause</p>
     </div>
@@ -208,7 +220,7 @@ function buildIndex(slug, content) {
       <div class="pitch-inner">
         <h2 id="pitch-heading">Why ${escHtml(content.site.name)}?</h2>
         <ul class="pitch-bullets" role="list">
-          ${content.pitch_bullets.map(b => `<li>${escHtml(b)}</li>`).join('\n          ')}
+          ${content.pitch_bullets.map((b) => `<li>${escHtml(b)}</li>`).join('\n          ')}
         </ul>
       </div>
     </section>
@@ -218,7 +230,9 @@ function buildIndex(slug, content) {
       <div class="features-overview-inner">
         <h2 id="features-overview-heading">Everything your library needs</h2>
         <div class="feature-cards">
-          ${content.features.map(f => `
+          ${content.features
+            .map(
+              (f) => `
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -227,7 +241,9 @@ function buildIndex(slug, content) {
             </div>
             <h3>${escHtml(f.title)}</h3>
             <p>${escHtml(f.body)}</p>
-          </article>`).join('\n          ')}
+          </article>`,
+            )
+            .join('\n          ')}
         </div>
         <p class="features-more"><a href="/variants/${slug}/features.html">See all features &rarr;</a></p>
       </div>
@@ -252,7 +268,9 @@ function buildFeatures(slug, content) {
     </div>
     <div class="content-section">
       <div class="content-grid">
-        ${content.features.map(f => `
+        ${content.features
+          .map(
+            (f) => `
         <article class="feature-detail" id="${escHtml(f.id)}">
           <div class="feature-detail-icon" aria-hidden="true">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -263,7 +281,9 @@ function buildFeatures(slug, content) {
             <h2>${escHtml(f.title)}</h2>
             <p>${escHtml(f.body)}</p>
           </div>
-        </article>`).join('\n        ')}
+        </article>`,
+          )
+          .join('\n        ')}
       </div>
     </div>
     <section class="cta-banner">
@@ -284,7 +304,9 @@ function buildClients(slug, content) {
     </div>
     <div class="content-section">
       <div class="client-cards">
-        ${content.clients.map(c => `
+        ${content.clients
+          .map(
+            (c) => `
         <article class="client-card" id="${escHtml(c.id)}">
           <div class="client-card-header">
             <h2>${escHtml(c.name)}</h2>
@@ -292,10 +314,12 @@ function buildClients(slug, content) {
           </div>
           <p class="client-tagline">${escHtml(c.tagline)}</p>
           <ul class="client-highlights" role="list">
-            ${c.highlights.map(h => `<li>${escHtml(h)}</li>`).join('\n            ')}
+            ${c.highlights.map((h) => `<li>${escHtml(h)}</li>`).join('\n            ')}
           </ul>
           ${c.repo ? `<a href="${escHtml(c.repo)}" class="btn btn-small" rel="noopener noreferrer">View source</a>` : ''}
-        </article>`).join('\n        ')}
+        </article>`,
+          )
+          .join('\n        ')}
       </div>
     </div>
     <section class="cta-banner">
@@ -324,21 +348,30 @@ function buildDownload(slug, content) {
 
       <h2>Clients</h2>
       <div class="download-cards">
-        ${content.clients.filter(c => c.status !== 'deprecated').map(c => `
+        ${content.clients
+          .filter((c) => c.status !== 'deprecated')
+          .map(
+            (c) => `
         <div class="download-card" id="download-${escHtml(c.id)}">
           <h3>${escHtml(c.name)}</h3>
           <p>${escHtml(c.tagline)}</p>
           <a href="${escHtml(c.repo || '#')}" class="btn btn-primary" rel="noopener noreferrer">Get ${escHtml(c.name)}</a>
-        </div>`).join('\n        ')}
+        </div>`,
+          )
+          .join('\n        ')}
       </div>
 
       <h2>Ecosystem</h2>
       <ul class="ecosystem-list">
-        ${content.ecosystem.map(e => `
+        ${content.ecosystem
+          .map(
+            (e) => `
         <li>
           <strong><a href="${escHtml(e.repo)}" rel="noopener noreferrer">${escHtml(e.name)}</a></strong>
           &mdash; ${escHtml(e.what)}
-        </li>`).join('\n        ')}
+        </li>`,
+          )
+          .join('\n        ')}
       </ul>
     </div>
     <section class="cta-banner">
@@ -359,7 +392,7 @@ function buildPlugins(slug, content) {
     </div>
     <div class="content-section">
       <h2>Plugin model</h2>
-      <p>Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Drop it in the <code>plugins/</code> directory and the loader picks it up automatically.</p>
+      <p>Every plugin implements <code>LifecycleInterface</code> and ships a manifest. Install it from Settings → Plugins and flip its toggle to enable it.</p>
       <pre class="code-block"><code>// See the reference plugin:
 <a href="https://github.com/detain/phlix-plugin-example">github.com/detain/phlix-plugin-example</a></code></pre>
 
@@ -397,7 +430,7 @@ function buildDocs(slug, content) {
 
       <h2>Ecosystem</h2>
       <ul>
-        ${content.ecosystem.map(e => `<li><a href="${escHtml(e.repo)}" rel="noopener noreferrer">${escHtml(e.name)}</a> &mdash; ${escHtml(e.what)}</li>`).join('\n        ')}
+        ${content.ecosystem.map((e) => `<li><a href="${escHtml(e.repo)}" rel="noopener noreferrer">${escHtml(e.name)}</a> &mdash; ${escHtml(e.what)}</li>`).join('\n        ')}
       </ul>
     </div>`;
 }
@@ -449,11 +482,15 @@ function buildAbout(slug, content) {
 
       <h2>FAQ</h2>
       <dl class="faq-list">
-        ${faq.map(item => `
+        ${faq
+          .map(
+            (item) => `
         <div class="faq-item">
           <dt>${escHtml(item.q)}</dt>
           <dd>${escHtml(item.a)}</dd>
-        </div>`).join('\n        ')}
+        </div>`,
+          )
+          .join('\n        ')}
       </dl>
     </div>`;
 }
@@ -463,11 +500,15 @@ function buildAbout(slug, content) {
 const ICONS = {
   library: '<path d="M4 6h16M4 12h16M4 18h12"/>',
   syncplay: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',
-  transcode: '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
+  transcode:
+    '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-  antenna: '<path d="M4.93 4.93l14.14 14.14M6.34 17.66l11.31 11.31M2 12l4-4 4 4M12 2l4 4-4 4M22 12l-4 4-4-4M12 22v-4"/>',
-  broadcast: '<path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M7 16.5c3-3 7.5-3.5 10.5-1.5M9 9.5c3.5-3.5 9-3.5 12.5 0M12 5c3 0 5.5 2.5 5.5 5.5S15 16 12 16 6.5 13.5 6.5 10.5 9 5 12 5z"/>',
-  puzzle: '<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 01-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 10-3.214 3.214c.446.166.855.497.925.968a.979.979 0 01-.276.837l-1.61 1.61a2.404 2.404 0 01-1.705.707 2.402 2.402 0 01-1.704-.706l-1.568-1.568a1.026 1.026 0 00-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 11-3.214-3.214c.464-.18.894-.527.967-1.02a1.026 1.026 0 00-.289-.877l-1.568-1.568A2.402 2.402 0 013.455 10.5c0-.617.236-1.234.706-1.704L5.773 7.185a.98.98 0 01.837-.276c.47.07.802.48.968.925a2.501 2.501 0 113.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 01.276-.837l1.61-1.61a2.404 2.404 0 011.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 013.214 3.214c-.464.18-.894.527-.967 1.02z"/>',
+  antenna:
+    '<path d="M4.93 4.93l14.14 14.14M6.34 17.66l11.31 11.31M2 12l4-4 4 4M12 2l4 4-4 4M22 12l-4 4-4-4M12 22v-4"/>',
+  broadcast:
+    '<path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M7 16.5c3-3 7.5-3.5 10.5-1.5M9 9.5c3.5-3.5 9-3.5 12.5 0M12 5c3 0 5.5 2.5 5.5 5.5S15 16 12 16 6.5 13.5 6.5 10.5 9 5 12 5z"/>',
+  puzzle:
+    '<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 01-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 10-3.214 3.214c.446.166.855.497.925.968a.979.979 0 01-.276.837l-1.61 1.61a2.404 2.404 0 01-1.705.707 2.402 2.402 0 01-1.704-.706l-1.568-1.568a1.026 1.026 0 00-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 11-3.214-3.214c.464-.18.894-.527.967-1.02a1.026 1.026 0 00-.289-.877l-1.568-1.568A2.402 2.402 0 013.455 10.5c0-.617.236-1.234.706-1.704L5.773 7.185a.98.98 0 01.837-.276c.47.07.802.48.968.925a2.501 2.501 0 113.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 01.276-.837l1.61-1.61a2.404 2.404 0 011.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 013.214 3.214c-.464.18-.894.527-.967 1.02z"/>',
   hub: '<circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>',
 };
 

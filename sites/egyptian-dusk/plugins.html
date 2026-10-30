@@ -6,7 +6,7 @@
     <title>Plugins — Phlix</title>
     <meta
       name="description"
-      content="The Phlix plugin system: a versioned LifecycleInterface contract and manifest schema. Drop a plugin in and the loader picks it up. See phlix-plugin-example."
+      content="The Phlix plugin system: a versioned LifecycleInterface contract and manifest schema. Install a plugin from Settings → Plugins and enable it. See phlix-plugin-example."
     />
     <meta name="keywords" content="phlix plugins, phlix-plugin-example, LifecycleInterface" />
     <link
@@ -119,15 +119,14 @@
             <article class="feature-detail">
               <h3 class="feature-detail__title" style="font-size: 1rem">LifecycleInterface</h3>
               <p class="feature-detail__body">
-                Implement the interface and drop your plugin into the
-                <code>plugins/</code> directory. The loader discovers it on startup and calls your
-                lifecycle methods — no configuration required.
+                Implement the interface and install your plugin from Settings → Plugins. The server
+                loads it on startup and calls your lifecycle methods — no configuration required.
               </p>
             </article>
             <article class="feature-detail">
               <h3 class="feature-detail__title" style="font-size: 1rem">Versioned Manifest</h3>
               <p class="feature-detail__body">
-                Every plugin ships a <code>manifest.json</code> declaring its version, name, and
+                Every plugin ships a <code>plugin.json</code> declaring its version, name, and
                 dependencies. The loader validates compatibility before activating — the archive
                 never loads what it cannot honour.
               </p>
@@ -137,7 +136,7 @@
             <p class="code-block__label">Minimal plugin structure</p>
             <pre><code>plugins/
   my-plugin/
-    manifest.json    # name, version, dependencies
+    plugin.json    # name, version, dependencies
     src/
       MyPlugin.php  # implements LifecycleInterface</code></pre>
           </div>
