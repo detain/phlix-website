@@ -29,6 +29,21 @@
  *     Pages with two <footer> blocks are matched on the one holding the
  *     License li (five kit index pages ship a decorative footer first).
  *
+ *  P5 feature revoice (M-WEBSITE-07/10, W-min194): the eight flagship feature
+ *     bodies — rewritten jargon→plain in shared/content.json — swapped verbatim
+ *     into every kit page that still carries the old sentence ("Sign in once.
+ *     Reverse-tunnel relay handles NAT" family, 243 files; Weighted-mean 243,
+ *     QualitySelector 237, Argon2ID 231, ItemRepository 31). Kit-voice re-casts
+ *     that already paraphrase into plain language are untouched; P5b sweeps the
+ *     near-verbatim jargon families that survive inside kit-shaped sentences.
+ *  P6 cost line (M-WEBSITE-08): the footer tagline gains the plain price answer
+ *     ("free" appeared in visible copy zero times across canonical variants).
+ *     Same swap mechanism; the root index.html footer moves with it.
+ *  P7 releases tell (M-WEBSITE-12): each kit's download.html gains a one-line link
+ *     to the server's GitHub releases (version + changelog tell) right after the
+ *     primary install-command block — first block only, idempotent on the URL,
+ *     per-file misses reported.
+ *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
  * silently defeat single-line literals; every pass is idempotent; --dry-run
@@ -154,11 +169,147 @@ function sweepSecurity(t) {
   return [t, -1];
 }
 
+// P5/P6: literal old→new swaps tolerant of Prettier wrapping (a mid-sentence
+// newline silently defeats single-line literals — fix-license-facts PASS 2).
+// The OLD strings must stay byte-faithful to the pre-W-min194 copy or the sweep
+// goes vacuous; the NEW strings mirror shared/content.json at this tip.
+function litSwap(oldText, newText) {
+  const re = new RegExp(
+    oldText
+      .split(/\s+/)
+      .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('\\s+'),
+    'g',
+  );
+  return (t) => {
+    let n = 0;
+    const out = t.replace(re, () => {
+      n++;
+      return newText;
+    });
+    return [out, n];
+  };
+}
+
+const REVOCED = [
+  [
+    'Folder-watcher hashes mtimes, scanner parses S01E02 / (2020) titles, ItemRepository hydrates metadata_json. Add a file, see it appear.',
+    'Add a file, see it appear. Phlix watches your folders for changes, recognizes naming like S01E02 and (2020), and fills in the titles, descriptions, and artwork for you — no renaming rituals, no manual entry.',
+  ],
+  [
+    'Weighted-mean NTP offset over 5 samples keeps every device locked to the same frame. Play, pause, seek — everyone moves together.',
+    "Watch together, perfectly in step. Phlix keeps every device's playback clock tightly synced, so play, pause, and seek move together for everyone in the room — or an ocean away.",
+  ],
+  [
+    'QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. libx264/libx265 transcoding (H.264 defaults to CRF 23) with HLS master and variant playlists.',
+    "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups.",
+  ],
+  [
+    'JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.',
+    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
+  ],
+  [
+    "ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.",
+    "Watch, pause, and record live TV. Schedule a recording once and it happens on time; the on-screen guide opens straight to what's on now — no clicking through menus.",
+  ],
+  [
+    "ContentDirectory, AvTransport, and a DeviceRegistry mean your old smart TV doesn't need a new app.",
+    'Phlix speaks DLNA — the streaming standard already built into most older smart TVs, game consoles, and receivers — so the devices you own can play your library with no app to install.',
+  ],
+  [
+    'LifecycleInterface + manifest schema. Install a plugin from Settings → Plugins and enable it. See phlix-plugin-example.',
+    'Install plugins straight from Settings → Plugins and switch them on — extra metadata sources, account scrobblers, and add-ons. Want to build your own? A versioned contract and a minimal starter repo (phlix-plugin-example) show you the way in.',
+  ],
+  [
+    'Sign in once. Reverse-tunnel relay handles NAT. Fully self-hostable — you run the hub, you own the relay.',
+    'The hub is a small server you run in the cloud that connects your devices to your home server — no ports to open, no third-party tunnel. Sign in once and watch your library from anywhere. You run the hub, you own the relay.',
+  ],
+  [
+    'Open-source media, on your terms.',
+    'Open-source media, on your terms — free to use, no subscription. You pay only for your own hardware and bandwidth.',
+  ],
+].map(([o, n]) => litSwap(o, n));
+
+// P5b near-verbatim families (M-WEBSITE-07 census tail): kit re-casts that kept
+// the old jargon inside their own sentence shapes ("Sign in once. Reverse-tunnel
+// relay handles NAT. Fully self-hostable." ×190; "LifecycleInterface + manifest
+// schema" ×285 as meta/lead fragments; Folder-watcher/Weighted-mean/… openers).
+// Phrase-level, case-shaped replacements that preserve the kit's own tail.
+// Ordered specific-before-generic. Whitespace is \s+-tolerant (Prettier owns
+// wrapping). Idempotent: no replacement re-matches any pattern. Decorative chips
+// (<span class="wall-chip">AvTransport</span>), the mobile-low/tv-4k profile
+// enumerations on deep about pages, and code samples (`implements
+// LifecycleInterface {`) are deliberately out of scope: visible-styled widgets,
+// factual option names, and developer documentation respectively.
+const PHRASES = [
+  [/The\s+Hub's\s+reverse-tunnel\s+relay\s+handles\s+NAT\s+traversal/g, "The Hub reaches your home server through an encrypted relay"],
+  [/\b([Rr])everse-tunnel\s+relay\s+handles\s+(?:the\s+)?NAT(?:\s+traversal)?\b/g, (m, c) => `${c === 'R' ? 'A' : 'a'} relay you run reaches your home server without opening ports`],
+  [/([Ww])eighted-mean\s+NTP\s+offset\s+over\s+\d+\s+samples/g, (m, c) => `${c === 'W' ? 'A' : 'a'} tightly-synchronized playback clock`],
+  [/Weighted-mean\s+NTP\s+timing/g, 'Tight playback timing'],
+  [/Folder-watcher\s+hashes\s+mtimes/g, 'Phlix watches your folders for changes'],
+  [/scanner\s+parses/g, 'recognizes'],
+  [/ItemRepository\s+hydrates\s+metadata_json/g, 'Phlix fills in titles, artwork, and descriptions'],
+  [/JWT\s+auth\s+with\s+refresh\s+tokens/g, 'secure sign-in that renews itself'],
+  [/ChannelManager,\s+GuideManager,\s+and\s+Recorder/g, 'Built-in scheduling, the guide, and the recorder'],
+  [/ContentDirectory\s+and\s+AvTransport\s+over\s+DLNA/g, 'the DLNA directory and transport protocols'],
+  [/ContentDirectory,\s+AvTransport,\s+and\s+a\s+DeviceRegistry/g, 'the DLNA directory and transport protocols'],
+  [/ContentDirectory\s+and\s+AvTransport/g, 'the DLNA directory and transport protocols'],
+  [/QualitySelector\s+profiles\s+for\s+mobile-low,\s+mobile-high,\s+web,\s+and\s+tv-4k/g, 'Dedicated quality profiles for phones, web, and 4K TVs'],
+  [/QualitySelector\s+profiles/g, 'quality profiles'],
+  [/libx264\/libx265\s+transcoding/g, 'FFmpeg transcoding'],
+  [/LifecycleInterface\s+\+\s+manifest\s+schema/g, 'A versioned plugin contract'],
+  [/Implement\s+the\s+LifecycleInterface\b/g, 'Implement the plugin contract'],
+  [/Implement\s+LifecycleInterface\b/g, 'Implement the plugin contract'],
+  [/implement\s+LifecycleInterface\b/g, 'implement the plugin contract'],
+];
+function sweepPhrases(t) {
+  let n = 0;
+  for (const [re, repl] of PHRASES) {
+    t = t.replace(re, (...args) => {
+      n++;
+      return typeof repl === 'function' ? repl(...args) : repl;
+    });
+  }
+  return [t, n];
+}
+
+// P7: the primary install-command block ends at `sudo bash` closed through any
+// of the three shipped shapes (`</code></pre>`, span-wrapped, or a wrapped
+// `</code\n>` inside a div). Insert after it, consuming only the closers that
+// sit immediately behind so the <p> lands inside the same card.
+const RELEASES_URL = 'https://github.com/detain/phlix-server/releases';
+const RELEASES_P = `<p>Every Phlix release ships with its changelog — see the <a href="${RELEASES_URL}">latest server releases on GitHub</a> for the current version and what's new.</p>`;
+function sweepReleases(t) {
+  if (t.includes(RELEASES_URL)) return [t, 0];
+  const m = t.match(
+    /sudo\s+bash\s*(?:<\/span\s*>)?\s*(?:<\/code\s*>|<\/pre\s*>|<\/p\s*>|<\/div\s*>)/,
+  );
+  if (!m) return [t, -1];
+  const after = m.index + m[0].length;
+  const closers = t
+    .slice(after)
+    .match(/^(\s*<\/pre>)?(\s*<\/p\s*>)?(\s*<\/div>)?(\s*<button[\s\S]{0,120}?<\/button>)?/)[0];
+  return [
+    t.slice(0, after + closers.length) + '\n' + RELEASES_P + t.slice(after + closers.length),
+    1,
+  ];
+}
+
 let files = [
   ...globSync('sites/**/*.html', { ignore: 'sites/*/reviews/**' }),
   'index.html',
 ];
-const counts = { ortho: 0, oxford: 0, titles: 0, secInserted: 0, secMiss: [] };
+const counts = {
+  ortho: 0,
+  oxford: 0,
+  titles: 0,
+  secInserted: 0,
+  secMiss: [],
+  revoiced: 0,
+  phrases: 0,
+  releasesInserted: 0,
+  releasesMiss: [],
+};
 for (const f of files) {
   let t = readFileSync(f, 'utf8');
   const orig = t;
@@ -172,6 +323,17 @@ for (const f of files) {
   [t, o] = sweepSecurity(t);
   if (o === 1) counts.secInserted++;
   else if (o === -1 && /Licen[cs]e\s*\(MPL/.test(t)) counts.secMiss.push(f);
+  for (const swap of REVOCED) {
+    [t, o] = swap(t);
+    counts.revoiced += o;
+  }
+  [t, o] = sweepPhrases(t);
+  counts.phrases += o;
+  if (f.endsWith('/download.html')) {
+    [t, o] = sweepReleases(t);
+    if (o === 1) counts.releasesInserted++;
+    else if (o === -1) counts.releasesMiss.push(f);
+  }
   if (t !== orig && !DRY) writeFileSync(f, t);
 }
 
@@ -194,6 +356,10 @@ console.log(
       titleSeparators: counts.titles,
       securityLiInserted: counts.secInserted,
       securityMisses: counts.secMiss,
+      revoicedSwaps: counts.revoiced,
+      phrasesSwapped: counts.phrases,
+      releasesPInserted: counts.releasesInserted,
+      releasesMisses: counts.releasesMiss,
     },
     null,
     2,

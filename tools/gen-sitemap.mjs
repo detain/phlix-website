@@ -14,7 +14,7 @@
 // Canonical URLs are derived from the same rule as tools/fix-meta.mjs /
 // check-meta.mjs:  <site.url>/<slug>/  for index.html else  <site.url>/<slug>/<page>.html
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { globSync } from 'glob';
@@ -32,6 +32,12 @@ export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
 /**
  * Every canonical URL across the built site HTML pages, sorted & de-duplicated.
  * Pass `slug` to scope the result to a single kit.
+ *
+ * The site-wide list also carries the root gallery page itself — `SITE_URL/`
+ * (the human entry page build.mjs writes at dist/index.html). The one-level-deep
+ * kit glob below never sees it: it lives one level up. A sitemap that lists
+ * every kit page but not the page that links to them all describes the
+ * inventory, not the site (review website__devops m4).
  *
  * ⚠ The site-wide sitemap is derived from `dist/`, NOT from `sites/`.
  * `sites/` holds 138 directories; `npm run build` emits only the ones with a
@@ -63,13 +69,21 @@ export function sitemapUrls(onlySlug = null, root = ROOT) {
     if (file === '404.html') continue;
     urls.add(file === 'index.html' ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${slug}/${file}`);
   }
+  // The root gallery page (dist/index.html) is the site's human entry point and
+  // must carry its own <loc> (review website__devops m4). Gated on the artifact
+  // existing, exactly like the kit pages: a per-kit (`--site`) sitemap never
+  // gets it — that file describes one kit's authored pages, not the gallery.
+  if (!onlySlug && existsSync(join(cwd, 'index.html'))) {
+    urls.add(`${SITE_URL}/`);
+  }
   // An empty site-wide sitemap is never legitimate, and a zero-entry <urlset>
   // is indistinguishable from a healthy one to anything that does not count.
   // Same failure shape as the `links` gate's empty corpus: refuse, don't emit.
   if (!onlySlug && urls.size === 0) {
     throw new Error(
-      `[gen-sitemap] no pages under ${cwd}/*/*.html — the site-wide sitemap is built from the ` +
-        'deploy artifact, so run `npm run build` first. Refusing to emit an empty sitemap.',
+      `[gen-sitemap] no pages under ${cwd}/*/*.html and no ${cwd}/index.html — the site-wide ` +
+        'sitemap is built from the deploy artifact, so run `npm run build` first. Refusing to ' +
+        'emit an empty sitemap.',
     );
   }
   return [...urls].sort();

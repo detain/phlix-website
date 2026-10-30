@@ -1820,7 +1820,7 @@ test('law 9: the CRF-23/28 arm convicts every shape and acquits the honest CRF 2
   // body verbatim — and digit-boundary noise. An over-reach reddens HERE,
   // which is precisely the ask "no overreach on honest 'CRF 23' mentions".
   for (const legal of [
-    'QualitySelector profiles for mobile-low, mobile-high, web, and tv-4k. libx264/libx265 transcoding (H.264 defaults to CRF 23) with HLS master and variant playlists.', // shared/content.json transcode body, verbatim at this tip
+    "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups.", // shared/content.json transcode body, verbatim at this tip (W-min194 revoice — CRF 23 clause kept)
     'H.264 defaults to CRF 23', // the corrected sentence alone
     'CRF 23 or CRF 20, your pick', // honest neighbors, no slash pair
     'the 2023/28 and 123/289 backlog', // digit-bounded numerics — acquittal proven, not hoped

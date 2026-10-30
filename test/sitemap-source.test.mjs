@@ -42,6 +42,9 @@
 //      per-kit sitemap before any build exists.
 //   5. An empty dist/ THROWS instead of emitting a zero-entry <urlset>, with a
 //      control arm proving the same call succeeds once dist/ has a page.
+//   6. The site-wide sitemap carries the root gallery (`SITE_URL/`) exactly
+//      once when dist/index.html ships (review website__devops m4), invents no
+//      root entry when it does not, and a root-only dist is describable.
 
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -121,18 +124,26 @@ function runBuild(cwd) {
   }
 }
 
-/** `<loc>` values of a built sitemap, reduced to slugs. */
+/**
+ * `<loc>` values of a built sitemap, reduced to slugs. The root gallery entry
+ * `${SITE_URL}/` (review website__devops m4) has no slug — it is reported as
+ * `root` instead of polluting the slug sets the exact-comparison laws use.
+ */
 function sitemapSlugs(dir) {
   const xml = readFileSync(join(dir, 'dist', 'sitemap.xml'), 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   assert.ok(locs.length > 0, 'the emitted sitemap has no <loc> entries at all');
+  const rootCount = locs.filter((u) => u === `${SITE_URL}/`).length;
   return {
     locs,
+    rootCount,
     slugs: new Set(
-      locs.map((u) => {
-        assert.ok(u.startsWith(`${SITE_URL}/`), `sitemap URL outside the site base: ${u}`);
-        return u.slice(SITE_URL.length + 1).split('/')[0];
-      }),
+      locs
+        .filter((u) => u !== `${SITE_URL}/`)
+        .map((u) => {
+          assert.ok(u.startsWith(`${SITE_URL}/`), `sitemap URL outside the site base: ${u}`);
+          return u.slice(SITE_URL.length + 1).split('/')[0];
+        }),
     ),
   };
 }
@@ -151,7 +162,11 @@ test('the sitemap covers exactly the slugs emitted into dist/, both directions',
   const emitted = new Set(
     globSync('*/index.html', { cwd: join(dir, 'dist') }).map((r) => r.split('/')[0]),
   );
-  const { slugs } = sitemapSlugs(dir);
+  const { slugs, rootCount } = sitemapSlugs(dir);
+
+  // The root gallery page is in the site-wide sitemap exactly once (m4): the
+  // human entry page was the one URL a `*/*.html` kit glob structurally missed.
+  assert.equal(rootCount, 1, 'the root gallery URL is not in the sitemap exactly once');
 
   assert.deepEqual([...emitted].sort(), DEPLOYED.slice().sort(), 'fixture did not build as set up');
   assert.deepEqual(
@@ -222,4 +237,18 @@ test('an empty dist/ throws instead of emitting a zero-entry sitemap', () => {
   mkdirSync(join(dir, 'dist', 'only-site'), { recursive: true });
   writeFileSync(join(dir, 'dist', 'only-site', 'index.html'), page, 'utf8');
   assert.deepEqual(sitemapUrls(null, dir), [`${SITE_URL}/only-site/`]);
+
+  // m4: with the root gallery artifact present, the site-wide list carries
+  // `${SITE_URL}/` exactly once alongside the kit pages. The arm above proves
+  // no root entry is invented when dist/index.html does not exist.
+  writeFileSync(join(dir, 'dist', 'index.html'), page, 'utf8');
+  assert.deepEqual(sitemapUrls(null, dir), [`${SITE_URL}/`, `${SITE_URL}/only-site/`]);
+
+  // A root-only dist (zero kit pages) is still a describable site: the gallery
+  // itself ships, so the empty-sitemap refusal must not fire for it.
+  const solo = mkdtempSync(join(tmpdir(), 'phlix-sitemap-root-only-'));
+  tempRoots.push(solo);
+  mkdirSync(join(solo, 'dist'), { recursive: true });
+  writeFileSync(join(solo, 'dist', 'index.html'), page, 'utf8');
+  assert.deepEqual(sitemapUrls(null, solo), [`${SITE_URL}/`]);
 });
