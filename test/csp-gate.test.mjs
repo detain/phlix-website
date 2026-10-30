@@ -373,6 +373,17 @@ test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)',
     1,
     'gallery page regrew per-weight Syne faces (variable-font re-decode = the TBT regression)',
   );
+  assert.equal(
+    (gallery.match(/font-display: optional;/g) || []).length,
+    3,
+    'gallery faces lost font-display: optional (swap-reflow on the 79-card document is exactly what blew the TBT budgets)',
+  );
+  assert.doesNotMatch(gallery, /font-display: swap;/, 'gallery faces reverted to swap');
+  assert.doesNotMatch(
+    gallery,
+    /rel="preload"[^>]*fonts/,
+    'font preload rode back in (paired CI runs: it made TBT worse, not better)',
+  );
   for (const w of ['400', '500', '600', '700', '800']) {
     assert.ok(
       existsSync(join(ROOT, 'dist', 'assets', 'fonts', `syne-${w}-latin.woff2`)),

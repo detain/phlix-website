@@ -12,33 +12,39 @@
       /* R-WEBSITE-07 — the gallery's faces are self-hosted from the shared pool
          (tools/vendor-fonts.mjs).  Syne's five css2 static instances were ONE
          variable binary (as they are in the pool: syne-400..800-latin.woff2 are
-         byte-identical), and re-declaring five per-weight faces made Chrome
-         decode the same variable font three times and thrash layout — CI
-         Lighthouse measured / TBT jumping 2–66ms → 134–139ms (desktop cap 80).
-         The honest self-host is the range declaration: one fetch, one decode,
-         every weight the page renders (400 body, 700 emphasis, 800 headings)
-         matches.  Space Mono really is two static binaries (400/700) — both
-         s runs. */
+         byte-identical), so the page declares it as a single ranged face — five
+         per-weight rules made Chrome fetch/decode the same bytes up to three
+         times (CI Lighthouse: / desktop TBT 116–139ms against the 80ms cap).
+         The 2–66ms baseline the budget was calibrated on was itself a lie: the
+         external Google sheet never resolved inside CI's measured window, so
+         those figures are fonts-NOT-rendering figures.  Honest same-origin
+         loading still must dodge the swap-reflow on a 79-card document, so the
+         faces ship font-display: optional — on a warm or local connection the
+         binary wins the 100ms block window and applies at first paint with
+         zero reflow; on a cold slow network the page paints in fallback and
+         upgrades on next visit.  Space Mono really is two static binaries
+         (400/700) — both stay.  test/csp-gate.test.mjs law 8 pins all of it. */
+
       @font-face {
         font-family: 'Syne';
         src: url('assets/fonts/syne-400-latin.woff2') format('woff2');
         font-weight: 400 800;
         font-style: normal;
-        font-display: swap;
+        font-display: optional;
       }
       @font-face {
         font-family: 'Space Mono';
         src: url('assets/fonts/space-mono-400-latin.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
-        font-display: swap;
+        font-display: optional;
       }
       @font-face {
         font-family: 'Space Mono';
         src: url('assets/fonts/space-mono-700-latin.woff2') format('woff2');
         font-weight: 700;
         font-style: normal;
-        font-display: swap;
+        font-display: optional;
       }
       :root {
         --bg-deep: #0c0c0f;
