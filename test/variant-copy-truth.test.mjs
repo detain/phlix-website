@@ -284,8 +284,12 @@ const FORBIDDEN = [
   // M-WEBSITE-07 (positive-fabrication class, review website__pm): capability
   // numbers around watch parties / groups / links with no estate measurement
   // behind them. Authoritative caps: SyncPlay rooms hold GroupState::
-  // MAX_MEMBERS = 50 (phlix-server src/Session/SyncPlay/GroupState.php:106,
-  // rejected at :388) — the "unlimited viewers" original and the velocity-x
+  // MAX_MEMBERS = 50 (phlix-server src/Session/SyncPlay/GroupState.php:104,
+  // rejected at :386, read at server master 0b318623 — vendored as an
+  // executable fact in test/fixtures/server-caps.json and pinned by
+  // test/server-cap-pins.test.mjs, R-WEBSITE-13; these cites are law-3
+  // content now, not decoration) — the "unlimited viewers" original and the
+  // velocity-x
   // "Tested to 20 simultaneous viewers with sub-100ms sync accuracy" and
   // quantum-stream "Sub-100ms ... up to 16 simultaneous observers" fabrications
   // are cured to that truth (TimeSync has no sub-100ms guarantee; the sync
@@ -308,7 +312,7 @@ const FORBIDDEN = [
   ],
   [
     /up to 16 simultaneous observers/i,
-    'the quantum-stream "16 simultaneous observers" miscount (real cap: 50)',
+    'the quantum-stream "16 simultaneous observers" miscount (real cap: MAX_MEMBERS = 50)',
   ],
   [
     /shareable library links/i,
