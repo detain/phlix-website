@@ -1456,7 +1456,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "Real capabilities: 4 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, Live TV + DVR, Multi-user with parental controls." },
+      { type: "spec-numbers",     format: "Real capabilities: 5 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, Live TV + DVR, Multi-user with parental controls." },
       { type: "github",           format: "A quiet line: 'From the archive' — linking the real phlix-server repo with live star and issue counts, plus the shared library and docs repos." },
       { type: "quotes-from-docs", format: "One true line from the philosophy, set on aged-parchment: 'Your media. Your library. Your Phlix.' — grounded in real docs." },
     ],

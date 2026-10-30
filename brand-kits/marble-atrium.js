@@ -1506,7 +1506,7 @@ const brandKit = {
         type: "spec-numbers",
         format:
           "A marble-paneled placard showing real Phlix capabilities: " +
-          "'4 native clients. SyncPlay time-sync. HLS + FFmpeg. " +
+          "'5 native clients. SyncPlay time-sync. HLS + FFmpeg. " +
           "Multi-profile auth. LiveTV + DVR.'",
       },
       {
@@ -1519,7 +1519,7 @@ const brandKit = {
         type: "quotes-from-docs",
         format:
           "A single, verbatim line from content.json's pitch_bullets, displayed as a " +
-          "framed quote: '100% self-hostable — your library never leaves your hardware unless you say so'. " +
+          "framed quote: 'Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy'. " +
           "This is the exact text, not paraphrased.",
       },
     ],

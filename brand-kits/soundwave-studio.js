@@ -1344,7 +1344,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A console readout card showing live capabilities from content.json: 4 native clients, NTP-synced SyncPlay, FFmpeg transcoding at CRF 23 (H.264), Multi-user auth." },
+      { type: "spec-numbers",     format: "A console readout card showing live capabilities from content.json: 5 native clients, NTP-synced SyncPlay, FFmpeg transcoding at CRF 23 (H.264), Multi-user auth." },
       { type: "github",           format: "A 'from the projection booth' band linking the real phlix-server repo with live star count and issue tracker — never hard-coded numbers." },
       { type: "quotes-from-docs", format: "One authoritative line from the BSD-3 license or the official spec, set as a framed technical quote on a panel background." },
     ],

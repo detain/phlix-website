@@ -1458,7 +1458,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A garden-keeper's placard: real numbers from content.json (4 native clients, SyncPlay with NTP sync, FFmpeg + HLS transcoding) in a warm serif face on garden cream." },
+      { type: "spec-numbers",     format: "A garden-keeper's placard: real numbers from content.json (5 native clients, SyncPlay with NTP sync, FFmpeg + HLS transcoding) in a warm serif face on garden cream." },
       { type: "github",           format: "A modest 'Grown by the community' row with the real phlix-server repo, live star count, and issue tracker — honest and unhidden." },
       { type: "quotes-from-docs", format: "One true, short line from the documentation about self-hosting warmth, rendered as a hand-lettered garden sign or framed quote." },
     ],

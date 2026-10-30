@@ -1491,9 +1491,9 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A stone tablet of real capabilities pulled from content.json — '8 features, 4 native clients, NTP-synchronized playback across infinite rooms, HLS + FFmpeg on every frame'." },
+      { type: "spec-numbers",     format: "A stone tablet of real capabilities pulled from content.json — '8 features, 5 native clients, NTP-synchronized playback across infinite rooms, HLS + FFmpeg on every frame'." },
       { type: "github",           format: "A modest cartouche-framed link to the real phlix-server repository displaying its live star count, issue count, and last commit date — the repository's heartbeat, not a hard-coded number." },
-      { type: "quotes-from-docs", format: "One true, short line lifted directly from the codebase documentation about self-hosting and permanence, set as a framed scroll quote: e.g., '100% self-hostable — your library never leaves your hardware unless you say so.'" },
+      { type: "quotes-from-docs", format: "One true, short line lifted directly from the codebase documentation about self-hosting and permanence, set as a framed scroll quote: e.g., 'Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy.'" },
     ],
     placement: "A processional register band between the hero feature castings and the closing conversion cartouche — titled 'Testimony from the Archives'.",
   },

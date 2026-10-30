@@ -1466,7 +1466,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A navigation-compass rose card displaying real capabilities: 4 native clients, NTP-synced SyncPlay, FFmpeg HLS transcoding, multi-profile auth." },
+      { type: "spec-numbers",     format: "A navigation-compass rose card displaying real capabilities: 5 native clients, NTP-synced SyncPlay, FFmpeg HLS transcoding, multi-profile auth." },
       { type: "github",           format: "A modest 'from mission control' row linking the real phlix-server, phlix-hub, and phlix-docs repos with live star counts and issue tracking (never hard-coded numbers)." },
       { type: "quotes-from-docs", format: "One true, short line lifted verbatim from the docs describing self-hosting freedom, set in a framed atomic-style card with Orbit's thumbs-up." },
     ],

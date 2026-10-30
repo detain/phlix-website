@@ -1276,7 +1276,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A pit-wall data card: '8 features', '4 native clients', 'NTP-synced SyncPlay', 'FFmpeg transcoding', 'Self-hostable reverse tunnel'." },
+      { type: "spec-numbers",     format: "A pit-wall data card: '8 features', '5 native clients', 'NTP-synced SyncPlay', 'FFmpeg transcoding', 'Self-hostable reverse tunnel'." },
       { type: "github",           format: "A quiet repo-stats band: real phlix-server repository link with live GitHub stars and issue count (never a hard-coded number)." },
       { type: "quotes-from-docs", format: "A single, verbatim line from content.json lifted as a telemetry quote on a monospace readout: 'Built in PHP 8.3+ on Workerman 5.x'." },
     ],

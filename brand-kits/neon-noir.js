@@ -1448,7 +1448,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "Real architecture placard: 4 native clients, SyncPlay over NTP sync, HLS + FFmpeg transcoding, multi-profile auth, Live TV + DVR." },
+      { type: "spec-numbers",     format: "Real architecture placard: 5 native clients, SyncPlay over NTP sync, HLS + FFmpeg transcoding, multi-profile auth, Live TV + DVR." },
       { type: "github",           format: "A modest 'from the archive' line linking the real phlix-server repo with live star count and issue tracker (never hard-coded)." },
       { type: "quotes-from-docs", format: "One true short line pulled directly from the docs about self-hosting, styled as a case-file quote." },
     ],

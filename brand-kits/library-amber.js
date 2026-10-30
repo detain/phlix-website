@@ -1250,7 +1250,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A polished reading-room placard listing real capabilities: 'Four native clients · Multi-source metadata · Adaptive streaming · Live TV with DVR · A versioned plugin contract.'" },
+      { type: "spec-numbers",     format: "A polished reading-room placard listing real capabilities: 'Five native clients · Multi-source metadata · Adaptive streaming · Live TV with DVR · A versioned plugin contract.'" },
       { type: "github",           format: "A modest 'From the Archive' section with the real phlix-server repo, live star count, and recent commit activity rendered as a library acquisition log." },
       { type: "quotes-from-docs", format: "A verbatim line from this kit's mission statement, rendered as a framed reading-room quote on cream stock with a mahogany rule beneath: 'Give every media collection the dignity of a private library — beautifully ordered, instantly accessible, and worthy of the hours spent with it.'" },
     ],

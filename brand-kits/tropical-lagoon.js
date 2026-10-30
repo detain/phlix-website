@@ -1554,7 +1554,7 @@ const brandKit = {
     signals: [
       { type: "spec-numbers",     format: "A reef-marker placard: '8 native features — library, syncplay, transcode, auth, livetv, dlna, plugins, hub — all yours, all hosted by you.'" },
       { type: "github",           format: "A modest reef-stone with live GitHub stats: real phlix-server stars, real issues, real community — 'from the depths of a small reef, watched by wanderers everywhere.'" },
-      { type: "quotes-from-docs", format: "One true line from the docs: '100% self-hostable — your library never leaves your hardware unless you say so' — set in a coral-framed lodge-card quote." },
+      { type: "quotes-from-docs", format: "One true line from the docs: 'Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy' — set in a coral-framed lodge-card quote." },
     ],
     placement: "A single warm 'reef of trust' band between the features and the closing dive-in CTA — just enough proof to feel real, not a wall of claims.",
   },

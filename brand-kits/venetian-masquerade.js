@@ -1329,7 +1329,7 @@ const brandKit = {
         source: "proof_strategy",
         treatment:
           "Trust signals as a brass placard in the palazzo lobby — real GitHub stars, " +
-          "4 native clients, the motto 'honest house, grand stage'.",
+          "5 native clients, the motto 'honest house, grand stage'.",
         weight: "minor",
       },
       {
@@ -1580,7 +1580,7 @@ const brandKit = {
       {
         type: "spec-numbers",
         format:
-          "A brass placard in the lobby: '4 native clients. Real-time SyncPlay. " +
+          "A brass placard in the lobby: '5 native clients. Real-time SyncPlay. " +
           "FFmpeg adaptive streaming. Self-hosted, always.' — facts drawn from content.json.",
       },
       {

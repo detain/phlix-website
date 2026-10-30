@@ -1124,7 +1124,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A HUD-style placard: 0.3s avg sync time, 4 native clients, HLS + FFmpeg, NTP-style time sync." },
+      { type: "spec-numbers",     format: "A HUD-style placard: 0.3s avg sync time, 5 native clients, HLS + FFmpeg, NTP-style time sync." },
       { type: "github",           format: "A 'from the garage' row linking the real phlix-server repo with live activity links." },
       { type: "architecture",     format: "One-line architecture truth from the docs as a telemetry readout." },
     ],

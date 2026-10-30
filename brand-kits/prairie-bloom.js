@@ -1190,7 +1190,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A cozy 'Our Harvest' placard listing real capabilities from content.json: 4 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, multi-user auth, Live TV + DVR." },
+      { type: "spec-numbers", format: "A cozy 'Our Harvest' placard listing real capabilities from content.json: 5 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay over NTP-synced devices, HLS + FFmpeg transcoding, multi-user auth, Live TV + DVR." },
       { type: "github",        format: "A modest 'From the Garden Bench' row linking the real phlix-server repo with its live star count and current issue count (never hard-coded)." },
       { type: "quotes-from-docs", format: "One genuine line from the docs about self-hosting freedom, set as a framed porch sign: 'Your library never leaves your hardware unless you say so.'" },
     ],

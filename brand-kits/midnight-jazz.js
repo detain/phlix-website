@@ -1560,7 +1560,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A quiet lobby placard listing real capabilities: 4 native clients (Roku, Samsung, Windows, Mobile) + DLNA, SyncPlay over NTP sync, HLS + FFmpeg transcoding, plugin system with manifest contract." },
+      { type: "spec-numbers",     format: "A quiet lobby placard listing real capabilities: 5 native clients (Roku, Samsung, Windows, Mobile) + DLNA, SyncPlay over NTP sync, HLS + FFmpeg transcoding, plugin system with manifest contract." },
       { type: "github",           format: "A modest 'from the projection booth' row linking phlix-server (https://github.com/detain/phlix-server) with its real live star count and issue tracker." },
       { type: "quotes-from-docs", format: "One true short line pulled directly from the docs about self-hosting, set as a framed jazz-club quote in Playfair Display italic." },
     ],

@@ -1358,7 +1358,7 @@ const brandKit = {
         type: "stats",
         label: "System Status",
         stats: [
-          { label: "Native Clients", value: "4" },
+          { label: "Native Clients", value: "5" },
           { label: "Sync Protocol", value: "NTP" },
           { label: "Transcoding", value: "HLS+FFmpeg" },
           { label: "User Profiles", value: "5" },

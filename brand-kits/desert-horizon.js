@@ -1378,7 +1378,7 @@ const brandKit = {
   //         someone who's truly seen everything.
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A weathered placard listing real capabilities from content.json: four native clients — Roku, Tizen, Windows, Mobile (beta) — plus any DLNA device; real-time SyncPlay over NTP-synced devices; FFmpeg transcoding with per-device quality profiles." },
+      { type: "spec-numbers", format: "A weathered placard listing real capabilities from content.json: five native clients — Roku, Tizen, Windows, Mobile (beta) — plus any DLNA device; real-time SyncPlay over NTP-synced devices; FFmpeg transcoding with per-device quality profiles." },
       { type: "github",        format: "A modest 'from the projection booth' row linking the real phlix-server repo with its live star and issue counts (never hard-coded), styled as old repository ledger." },
       { type: "facts-from-docs", format: "A single true line lifted from content.json's hero: 'An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone, and any DLNA device.' Rendered as a framed quote card." },
     ],

@@ -2,8 +2,8 @@
 /**
  * tools/fix-copy-consistency.mjs
  *
- * One-shot copy-consistency sweep for the W-min193 website minors batch
- * (minors-space IDs). Four passes, each measured before it fires:
+ * One-shot copy-consistency sweep for the W-min193/194/196/197 website minors
+ * batches (minors-space IDs). Ten passes, each measured before it fires:
  *
  *  P1 orthography (M-WEBSITE-24): British → US spellings in VISIBLE text
  *     only — HTML text runs, meta/title attribute values. Deliberately NOT
@@ -43,6 +43,19 @@
  *     to the server's GitHub releases (version + changelog tell) right after the
  *     primary install-command block — first block only, idempotent on the URL,
  *     per-file misses reported.
+ *  P8 extended bodies (M-WEBSITE-15/20, W-min196): the grown auth/transcode/
+ *     plugins/hub bodies (identity providers, hardware profiles, named scrobblers,
+ *     hub-to-hub federation) — litGrow keeps the old head intact and appends the
+ *     new tail; guards prevent double-application.
+ *  P9 roster bullet mirror (M-WEBSITE-18/19, W-min197): the pitch_bullets
+ *     client enumeration — lives in REVOCED (it mirrors content.json exactly).
+ *  P10 roster claims (M-WEBSITE-18/19, W-min197): ROSTER_CLAIMS — kit narrative
+ *     sentences that count the SSOT roster (4 + DLNA → 7 surfaces); page-internal
+ *     grid counts are deliberately untouched (authoring wave disclosed in-report).
+ *  P11 natives re-adjudication (M-WEBSITE-18/19, W-min197): RENATIVES — the
+ *     four→five native-client count the §19.14 law binds, swept across sites/
+ *     AND brand-kits/ copy sources (the kit spec files are copy data for the
+ *     engine's law-5 pairings).
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -228,7 +241,97 @@ const REVOCED = [
     'Open-source media, on your terms.',
     'Open-source media, on your terms — free to use, no subscription. You pay only for your own hardware and bandwidth.',
   ],
+  // M-WEBSITE-18/19 (review website__pm m2/m4): the roster bullet named four
+  // device apps + DLNA site-wide; the shipped Linux console and the browser
+  // portal were silently dropped. New text ends in DLNA — the shape law 13's
+  // roster acquittal keys on — and makes no hub-mode claim. Mirrors
+  // pitch_bullets in shared/content.json exactly.
+  [
+    'Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device',
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console — plus the web portal and any DLNA device',
+  ],
 ].map(([o, n]) => litSwap(o, n));
+
+// ROSTER-CLAIMS — (M-WEBSITE-18/19) per-kit narrative sentences that count the
+// SSOT client roster rather than the page's own grid. Page-internal counts
+// ("Five stations, five materials", download-card/section tallies) stay
+// truthful against their own cards and are deliberately NOT swept — extending
+// the per-kit client card grids is an authoring wave (cure-spec in the W-min197
+// report). Not in content.json: hand-authored kit prose.
+const ROSTER_CLAIMS = [
+  [
+    'Five clients that talk to the server you control',
+    'Seven clients that talk to the server you control',
+  ],
+].map(([o, n]) => litSwap(o, n));
+
+// NEAR_ROSTERS — (M-WEBSITE-18/19) the six kit-voiced roster sentences where the
+// SSOT bullet survived with small tail ornaments ((beta) markers, &nbsp;, strong
+// splits, kit metaphors). Targeted, context-anchored, whitespace-tolerant rules;
+// each replacement keeps the kit's own tail and stays hub-word-free / DLNA-
+// terminated (law 13 acquittal shapes). The four meta og:description carriers on
+// clients pages and page-internal grid counts stay authored against their own
+// cards — authoring-wave disclosure in the W-min197 report, not swept.
+const NEAR_ROSTERS = [
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile<\/strong>,\s+plus\s+any\s+DLNA\s+device/g,
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console</strong>, plus the web portal and any DLNA device',
+  ],
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile\s+\(beta\)<\/strong>,\s+plus\s+any\s+DLNA\s+device/g,
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), the Linux console and the web portal</strong>, plus any DLNA device',
+  ],
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile,\s+plus\s+any\s+DLNA&nbsp;device/g,
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console — plus the web portal and any DLNA&nbsp;device',
+  ],
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile\s+\(beta\),\s+plus\s+any\s+DLNA\s+device/g,
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), the Linux console and the web portal — plus any DLNA device',
+  ],
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+and\s+mobile\s+\(beta\)\.\s+Plus\s+any\s+DLNA\s+device\s+you\s+already\s+own/g,
+    'Native apps for Roku, Samsung Tizen, Windows, mobile (beta), the Linux console and the web portal. Plus any DLNA device you already own',
+  ],
+  [
+    /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+and\s+Mobile\s+\(iOS\s*\+\s*Android\)\s+—\s+plus\s+any\s+DLNA\s+device\s+that\s+shares\s+your\s+network\.\s+Five\s+sanctuaries/g,
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (iOS + Android), the Linux console and the web portal — plus any DLNA device that shares your network. Seven sanctuaries',
+  ],
+];
+
+// RENATIVES — (P11, M-WEBSITE-18/19 W-min197 §19.14 re-adjudication) the native-
+// client COUNT tokens bound to the noun by law 5's engine: four→five now that the
+// Linux console client (phlix-console-client, shipped + localized) joins the
+// lineup. Lookahead-only rules: they rewrite the number and leave the noun text
+// exactly as the kit wrote it; case-shaped so prose keeps its shape (Four→Five).
+// Idempotent: the post-swap digit/word no longer matches. Cross-element and kit-
+// voice pairings the raw lookahead cannot see come back as reds from
+// test/variant-copy-truth law 5 and are fixed by hand — this pass is the floor.
+const RENATIVES = [
+  [/\b4(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, '5'],
+  [/\bFour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, 'Five'],
+  [/\bfour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, 'five'],
+  // Cross-element stat-grid shapes: the count lives in its own node and the noun
+  // in the sibling label — the hop window matches what law 5 sees after markup
+  // collapses, so these pairings move with the floor.
+  [/\b4(?=<\/(?:div|span|p|dd|dt|strong|em|b)>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, '5'],
+  [/\bFour(?=<\/(?:div|span|p|dd|dt|strong|em|b)>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'Five'],
+  [/\bfour(?=<\/(?:div|span|p|dd|dt|strong|em|b)\s*>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'five'],
+  // Prettier's tag-split shape: >4</span\n> then the label span — the closing
+  // tag may be broken across lines before its '>'.
+  [/\b4(?=<\/(?:span|div|p|h3)\s*\n\s*>[\s\S]{0,160}?(?:[Nn]ative\s+[Cc]lients?\b))/g, '5'],
+  [/\bFour(?=<\/(?:span|div|p|h3)\s*\n\s*>[\s\S]{0,160}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'Five'],
+  [/\bfour(?=<\/(?:span|div|p|h3)\s*\n\s*>[\s\S]{0,160}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'five'],
+  // Heading-number shapes: the count stands alone inside its heading node and
+  // the next element's text starts with the noun (speakeasy-gold proof-card).
+  [/\b4(?=\s*<\/h3>\s*<p\s*>[\s\S]{0,24}?Native\s+clients)/g, '5'],
+  // Label-first shapes: <dt>Native clients</dt><dd>[count-word] — …</dd> and the
+  // kit stat object with label "Native Clients" and a digit value.
+  [/((?:[Nn]ative\s+[Cc]lients?)<\/dt>\s*<dd>)Four\b/g, '$1Five'],
+  [/((?:[Nn]ative\s+[Cc]lients?)<\/dt>\s*<dd>)four\b/g, '$1five'],
+  [/(label:\s*"Native Clients",\s*value:\s*")4("\s*})/g, '$15$2'],
+];
+
 
 // P5b near-verbatim families (M-WEBSITE-07 census tail): kit re-casts that kept
 // the old jargon inside their own sentence shapes ("Sign in once. Reverse-tunnel
@@ -348,6 +451,9 @@ function sweepReleases(t) {
 
 let files = [
   ...globSync('sites/**/*.html', { ignore: 'sites/*/reviews/**' }),
+  ...globSync('sites/**/*.js'),
+  ...globSync('brand-kits/*.js'),
+  'brand_kit_schema.js',
   'index.html',
 ];
 const counts = {
@@ -359,6 +465,9 @@ const counts = {
   revoiced: 0,
   phrases: 0,
   extended: 0,
+  roster: 0,
+  near: 0,
+  natives: 0,
   releasesInserted: 0,
   releasesMiss: [],
 };
@@ -366,15 +475,21 @@ for (const f of files) {
   let t = readFileSync(f, 'utf8');
   const orig = t;
   let o;
-  [t, o] = sweepHtml(t);
-  counts.ortho += o;
+  // The HTML-shape passes (visible-text orthography census, footer <li>
+  // insertion, Oxford-in-boilerplate) match markup and belong to the shipped
+  // page corpus only; the copy passes below also run on the .js copy sources
+  // (brand-kit spec strings, kit main.js) added for P11.
+  if (f.endsWith('.html')) {
+    [t, o] = sweepHtml(t);
+    counts.ortho += o;
+    [t, o] = sweepOxford(t);
+    counts.oxford += o;
+    [t, o] = sweepSecurity(t);
+    if (o === 1) counts.secInserted++;
+    else if (o === -1 && /Licen[cs]e\s*\(MPL/.test(t)) counts.secMiss.push(f);
+  }
   [t, o] = sweepTitles(t);
   counts.titles += o;
-  [t, o] = sweepOxford(t);
-  counts.oxford += o;
-  [t, o] = sweepSecurity(t);
-  if (o === 1) counts.secInserted++;
-  else if (o === -1 && /Licen[cs]e\s*\(MPL/.test(t)) counts.secMiss.push(f);
   for (const swap of REVOCED) {
     [t, o] = swap(t);
     counts.revoiced += o;
@@ -384,6 +499,23 @@ for (const f of files) {
   for (const swap of EXTENDED) {
     [t, o] = swap(t);
     counts.extended += o;
+  }
+  for (const swap of ROSTER_CLAIMS) {
+    [t, o] = swap(t);
+    counts.roster += o;
+  }
+  for (const [re, newText] of NEAR_ROSTERS) {
+    t = t.replace(re, () => {
+      counts.near++;
+      return newText;
+    });
+  }
+  for (const [re, newText] of RENATIVES) {
+    const hit = t.match(re);
+    if (hit) {
+      counts.natives += hit.length;
+      t = t.replace(re, newText);
+    }
   }
   if (f.endsWith('/download.html')) {
     [t, o] = sweepReleases(t);
@@ -415,6 +547,9 @@ console.log(
       revoicedSwaps: counts.revoiced,
       phrasesSwapped: counts.phrases,
       extendedSwaps: counts.extended,
+      rosterSwaps: counts.roster,
+      nearRosterSwaps: counts.near,
+      nativesSwaps: counts.natives,
       releasesPInserted: counts.releasesInserted,
       releasesMisses: counts.releasesMiss,
     },

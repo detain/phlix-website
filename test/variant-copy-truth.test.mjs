@@ -249,17 +249,22 @@ const FORBIDDEN = [
   [/under a second/i, 'the "Zero to Play in Under a Second" timing promise'],
   [/pit-wall speed/i, 'the "built at Formula 1 pit-wall speed" claim'],
   [/no lag, no compromise/i, 'the "no lag, no compromise, no excuses" promise'],
-  [/5 native clients/i, 'the "5 Native Clients" miscount (SSOT counts four)'],
-  [/five native clients/i, 'the "five native clients" miscount, spelled'],
+  // (W-min197 §19.14 re-adjudication) The r2-era entries banning "5/five
+  // native clients" are RETIRED here: the Linux console client joined the
+  // lineup (content.json clients[] = the fact source), so five is now the
+  // TRUE count and the bans would have convicted the cure. The engine (law 5
+  // pairing guard) binds ANY count to the SSOT number regardless — a wrong
+  // "5/four/six native clients" still dies through the shape law, which is
+  // what actually polices this family.
   // r2 sweep (review website__writer M6r1): the same miscount class wearing a
   // different number. desert-horizon shipped "8 native + DLNA clients" while
-  // its own enumeration lists four natives + DLNA; cured to the §19.14
-  // sentence and regression-banned alongside 5/five. (The "8 native features"
-  // family in other kits is a TRUE feature count — content.json carries eight
-  // — and stays deliberately unforbidden.)
+  // its own enumeration listed the then-four natives + DLNA; cured to the
+  // §19.14 sentence and regression-banned. (The "8 native features" family in
+  // other kits is a TRUE feature count — content.json carries eight — and
+  // stays deliberately unforbidden.)
   [
     /8 native \+ DLNA clients/i,
-    'the "8 native + DLNA clients" miscount (SSOT §19.14: four native clients, plus any DLNA device)',
+    'the "8 native + DLNA clients" miscount (SSOT §19.14: five native clients, the web portal, plus any DLNA device)',
   ],
   // M-WEBSITE-11 (shape-aware era, per the M8r2 label/value-split lesson): the
   // original arm was the adjacency literal /CRF 23\/28/ — a kit stat
@@ -812,26 +817,29 @@ function stripMarkup(text) {
 //     family the r2 table dispositioned legal;
 //   - only the NEAREST count on either side of a noun is tried, and a noun
 //     already paired on its left is never re-paired on its right, so
-//     "4 native clients. One library." and adjacent stat cards cannot bleed.
+//     "Five native clients. One library." and adjacent stat cards cannot bleed.
 const SSOT_BULLETS = JSON.parse(
   readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'),
 ).pitch_bullets;
-const SSOT_NATIVES_LINE = (SSOT_BULLETS || []).find((b) => /^Native clients on /i.test(b));
+const SSOT_NATIVES_LINE = (SSOT_BULLETS || []).find((b) => /^Native apps for /i.test(b));
 if (!SSOT_NATIVES_LINE) {
-  throw new Error('shared/content.json lost the "Native clients on …" pitch bullet');
+  throw new Error('shared/content.json lost the "Native apps for …" pitch bullet');
 }
 const SSOT_NATIVES_MATCH = SSOT_NATIVES_LINE.match(
-  /^Native clients on (.+?), plus any DLNA device$/i,
+  /^Native apps for (.+?) — plus the web portal and any DLNA device$/i,
 );
 if (!SSOT_NATIVES_MATCH) {
   throw new Error(
     `SSOT native-clients bullet changed shape; re-derive deliberately: ${SSOT_NATIVES_LINE}`,
   );
 }
-// Roku, Samsung Tizen, Windows, Mobile → 4. If the estate genuinely gains a
-// native client, this number moves with the SSOT — law 5 pins it so the move
-// is a deliberate re-adjudication, never silent drift.
-const SSOT_NATIVES = SSOT_NATIVES_MATCH[1].split(',').length;
+// Roku, Samsung Tizen, Windows, Mobile, the Linux console → 5. The web portal
+// and DLNA are client SURFACES the bullet names separately but are not native
+// apps, so they never enter this count. If the estate genuinely gains (or
+// loses) a native client, this number moves with the SSOT — law 5 pins it so
+// the move is a deliberate re-adjudication, never silent drift. (W-min197 at
+// 4fe017d2+ is such a move: §19.14 re-adjudicated four→five for the console.)
+const SSOT_NATIVES = SSOT_NATIVES_MATCH[1].split(/,\s*(?:and\s+)?/).length;
 
 // Noun with evasion-tolerant word separation (masked tags/comments are
 // \u0001; JS concat is quote-plus-quote). Letters never separate the words.
@@ -991,10 +999,11 @@ function assertNativesShape(text, label) {
 // relay proxy; windows renderer resolveConfig app:'hub'; mobile
 // HubAuthService/RelayTokenProvider).
 //
-// The guard is SECTION-SCOPED by design: the identical four-client enumeration
-// is TRUE when its predicate is native/direct — "Native clients on Roku,
-// Samsung Tizen, Windows, Mobile, plus any DLNA device" is the SSOT pitch
-// bullet, and art-nouveau-garden's feature-list "Works on Roku, Samsung Tizen,
+// The guard is SECTION-SCOPED by design: the identical client enumeration
+// is TRUE when its predicate is native/direct — "Native apps for Roku, Samsung
+// Tizen, Windows, Mobile, and the Linux console — plus the web portal and any
+// DLNA device" is the SSOT pitch bullet (seven-surface roster since the
+// M-WEBSITE-18/19 cure), and art-nouveau-garden's feature-list "Works on Roku, Samsung Tizen,
 // Windows, mobile (beta)…" sits under a non-hub heading. A blanket literal
 // would convict the truth. Only the window from an h1-h6 whose text names the
 // Hub to the NEXT heading of the same or a higher level (nested sub-headings
@@ -1111,7 +1120,7 @@ function assertCleanBothForms(text, relPath, label) {
   assertClean(text, label);
   assert.ok(
     !NATIVES_COMPOUND_RE.test(text),
-    `${label}: an "N+ native clients" compound claim is back — there are exactly four;` +
+    `${label}: an "N+ native clients" compound claim is back — there are exactly five;` +
       ` the "+" badge exemption covers separate badge ELEMENTS (surface enumeration),` +
       ` never a same-string compound`,
   );
@@ -1378,8 +1387,8 @@ test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', (
   // source of fact, never silently with the law.
   assert.equal(
     SSOT_NATIVES,
-    4,
-    'shared/content.json no longer enumerates exactly four native clients — ' +
+    5,
+    'shared/content.json no longer enumerates exactly five native clients — ' +
       're-adjudicate new_site.md §19.14 and re-derive this law on purpose',
   );
 
@@ -1396,8 +1405,8 @@ test('law 5: the natives pairing guard has teeth and its r4 cures stay cured', (
   );
 
   // velocity-rush: the r4 sweep's shipped finding — og + twitter + the page's
-  // own description all enumerated "Four native clients … plus any DLNA
-  // device"; every natives count on this page must be the truth, and the
+  // own description all enumerated the pre-console count … plus any DLNA
+  // device; every natives count on this page must be the truth, and the
   // three claims must still EXIST (>= 3 bindings: cure-by-deletion is not a
   // cure).
   const vr = readFileSync(join(ROOT, 'sites', 'velocity-rush', 'clients.html'), 'utf8');
@@ -2500,7 +2509,7 @@ test('law 11: the package-format family convicts every shape and acquits the shi
   const ssot = JSON.parse(readFileSync(join(ROOT, 'shared/content.json'), 'utf8'));
   assert.equal(
     ssot.clients.length,
-    5,
+    7,
     'the SSOT clients[] roster moved — re-derive every client law',
   );
   for (const client of ssot.clients)
@@ -2691,16 +2700,22 @@ const TIZEN_CLAIM_CARRIERS = [
     /Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device\. Synchronized playback, fine-grain control, and a hub that reaches you anywhere/,
   ],
   [
+    'tools/fix-copy-consistency.mjs',
+    1,
+    'M9R10-C19 sweep-tool restatement — the house copy tool necessarily carries pre-cure claim literals as its own input data (hub body sentence beside the old roster bullet in REVOCED); the swept corpus, not the tool, is the claim surface',
+    /The hub is a small server you run in the cloud that connects your devices to your home server[\s\S]{0,2000}Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device/,
+  ],
+  [
     'brand-kits/solarpunk-eden.js',
     1,
     'M9R10-C02 proof_strategy spec-numbers signal — the four-natives placard beside the hub fact set',
-    /4 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay with NTP time-sync/,
+    /5 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay with NTP time-sync/,
   ],
   [
     'brand-kits/street-mural.js',
     1,
     'M9R10-C03 proof_strategy spec-numbers signal — the Wall Stats placard roster beside SyncPlay/transcode facts',
-    /4 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay over device sync/,
+    /5 native clients \(Roku, Tizen, Windows, Mobile\) \+ DLNA, SyncPlay over device sync/,
   ],
   [
     'docs/PLAN.md',

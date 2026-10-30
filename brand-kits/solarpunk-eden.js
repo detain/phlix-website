@@ -1393,7 +1393,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A garden placard listing real facts from content.json: 4 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay with NTP time-sync, HLS + FFmpeg transcoding, Live TV with DVR." },
+      { type: "spec-numbers",     format: "A garden placard listing real facts from content.json: 5 native clients (Roku, Tizen, Windows, Mobile) + DLNA, SyncPlay with NTP time-sync, HLS + FFmpeg transcoding, Live TV with DVR." },
       { type: "github",           format: "A modest repository shelf showing the real phlix-server, phlix-hub, and phlix-docs repos with their actual live GitHub stars and issue counts — never hard-coded, always current." },
       { type: "quotes-from-docs", format: "One short, true line from content.json: 'BSD-3-Clause across the board' — set as a framed garden-journal quote about open trust." },
     ],

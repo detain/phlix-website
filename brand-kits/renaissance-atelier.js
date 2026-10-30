@@ -1603,7 +1603,7 @@ const brandKit = {
         type: "spec-numbers",
         format:
           "A modest parchment placard citing real capabilities: 8 native features, " +
-          "4 native client platforms + DLNA, SyncPlay with NTP-synced time locks, FFmpeg transcoding.",
+          "5 native client platforms + DLNA, SyncPlay with NTP-synced time locks, FFmpeg transcoding.",
       },
       {
         type: "github",

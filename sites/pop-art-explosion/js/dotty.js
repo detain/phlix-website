@@ -30,7 +30,7 @@
   var page = document.body.getAttribute('data-page');
 
   /* mascot.behavior.tips — verbatim, except tips[3] where the kit's "Five
-     clients" is corrected against content.json: four native clients plus any
+     clients" is corrected against content.json: five native clients plus any
      DLNA device (new_site.md §19.14). */
   var TIPS = {
     home: [
@@ -44,7 +44,7 @@
       { at: '#syncplay', say: 'Movie night stops for nobody — NTP time-sync is the secret sauce.' },
     ],
     clients: [
-      { at: null, say: 'Four native clients, plus any DLNA device. Pick your screen and BOOM!' },
+      { at: null, say: 'Five native clients, plus any DLNA device. Pick your screen and BOOM!' },
     ],
     download: [{ at: '#server', say: "One line and you're screaming. Copy, paste, POW!" }],
   };

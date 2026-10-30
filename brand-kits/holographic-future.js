@@ -1172,7 +1172,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A precision spec card: 4 native clients, real-time NTP SyncPlay, HLS + FFmpeg adaptive streaming, per-device quality profiles. Facts only, no inflation." },
+      { type: "spec-numbers",     format: "A precision spec card: 5 native clients, real-time NTP SyncPlay, HLS + FFmpeg adaptive streaming, per-device quality profiles. Facts only, no inflation." },
       { type: "github",           format: "The phlix-server GitHub badge with live star count and issue tracker link — a simple, honest measure of activity and traction." },
       { type: "quotes-from-docs", format: "One exact line from the Phlix documentation: verbatim, framed as a design principle. E.g., a quote about precision or self-hosting." },
     ],

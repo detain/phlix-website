@@ -1265,7 +1265,7 @@ const brandKit = {
       { id: "curtain-rise",   source: "copy_overlay.hero", treatment: "Full-bleed hero with a stepped-arch silhouette: gold sunburst rising behind the headline, champagne bubbles cascading. Gilda raises her flute as the curtain parts.", weight: "hero" },
       { id: "the-vault",      source: "feature_casting",   treatment: "Two hero features cast as ornate vault doors (library and syncplay) on either side of a central champagne-gold Art Deco rule line; support features grid below on lacquered ebony cards.", weight: "major" },
       { id: "why-belong",     source: "story",             treatment: "The brand story styled as a torn page from a speakeasy ledger: 'Your Private Vault, Always Open.'", weight: "major" },
-      { id: "good-seats",     source: "proof_strategy",    treatment: "Trust signals as a house ledger card: 4 native clients, SyncPlay over NTP, GitHub stars, and a single honest line from the docs.", weight: "minor" },
+      { id: "good-seats",     source: "proof_strategy",    treatment: "Trust signals as a house ledger card: 5 native clients, SyncPlay over NTP, GitHub stars, and a single honest line from the docs.", weight: "minor" },
       { id: "knock-on-door",  source: "conversion_funnel", treatment: "Closing CTA card: 'You have the password. Step inside.' with the install one-liner set as a wax-sealed envelope.", weight: "major" },
     ],
   },
@@ -1416,7 +1416,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers", format: "A lacquered-ebony placard: '4 native clients. SyncPlay over NTP. HLS + FFmpeg transcoding. Your vault, your terms.' Real capabilities from content.json." },
+      { type: "spec-numbers", format: "A lacquered-ebony placard: '5 native clients. SyncPlay over NTP. HLS + FFmpeg transcoding. Your vault, your terms.' Real capabilities from content.json." },
       { type: "github", format: "A framed 'From the projection booth' card with the live phlix-server GitHub repo link, real star count, and recent-commit timestamp (never hard-coded)." },
       { type: "quotes-from-docs", format: "A single honest, short quote lifted verbatim from the docs (e.g., about self-hosting) set in Cormorant Garamond italic on a gold-bordered card." },
     ],

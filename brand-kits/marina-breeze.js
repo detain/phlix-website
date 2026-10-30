@@ -1315,7 +1315,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A harbor-master's placard of real capabilities: 8 native features, SyncPlay over 5 NTP samples, adaptive HLS + FFmpeg transcoding, TMDB + TVDB metadata, 4 native clients + DLNA." },
+      { type: "spec-numbers",     format: "A harbor-master's placard of real capabilities: 8 native features, SyncPlay over 5 NTP samples, adaptive HLS + FFmpeg transcoding, TMDB + TVDB metadata, 5 native clients + DLNA." },
       { type: "github",           format: "A modest 'from the lighthouse' card linking the real phlix-server repo with live star counts and current issue count (never hard-coded)." },
       { type: "quotes-from-docs", format: "One true, calm line from the official docs about running your own server, set in a weathered frame on dock wood texture." },
     ],

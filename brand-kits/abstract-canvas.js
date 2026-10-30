@@ -1477,7 +1477,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A gallery placard of real capabilities: 4 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, plugin versioning contract." },
+      { type: "spec-numbers",     format: "A gallery placard of real capabilities: 5 native clients, SyncPlay with NTP sync, HLS + FFmpeg transcoding, plugin versioning contract." },
       { type: "github",           format: "A modest 'from the studio' credits row linking the real phlix-server repo with its live star count and contributor list." },
       { type: "quotes-from-docs", format: "One honest line from the docs (verbatim): 'Built in PHP 8.3+ on Workerman' — a technical marker that shows craft and intention." },
     ],

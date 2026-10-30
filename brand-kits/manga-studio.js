@@ -1495,7 +1495,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "spec-numbers",     format: "A 'Studio Capabilities' badge grid from content.json: 8 features, 4 native clients, NTP-synced SyncPlay, HLS + FFmpeg, DLNA support — each as a small Ink Black panel with Spot Red label." },
+      { type: "spec-numbers",     format: "A 'Studio Capabilities' badge grid from content.json: 8 features, 5 native clients, NTP-synced SyncPlay, HLS + FFmpeg, DLNA support — each as a small Ink Black panel with Spot Red label." },
       { type: "github",           format: "A modest 'Craft on GitHub' footer row linking the real phlix-server repo with its live star count (pulled from GitHub API), issue count, and contributors." },
       { type: "quotes-from-docs", format: "One true line from the official docs (exact text verifiable in phlix-docs repo) framed as a high-contrast blockquote panel with Ink Black text on Manga White." },
     ],

@@ -1302,7 +1302,7 @@ const brandKit = {
 
   proof_strategy: {
     signals: [
-      { type: "architecture", format: "A stone tablet engraved with core capabilities: 'Four native clients. SyncPlay locked to NTP-precise time. HLS streaming with FFmpeg. Hub for NAT traversal. Plugin contract versioned.' — verifiable from content.json." },
+      { type: "architecture", format: "A stone tablet engraved with core capabilities: 'Five native clients. SyncPlay locked to NTP-precise time. HLS streaming with FFmpeg. Hub for NAT traversal. Plugin contract versioned.' — verifiable from content.json." },
       { type: "github", format: "A modest reference to the server repo (phlix-server) with real, live GitHub star/issue counts pulled from the API, never hard-coded. Sourced from content.json.ecosystem.phlix-server." },
       { type: "license", format: "A single carved line: 'BSD-3-Clause across the board.' Linked to the actual license." },
     ],

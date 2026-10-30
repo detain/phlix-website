@@ -1373,7 +1373,7 @@ const brandKit = {
     signals: [
       {
         type: "spec-numbers",
-        format: "A harvest placard of real capabilities: 'Four native client families, real-time SyncPlay across every device, transcoding that knows which bitrate your screen needs, and the whole thing runs on your hardware, nowhere else.'",
+        format: "A harvest placard of real capabilities: 'Five native client families, real-time SyncPlay across every device, transcoding that knows which bitrate your screen needs, and the whole thing runs on your hardware, nowhere else.'",
       },
       {
         type: "github",
