@@ -1368,7 +1368,7 @@ const brandKit = {
     extra_pages: [
       {
         id: "gathering-guide",
-        title: "How to Host a Watch Party",
+        title: "How to Host a SyncPlay Gathering",
         purpose: "A warm walkthrough turning product facts into a gathering setup ritual — from lighting the lantern to syncing every screen.",
         facts_from: ["pitch_bullets", "features", "clients"],
       },

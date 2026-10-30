@@ -3,7 +3,7 @@
  *  Midnight Breakout — main.js
  *  Nav toggle, reduced-motion, scroll reveals, easter eggs
  * ============================================================================
- * @copyright 2026 Phlix Brand Studio <brand@phlix.io>
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 (function () {

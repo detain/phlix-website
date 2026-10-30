@@ -1545,7 +1545,7 @@ const brandKit = {
     signals: [
       { type: "spec-numbers",     format: "Real capability counts in Barlow Condensed Black: 4 native clients, 8 core features, plugin contract, FFmpeg transcoding profiles. No adjectives." },
       { type: "github",           format: "A modest row linking the real phlix-server repo with live star count and issue count (never hard-coded). Also link phlix-hub for relay infrastructure." },
-      { type: "quotes-from-docs", format: "One short line of truth pulled from the docs about self-hosting transparency, set in a Rule Gray box. Verbatim, attributed to 'docs.phlix'." },
+      { type: "quotes-from-docs", format: "One short line of truth pulled from the docs about self-hosting transparency, set in a Rule Gray box. Verbatim, attributed to the project." },
     ],
     placement: "A single calm band between the features grid and the closing download CTA, labeled 'By the numbers.'",
   },

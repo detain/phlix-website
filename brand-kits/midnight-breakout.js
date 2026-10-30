@@ -12,7 +12,7 @@
  *  Usage:
  *      import brandKit from './brand-kits/midnight-breakout.js'
  * ============================================================================
- * @copyright 2026 Phlix Brand Studio <brand@phlix.io>
+ * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 
 const brandKit = {

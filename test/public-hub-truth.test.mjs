@@ -69,6 +69,17 @@ const FORBIDDEN = [
   [/use the public one/i, 'the "…or use the public one" FAQ'],
   [/No setup\. Point your server/i, 'the "No setup. Point your server" claim'],
   [/public Hub is free/i, 'the "public Hub is free to use" claim'],
+  // MWEB-ADJ (zombie-residue adjudication, 2026-10-29): the hub-subdomain net
+  // was apex-blind. phlix.io and phlix.app are NXDOMAIN and phlix.tv resolves
+  // only to a GoDaddy parking page (getent + r1 fb4aee20 findings, re-probed
+  // this lane); Phlix has no service domain — the site itself is served from
+  // detain.github.io/phlix-website. Survivors: a tunnel.phlix.io example, a
+  // brand@phlix.io copyright banner, and two og-image wordmarks.
+  [/\bphlix\.(?:io|tv|app)\b/i, 'fabricated Phlix-service apex domain (NXDOMAIN or parked)'],
+  [
+    /\bdocs\.phlix\b/i,
+    'the invented docs-attribution handle "docs.phlix" (new_site.md conflict table: quotes attribute to the project)',
+  ],
 ];
 
 // The corrected sentence, as the truth sweep phrases it across kit voices.

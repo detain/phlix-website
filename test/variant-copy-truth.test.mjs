@@ -713,6 +713,18 @@ const FORBIDDEN = [
     /\b(?:join|chat\s+(?:with|on)|message|contact|ping|reach|head\s+to)\b[a-z ,:—–"'()\n]{0,24}?(?:our|the|a|an)?\s*\b(?:discord|telegram|whatsapp)\b/i,
     'the M3 phantom community contact pairing — a join/contact verb reaching a messaging platform inside one period-free window (Phlix runs no official Discord/Telegram/WhatsApp presence; "Send events to Discord, Slack, Telegram" carries no contact verb — law 12 acquits it verbatim)',
   ],
+  // MWEB-ADJ (zombie-residue adjudication, 2026-10-29): family D and family B
+  // survivors at tip 04b875b7 rode every existing arm — the discord family
+  // named messaging platforms only, and the M7 watch-party class netted the
+  // invented benchmarks, not the branded entity. Both holes close here.
+  [
+    /\btwitter\.com\/\w+/i,
+    'the phantom social-account URL — a twitter.com follow/identity link (MWEB-ADJ family D: Phlix runs no Twitter/X presence; content.json site.social lists GitHub + docs only, and three kits shipped twitter.com/detain as if it were the project channel)',
+  ],
+  [
+    /\bwatch\s+party\s+room\b/i,
+    'the branded-entity fiction "watch party room" (MWEB-ADJ family B: the feature is SyncPlay and the entity on the wire is a group — group_id/group_name; no "Watch Party" product is branded anywhere in the estate)',
+  ],
 ];
 // LIT-FIXTURE-END forbidden-pattern-registry
 
