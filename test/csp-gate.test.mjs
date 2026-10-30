@@ -29,7 +29,10 @@
 //      R-WEBSITE-06), and the real built tree contains zero executable inline
 //      scripts and zero `on*=` handlers for that strictness to refuse;
 //   7. the build's inline-executable self-check reds BY NAME on a planted
-//      island — the cure cannot rot back into a hopeful comment.
+//      island — the cure cannot rot back into a hopeful comment;
+//   8. NO Google Fonts allowance survives in either policy form, and the real
+//      gallery page's faces come from the shared pool (review website__writer
+//      R-WEBSITE-07) — a re-added <link> or allowance reddens here.
 //
 // Like test/sitemap-source.test.mjs, nothing here asserts against a pre-
 // existing dist/ from a previous local run: tests 4 and 5 BUILDS the tree they
@@ -324,4 +327,53 @@ test('law 7: the build reds BY NAME on planted inline islands (the cure has teet
   const clean = makeFixture();
   const builtClean = runBuild(clean);
   assert.equal(builtClean.code, 0, `de-islanded fixture failed:\n${builtClean.out}`);
+});
+
+test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)', () => {
+  // Both font hosts sat in the policy for exactly one reason: the root
+  // gallery's fonts.googleapis.com <link> sheet (2 preconnects + stylesheet).
+  // That sheet became @font-face declarations against the shared pool the kits
+  // already self-host from, so NEITHER host may be named by EITHER policy
+  // form — and the shipped gallery page carries zero external font refs.
+  for (const [name, policy] of [
+    ['meta', CSP_META],
+    ['header', CSP_HEADER],
+  ]) {
+    assert.doesNotMatch(
+      policy,
+      /fonts\.(googleapis|gstatic)\.com/,
+      `${name} policy carries a Google Fonts allowance again — R-WEBSITE-07 was undone`,
+    );
+  }
+  // The two directives that USED to carry the allowances are now the strict
+  // pair (style-src keeps its honest 'unsafe-inline' pin from law 1 — only the
+  // remote host is refused here).
+  assert.match(CSP_META, /style-src 'self' 'unsafe-inline';/, 'style-src is not self+inline-only');
+  assert.match(CSP_META, /font-src 'self';/, "font-src is not the strict 'self' floor");
+
+  // Measured on the tree law 5 just built: the gallery page where Google used
+  // to stand now ships the same weights self-hosted (Syne 400–800, Space Mono
+  // 400/700 — exactly what the deleted css2 request listed).
+  const gallery = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
+  assert.doesNotMatch(
+    gallery,
+    /fonts\.(googleapis|gstatic)\.com/,
+    'dist gallery page reaches out to Google Fonts again',
+  );
+  for (const w of ['400', '500', '600', '700', '800']) {
+    assert.ok(
+      new RegExp(`font-family: 'Syne';\\n[^}]*syne-${w}-latin\\.woff2`).test(gallery),
+      `gallery page lost the self-hosted Syne ${w} face`,
+    );
+    assert.ok(
+      existsSync(join(ROOT, 'dist', 'assets', 'fonts', `syne-${w}-latin.woff2`)),
+      `syne-${w}-latin.woff2 missing from the shipped pool`,
+    );
+  }
+  for (const w of ['400', '700']) {
+    assert.ok(
+      new RegExp(`font-family: 'Space Mono';\\n[^}]*space-mono-${w}-latin\\.woff2`).test(gallery),
+      `gallery page lost the self-hosted Space Mono ${w} face`,
+    );
+  }
 });

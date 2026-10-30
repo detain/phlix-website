@@ -72,7 +72,10 @@ const ALLOWED_ABS = new Set([
   `${content.site.social.github}/blob/master/LICENSE`,
   content.ecosystem.find((e) => e.name === 'phlix-hub').repo,
 ]);
-const ALLOWED_HOSTS = new Set(['fonts.googleapis.com', 'fonts.gstatic.com']);
+// R-WEBSITE-07 deleted the root gallery's Google Fonts <link>s (faces are
+// self-hosted from the shared pool now), so this page has no external font
+// refs — the old fonts.googleapis.com/fonts.gstatic.com host carve-out is
+// gone: any future http(s) href must appear on the live-verified allow-list.
 
 const tempRoots = [];
 after(() => {
@@ -232,8 +235,6 @@ test('law 6: in the built artifact every link resolves and no card points at a 4
     if (raw.startsWith('#')) {
       assert.ok(ids.has(raw.slice(1)), `root page links ${raw} but no element carries that id`);
     } else if (/^https?:/.test(raw)) {
-      const u = new URL(raw);
-      if (ALLOWED_HOSTS.has(u.host)) continue; // font preconnect/stylesheet
       absolutes.add(raw);
     } else {
       const target = join(dist, raw === './' ? 'index.html' : raw.replace(/^\.?\//, ''));

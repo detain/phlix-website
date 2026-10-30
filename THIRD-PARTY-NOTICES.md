@@ -5,7 +5,7 @@ material in the tree that is **not** ours and is redistributed under its own ter
 
 ## Fonts
 
-185 WOFF2 files across 70 families are vendored under
+190 WOFF2 files across 71 families are vendored under
 `shared/assets/fonts/` and published at `/assets/fonts/` by `tools/build.mjs`.
 All are under the **SIL Open Font License 1.1**, whose text is bundled beside them
 at [shared/assets/fonts/OFL.txt](shared/assets/fonts/OFL.txt).
@@ -85,5 +85,6 @@ Regenerate with `node tools/gen-font-notices.mjs`.
 | Source Serif 4 | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/OFL.txt) | Copyright 2014 The Source Serif 4 Project Authors (https://github.com/adobe-fonts/source-serif) |
 | Space Grotesk | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/OFL.txt) | Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk) |
 | Space Mono | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/OFL.txt) | Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono) |
+| Syne | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/syne/OFL.txt) | Copyright 2017 The Syne Project Authors (https://gitlab.com/bonjour-monde/fonderie/syne-typeface) |
 | Uncial Antiqua | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/uncialantiqua/OFL.txt) | Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Names "Uncial Antiqua" |
 | Zilla Slab | [OFL-1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/zillaslab/OFL.txt) | Copyright 2017, The Mozilla Foundation |

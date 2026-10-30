@@ -34,12 +34,16 @@
 //     2026-06-30 and the real number is measured above). A cure like the
 //     script one would be a site-wide stylesheet refactor — deliberately not
 //     in this rider's scope.
-//   * `https://fonts.googleapis.com` / `https://fonts.gstatic.com` — the root
-//     gallery stylesheet comes from Google Fonts (its 3 `<link>`s — 2
-//     preconnect + 1 stylesheet — plus the woff2 that sheet pulls). Every kit
-//     site self-hosts woff2 under shared/assets/fonts; counting references
-//     outside the CSP meta itself, `dist/index.html` is the only page that
-//     reaches out (measured on the built tree, 2026-10-29).
+//   * NO Google Fonts allowances — until R-WEBSITE-07 `style-src` named
+//     `https://fonts.googleapis.com` and `font-src` named
+//     `https://fonts.gstatic.com` solely because the root gallery sheet came
+//     from Google Fonts (its 2 preconnect + 1 stylesheet <link>, plus the woff2
+//     that sheet pulled; `dist/index.html` was the only page reaching out,
+//     measured on the built tree 2026-10-29). The gallery's Syne + Space Mono
+//     faces are now self-hosted from the same shared pool the kits use
+//     (shared/assets/fonts, declared via @font-face in the page's own <style>),
+//     so both allowances are deleted — and test/csp-gate.test.mjs now FAILS if
+//     either host name rides back into the policy.
 //   * `data:` images — 19 shipped pages inline data-URI images.
 //
 // WHAT META CSP CANNOT EXPRESS (why the header form exists)
@@ -55,9 +59,9 @@
 export const CSP_META_DIRECTIVES = [
   "default-src 'self'",
   "script-src 'self'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
-  "font-src 'self' https://fonts.gstatic.com",
+  "font-src 'self'",
   "connect-src 'self'",
   "base-uri 'self'",
   "form-action 'self'",

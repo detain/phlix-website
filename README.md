@@ -227,20 +227,26 @@ ships **without** `'unsafe-inline'` (review `website__writer` R-WEBSITE-06):
 the gallery renderer, the 404 shim, and every kit page island were extracted
 into js files, and the build fails if any executable inline script or `on*=`
 handler ever rides back into `dist/`. `style-src 'unsafe-inline'` remains
-because 497 pages carry inline `style=` attributes; the root gallery's Google
-Fonts stylesheet is still the only external font source (kits self-host woff2).
+because 497 pages carry inline `style=` attributes. And since review
+`website__writer` R-WEBSITE-07 the policy names **no** Google Fonts hosts:
+the root gallery's last external font source — its `fonts.googleapis.com`
+stylesheet — became `@font-face` rules against the same self-hosted woff2
+pool the kits use, so `style-src`/`font-src` carry no remote allowance at
+all, and a new csp-gate law fails the suite if either host ever rides back
+in.
 `test/csp-gate.test.mjs` pins all of it: meta/header forms split at exactly the
 platform boundary, `_headers` byte-matches the single source in
 `tools/csp.mjs`, both a constructed fixture build **and** the real repo build
-must stamp the meta tag as the first element of every emitted page, and the
-shipped tree must contain zero inline executables.
+must stamp the meta tag as the first element of every emitted page, the
+shipped tree must contain zero inline executables, and zero Google Fonts
+references may exist in either policy form or on the gallery page.
 
 ## License
 
 MIT. See [LICENSE](LICENSE).
 
 This repository's own contents are MIT. The fonts vendored under
-`shared/assets/fonts/` are **not** ours — all 70 families are under the SIL Open
+`shared/assets/fonts/` are **not** ours — all 71 families are under the SIL Open
 Font License 1.1 and are redistributed under its terms, which require their
 copyright notices to travel with them. Those are in
 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), with the license text bundled

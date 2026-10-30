@@ -7,7 +7,9 @@
  *   shared/assets/fonts/OFL.txt      the SIL Open Font License 1.1 text
  *   THIRD-PARTY-NOTICES.md           per-family copyright notices
  *
- * WHY: `shared/assets/fonts/` holds 185 WOFF2 files across 70 families, and
+ * WHY: `shared/assets/fonts/` holds 190 WOFF2 files across 71 families (the
+ * pool grows with each vendored family — `shared/data/font-sources.json` is the
+ * live count), and
  * `shared/data/font-sources.json` records every one of them as **OFL-1.1**. The
  * OFL is not a no-op licence: its "Copies of this Font Software may be ...
  * redistributed" permission is conditional on the copyright notice and the

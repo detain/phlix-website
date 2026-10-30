@@ -24,9 +24,11 @@
 # - style-src 'unsafe-inline': 497 shipped pages carry inline style= attributes
 #   and 43 carry inline <style> blocks. (The old note said "322 inline style=
 #   attributes across variants"; the variants/ tree was deleted 2026-06-30.)
-# - https://fonts.googleapis.com / fonts.gstatic.com: ONLY the root gallery's
-#   stylesheet loads from Google. Every kit site self-hosts its woff2 under
-#   shared/assets/fonts/ (tools/vendor-fonts.mjs).
+# - NO Google Fonts allowances (review website__writer R-WEBSITE-07): style-src
+#   and font-src used to name https://fonts.googleapis.com / fonts.gstatic.com
+#   solely for the root gallery's Google sheet. The gallery's Syne + Space Mono
+#   faces are now self-hosted from the pool every kit site already uses
+#   (shared/assets/fonts/, tools/vendor-fonts.mjs), and the allowances are gone.
 # - frame-ancestors 'self' (NOT 'none'): the gallery previews each kit by
 #   framing <slug>/index.html same-origin; 'none' killed the site's own
 #   feature. X-Frame-Options mirrors this as SAMEORIGIN (DENY framed the same
@@ -42,7 +44,7 @@
 # No CSP violation-report endpoint exists in this repo (none is wired).
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
