@@ -137,18 +137,23 @@
 // outside the pairing net by design; a bare count paired directly to the noun
 // 1..12, digit or word, in any key/value/adjacency shape, cannot.
 //
-// WRONG-FORMAT FAMILY FLOOR (r6, stated honestly per review M-WEBSITE-12__r5
-// finding 2's offered option): the package-format arms bind the three
-// sweep-era extension fingerprints and the TV-card pairing; a wrong-format
-// claim phrased for a different kit (an apt/rpm/deb-style bundle named for
-// the Roku deliverable, with no pairing noun inside the 40-char collapsed
-// window) convict only incidentally. That acquittal boundary is the measured
-// floor of this family, not a silent hole — pinning the boundary is r5
-// plant-(b) GREEN material in law 11's acquittal list. The store-claim side
-// of the family carries NO such boundary after r6: the publication and
-// availability arms reach the compound store noun and the presence shape,
-// and the store-domain href carrier nets the attribute class — every store
-// claim shape the reviews measured now dies in prose OR markup.
+// WRONG-FORMAT FAMILY FLOOR (r7 re-truth of the r6 statement — the r7 order
+// executed review M-WEBSITE-12__r5 finding 2b): the package-format family
+// now binds BOTH kits' card pairings — the Tizen/Smart-TV pair (r5 era) and
+// the hyphen-safe-to-quote native-channel pair for the Roku deliverable (the
+// r7 per-kit arms) — so the probe that named an apt/rpm/deb-style bundle for
+// the Roku card CONVICTS in either order; r5 plant-(b) moved from the
+// acquittal list to the conviction list, and the isolated honest control
+// (the same sentence naming the deliverable phlix.zip) proves the arm binds
+// the NAME, not the noun. What remains outside the net is narrower and
+// stated loudly: a wrong-format bundle fragment carrying NO kit noun at all
+// inside the 40-char collapsed window acquits by construction — the tree
+// prints no such fragment (measured: every foreign dot-zip sits in a
+// reviews/ archive law 1 exempts), and the store-claim side of the family
+// carries NO boundary after r6: the publication and availability arms reach
+// the compound store noun and the presence shape, and the store-domain href
+// carrier nets the attribute class — every store claim shape the reviews
+// measured now dies in prose OR markup.
 //
 // The laws:
 //
@@ -569,7 +574,13 @@ const FORBIDDEN = [
   // Store yet", "no Play Store listing yet", "the Tizen client is not published
   // to the store") and the "app-store-tiles" schema label (hyphen — the noun gap
   // is space-only) stay green BY MEASUREMENT: law 11 acquittals plus the
-  // whole-tree/artifact rescan every run.
+  // whole-tree/artifact rescan every run. r7 (review M-WEBSITE-12__r5 finding
+  // 2b, executed per the r7 order): the Roku half of the family is now armed
+  // PER KIT too — the two native-channel pairing arms above convict a bare
+  // .zip named for the Roku deliverable in either card order, shrinking the
+  // family floor from "new-kit phrasings net only incidentally" to "a
+  // wrong-format fragment with NO kit noun at all in the collapsed window";
+  // the r5 plant-(b) probe flips from pinned-GREEN boundary to RED.
   [
     /\.pkg\b/i,
     'an M12 package-format fiction fingerprint (.pkg — the Roku deliverable is phlix.zip; apex-predator/metal-machine-era carriers, swept without a law)',
@@ -589,6 +600,14 @@ const FORBIDDEN = [
   [
     /(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:samsung\s+tizen|tizen|smart\s+tv)\b/i,
     'the mirrored M12 bare-.zip-then-TV-card split (reverse card order of the same wrong-format claim; same phlix.zip acquittal)',
+  ],
+  [
+    /\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel)[a-z .,:—–"'()\n]{0,40}?(?<!phlix)\.zip\b/i,
+    'the M12 Roku-side wrong-format claim: a native-channel card naming a bare .zip as the package (r7 per-kit arm per review M-WEBSITE-12__r5 finding 2b — the Roku deliverable is phlix.zip, so an apt/rpm/deb/channel-style bundle named for it is the same fiction the TV pairing nets for Tizen; honest phlix.zip is lookbehind-acquitted, card adjacency cannot false-convict)',
+  ],
+  [
+    /(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel)\b/i,
+    'the mirrored M12 bare-.zip-then-native-channel-card split (reverse card order of the same Roku-side wrong-format claim; same phlix.zip acquittal)',
   ],
   [
     /\bsideload\s+or\s+publish/i,
@@ -2169,9 +2188,16 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
 // cures-stay-cured needles. The r6 move (review M-WEBSITE-12__r5) makes the family
 // nine: a STRUCTURAL store-domain href carrier netted the velocity-rush CTA survivor
 // (cured to the five-sibling GitHub pattern), and the two store-claim prose arms now
-// reach over the compound "Channel" hop and the negation-guarded presence shape; the
-// census below carries 3/2/3/1, and the family's remaining floor (new-kit wrong-format
-// phrasings pairing only incidentally) is stated in the header above, not left silent.
+// reach over the compound "Channel" hop and the negation-guarded presence shape. The
+// r7 move (per-kit arms executing that review's finding 2b, which r6 had pinned as a
+// stated acquittal boundary) makes the family eleven: the wrong-format pairing is now
+// two-directional for BOTH kits — a bare zip named for the Roku deliverable beside a
+// native-channel card convicts in either order — and the r5 plant-(b) probe flips from
+// the acquittal list to the conviction list, with the same sentence naming the true
+// deliverable as the honest control. The census below carries 3/4/3/1 plus the
+// Roku-side pair count, and the family's remaining floor (a wrong-format fragment
+// carrying no kit noun at all inside the collapsed window) is stated in the header
+// above, not left silent.
 // (Header narrative stays fingerprint-free — law 1 polices
 // this file outside the sentinels; plants below re-state cured fictions.)
 // LIT-FIXTURE-BEGIN law11-package-format-fixture-section (plants re-state cured fictions)
@@ -2180,12 +2206,13 @@ const M12_ARMS = FORBIDDEN.filter(([, what]) => /\bM12\b/.test(what));
 test('law 11: the package-format family convicts every shape and acquits the shipped truth', () => {
   // Identity anchoring (law 9/12 doctrine): if the family leaves the registry — or a
   // foreign arm joins it — this law stops guarding and must fail loud HERE. Census:
-  // three extension fingerprints + two pairing directions + three publication shapes
-  // + one structural store-domain href carrier (the r6 move per review __r5 finding 1).
+  // three extension fingerprints + four pairing directions (TV pair + Roku-side pair,
+  // both two-directional after r7) + three publication shapes + one structural
+  // store-domain href carrier (the r6 move per review __r5 finding 1).
   assert.equal(
     M12_ARMS.length,
-    9,
-    'the package-format family no longer anchors to exactly 9 registry arms (identity: "M12") — law 11 anchors moved',
+    11,
+    'the package-format family no longer anchors to exactly 11 registry arms (identity: "M12") — law 11 anchors moved',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /package-format fiction fingerprint/.test(what)).length,
@@ -2194,8 +2221,13 @@ test('law 11: the package-format family convicts every shape and acquits the shi
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /wrong-format claim/.test(what)).length,
+    4,
+    'the wrong-format pairing lost a direction (forward and mirrored must both stand, for both kits)',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /Roku-side/.test(what)).length,
     2,
-    'the TV-card pairing lost a direction (forward and mirrored must both stand)',
+    'the Roku-side per-kit pairing (r7, review __r5 finding 2b) drifted out of (or multiplied inside) the family',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) =>
@@ -2235,6 +2267,9 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'Phlix is now on the Channel Store', // r5 finding 2 plant (a) — presence claim with NO publication/availability predicate — the r6 presence shape nets it
     '<a href="https://channelstore.roku.com" class="client-card-link" target="_blank" rel="noopener noreferrer">Get the channel</a>', // r5 finding 1 verbatim class — the velocity-rush card CTA: a store-domain promise bound in an HREF, invisible to every prose arm (no verb, domain compound) — the structural carrier convicts
     '<a\n  href="https://apps.samsung.com/tv/applications.chn"\n  class="btn"\n>Download from the Samsung Apps Store</a>', // prettier-wrapped multi-line attribute — the carrier is href-anchored, so newlines between <a and href cannot launder it
+    'Native Roku channel. Sideload the deb.zip from GitHub releases.', // r5 finding 2 plant (b) VERBATIM — pinned GREEN at r6 as the stated family floor; the r7 per-kit Roku arm CONVICTS it (forward pairing: native-channel noun → bare non-phlix .zip inside the 40-char collapsed window)
+    'Sideload the deb.zip from GitHub releases. Native Roku channel — quick resume.', // the Roku-side mirror direction — reverse card order launders nothing
+    'Native Roku channel — sideload the channel.zip', // a store-flavored package name named for the Roku deliverable — the forward arm binds any non-phlix bare .zip beside the card noun
   ]) {
     assert.ok(engine(fiction), `the package-format law lost its teeth: /${fiction}/ would ship`);
   }
@@ -2254,7 +2289,7 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'Native Roku channel — sideload the package from GitHub releases; not on the Channel Store yet.', // acoustic-nights:157 — format-free honest copy
     '<a href="https://my.roku.com" class="btn btn-secondary mt-4" style="width: 100%">View in Store</a>', // inferno:154-era — the carrier binds STORE DOMAINS, not the words "store": my.roku.com is the Roku account portal (link-your-device page), outside the no-Phlix store set, so this generic-portal CTA acquits by design
     '<!-- `https://apps.samsung.com` 302s to www.samsung.com/galaxystore,', // inferno:161 verbatim bare-URL comment prose — the r2 F1 pinning ask: a store domain quoted in an honest engineering comment is NOT an href attribute, and the structural carrier acquits exactly this shape
-    'Native Roku channel. Sideload the deb.zip from GitHub releases.', // r5 plant (b) pinned as the family floor's stated boundary — a new-kit wrong-format claim with no TV noun inside the 40-char collapsed pairing window acquits; the WHY header says so out loud
+    'Native Roku channel. Sideload phlix.zip from GitHub releases.', // r7 honest control — the r5 plant-(b) sentence with the TRUE deliverable name: the per-kit arm binds the NAME, not the noun, and lookbehind-acquits this exact isolated-Roku shape
     'Phlix is not now on the Channel Store.', // the presence shape negation-guarded — honest negated compound copy stays green through the r6 arm
     'Release APK direct — no Play Store listing yet', // blaze-runner:245 — the noun survives, the negation stands
     'Build from source with Xcode — no TestFlight yet', // blaze-runner:255
@@ -2278,6 +2313,11 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     () => assertClean('Native channel — sideload or publish', 'planted dangling-publish tagline'),
     /M12/,
     'the publication-shape arms are not wired into the assertClean engine law 1/2 run',
+  );
+  assert.throws(
+    () => assertClean('Native Roku channel. Sideload the deb.zip from GitHub releases.', 'planted Roku-side wrong-format claim'),
+    /M12/,
+    'the Roku-side per-kit pairing arms are not wired into the assertClean engine law 1/2 run (r7)',
   );
   // SSOT pins (the fact source the arms encode): every clients[] entry stores a null
   // store_url, the Roku/Tizen taglines name the platform not a store, and the FAQ
