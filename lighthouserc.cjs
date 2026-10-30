@@ -47,6 +47,25 @@
 // the MEASURED CI numbers (max +10%, rounded outward) exactly as the host
 // numbers were: 3300 -> 4600. All other budgets remain as derived above;
 // desktop passed clean on CI unchanged (2 URL(s) asserted, 0 failures).
+//
+// R-WEBSITE-04 — THE TRANSFER DEBT IS PAID; THE PIN NOW ENFORCES THE BUDGET
+// --------------------------------------------------------------------------
+// The 1,000,000 B ceiling below was honest as a REGRESSION floor while the
+// gallery itself measured 903,283 B — 4.5x over the documented page budget
+// (new_site.md:514: "Hero image <= ~120 KB; total transferred per page
+// <= ~500 KB."). That era's heavy card/photo assets are gone from the shipped
+// site. Re-measured 2026-10-30 at tip 8eececfe, this machine, 3 runs per URL,
+// freshly built dist (aggregate md5 090a557f2f982ef381c5659354abaad2):
+//
+//   /                 total transfer 113,668 B  (5 requests — mobile AND desktop)
+//   /abstract-canvas/ total transfer 330,426 B  (16 requests — mobile AND desktop)
+//
+// Every graded page on both form factors now sits inside the 500 KB spec
+// budget with >= 170 KB of headroom, so the budget is enforced as written:
+// 1,000,000 -> 500,000. The desktop file carries the same 500,000 for the
+// same measured reason. `test/lighthouse-gate.test.mjs` pins both numbers as
+// ratchet constants: they may fall with future content diets (in lockstep
+// with the test) and rise only behind a re-measurement that says so.
 
 module.exports = {
   ci: {
@@ -76,7 +95,7 @@ module.exports = {
         'cumulative-layout-shift': ['error', { maxNumericValue: 0.11 }],
         'total-blocking-time': ['error', { maxNumericValue: 250 }],
         'speed-index': ['error', { maxNumericValue: 4600 }],
-        'resource-summary:total:size': ['error', { maxNumericValue: 1000000 }],
+        'resource-summary:total:size': ['error', { maxNumericValue: 500000 }],
       },
     },
     upload: {

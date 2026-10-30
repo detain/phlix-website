@@ -30,6 +30,10 @@
 //   6. The desktop leg carries `!cancelled()` (S268 law: an earlier failure
 //      must not hide whether the later gate ran at all).
 //   7. .gitignore covers .lighthouseci/ so runs cannot dirty the tree.
+//   8. The per-page transfer budgets enforce the documented 500 KB spec
+//      budget (new_site.md:514) as RATCHET CONSTANTS: they may fall in
+//      lockstep with this file's map, never rise behind a silent edit
+//      (R-WEBSITE-04, 2026-10-30 re-measurement — see both config headers).
 //
 // WHEN THIS FAILS
 // ---------------
@@ -165,15 +169,13 @@ test('both configs assert error-level budgets with teeth', () => {
       `${name} lost its transfer-size budget`,
     );
   }
-  // The two presets must differ where the pages differ (form-factor
-  // sensitivity): mobile gallery measured 903 KB, desktop 2.78 MB. One
-  // shared size bound would either red mobile honestly and excuse desktop, or
-  // the reverse. Two configs is the point.
-  assert.notEqual(
-    mobileConfig.ci.assert.assertions['resource-summary:total:size'][1].maxNumericValue,
-    desktopConfig.ci.assert.assertions['resource-summary:total:size'][1].maxNumericValue,
-    'mobile and desktop size budgets must be preset-specific',
-  );
+  // Form-factor divergence stays pinned where it is real (the preset flags
+  // below). The OLD assertion that the two SIZE ceilings must differ is
+  // retired by R-WEBSITE-04: it encoded the 2026-10-29 era (mobile gallery
+  // 903 KB vs desktop 2.78 MB). Re-measurement at 8eececfe shows both presets
+  // transferring identically per page — the budgets legitimately agree now,
+  // and both sit on the documented spec budget. The ratchet test at the foot
+  // of this file is the living law.
   assert.notEqual(
     mobileConfig.ci.collect.settings.preset,
     'desktop',
@@ -209,4 +211,39 @@ test('package.json scripts and .gitignore match the delivered gate', () => {
     gitignore.split('\n').includes('.lighthouseci/'),
     '.lighthouseci/ must stay gitignored or every local run dirties the tree',
   );
+});
+
+// R-WEBSITE-04 (2026-10-30). The transfer ceilings below are the documented
+// page budget — new_site.md:514, "total transferred per page <= ~500 KB" —
+// enforced on every graded URL since the measured reality became compliant:
+// at tip 8eececfe, mobile AND desktop transfer 113,668 B (/) and 330,426 B
+// (/abstract-canvas/), each with >= 170 KB of headroom. The ceilings may
+// FALL when content diets justify it (update this map in lockstep — a lower
+// budget is the ratchet working); a RISE means either the shipped pages got
+// heavier than the spec budget or the gate is being loosened, and both must
+// die here rather than ride green.
+const TRANSFER_CEILING_RATCHET = {
+  'lighthouserc.cjs (mobile)': 500_000,
+  'lighthouserc.desktop.cjs (desktop)': 500_000,
+};
+
+test('transfer budgets enforce the spec budget and cannot ratchet up', () => {
+  for (const [name, config] of [
+    ['lighthouserc.cjs (mobile)', mobileConfig],
+    ['lighthouserc.desktop.cjs (desktop)', desktopConfig],
+  ]) {
+    const rule = config.ci.assert.assertions['resource-summary:total:size'];
+    assert.ok(
+      Array.isArray(rule) && rule[0] === 'error',
+      `${name} lost its error-level transfer-size assertion`,
+    );
+    assert.equal(
+      rule[1].maxNumericValue,
+      TRANSFER_CEILING_RATCHET[name],
+      `${name} transfer ceiling moved off ${TRANSFER_CEILING_RATCHET[name]} B without the ` +
+        're-measurement this ratchet exists to force: lower it in this file too when the ' +
+        'pages genuinely shrink, and never above the 500 KB page budget without amending ' +
+        'new_site.md §13 first',
+    );
+  }
 });

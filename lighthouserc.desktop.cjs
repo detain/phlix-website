@@ -18,6 +18,14 @@
 // floors stay identical to mobile (measured-worst minus ~5) on purpose: a
 // leg that passes one form factor and not the other must red the preset that
 // regressed, not the shared score floor's neighbor.
+//
+// R-WEBSITE-04 (2026-10-30, see lighthouserc.cjs for the full record): the
+// heavy desktop image treatments above are gone from the shipped site.
+// Re-measured at tip 8eececfe with a freshly built dist, BOTH pages transfer
+// identically on mobile and desktop (gallery 113,668 B; canvas 330,426 B),
+// so the desktop-only 3.1 MB regression ceiling collapses onto the same
+// documented spec budget as mobile: 500,000 B (new_site.md:514). The ratchet
+// constants live in test/lighthouse-gate.test.mjs.
 
 module.exports = {
   ci: {
@@ -41,7 +49,7 @@ module.exports = {
         'cumulative-layout-shift': ['error', { maxNumericValue: 0.08 }],
         'total-blocking-time': ['error', { maxNumericValue: 80 }],
         'speed-index': ['error', { maxNumericValue: 2800 }],
-        'resource-summary:total:size': ['error', { maxNumericValue: 3100000 }],
+        'resource-summary:total:size': ['error', { maxNumericValue: 500000 }],
       },
     },
     upload: { target: 'filesystem', outputDir: '.lighthouseci/reports' },
