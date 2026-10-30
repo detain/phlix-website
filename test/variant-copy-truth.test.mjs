@@ -804,10 +804,11 @@ function stripMarkup(text) {
 // right past cyber-pursuit:1361 while r4's own sweep then caught the
 // word-form "Six" family shipping in velocity-rush.
 // LIT-FIXTURE-END natives-pairing-shape-quotes This guard PAIRS a small
-// standalone count with the noun "native clients" across exactly the
-// structural hops copy uses — never through new meaning — and demands the
-// SSOT-derived truth. Precision notes (each learned from a corpus false
-// positive during development, see the fix report):
+// standalone count with a REGISTERED placard noun (R-WEBSITE-12 widened the
+// original "native clients" to the COUNT_NOUN_FAMILIES registry below) across
+// exactly the structural hops copy uses — never through new meaning — and
+// demands the noun's SSOT-derived truth. Precision notes (each learned from a
+// corpus false positive during development, see the fix report):
 //   - tag/comment interiors are masked to position-preserving \u0001 runs so
 //     numerals inside style="…var(--space-7)" cannot pair with copy; quoted
 //     CONTENT attributes (content/alt/title/aria-label/placeholder) are the
@@ -818,9 +819,8 @@ function stripMarkup(text) {
 //   - only the NEAREST count on either side of a noun is tried, and a noun
 //     already paired on its left is never re-paired on its right, so
 //     "Five native clients. One library." and adjacent stat cards cannot bleed.
-const SSOT_BULLETS = JSON.parse(
-  readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'),
-).pitch_bullets;
+const SSOT_CONTENT = JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'));
+const SSOT_BULLETS = SSOT_CONTENT.pitch_bullets;
 const SSOT_NATIVES_LINE = (SSOT_BULLETS || []).find((b) => /^Native apps for /i.test(b));
 if (!SSOT_NATIVES_LINE) {
   throw new Error('shared/content.json lost the "Native apps for …" pitch bullet');
@@ -840,6 +840,20 @@ if (!SSOT_NATIVES_MATCH) {
 // the move is a deliberate re-adjudication, never silent drift. (W-min197 at
 // 4fe017d2+ is such a move: §19.14 re-adjudicated four→five for the console.)
 const SSOT_NATIVES = SSOT_NATIVES_MATCH[1].split(/,\s*(?:and\s+)?/).length;
+
+// R-WEBSITE-12 (rider batch R-W12): the second SSOT-derived truth. The
+// kit-voice placards that count features — "8 native features", cyber-tokyo's
+// "8 native channels", afrofuturism's "8 native feature pillars" — claim
+// content.json features[].length, READ LIVE, never copied as a literal into
+// the law. Law 14 pins the derived value against the adjudicated estate fact
+// exactly the way law 5 pins SSOT_NATIVES: if the roster genuinely changes,
+// every placard moves with it in the same wave or the pin reddens for a
+// deliberate re-derivation. (W-min197 proved the posture works: the §19.14
+// four→five natives re-adjudication was LOUD, not silent drift.)
+if (!Array.isArray(SSOT_CONTENT.features) || SSOT_CONTENT.features.length === 0) {
+  throw new Error('shared/content.json lost features[] — re-derive the placard law deliberately');
+}
+const SSOT_FEATURES = SSOT_CONTENT.features.length;
 
 // Noun with evasion-tolerant word separation (masked tags/comments are
 // \u0001; JS concat is quote-plus-quote). Letters never separate the words.
@@ -861,6 +875,32 @@ const WORD2N = {
 };
 const NATIVES_COUNT_RE =
   /(?<![\w.])(?:[1-9]|1[0-2])(?![\w.,%/:~+-])|(?<![\w])(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)(?![\w])/gi;
+
+// ── R-WEBSITE-12: the placard-noun registry (positive pins, not bans) ───────
+// The M-WEBSITE-06__r2 residual named the gap: the kit-voice count families
+// were TRUE-against-content.json but protected by nothing — a ban-only regime
+// goes silent the day a roster moves and a placard stays. Each noun claims one
+// of the two SSOT rosters and binds through the SAME r4 engine — one
+// machinery, more nouns, no second copy to drift. Registered as named
+// [RegExp, family, truth] triples (the M8r2 idiom — literals only; the
+// registry-discipline test polices runtime growth). Precision: "native
+// feature" also binds inside "native feature pillars" (one family, one
+// binding); a count-free "native channels for <platforms>" sentence (the
+// cosmic-horror prose shape) stays UNBOUND — the engine only speaks when a
+// count stands beside the noun, and prose sharing a word with a placard is
+// not a numerical claim. Family keys carry no digits and appear without
+// adjacent numerals: law 14 caught its own draft convicting its floor table
+// (bare numerals bind to adjacent family keys through punctuation-only gaps —
+// the walk is that sharp), and the shapes here are the honest result.
+const COUNT_NOUN_FAMILIES = [
+  [NATIVES_NOUN_RE, 'natives-clients', SSOT_NATIVES],
+  [new RegExp(`device${NATIVES_SEP}platforms?\\b`, 'gi'), 'device-platforms', SSOT_NATIVES],
+  [new RegExp(`client${NATIVES_SEP}paths?\\b`, 'gi'), 'client-paths', SSOT_NATIVES],
+  [new RegExp(`native${NATIVES_SEP}features?\\b`, 'gi'), 'native-features', SSOT_FEATURES],
+  [new RegExp(`native${NATIVES_SEP}channels\\b`, 'gi'), 'native-channels', SSOT_FEATURES],
+];
+// Cheap prescreen: no family noun can appear without one of these stems.
+const PLACARD_PRESCREEN = /native|\bdevices?\b|\bclients?\b/i;
 
 const COPY_ATTR = /\b(?:content|alt|title|aria-label|placeholder)\s*=\s*$/i;
 function maskMarkup(text) {
@@ -926,57 +966,65 @@ function gapBinds(gap) {
 }
 
 function nativesShapeFindings(text) {
-  if (!/native/i.test(text)) return { bindings: [], violations: [] };
+  if (!PLACARD_PRESCREEN.test(text)) return { bindings: [], famBindings: [], violations: [] };
   const scan = maskMarkup(text);
-  const nouns = [...scan.matchAll(NATIVES_NOUN_RE)].map((m) => ({
-    start: m.index,
-    end: m.index + m[0].length,
-  }));
   const counts = [];
   for (const m of scan.matchAll(NATIVES_COUNT_RE)) {
     const raw = m[0];
     const n = /^\d+$/.test(raw)
       ? parseInt(raw.replace(/^0(?=\d)/, ''), 10)
       : WORD2N[raw.toLowerCase()];
-    if (n >= 1 && n <= 12) counts.push({ start: m.index, end: m.index + raw.length, n });
+    if (n >= 1 && n <= 12) counts.push({ start: m.index, end: m.index + raw.length, n, raw });
   }
-  const bindings = [];
+  const bindings = []; // legacy law-5 view: natives-family counts only
+  const famBindings = []; // law-14 census: every family, { family, n }
   const violations = [];
-  for (const noun of nouns) {
-    let bound = null;
-    for (let i = counts.length - 1; i >= 0; i--) {
-      const c = counts[i];
-      if (c.end > noun.start) continue;
-      if (gapBinds(text.slice(c.end, noun.start))) bound = c;
-      break; // only the nearest preceding count can be this noun's value
-    }
-    if (!bound) {
-      for (const c of counts) {
-        if (c.start < noun.end) continue;
-        if (gapBinds(text.slice(noun.end, c.start))) bound = c;
-        break; // nothing claimed on the left — the nearest right count is it
+  for (const [nounRe, familyName, expected] of COUNT_NOUN_FAMILIES) {
+    const nouns = [...scan.matchAll(nounRe)].map((m) => ({
+      start: m.index,
+      end: m.index + m[0].length,
+    }));
+    for (const noun of nouns) {
+      let bound = null;
+      for (let i = counts.length - 1; i >= 0; i--) {
+        const c = counts[i];
+        if (c.end > noun.start) continue;
+        if (gapBinds(text.slice(c.end, noun.start))) bound = c;
+        break; // only the nearest preceding count can be this noun's value
+      }
+      if (!bound) {
+        for (const c of counts) {
+          if (c.start < noun.end) continue;
+          if (gapBinds(text.slice(noun.end, c.start))) bound = c;
+          break; // nothing claimed on the left — the nearest right count is it
+        }
+      }
+      if (!bound) continue;
+      famBindings.push({ family: familyName, n: bound.n });
+      if (expected === SSOT_NATIVES) bindings.push(bound.n);
+      if (bound.n !== expected) {
+        violations.push({
+          count: scan.slice(bound.start, bound.end),
+          line: text.slice(0, noun.start).split('\n').length,
+          family: familyName,
+          expected,
+        });
       }
     }
-    if (!bound) continue;
-    bindings.push(bound.n);
-    if (bound.n !== SSOT_NATIVES) {
-      violations.push({
-        count: scan.slice(bound.start, bound.end),
-        line: text.slice(0, noun.start).split('\n').length,
-      });
-    }
   }
-  return { bindings, violations };
+  return { bindings, famBindings, violations };
 }
 
-// Returns the number of count↔noun pairs actually evaluated (non-vacuity).
+// Returns the number of natives-family count↔noun pairs actually evaluated
+// (non-vacuity for the law 5 era consumers); violations cover every family.
 function assertNativesShape(text, label) {
   const { bindings, violations } = nativesShapeFindings(text);
   for (const v of violations) {
     assert.fail(
-      `${label}:${v.line}: a native-clients count of "${v.count}" is back — the SSOT ` +
-        `(shared/content.json enumeration, §19.14) says ${SSOT_NATIVES}. The split-shape ` +
-        `pairing law (r4) binds counts through key hops, one element hop, or bare adjacency.`,
+      `${label}:${v.line}: a ${v.family} count of "${v.count}" is back — the SSOT ` +
+        `(shared/content.json, §19.14) says ${v.expected}. The split-shape pairing ` +
+        `law (r4; placard nouns joined at R-WEBSITE-12) binds counts through key ` +
+        `hops, one element hop, or bare adjacency.`,
     );
   }
   return bindings.length;
@@ -2966,6 +3014,113 @@ test('law 13: the claim-carrier inventory — every carrier registered BY NAME, 
   // LIT-FIXTURE-END law13-carrier-controls
 });
 
+// ── M-WEBSITE-06 r2 residual (R-WEBSITE-12): POSITIVE PIN, NOT A BAN ────────
+// The rider named the gap: the kit-voice placard families ("5 device
+// platforms", "8 native features") sat one edit from drift — true against
+// content.json today, protected by nothing tomorrow. Law 14 walks the SAME
+// tree the whole-file laws walk and demands, for every bound placard, that the
+// count equal its family's SSOT-derived length. Measured at 85548735 with this
+// registry: natives-clients 187, native-features 10, native-channels 1,
+// client-paths 2, device-platforms 2, violations 0 — the tree was already
+// honest; the law keeps it that way. Floors below the measurement so ordinary
+// churn cannot trip them, while a silently un-binding matcher reddens here.
+test('law 14: the placard count family is positively pinned to content.json lengths', () => {
+  // Re-adjudication pins: rotating an SSOT truth is loud and deliberate.
+  assert.equal(SSOT_FEATURES, 8, 'content.json features[] moved — every placard moves with it');
+  assert.equal(SSOT_NATIVES, 5, 'the §19.14 natives roster moved — re-derive the placard law');
+  assert.notEqual(
+    SSOT_FEATURES,
+    SSOT_NATIVES,
+    'the two placard truths collided — retag the law-5 bindings view by family before rotating either',
+  );
+  const EXPECTED = Object.fromEntries(
+    COUNT_NOUN_FAMILIES.map(([, family, truth]) => [family, truth]),
+  );
+  const scanSet = TRACKED.filter((f) => TEXT_EXT.test(f) || ROOT_TEMPLATES.has(f));
+  const familyCounts = new Map();
+  let walked = 0;
+  for (const rel of scanSet) {
+    if (law1Exemption(rel)) continue;
+    walked++;
+    let text = readFileSync(join(ROOT, rel), 'utf8');
+    if (rel === SELF_LAW) text = maskLitRegions(text);
+    const { famBindings, violations } = nativesShapeFindings(text);
+    for (const v of violations) {
+      assert.fail(
+        `${rel}:${v.line}: a ${v.family} placard drifted to "${v.count}" — the ` +
+          `SSOT-derived truth says ${v.expected} (positive pin, R-WEBSITE-12); ` +
+          `move the copy or re-adjudicate §19.14, never the number alone`,
+      );
+    }
+    for (const b of famBindings) {
+      familyCounts.set(b.family, (familyCounts.get(b.family) || 0) + 1);
+    }
+  }
+  assert.ok(walked >= 1500, `law 14 walked only ${walked} files; the perimeter collapsed`);
+  // Positional floors BECAUSE family-key strings beside bare numerals
+  // self-convict — law 14 caught its own draft doing exactly that to its
+  // floor table, and the positional shape is the disclosed honest result.
+  const FLOORS = [150, 1, 1, 6, 1];
+  COUNT_NOUN_FAMILIES.forEach(([, name], i) => {
+    const n = familyCounts.get(name) || 0;
+    assert.ok(
+      n >= FLOORS[i],
+      `the ${name} family bound ${n} placards; floor ${FLOORS[i]} — a silently ` +
+        `un-binding matcher must not pass this law vacuously`,
+    );
+  });
+  // Named-carrier pins: the files the rider's residual specifically called
+  // drift-prone must carry their family TODAY, not merely obey it someday.
+  const bound = (rel, family) => {
+    const { famBindings } = nativesShapeFindings(readFileSync(join(ROOT, rel), 'utf8'));
+    assert.ok(
+      famBindings.some((b) => b.family === family && b.n === EXPECTED[family]),
+      `${rel} lost its ${family} binding — the placard the rider named is gone or reshaped`,
+    );
+  };
+  bound(join('sites', 'dia-de-muertos', 'js', 'main.js'), 'native-features');
+  bound(join('sites', 'dia-de-muertos', 'js', 'main.js'), 'client-paths');
+  bound(join('sites', 'pixel-dungeon', 'index.html'), 'device-platforms');
+  bound(join('sites', 'marina-breeze', 'index.html'), 'native-features');
+  bound(join('brand-kits', 'cyber-tokyo.js'), 'native-channels');
+  // LIT-FIXTURE-BEGIN law14-placard-controls (plants prove each family binds; honest shapes acquit)
+  for (const [plant, family] of [
+    ['<li><strong>9</strong> native features</li>', 'native-features'],
+    ['{ label: "Device Platforms", value: "6" }', 'device-platforms'],
+    ['<p>Seven client paths carry the whole library.</p>', 'client-paths'],
+    ['<div>12</div><div>Native Channels</div>', 'native-channels'],
+    ['<title>Phlix — Four Native Clients</title>', 'natives-clients'],
+  ]) {
+    const { violations } = nativesShapeFindings(plant);
+    assert.equal(violations.length, 1, `control: "${plant}" must convict exactly once`);
+    assert.equal(
+      violations[0].family,
+      family,
+      `control: "${plant}" convicted the wrong family: ${violations[0].family}`,
+    );
+  }
+  for (const plant of [
+    '<li><strong>8</strong> native features</li>\n<li><strong>SyncPlay</strong> over 5 NTP samples</li>',
+    '<div class="badge">5+</div><div>Device Platforms</div>',
+    '<p>Five device platforms. Eight native features.</p>',
+    '<p>Phlix provides native channels for Roku, Windows, and mobile, each a different vessel.</p>',
+    '<ol><li>The 02 native features chapter</li></ol>',
+  ]) {
+    assert.equal(
+      nativesShapeFindings(plant).violations.length,
+      0,
+      `acquittal broke: "${plant}" — the engine paired something it should not`,
+    );
+  }
+  assert.equal(
+    nativesShapeFindings('<div class="badge">5+</div><div>Device Platforms</div>').famBindings
+      .length,
+    0,
+    'a "5+" badge must not bind at all — the surface-enumeration disposition stays exempt',
+  );
+  // LIT-FIXTURE-END law14-placard-controls
+});
+
 // ── REGISTRY DISCIPLINE (r8-F1): named registration, zero runtime extension ──────────
 // The estate idiom this file invented for sweep survivors: a survivor is never
 // a naked arm — it enters the SHARED FORBIDDEN literal as a [RegExp, name] pair
@@ -2980,6 +3135,7 @@ test('registry discipline: every arm is a named registration and the registries 
   for (const [name, registry] of [
     ['FORBIDDEN', FORBIDDEN],
     ['HUB_ENUM_ARMS', HUB_ENUM_ARMS],
+    ['COUNT_NOUN_FAMILIES', COUNT_NOUN_FAMILIES],
   ]) {
     assert.ok(registry.length > 0, `${name} is empty — the sweep has no teeth`);
     registry.forEach(([re, what], i) => {
@@ -2988,11 +3144,20 @@ test('registry discipline: every arm is a named registration and the registries 
       assert.ok(what.trim().length > 0, `${name}[${i}] registered with an empty name`);
     });
   }
+  // R-WEBSITE-12: a placard family's third element is an SSOT DERIVATION, not
+  // a literal — registering a hand-typed number here is the drift the law
+  // exists to prevent.
+  for (const [, name, truth] of COUNT_NOUN_FAMILIES) {
+    assert.ok(
+      truth === SSOT_NATIVES || truth === SSOT_FEATURES,
+      `the ${name} family claims a truth that is neither SSOT roster — extend the roster, never the literal`,
+    );
+  }
   // The pattern below is self-inert: its own source carries '\.push\(' (a
   // literal backslash between the word and the paren), which the regex — a
   // literal dot then paren — cannot match.
   const src = readFileSync(join(ROOT, SELF_LAW), 'utf8');
-  const naked = src.match(/\b(?:FORBIDDEN|HUB_ENUM_ARMS)\.push\(/g) || [];
+  const naked = src.match(/\b(?:FORBIDDEN|HUB_ENUM_ARMS|COUNT_NOUN_FAMILIES)\.push\(/g) || [];
   assert.equal(
     naked.length,
     0,
