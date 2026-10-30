@@ -337,13 +337,24 @@ function kitAccent(kit) {
 // (BUILD_LOG.md / SITE.md / PROMPTS.md / REGEN_PLAN.md, any *.worklog.md, any
 // review file, and reviews/ dirs). These are internal working notes — a change
 // manifest that names unresolved ambiguities and a kit's wrong contrast claims
-// has no business on the public site.
+// has no business on the public site. Dotfiles go too (R-WEBSITE-08): the
+// per-kit authoring strays (.stylelintrc.json ×3, .htaccess ×2, a
+// .browserslistrc that is actually a JSON blob of invented features, an
+// img/.gitkeep made redundant when every kit's real img/og.png landed) ride
+// the recursive copy into the Pages artifact. The .htaccess pair was checked
+// for deployability BEFORE dropping: GitHub Pages never runs Apache — its 404
+// story is the root 404.html + error-shim (both separately shipped) — and even
+// on an Apache mirror those files' ErrorDocument paths name /sites/<slug>/,
+// the repo layout the deployed artifact does not have. Nothing in tools/,
+// test/, docs or CI references .htaccess at all. test/csp-gate.test.mjs law
+// 10 pins zero dotfiles in the built tree and reds on planted strays.
 // Kept inside the function on purpose: `keepInSite` is called from top-level
 // code far above this point, and a module-level `const` would still be in its
 // temporal dead zone at that moment (function declarations hoist, `const` does
 // not).
 function keepInSite(src) {
   const base = basename(src);
+  if (base.startsWith('.')) return false;
   if (base === 'reviews') return false;
   if (/\.worklog\.md$/i.test(base)) return false;
   if (/^ROUND-\d+\.md$/i.test(base)) return false;

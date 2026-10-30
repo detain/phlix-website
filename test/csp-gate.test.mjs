@@ -41,7 +41,7 @@
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -458,4 +458,45 @@ test('law 9: the gallery build stays chunk-per-frame with batched scale measurem
     false,
     'the per-card applyPreviewScale helper is back — call sites must go through the batched pass',
   );
+});
+
+test('law 10: the deployed tree carries zero dotfiles — kit dev-config strays stay out (R-WEBSITE-08)', () => {
+  // dist/ is uploaded verbatim by the Pages workflow, so the artifact must
+  // contain only deployable files. Seven authoring strays (the classes
+  // named in the keepInSite docblock above) rode the per-kit copy until the
+  // dotfile rule landed — measured on the tree law 5 just built.
+  const strays = [];
+  const walk = (dir, rel) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      if (e.name.startsWith('.')) {
+        strays.push(join(rel, e.name));
+        continue;
+      }
+      if (e.isDirectory()) walk(join(dir, e.name), join(rel, e.name));
+    }
+  };
+  walk(join(ROOT, 'dist'), '.');
+  assert.deepEqual(strays, [], 'dev-config dotfiles shipped in the deploy artifact');
+
+  // Teeth: a fixture carrying planted strays of every named class builds
+  // clean AND drops them, while the real pages survive — a filter that
+  // simply broke copying would fail the survivor assert, not sneak green.
+  const dir = makeFixture();
+  writeFileSync(join(dir, 'sites', 'alpha-kit', '.stylelintrc.json'), '{}\n', 'utf8');
+  writeFileSync(join(dir, 'sites', 'alpha-kit', '.htaccess'), 'RewriteEngine On\n', 'utf8');
+  mkdirSync(join(dir, 'sites', 'alpha-kit', 'img'), { recursive: true });
+  writeFileSync(join(dir, 'sites', 'alpha-kit', 'img', '.gitkeep'), 'placeholder\n', 'utf8');
+  const built = runBuild(dir);
+  assert.equal(built.code, 0, `fixture build failed:\n${built.out}`);
+  assert.ok(
+    existsSync(join(dir, 'dist', 'alpha-kit', 'index.html')),
+    'the dotfile rule took real pages down with it',
+  );
+  for (const stray of ['.stylelintrc.json', '.htaccess', 'img/.gitkeep']) {
+    assert.equal(
+      existsSync(join(dir, 'dist', 'alpha-kit', stray)),
+      false,
+      `planted sites/alpha-kit/${stray} shipped into dist`,
+    );
+  }
 });
