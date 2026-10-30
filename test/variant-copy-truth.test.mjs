@@ -2170,6 +2170,16 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
     null,
     'a hub.html carrier gained a self-exemption — the r8-N1 premise must stay false',
   );
+  // M9r11 (r10 review §2): the pin law 13's header has claimed since r10 —
+  // SELF must hold NO whole-file exemption. One line adding `rel === SELF_LAW`
+  // to law1Exemption would re-open the M9r4 amnesia class silently (the walk's
+  // archive-skip fires before the SELF branch, selfClaims stays vacuously 0);
+  // this assertion is what makes the structural carve-out structural.
+  assert.equal(
+    law1Exemption(SELF_LAW),
+    null,
+    'the law file regained a whole-file exemption — the self-scan carve-out must stay structural (M9r4 / M9r10 review)',
+  );
   assert.equal(
     plant(
       'sites/arctic-passage/hub.html',
