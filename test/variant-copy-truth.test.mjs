@@ -731,6 +731,14 @@ const FORBIDDEN = [
     /\bwatch\s+party\s+room\b/i,
     'the branded-entity fiction "watch party room" (MWEB-ADJ family B: the feature is SyncPlay and the entity on the wire is a group — group_id/group_name; no "Watch Party" product is branded anywhere in the estate)',
   ],
+  [
+    // M-WEBSITE-21 (minors, review website__gameux): the blitzkrieg HUD
+    // "BANDWIDTH / UNLIMITED" row — an infra-physics claim split across two
+    // display spans. Self-hosting is UNMETERED by any vendor; it is not
+    // unlimited, and no carrier may say it is.
+    /bandwidth[\s\S]{0,80}?unlimited|unlimited\s+bandwidth/i,
+    'an "unlimited bandwidth" claim (M-WEBSITE-21: self-hosted is unmetered, never unlimited; real cap on the sync side is GroupState::MAX_MEMBERS = 50 and nothing in the estate measures bandwidth away)',
+  ],
 ];
 // LIT-FIXTURE-END forbidden-pattern-registry
 

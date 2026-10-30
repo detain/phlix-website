@@ -71,6 +71,12 @@ const ALLOWED_ABS = new Set([
   `${content.site.social.github}/releases`,
   `${content.site.social.github}/blob/master/LICENSE`,
   content.ecosystem.find((e) => e.name === 'phlix-hub').repo,
+  // M-WEBSITE-23 (minors): the footer Security link added by
+  // tools/fix-copy-consistency.mjs P4, SSOT-paired to content.json's Project
+  // column; target live-verified 200 on 2026-10-30 (phlix-docs disclosure policy).
+  content.footer.columns
+    .find((c) => c.heading === 'Project')
+    .links.find((l) => l.label === 'Security').href,
 ]);
 // R-WEBSITE-07 deleted the root gallery's Google Fonts <link>s (faces are
 // self-hosted from the shared pool now), so this page has no external font
