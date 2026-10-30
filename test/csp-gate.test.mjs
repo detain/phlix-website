@@ -357,6 +357,14 @@ test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)',
   // page declares it as a single ranged face — five per-weight rules made
   // Chrome re-decode the same binary and blew the CI TBT budgets (desktop 80
   // / mobile 250); Space Mono 400/700 are genuinely two static binaries.
+  //
+  // Display-strategy history, since this law has re-pinned it three times:
+  // swap held desktop 131-133 / mobile PASS (ee69958b); optional held
+  // desktop 133-144 / mobile REGRESSION 599-757 (603df843, run 41087143183).
+  // Neither display value fixed desktop — the blocker was the gallery.js
+  // build shape, pinned by law 9 — so the faces ship the measured-best
+  // display: swap, and optional is refused with the mobile numbers as the
+  // reason.
   const gallery = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
   assert.doesNotMatch(
     gallery,
@@ -374,11 +382,15 @@ test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)',
     'gallery page regrew per-weight Syne faces (variable-font re-decode = the TBT regression)',
   );
   assert.equal(
-    (gallery.match(/font-display: optional;/g) || []).length,
+    (gallery.match(/font-display: swap;/g) || []).length,
     3,
-    'gallery faces lost font-display: optional (swap-reflow on the 79-card document is exactly what blew the TBT budgets)',
+    'gallery faces lost font-display: swap (the measured-best display: ee69958b mobile PASS era)',
   );
-  assert.doesNotMatch(gallery, /font-display: swap;/, 'gallery faces reverted to swap');
+  assert.doesNotMatch(
+    gallery,
+    /font-display: optional;/,
+    'gallery faces reverted to font-display: optional — CI measured it REGRESS mobile (TBT 599-757 vs swap PASS) while fixing nothing on desktop (run 41087143183)',
+  );
   assert.doesNotMatch(
     gallery,
     /rel="preload"[^>]*fonts/,
@@ -396,4 +408,54 @@ test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)',
       `gallery page lost the self-hosted Space Mono ${w} face`,
     );
   }
+});
+
+test('law 9: the gallery build stays chunk-per-frame with batched scale measurement (R-WEBSITE-07 ff4)', () => {
+  // The TBT blocker the font-display experiments never touched: one task
+  // building all 79 webfont-shaped cards, preceded (pre-ff4) by a per-card
+  // write→next-card-read loop that forced one FULL-DOCUMENT layout flush per
+  // card. Lighthouse traces attributed a single ~240ms task to this file;
+  // CI desktop 131-133ms TBT vs the 80ms cap. The cure is scheduling, not
+  // fonts: buildNextChunk appends a bounded slice of cards per animation
+  // frame, and applyAllPreviewScales measures every container before
+  // writing to any. Local mirror of the CI desktop pass: TBT 131 → 0.
+  // dist/ is gitignored, so this law reads the renderer the REAL build
+  // published (same bytes as the source today — law 5 built the tree).
+  const renderer = readFileSync(join(ROOT, 'dist', 'assets', 'js', 'gallery.js'), 'utf8');
+  assert.match(
+    renderer,
+    /const CARDS_PER_FRAME = \d+;/,
+    'gallery build lost its per-frame chunk bound (synchronous 79-card build = the 240ms long task)',
+  );
+  assert.match(
+    renderer,
+    /requestAnimationFrame\(buildNextChunk\)/,
+    'gallery build is no longer driven frame-by-frame',
+  );
+  assert.match(
+    renderer,
+    /function applyAllPreviewScales\(\) \{/,
+    'the batched scale pass vanished',
+  );
+  // Anti-thrash tooth: inside applyAllPreviewScales, EVERY geometry read
+  // must precede EVERY style write. The old per-card form wrote scale then
+  // read the next card's geometry — first getBoundingClientRect came AFTER
+  // first setProperty. Reformatting the file cannot route around this.
+  const scalesFn = /function applyAllPreviewScales\(\) \{[\s\S]*?\n  \}/.exec(renderer);
+  assert.ok(scalesFn, 'applyAllPreviewScales body not found');
+  const body = scalesFn[0];
+  for (const read of ['clientWidth', 'getBoundingClientRect']) {
+    const firstRead = body.indexOf(read);
+    const firstWrite = body.indexOf('setProperty');
+    assert.ok(firstRead !== -1, `applyAllPreviewScales no longer reads ${read}`);
+    assert.ok(
+      firstWrite === -1 || firstRead < firstWrite,
+      `applyAllPreviewScales reads ${read} after writing style — per-card layout thrash is back (79 forced full-document flushes)`,
+    );
+  }
+  assert.equal(
+    renderer.includes('function applyPreviewScale('),
+    false,
+    'the per-card applyPreviewScale helper is back — call sites must go through the batched pass',
+  );
 });

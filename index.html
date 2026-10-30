@@ -9,42 +9,44 @@
       content="Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support."
     />
     <style>
-      /* R-WEBSITE-07 — the gallery's faces are self-hosted from the shared pool
-         (tools/vendor-fonts.mjs).  Syne's five css2 static instances were ONE
-         variable binary (as they are in the pool: syne-400..800-latin.woff2 are
-         byte-identical), so the page declares it as a single ranged face — five
-         per-weight rules made Chrome fetch/decode the same bytes up to three
-         times (CI Lighthouse: / desktop TBT 116–139ms against the 80ms cap).
-         The 2–66ms baseline the budget was calibrated on was itself a lie: the
-         external Google sheet never resolved inside CI's measured window, so
-         those figures are fonts-NOT-rendering figures.  Honest same-origin
-         loading still must dodge the swap-reflow on a 79-card document, so the
-         faces ship font-display: optional — on a warm or local connection the
-         binary wins the 100ms block window and applies at first paint with
-         zero reflow; on a cold slow network the page paints in fallback and
-         upgrades on next visit.  Space Mono really is two static binaries
-         (400/700) — both stay.  test/csp-gate.test.mjs law 8 pins all of it. */
-
+      /* R-WEBSITE-07 — the gallery's faces are self-hosted from the shared
+         pool (tools/vendor-fonts.mjs).  Syne's five css2 static instances are
+         ONE variable binary (as they are in the pool: syne-400..800-latin.
+         woff2 byte-identical), so the page declares it as a single ranged
+         face — five per-weight rules re-decoded the same bytes (CI Lighthouse
+         / desktop TBT 116–139ms against the 80ms cap).  Space Mono really is
+         two static binaries (400/700) — both stay.  Display strategy was NOT
+         the remaining blocker: font-display: optional bought nothing on
+         desktop (133–144ms) and REGRESSED CI mobile to 599–757ms (run
+         41087143183), so the faces ship swap exactly as forward-fix 2 measured
+         it (ee69958b — mobile passed).  The 131–133ms desktop residual lived
+         in gallery.js: a per-card write→read layout-thrash loop and one
+         synchronous build of all 79 webfont-shaped cards (a single ~240ms
+         long task in the traces).  Forward-fix 4 chunks the build a few cards
+         per frame and measures all preview scales before writing any — local
+         Lighthouse / desktop TBT 131→0, mobile 555→0, perf 0.99–1.00.
+         No font preload (paired CI runs: it made TBT worse, not better).
+         test/csp-gate.test.mjs laws 8 and 9 pin the whole form. */
       @font-face {
         font-family: 'Syne';
         src: url('assets/fonts/syne-400-latin.woff2') format('woff2');
         font-weight: 400 800;
         font-style: normal;
-        font-display: optional;
+        font-display: swap;
       }
       @font-face {
         font-family: 'Space Mono';
         src: url('assets/fonts/space-mono-400-latin.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
-        font-display: optional;
+        font-display: swap;
       }
       @font-face {
         font-family: 'Space Mono';
         src: url('assets/fonts/space-mono-700-latin.woff2') format('woff2');
         font-weight: 700;
         font-style: normal;
-        font-display: optional;
+        font-display: swap;
       }
       :root {
         --bg-deep: #0c0c0f;

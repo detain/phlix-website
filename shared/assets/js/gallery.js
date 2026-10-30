@@ -53,23 +53,25 @@ const HOVER_ZOOM_X = 3;
 // width, so width:1280px * scale renders exactly the container width.
 // Also anchor the hover-zoom origin to the left/right edge for the edge
 // columns so the enlarged popout doesn't spill off-screen.
-function applyPreviewScale(container) {
-  const w = container.clientWidth;
-  if (w <= 0) return;
-  container.style.setProperty('--preview-scale', (w / PREVIEW_WIDTH).toFixed(4));
-  const r = container.getBoundingClientRect();
-  const spill = (w * (HOVER_ZOOM_X - 1)) / 2;
-  const vw = document.documentElement.clientWidth;
-  let ox = 'center';
-  if (r.left < spill) ox = 'left';
-  else if (vw - r.right < spill) ox = 'right';
-  container.style.transformOrigin = `${ox} center`;
-}
-
 function applyAllPreviewScales() {
-  document
-    .querySelectorAll('.variant-card:not(.unbuilt) .preview-container')
-    .forEach(applyPreviewScale);
+  const containers = Array.from(
+    document.querySelectorAll('.variant-card:not(.unbuilt) .preview-container'),
+  );
+  const viewportWidth = document.documentElement.clientWidth;
+  const measures = containers.map((container) => ({
+    width: container.clientWidth,
+    rect: container.getBoundingClientRect(),
+  }));
+  containers.forEach((container, i) => {
+    const { width, rect } = measures[i];
+    if (width <= 0) return;
+    container.style.setProperty('--preview-scale', (width / PREVIEW_WIDTH).toFixed(4));
+    const spill = (width * (HOVER_ZOOM_X - 1)) / 2;
+    let ox = 'center';
+    if (rect.left < spill) ox = 'left';
+    else if (viewportWidth - rect.right < spill) ox = 'right';
+    container.style.transformOrigin = `${ox} center`;
+  });
 }
 
 // IntersectionObserver for lazy loading iframes
@@ -183,23 +185,41 @@ function init() {
   const grid = document.createElement('div');
   grid.className = 'variants-grid';
 
-  KITS.forEach((kit, i) => grid.appendChild(renderKitCard(kit, i)));
-  container.appendChild(grid);
-
   const builtCount = KITS.filter((k) => k.built).length;
   const subtitle = document.querySelector('.subtitle');
   if (subtitle) {
     subtitle.textContent = `${KITS.length} brand kits · ${builtCount} live`;
   }
 
-  // Cards are laid out now — size every preview to its card width, and
-  // keep them correct as the grid reflows on resize.
-  applyAllPreviewScales();
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(applyAllPreviewScales, 150);
-  });
+  // R-WEBSITE-07 forward-fix 4 — the grid is appended a few cards per
+  // FRAME instead of all 79 inside one task. Building and laying out the
+  // whole webfont-shaped document synchronously is a single ~200-240ms
+  // long task (Lighthouse desktop TBT 131-133ms against the 80ms cap —
+  // attributed to this file in the run traces). Yielding between chunks
+  // spreads the same total work frame-by-frame, below the blocking
+  // threshold. Appends only grow the grid downward; nothing painted above
+  // them can shift, and the entrance stagger (animationDelay) already
+  // staged the cards' appearance.
+  const CARDS_PER_FRAME = 24;
+  let cursor = 0;
+  function buildNextChunk() {
+    const end = Math.min(cursor + CARDS_PER_FRAME, KITS.length);
+    for (; cursor < end; cursor++) grid.appendChild(renderKitCard(KITS[cursor], cursor));
+    if (cursor < KITS.length) {
+      requestAnimationFrame(buildNextChunk);
+      return;
+    }
+    // Cards are laid out now — size every preview to its card width (one
+    // batched measure/write pass, never a read per card), and keep them
+    // correct as the grid reflows on resize.
+    applyAllPreviewScales();
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(applyAllPreviewScales, 150);
+    });
+  }
+  requestAnimationFrame(buildNextChunk);
 
   // The hover instruction belongs to the gallery, not to the page: only
   // show it while the gallery section is actually on screen.
