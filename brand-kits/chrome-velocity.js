@@ -1177,7 +1177,7 @@ const brandKit = {
       features: "The Pit Wall",
       cta_banner: "Ready to take the apex?",
     },
-    footer_tagline: "Every lap is a new record.",
+    footer_tagline: "Every lap is a new record. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

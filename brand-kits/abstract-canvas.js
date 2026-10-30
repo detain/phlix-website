@@ -1369,7 +1369,7 @@ const brandKit = {
       features: "The Canvas",
       cta_banner: "Ready to prime your canvas?",
     },
-    footer_tagline: "Every screen, a canvas. Every choice, a brushstroke.",
+    footer_tagline: "Every screen, a canvas. Every choice, a brushstroke. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

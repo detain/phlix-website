@@ -1348,7 +1348,7 @@ const brandKit = {
       features: "Evidence Files",
       cta_banner: "The pieces fit. Now get access.",
     },
-    footer_tagline: "The city's media, yours to command.",
+    footer_tagline: "The city's media, yours to command. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

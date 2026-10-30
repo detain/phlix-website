@@ -1218,7 +1218,7 @@ const brandKit = {
       features: "What's on the wall",
       cta_banner: "Your wall is ready. Paint it.",
     },
-    footer_tagline: "Your wall. Your rules. Your crew.",
+    footer_tagline: "Your wall. Your rules. Your crew. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

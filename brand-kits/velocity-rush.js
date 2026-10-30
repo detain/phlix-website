@@ -1025,7 +1025,7 @@ const brandKit = {
       features: "Speed Grid",
       cta_banner: "Ready to launch?",
     },
-    footer_tagline: "Open-source media, full throttle.",
+    footer_tagline: "Open-source media, full throttle. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

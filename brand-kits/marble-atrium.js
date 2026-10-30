@@ -1330,7 +1330,7 @@ const brandKit = {
       features: "The Refined Collection",
       cta_banner: "Your Library, Elevated — One Step Away.",
     },
-    footer_tagline: "Curated. Considered. Yours.",
+    footer_tagline: "Curated. Considered. Yours. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   /* ==========================================================================

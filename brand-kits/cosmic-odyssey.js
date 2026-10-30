@@ -1352,7 +1352,7 @@ const brandKit = {
       features: "Systems in the Catalog",
       cta_banner: "Ready for launch. Ignition sequence begins.",
     },
-    footer_tagline: "The odyssey never ends.",
+    footer_tagline: "The odyssey never ends. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

@@ -1360,7 +1360,7 @@ const brandKit = {
       features: "What Blooms in This Garden",
       cta_banner: "Ready to plant? Come through the gate.",
     },
-    footer_tagline: "Where Every Story Blooms.",
+    footer_tagline: "Where Every Story Blooms. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

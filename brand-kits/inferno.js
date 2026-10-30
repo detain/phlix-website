@@ -1227,7 +1227,7 @@ const brandKit = {
       features: "Flames for the master",
       cta_banner: "Strike the magma. Begin igniting.",
     },
-    footer_tagline: "Built to burn. Ignited for the screen.",
+    footer_tagline: "Built to burn. Ignited for the screen. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

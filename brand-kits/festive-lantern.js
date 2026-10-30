@@ -1434,7 +1434,7 @@ const brandKit = {
       features: "Festival Attractions",
       cta_banner: "The festival is calling — light your lantern and begin.",
     },
-    footer_tagline: "Open-source media, shared in warmth.",
+    footer_tagline: "Open-source media, shared in warmth. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   // ── copy_treatments ─────────────────────────────────────────────────────────

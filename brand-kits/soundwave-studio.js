@@ -1227,7 +1227,7 @@ const brandKit = {
       features: "The console",
       cta_banner: "Levels are set. Press play.",
     },
-    footer_tagline: "Open-source media, on your terms — engineered for the long take.",
+    footer_tagline: "Open-source media, on your terms — engineered for the long take. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   /* ==========================================================================

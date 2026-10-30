@@ -1377,7 +1377,7 @@ const brandKit = {
       features: "The Instruments",
       cta_banner: "Ready to calibrate? Fire up the boiler.",
     },
-    footer_tagline: "Crafted for collectors, engineers, and explorers.",
+    footer_tagline: "Crafted for collectors, engineers, and explorers. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   /* ==========================================================================

@@ -1463,7 +1463,7 @@ const brandKit = {
       features: "The Palette: Every Tool a Pigment",
       cta_banner: "The canvas awaits — take up the brush.",
     },
-    footer_tagline: "Illuminate what is yours.",
+    footer_tagline: "Illuminate what is yours. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

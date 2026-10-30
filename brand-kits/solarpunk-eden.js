@@ -1295,7 +1295,7 @@ const brandKit = {
       features: "Seeds to Sow",
       cta_banner: "Ready to start growing? Plant your server now.",
     },
-    footer_tagline: "Your garden. Your stories. Your community.",
+    footer_tagline: "Your garden. Your stories. Your community. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

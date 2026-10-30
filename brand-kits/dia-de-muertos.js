@@ -1384,7 +1384,7 @@ const brandKit = {
       features: "The Offerings",
       cta_banner: "Your altar awaits — press play.",
     },
-    footer_tagline: "Every story is a marigold path home.",
+    footer_tagline: "Every story is a marigold path home. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

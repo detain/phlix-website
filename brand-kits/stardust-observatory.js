@@ -1369,7 +1369,7 @@ const brandKit = {
       features: "The Instruments",
       cta_banner: "The stars are waiting — chart your course.",
     },
-    footer_tagline: "Every sky deserves to be mapped.",
+    footer_tagline: "Every sky deserves to be mapped. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   // ── copy_treatments ─────────────────────────────────────────────────────────

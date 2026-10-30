@@ -1349,7 +1349,7 @@ const brandKit = {
       features: "The Signal Carries",
       cta_banner: "One line. That's all.",
     },
-    footer_tagline: "The signal refuses to be silenced.",
+    footer_tagline: "The signal refuses to be silenced. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

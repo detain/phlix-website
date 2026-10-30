@@ -1361,7 +1361,7 @@ const brandKit = {
       features: "The Craft",
       cta_banner: "The library is ready to hold what you bring.",
     },
-    footer_tagline: "Nothing lasts. Nothing is lost. Nothing is finished.",
+    footer_tagline: "Nothing lasts. Nothing is lost. Nothing is finished. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

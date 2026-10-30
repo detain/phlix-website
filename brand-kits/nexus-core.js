@@ -1095,7 +1095,7 @@ const brandKit = {
       features: "Core dimensions",
       cta_banner: "Ready to link in?",
     },
-    footer_tagline: "All streams flow to the core.",
+    footer_tagline: "All streams flow to the core. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

@@ -1443,7 +1443,7 @@ const brandKit = {
       features: "The grid. Complete.",
       cta_banner: "Start now.",
     },
-    footer_tagline: "Structure is everything.",
+    footer_tagline: "Structure is everything. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

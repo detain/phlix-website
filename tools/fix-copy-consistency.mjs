@@ -3,7 +3,7 @@
  * tools/fix-copy-consistency.mjs
  *
  * One-shot copy-consistency sweep for the W-min193/194/196/197 website minors
- * batches (minors-space IDs). Ten passes, each measured before it fires:
+ * batches (minors-space IDs). Twelve passes, each measured before it fires:
  *
  *  P1 orthography (M-WEBSITE-24): British → US spellings in VISIBLE text
  *     only — HTML text runs, meta/title attribute values. Deliberately NOT
@@ -56,6 +56,16 @@
  *     four→five native-client count the §19.14 law binds, swept across sites/
  *     AND brand-kits/ copy sources (the kit spec files are copy data for the
  *     engine's law-5 pairings).
+ *  P12 cost line on kit-voiced footers (M-WEBSITE-08 r2, W-min194 review): P6
+ *     swapped only the verbatim canonical tagline, so the 38 deployed kits
+ *     shipping a kit-voiced footer tagline never answered the cost question
+ *     (327/721 deployed pages carried it, 38 kits zero). The footer tagline is
+ *     the one text carrier shipped on every canonical page of a kit: append
+ *     the plain cost sentence inside it (class-token match across the three
+ *     shipped shapes; targeted footer-scoped carriers for three footers without
+ *     a classed tagline paragraph; brand-kits footer_tagline strings move with
+ *     their pages). Pages that ship no tagline carrier are reported, not
+ *     invented into; per-kit misses disclosed in the batch report.
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -350,6 +360,13 @@ const PHRASES = [
   [/([Ww])eighted-mean\s+NTP\s+offset\s+over\s+\d+\s+samples/g, (m, c) => `${c === 'W' ? 'A' : 'a'} tightly-synchronized playback clock`],
   [/Weighted-mean\s+NTP\s+timing/g, 'Tight playback timing'],
   [/Folder-watcher\s+hashes\s+mtimes/g, 'Phlix watches your folders for changes'],
+  // r2 (W-min194 review): the P5b era-rule [/scanner parses/ → 'recognizes']
+  // shipped "the scanner parses" as "the recognizes" wherever the kit sentence
+  // carried its own subject. These two rules repair the artifact and forbid
+  // the recurrence; the bare rule below stays for the comma-list form
+  // ("…for changes, scanner parses…") where the subject is elided.
+  [/([Tt])he\s+scanner\s+parses/g, (m, c) => `${c}he scanner recognizes`],
+  [/([Tt])he\s+recognizes/g, (m, c) => `${c}he scanner recognizes`],
   [/scanner\s+parses/g, 'recognizes'],
   [/ItemRepository\s+hydrates\s+metadata_json/g, 'Phlix fills in titles, artwork, and descriptions'],
   [/JWT\s+auth\s+with\s+refresh\s+tokens/g, 'secure sign-in that renews itself'],
@@ -449,6 +466,75 @@ function sweepReleases(t) {
   ];
 }
 
+// P12 — the plain cost sentence, appended inside footer tagline carriers of
+// the 38 deployed kits the W-min194 review measured at zero coverage. Joiner
+// law: a carrier ending in sentence punctuation takes the cost as a new
+// sentence; a bare prompt-style line (cyber-pursuit's per-page
+// "root@phlix:~# cat error.log" taglines) takes it as an em-dash clause so the
+// terminal voice survives. Intrinsic idempotence: the grown shape never
+// re-matches; classed carriers also guard on 'no subscription'.
+const COST_SENTENCE = ' Free to use, no subscription. You pay only for your own hardware and bandwidth.';
+const COST_CLAUSE = ' — free to use, no subscription. You pay only for your own hardware and bandwidth.';
+const COST_KITS = new Set([
+  'abstract-canvas', 'art-nouveau-garden', 'celtic-twilight', 'chrome-velocity',
+  'copper-steampunk', 'cosmic-odyssey', 'cottagecore-bloom', 'cyber-pursuit',
+  'demolition-crew', 'desert-horizon', 'dia-de-muertos', 'digital-combat-zone',
+  'editorial-underground', 'egyptian-dusk', 'festive-lantern',
+  'holographic-future', 'ice-cathedral', 'inferno', 'library-amber',
+  'manga-studio', 'marble-atrium', 'midnight-jazz', 'neon-noir', 'nexus-core',
+  'pixel-dungeon', 'quantum-stream', 'renaissance-atelier', 'ricochet',
+  'solarpunk-eden', 'soundwave-studio', 'speakeasy-gold',
+  'stardust-observatory', 'storm-chaser', 'street-mural', 'swiss-modernist',
+  'velocity-rush', 'wabi-sabi', 'wilderness-trail',
+]);
+function costJoin(pText) {
+  return /[.!?]\s*$/.test(pText) ? COST_SENTENCE : COST_CLAUSE;
+}
+function sweepCostFooters(t) {
+  let n = 0;
+  let classed = 0;
+  t = t.replace(
+    /(<p\b[^>]*class="[^"]*\bfooter(?:-{1,2}|_{1,2})tagline\b[^"]*"[^>]*>)([\s\S]*?)(<\/p\s*>)/g,
+    (m, open, inner, close) => {
+      classed++;
+      if (/no\s+subscription/i.test(inner)) return m;
+      n++;
+      return open + inner + costJoin(inner) + close;
+    },
+  );
+  if (classed) return [t, n];
+  // Unclassed footer carriers: three kits ship a footer sentence the class
+  // matcher cannot see. Element-anchored (brand div / inline-styled p /
+  // copyright p), footer-region scoped — the same sentences appear as hero
+  // copy outside it and are not taglines.
+  const fi = t.indexOf('<footer');
+  if (fi === -1) return [t, 0];
+  const footer = t
+    .slice(fi)
+    .replace(
+      /(<div class="site-footer__brand">\s*<img[^>]*\/?>\s*<p>)([\s\S]*?)(<\/p\s*>)/g,
+      (m, open, inner, close) => {
+        if (/no\s+subscription/i.test(inner)) return m;
+        n++;
+        return open + inner + costJoin(inner) + close;
+      },
+    )
+    .replace(
+      /(<p style="color: var\(--color-text-muted\); font-size: 0\.9375rem">)([\s\S]*?)(<\/p\s*>)/g,
+      (m, open, inner, close) => {
+        if (/no\s+subscription/i.test(inner)) return m;
+        n++;
+        return open + inner + costJoin(inner) + close;
+      },
+    )
+    .replace(/(<p class="footer-copyright">)([\s\S]*?)(<\/p\s*>)/g, (m, open, inner, close) => {
+      if (/no\s+subscription/i.test(inner)) return m;
+      n++;
+      return open + inner + costJoin(inner) + close;
+    });
+  return n ? [t.slice(0, fi) + footer, n] : [t, 0];
+}
+
 let files = [
   ...globSync('sites/**/*.html', { ignore: 'sites/*/reviews/**' }),
   ...globSync('sites/**/*.js'),
@@ -470,6 +556,9 @@ const counts = {
   natives: 0,
   releasesInserted: 0,
   releasesMiss: [],
+  costFooters: 0,
+  costKitJs: 0,
+  costMiss: [],
 };
 for (const f of files) {
   let t = readFileSync(f, 'utf8');
@@ -517,6 +606,27 @@ for (const f of files) {
       t = t.replace(re, newText);
     }
   }
+  // P12 — deployed-kit footer cost line (html) + the kit's own declared
+  // footer_tagline string, so the copy source and the shipped pages agree.
+  if (f.endsWith('.html')) {
+    const slug = f.startsWith('sites/') ? f.split('/')[1] : null;
+    if (slug && COST_KITS.has(slug)) {
+      [t, o] = sweepCostFooters(t);
+      counts.costFooters += o;
+      // A true miss = the page has NO carrier and NO cost line at all;
+      // zero-append pages that already answer the cost are covered.
+      if (o === 0 && !/no\s+subscription/i.test(t)) counts.costMiss.push(f);
+    }
+  } else if (f.startsWith('brand-kits/') && f.endsWith('.js')) {
+    const slug = f.slice('brand-kits/'.length, -3);
+    if (COST_KITS.has(slug)) {
+      t = t.replace(/(footer_tagline:\s*")((?:[^"\\]|\\.)*)(")/g, (m, open, inner, close) => {
+        if (/no\s+subscription/i.test(inner)) return m;
+        counts.costKitJs++;
+        return open + inner + costJoin(inner) + close;
+      });
+    }
+  }
   if (f.endsWith('/download.html')) {
     [t, o] = sweepReleases(t);
     if (o === 1) counts.releasesInserted++;
@@ -552,6 +662,9 @@ console.log(
       nativesSwaps: counts.natives,
       releasesPInserted: counts.releasesInserted,
       releasesMisses: counts.releasesMiss,
+      costFooterAppends: counts.costFooters,
+      costKitJsAppends: counts.costKitJs,
+      costCarrierMisses: counts.costMiss,
     },
     null,
     2,

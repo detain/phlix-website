@@ -1289,7 +1289,7 @@ const brandKit = {
       features: "The Treasures Within",
       cta_banner: "The threshold awaits — step in and begin.",
     },
-    footer_tagline: "Where stories are held sacred.",
+    footer_tagline: "Where stories are held sacred. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

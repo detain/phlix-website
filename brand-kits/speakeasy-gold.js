@@ -1316,7 +1316,7 @@ const brandKit = {
       features: "The Vault",
       cta_banner: "The door is right there.",
     },
-    footer_tagline: "Your media, your rules.",
+    footer_tagline: "Your media, your rules. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

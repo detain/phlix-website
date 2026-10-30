@@ -1203,7 +1203,7 @@ const brandKit = {
       features: "The Cathedral's Vaults",
       cta_banner: "The threshold awaits. The ice cathedral is open.",
     },
-    footer_tagline: "Built from the architecture of cold.",
+    footer_tagline: "Built from the architecture of cold. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

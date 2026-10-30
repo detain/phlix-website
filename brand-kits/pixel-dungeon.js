@@ -1421,7 +1421,7 @@ const brandKit = {
       features: "Weapons & Power-ups",
       cta_banner: "Ready to start? The dungeon entrance awaits.",
     },
-    footer_tagline: "Press Start to Continue.",
+    footer_tagline: "Press Start to Continue. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

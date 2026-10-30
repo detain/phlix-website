@@ -1068,7 +1068,7 @@ const brandKit = {
       features: "Core dimensions",
       cta_banner: "Ready to refract your reality?",
     },
-    footer_tagline: "Media rendered with light-speed precision.",
+    footer_tagline: "Media rendered with light-speed precision. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

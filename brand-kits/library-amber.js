@@ -1150,7 +1150,7 @@ const brandKit = {
       features: "Every Shelf Tells a Story",
       cta_banner: "Your library awaits — install today.",
     },
-    footer_tagline: "A private library. Your collection, curated.",
+    footer_tagline: "A private library. Your collection, curated. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

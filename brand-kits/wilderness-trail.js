@@ -1460,7 +1460,7 @@ const brandKit = {
       features: "Waypoints",
       cta_banner: "The fire's ready — start your expedition.",
     },
-    footer_tagline: "Adventure never closes.",
+    footer_tagline: "Adventure never closes. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

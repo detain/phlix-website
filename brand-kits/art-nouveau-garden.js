@@ -1320,7 +1320,7 @@ const brandKit = {
       features: "The Gallery Unfolds",
       cta_banner: "Your salon awaits. The lantern is lit.",
     },
-    footer_tagline: "Cultivate beauty, frame by frame.",
+    footer_tagline: "Cultivate beauty, frame by frame. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

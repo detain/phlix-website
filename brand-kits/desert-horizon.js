@@ -1236,7 +1236,7 @@ const brandKit = {
       features: "What's inside the trading post",
       cta_banner: "Ready to light your own fire?",
     },
-    footer_tagline: "Open ground. Open stories. Rooted.",
+    footer_tagline: "Open ground. Open stories. Rooted. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   // ── copy_treatments ─────────────────────────────────────────────────────────

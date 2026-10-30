@@ -1368,7 +1368,7 @@ const brandKit = {
       features: "Eight Chapters of Craft",
       cta_banner: "Your deadline is now. Press play.",
     },
-    footer_tagline: "Streamed with the urgency of a deadline, the precision of an ink stroke.",
+    footer_tagline: "Streamed with the urgency of a deadline, the precision of an ink stroke. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   /* ==========================================================================

@@ -1385,7 +1385,7 @@ const brandKit = {
       features: "Sacred Scrolls",
       cta_banner: "The threshold awaits — open the entrance to your kingdom.",
     },
-    footer_tagline: "Stories carved in stone do not fade.",
+    footer_tagline: "Stories carved in stone do not fade. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   copy_treatments: {

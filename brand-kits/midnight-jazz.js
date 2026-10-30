@@ -1432,7 +1432,7 @@ const brandKit = {
       features: "Now Showing",
       cta_banner: "The curtain's up — ready to open for business?",
     },
-    footer_tagline: "Every night is showtime.",
+    footer_tagline: "Every night is showtime. Free to use, no subscription. You pay only for your own hardware and bandwidth.",
   },
 
   /* ==========================================================================
