@@ -352,19 +352,28 @@ test('law 8: the Google Fonts allowances are gone and stay gone (R-WEBSITE-07)',
   assert.match(CSP_META, /font-src 'self';/, "font-src is not the strict 'self' floor");
 
   // Measured on the tree law 5 just built: the gallery page where Google used
-  // to stand now ships the same weights self-hosted (Syne 400–800, Space Mono
-  // 400/700 — exactly what the deleted css2 request listed).
+  // to stand now ships those weights self-hosted.  Syne's css2 instances are
+  // ONE variable binary in the pool (syne-400..800 byte-identical), so the
+  // page declares it as a single ranged face — five per-weight rules made
+  // Chrome re-decode the same binary and blew the CI TBT budgets (desktop 80
+  // / mobile 250); Space Mono 400/700 are genuinely two static binaries.
   const gallery = readFileSync(join(ROOT, 'dist', 'index.html'), 'utf8');
   assert.doesNotMatch(
     gallery,
     /fonts\.(googleapis|gstatic)\.com/,
     'dist gallery page reaches out to Google Fonts again',
   );
+  assert.match(
+    gallery,
+    /font-family: 'Syne';\n\s*src: url\('assets\/fonts\/syne-400-latin\.woff2'\)[^}]*font-weight: 400 800;/,
+    'gallery page lost its single ranged self-hosted Syne face',
+  );
+  assert.equal(
+    (gallery.match(/font-family: 'Syne';/g) || []).length,
+    1,
+    'gallery page regrew per-weight Syne faces (variable-font re-decode = the TBT regression)',
+  );
   for (const w of ['400', '500', '600', '700', '800']) {
-    assert.ok(
-      new RegExp(`font-family: 'Syne';\\n[^}]*syne-${w}-latin\\.woff2`).test(gallery),
-      `gallery page lost the self-hosted Syne ${w} face`,
-    );
     assert.ok(
       existsSync(join(ROOT, 'dist', 'assets', 'fonts', `syne-${w}-latin.woff2`)),
       `syne-${w}-latin.woff2 missing from the shipped pool`,

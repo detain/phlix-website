@@ -305,7 +305,10 @@ function kitRoles(kit) {
  * https://fonts.googleapis.com allowance and `font-src` the fonts.gstatic.com
  * one.  Self-hosting the faces deleted both allowances; this list is the record
  * of what the gallery sheet requested, mirrored in font-sources.json usedBy as
- * `root-gallery:<role>` so `--sources` regenerates the entry.
+ * `root-gallery:<role>` so `--sources` regenerates the entry.  (Syne's five
+ * entries are one variable binary under five names — the gallery page consumes
+ * it as a SINGLE ranged @font-face; index.html's comment carries the measured
+ * Lighthouse TBT reason.  The pool still ships every named file.)
  */
 const GALLERY_FONTS = [
   { role: 'body', family: 'Syne', weights: ['400', '500', '600', '700', '800'] },

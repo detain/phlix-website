@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      href="assets/fonts/syne-400-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>Phlix — Your media. Your library. Your Phlix.</title>
     <meta
       name="description"
@@ -10,43 +17,19 @@
     />
     <style>
       /* R-WEBSITE-07 — the gallery's faces are self-hosted from the shared pool
-         (tools/vendor-fonts.mjs), the same idiom every brand kit uses.  These are
-         exactly the weights the deleted Google Fonts sheet served
-         (Syne 400–800, Space Mono 400/700, display=swap), which is what the two
-         Google host allowances in tools/csp.mjs existed for; both allowances are
-         gone and test/csp-gate.test.mjs keeps them gone. */
+         (tools/vendor-fonts.mjs).  Syne's five css2 static instances were ONE
+         variable binary (as they are in the pool: syne-400..800-latin.woff2 are
+         byte-identical), and re-declaring five per-weight faces made Chrome
+         decode the same variable font three times and thrash layout — CI
+         Lighthouse measured / TBT jumping 2–66ms → 134–139ms (desktop cap 80).
+         The honest self-host is the range declaration: one fetch, one decode,
+         every weight the page renders (400 body, 700 emphasis, 800 headings)
+         matches.  Space Mono really is two static binaries (400/700) — both
+         stay.  Preload starts the binary before the gallery renderer runs. */
       @font-face {
         font-family: 'Syne';
         src: url('assets/fonts/syne-400-latin.woff2') format('woff2');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url('assets/fonts/syne-500-latin.woff2') format('woff2');
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url('assets/fonts/syne-600-latin.woff2') format('woff2');
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url('assets/fonts/syne-700-latin.woff2') format('woff2');
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url('assets/fonts/syne-800-latin.woff2') format('woff2');
-        font-weight: 800;
+        font-weight: 400 800;
         font-style: normal;
         font-display: swap;
       }
