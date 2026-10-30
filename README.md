@@ -5,9 +5,9 @@
 [![Link Check](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml)
 [![Lighthouse](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml)
 
-The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native clients for Roku, Samsung Tizen, Windows, and Mobile.
+The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console, plus a web portal and any DLNA device.
 
-This repo ships **one brand-themed site per brand kit**: every kit in `brand-kits/<slug>.js` gets its own subtree under `sites/<slug>/` and consumes the same shared content from `shared/content.json`, so they differ in visual language only. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
+This repo ships **one site per brand kit**: each site is **hand-authored** under `sites/<slug>/`, and `npm run build` copies those pages into `dist/<slug>/` as-is. `shared/content.json` is the shared **fact source**, not a runtime template: kit pages must *agree* with its facts — a house sweep tool (`tools/fix-copy-consistency.mjs`) walks the whole corpus whenever that copy changes — while carrying each kit's own voice on top of its own visual language. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
 
 | Site                                        | Brand kit                       | Live Preview                                            |
 | ------------------------------------------- | ------------------------------- | ------------------------------------------------------- |
@@ -18,7 +18,7 @@ This repo ships **one brand-themed site per brand kit**: every kit in `brand-kit
 | [`velocity-x`](sites/velocity-x/)           | `brand-kits/velocity-x.js`      | https://detain.github.io/phlix-website/velocity-x/      |
 | [`void-walker`](sites/void-walker/)         | `brand-kits/void-walker.js`     | https://detain.github.io/phlix-website/void-walker/     |
 
-Every other kit follows the same pattern — `brand-kits/` holds the full set, `sites/` holds the ones already built, and `npm run build` publishes `dist/<slug>/` for each kit that has a site plus a top-level gallery.
+Every other kit follows the same pattern — `brand-kits/` holds the kits, `sites/` holds the hand-authored pages, and `npm run build` publishes `dist/<slug>/` for the kits pinned in `brand-kits/expected-kits.json` (79 today), plus a top-level gallery. `sites/` also holds directories with no loadable kit (59 at the time of writing): they are authored-not-deployed backlog, published by neither `build` nor `dev`, and pruning them is an owner call. Some kits additionally carry a local `sites/<slug>/content.json` mirror of the shared facts.
 
 ## Quick start
 
@@ -97,12 +97,17 @@ phlix-website/
 
 ## Brand source of truth
 
-The brand source of truth lives in this repo: copy in
-`shared/content.json`, visual language per site in `brand-kits/<slug>.js`.
+The brand source of truth lives in this repo: **facts** in
+`shared/content.json`, **visual language** per site in `brand-kits/<slug>.js`.
 (The former `phlix-server/docs/brand/` directory was removed after the
 phlix-docs merge — server commit `77e681fd` — and those files exist nowhere in
-the estate; do not point at it.) Sites must consume the shared content plus
-their own kit — do not invent new colors, fonts, or voice.
+the estate; do not point at it.) `shared/content.json` is a fact source, not a
+template engine: the root landing page's hero/install copy is pinned against it
+at build time (`assertLandingHero` in `tools/build.mjs`), the `check-meta` and
+`kit-brief` tooling derives from it, and `tools/fix-copy-consistency.mjs`
+mirrors its copy changes through the authored site corpus. Kit pages must
+*agree* with those facts while speaking in their kit's voice — do not invent
+new colors, fonts, or facts.
 
 ## Image generation
 
