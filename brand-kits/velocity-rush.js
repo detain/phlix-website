@@ -1060,7 +1060,7 @@ const brandKit = {
     },
     {
       name: "Tinkerer's Garage",
-      scene: "Plugin goes in, loader picks it up. The telemetry log shows it activated in 0.04 seconds.",
+      scene: "Plugin installed from Settings → Plugins lands disabled. Flip its toggle — the telemetry log shows the server wires it in once enabled.",
       surfaces: ["plugins panel", "telemetry readout"],
       features_shown: ["plugins", "hub"],
     },

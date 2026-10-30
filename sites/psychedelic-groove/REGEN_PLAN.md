@@ -86,7 +86,7 @@
 | Features | "Eight cosmic features: SyncPlay, auto-organizing library, adaptive transcoding, multi-user auth, Live TV, DLNA, plugins, and the Phlix Hub." |
 | Clients | "Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and any DLNA device. Pick your vessel and join the trip." |
 | Download | "One line on Ubuntu or Debian and your cosmic library is born. PHP 8.3+, MySQL, FFmpeg — the full trip, no corporate friction." |
-| Plugins | "Write your own magic. Phlix's plugin system uses a versioned LifecycleInterface manifest — drop in and the loader picks it up." |
+| Plugins | "Write your own magic. Phlix's plugin system uses a versioned LifecycleInterface manifest — install it from Settings → Plugins and enable it." |
 | Docs | "Phlix docs: user guide, API reference, developer docs, and Hub admin guide. The universe is well-documented." |
 | Hub | "Reach any of your servers from anywhere. Sign in once, let the reverse-tunnel relay handle the rest — or self-host the Hub." |
 | About | "Phlix is freedom: 100% self-hostable, MPL-2.0 server + Hub, MIT libraries and clients. No corporate strings attached." |

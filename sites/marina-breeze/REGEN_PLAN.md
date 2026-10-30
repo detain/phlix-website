@@ -73,7 +73,7 @@
 - features: "Navigate every feature of Phlix — library organization, SyncPlay, transcoding, multi-user auth, Live TV, DLNA, plugin system, and Phlix Hub."
 - clients: "Phlix runs natively on Roku, Samsung Tizen, Windows, and mobile (beta) — plus any DLNA device you already own."
 - download: "Get Phlix running in one line on Ubuntu or Debian. Plus native clients for every screen you own."
-- plugins: "Extend Phlix with the versioned LifecycleInterface plugin contract. Drop in a manifest, and the loader picks it up."
+- plugins: "Extend Phlix with the versioned LifecycleInterface plugin contract. Publish a manifest, and install it from Settings → Plugins."
 - docs: "Phlix documentation — user guide, API reference, developer docs, and Hub admin guide."
 - hub: "Phlix Hub — reach your server from anywhere via reverse-tunnel relay. Self-host it or use the public hub."
 - about: "Open-source PHP media server licensed under MPL-2.0 (server/hub) and MIT (libs/plugins/clients). FAQ inside."
