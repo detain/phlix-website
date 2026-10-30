@@ -137,23 +137,31 @@
 // outside the pairing net by design; a bare count paired directly to the noun
 // 1..12, digit or word, in any key/value/adjacency shape, cannot.
 //
-// WRONG-FORMAT FAMILY FLOOR (r7 re-truth of the r6 statement — the r7 order
-// executed review M-WEBSITE-12__r5 finding 2b): the package-format family
-// now binds BOTH kits' card pairings — the Tizen/Smart-TV pair (r5 era) and
-// the hyphen-safe-to-quote native-channel pair for the Roku deliverable (the
-// r7 per-kit arms) — so the probe that named an apt/rpm/deb-style bundle for
-// the Roku card CONVICTS in either order; r5 plant-(b) moved from the
-// acquittal list to the conviction list, and the isolated honest control
-// (the same sentence naming the deliverable phlix.zip) proves the arm binds
-// the NAME, not the noun. What remains outside the net is narrower and
-// stated loudly: a wrong-format bundle fragment carrying NO kit noun at all
-// inside the 40-char collapsed window acquits by construction — the tree
-// prints no such fragment (measured: every foreign dot-zip sits in a
-// reviews/ archive law 1 exempts), and the store-claim side of the family
-// carries NO boundary after r6: the publication and availability arms reach
-// the compound store noun and the presence shape, and the store-domain href
-// carrier nets the attribute class — every store claim shape the reviews
-// measured now dies in prose OR markup.
+// WRONG-FORMAT FAMILY FLOOR (r9 re-truth of the r7 statement — the r9 order
+// executed review M-WEBSITE-12__r8 findings 1-3): the package-format family
+// binds BOTH kits' card pairings across BOTH token families and BOTH orders —
+// the Tizen/Smart-TV pair, the native-channel pair for the Roku deliverable,
+// each forward and mirrored, each reaching dot-zip names (phlix-dot-zip
+// acquitted — it is the honest Roku deliverable; true-name laundering does NOT
+// apply to the dot-deb/dot-rpm/dot-flatpak/dot-snap arms, where even the true
+// name convicts because no such artifact exists) inside the 40-char collapsed
+// prose window, and each additionally bridged at CARD range: a heading whose
+// close tag immediately follows the bare kit noun binds the same token family
+// across the same-card body up to 700 raw chars, blocked by the next heading
+// opening (the shipped card idiom titles the card with the bare word — r8's
+// sweep measured that the prose window alone left 7 of 24 claim-bearing files
+// unbound). What remains outside the net, stated exactly (not aspirationally):
+// a wrong-format fragment carrying NO kit noun inside the 40-char prose window
+// AND no same-card heading above it; a claim split from its heading by an
+// intervening heading or by more than 700 raw chars; the token-before-heading
+// reverse split beyond the 40-char mirror window (the bridge is forward by
+// construction); and honest negated prose (no/not/never-guarded, r6 store-arm
+// doctrine). The bare words apt/dpkg/rpm/deb/snap/flatpak are free — only the
+// DOT-EXTENSION artifact form binds; the tree prints no foreign dot-zip at all
+// outside law-1-exempted reviews/ archives (r9 re-measure at 818ead33: 7 lines
+// across 6 files, all exempt — correcting r7's 'exactly 1'; the store-claim
+// side carries no boundary after r6: publication, availability, presence, and
+// the store-domain href class all die in prose OR markup.
 //
 // The laws:
 //
@@ -580,7 +588,25 @@ const FORBIDDEN = [
   // .zip named for the Roku deliverable in either card order, shrinking the
   // family floor from "new-kit phrasings net only incidentally" to "a
   // wrong-format fragment with NO kit noun at all in the collapsed window";
-  // the r5 plant-(b) probe flips from pinned-GREEN boundary to RED.
+  // the r5 plant-(b) probe flips from pinned-GREEN boundary to RED. r9 (review
+  // M-WEBSITE-12__r8 findings 1-3, executed per the r9 order): the sweep r8 re-cut
+  // every honest Roku claim line as a wrong-format claim and FULL-REGISTRY-ran all
+  // 24 claim-bearing files — the prose arms net only 17 via a Roku-side arm, six
+  // files walked entirely, one convicted incidentally through the TV mirror across
+  // a card boundary. The gap classes and windows, not the nouns, were the hole for
+  // inferno (122 collapsed chars, claim in the card's SECOND paragraph) and
+  // jungle-trek (87 chars carrying '/', outside the class). Cures: the bare heading
+  // word joins the Roku prose noun sets (the shipped idiom titles the card "Roku");
+  // four non-dot-zip pairing arms bind the dot-deb/rpm/flatpak/snap artifact forms
+  // for both kits and orders WITHOUT the name acquittal (phlix.deb convicts — the
+  // format is the lie, not the name); all zip pairings gain the no/not/never
+  // negation guards; and two forward CARD-BRIDGE arms (Roku, Tizen) bind the whole
+  // token family from a bare-noun heading across its same-card body — next-heading-
+  // blocked, ≤700 raw chars, raw-anchored so the collapsed window discipline never
+  // widens by accident. Measured post-cure: 24/24 convict via Roku-side arms on the
+  // substitution sweep, live-tree convictions ZERO (tree-wide non-phlix in-scan
+  // dot-zip == 0 re-measured: the 7 foreign lines all sit in law-1-exempt reviews/
+  // archives, correcting r7's 'exactly 1'), every GREEN control stays green.
   [
     /\.pkg\b/i,
     'an M12 package-format fiction fingerprint (.pkg — the Roku deliverable is phlix.zip; apex-predator/metal-machine-era carriers, swept without a law)',
@@ -594,20 +620,44 @@ const FORBIDDEN = [
     'an M12 package-format fiction fingerprint (.ipk — no estate deliverable ships under it; rave-cave-era carrier, swept without a law)',
   ],
   [
-    /\b(?:samsung\s+tizen|tizen|smart\s+tv)[a-z .,:—–"'()\n]{0,40}?(?<!phlix)\.zip\b/i,
-    'the M12 wrong-format claim: a Tizen/Smart-TV card naming a bare .zip as the package (Tizen ships the .wgt — the pixel-dungeon survivor; the period-carrying gap binds the heading→copy split on the markup-collapsed pass; honest phlix.zip is lookbehind-acquitted, so card adjacency cannot false-convict)',
+    /\b(?:samsung\s+tizen|tizen|smart\s+tv)[a-z .,:—–"'()\n]{0,40}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?<!phlix)\.zip\b/i,
+    'the M12 wrong-format claim: a Tizen/Smart-TV card naming a bare .zip as the package (Tizen ships the .wgt — the pixel-dungeon survivor; the period-carrying gap binds the heading→copy split on the markup-collapsed pass; honest phlix.zip is lookbehind-acquitted, so card adjacency cannot false-convict; the r9 move adds the no/not/never negation guards — honest negated prose acquits, r6 store-arm doctrine parity)',
   ],
   [
-    /(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:samsung\s+tizen|tizen|smart\s+tv)\b/i,
-    'the mirrored M12 bare-.zip-then-TV-card split (reverse card order of the same wrong-format claim; same phlix.zip acquittal)',
+    /(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:samsung\s+tizen|tizen|smart\s+tv)\b/i,
+    'the mirrored M12 bare-.zip-then-TV-card split (reverse card order of the same wrong-format claim; same phlix.zip acquittal and the same r9 no/not/never negation guards)',
   ],
   [
-    /\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel)[a-z .,:—–"'()\n]{0,40}?(?<!phlix)\.zip\b/i,
-    'the M12 Roku-side wrong-format claim: a native-channel card naming a bare .zip as the package (r7 per-kit arm per review M-WEBSITE-12__r5 finding 2b — the Roku deliverable is phlix.zip, so an apt/rpm/deb/channel-style bundle named for it is the same fiction the TV pairing nets for Tizen; honest phlix.zip is lookbehind-acquitted, card adjacency cannot false-convict)',
+    /\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel|roku\b)[a-z .,:—–"'()\n]{0,40}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?<!phlix)\.zip\b/i,
+    'the M12 Roku-side wrong-format claim: a native-channel card naming a bare .zip as the package (r7 per-kit arm per review M-WEBSITE-12__r5 finding 2b — the Roku deliverable is phlix.zip, so an apt/rpm/deb/channel-style bundle named for it is the same fiction the TV pairing nets for Tizen; honest phlix.zip is lookbehind-acquitted, card adjacency cannot false-convict; the r9 move per review M-WEBSITE-12__r8 finding 1 adds the bare heading word to the noun set — the shipped card idiom titles the card "Roku", no tagline at all — and the no/not/never negation guards)',
   ],
   [
-    /(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel)\b/i,
-    'the mirrored M12 bare-.zip-then-native-channel-card split (reverse card order of the same Roku-side wrong-format claim; same phlix.zip acquittal)',
+    /(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?<!phlix)\.zip\b[a-z .,:—–"'()\n]{0,40}?\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel|roku)\b/i,
+    'the mirrored M12 bare-.zip-then-native-channel-card split (reverse card order of the same Roku-side wrong-format claim; same phlix.zip acquittal; the r9 move carries the bare heading word here too)',
+  ],
+  [
+    /\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel|roku\b)[a-z .,:—–"'()\n]{0,40}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)\.(?:deb|rpm|flatpak|snap)\b/i,
+    'the M12 Roku-side wrong-format claim of the non-dot-zip family (r9 ask-2 per review M-WEBSITE-12__r8 finding 2: a Roku card naming a dot-deb/dot-rpm/dot-flatpak/dot-snap deliverable — no estate artifact ships under those extensions, and the TRUE name cannot launder the FORMAT: phlix.dot-deb CONVICTS because the phlix lookbehind is .zip-only, since phlix.zip is the honest deliverable while no phlix.deb exists; negation-guarded like the store arms — the bare words apt/dpkg/rpm stay free, the DOT-EXTENSION form binds)',
+  ],
+  [
+    /(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)\.(?:deb|rpm|flatpak|snap)\b[a-z .,:—–"'()\n]{0,40}?\b(?:native\s+roku\s+channel|roku\s+channel|native\s+channel|roku)\b/i,
+    'the mirrored M12 Roku-side wrong-format claim of the non-dot-zip family (r9 ask-2 — reverse card order launders nothing; same negation guards, same no-name-acquittal law)',
+  ],
+  [
+    /\b(?:samsung\s+tizen|tizen|smart\s+tv)[a-z .,:—–"'()\n]{0,40}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)\.(?:deb|rpm|flatpak|snap)\b/i,
+    'the M12 wrong-format claim of the non-dot-zip family, TV-side (r9 ask-2: a Tizen/Smart-TV card naming a dot-deb/dot-rpm/dot-flatpak/dot-snap deliverable — Tizen ships the signed .wgt; at 818ead33 the review-measured probes naming these extensions walked because the pairing stopped at the dot-zip token)',
+  ],
+  [
+    /(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)\.(?:deb|rpm|flatpak|snap)\b[a-z .,:—–"'()\n]{0,40}?\b(?:samsung\s+tizen|tizen|smart\s+tv)\b/i,
+    'the mirrored M12 wrong-format claim of the non-dot-zip family for the TV card (r9 ask-2, both orders; negation-guarded)',
+  ],
+  [
+    /\broku\b\s*<\/h[2-4]>(?:(?!<h[2-4][\s>])[\s\S]){0,700}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?:(?<!phlix)\.zip|\.(?:deb|rpm|flatpak|snap))\b/i,
+    'the M12 Roku-side wrong-format claim at card-bridge range (r9 ask-1: the shipped heading idiom — a bare-Roku h2/h3/h4 heading whose close tag immediately follows the noun, then the same-card body up to the next heading opening, ≤700 raw chars; the r4 shape-aware precedent expressed in arm form; raw-pass anchored — the literal close tag is required, so the collapsed window discipline stays at 40 and nothing silently widens; dot-zip keeps its phlix-name and no/not/never acquittals, the non-dot-zip families bind without a name acquittal)',
+  ],
+  [
+    /\btizen\b\s*<\/h[2-4]>(?:(?!<h[2-4][\s>])[\s\S]){0,700}?(?<!\bno\s)(?<!\bnot\s)(?<!\bnever\s)(?:(?<!phlix)\.zip|\.(?:deb|rpm|flatpak|snap))\b/i,
+    'the M12 Tizen-side wrong-format claim at card-bridge range (r9 per-kit symmetry beside the Roku bridge — every TV card heading in the tree ends with the Tizen noun before its close tag, measured across the h2/h3 heading variants; same same-card, next-heading-blocked gap and token family; the token-BEFORE-heading reverse split stays outside by design, stated in the FAMILY FLOOR)',
   ],
   [
     /\bsideload\s+or\s+publish/i,
@@ -2239,10 +2289,17 @@ test('law 10: the whole-tree tizen census — every mention sits in a named disp
 // two-directional for BOTH kits — a bare zip named for the Roku deliverable beside a
 // native-channel card convicts in either order — and the r5 plant-(b) probe flips from
 // the acquittal list to the conviction list, with the same sentence naming the true
-// deliverable as the honest control. The census below carries 3/4/3/1 plus the
-// Roku-side pair count, and the family's remaining floor (a wrong-format fragment
-// carrying no kit noun at all inside the collapsed window) is stated in the header
-// above, not left silent.
+// deliverable as the honest control. The r9 moves (review M-WEBSITE-12__r8 findings
+// 1-3) make it seventeen: the Roku prose pairings gain the BARE heading word (the
+// shipped card idiom titles the card "Roku" with no tagline to bind), the pairing
+// reaches past the dot-zip token into the dot-deb/dot-rpm/dot-flatpak/dot-snap
+// extensions for both kits and both orders — where the true-name acquittal does NOT
+// apply, because phlix-dot-deb is nobody's deliverable — every zip pairing gains the
+// no/not/never negation guards, and two CARD-BRIDGE arms (one per kit) bind the whole
+// token family across a same-card heading-to-body split the 40-char prose window
+// cannot reach. The census below carries 3/10/3/1 plus the Roku-side five and the
+// two-member card-bridge pair, and the family's remaining floor is stated exactly in
+// the header above, not left aspirational.
 // (Header narrative stays fingerprint-free — law 1 polices
 // this file outside the sentinels; plants below re-state cured fictions.)
 // LIT-FIXTURE-BEGIN law11-package-format-fixture-section (plants re-state cured fictions)
@@ -2251,13 +2308,14 @@ const M12_ARMS = FORBIDDEN.filter(([, what]) => /\bM12\b/.test(what));
 test('law 11: the package-format family convicts every shape and acquits the shipped truth', () => {
   // Identity anchoring (law 9/12 doctrine): if the family leaves the registry — or a
   // foreign arm joins it — this law stops guarding and must fail loud HERE. Census:
-  // three extension fingerprints + four pairing directions (TV pair + Roku-side pair,
-  // both two-directional after r7) + three publication shapes + one structural
-  // store-domain href carrier (the r6 move per review __r5 finding 1).
+  // three extension fingerprints + ten pairing shapes (TV pair + Roku-side pair both
+  // two-directional since r7, each direction re-cut for the non-dot-zip token family by
+  // r9 ask-2, plus the two r9 card-bridge heading arms) + three publication shapes +
+  // one structural store-domain href carrier (the r6 move per review __r5 finding 1).
   assert.equal(
     M12_ARMS.length,
-    11,
-    'the package-format family no longer anchors to exactly 11 registry arms (identity: "M12") — law 11 anchors moved',
+    17,
+    'the package-format family no longer anchors to exactly 17 registry arms (identity: "M12") — law 11 anchors moved',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /package-format fiction fingerprint/.test(what)).length,
@@ -2266,13 +2324,18 @@ test('law 11: the package-format family convicts every shape and acquits the shi
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /wrong-format claim/.test(what)).length,
-    4,
-    'the wrong-format pairing lost a direction (forward and mirrored must both stand, for both kits)',
+    10,
+    'the wrong-format pairing lost a shape (forward, mirrored, and card-bridge must both stand, for both kits, across both token families)',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) => /Roku-side/.test(what)).length,
+    5,
+    'the Roku-side per-kit pairing (r7, r9 ask-2 re-cut, r9 card-bridge) drifted out of (or multiplied inside) the family',
+  );
+  assert.equal(
+    M12_ARMS.filter(([, what]) => /card-bridge/.test(what)).length,
     2,
-    'the Roku-side per-kit pairing (r7, review __r5 finding 2b) drifted out of (or multiplied inside) the family',
+    'the r9 card-bridge subfamily (Roku + Tizen heading arms) drifted from 2 arms',
   );
   assert.equal(
     M12_ARMS.filter(([, what]) =>
@@ -2315,6 +2378,15 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'Native Roku channel. Sideload the deb.zip from GitHub releases.', // r5 finding 2 plant (b) VERBATIM — pinned GREEN at r6 as the stated family floor; the r7 per-kit Roku arm CONVICTS it (forward pairing: native-channel noun → bare non-phlix .zip inside the 40-char collapsed window)
     'Sideload the deb.zip from GitHub releases. Native Roku channel — quick resume.', // the Roku-side mirror direction — reverse card order launders nothing
     'Native Roku channel — sideload the channel.zip', // a store-flavored package name named for the Roku deliverable — the forward arm binds any non-phlix bare .zip beside the card noun
+    'Native Roku channel. Sideload the phlix.deb from GitHub releases.', // r8 finding-2 probe VERBATIM — the TRUE name does not launder the FORMAT: no phlix.deb exists, and the phlix lookbehind is .zip-only by design
+    'Native Roku channel. Get the roku.flatpak bundle from GitHub releases.', // r8 finding-2 probe VERBATIM — a flatpak-style name paired to the Roku noun convicts; the bare word 'flatpak' is free, the DOT-EXTENSION form binds
+    'Smart TV app. Sideload the phlix.deb from GitHub releases via Tizen Studio.', // r8 finding-2 probe VERBATIM — the TV-side of the same non-dot-zip family
+    'Roku Sideload the deb.zip from GitHub releases', // r8 finding-1 heading-idiom probe — the bare heading word with NO tagline carries the noun now (the shipped card idiom titles the card "Roku")
+    'Install the phlix.rpm from GitHub releases. Native Roku channel — quick resume.', // the non-dot-zip mirror order — reverse card copy launders nothing
+    '<h3 class="download-card__name">Roku</h3><p class="download-card__desc">Sideload the release.zip from GitHub releases</p>', // the mega-man card idiom-swap (r8 finding-1: this exact file shape was GREEN at 818ead33 — the bare-Roku prose arm nets it at 10 gap chars, the bridge too)
+    '<h3 id="roku-heading">Roku</h3><p>The Roku channel brings Phlix to any Roku device — stick, box, or TV. Full SyncPlay support, adaptive streaming, and the full library at your fingertips.</p><p>Sideload the deb.zip from GitHub releases — not on the Channel Store yet.</p>', // the inferno/clients card shape — the claim sits 122 collapsed chars below the heading noun (the 40-char window cannot reach; the same-card bridge does)
+    '<h2 class="client-card__name h3">Roku</h2><span class="badge badge--stable">Stable</span></div><p class="client-card__tagline">Native Roku channel</p><p class="client-card__desc">HLS playback, Hub mode, skip intro/outro, and full SyncPlay support. Sideload the release.zip from GitHub releases — not on the Channel Store yet.</p>', // the jungle-trek/clients card shape — 87 chars AND the gap carries '/' (intro/outro), outside the prose class; the bridge's any-char same-card gap nets it
+    '<h3>Samsung Tizen</h3><p>Watch your whole library on the big screen with adaptive streaming, chapter-accurate seeking, and a home menu that mirrors the desktop — then sideload the bundle.zip to start watching</p>', // the Tizen-side card bridge — heading→claim split beyond the prose window in BOTH directions (the mirror's "via Tizen Studio" tail shape already convicted at r7; this one could only die via the r9 bridge)
   ]) {
     assert.ok(engine(fiction), `the package-format law lost its teeth: /${fiction}/ would ship`);
   }
@@ -2343,6 +2415,10 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'app-store-tiles', // brand_kit_schema.js:1450 layout label — hyphen, not the space gap
     '<h3>Roku</h3>\n<p>Sideload phlix.zip from GitHub releases</p>\n<h3>Samsung Tizen</h3>\n<p>Sign and deploy the .wgt via Tizen Studio</p>', // blaze-runner:214-225 ROKU-then-TIZEN adjacency (measured 29-char collapsed gap)
     '<h4>SAMSUNG TIZEN</h4><p>Smart TV app. Sideload the .wgt via Tizen Studio.</p><h4>ROKU</h4><p>Native channel — sideload phlix.zip from GitHub releases.</p>', // reverse-order torture pair (metal-machine card shape)
+    'sudo apt install php8.3-cli php-mysql unzip', // the r8 finding-2 GREEN torture string VERBATIM — honest self-install code: 'rpm' and 'deb' are free words, the law binds the DOT-EXTENSION artifact form, and this line carries no file token at all
+    '<h3>Roku</h3><p>No .zip download page — the release asset is phlix.zip on GitHub</p>', // the negated honest prose under the bare-Roku heading idiom — the no/not/never guards (r9 ask-1 torture pin) acquit the negation and the phlix lookbehind acquits the true name
+    '<h3>Roku</h3><p>Sideload phlix.zip from GitHub releases</p><h3>Samsung Tizen</h3><p>Sign and deploy the .wgt via Tizen Studio</p>', // cross-card torture (the r5-era blaze-runner adjacency in HEADING form): the Roku bridge stops at the next heading opening, the Tizen copy names .wgt (unbound), the honest phlix.zip acquits — the exact shipped grid order cannot cross-convict
+    '<h3>Samsung Tizen</h3><p>The TV client ships the signed wgt — it is not .deb, not .zip, and never a store package</p>', // the non-dot-zip negation torture on the Tizen bridge: not/never-guarded dot-tokens acquit; a bare '.deb'/'zip' WORD would too, but this pins the exact dot form negated
   ]) {
     assert.ok(!engine(legal), `a package-format arm overreaches honest copy: /${legal}/`);
   }
@@ -2360,9 +2436,31 @@ test('law 11: the package-format family convicts every shape and acquits the shi
     'the publication-shape arms are not wired into the assertClean engine law 1/2 run',
   );
   assert.throws(
-    () => assertClean('Native Roku channel. Sideload the deb.zip from GitHub releases.', 'planted Roku-side wrong-format claim'),
+    () =>
+      assertClean(
+        'Native Roku channel. Sideload the deb.zip from GitHub releases.',
+        'planted Roku-side wrong-format claim',
+      ),
     /M12/,
     'the Roku-side per-kit pairing arms are not wired into the assertClean engine law 1/2 run (r7)',
+  );
+  assert.throws(
+    () =>
+      assertClean(
+        '<h3 id="roku-heading">Roku</h3><p>Full SyncPlay support, adaptive streaming, and the full library at your fingertips.</p><p>Sideload the deb.zip from GitHub releases.</p>',
+        'planted Roku card-bridge claim',
+      ),
+    /M12/,
+    'the r9 card-bridge heading arms are not wired into the assertClean engine law 1/2 run',
+  );
+  assert.throws(
+    () =>
+      assertClean(
+        'Native Roku channel. Sideload the phlix.deb from GitHub releases.',
+        'planted non-dot-zip wrong-format claim',
+      ),
+    /M12/,
+    'the r9 non-dot-zip token family arms are not wired into the assertClean engine law 1/2 run',
   );
   // SSOT pins (the fact source the arms encode): every clients[] entry stores a null
   // store_url, the Roku/Tizen taglines name the platform not a store, and the FAQ
