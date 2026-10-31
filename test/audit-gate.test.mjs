@@ -13,9 +13,15 @@
 // GHSA-mrhx-c7xc-m3w5 (zod — patched at 4.6.6, cross-major from chromium-bidi's
 // ^3.24.1, with the puppeteer chain deliberately pinned by the S321 override).
 // The braces entry was simultaneously REMOVED: the advisory was WITHDRAWN
-// upstream on 2026-10-23 and npm no longer reports it, so the exact set below
-// is [basic-ftp, deepmerge, zod] — withdrawn or cleared entries must not
-// linger as if live (windows-client precedent d991d74 dropping the ch52 entry).
+// upstream on 2026-10-23 and npm no longer reports it — withdrawn or cleared
+// entries must not linger as if live (windows-client precedent d991d74 dropping
+// the ch52 entry). A third drift batch surfaced on 2026-10-30 (lint run
+// 41160570118 at tip 1f76b441, both advisories published that day): glob
+// GHSA-3g3m-2fjr-6pw4 and minimatch GHSA-g3hv-75wg-m249 — NEITHER fixable
+// in-range (their patched releases are cross-major from this repo's deliberate
+// glob/minimatch override lines; no backports exist), so both joined the
+// allow-list with package.json + package-lock.json untouched. The exact set
+// below is therefore [glob, basic-ftp, minimatch, deepmerge, zod].
 // The gate may pass ONLY while every reported advisory id is explicitly
 // allow-listed, and it must fail LOUD on every neutering vector: unparseable
 // JSON, unknown report shape, a failed spawn, or a nonzero audit exit reporting
@@ -43,7 +49,9 @@ import {
   decide,
 } from '../scripts/audit-gate.mjs';
 
+const G3GM = 'GHSA-3g3m-2fjr-6pw4'; // glob (14.0.2 patch is cross-major from the ^13 override line)
 const C475 = 'GHSA-c475-qrg2-pj4r'; // basic-ftp (patch unreachable under get-uri ^5.x)
+const G3HV = 'GHSA-g3hv-75wg-m249'; // minimatch (11.0.1 patch; no 10.x/3.x backports — installed are tops-of-line)
 const GCQX = 'GHSA-gcqx-w48m-w2h4'; // deepmerge (no patched release exists)
 const MRHX = 'GHSA-mrhx-c7xc-m3w5'; // zod (4.6.6 cross-major; S321 override pins the chain)
 
@@ -72,12 +80,15 @@ function v3Report(entries) {
 const json = (report) => JSON.stringify(report);
 
 describe('collectAdvisoryIds', () => {
-  it('dedupes the 16 affected dev-chain packages down to the three real advisories', () => {
-    // Condensed from the live `npm audit --json` on master after the 2026-10-29
-    // body-parser clear: npm counts 16 vulnerable PACKAGES (the three advisory
-    // roots basic-ftp/deepmerge/zod plus dependents like lighthouse or pa11y
+  it('dedupes the 29 affected dev-chain packages down to the five real advisories', () => {
+    // Condensed from the live `npm audit --json` on master at tip 1f76b441: npm
+    // counts 29 vulnerable PACKAGES (the five advisory roots glob/basic-ftp/
+    // minimatch/deepmerge/zod plus dependents like lighthouse, pa11y or eslint
     // whose `via` entries are STRINGS naming their vulnerable dependency, not
-    // advisories). The advisory set is exactly three.
+    // advisories). The advisory set is exactly five. (In the live report glob
+    // carries BOTH its own 3g3m advisory object and a 'minimatch' string via;
+    // the condensed fixture keeps one via per package — string vias never
+    // contribute ids either way.)
     const ftpChain = ['basic-ftp', 'get-uri', 'pac-proxy-agent', 'proxy-agent', '@lhci/cli'];
     const mergeChain = ['deepmerge', 'google-fonts-helper'];
     const zodChain = [
@@ -91,16 +102,42 @@ describe('collectAdvisoryIds', () => {
       'lighthouse',
       '@lhci/utils',
     ];
+    const globChain = [
+      'glob',
+      'cacache',
+      'globby',
+      'htmlhint',
+      'linkinator',
+      'make-fetch-happen',
+      'node-gyp',
+      'ttf2woff2',
+    ];
+    const matchChain = [
+      'minimatch',
+      'eslint',
+      '@eslint/config-array',
+      '@eslint/js',
+      '@eslint-community/eslint-utils',
+    ];
     const asChain = (chain, rootPkg, ghsa) =>
       Object.fromEntries(
         chain.map((pkg) => [pkg, [pkg === rootPkg ? advisory(ghsa, rootPkg) : rootPkg]]),
       );
     const report = v3Report({
+      ...asChain(globChain, 'glob', G3GM),
       ...asChain(ftpChain, 'basic-ftp', C475),
+      ...asChain(matchChain, 'minimatch', G3HV),
       ...asChain(mergeChain, 'deepmerge', GCQX),
       ...asChain(zodChain, 'zod', MRHX),
     });
-    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [C475, GCQX, MRHX]);
+    assert.equal(Object.keys(report.vulnerabilities).length, 29);
+    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [
+      G3GM,
+      C475,
+      G3HV,
+      GCQX,
+      MRHX,
+    ]);
   });
 
   it('collects every distinct advisory id across packages', () => {
@@ -176,19 +213,32 @@ describe('decide — pass verdicts', () => {
     assert.deepEqual(verdict.allowed, [GCQX]);
   });
 
-  it('passes the live three-advisory state, each with its documented escape analysis', () => {
+  it('passes the live five-advisory state, each with its documented escape analysis', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
+          glob: [advisory(G3GM, 'glob')],
           'basic-ftp': [advisory(C475, 'basic-ftp')],
+          minimatch: [advisory(G3HV, 'minimatch')],
           deepmerge: [advisory(GCQX, 'deepmerge')],
           zod: [advisory(MRHX, 'zod')],
         }),
       ),
     });
     assert.equal(verdict.code, EXIT_OK);
-    assert.deepEqual(verdict.allowed, [C475, GCQX, MRHX]);
+    assert.deepEqual(verdict.allowed, [G3GM, C475, G3HV, GCQX, MRHX]);
+
+    const g3gm = ALLOWED_ADVISORIES.get(G3GM);
+    assert.equal(g3gm.package, 'glob');
+    assert.match(g3gm.justification, /dev-chain-only/);
+    assert.match(g3gm.justification, />=9\.0\.0 <=14\.0\.1/);
+    assert.match(g3gm.justification, /NO in-range update exists/);
+    assert.match(g3gm.justification, /registry version list verified 2026-10-31/);
+    assert.match(g3gm.justification, /cross-major override to 14\.0\.2\+ was rejected/);
+    assert.match(g3gm.justification, /glob@7\.2\.3 sitting below the >=9 floor/);
+    assert.match(g3gm.justification, /UPSTREAM WATCH/);
+    assert.match(g3gm.justification, /Re-verify advisory status by 2027-01-03/);
 
     const c475 = ALLOWED_ADVISORIES.get(C475);
     assert.equal(c475.package, 'basic-ftp');
@@ -196,6 +246,17 @@ describe('decide — pass verdicts', () => {
     assert.match(c475.justification, /cross-major override was rejected/);
     assert.match(c475.justification, /UPSTREAM WATCH/);
     assert.match(c475.justification, /Re-verify advisory status by 2027-01-03/);
+
+    const g3hv = ALLOWED_ADVISORIES.get(G3HV);
+    assert.equal(g3hv.package, 'minimatch');
+    assert.match(g3hv.justification, /dev-chain-only/);
+    assert.match(g3hv.justification, /advisory range is <11\.0\.1/);
+    assert.match(g3hv.justification, /no backport exists/);
+    assert.match(g3hv.justification, /registry version lists verified 2026-10-31/);
+    assert.match(g3hv.justification, /cross-major override to 11\.0\.1\+ was rejected/);
+    assert.match(g3hv.justification, /cannot clear it/);
+    assert.match(g3hv.justification, /UPSTREAM WATCH/);
+    assert.match(g3hv.justification, /Re-verify advisory status by 2027-01-03/);
 
     const gcqx = ALLOWED_ADVISORIES.get(GCQX);
     assert.equal(gcqx.package, 'deepmerge');
@@ -224,12 +285,14 @@ describe('decide — pass verdicts', () => {
 });
 
 describe('decide — fail-loud verdicts', () => {
-  it('reddens when the allowed trio is joined by ANY new advisory', () => {
+  it('reddens when the allowed quintet is joined by ANY new advisory', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
+          glob: [advisory(G3GM, 'glob')],
           'basic-ftp': [advisory(C475, 'basic-ftp')],
+          minimatch: [advisory(G3HV, 'minimatch')],
           deepmerge: [advisory(GCQX, 'deepmerge')],
           zod: [advisory(MRHX, 'zod')],
           evil: [advisory('GHSA-dead-beef-cafe', 'evil')],
@@ -239,7 +302,7 @@ describe('decide — fail-loud verdicts', () => {
     assert.equal(verdict.code, EXIT_VIOLATION);
     assert.deepEqual(verdict.unknown, ['GHSA-dead-beef-cafe']);
     assert.match(verdict.problems.join(' '), /NOT on the allow-list: GHSA-dead-beef-cafe/);
-    assert.deepEqual(verdict.allowed, [C475, GCQX, MRHX]); // still reported for context
+    assert.deepEqual(verdict.allowed, [G3GM, C475, G3HV, GCQX, MRHX]); // still reported for context
   });
 
   it('reddens a withdrawn-era id that npm stopped reporting (braces, stale in the list)', () => {
@@ -303,8 +366,8 @@ describe('decide — fail-loud verdicts', () => {
 });
 
 describe('allow-list integrity', () => {
-  it('contains EXACTLY the three justified entries (c475/basic-ftp, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
-    assert.deepEqual([...ALLOWED_ADVISORIES.keys()].sort(), [C475, GCQX, MRHX]);
+  it('contains EXACTLY the five justified entries (3g3m/glob, c475/basic-ftp, g3hv/minimatch, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
+    assert.deepEqual([...ALLOWED_ADVISORIES.keys()].sort(), [G3GM, C475, G3HV, GCQX, MRHX]);
   });
 
   it('no longer carries the withdrawn braces entry (GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23)', () => {
@@ -327,7 +390,9 @@ describe('allow-list integrity', () => {
   it('names the package each allowed advisory was reported against in the live lockfile', () => {
     // If the gate script and the allow-list keys ever drift apart (id typo,
     // renamed package), the live-state test above and this pin both react.
+    assert.equal(ALLOWED_ADVISORIES.get(G3GM).package, 'glob');
     assert.equal(ALLOWED_ADVISORIES.get(C475).package, 'basic-ftp');
+    assert.equal(ALLOWED_ADVISORIES.get(G3HV).package, 'minimatch');
     assert.equal(ALLOWED_ADVISORIES.get(GCQX).package, 'deepmerge');
     assert.equal(ALLOWED_ADVISORIES.get(MRHX).package, 'zod');
   });

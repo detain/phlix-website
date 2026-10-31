@@ -57,7 +57,13 @@ jobs:
         # The allow-list lives IN scripts/audit-gate.mjs, not here — every
         # entry carries its justification, an UPSTREAM WATCH removal plan,
         # and a re-verify-by date; test/audit-gate.test.mjs pins its
-        # integrity. Exit codes: 0 clean-or-allowed-only, 1 any other
+        # integrity. Two further drift batches kept the gate green the way
+        # it is designed to: 2026-10-29 (run 40870590683) cleared body-parser
+        # lockfile-only and allow-listed deepmerge GHSA-gcqx + zod GHSA-mrhx;
+        # 2026-10-30 (run 41160570118) allow-listed glob GHSA-3g3m + minimatch
+        # GHSA-g3hv — no in-range fix either time (proofs per entry), lockfile
+        # and package.json untouched.
+        # Exit codes: 0 clean-or-allowed-only, 1 any other
         # advisory id, 2 broken/unreadable audit (an unread verdict is never
         # a green one). Raw exit is preserved: no continue-on-error, no
         # `|| true`.

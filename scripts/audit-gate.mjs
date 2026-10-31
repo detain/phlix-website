@@ -12,6 +12,12 @@
  * lockfile-only (`npm update body-parser`; 1.20.9 is inside express's ~1.20.5
  * declaration), and deepmerge GHSA-gcqx-w48m-w2h4 and zod GHSA-mrhx-c7xc-m3w5
  * join the allow-list below — NEITHER has a reachable fix (proofs per entry).
+ * A third drift batch surfaced on 2026-10-30 (lint run 41160570118 at tip
+ * 1f76b441, both advisories published that day): glob GHSA-3g3m-2fjr-6pw4 and
+ * minimatch GHSA-g3hv-75wg-m249. Neither has an in-range fix either — their
+ * patched releases are cross-major from the deliberate glob/minimatch override
+ * lines this repo maintains, so both join the allow-list below with per-entry
+ * proofs and package.json + package-lock.json stay entirely untouched.
  * The braces entry from the 2026-10-08 era (GHSA-vfj7-8cjw-p6xm) was REMOVED as
  * dead weight: the advisory was WITHDRAWN upstream on 2026-10-23 (gh api
  * /advisories/GHSA-vfj7-8cjw-p6xm → withdrawn_at 2026-10-23T12:53:02Z; npm audit
@@ -26,8 +32,8 @@
  * REACH: every allowed advisory sits in dev tooling only — every package in this
  * repo's tree is devDependency-reachable (site builds output static files; nothing
  * of the audit's chain is served to users). npm's human output counts affected
- * PACKAGES (16 at 2026-10-29); this gate dedupes by advisory id via the JSON
- * parse below (16 package keys → 3 advisory ids).
+ * PACKAGES (29 at 2026-10-31); this gate dedupes by advisory id via the JSON
+ * parse below (29 package keys → 5 advisory ids).
  *
  * ANTI-NEUTERING LAW:
  * A silent gate is worse than no gate. The script distinguishes "audit clean"
@@ -50,6 +56,37 @@ export const EXIT_STRUCTURE_ERROR = 2;
 // every run. Subset semantics: ANY advisory id missing here reddens the gate.
 export const ALLOWED_ADVISORIES = new Map([
   [
+    'GHSA-3g3m-2fjr-6pw4',
+    {
+      package: 'glob',
+      justification:
+        'dev-chain-only (root devDependency glob ^13.0.0 plus the repo-wide ' +
+        '"glob": "^13.0.0" override — the same override is what lands the flagged ' +
+        '13.0.6 under cacache (declares ^10.2.2), linkinator ^13.0.0 and htmlhint ' +
+        '^13.0.6: link checking, HTML linting and npm cache machinery; the site ' +
+        'emits static files and nothing of this chain is served to users). The flaw ' +
+        'is an AbortSignal cancellation bypass letting a timed-out glob walk keep ' +
+        'touching the filesystem — every walk here traverses this repo\'s own ' +
+        'checked-out tree with this repo\'s own patterns, never hostile input. The ' +
+        'advisory range is >=9.0.0 <=14.0.1 and NO in-range update exists: 13.0.6 ' +
+        'is the newest 13.x ever published (registry version list verified ' +
+        '2026-10-31), 14.0.2 is the first patched release, and every version the ' +
+        'parents declare sits inside the vulnerable band — a downgrade cannot ' +
+        'escape either, because ^10/^13 floors start at 10. Only the globby@7 ' +
+        'carve-out override is safe, its nested glob@7.2.3 sitting below the >=9 ' +
+        'floor. A cross-major override to 14.0.2+ was rejected: this repo\'s S430 ' +
+        'discipline ("overrides only when a parent range blocks resolution, never ' +
+        'majors", deps-audit-floors.test.mjs header) forbids forcing glob@14 onto ' +
+        'cacache (declares ^10) across an unaudited API boundary. UPSTREAM WATCH ' +
+        '(the removal plan): if a 13.x backport ships (the advisory lists only ' +
+        '14.0.2 as first_patched_version, no backports as of 2026-10-31), ' +
+        '`npm update glob` resolves inside the existing ^13.0.0 override — then ' +
+        'REMOVE this entry, its justification, and the 3g3m fixtures in ' +
+        'test/audit-gate.test.mjs. Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-3g3m-2fjr-6pw4',
+    },
+  ],
+  [
     'GHSA-c475-qrg2-pj4r',
     {
       package: 'basic-ftp',
@@ -70,6 +107,38 @@ export const ALLOWED_ADVISORIES = new Map([
         'clears it — then REMOVE this entry, its justification, and the c475 fixtures ' +
         'in test/audit-gate.test.mjs. Re-verify advisory status by 2027-01-03: ' +
         'https://github.com/advisories/GHSA-c475-qrg2-pj4r',
+    },
+  ],
+  [
+    'GHSA-g3hv-75wg-m249',
+    {
+      package: 'minimatch',
+      justification:
+        'dev-chain-only (the hoisted minimatch@10.2.6 backs pattern matching for ' +
+        'glob@13 ^10.2.2, eslint ^10.2.5 and @eslint/config-array ^10.2.4, and the ' +
+        'globby@7 carve-out override\'s nested glob@7.2.3 pulls minimatch@3.1.5 — ' +
+        'build and lint tooling only; the site emits static files and nothing of ' +
+        'this chain is served to users). The DoS is pattern amplification at ' +
+        'optimizationLevel>=2 driven by a HOSTILE glob pattern; every pattern in ' +
+        'these chains comes from this repo\'s own config and package declarations, ' +
+        'never untrusted input. The advisory range is <11.0.1 and no backport ' +
+        'exists: first_patched_version is 11.0.1 only, while 10.2.6 is the newest ' +
+        '10.x ever published and 3.1.5 the newest 3.x ever published (registry ' +
+        'version lists verified 2026-10-31) — every installable version under the ' +
+        'parents\' ^10.x/^3.x declarations stays flagged, so `npm update` cannot ' +
+        'clear it: eslint 10.14.0 (itself the newest eslint) STILL declares ' +
+        'minimatch ^10.2.6, and @eslint/config-array is already at its latest ' +
+        '0.23.5. A global cross-major override to 11.0.1+ was rejected: this ' +
+        'repo\'s S430 discipline ("overrides only when a parent range blocks ' +
+        'resolution, never majors", deps-audit-floors.test.mjs header) forbids ' +
+        'forcing a major under glob/eslint/config-array, all of which declare ' +
+        '^10.x. UPSTREAM WATCH (the removal plan): if 10.2.7/3.1.6 backports ship, ' +
+        '`npm update minimatch` clears them inside the existing declarations; when ' +
+        'eslint ships a major line declaring minimatch ^11, a reviewed eslint-major ' +
+        'cascade closes this one too — either way REMOVE this entry, its ' +
+        'justification, and the g3hv fixtures in test/audit-gate.test.mjs. ' +
+        'Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-g3hv-75wg-m249',
     },
   ],
   [
