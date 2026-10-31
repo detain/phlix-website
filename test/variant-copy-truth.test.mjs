@@ -1080,6 +1080,19 @@ function assertNativesShape(text, label) {
 // tree via law 1, Pages artifact via law 2); enumerations in JS/JSON kit
 // art-specs, hub-word-free prose outside any hub heading, and quantifier-free
 // paraphrases stay census-policed, not net-policed.
+// R-WEBSITE-20 (fixlog/M-WEBSITE-09__r3.md O3) widened the windows to the
+// reader-visible ATTRIBUTE family: stripMarkup drops tags, and with them every
+// claim riding inside alt/aria-label/title/placeholder/content/data-* values —
+// invisible to the sentence AND the structural law alike. Each such value
+// inside a window now runs through the SAME three arms below, per value, with
+// the same direct-frame and DLNA acquittals; a heading whose Hub word lives
+// only in attributes now opens its window too. The r3 census (zero live
+// carriers) was independently re-measured at this tip before landing: 212
+// windows, 0 attribute carriers inside them — a regression gate, not a copy
+// cure. Disclosed residuals: a claim SPLIT across an attribute and adjacent
+// element text stays outside these arms (each value convicts only on its own
+// contents), and markup comments are skipped (they carry no reader — law 1's
+// raw fingerprint sweep still polices their bytes, the r8-F2 split).
 const HUB_HEAD_RE = /<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi;
 const HUB_ENUM_ARMS = [
   [
@@ -1097,6 +1110,31 @@ const HUB_ENUM_ARMS = [
 ];
 // LIT-FIXTURE-END law8-hub-engine-registry
 let hubWindowCount = 0; // non-vacuity counter, asserted by law 8
+// R-WEBSITE-20: extract the reader-visible copy attributes from a raw HTML
+// run. One extraction regex here, both consumers (window attr lists and the
+// heading-label probe) share it, so no second copy can drift. Value groups
+// accept both quote forms; prettier normalises the tracked tree to double
+// quotes, but the law-2 artifact path must not come to depend on a formatter
+// that does not run on it. Tag-interior scanning deliberately walks tag text
+// with the SAME <[^>]*> shape the rest of this engine uses — a '>' inside a
+// quoted value truncates the tag match exactly as it truncates stripMarkup
+// (disclosed: the split-claim residual above).
+const HUB_COPY_ATTR_RE =
+  /(?:content|alt|title|aria-label|placeholder|data-[a-z0-9-]+)\s*=\s*"([^"]*)"|(?:content|alt|title|aria-label|placeholder|data-[a-z0-9-]+)\s*=\s*'([^']*)'/gi;
+function copyAttrValues(html) {
+  const out = [];
+  // Comments-first alternation (the maskMarkup idiom): a comment's inner '>'
+  // cannot leak a false tag boundary, and the run is skipped outright —
+  // comments carry no reader.
+  for (const run of html.matchAll(/<!--[\s\S]*?-->|<[^>]*>/gi)) {
+    if (run[0].startsWith('<!--')) continue;
+    for (const a of run[0].matchAll(HUB_COPY_ATTR_RE)) {
+      const value = (a[1] ?? a[2] ?? '').trim();
+      if (value !== '') out.push(value);
+    }
+  }
+  return out;
+}
 function hubModeWindows(text) {
   const heads = [];
   for (const m of text.matchAll(HUB_HEAD_RE)) {
@@ -1108,11 +1146,17 @@ function hubModeWindows(text) {
         .replace(/<[^>]*>/g, ' ')
         .replace(/\s+/g, ' ')
         .trim(),
+      // R-WEBSITE-20: an attribute-only heading (a logo image whose alt says
+      // "Phlix Hub") is still a hub heading to every reader that hears the
+      // alt — the window opens on label OR heading-tag copy. The r3 census
+      // measured ZERO such live headings (probe re-run at this tip), so the
+      // window SET of the green tree is unchanged; law 15 pins that.
+      attrLabel: copyAttrValues(m[0]).join(' '),
     });
   }
   const wins = [];
   for (let i = 0; i < heads.length; i++) {
-    if (!/\bhub\b/i.test(heads[i].label)) continue;
+    if (!/\bhub\b/i.test(`${heads[i].label} ${heads[i].attrLabel}`)) continue;
     let end = Math.min(text.length, heads[i].end + 4000);
     for (let j = i + 1; j < heads.length; j++) {
       if (heads[j].level <= heads[i].level) {
@@ -1120,28 +1164,50 @@ function hubModeWindows(text) {
         break;
       }
     }
-    wins.push({ label: heads[i].label, flat: stripMarkup(text.slice(heads[i].start, end)) });
+    const raw = text.slice(heads[i].start, end);
+    wins.push({
+      label: heads[i].label,
+      flat: stripMarkup(raw),
+      attrs: copyAttrValues(raw),
+    });
   }
   return wins;
+}
+// The three arms with their two local acquittals, evaluated on ONE
+// self-contained reader-facing string. Element text and each attribute value
+// run through this single body — no second engine, no second drift surface.
+function hubArmFindings(c, whatSuffix) {
+  const found = [];
+  if (!/\btizen\b/i.test(c)) return found; // all three arms need the word
+  for (const [re, what] of HUB_ENUM_ARMS) {
+    for (const m of c.matchAll(re)) {
+      const tPos = m.index + m[0].toLowerCase().lastIndexOf('tizen') + 'tizen'.length;
+      // Bounded (r7-3): the old /\bdirect/i let 'in every direction' launder a
+      // check-marked Tizen row (the r7 P-C probe). 'Direct play', 'directly' and
+      // 'direct connection' keep their honest skip; 'direction' loses it.
+      if (/\bdirect(?:ly)?\b/i.test(c.slice(tPos, tPos + 45))) continue; // honest direct-play row
+      const runStart = Math.max(0, c.lastIndexOf('.', m.index) + 1);
+      let runEnd = c.indexOf('.', tPos);
+      if (runEnd === -1) runEnd = Math.min(c.length, m.index + 220);
+      if (/\bdlna\b/i.test(c.slice(runStart, Math.min(runEnd, runStart + 260)))) continue; // five-surface system roster
+      found.push({ what: `${what}${whatSuffix}`, frag: m[0].slice(0, 90) });
+    }
+  }
+  return found;
 }
 function tizenHubEnumerationViolations(text) {
   const found = [];
   for (const win of hubModeWindows(text)) {
     hubWindowCount++;
-    const c = win.flat;
-    if (!/\btizen\b/i.test(c)) continue;
-    for (const [re, what] of HUB_ENUM_ARMS) {
-      for (const m of c.matchAll(re)) {
-        const tPos = m.index + m[0].toLowerCase().lastIndexOf('tizen') + 'tizen'.length;
-        // Bounded (r7-3): the old /\bdirect/i let 'in every direction' launder a
-        // check-marked Tizen row (the r7 P-C probe). 'Direct play', 'directly' and
-        // 'direct connection' keep their honest skip; 'direction' loses it.
-        if (/\bdirect(?:ly)?\b/i.test(c.slice(tPos, tPos + 45))) continue; // honest direct-play row
-        const runStart = Math.max(0, c.lastIndexOf('.', m.index) + 1);
-        let runEnd = c.indexOf('.', tPos);
-        if (runEnd === -1) runEnd = Math.min(c.length, m.index + 220);
-        if (/\bdlna\b/i.test(c.slice(runStart, Math.min(runEnd, runStart + 260)))) continue; // five-surface system roster
-        found.push({ what, heading: win.label, frag: m[0].slice(0, 90) });
+    for (const v of hubArmFindings(win.flat, '')) found.push({ ...v, heading: win.label });
+    // R-WEBSITE-20: per-value attribute convictions only — values are never
+    // joined into one string (pairing tokens across unrelated elements would
+    // convict copy no reader sees as one roster, the r4 compound discipline)
+    // and HTML comments stay out (they carry no reader; law 1's raw sweep
+    // still polices their bytes, the r8-F2 split).
+    for (const value of win.attrs) {
+      for (const v of hubArmFindings(value, ' (carried in a reader-visible attribute)')) {
+        found.push({ ...v, heading: win.label });
       }
     }
   }
@@ -1740,6 +1806,24 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
       'direction-laundered check-row (r7 P-C — the forward-skip boundary ask)',
       '<section><h2>Hub Mode in Clients</h2><p>The Roku, Windows, and Mobile clients support Hub mode.</p><ul><li><span>\u2713</span> Samsung Tizen works in every direction</li></ul></section>',
     ],
+    // R-WEBSITE-20 (M-WEBSITE-09__r3 O3): the attribute-carrier family — copy
+    // the stripMarkup path used to delete, now policed per value.
+    [
+      'alt-carried ✓-row (R-WEBSITE-20 — the S1 class riding in attributes)',
+      '<section><h2>Hub Mode in Clients</h2><ul><li><img src="r.svg" alt="\u2713 Roku client"><img src="t.svg" alt="\u2713 Samsung Tizen client"><img src="w.svg" alt="\u2713 Windows client"></li></ul></section>',
+    ],
+    [
+      'data-* works-roster (R-WEBSITE-20 — machine attribute surfacing copy)',
+      '<section><h2>Hub Mode in Clients</h2><div data-summary="Works on Roku, Samsung Tizen, Windows, and Mobile"></div></section>',
+    ],
+    [
+      'attribute-only hub heading gating its own window (R-WEBSITE-20 — the detection hole)',
+      '<section><h2><img src="h.svg" alt="Phlix Hub"></h2><ul><li><img src="t.svg" alt="\u2713 Samsung Tizen client"></li></ul></section>',
+    ],
+    [
+      'single-quoted title roster (R-WEBSITE-20 — quote-form robustness beyond the prettier guarantee)',
+      "<section><h2>Hub Mode</h2><span title='Works on Roku, Samsung Tizen, and Windows devices'></span></section>",
+    ],
   ];
   for (const [name, plant] of PLANTS) {
     const violations = tizenHubEnumerationViolations(plant);
@@ -1772,6 +1856,32 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
     '<section><h1>Your frame.</h1><p>Phlix streams to Roku, Tizen, Windows, mobile, and any DLNA device. Synchronized playback, and a hub that reaches you anywhere.</p></section>',
     // meta keywords (pre-heading head region, never a claim window):
     '<html><head><meta name="keywords" content="phlix, roku, samsung tizen, windows, mobile" /></head><body><h2>Hub Mode</h2><p>The triple.</p></body></html>',
+    // R-WEBSITE-20 attribute-family acquittals — every honest shape the
+    // per-value scan could have over-reached on; over-reach reddens here.
+    // self-contained direct-frame inside one alt (the desert-horizon class
+    // riding in an attribute): the 45-char bounded skip must still fire.
+    '<section><h2>Hub Mode in Clients</h2><img src="t.svg" alt="Works on Roku and Samsung Tizen — direct play only"></section>',
+    // the five-surface system roster as one alt value: the DLNA run-acquittal
+    // must reach attribute copy exactly as it reaches element text.
+    '<section><h2>Hub Mode in Clients</h2><img src="c.svg" alt="Phlix runs on Roku, Samsung Tizen, Windows, Mobile and DLNA"></section>',
+    // structural tokens are machine metadata, not copy: the attribute family
+    // is content/alt/title/aria-label/placeholder/data-* ONLY — a scan that
+    // widened to class/id/style would convict this row (mutation M2).
+    '<section><h2>Hub Mode in Clients</h2><ul class="client-grid roku-row tizen-row windows-row"><li><img src="r.svg" alt="Roku"></li></ul></section>',
+    // a markup comment carries no reader: the attribute path skips comments
+    // (law 1's raw fingerprint sweep still polices their bytes, r8-F2 split).
+    // Pinned with attribute SYNTAX inside the comment — commented-out draft
+    // copy is the exact shape the skip must swallow while leaving law 1's
+    // raw sweep the watcher (this line reddens if the skip is ever removed).
+    '<section><h2>Hub Mode in Clients</h2><p>Works on Roku, Windows, and Mobile.</p><!-- <li data-note="Works with Roku, Samsung Tizen, Windows, Mobile clients">parked draft, never shipped</li> --></section>',
+    // per-client TRUE alt pair under a NON-hub heading: the window perimeter
+    // (not the copy) is what makes a hub claim — attribute copy obeys it.
+    '<section><h2>Why Phlix</h2><img src="r.svg" alt="Roku streams directly"><img src="t.svg" alt="Samsung Tizen streams directly"></section>',
+    // the un-joined rule made visible: a Tizen-only alt must NOT merge with
+    // the preceding element's text — values are self-contained claim units
+    // (joined copy would pair "Roku, Windows and Mobile" with "Samsung
+    // Tizen" into an arm-1 roster no reader ever sees as one claim).
+    '<section><h2>Hub Mode in Clients</h2><p>Works on Roku, Windows and Mobile</p><img src="t.svg" alt="Samsung Tizen"></section>',
   ];
   for (const [i, legal] of CONTROLS.entries()) {
     const violations = tizenHubEnumerationViolations(legal);
@@ -1781,6 +1891,27 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
       `the hub-window guard over-reaches: adjudicated-true control #${i} convicts — "${(violations[0] ?? {}).frag}"`,
     );
   }
+
+  // Wiring proof (law 9 r3 discipline): the attribute path must convict
+  // THROUGH the asserting engine laws 1/2 actually run — not merely through
+  // the violations finder an in-process probe could be pinning alone.
+  assert.throws(
+    () =>
+      assertTizenHubEnumeration(
+        '<section><h2>Hub Mode in Clients</h2><img src="t.svg" alt="\u2713 Samsung Tizen client"></section>',
+        'planted attribute carrier',
+      ),
+    /carried in a reader-visible attribute/,
+    'the R-WEBSITE-20 attribute path is not wired into the assertTizenHubEnumeration engine laws 1/2 run',
+  );
+  assert.doesNotThrow(
+    () =>
+      assertTizenHubEnumeration(
+        '<section><h2>Hub Mode in Clients</h2><img src="t.svg" alt="Works on Roku and Samsung Tizen — direct play only"></section>',
+        'planted attribute acquittal',
+      ),
+    'the direct-frame acquittal stopped reaching attribute copy',
+  );
 
   // The five r3 cures stay cured (anti-amputation: each page keeps its true
   // hub-mode triple where the carrier stood, not a deleted section).
@@ -1833,6 +1964,112 @@ test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape
   );
 });
 // LIT-FIXTURE-END law8-test-fixtures
+
+// LIT-FIXTURE-BEGIN law15-attribute-carrier-fixtures (plants quote the fiction to prove the raw sweep and the window engine each own their half of the carrier family)
+// ── R-WEBSITE-20 (fixlog/M-WEBSITE-09__r3.md O3): THE ATTRIBUTE-CARRIER LAW ──
+// O3 recorded that stripMarkup collapses tags — and with them every claim
+// riding INSIDE their attributes — "invisible to every law (sentence AND
+// structural)". Law 8 widened the hub-window engine to per-value copy scans
+// (plants, acquittals, and the wiring proof live there). This law owns the
+// census truths that widening had to measure before landing, and states out
+// loud the carrier classes that STAY blind, so the next round attacks a
+// perimeter, not a mystery.
+// (Server-mode truth carried here per owner rule 1: the TV client is
+// direct-connection today — phlix-tizen-client hubRelay.ts:385 — so the
+// green tree shipping ZERO attribute carriers inside hub windows is the
+// truth this gate holds, never the hope.)
+test('law 15: attribute carriers convict through the raw sweep and the window engine, the green tree ships none, and the window scan never sees raw file bytes', () => {
+  // (a) O3's invisibility was ever only true of the COLLAPSED forms: an
+  // attribute VALUE is raw file bytes, and the FORBIDDEN sweep law 1 runs on
+  // every tracked file already convicts a literal claim riding in alt/
+  // aria-label/content. If this pin ever reddens, the first line of defense
+  // gained a hole behind the window engine — re-adjudicate, never re-silence.
+  assert.ok(
+    FORBIDDEN.some(([re]) =>
+      re.test('<meta name="description" content="Phlix Hub — Samsung Tizen support coming soon">'),
+    ),
+    'the raw FORBIDDEN sweep went blind to attribute bytes — literal claims riding in attributes are invisible to every law again (the O3 premise regrew)',
+  );
+  // (b) The enumeration family the literal arms cannot see (no future-tense
+  // fingerprint — a bare client roster in copy attributes): here, and here
+  // only, the per-value window scan is the net.
+  assert.ok(
+    tizenHubEnumerationViolations(
+      '<section><h2>Phlix Hub</h2><span title="Works on Roku, Samsung Tizen, Windows, and Mobile"></span></section>',
+    ).length >= 1,
+    'the attribute-carrier structural path died — the O3 hole is re-growing behind law 8',
+  );
+  // (c) The r3 "zero live cases" census, kept AS a gate. Re-scanning every
+  // law-1/law-2 surface through the FULL widened engine (tracked HTML plus
+  // the one shared law-2 build artifact) and collecting ONLY attribute-born
+  // convictions: a future copy wave shipping one gets it named here for
+  // deliberate disposition. (Laws 1/2 reddened on the same conviction long
+  // before this pin could run alone — this is the census ledger, not the
+  // defense; it also keeps the hubWindowCount global honest: re-scan adds
+  // windows only to a floor that already asserted in law 8's sequence.)
+  const convictions = [];
+  const surface = (label, text) => {
+    for (const v of tizenHubEnumerationViolations(text)) {
+      if (v.what.includes('carried in a reader-visible attribute')) {
+        convictions.push(`${label}: ${v.frag}`);
+      }
+    }
+  };
+  for (const rel of TRACKED.filter((f) => /\.html$/i.test(f))) {
+    const text = readFileSync(join(ROOT, rel), 'utf8');
+    if (/\btizen\b/i.test(text)) surface(rel, text);
+  }
+  const dist = builtDist();
+  for (const rel of walk(dist).filter((f) => f.endsWith('.html'))) {
+    const text = readFileSync(join(dist, rel), 'utf8');
+    if (/\btizen\b/i.test(text)) surface(`dist/${rel}`, text);
+  }
+  assert.equal(
+    convictions.length,
+    0,
+    `R-WEBSITE-20 landing census violated — live attribute carriers inside hub windows:\n${convictions.join('\n')}`,
+  );
+  // (d) Input-shape pin (the estate's fingerprint discipline): the widened
+  // engine consumes window slices and heading tags — never whole-file text.
+  // Raw text reaching it would pair element copy and attribute copy from
+  // UNRELATED regions into rosters no reader sees (the r4 compound lesson,
+  // generalized). Both scan call sites are whitelisted by exact argument
+  // shape; new call sites must be argued into this list, not added silently.
+  const src = readFileSync(join(ROOT, SELF_LAW), 'utf8');
+  for (const m of src.matchAll(/(?<!function )hubArmFindings\(([^,)]+)/g)) {
+    assert.ok(
+      /^(?:win\.flat|value)$/.test(m[1].trim()),
+      `hubArmFindings received a new input shape (${m[1].trim()}) — only window-collapsed text and single attribute values may reach it`,
+    );
+  }
+  for (const m of src.matchAll(/(?<!function )copyAttrValues\(([^)]+)\)/g)) {
+    assert.ok(
+      /^(?:m\[0\]|raw)$/.test(m[1].trim()),
+      `copyAttrValues received a new input shape (${m[1].trim()}) — only heading-tag matches and window slices may be scanned`,
+    );
+  }
+  // (e) The disclosed residuals, pinned GREEN — an unmeasured boundary claim
+  // is a hope, so the blind spots assert their blindness in-process:
+  // a claim SPLIT between element text and an attribute value stays outside
+  // the arms (per-value discipline; law 10's whole-tree Tizen census still
+  // forces every such mention into a named disposition frame), and markup
+  // comments never reach the attribute path (law 1's raw sweep polices them).
+  assert.equal(
+    tizenHubEnumerationViolations(
+      '<section><h2>Hub Mode in Clients</h2><p>Works on Roku</p><img src="t.svg" alt="— with Samsung Tizen and Windows"></section>',
+    ).length,
+    0,
+    'the disclosed split-attribute residual closed silently — the engine joined copy across boundaries and the un-joined discipline (law 8 controls) is gone: re-adjudicate deliberately',
+  );
+  assert.equal(
+    tizenHubEnumerationViolations(
+      '<section><h2>Hub Mode in Clients</h2><p>Works on Roku, Windows, and Mobile.</p><!-- <li alt="Works on Roku, Samsung Tizen, Windows, and Mobile">draft</li> --></section>',
+    ).length,
+    0,
+    'comment copy reached the structural engine — the attribute path lost its comment skip',
+  );
+});
+// LIT-FIXTURE-END law15-attribute-carrier-fixtures
 
 // LIT-FIXTURE-BEGIN law9-crf-fixture-section (plants + naked-23/28 quotes by design)
 // ── M-WEBSITE-11: THE CRF-23/28 ENCODING FICTION, SHAPE-AWARE ARM ──────────
