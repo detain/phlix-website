@@ -1109,7 +1109,9 @@ const HUB_ENUM_ARMS = [
   ],
 ];
 // LIT-FIXTURE-END law8-hub-engine-registry
-let hubWindowCount = 0; // non-vacuity counter, asserted by law 8
+// R-WEBSITE-21 (fixlog/M-WEBSITE-09__r3.md O1): the non-vacuity counter this
+// line used to hold was a module-level accumulator every earlier law fed —
+// removed; law 8's floor now measures its own complete scan (see there).
 // R-WEBSITE-20: extract the reader-visible copy attributes from a raw HTML
 // run. One extraction regex here, both consumers (window attr lists and the
 // heading-label probe) share it, so no second copy can drift. Value groups
@@ -1196,9 +1198,11 @@ function hubArmFindings(c, whatSuffix) {
   return found;
 }
 function tizenHubEnumerationViolations(text) {
+  // R-WEBSITE-21: pure detection — scans windows and returns findings, never
+  // touches shared state (the removed per-window accumulator made law 8's
+  // floor read whatever the test ORDER had fed it; the floor self-measures now).
   const found = [];
   for (const win of hubModeWindows(text)) {
-    hubWindowCount++;
     for (const v of hubArmFindings(win.flat, '')) found.push({ ...v, heading: win.label });
     // R-WEBSITE-20: per-value attribute convictions only — values are never
     // joined into one string (pairing tokens across unrelated elements would
@@ -1771,13 +1775,39 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
 // passes: same red-on-planted-fiction / green-on-shipped-truth discipline as
 // the r2 clone probes, pinned in-process so CI never needs the scratch clone.
 test('law 8: the hub-window tizen-enumeration guard convicts every carrier shape and acquits the true ones', () => {
-  // Non-vacuity: laws 1-2 already walked the tracked tree and the artifact
-  // through the engine (measured 212 hub windows in tizen-carrying tracked
-  // HTML alone, before the artifact pass). A window parser that silently
-  // stopped finding Hub headings reddens here instead of going blind.
+  // Non-vacuity (R-WEBSITE-21, fixlog/M-WEBSITE-09__r3.md O1): this floor used
+  // to read a module-level accumulator that every earlier law fed, and the
+  // coupling was a misattribution machine — review r3 watched a planted survivor
+  // abort law 1 mid-walk, deliver 56 partial windows here, and redden this
+  // assert with "the structural perimeter collapsed" against a parser that had
+  // lost nothing. Test order decided the number; a conviction upstream dressed
+  // law 8 in a false second failure. Law 8 now measures its OWN complete walk
+  // over the exact surface law 1 runs the engine on: tracked, unexempted,
+  // tizen-carrying HTML (435 files opening 212 windows at this tip). Because
+  // hubModeWindows is pure detection — no assert to abort it — this scan always
+  // finishes, so the floor reads the same number whatever state the earlier
+  // laws died in. A window parser that silently stopped finding Hub headings
+  // still reddens here instead of going blind — on law 8's own fresh
+  // measurement, order-independently.
+  let trackedWindows = 0;
+  for (const rel of TRACKED.filter((f) => /\.html$/i.test(f))) {
+    if (law1Exemption(rel)) continue;
+    const text = readFileSync(join(ROOT, rel), 'utf8');
+    if (!/\btizen\b/i.test(text)) continue;
+    trackedWindows += hubModeWindows(text).length;
+  }
   assert.ok(
-    hubWindowCount >= 100,
-    `the hub-window engine read ${hubWindowCount} windows across laws 1-2; the structural perimeter collapsed`,
+    trackedWindows >= 100,
+    `the hub-window engine read ${trackedWindows} windows in law 8's own fresh walk of the tracked tree; the structural perimeter collapsed`,
+  );
+  // The cure pinned (the file's own naked-push / input-shape idiom): a shared
+  // per-window global is what made this floor order-dependent; re-growing one
+  // would silently re-couple every law's red to its siblings' scan progress.
+  // The identifier is therefore banned file-wide — split so this line cannot
+  // match itself.
+  assert.ok(
+    !readFileSync(join(ROOT, SELF_LAW), 'utf8').includes(['hubWindow', 'Count'].join('')),
+    'R-WEBSITE-21 has regrown an order-dependent window accumulator — floors measure their own complete scans, never cross-law progress',
   );
 
   // One plant per carrier shape, in the verbatim family the review enumerated.
@@ -2005,8 +2035,9 @@ test('law 15: attribute carriers convict through the raw sweep and the window en
   // convictions: a future copy wave shipping one gets it named here for
   // deliberate disposition. (Laws 1/2 reddened on the same conviction long
   // before this pin could run alone — this is the census ledger, not the
-  // defense; it also keeps the hubWindowCount global honest: re-scan adds
-  // windows only to a floor that already asserted in law 8's sequence.)
+  // defense. R-WEBSITE-21 truth: this re-scan shares no counter with law 8 any
+  // more — that floor walks its own fresh surface — so the two pins are fully
+  // order-independent of each other and of laws 1/2's progress.)
   const convictions = [];
   const surface = (label, text) => {
     for (const v of tizenHubEnumerationViolations(text)) {
