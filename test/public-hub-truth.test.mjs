@@ -30,8 +30,9 @@
 //      review named it (midnight-jazz, event-horizon) and at the canonical
 //      FAQ floor across the whole published set;
 //   4. pages.yml still builds before it uploads;
-//   5. the M13r1 hosted-offer arms have teeth: the six shipped survivor
-//      bodies (parent commit, verbatim) and the review-named fresh plants
+//   5. the M13r1 hosted-offer arms have teeth: the six survivor bodies
+//      (parent commit, verbatim — law 7 pins which of them actually ship)
+//      and the review-named fresh plants
 //      each convict an M13r1 arm, while the honest anchor-then-verb idiom,
 //      its acquitted neighbours, and the variant-copy law 6 client
 //      sign-in/hub-mode family are netted by NOTHING in this registry;
@@ -39,7 +40,13 @@
 //      forms ("official Phlix Hub", "hosted Phlix Hub", "officially hosted
 //      by the project") convict WHOLE-SHAPE — no offer verb needed, no
 //      markup-split reliance — while the shipped self-host idiom, negated
-//      prose, and the repo/project appositive stay green.
+//      prose, and the repo/project appositive stay green;
+//   7. this file's own characterization of the survivor family stays true:
+//      the build publishes through the brand-kit denominator, so exactly two
+//      of the six survivor pages ship while the other four are authored-not-
+//      deployed backlog dirs (README "publishing model") — yet law 1's input
+//      perimeter polices all six regardless. A kit registration in the owner
+//      wave reddens law 7 and re-arms the prose-truth duty (R-WEBSITE-23).
 //
 // WHY A THROWAWAY ROOT AND NOT THE LOCAL `dist/`: test/csp-gate.test.mjs law
 // 5 rebuilds the repo's own `dist/` (`rmSync` + re-copy) inside the same
@@ -52,6 +59,7 @@ import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import {
+  existsSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
@@ -93,7 +101,7 @@ const FORBIDDEN = [
   // M-WEBSITE-13 r1 ask 2 (review website__writer M3 family): the hosted-OFFER
   // forms. The domain arms above killed the fake addresses, but heading-flip
   // cures left hosted-service BODIES standing under honest "No hosted Hub"
-  // headings — six shipped pages promised a sign-up, a team-maintained hosted
+  // headings — six hub.html pages promised a sign-up, a team-maintained hosted
   // service, zero infrastructure, or a "sign in" behind a repository URL.
   // Each arm binds the OFFER CONTEXT (a hosted service you join), never a bare
   // verb: the honest anchor-then-verb idiom (afrofuturism/power-up/
@@ -324,10 +332,16 @@ test('law 5: the hosted-offer arms convict every survivor and acquit the self-ho
       '(marker: "M13r1 hosted-offer form") — law 5 anchors moved',
   );
 
-  // The six shipped bodies, verbatim from parent commit 0e450d38 (sites/
+  // The six survivor bodies, verbatim from parent commit 0e450d38 (sites/
   // {tetris-grid,game-cartridge,celtic-twilight,film-noir,easter-egg,
-  // library-amber}/hub.html), cured in this same commit — every one must
-  // still convict, or the net has a hole exactly where r1 measured one.
+  // library-amber}/hub.html), cured in this same commit. Truth of the family
+  // (R-WEBSITE-23, source M-WEBSITE-13__r2): only celtic-twilight and
+  // library-amber carry a registered brand kit, so those are the two whose
+  // cure the deployed artifact ever carried; the other four are authored-not-
+  // deployed backlog dirs the build never publishes — policed here on the
+  // SOURCE perimeter exactly like the shipped two, and law 7 pins the split
+  // plus that perimeter duty. Every one must still
+  // convict, or the net has a hole exactly where r1 measured one.
   // Quoted here as REGEX-ARM INPUT, and the arms below name no client/
   // domain/platform token, so these lines sit outside every convicted
   // family's shape (variant law 1 scans this file whole-tree: it passed at
@@ -456,7 +470,9 @@ test('law 5: the hosted-offer arms convict every survivor and acquit the self-ho
 // below), the no/not/never negated shapes, and the repo/project/codebase/
 // code/source appositive ("the official Phlix Hub repository" IS true —
 // github.com/detain/phlix-hub is the official software).
-const M13R6_ARMS = FORBIDDEN.filter(([, what]) => what.startsWith('M13r6 official-service-name form'));
+const M13R6_ARMS = FORBIDDEN.filter(([, what]) =>
+  what.startsWith('M13r6 official-service-name form'),
+);
 
 test('law 6: the official-service-name arms convict the whole-shape phrase and acquit the honest forms', () => {
   // Identity anchor (law 5 doctrine): exactly three M13r6 arms — if the
@@ -571,4 +587,94 @@ test('law 6: the official-service-name arms convict the whole-shape phrase and a
       );
     }
   }
+});
+
+test('law 7: exactly two of the six survivor pages ship — prose, kit split, and perimeter stay true', () => {
+  // R-WEBSITE-23 (source M-WEBSITE-13__r2, minor 1): the cure-era prose in this
+  // file called all six survivor hub.html pages "shipped". That was imprecise
+  // — the build denominator is brand-kits/*.js (tools/build.mjs copies
+  // sites/<slug>/ into dist/ ONLY for slugs a kit names), so at this tip only
+  // celtic-twilight and library-amber ever reach the artifact; tetris-grid,
+  // game-cartridge, film-noir and easter-egg are authored-not-deployed
+  // backlog dirs — in the README's own words "published by neither build nor
+  // dev, and pruning them is an owner call". Registering those kits (or
+  // pruning the dirs) is the owner/design wave, not a copy cure; what THIS
+  // lane owes is that the law file stops claiming otherwise — and that the
+  // claim cannot rot silently when the wave lands. Three arms, one per way
+  // the truth can drift:
+  const FAMILY = [
+    'tetris-grid',
+    'game-cartridge',
+    'celtic-twilight',
+    'film-noir',
+    'easter-egg',
+    'library-amber',
+  ];
+
+  // Arm 1 — the kit split, measured off the build's own denominator.
+  // Same glob and exclusion as tools/build.mjs kitFiles, in miniature: a slug
+  // ships iff brand-kits/<slug>.js exists (the pin file is build's second
+  // check, not this one's — law 7 fails loud on drift either way).
+  const kitSlugs = new Set(
+    readdirSync(join(ROOT, 'brand-kits'))
+      .filter((name) => name.endsWith('.js') && !name.endsWith('.worklog.js'))
+      .map((name) => name.slice(0, -3)),
+  );
+  const shipping = FAMILY.filter((slug) => kitSlugs.has(slug));
+  const backlog = FAMILY.filter((slug) => !kitSlugs.has(slug));
+  assert.deepEqual(
+    shipping,
+    ['celtic-twilight', 'library-amber'],
+    `law 7's shipped/backlog split went stale — survivor slugs with a registered kit are ` +
+      `[${shipping.join(', ')}]. If the owner wave registered a kit for a backlog page, ` +
+      `re-truth the family prose in this file (law 5 block + header item 7) and move the ` +
+      `pin; if a kit vanished, the same duty applies — never delete this law.`,
+  );
+  assert.deepEqual(
+    backlog.slice().sort(),
+    ['easter-egg', 'film-noir', 'game-cartridge', 'tetris-grid'],
+    `law 7's backlog roster went stale — kitless survivor slugs are [${backlog.join(', ')}] ` +
+      `(expected the four R-WEBSITE-23 names); keep this pin and the prose in lockstep.`,
+  );
+  for (const slug of backlog) {
+    assert.ok(
+      existsSync(join(ROOT, 'sites', slug, 'hub.html')),
+      `sites/${slug}/hub.html vanished — the backlog page this law describes is gone ` +
+        `(pruned? deleted?); re-truth the prose and this roster together`,
+    );
+  }
+
+  // Arm 2 — the perimeter half: backlog pages are POLICED, not ignored. Law 1
+  // scans every sites/ input the keepInSite idiom lets through, registered kit
+  // or not, so the four fiction survivors convict in CI today even though no
+  // visitor can see them. Narrowing ships() to the kit denominator would
+  // silently un-police the backlog — exactly the laundering shape this arm
+  // bans: the mini keepInSite must still acquit each backlog hub.html, and
+  // law 1's walk predicate must remain kit-blind (no kitSlugs reference in
+  // ships(), which takes a path, not a slug).
+  for (const slug of backlog) {
+    assert.ok(
+      ships(`${slug}/hub.html`),
+      `law 1's input perimeter no longer covers sites/${slug}/hub.html — kitless backlog ` +
+        `copy would be unguarded before it can ever ship`,
+    );
+  }
+  assert.ok(
+    ships('__kitless-probe__/hub.html'),
+    'ships() is no longer kit-blind — a path it cannot name was treated as unshipped. ' +
+      'Law 1 must police kitless backlog copy by path shape alone (arm 2 bans narrowing ' +
+      'the perimeter to registered kits)',
+  );
+
+  // Arm 3 — the prose ban (split literal, the estate's anti-regrowth idiom):
+  // the retracted blanket characterization may not regrow anywhere in this
+  // file. Split so this law's own text never matches its needle.
+  const RETRACTED = 'six ship' + 'ped';
+  const src = readFileSync(join(ROOT, 'test', 'public-hub-truth.test.mjs'), 'utf8');
+  assert.ok(
+    !src.includes(RETRACTED),
+    'this file regrew the retracted characterization (six + shipped) — only the two ' +
+      'kit-registered slugs ship; law 7 arm 1 measures the split, prose must match it ' +
+      '(R-WEBSITE-23)',
+  );
 });
