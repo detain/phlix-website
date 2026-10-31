@@ -297,7 +297,10 @@ const FORBIDDEN = [
   // "shareable library link" exists on either host: server auth is account-
   // based, hub invite links serve existing members — velocity-rush's claim is
   // cured to the verified local-account facts (UserProfileManager::
-  // MAX_PROFILES_PER_USER = 5, phlix-server src/Auth/UserProfileManager.php:85).
+  // MAX_PROFILES_PER_USER = 5 — the shipped DEFAULT of the settings-backed
+  // auth.max_profiles, phlix-server src/Auth/UserProfileManager.php:84, read at
+  // server master f584b2db; maxProfiles() :190 applies the override). The site
+  // copy states it as a default, not a hard cap (R-WEBSITE-14 copy cure).
   [
     /unlimited (?:viewers|members|participants|observers|guests)/i,
     'an "unlimited viewers/members" watch-party claim (real cap: MAX_MEMBERS = 50)',

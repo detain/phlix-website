@@ -229,7 +229,7 @@ const REVOCED = [
   ],
   [
     'JWT auth with refresh tokens, Argon2ID password hashing, up to 5 profiles per user, 4- or 6-digit PINs, rating filter from G to NC-17.',
-    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
+    "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
   ],
   [
     "ChannelManager, GuideManager, and Recorder give you scheduled recordings and a guide that doesn't make you click through menus.",
@@ -427,8 +427,8 @@ const EXTENDED = [
     'Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy',
   ],
   [
-    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
-    "One account, up to 5 personal profiles, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing identity too: OIDC, LDAP, and passkeys all work, so Phlix fits the sign-in you already run.",
+    "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
+    "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing identity too: OIDC, LDAP, and passkeys all work, so Phlix fits the sign-in you already run.",
   ],
   [
     "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups.",

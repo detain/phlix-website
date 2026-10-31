@@ -544,7 +544,7 @@ All product claims must match Phlix reality. Safe, true facts you can lean on:
 
 - **PHP 8.3+**, **Workerman 5.x**, async/coroutine server.
 - Auth: **JWT** (access + refresh), **Argon2ID** password hashing, up to 5
-  profiles/user, 4-/6-digit PINs, G–NC-17 rating filter.
+  profiles per user by default, 4-/6-digit PINs, G–NC-17 rating filter.
 - Metadata: **TMDB, TVDB, Fanart.tv, local NFO**, 24-hour cache.
 - Streaming: **adaptive HLS**, **FFmpeg** transcoding, per-device quality
   profiles; **direct play** when supported.
