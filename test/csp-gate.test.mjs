@@ -81,7 +81,8 @@ test('law 1: the policy splits exactly where the platform splits', () => {
   // tolerated because the site's own islands needed it; they are files now.
   assert.match(CSP_META, /script-src 'self';/, `script-src is not the strict 'self' floor: ${CSP_META}`);
   assert.ok(!/script-src[^;]*unsafe-inline/.test(CSP_META), 'script-src regained unsafe-inline');
-  // Honesty about what is NOT cured: inline styles remain (497 pages' style=),
+  // Honesty about what is NOT cured: inline styles remain (496 of the 723
+  // shipped pages' style=, re-swept from a fresh build 2026-11-06),
   // so a rewrite that silently drops style-src 'unsafe-inline' — pretending
   // the harder half of the job is done — reddens here too.
   assert.match(CSP_META, /style-src 'self' 'unsafe-inline'/, 'style-src honesty lost');

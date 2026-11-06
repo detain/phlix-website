@@ -232,7 +232,9 @@ ships **without** `'unsafe-inline'` (review `website__writer` R-WEBSITE-06):
 the gallery renderer, the 404 shim, and every kit page island were extracted
 into js files, and the build fails if any executable inline script or `on*=`
 handler ever rides back into `dist/`. `style-src 'unsafe-inline'` remains
-because 497 pages carry inline `style=` attributes. And since review
+because 496 of the 723 HTML pages in the shipped artifact carry inline
+`style=` attributes (numbers re-swept 2026-11-06 against a fresh
+`tools/build.mjs` build). And since review
 `website__writer` R-WEBSITE-07 the policy names **no** Google Fonts hosts:
 the root gallery's last external font source — its `fonts.googleapis.com`
 stylesheet — became `@font-face` rules against the same self-hosted woff2

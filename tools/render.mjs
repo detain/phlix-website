@@ -5,11 +5,13 @@
  * This file belongs to the removed `variants/` pipeline: it templated pages from
  * `shared/data/brand-kits.json` and emitted `/variants/<slug>/...` URLs. The
  * `variants/` directory was DELETED on 2026-06-30 and replaced by 50
- * hand-authored sites under `sites/<slug>/`.
+ * hand-authored sites under `sites/<slug>/` — the estate is now 79 deployed
+ * kits (138 authored trees; live count: `brand-kits/expected-kits.json`).
  *
  * `tools/build.mjs` does NOT read this file, and does not read
  * `shared/data/brand-kits.json` either. The real sources of truth are:
- *   - `brand-kits/*.js`   — one brand kit per file (the 50 kits)
+ *   - `brand-kits/*.js`   — one brand kit per file (79 kits; live count
+ *     pinned by `brand-kits/expected-kits.json`)
  *   - `sites/<slug>/`     — the authored site for each kit (what gets published)
  * See `new_site.md` for the authoring rulebook and `plan_site_regen.md` §0.5.
  *

@@ -5,6 +5,12 @@ on:
     branches: [master]
   pull_request:
 
+# Least-privilege GITHUB_TOKEN (review website__devops m1): no step below
+# needs more than a read-only checkout; sibling workflows bound it the same
+# way (pages.yml, lighthouse.yml).
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-26.04

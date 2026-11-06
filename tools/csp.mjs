@@ -28,10 +28,12 @@
 //     executable inline script or `on*=` handler in dist/, so it cannot rot
 //     back silently. `test/csp-gate.test.mjs` pins the strict policy and the
 //     zero-island artifact.
-//   * `style-src 'unsafe-inline'` — 497 shipped pages carry inline `style=`
-//     attributes, 43 carry inline `<style>` blocks (the `_headers` file's old
-//     note claimed "322 … across variants"; the `variants/` tree was deleted
-//     2026-06-30 and the real number is measured above). A cure like the
+//   * `style-src 'unsafe-inline'` — 496 of the 723 HTML pages in the shipped
+//     artifact carry inline `style=` attributes, 43 carry inline `<style>`
+//     blocks (present-tense numbers re-swept 2026-11-06 against a fresh
+//     `tools/build.mjs` build of this tree; the prior "497" and the
+//     `_headers` file's old note "322 … across variants" both measured older
+//     corpora — the `variants/` tree was deleted 2026-06-30). A cure like the
 //     script one would be a site-wide stylesheet refactor — deliberately not
 //     in this rider's scope.
 //   * NO Google Fonts allowances — until R-WEBSITE-07 `style-src` named

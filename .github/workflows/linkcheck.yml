@@ -12,6 +12,12 @@ on:
       - 'shared/content.json'
       - 'tools/lint.mjs'
 
+# Least-privilege GITHUB_TOKEN (review website__devops m1): no step below
+# needs more than a read-only checkout; sibling workflows bound it the same
+# way (pages.yml, lighthouse.yml).
+permissions:
+  contents: read
+
 jobs:
   links:
     runs-on: ubuntu-26.04
