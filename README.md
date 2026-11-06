@@ -7,7 +7,7 @@
 
 The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console, plus a web portal and any DLNA device.
 
-This repo ships **one site per brand kit**: each site is **hand-authored** under `sites/<slug>/`, and `npm run build` copies those pages into `dist/<slug>/` as-is. `shared/content.json` is the shared **fact source**, not a runtime template: kit pages must *agree* with its facts — a house sweep tool (`tools/fix-copy-consistency.mjs`) walks the whole corpus whenever that copy changes — while carrying each kit's own voice on top of its own visual language. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
+This repo ships **one site per brand kit**: each site is **hand-authored** under `sites/<slug>/`, and `npm run build` copies those pages into `dist/<slug>/` as-is. `shared/content.json` is the shared **fact source**, not a runtime template: kit pages must _agree_ with its facts — a house sweep tool (`tools/fix-copy-consistency.mjs`) walks the whole corpus whenever that copy changes — while carrying each kit's own voice on top of its own visual language. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
 
 | Site                                        | Brand kit                       | Live Preview                                            |
 | ------------------------------------------- | ------------------------------- | ------------------------------------------------------- |
@@ -83,6 +83,7 @@ phlix-website/
 ├── regen_site_prompt.md      regenerate an existing site against its kit's experience schema
 ├── review_site_prompt.md     review-worker prompt
 ├── fix_site_prompt.md        fix-worker prompt
+├── .worker-*.txt             worker prompt seeds the orchestrator loads (orchestrator_prompt.md §7)
 ├── docs/
 │   ├── PLAN.md               full architecture + agent pipeline
 │   ├── AGENT_CONTRACTS.md    worker input/output contracts
@@ -106,7 +107,7 @@ template engine: the root landing page's hero/install copy is pinned against it
 at build time (`assertLandingHero` in `tools/build.mjs`), the `check-meta` and
 `kit-brief` tooling derives from it, and `tools/fix-copy-consistency.mjs`
 mirrors its copy changes through the authored site corpus. Kit pages must
-*agree* with those facts while speaking in their kit's voice — do not invent
+_agree_ with those facts while speaking in their kit's voice — do not invent
 new colors, fonts, or facts.
 
 ## Image generation
