@@ -107,8 +107,8 @@
  *     serves PLAIN HTTP — certbot and the :443 frontends live behind the
  *     installer's TLS_ENABLED gate, set only when the run passes --domain
  *     and --admin-email (or --tls). Measured from scripts/install.sh at
- *     phlix-server tip 209496d6 (flag branches :1853/:1858, guarded certbot
- *     leg :2321). Every false shape — generic cert tails, verb+HTTPS claims,
+ *     phlix-server tip 209496d6 (TLS assign branches :1854/:1858, the --tls
+ *     guard dies at :1853, guarded certbot leg :2321). Every false shape — generic cert tails, verb+HTTPS claims,
  *     ":80/:443" port clauses, kit specials (arctic/wilderness/art-nouveau/
  *     movie-camera/mid-century/stardust-swiss/velocity-x FAQ/midnight-jazz
  *     chip) — re-cast as plain HTTP plus the opt-in flags; honest conditional
