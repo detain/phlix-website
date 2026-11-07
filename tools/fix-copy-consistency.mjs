@@ -3,7 +3,7 @@
  * tools/fix-copy-consistency.mjs
  *
  * One-shot copy-consistency sweep for the W-min193/194/196/197 website minors
- * batches (minors-space IDs). Twelve passes, each measured before it fires:
+ * batches (minors-space IDs). Sixteen passes, each measured before it fires:
  *
  *  P1 orthography (M-WEBSITE-24): British → US spellings in VISIBLE text
  *     only — HTML text runs, meta/title attribute values. Deliberately NOT
@@ -101,6 +101,22 @@
  *     literally across the content.json SSOT and every site carrier; the
  *     replacement is shorter, so `npm run format` re-wraps the paragraphs.
  *     Idempotent (the old token cannot survive a sweep).
+ *  P16 install-HTTPS truth (TW-092, w20): the one-liner copy promised "an
+ *     HAProxy reverse proxy with an auto-renewing Let's Encrypt certificate"
+ *     and default ports ":80/:443", but the bare `curl … | sudo bash` run
+ *     serves PLAIN HTTP — certbot and the :443 frontends live behind the
+ *     installer's TLS_ENABLED gate, set only when the run passes --domain
+ *     and --admin-email (or --tls). Measured from scripts/install.sh at
+ *     phlix-server tip 209496d6 (flag branches :1853/:1858, guarded certbot
+ *     leg :2321). Every false shape — generic cert tails, verb+HTTPS claims,
+ *     ":80/:443" port clauses, kit specials (arctic/wilderness/art-nouveau/
+ *     movie-camera/mid-century/stardust-swiss/velocity-x FAQ/midnight-jazz
+ *     chip) — re-cast as plain HTTP plus the opt-in flags; honest conditional
+ *     sentences ("Provision HTTPS in the same run", "if you passed --domain",
+ *     "optional HTTPS proxy with Let's Encrypt") are excluded by case law and
+ *     lookbehinds. Idempotent by construction (replacements carry neither the
+ *     "Let's Encrypt" token nor a verb+HTTPS adjacency); residual shapes are
+ *     reported per file, never silently left.
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -637,6 +653,146 @@ function sweepSecretKey(t) {
   return n ? [t.replaceAll('PHLIX_SECRET_KEY', 'JWT_SECRET'), n] : [t, 0];
 }
 
+// P16 — install copy overpromises HTTPS on the default one-liner (TW-092, w20).
+// A bare `curl … | sudo bash` run sets up an HAProxy frontend serving PLAIN HTTP
+// on :80; the Let's Encrypt leg (certbot + the :443 frontend binds) fires only
+// when the run passes --domain and --admin-email (or explicit --tls). Authority:
+// phlix-server scripts/install.sh at tip 209496d6 — TLS_ENABLED=yes is set in
+// exactly those two flag branches (:1853/:1858) and the certbot call sits inside
+// the TLS_ENABLED guard (:2321). The shipped copy promised a default/auto-renewing
+// certificate and advertised ":80/:443" as default ports across the content.json
+// SSOT, the root landing and the kit mirrors. Specialized shapes run before the
+// generic tails so nothing lands half-cured; every pass is idempotent — the
+// replacements carry no "Let's Encrypt" token and no verb+HTTPS adjacency, the two
+// anchors every pattern requires. Honest opt-in sentences are excluded by design:
+// sentence-initial "Provision HTTPS" labels (case-sensitive verbs), the infinitive
+// "…to provision HTTPS…" (lookbehind), the conditional "if you passed --domain",
+// and the already-honest "optional HTTPS proxy with Let's Encrypt" (lookbehind).
+const HTTPS_LE = "Let(?:'|’|&rsquo;)s\\s+Encrypt";
+const HTTPS_OPTIN = 'optional HTTPS via --domain and --admin-email';
+const HTTPS_PORT_TAIL = '(:443 once HTTPS is provisioned in the same run via --domain and --admin-email)';
+const HTTPS_SPECIALS = [
+  // velocity-x FAQ: no admin-panel certificate generator exists in the server.
+  [
+    new RegExp(
+      `The\\s+admin\\s+panel\\s+has\\s+a\\s+built-?in\\s+SSL\\s+certificate\\s+generator\\s+via\\s+${HTTPS_LE}\\s+if\\s+you\\s+want\\s+direct\\s+HTTPS\\s+access\\.`,
+      'g',
+    ),
+    `The installer can provision a certificate in the same run when you add --domain and --admin-email, for direct HTTPS access.`,
+  ],
+  // wilderness-trail index: certificate claim welded to "via HAProxy".
+  [
+    new RegExp(
+      `starts\\s+a\\s+systemd\\s+service\\s+with\\s+an\\s+auto-?renewing\\s+${HTTPS_LE}\\s+certificate\\s+via\\s+HAProxy\\.`,
+      'g',
+    ),
+    `starts a systemd service behind HAProxy with ${HTTPS_OPTIN}.`,
+  ],
+  // art-nouveau-garden "plain terms" block.
+  [
+    /sets\s+up\s+a\s+reverse\s+proxy\s+with\s+free\s+HTTPS\s*[—–-]\s*all\s+automatic\./g,
+    `sets up a reverse proxy (plain HTTP; ${HTTPS_OPTIN}).`,
+  ],
+  // movie-camera CTA banner fragments.
+  [
+    /One\s+command\.\s+Full\s+HTTPS\.\s+Auto-?renewing\s+certificates?\./g,
+    `One command. Plain HTTP out of the box — HTTPS with auto-renewing certificates is one flag away (--domain and --admin-email).`,
+  ],
+  // mid-century-modern closer.
+  [
+    /HTTPS,\s+database,\s+systemd\s+service\s*[—–-]\s*all\s+yours\./g,
+    `Database, systemd service and a plain-HTTP reverse proxy — all yours; HTTPS is one flag away (--domain and --admin-email).`,
+  ],
+  // stardust-observatory/swiss-modernist: next sentence already states the opt-in.
+  [
+    /registers\s+a\s+systemd\s+service\s+behind\s+HAProxy\s+with\s+an\s+auto-?renewing\s+certificate\./g,
+    'registers a systemd service behind HAProxy.',
+  ],
+  // atlantis meta: the enumeration head lists HTTPS as included; the generic
+  // tail already made the opt-in explicit, so the head token just drops out.
+  [/Includes\s+HTTPS,\s+/g, 'Includes '],
+  // "…with HAProxy and Let's Encrypt…" list welding (generic tail would orphan it).
+  [
+    new RegExp(
+      `with\\s+HAProxy\\s+and\\s+(?:an?\\s+)?(?:auto-?renewing\\s+)?${HTTPS_LE}(?:\\s+certificates?)?`,
+      'g',
+    ),
+    `with ${HTTPS_OPTIN}`,
+  ],
+  // "…and HTTPS with Let's Encrypt." enumeration tails.
+  [
+    new RegExp(`and\\s+HTTPS\\s+with\\s+${HTTPS_LE}`, 'g'),
+    `and ${HTTPS_OPTIN}`,
+  ],
+];
+// Verb+HTTPS claims (lowercase verbs only — the honest "Provision HTTPS" labels
+// are sentence-initial and capitalized). Optional tails absorb "automatically",
+// "with Let's Encrypt", "via HAProxy" and a port pair so no orphan residue stays.
+const HTTPS_VERB_RE = new RegExp(
+  String.raw`(?<!to\s)((?:provides?|provisions?|sets?\s+up|configures?|wires?)\s+)(?:an?\s+)?HTTPS` +
+    String.raw`(?:\s+automatically)?(?:\s+(?:with\s+${HTTPS_LE}|via\s+HAProxy))?` +
+    String.raw`(?:\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)\s*(?:<code>)?:443(?:<\/code>)?)?`,
+  'g',
+);
+// The generic "with/and/, [an] [auto-renewing] Let's Encrypt [cert…]" tails,
+// plus the "— all provisioned automatically" trailer where it rides along.
+const HTTPS_TAIL_RE = new RegExp(
+  String.raw`(?<!optional\s+HTTPS\s+proxy\s)(with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` +
+    HTTPS_LE +
+    String.raw`(?:\s+certificates?|\s+certs?|\s+HTTPS)?(?:\s*[—–-]\s*all\s+provisioned\s+automatically)?`,
+  'g',
+);
+const HTTPS_PORT_RE =
+  /behind\s+((?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy))\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)\s*(?:<code>)?:443(?:<\/code>)?/gi;
+const HTTPS_CHIP_RE = /behind\s+HAProxy\s+:80\s*\/\s*:443\)/g;
+function sweepHttpsClaims(t) {
+  let n = 0;
+  for (const [re, newText] of HTTPS_SPECIALS) {
+    n += (t.match(re) ?? []).length;
+    t = t.replaceAll(re, () => newText);
+  }
+  t = t.replace(HTTPS_VERB_RE, (m, verb) => {
+    n++;
+    return `${verb}plain HTTP with ${HTTPS_OPTIN}`;
+  });
+  t = t.replace(HTTPS_TAIL_RE, (m, lead) => {
+    n++;
+    return `${lead} ${HTTPS_OPTIN}`;
+  });
+  return [t, n];
+}
+function sweepHttpsPorts(t) {
+  let n = 0;
+  t = t.replace(HTTPS_PORT_RE, (m, proxy) => {
+    n++;
+    return `behind ${proxy} on :80 ${HTTPS_PORT_TAIL}`;
+  });
+  t = t.replaceAll(HTTPS_CHIP_RE, () => {
+    n++;
+    return 'behind HAProxy :80)';
+  });
+  return [t, n];
+}
+// Post-sweep false-shape detector for the residual report (same lookbehinds and
+// case law as the passes — honest opt-in prose never trips it).
+const HTTPS_RESIDUALS = [
+  [
+    new RegExp(
+      String.raw`(?<!optional\s+HTTPS\s+proxy\s)(?:with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` +
+        HTTPS_LE,
+    ),
+    'cert-tail',
+  ],
+  [/(?<!to\s)(?:provides|provisions|sets\s+up|configures)\s+HTTPS\b/, 'https-verb'],
+  [/behind\s+(?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy)\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)/i, 'port'],
+  [/behind\s+HAProxy\s+:80\s*\/\s*:443/, 'chip'],
+];
+function sweepHttpsResidual(t) {
+  const hits = [];
+  for (const [re, label] of HTTPS_RESIDUALS) if (re.test(t)) hits.push(label);
+  return hits;
+}
+
 let files = [
   ...globSync('sites/**/*.html', { ignore: 'sites/*/reviews/**' }),
   ...globSync('sites/**/*.js'),
@@ -666,6 +822,9 @@ const counts = {
   mobileCtaInserted: 0,
   mobileCtaMiss: [],
   secretKeyCured: 0,
+  httpsClaims: 0,
+  httpsPorts: 0,
+  httpsResidual: [],
 };
 for (const f of files) {
   let t = readFileSync(f, 'utf8');
@@ -751,19 +910,35 @@ for (const f of files) {
   // cured in the tail block below.
   [t, o] = sweepSecretKey(t);
   counts.secretKeyCured += o;
+  // P16 — install-copy HTTPS overpromise: claims and port clauses on every
+  // carrier; residual shapes are reported, never silently left.
+  [t, o] = sweepHttpsClaims(t);
+  counts.httpsClaims += o;
+  [t, o] = sweepHttpsPorts(t);
+  counts.httpsPorts += o;
+  const resid = sweepHttpsResidual(t);
+  if (resid.length) counts.httpsResidual.push(`${f}: ${resid.join(', ')}`);
   if (t !== orig && !DRY) writeFileSync(f, t);
 }
 
 // content.json is prettier-ignored; fix the one British word in its note and
-// cure the installer env-key name in the install SSOT (P15, TW-084).
+// cure the installer env-key name in the install SSOT (P15, TW-084). The P16
+// families run here too so the SSOT moves with the mirrors, not against them.
 {
   const f = 'shared/content.json';
   let t = readFileSync(f, 'utf8');
   const [orthoFixed, n] = ortho(t);
-  const [fixed, n2] = sweepSecretKey(orthoFixed);
-  if ((n || n2) && !DRY) writeFileSync(f, fixed);
+  const [secKey, n2] = sweepSecretKey(orthoFixed);
+  const [claims, n3] = sweepHttpsClaims(secKey);
+  const [fixed, n4] = sweepHttpsPorts(claims);
+  const changed = n || n2 || n3 || n4;
+  if (changed && !DRY) writeFileSync(f, fixed);
   counts.ortho += n;
   counts.secretKeyCured += n2;
+  counts.httpsClaims += n3;
+  counts.httpsPorts += n4;
+  const resid = sweepHttpsResidual(fixed);
+  if (resid.length) counts.httpsResidual.push(`${f}: ${resid.join(', ')}`);
 }
 
 console.log(
@@ -792,6 +967,9 @@ console.log(
       mobileCtaInserted: counts.mobileCtaInserted,
       mobileCtaMisses: counts.mobileCtaMiss,
       secretKeyCured: counts.secretKeyCured,
+      httpsClaimsCured: counts.httpsClaims,
+      httpsPortsCured: counts.httpsPorts,
+      httpsResiduals: counts.httpsResidual,
     },
     null,
     2,

@@ -212,8 +212,8 @@
               the system packages, creates a dedicated <code>phlix</code> system user, a database
               and its user, an env file at <code>/etc/phlix/env</code> with a generated secret key,
               runs the database migrations, installs a <code>phlix-server</code> systemd service,
-              and stands an HAProxy reverse proxy with an auto-renewing Let's Encrypt certificate in
-              front of it.
+              and stands an HAProxy reverse proxy with optional HTTPS via --domain and --admin-email
+              in front of it.
             </p>
             <!-- §19.22 — this command is `install.primary.command` from
                  shared/content.json, copied verbatim and not retyped. It is the
@@ -246,8 +246,9 @@ curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/
             <p class="wall-text">
               Run it in a terminal and it asks for the install path, the database credentials and
               the hostname; piped or given <code>-y</code> it runs unattended. When it is done the
-              server is on <code>:8096</code> behind HAProxy on <code>:80</code> and
-              <code>:443</code>, with DLNA discovery on <code>1900/udp</code>.
+              server is on <code>:8096</code> behind HAProxy on :80 (:443 once HTTPS is provisioned
+              in the same run via --domain and --admin-email), with DLNA discovery on
+              <code>1900/udp</code>.
             </p>
             <details class="technical-mark">
               <summary>The same line, with HTTPS provisioned in the same run</summary>

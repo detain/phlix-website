@@ -92,8 +92,8 @@
               Installs system packages (PHP 8.3+, MySQL, ffmpeg), creates a dedicated phlix system
               user, a MySQL database and user, an env file at <code>/etc/phlix/env</code> with a
               generated <code>JWT_SECRET</code>, runs database migrations, installs a systemd
-              phlix-server service, and sets up an HAProxy reverse proxy with an auto-renewing Let's
-              Encrypt certificate.
+              phlix-server service, and sets up an HAProxy reverse proxy with optional HTTPS via
+              --domain and --admin-email.
             </p>
             <div class="code-block">
               <pre><code class="install-command">curl -fsSL https://raw.githubusercontent.com/detain/phlix-server/master/scripts/install.sh | sudo bash</code></pre>
@@ -114,8 +114,8 @@
             >
               Prompts for install path, database credentials and hostname when run in a terminal;
               runs fully unattended when piped or given <code>-y</code>. Default ports: HTTP on
-              <code>:8096</code> behind HAProxy on <code>:80/:443</code>, DLNA discovery on
-              <code>1900/udp</code>.
+              <code>:8096</code> behind HAProxy on :80 (:443 once HTTPS is provisioned in the same
+              run via --domain and --admin-email), DLNA discovery on <code>1900/udp</code>.
             </p>
             <div
               style="
