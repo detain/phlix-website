@@ -86,9 +86,9 @@ phlix-website/
 ├── .worker-*.txt             worker prompt seeds the orchestrator loads (orchestrator_prompt.md §7)
 ├── docs/
 │   ├── PLAN.md               full architecture + agent pipeline
-│   ├── AGENT_CONTRACTS.md    worker input/output contracts
+│   ├── AGENT_CONTRACTS.md    worker input/output contracts (legacy — pre-kit `variants/` era; see its banner)
 │   ├── REVIEW_RUBRICS.md     scoring rubric per review dimension
-│   └── HANDOFF_PROMPT.md     paste-into-fresh-session kickoff prompt
+│   └── HANDOFF_PROMPT.md     paste-into-fresh-session kickoff prompt (legacy — pre-kit `variants/` era; see its banner)
 └── .github/workflows/
     ├── pages.yml             GH Pages deploy, gated: gates -> build -> deploy
     ├── lint.yml              html/css/js + a11y + node:test unit job

@@ -1,6 +1,26 @@
 # HANDOFF PROMPT — Phlix Website Build
 
-> Paste everything below the `--- BEGIN ---` line into a **fresh** Claude Code session opened at `/home/sites/phlix/phlix-website`. The prompt is self-contained.
+> ⚠ **LEGACY — NOT PART OF THE LIVE PIPELINE. DO NOT TREAT AS SOURCE OF TRUTH.**
+>
+> This document belongs to the removed `variants/` pipeline. It orders reads of
+> `/home/sites/phlix/phlix-server/docs/brand/*.md` — that directory was removed
+> after the phlix-docs merge (server commit `77e681fd`) and exists nowhere in
+> the estate (see the README "Brand source of truth" section) — and drives the
+> `variants/<NN>-<slug>/` build whose data source, `shared/data/brand-kits.json`,
+> carries a `$legacy` banner and is not a source of truth. The `variants/` tree
+> was removed on 2026-06-30. The sibling docs it points at — `docs/PLAN.md`,
+> `docs/AGENT_CONTRACTS.md`, `docs/REVIEW_RUBRICS.md` — are the same pre-kit era.
+>
+> The live authoring pipeline is `new_site.md` (the brand-agnostic rulebook),
+> driven by `orchestrator_prompt.md` with the `new_site_prompt.md` /
+> `regen_site_prompt.md` / `review_site_prompt.md` / `fix_site_prompt.md` worker
+> prompts (see `plan_site_regen.md`). Sources of truth: `shared/content.json`
+> (facts) and `brand-kits/<slug>.js` (per-kit visual language), with
+> hand-authored sites under `sites/<slug>/` that `tools/build.mjs` copies into
+> `dist/` as-is.
+>
+> Kept only as historical reference. Everything below this banner is quoted
+> history, not instructions.
 
 ---
 

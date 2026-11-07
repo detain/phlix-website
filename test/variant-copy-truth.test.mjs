@@ -1684,6 +1684,26 @@ test('law 7: the plugin-catalog law has teeth, an SSOT to pair against, and its 
     'the SSOT catalog entry no longer says what it is: a catalog',
   );
 
+  // Same pairing law for the versioned wire-contract package: the landing
+  // ecosystem list must keep carrying phlix-contracts, must point at the live
+  // repo, and must keep saying what it is — a contracts package. Delisting it
+  // is a deliberate re-adjudication, never silent drift.
+  const contractsEntry = eco.find((e) => e.name === 'phlix-contracts');
+  assert.ok(
+    contractsEntry,
+    'shared/content.json ecosystem lost the phlix-contracts entry — the wire-contract fact the SSOT carries is gone',
+  );
+  assert.match(
+    contractsEntry.repo,
+    /github\.com\/detain\/phlix-contracts$/,
+    'the SSOT contracts entry no longer points at the live contracts repo',
+  );
+  assert.match(
+    contractsEntry.what,
+    /contract/i,
+    'the SSOT contracts entry no longer says what it is: versioned contracts',
+  );
+
   // Teeth: every pre-cure survivor, both review-cited fictions, and the split
   // shapes must convict — raw or markup-collapsed, the same engines law 1
   // runs. A matcher that silently stopped pairing reddens this probe instead

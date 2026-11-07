@@ -556,7 +556,14 @@ All product claims must match Phlix reality. Safe, true facts you can lean on:
   plugins and clients are **MIT**. Never state a single licence "across the
   board" — that claim was wrong on all 50 first-pass sites. `content.json` (the
   FAQ answer and the footer label) is the authority; if it disagrees with this
-  line, `content.json` wins and this line is the stale one.
+  line, `content.json` wins and this line is the stale one. One sanctioned
+  style variance lives in this sentence family: the SSOT form carries the
+  serial comma ("shared libraries, plugins, and clients") while the root
+  landing and many kit sites re-voice it without ("shared libraries, plugins
+  and clients"). Both forms are approved — the locked part is the FACT (which
+  parts are MPL-2.0, which are MIT), not the comma. Do not sweep one family
+  into the other, and do not flag the commaless re-voice as a copy-fidelity
+  failure in review.
 
 Do **not** mention unsupported clients, invented features, or competitor
 trademarks except the factual "Plex/Jellyfin/Emby alternative" framing already in

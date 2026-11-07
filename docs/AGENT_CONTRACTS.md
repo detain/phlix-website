@@ -1,5 +1,25 @@
 # Agent Contracts
 
+> ⚠ **LEGACY — NOT PART OF THE LIVE PIPELINE. DO NOT TREAT AS SOURCE OF TRUTH.**
+>
+> These contracts belong to the removed `variants/` pipeline. Their inputs name
+> `/home/sites/phlix/phlix-server/docs/brand/*.md` — removed after the
+> phlix-docs merge (server commit `77e681fd`; the files exist nowhere in the
+> estate, see the README "Brand source of truth" section) — and
+> `shared/data/brand-kits.json`, which carries a `$legacy` banner and is not a
+> source of truth. Their outputs target the deleted `variants/<NN>-<slug>/`
+> tree, removed on 2026-06-30.
+>
+> The live authoring pipeline is `new_site.md` (the brand-agnostic rulebook),
+> driven by `orchestrator_prompt.md` with the `new_site_prompt.md` /
+> `regen_site_prompt.md` / `review_site_prompt.md` / `fix_site_prompt.md` worker
+> prompts (see `plan_site_regen.md`). Sources of truth: `shared/content.json`
+> (facts) and `brand-kits/<slug>.js` (per-kit visual language), with
+> hand-authored sites under `sites/<slug>/`.
+>
+> Kept only as historical reference. Everything below this banner is quoted
+> history, not instructions.
+
 Every agent spawned by the pipeline in `HANDOFF_PROMPT.md` follows one of the contracts below. A contract is a hard interface — inputs, outputs, must-do, must-not-do, exit condition.
 
 ---
