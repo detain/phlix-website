@@ -55,7 +55,10 @@
 // (new_site.md:514: "Hero image <= ~120 KB; total transferred per page
 // <= ~500 KB."). That era's heavy card/photo assets are gone from the shipped
 // site. Re-measured 2026-10-30 at tip 8eececfe, this machine, 3 runs per URL,
-// freshly built dist (aggregate md5 090a557f2f982ef381c5659354abaad2):
+// freshly built dist (aggregate md5 090a557f2f982ef381c5659354abaad2; the
+// recipe that produces this identity is
+// `find dist -type f -exec md5sum {} + | sort -k2 | md5sum` — sorted by path so
+// the hash is walk-order deterministic and comparable across runs/machines):
 //
 //   /                 total transfer 113,668 B  (5 requests — mobile AND desktop)
 //   /abstract-canvas/ total transfer 330,426 B  (16 requests — mobile AND desktop)

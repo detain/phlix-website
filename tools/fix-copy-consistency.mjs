@@ -658,8 +658,9 @@ function sweepSecretKey(t) {
 // on :80; the Let's Encrypt leg (certbot + the :443 frontend binds) fires only
 // when the run passes --domain and --admin-email (or explicit --tls). Authority:
 // phlix-server scripts/install.sh at tip 209496d6 — TLS_ENABLED=yes is set in
-// exactly those two flag branches (:1853/:1858) and the certbot call sits inside
-// the TLS_ENABLED guard (:2321). The shipped copy promised a default/auto-renewing
+// exactly those two flag branches (:1854/:1858; the --tls guard die sits at
+// :1853) and the certbot call sits inside the TLS_ENABLED guard (:2321). The
+// shipped copy promised a default/auto-renewing
 // certificate and advertised ":80/:443" as default ports across the content.json
 // SSOT, the root landing and the kit mirrors. Specialized shapes run before the
 // generic tails so nothing lands half-cured; every pass is idempotent — the
@@ -668,6 +669,12 @@ function sweepSecretKey(t) {
 // sentence-initial "Provision HTTPS" labels (case-sensitive verbs), the infinitive
 // "…to provision HTTPS…" (lookbehind), the conditional "if you passed --domain",
 // and the already-honest "optional HTTPS proxy with Let's Encrypt" (lookbehind).
+// Both lookbehinds tolerate prettier's line wraps ("to\n…provision"), and the
+// residual detector below shares the sweep's exact verb body and guards — the
+// w20 defect class was a wrapped honest run defeating the single-whitespace
+// guard while the detector's weaker verb list printed a clean residual report
+// over a tip that was not the sweep's fixed point. test/copy-sweep-stability
+// .test.mjs pins the fixed point, the wraps, and the shared-body law.
 const HTTPS_LE = "Let(?:'|’|&rsquo;)s\\s+Encrypt";
 const HTTPS_OPTIN = 'optional HTTPS via --domain and --admin-email';
 const HTTPS_PORT_TAIL = '(:443 once HTTPS is provisioned in the same run via --domain and --admin-email)';
@@ -725,11 +732,22 @@ const HTTPS_SPECIALS = [
     `and ${HTTPS_OPTIN}`,
   ],
 ];
+// Shared verb body + exemption guards: the sweep and the residual detector both
+// consume these constants (test/copy-sweep-stability.test.mjs pins the reference
+// count), so the detector can never lag the sweep into a silent report again.
+// The guards are whitespace-tolerant (`\s*`): prettier may wrap "to\n…provision"
+// or "optional HTTPS proxy\n…with" anywhere honest copy sits, and a
+// single-whitespace lookbehind there lets the sweep rewrite honest text — the
+// non-idempotent tip this lane's review caught. Widening a guard can only
+// REMOVE matches, so the swept counts at the honest tip can only fall to zero.
+const HTTPS_VERB_BODY = String.raw`provides?|provisions?|sets?\s+up|configures?|wires?`;
+const HTTPS_TO_GUARD = String.raw`(?<!to\s*)`;
+const HTTPS_PROXY_GUARD = String.raw`(?<!optional\s+HTTPS\s+proxy\s*)`;
 // Verb+HTTPS claims (lowercase verbs only — the honest "Provision HTTPS" labels
 // are sentence-initial and capitalized). Optional tails absorb "automatically",
 // "with Let's Encrypt", "via HAProxy" and a port pair so no orphan residue stays.
 const HTTPS_VERB_RE = new RegExp(
-  String.raw`(?<!to\s)((?:provides?|provisions?|sets?\s+up|configures?|wires?)\s+)(?:an?\s+)?HTTPS` +
+  String.raw`${HTTPS_TO_GUARD}((${HTTPS_VERB_BODY})\s+)(?:an?\s+)?HTTPS` +
     String.raw`(?:\s+automatically)?(?:\s+(?:with\s+${HTTPS_LE}|via\s+HAProxy))?` +
     String.raw`(?:\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)\s*(?:<code>)?:443(?:<\/code>)?)?`,
   'g',
@@ -737,7 +755,7 @@ const HTTPS_VERB_RE = new RegExp(
 // The generic "with/and/, [an] [auto-renewing] Let's Encrypt [cert…]" tails,
 // plus the "— all provisioned automatically" trailer where it rides along.
 const HTTPS_TAIL_RE = new RegExp(
-  String.raw`(?<!optional\s+HTTPS\s+proxy\s)(with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` +
+  String.raw`${HTTPS_PROXY_GUARD}(with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` +
     HTTPS_LE +
     String.raw`(?:\s+certificates?|\s+certs?|\s+HTTPS)?(?:\s*[—–-]\s*all\s+provisioned\s+automatically)?`,
   'g',
@@ -773,17 +791,12 @@ function sweepHttpsPorts(t) {
   });
   return [t, n];
 }
-// Post-sweep false-shape detector for the residual report (same lookbehinds and
-// case law as the passes — honest opt-in prose never trips it).
+// Post-sweep false-shape detector for the residual report (same guards and verb
+// body as the passes — honest opt-in prose never trips it, and by construction
+// it can no longer be weaker than the sweep that just ran over the same text).
 const HTTPS_RESIDUALS = [
-  [
-    new RegExp(
-      String.raw`(?<!optional\s+HTTPS\s+proxy\s)(?:with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` +
-        HTTPS_LE,
-    ),
-    'cert-tail',
-  ],
-  [/(?<!to\s)(?:provides|provisions|sets\s+up|configures)\s+HTTPS\b/, 'https-verb'],
+  [new RegExp(String.raw`${HTTPS_PROXY_GUARD}(?:with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` + HTTPS_LE), 'cert-tail'],
+  [new RegExp(String.raw`${HTTPS_TO_GUARD}(?:${HTTPS_VERB_BODY})\s+(?:an?\s+)?HTTPS\b`), 'https-verb'],
   [/behind\s+(?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy)\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)/i, 'port'],
   [/behind\s+HAProxy\s+:80\s*\/\s*:443/, 'chip'],
 ];
