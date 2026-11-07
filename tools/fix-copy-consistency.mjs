@@ -67,6 +67,41 @@
  *     their pages). Pages that ship no tagline carrier are reported, not
  *     invented into; per-kit misses disclosed in the batch report.
  *
+ *  P13 rostered orthography cure (TW-080, w17): the two British stems the P1
+ *     BRIT list never carried — `organisation` and `programme` — cured in
+ *     VISIBLE copy, but ONLY on a named roster of unsanctioned carriers. The
+ *     stems cannot join BRIT: three carriers are SANCTIONED voice and P1 must
+ *     never touch them — brand-kits/cosmic-horror.js declares "colour" (and
+ *     sites/cosmic-horror/hub.html carries "organisations" in that voice),
+ *     brand-kits/art-nouveau-garden.js writes "programme" (and its
+ *     index.html rides it), and brand-kits/speakeasy-gold.js holds jazz-era
+ *     "the evening's programme" phrase copy (no visible page carrier). The
+ *     policy that ratifies the split is new_site.md §18 clause 5. Inert for
+ *     every file outside the roster; idempotent (cured forms never rematch).
+ *  P14 mobile acquisition CTA (TW-083, w17): the FAQ (shared/content.json)
+ *     promises "Android installs from the release APK on GitHub" while most
+ *     kit download pages stopped at a View-source link. Every download page
+ *     that href-links the mobile repo root and does NOT yet carry the
+ *     /releases form gains a `Download the APK` primary link to
+ *     https://github.com/detain/phlix-mobile-client/releases placed BEFORE
+ *     the existing repo link — releases is the acquisition action, the repo
+ *     stays as the secondary. The four M-WEBSITE-08 structural cures
+ *     (nexus-core, bamboo-sanctuary, inferno, cyber-pursuit) are skipped by
+ *     the idempotence guard and keep their per-voiced shapes; roster-shape
+ *     pages with no repo-root mobile href at all are outside the population
+ *     (their clients.html#mobile rows are the M8 disposition 7/8 adjudicated
+ *     acquisition path). test/mobile-acquisition-structure.test.mjs law 1
+ *     floor (>= 4 /releases carriers) grows with the sweep, law 2/3 pins stay
+ *     green because the original hrefs are kept.
+ *  P15 installer env-key name cure (TW-084, w17): the install prose named a
+ *     generated PHLIX_SECRET_KEY in /etc/phlix/env, but the native installer
+ *     writes JWT_SECRET (phlix-server scripts/install.sh, JWT_SECRET=
+ *     rand_hex at the env-file leg; its own comments call PHLIX_SECRET_KEY a
+ *     docker-only alias that newer installers no longer emit). Swept
+ *     literally across the content.json SSOT and every site carrier; the
+ *     replacement is shorter, so `npm run format` re-wraps the paragraphs.
+ *     Idempotent (the old token cannot survive a sweep).
+ *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
  * silently defeat single-line literals; every pass is idempotent; --dry-run
@@ -535,6 +570,73 @@ function sweepCostFooters(t) {
   return n ? [t.slice(0, fi) + footer, n] : [t, 0];
 }
 
+// P13 — the rostered British-stem cure (TW-080). `organisation` and
+// `programme` were never in BRIT because sweeping them corpus-wide would
+// convict SANCTIONED voice: cosmic-horror's kit declares British spelling
+// ("colour"), art-nouveau-garden's declares "programme", and speakeasy-gold's
+// kit holds jazz-era programme phrase copy. Those carriers (and everything
+// else not listed here) stay untouched; the roster below is the measured set
+// of UNSANCTIONED visible carriers (no kit declaration), re-grounded at this
+// tip. Stems match whole words only, so "programmed"/"programmes" never
+// rematch, and restyle carries capitalization.
+const BRIT_ROSTER_STEMS = [
+  ['organisation', 'organization'],
+  ['programme', 'program'],
+];
+const BRIT_ROSTER = new Set([
+  'sites/abstract-canvas/about.html', // "GitHub organisation" x2 (community section + link label)
+  'sites/ice-cathedral/about.html', // "GitHub organisation."
+  'sites/swiss-modernist/about.html', // "GitHub organisation."
+  'sites/space-station/about.html', // "GitHub organisation" x2 (same family as abstract-canvas)
+  'sites/stardust-observatory/about.html', // "detain organisation on GitHub" x2 (same section, re-voiced)
+  'sites/library-amber/hub.html', // "organisations who need" — kit declares no British voice
+  'sites/neon-blossom/features.html', // "programme guide" + "Click a programme" (corpus form is "program guide")
+  'sites/bollywood-dreams/movie-night-guide.html', // "the evening's programme in advance"
+  'sites/renaissance-atelier/features.html', // "The evening programme is waiting"
+]);
+function sweepBritRoster(t) {
+  let n = 0;
+  for (const [uk, us] of BRIT_ROSTER_STEMS) {
+    t = t.replace(new RegExp(`\\b${uk}(s)?\\b`, 'gi'), (m, plural) => {
+      n++;
+      return restyle(us, m) + (plural ? 's' : '');
+    });
+  }
+  return [t, n];
+}
+
+// P14 — mobile acquisition CTA (TW-083). Population: download pages that
+// href-link the mobile repo root (exact href, closing quote) and do not yet
+// carry the /releases form. Mechanism: prepend a releases anchor riding the
+// page's own btn-primary idiom, immediately BEFORE the existing repo link,
+// so releases is the acquisition action and the repo link survives as the
+// secondary (every structural pin in
+// test/mobile-acquisition-structure.test.mjs keys off the repo href or the
+// /releases presence and stays green). The anchor match is the FIRST mobile
+// repo-root <a> opening tag; [^>]* cannot hop a '>' so the match stays
+// inside one tag even when Prettier wraps attributes across lines.
+const MOBILE_REPO = 'https://github.com/detain/phlix-mobile-client';
+const MOBILE_RELEASES = `${MOBILE_REPO}/releases`;
+const MOBILE_A_OPEN = new RegExp(`([ \\t]*)(<a\\b[^>]*href="${MOBILE_REPO}"[^>]*>)`);
+const MOBILE_ANCHOR = (indent) =>
+  `${indent}<a href="${MOBILE_RELEASES}" class="btn btn-primary" rel="noopener noreferrer">Download the APK</a>\n`;
+function sweepMobileAcquisition(t) {
+  if (t.includes(MOBILE_RELEASES)) return [t, 0]; // cured (idempotence + the four M8 shapes)
+  if (!t.includes(`href="${MOBILE_REPO}"`)) return [t, 0]; // outside the population
+  const m = t.match(MOBILE_A_OPEN);
+  if (!m) return [t, -1]; // repo href present but no anchor shape matched — report, never invent
+  const idx = m.index + m[1].length;
+  return [t.slice(0, idx) + MOBILE_ANCHOR(m[1]) + t.slice(idx), 1];
+}
+
+// P15 — installer env-key name cure (TW-084). Literal token swap; the old
+// name cannot survive, so re-running is inert. Applied to every swept file
+// (49 site carriers) and to shared/content.json in the tail block (the SSOT).
+function sweepSecretKey(t) {
+  const n = (t.match(/PHLIX_SECRET_KEY/g) ?? []).length;
+  return n ? [t.replaceAll('PHLIX_SECRET_KEY', 'JWT_SECRET'), n] : [t, 0];
+}
+
 let files = [
   ...globSync('sites/**/*.html', { ignore: 'sites/*/reviews/**' }),
   ...globSync('sites/**/*.js'),
@@ -559,6 +661,11 @@ const counts = {
   costFooters: 0,
   costKitJs: 0,
   costMiss: [],
+  britRoster: 0,
+  britRosterZero: [],
+  mobileCtaInserted: 0,
+  mobileCtaMiss: [],
+  secretKeyCured: 0,
 };
 for (const f of files) {
   let t = readFileSync(f, 'utf8');
@@ -571,6 +678,11 @@ for (const f of files) {
   if (f.endsWith('.html')) {
     [t, o] = sweepHtml(t);
     counts.ortho += o;
+    if (BRIT_ROSTER.has(f)) {
+      [t, o] = sweepBritRoster(t);
+      counts.britRoster += o;
+      if (!o) counts.britRosterZero.push(f);
+    }
     [t, o] = sweepOxford(t);
     counts.oxford += o;
     [t, o] = sweepSecurity(t);
@@ -631,17 +743,27 @@ for (const f of files) {
     [t, o] = sweepReleases(t);
     if (o === 1) counts.releasesInserted++;
     else if (o === -1) counts.releasesMiss.push(f);
+    [t, o] = sweepMobileAcquisition(t);
+    if (o === 1) counts.mobileCtaInserted++;
+    else if (o === -1) counts.mobileCtaMiss.push(f);
   }
+  // P15 — every swept carrier; the token also sits in shared/content.json,
+  // cured in the tail block below.
+  [t, o] = sweepSecretKey(t);
+  counts.secretKeyCured += o;
   if (t !== orig && !DRY) writeFileSync(f, t);
 }
 
-// content.json is prettier-ignored; fix the one British word in its note.
+// content.json is prettier-ignored; fix the one British word in its note and
+// cure the installer env-key name in the install SSOT (P15, TW-084).
 {
   const f = 'shared/content.json';
   let t = readFileSync(f, 'utf8');
-  const [fixed, n] = ortho(t);
-  if (n && !DRY) writeFileSync(f, fixed);
+  const [orthoFixed, n] = ortho(t);
+  const [fixed, n2] = sweepSecretKey(orthoFixed);
+  if ((n || n2) && !DRY) writeFileSync(f, fixed);
   counts.ortho += n;
+  counts.secretKeyCured += n2;
 }
 
 console.log(
@@ -665,6 +787,11 @@ console.log(
       costFooterAppends: counts.costFooters,
       costKitJsAppends: counts.costKitJs,
       costCarrierMisses: counts.costMiss,
+      britRosterCures: counts.britRoster,
+      britRosterNoMatch: counts.britRosterZero,
+      mobileCtaInserted: counts.mobileCtaInserted,
+      mobileCtaMisses: counts.mobileCtaMiss,
+      secretKeyCured: counts.secretKeyCured,
     },
     null,
     2,

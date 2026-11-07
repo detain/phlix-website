@@ -607,6 +607,15 @@ A brand-kit site is **done** only when **all** are true:
    **fact** traceable to `content.json`, and any re-voiced **presentation** copy
    traceable to the kit's `copy_overlay` / `feature_casting.angle` (§2A);
    `proof_strategy` signals verifiable; nothing invented.
+   **Orthography policy:** visible copy (page text, titles, visible attribute
+   values) is US spelling by default. A kit may sanction British-English voice
+   only by declaring it in its own `brand-kits/<slug>.js` file — precedents:
+   `cosmic-horror` ("colour"), `art-nouveau-garden` ("programme"),
+   `speakeasy-gold` (jazz-era "the evening's programme"). Undeclared carriers
+   are drift and are cured to US forms by the sweep passes in
+   `tools/fix-copy-consistency.mjs` (BRIT + the P13 roster). Not policed:
+   HTML/CSS identifiers, class names, authoring comments, review archives and
+   third-party files — invisible to any reader of the shipped artifact.
 6. **Responsive** clean at all breakpoints (§14); **performance** within budget
    (§13).
 7. The review loop (see `new_site_prompt.md`) reports **no remaining ❌ and no
