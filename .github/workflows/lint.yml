@@ -25,6 +25,27 @@ jobs:
       # lightweight so the ref value IS the commit. The version comment is what
       # dependabot's github-actions ecosystem reads when it bumps these.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # TW-101-a (review website__devops m2): the committed reviews/ archive
+      # (~105 MB of the tree) is copied into EVERY CI checkout. Relocation is a
+      # parked owner call, so the archive cannot be allowed to grow silently:
+      # measure the checked-out working tree (excluding .git — the depth-1
+      # checkout .git is history noise, the worktree IS what each job pays).
+      # warn above 150 MB (today's baseline ~173 MB, so the warn is the
+      # standing visibility the review asked for), fail above 250 MB. Step is
+      # unguarded on purpose (a disable-shaped `if:` is the M7 class); the
+      # command string is byte-ident across all six tripwire legs in the four
+      # workflows and deploy-gate.test.mjs mirrors it gates <-> lint.yml.
+      - name: Repo size tripwire (reviews/ archive guard)
+        run: |
+          SIZE_MB=$(du -sm --exclude=.git . | cut -f1)
+          echo "Working tree (excluding .git): ${SIZE_MB} MB — warn >150 MB, fail >250 MB"
+          if [ "$SIZE_MB" -gt 250 ]; then
+            echo "::error::Working tree is ${SIZE_MB} MB, above the 250 MB fail limit — the committed reviews/ archive grew; prune it or take the relocation owner call (review website__devops m2)."
+            exit 1
+          fi
+          if [ "$SIZE_MB" -gt 150 ]; then
+            echo "::warning::Working tree is ${SIZE_MB} MB, above the 150 MB warn threshold — every CI job pays the reviews/ archive; relocation is an open owner call (review website__devops m2)."
+          fi
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
@@ -103,6 +124,24 @@ jobs:
         # pass at this tip) — an owner call, recorded with measurements and a
         # floor-gate cure-spec in the W-min195 report.
         run: npm run meta
+      # TW-085 (review website__devops i5): `linkcheck.yml` only ever ran on a
+      # Monday cron / manual dispatch / PRs touching site sources, so a push to
+      # master could land relative-path or fragment rot that nothing gated
+      # until the live-URL cron tripped (or never, for internal-only edges).
+      # This leg is the push-gated, network-free half: build dist (the same
+      # artifact Pages publishes), then run `tools/linkcheck-internal.mjs`,
+      # which serves dist/ on a loopback port and checks every relative path
+      # and fragment against that origin, skipping all scheme-qualified
+      # externals — deterministic and offline (a disk-mode `--skip` would be a
+      # fake green: linkinator v8 then skips ALL non-http URLs; see the tool
+      # header). Mirrored into pages.yml's gates job (deploy-gate.test.mjs
+      # pins the command sets against each other).
+      - name: Build dist (input for the internal link gate)
+        if: ${{ !cancelled() }}
+        run: npm run build
+      - name: Link check — internal-only (relative paths + fragments)
+        if: ${{ !cancelled() }}
+        run: npm run linkcheck:internal
 
   # Additive job, deliberately NOT folded into `lint` above: before this, no
   # workflow in this repo ran any test at all (`grep -rln 'test:unit\|npm test'
@@ -115,6 +154,19 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # TW-101-a tripwire — command byte-ident across all six checkout legs in
+      # the four workflows; full rationale in the `lint` job above.
+      - name: Repo size tripwire (reviews/ archive guard)
+        run: |
+          SIZE_MB=$(du -sm --exclude=.git . | cut -f1)
+          echo "Working tree (excluding .git): ${SIZE_MB} MB — warn >150 MB, fail >250 MB"
+          if [ "$SIZE_MB" -gt 250 ]; then
+            echo "::error::Working tree is ${SIZE_MB} MB, above the 250 MB fail limit — the committed reviews/ archive grew; prune it or take the relocation owner call (review website__devops m2)."
+            exit 1
+          fi
+          if [ "$SIZE_MB" -gt 150 ]; then
+            echo "::warning::Working tree is ${SIZE_MB} MB, above the 150 MB warn threshold — every CI job pays the reviews/ archive; relocation is an open owner call (review website__devops m2)."
+          fi
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24

@@ -28,7 +28,8 @@ concurrency:
 
 jobs:
   # Mirror of .github/workflows/lint.yml: the whole `lint` job's gate steps
-  # (format, three linters, audit-gate, a11y, meta) plus the `unit` job's command.
+  # (format, three linters, audit-gate, a11y, meta, build + internal link
+  # check) plus the `unit` job's command and the TW-101-a size tripwire.
   # Step separation and `if: !cancelled()` follow the S268 law documented in
   # lint.yml — every gate gets its own visible row, and an earlier failure
   # never hides whether a later gate ran. The neutering surface is pinned by
@@ -51,6 +52,20 @@ jobs:
       # sweep. Version comments are what dependabot's github-actions
       # ecosystem reads when it proposes bumps.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # TW-101-a tripwire — command byte-ident across all six checkout legs in
+      # the four workflows, and part of the pinned gates <-> lint.yml mirror
+      # (deploy-gate.test.mjs). Full rationale in lint.yml's `lint` job.
+      - name: Repo size tripwire (reviews/ archive guard)
+        run: |
+          SIZE_MB=$(du -sm --exclude=.git . | cut -f1)
+          echo "Working tree (excluding .git): ${SIZE_MB} MB — warn >150 MB, fail >250 MB"
+          if [ "$SIZE_MB" -gt 250 ]; then
+            echo "::error::Working tree is ${SIZE_MB} MB, above the 250 MB fail limit — the committed reviews/ archive grew; prune it or take the relocation owner call (review website__devops m2)."
+            exit 1
+          fi
+          if [ "$SIZE_MB" -gt 150 ]; then
+            echo "::warning::Working tree is ${SIZE_MB} MB, above the 150 MB warn threshold — every CI job pays the reviews/ archive; relocation is an open owner call (review website__devops m2)."
+          fi
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
@@ -82,6 +97,16 @@ jobs:
         # Mirror of lint.yml's Meta audit step (review website__devops m3) —
         # deploy-gate.test.mjs pins the two command sets against each other.
         run: npm run meta
+      # TW-085 mirror of lint.yml's internal link gate: build the same dist
+      # Pages will publish, then scan it offline for dead relative paths and
+      # fragments. Deploy-gate's command-set law requires every lint.yml gate
+      # to have its twin here (and the !cancelled() guard to match).
+      - name: Build dist (input for the internal link gate)
+        if: ${{ !cancelled() }}
+        run: npm run build
+      - name: Link check — internal-only (relative paths + fragments)
+        if: ${{ !cancelled() }}
+        run: npm run linkcheck:internal
 
   build:
     needs: gates
@@ -89,6 +114,19 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # TW-101-a tripwire — command byte-ident across all six checkout legs in
+      # the four workflows; full rationale in lint.yml's `lint` job.
+      - name: Repo size tripwire (reviews/ archive guard)
+        run: |
+          SIZE_MB=$(du -sm --exclude=.git . | cut -f1)
+          echo "Working tree (excluding .git): ${SIZE_MB} MB — warn >150 MB, fail >250 MB"
+          if [ "$SIZE_MB" -gt 250 ]; then
+            echo "::error::Working tree is ${SIZE_MB} MB, above the 250 MB fail limit — the committed reviews/ archive grew; prune it or take the relocation owner call (review website__devops m2)."
+            exit 1
+          fi
+          if [ "$SIZE_MB" -gt 150 ]; then
+            echo "::warning::Working tree is ${SIZE_MB} MB, above the 150 MB warn threshold — every CI job pays the reviews/ archive; relocation is an open owner call (review website__devops m2)."
+          fi
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
