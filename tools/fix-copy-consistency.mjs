@@ -117,6 +117,17 @@
  *     lookbehinds. Idempotent by construction (replacements carry neither the
  *     "Let's Encrypt" token nor a verb+HTTPS adjacency); residual shapes are
  *     reported per file, never silently left.
+ *     w17 L7 re-cure (REVIEW-w20L9website.md Major): the verb+tail well was
+ *     blind to ten attribute/enumeration claims that assert HTTPS as included
+ *     without an LE-adjacent tail or a lowercase verb — "with/and automatic|
+ *     auto-provisioned HTTPS (via LE)", "fully running/configured … with
+ *     HTTPS", an HTTPS list item mid- or end-enumeration, and "HTTPS, …
+ *     handled automatically". Each family ships as ONE shape source wired to
+ *     both a sweep arm and a residual arm (the one well, pinned by test/
+ *     copy-sweep-stability.test.mjs law 6/7), plus one general wire that
+ *     outgrows its narrow sweep in law 5's port idiom. The cures drop or
+ *     re-cast the false item; none re-introduces its shape token, so the ten
+ *     carriers are one live pass from the new fixed point.
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -675,6 +686,12 @@ function sweepSecretKey(t) {
 // guard while the detector's weaker verb list printed a clean residual report
 // over a tip that was not the sweep's fixed point. test/copy-sweep-stability
 // .test.mjs pins the fixed point, the wraps, and the shared-body law.
+// The w17 L7 re-cure widens the well with the adjective/enumeration families
+// below: every one ships as a single shape source consumed by BOTH its sweep
+// construction and its residual arm, so neither side can drift shape-blind
+// again; the "fully" lead and the general "handled automatically" wire stay
+// sentence- and markup-local on purpose (no "." or "<" inside the run), the
+// same clause-binding discipline the verb arms follow.
 const HTTPS_LE = "Let(?:'|’|&rsquo;)s\\s+Encrypt";
 const HTTPS_OPTIN = 'optional HTTPS via --domain and --admin-email';
 const HTTPS_PORT_TAIL = '(:443 once HTTPS is provisioned in the same run via --domain and --admin-email)';
@@ -760,6 +777,38 @@ const HTTPS_TAIL_RE = new RegExp(
     String.raw`(?:\s+certificates?|\s+certs?|\s+HTTPS)?(?:\s*[—–-]\s*all\s+provisioned\s+automatically)?`,
   'g',
 );
+// w17 L7 re-cure families (REVIEW-w20L9website.md Major): each shape source is
+// built ONCE and consumed by both a sweep construction and a residual arm —
+// the one-well law test/copy-sweep-stability.test.mjs pins per source. None of
+// the replacements re-introduces its shape token, so every pass is idempotent.
+// "[with/and/,] automatic|auto-provisioned HTTPS (via LE)" — the adjective that
+// claims default certs while the bare run stays plain HTTP (bollywood/holographic metas).
+const HTTPS_ADJ_SHAPE = String.raw`(with|and|,)\s+(?:automatic|auto-?provisioned)\s+HTTPS(?:\s+via\s+${HTTPS_LE})?`;
+// "fully running|configured <server phrase> with HTTPS, <item>, and <rest>" —
+// the hero/CTA sentences that enumerate HTTPS among shipped defaults. The LEAD
+// ("fully" + running|configured + ≤3 words, sentence- and markup-local) is
+// shared by the sweep and a residual arm that outgrows it: any lead-shaped
+// "with HTTPS" convicts even where the list is too long for the sweep to
+// re-join (law 5's port idiom). "fully" is load-bearing: it is the word that
+// claims a complete default install — the adjudicated-honest adjacencies
+// ("a running server with HTTPS", desert-mirage's "fully installed,
+// HTTPS-ready") sit outside this lead on purpose.
+const HTTPS_FULLY_LEAD = String.raw`(fully\s+(?:running|configured)\s+(?:\w+\s+){0,3}with\s+)`;
+// An HTTPS item standing mid- (autumn metas "FFmpeg, HTTPS, and systemd") or
+// end- ("packages, database, service, HTTPS.") in an enumeration: the item
+// drops, the list re-joins around it and keeps its Oxford comma.
+const HTTPS_ENUM_MID_SHAPE = String.raw`,\s*HTTPS,\s+and\s+`;
+const HTTPS_ENUM_END_SHAPE = String.raw`,\s*HTTPS\s*\.`;
+// "HTTPS, database, and systemd service (are) (all) handled automatically." —
+// the mid-century meta pair. The sweep repairs the shipped sentence; the wire
+// below outgrows it for future copy claiming HTTPS "handled automatically".
+const HTTPS_HEAD_AUTO_SHAPE = String.raw`HTTPS,\s+database,\s+and\s+systemd\s+service\s+(?:are\s+)?(?:all\s+)?handled\s+automatically\.`;
+const HTTPS_HANDLED_WIRE = String.raw`HTTPS\b[^.<]{0,60}?handled\s+automatically`;
+const HTTPS_ADJ_RE = new RegExp(HTTPS_ADJ_SHAPE, 'g');
+const HTTPS_FULLY_RE = new RegExp(HTTPS_FULLY_LEAD + String.raw`HTTPS,\s+([^,.<]+?),\s+and\s+`, 'g');
+const HTTPS_ENUM_MID_RE = new RegExp(HTTPS_ENUM_MID_SHAPE, 'g');
+const HTTPS_ENUM_END_RE = new RegExp(HTTPS_ENUM_END_SHAPE, 'g');
+const HTTPS_HEAD_AUTO_RE = new RegExp(HTTPS_HEAD_AUTO_SHAPE, 'g');
 const HTTPS_PORT_RE =
   /behind\s+((?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy))\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)\s*(?:<code>)?:443(?:<\/code>)?/gi;
 const HTTPS_CHIP_RE = /behind\s+HAProxy\s+:80\s*\/\s*:443\)/g;
@@ -776,6 +825,26 @@ function sweepHttpsClaims(t) {
   t = t.replace(HTTPS_TAIL_RE, (m, lead) => {
     n++;
     return `${lead} ${HTTPS_OPTIN}`;
+  });
+  t = t.replace(HTTPS_ADJ_RE, (m, lead) => {
+    n++;
+    return `${lead} ${HTTPS_OPTIN}`;
+  });
+  t = t.replace(HTTPS_FULLY_RE, (m, lead, item) => {
+    n++;
+    return `${lead}${item} and `;
+  });
+  t = t.replace(HTTPS_ENUM_MID_RE, () => {
+    n++;
+    return ', and ';
+  });
+  t = t.replace(HTTPS_ENUM_END_RE, () => {
+    n++;
+    return '.';
+  });
+  t = t.replace(HTTPS_HEAD_AUTO_RE, () => {
+    n++;
+    return 'Database and systemd service are handled automatically.';
   });
   return [t, n];
 }
@@ -799,6 +868,15 @@ const HTTPS_RESIDUALS = [
   [new RegExp(String.raw`${HTTPS_TO_GUARD}(?:${HTTPS_VERB_BODY})\s+(?:an?\s+)?HTTPS\b`), 'https-verb'],
   [/behind\s+(?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy)\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)/i, 'port'],
   [/behind\s+HAProxy\s+:80\s*\/\s*:443/, 'chip'],
+  // w17 L7 families. The adjective/enum arms mirror their sweeps exactly (one
+  // well); the "fully" and "handled" arms are wires that OUTGROW the narrow
+  // sweeps, so copy the sweeps cannot re-join (4+ item lists, other
+  // enumerations) is still reported — law 5's port idiom, never silent.
+  [new RegExp(HTTPS_ADJ_SHAPE), 'https-adjective'],
+  [new RegExp(HTTPS_FULLY_LEAD + String.raw`HTTPS\b`), 'https-fully'],
+  [new RegExp(HTTPS_ENUM_MID_SHAPE), 'https-enum-mid'],
+  [new RegExp(HTTPS_ENUM_END_SHAPE), 'https-enum-end'],
+  [new RegExp(HTTPS_HANDLED_WIRE), 'https-handled-wire'],
 ];
 function sweepHttpsResidual(t) {
   const hits = [];

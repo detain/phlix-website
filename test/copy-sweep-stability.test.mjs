@@ -3,7 +3,8 @@
 // P16 sweep it reports on.
 //
 // Run with `npm run test:unit`, i.e. `node --test "test/**/*.test.mjs"`.
-// (review w20 L9 — REVIEW-w20L9website.md, Major.)
+// (review w20 L9 — REVIEW-w20L9website.md, Major; laws 6/7 extended on the
+//  w17 L7 reopen, same register.)
 //
 // WHY THIS FILE EXISTS
 // --------------------
@@ -67,6 +68,18 @@
 //        constructions), and the two literals this cure deleted must never
 //        regrow: the bare single-whitespace (?<!to\s) guard and the detector's
 //        four-arm s-forms-only list.
+//   LAW 7 (the w17 L7 shape families — reopen regression) — REGRESSION. The
+//        ten survivors of the first re-cure — enumeration and adjective shapes
+//        ("with automatic HTTPS via Let's Encrypt", "fully running/configured
+//        … with HTTPS, X, and Y", ", HTTPS, and", ", HTTPS.", "HTTPS,
+//        database, and systemd service … handled automatically") — must each
+//        be counted, cured to the pinned post-cure grammar, and stay cured;
+//        the adjudicated-honest guide copy ("fully installed, HTTPS-ready",
+//        "including HTTPS provisioning", "to a running server with HTTPS")
+//        must acquit both sweep and wire; and copy the narrow sweeps cannot
+//        safely re-join (a 4+ item list, a non-systemd enumeration ending
+//        "handled automatically") must be left untouched yet NAMED by the
+//        https-fully / https-handled-wire arms — law 5's wire idiom.
 //
 // STATED BOUNDARIES (disclosed, not hidden): law 1 proves zero-COUNTER
 // stability; laws 2/4 prove zero-WRITE stability on copies. A counter that
@@ -367,6 +380,12 @@ test('law 6: sweep and detector share one verb body; the single-whitespace guard
     ['HTTPS_VERB_BODY', 2],
     ['HTTPS_TO_GUARD', 2],
     ['HTTPS_PROXY_GUARD', 2],
+    ['HTTPS_ADJ_SHAPE', 2],
+    ['HTTPS_FULLY_LEAD', 2],
+    ['HTTPS_ENUM_MID_SHAPE', 2],
+    ['HTTPS_ENUM_END_SHAPE', 2],
+    ['HTTPS_HEAD_AUTO_SHAPE', 1],
+    ['HTTPS_HANDLED_WIRE', 1],
   ]) {
     assert.equal(
       (code.match(new RegExp(`\\b${name}\\b`, 'g')) ?? []).length,
@@ -388,4 +407,137 @@ test('law 6: sweep and detector share one verb body; the single-whitespace guard
     !src.includes(String.raw`provides|provisions|sets\s+up|configures`),
     'the s-forms-only detector verb list regrew — the detector goes blind to base-form claims again',
   );
+  assert.ok(
+    !src.includes(String.raw`(?:fully\s+)?(?:running`),
+    'the optional-"fully" lead regrew — the honest guide-scope shape (pastel "to a running server with HTTPS") would re-convict and law 1 would go red at tip',
+  );
+});
+
+// ── LAW 7 ─────────────────────────────────────────────────────────────────────
+// The w17 L7 reopen: the review proved ten false default-HTTPS occurrences
+// survived the first sweep because they ride enumeration/adjective shapes the
+// verb-tail vocabulary never covered. Each plant below mirrors one survivor
+// byte-faithfully; the expected strings are the LIVE cure output the card
+// shipped at sites/*/download.html + index.html (grammar pinned, not grepped).
+const SHAPE_FALSE_CLAIMS = [
+  // adjective family (bollywood-dreams meta, holographic-future og meta)
+  [
+    "<p>Runs with automatic HTTPS via Let's Encrypt out of the box.</p>",
+    '<p>Runs with optional HTTPS via --domain and --admin-email out of the box.</p>',
+  ],
+  [
+    "<meta name=\"description\" content=\"Phlix on your box: database, systemd service, and auto-provisioned HTTPS via Let's Encrypt.\">",
+    '<meta name="description" content="Phlix on your box: database, systemd service, and optional HTTPS via --domain and --admin-email.">',
+  ],
+  // "fully" list family (autumn-harvest index, leaderboard-elite index)
+  [
+    '<p>One line gets you a fully running server with HTTPS, a database, and a systemd service.</p>',
+    '<p>One line gets you a fully running server with a database and a systemd service.</p>',
+  ],
+  [
+    '<p>One command gets you a fully configured media server with HTTPS, DLNA, and everything you need to start streaming.</p>',
+    '<p>One command gets you a fully configured media server with DLNA and everything you need to start streaming.</p>',
+  ],
+  // enumeration families (autumn-harvest download metas x3; cybernetic-surge lead)
+  [
+    '<meta name="description" content="Free downloads for Phlix Media Server. Requirements: PHP 8.3+, MySQL, FFmpeg, HTTPS, and systemd — all at once.">',
+    '<meta name="description" content="Free downloads for Phlix Media Server. Requirements: PHP 8.3+, MySQL, FFmpeg, and systemd — all at once.">',
+  ],
+  [
+    '<p>The installer handles everything else — system packages, database, service, HTTPS.</p>',
+    '<p>The installer handles everything else — system packages, database, service.</p>',
+  ],
+  // head-enumeration family (mid-century-modern download x2, both wordings)
+  [
+    '<p>Run one command. HTTPS, database, and systemd service are all handled automatically.</p>',
+    '<p>Run one command. Database and systemd service are handled automatically.</p>',
+  ],
+  [
+    '<p>One command. HTTPS, database, and systemd service handled automatically.</p>',
+    '<p>One command. Database and systemd service are handled automatically.</p>',
+  ],
+];
+
+const SHAPE_HONEST_ACQUITTALS = [
+  // desert-mirage index :365 (reviewer-adjudicated honest)
+  '<p>One command gets you a fully installed, HTTPS-ready media server on any fresh Ubuntu box.</p>',
+  // solarpunk-eden docs :120 (guide scope, reviewer-adjudicated honest)
+  '<p>The Ubuntu and Debian install guide — including HTTPS provisioning, database setup, and reverse proxy notes.</p>',
+  // pastel-dreamscape docs :199 (guide scope the narrow "fully" lead exists to acquit)
+  '<p>Step-by-step install on Ubuntu or Debian — from a fresh host to a running server with HTTPS.</p>',
+];
+
+const SHAPE_WIRE_CONVICTIONS = [
+  // copy a safe narrow sweep cannot re-join: 4-item list. The https-fully arm
+  // (lead + "HTTPS") outgrows the sweep and must name it — law 5 port idiom.
+  '<p>One line gets you a fully running server with HTTPS, plugins, themes, docs, and remote access.</p>',
+  // "handled automatically" on a NON-systemd enumeration: the narrow head-arm
+  // is database-specific on purpose; the handled-wire catches the claim class.
+  "<p>Run the setup. HTTPS, transcoding, and remote access are handled automatically.</p>",
+];
+
+test('law 7: the w17 L7 enum/adjective families cure to pinned grammar, honest guide copy acquits, and outgrowing shapes convict the wire (reopen regression)', () => {
+  const dir = scratchTree();
+  try {
+    const falseFile = join(dir, 'sites', 'synth', 'shape-claims.html');
+    writeFileSync(
+      falseFile,
+      '<!doctype html><html><body>\n' +
+        SHAPE_FALSE_CLAIMS.map(([planted]) => planted).join('\n') +
+        '\n</body></html>\n',
+    );
+    const dry = runTool(dir, ['--dry-run']);
+    assert.equal(
+      dry.httpsClaimsCured,
+      SHAPE_FALSE_CLAIMS.length,
+      `expected exactly ${SHAPE_FALSE_CLAIMS.length} curable shape claims, got ${dry.httpsClaimsCured} — a survivor family went shape-blind again`,
+    );
+    assert.deepEqual(dry.httpsResiduals, [], 'a curable shape reached the residual wire (arms must run on swept text)');
+    const live = runTool(dir);
+    assert.equal(live.httpsClaimsCured, SHAPE_FALSE_CLAIMS.length, 'live shape count drifted from dry count');
+    const cured = readFileSync(falseFile, 'utf8');
+    for (const [, expected] of SHAPE_FALSE_CLAIMS) {
+      assert.ok(cured.includes(expected), `the live sweep did not land pinned grammar: ${expected}`);
+    }
+    const again = runTool(dir, ['--dry-run']);
+    assert.equal(again.httpsClaimsCured, 0, 'a cured shape re-matched its own cure (idempotence broken)');
+    assert.deepEqual(again.httpsResiduals, [], 'post-cure text still reports residuals');
+
+    const honestFile = join(dir, 'sites', 'synth', 'honest-guide.html');
+    writeFileSync(
+      honestFile,
+      '<!doctype html><html><body>\n' + SHAPE_HONEST_ACQUITTALS.join('\n') + '\n</body></html>\n',
+    );
+    const honest = runTool(dir, ['--dry-run']);
+    assert.equal(honest.httpsClaimsCured, 0, 'the sweeps over-reached into adjudicated-honest guide copy');
+    assert.deepEqual(honest.httpsResiduals, [], 'the wire convicted adjudicated-honest guide copy');
+
+    const wireFile = join(dir, 'sites', 'synth', 'wire-convictions.html');
+    writeFileSync(
+      wireFile,
+      '<!doctype html><html><body>\n' + SHAPE_WIRE_CONVICTIONS.join('\n') + '\n</body></html>\n',
+    );
+    const wire = runTool(dir, ['--dry-run']);
+    assert.equal(
+      wire.httpsClaimsCured,
+      0,
+      'a narrow sweep touched copy it cannot safely re-join — over-reach is the pastel over-block class',
+    );
+    assert.deepEqual(
+      wire.httpsResiduals,
+      ['sites/synth/wire-convictions.html: https-fully, https-handled-wire'],
+      `the w17 L7 wire arms must name both outgrowing shapes, got ${JSON.stringify(wire.httpsResiduals)}`,
+    );
+    const before = hashTree(dir, ['sites/synth/wire-convictions.html']);
+    const live2 = runTool(dir);
+    assert.equal(live2.httpsClaimsCured, 0, 'the live run cured wire-only copy');
+    const after = hashTree(dir, ['sites/synth/wire-convictions.html']);
+    assert.equal(
+      before.get('sites/synth/wire-convictions.html'),
+      after.get('sites/synth/wire-convictions.html'),
+      'the live run rewrote report-only wire copy — the detector is never a hidden second sweeper',
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true, maxRetries: 3 });
+  }
 });
