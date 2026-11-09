@@ -128,6 +128,22 @@
  *     outgrows its narrow sweep in law 5's port idiom. The cures drop or
  *     re-cast the false item; none re-introduces its shape token, so the ten
  *     carriers are one live pass from the new fixed point.
+ *     w17 L7 round 3 (RE-REVIEW-w17L7website.md): the re-cure vocabulary still
+ *     missed three occurrences — an enumeration-TAIL claim ("…systemd service,
+ *     and HTTPS in a single command", thunder-strike docs), a keyword-FREE
+ *     cert claim ("…provisions Let's Encrypt certificate via HAProxy", with no
+ *     HTTPS token for any HTTPS-keyed arm to see, desert-mirage download), and
+ *     this sweep's own doubled-optin splice on leaderboard-elite download. The
+ *     first two ship as report-only residual wires with sentence-scoped
+ *     --domain/--admin-email/--tls acquittal guards (no safe generic re-join
+ *     exists for arbitrary enumeration tails or flag-position copy); the third
+ *     ships as one shape source wired to both a sweep collapse and a residual
+ *     arm. The P16 infinitive guard also became case-insensitive: the sentence-
+ *     initial "To provision HTTPS in the same run:" is the honest loading-
+ *     screen instructional class this sweep had been mis-rewriting. The three
+ *     survivor sentences were recast by hand in the same commit as the arms
+ *     that now convict them when planted (red-first pinned by test/copy-sweep-
+ *     stability.test.mjs laws 3/6/7).
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -757,8 +773,15 @@ const HTTPS_SPECIALS = [
 // single-whitespace lookbehind there lets the sweep rewrite honest text — the
 // non-idempotent tip this lane's review caught. Widening a guard can only
 // REMOVE matches, so the swept counts at the honest tip can only fall to zero.
+// Round 3 widens the infinitive guard to the CAPITAL "To": a sentence-initial
+// "To provision HTTPS in the same run:" (loading-screen's honest instructional
+// line) is the same infinitive class, and the case-sensitive guard did not
+// exempt it — cure-1's sweep rewrote that honest sentence into the garbled
+// "…provision plain HTTP with optional HTTPS…in the same run:" the reopen
+// review booked as a Minor. Restoring the copy without widening the guard
+// would let the sweep mangle it again on the next run.
 const HTTPS_VERB_BODY = String.raw`provides?|provisions?|sets?\s+up|configures?|wires?`;
-const HTTPS_TO_GUARD = String.raw`(?<!to\s*)`;
+const HTTPS_TO_GUARD = String.raw`(?<!(?:[Tt]o)\s*)`;
 const HTTPS_PROXY_GUARD = String.raw`(?<!optional\s+HTTPS\s+proxy\s*)`;
 // Verb+HTTPS claims (lowercase verbs only — the honest "Provision HTTPS" labels
 // are sentence-initial and capitalized). Optional tails absorb "automatically",
@@ -804,11 +827,55 @@ const HTTPS_ENUM_END_SHAPE = String.raw`,\s*HTTPS\s*\.`;
 // below outgrows it for future copy claiming HTTPS "handled automatically".
 const HTTPS_HEAD_AUTO_SHAPE = String.raw`HTTPS,\s+database,\s+and\s+systemd\s+service\s+(?:are\s+)?(?:all\s+)?handled\s+automatically\.`;
 const HTTPS_HANDLED_WIRE = String.raw`HTTPS\b[^.<]{0,60}?handled\s+automatically`;
+// w17 L7 ROUND 3 families (RE-REVIEW-w17L7website.md Majors 1-3). Two report-
+// only wires for the shapes every previous vocabulary was structurally blind
+// to, and one sweep+residual well collapsing cure-1's doubled-optin splice
+// artifact. The cert wire keys on the CLAIM, not the HTTPS token — its
+// survivor sentence contains no HTTPS word at all; the tail wire keys on the
+// enumeration conjunct. Both ride a sentence-scoped flag acquittal: copy
+// naming --domain / --admin-email / --tls anywhere inside its own sentence
+// (< or . bounded, newline-tolerant like every guard here) is conditional-
+// honest and must not convict. LAW 6 pins each source's reference count.
+const HTTPS_FLAG_HINT = String.raw`--(?:domain|admin-email|tls)\b`;
+const HTTPS_SENTENCE_NO_FLAGS_BEFORE = String.raw`(?<![.<]*${HTTPS_FLAG_HINT}[^.<]*)`;
+const HTTPS_SENTENCE_NO_FLAGS_AFTER = String.raw`(?![^.<]*${HTTPS_FLAG_HINT})`;
+// Enumeration-TAIL scheme claim: HTTPS as the last conjunct of a shipped-list
+// ("…systemd service, and HTTPS in a single command") — no ", HTTPS," item
+// shape, no comma-ending ", HTTPS." tail, no verb adjacency, no LE tail. The
+// "(single|one) command" witness keeps the wire claim-shaped. Report-only: no
+// generic re-join is safe across arbitrary enumeration tails, the shipped
+// thunder-strike occurrence was recast by hand in this commit's copy pass.
+const HTTPS_TAIL_ENUM_WIRE =
+  HTTPS_SENTENCE_NO_FLAGS_BEFORE +
+  String.raw`\band\s+HTTPS\b[^.<]{0,80}?\b(?:single|one)\s+command\b` +
+  HTTPS_SENTENCE_NO_FLAGS_AFTER;
+// Keyword-free cert-provisioning claim ("…sets up systemd service, provisions
+// Let's Encrypt certificate via HAProxy."): asserts the default run ships a
+// certificate with no HTTPS token for the HTTPS-keyed families to see. Shares
+// the infinitive guard — "Adds --domain and --admin-email to provision a
+// Let's Encrypt certificate" (wilderness-trail) is case law. Also report-only.
+const HTTPS_CERT_SHAPE = String.raw`provisions?\s+(?:an?\s+)?(?:auto-?renewing\s+)?${HTTPS_LE}\s+(?:certificates?|certs?)`;
+const HTTPS_CERT_WIRE =
+  HTTPS_SENTENCE_NO_FLAGS_BEFORE + HTTPS_TO_GUARD + HTTPS_CERT_SHAPE + HTTPS_SENTENCE_NO_FLAGS_AFTER;
+// The doubled-optin splice: cure-1's cert-tail and verb arms fired
+// sequentially over one span and emitted the replacement twice (leaderboard-
+// elite). The collapse is deterministic, so this family ships the full one
+// well: a sweep arm de-duplicates and the residual arm re-uses the source.
+// Whitespace-tolerant like every literal pass here — Prettier owns wrapping
+// and the shipped splice rides a mid-phrase line break, so a single-space
+// backreference never matches it (measured dry-run 0 before this was fixed).
+// The collapse emits the canonical single-space phrase and re-normalizes the
+// wrap. Idempotent: one surviving optin cannot re-match the pair shape.
+const HTTPS_OPTIN_ESC = HTTPS_OPTIN.split(/\s+/)
+  .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  .join('\\s+');
+const HTTPS_OPTIN_DUP_SHAPE = `(${HTTPS_OPTIN_ESC})(?:\\s+(?:with|and)\\s+|,\\s*(?:and\\s+)?)${HTTPS_OPTIN_ESC}`;
 const HTTPS_ADJ_RE = new RegExp(HTTPS_ADJ_SHAPE, 'g');
 const HTTPS_FULLY_RE = new RegExp(HTTPS_FULLY_LEAD + String.raw`HTTPS,\s+([^,.<]+?),\s+and\s+`, 'g');
 const HTTPS_ENUM_MID_RE = new RegExp(HTTPS_ENUM_MID_SHAPE, 'g');
 const HTTPS_ENUM_END_RE = new RegExp(HTTPS_ENUM_END_SHAPE, 'g');
 const HTTPS_HEAD_AUTO_RE = new RegExp(HTTPS_HEAD_AUTO_SHAPE, 'g');
+const HTTPS_OPTIN_DUP_RE = new RegExp(HTTPS_OPTIN_DUP_SHAPE, 'g');
 const HTTPS_PORT_RE =
   /behind\s+((?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy))\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)\s*(?:<code>)?:443(?:<\/code>)?/gi;
 const HTTPS_CHIP_RE = /behind\s+HAProxy\s+:80\s*\/\s*:443\)/g;
@@ -846,6 +913,12 @@ function sweepHttpsClaims(t) {
     n++;
     return 'Database and systemd service are handled automatically.';
   });
+  // Round 3: collapse cure-1-style doubled opt-in phrases. Runs LAST in the
+  // family so any splice a preceding arm creates in this same call is caught.
+  t = t.replace(HTTPS_OPTIN_DUP_RE, () => {
+    n++;
+    return HTTPS_OPTIN;
+  });
   return [t, n];
 }
 function sweepHttpsPorts(t) {
@@ -877,6 +950,12 @@ const HTTPS_RESIDUALS = [
   [new RegExp(HTTPS_ENUM_MID_SHAPE), 'https-enum-mid'],
   [new RegExp(HTTPS_ENUM_END_SHAPE), 'https-enum-end'],
   [new RegExp(HTTPS_HANDLED_WIRE), 'https-handled-wire'],
+  // w17 L7 round 3: the tail-enum and cert survivors convicted by their own
+  // wires (report-only — law 5's idiom), and the doubled-optin shape re-
+  // consumed from the sweep's source so the well can never lag its collapse.
+  [new RegExp(HTTPS_TAIL_ENUM_WIRE), 'https-tail-enum'],
+  [new RegExp(HTTPS_CERT_WIRE), 'https-cert'],
+  [new RegExp(HTTPS_OPTIN_DUP_SHAPE), 'https-optin-dup'],
 ];
 function sweepHttpsResidual(t) {
   const hits = [];

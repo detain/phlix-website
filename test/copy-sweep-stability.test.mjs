@@ -80,6 +80,20 @@
 //        safely re-join (a 4+ item list, a non-systemd enumeration ending
 //        "handled automatically") must be left untouched yet NAMED by the
 //        https-fully / https-handled-wire arms — law 5's wire idiom.
+//   LAW 7 EXTENDED (w17 L7 round 3 — RE-REVIEW-w17L7website.md): three further
+//        survivors the re-cure vocabulary still could not see — the
+//        enumeration-TAIL scheme claim ("…systemd service, and HTTPS in a
+//        single command", no verb, no comma-item shape), the keyword-FREE
+//        cert-provisioning claim ("…provisions Let's Encrypt certificate via
+//        HAProxy", a sentence containing no HTTPS token at all, dodging every
+//        HTTPS-keyed family), and cure-1's own doubled-optin splice artifact —
+//        join the plants: the tail/cert shapes are report-only wires, the
+//        doubled optin ships as one well collapsed by the sweep. The wires
+//        carry sentence-scoped flag acquittal guards: conditional copy naming
+//        --domain/--admin-email/--tls anywhere in its own sentence must stay
+//        silent on BOTH sides of the claim, and the sentence-initial capital
+//        infinitive "To provision HTTPS in the same run" (the loading-screen
+//        block cure-1 mis-rewrote) must acquit sweep and detector alike.
 //
 // STATED BOUNDARIES (disclosed, not hidden): law 1 proves zero-COUNTER
 // stability; laws 2/4 prove zero-WRITE stability on copies. A counter that
@@ -237,6 +251,19 @@ test('law 3: Prettier-wrapped honest opt-in shapes acquit the sweep and the dete
     ),
     'the swiss-modernist sentence the review convicted (wrapped "to provision HTTPS") moved — re-derive the plant below',
   );
+  // Round 3: the loading-screen "Provision HTTPS" block restored to the honest
+  // capital-infinitive sentence cure-1's case-sensitive lookbehind mis-rewrote.
+  // Byte-pinned the same way the swiss sentence is, so the plant below cannot
+  // rot away from what it models.
+  const loading = readFileSync(join(ROOT, 'sites', 'loading-screen', 'download.html'), 'utf8');
+  assert.ok(
+    loading.includes('<h3>Provision HTTPS</h3>'),
+    'the loading-screen "Provision HTTPS" block moved — re-derive the capital-infinitive plant below',
+  );
+  assert.ok(
+    /To\s+provision\s+HTTPS\s+in\s+the\s+same\s+run:/.test(loading),
+    'the loading-screen sentence is NOT the restored honest "To provision HTTPS in the same run:" — the capital infinitive was re-mangled',
+  );
 
   const dir = scratchTree();
   try {
@@ -256,6 +283,11 @@ test('law 3: Prettier-wrapped honest opt-in shapes acquit the sweep and the dete
         // the plants above for the wrong reason.
         '<p>Pass both flags to provision HTTPS in the same run.</p>',
         "<p>Plain HTTP first; the box can run an optional HTTPS proxy with Let's Encrypt.</p>",
+        // Round 3 (the loading-screen defect): sentence-initial CAPITAL "To"
+        // infinitive — the case-sensitive guard (?<!to\s*) did not exempt it
+        // and cure-1 rewrote the honest instructional line. Must acquit.
+        '<h3>Provision HTTPS</h3>',
+        '<p>To provision HTTPS in the same run:</p>',
         '</body></html>\n',
       ].join('\n'),
     );
@@ -378,7 +410,7 @@ test('law 6: sweep and detector share one verb body; the single-whitespace guard
   );
   for (const [name, uses] of [
     ['HTTPS_VERB_BODY', 2],
-    ['HTTPS_TO_GUARD', 2],
+    ['HTTPS_TO_GUARD', 3],
     ['HTTPS_PROXY_GUARD', 2],
     ['HTTPS_ADJ_SHAPE', 2],
     ['HTTPS_FULLY_LEAD', 2],
@@ -386,6 +418,16 @@ test('law 6: sweep and detector share one verb body; the single-whitespace guard
     ['HTTPS_ENUM_END_SHAPE', 2],
     ['HTTPS_HEAD_AUTO_SHAPE', 1],
     ['HTTPS_HANDLED_WIRE', 1],
+    // Round 3 (RE-REVIEW-w17L7website.md): the tail-enum and cert wires each
+    // ride on the shared sentence flag-acquittal guards (one well again), and
+    // the doubled-optin shape feeds both a sweep arm and a residual arm.
+    ['HTTPS_FLAG_HINT', 2],
+    ['HTTPS_SENTENCE_NO_FLAGS_BEFORE', 2],
+    ['HTTPS_SENTENCE_NO_FLAGS_AFTER', 2],
+    ['HTTPS_TAIL_ENUM_WIRE', 1],
+    ['HTTPS_CERT_SHAPE', 1],
+    ['HTTPS_CERT_WIRE', 1],
+    ['HTTPS_OPTIN_DUP_SHAPE', 2],
   ]) {
     assert.equal(
       (code.match(new RegExp(`\\b${name}\\b`, 'g')) ?? []).length,
@@ -456,6 +498,13 @@ const SHAPE_FALSE_CLAIMS = [
     '<p>One command. HTTPS, database, and systemd service handled automatically.</p>',
     '<p>One command. Database and systemd service are handled automatically.</p>',
   ],
+  // round 3: cure-1's own splice artifact — the opt-in phrase doubled verbatim
+  // in one sentence (leaderboard-elite download.html, written by the first
+  // sweep's sequential cert-tail + verb arms). The dedup well collapses it.
+  [
+    '<p>Installs system packages, creates database, sets up systemd service, and configures plain HTTP with optional HTTPS via --domain and --admin-email with optional HTTPS via --domain and --admin-email.</p>',
+    '<p>Installs system packages, creates database, sets up systemd service, and configures plain HTTP with optional HTTPS via --domain and --admin-email.</p>',
+  ],
 ];
 
 const SHAPE_HONEST_ACQUITTALS = [
@@ -465,6 +514,12 @@ const SHAPE_HONEST_ACQUITTALS = [
   '<p>The Ubuntu and Debian install guide — including HTTPS provisioning, database setup, and reverse proxy notes.</p>',
   // pastel-dreamscape docs :199 (guide scope the narrow "fully" lead exists to acquit)
   '<p>Step-by-step install on Ubuntu or Debian — from a fresh host to a running server with HTTPS.</p>',
+  // round 3: honest cert copy the sentence-scoped flag guards exist to spare —
+  // the wilderness-trail infinitive, and both flag-position conditional shapes
+  // (flags BEFORE the claim exercise the lookbehind, flags AFTER the lookahead).
+  "<p>Adds <code>--domain</code> and <code>--admin-email</code> to provision a Let's Encrypt certificate in the same run.</p>",
+  '<p>When you pass --domain and --admin-email, the installer provisions a Let\'s Encrypt certificate via HAProxy.</p>',
+  '<p>The installer provisions a Let\'s Encrypt certificate in the same run when you add --domain and --admin-email.</p>',
 ];
 
 const SHAPE_WIRE_CONVICTIONS = [
@@ -474,6 +529,16 @@ const SHAPE_WIRE_CONVICTIONS = [
   // "handled automatically" on a NON-systemd enumeration: the narrow head-arm
   // is database-specific on purpose; the handled-wire catches the claim class.
   "<p>Run the setup. HTTPS, transcoding, and remote access are handled automatically.</p>",
+  // round 3 survivor 1 (thunder-strike docs.html, byte-faithful incl. the
+  // Prettier wrap): enumeration-TAIL scheme claim — HTTPS joins the list with
+  // bare "and", no comma-item shape, no verb, no LE tail. No sweep may safely
+  // re-join an arbitrary list, so the wire names it.
+  '<p>One-line install on Ubuntu/Debian. System packages, database, systemd service, and\n                HTTPS in a single command.</p>',
+  // round 3 survivor 2 (desert-mirage download.html, byte-faithful): cert
+  // claim with NO HTTPS token anywhere in the sentence — every HTTPS-keyed
+  // family was structurally blind to it. Flags absent from the sentence span,
+  // so the cert wire convicts.
+  "<p>Installs system packages, creates database, sets up systemd service, provisions Let's\n            Encrypt certificate via HAProxy.</p>",
 ];
 
 test('law 7: the w17 L7 enum/adjective families cure to pinned grammar, honest guide copy acquits, and outgrowing shapes convict the wire (reopen regression)', () => {
@@ -525,8 +590,10 @@ test('law 7: the w17 L7 enum/adjective families cure to pinned grammar, honest g
     );
     assert.deepEqual(
       wire.httpsResiduals,
-      ['sites/synth/wire-convictions.html: https-fully, https-handled-wire'],
-      `the w17 L7 wire arms must name both outgrowing shapes, got ${JSON.stringify(wire.httpsResiduals)}`,
+      [
+        'sites/synth/wire-convictions.html: https-fully, https-handled-wire, https-tail-enum, https-cert',
+      ],
+      `the wire arms must name every outgrowing shape incl. the round-3 tail-enum/cert survivors, got ${JSON.stringify(wire.httpsResiduals)}`,
     );
     const before = hashTree(dir, ['sites/synth/wire-convictions.html']);
     const live2 = runTool(dir);
