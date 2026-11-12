@@ -285,6 +285,19 @@ if (emittedSiteDirs.length !== builtCount) {
   );
 }
 
+// og:image existence gate (WEB-5): check-meta.mjs only string-compares the
+// og:image URL and selfcheck.mjs (which asserts existence) is off the deploy
+// path, so a kit whose img/og.png goes missing would ship a dead social card
+// green. Every emitted kit dir must really contain img/og.png; fail-loud, by
+// slug.
+const missingOg = emittedSiteDirs.filter((s) => !existsSync(join(DIST, s, 'img', 'og.png')));
+if (missingOg.length) {
+  throw new Error(
+    `build: ${missingOg.length} emitted site(s) lack img/og.png (og:image would 404):\n` +
+      missingOg.map((s) => `  ✗ ${s}`).join('\n'),
+  );
+}
+
 // State the denominator. "76 brand kit(s), 76 built site(s)" was the original
 // lie: both numbers counted only the kits that loaded, so the sentence was true
 // and useless. The first number below is the file count from the brand-kits/

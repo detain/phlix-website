@@ -164,6 +164,8 @@ function makeFixture() {
       '<body><button id="copy">x</button><script src="js/main.js" defer></script></body></html>',
     'utf8',
   );
+  mkdirSync(join(dir, 'sites', 'alpha-kit', 'img'), { recursive: true });
+  writeFileSync(join(dir, 'sites', 'alpha-kit', 'img', 'og.png'), 'png', 'utf8');
   writeFileSync(
     join(dir, 'sites', 'alpha-kit', '404.html'),
     '<html><head></head><body>x</body></html>',
@@ -539,4 +541,14 @@ test('law 10: the deployed tree carries zero dotfiles — kit dev-config strays 
       `planted sites/alpha-kit/${stray} shipped into dist`,
     );
   }
+});
+
+test('law 11: the build reds BY SLUG when an emitted kit lacks img/og.png (WEB-5)', () => {
+  const dir = makeFixture();
+  rmSync(join(dir, 'sites', 'alpha-kit', 'img', 'og.png'));
+  const built = runBuild(dir);
+  assert.notEqual(built.code, 0, 'build accepted a kit with no og.png');
+  assert.match(built.out, /lack img\/og\.png[\s\S]*alpha-kit/, `not named by slug:\n${built.out}`);
+  // Control: the intact fixture builds clean.
+  assert.equal(runBuild(makeFixture()).code, 0);
 });

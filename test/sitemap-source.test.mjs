@@ -89,6 +89,8 @@ function makeFixture({ deployed, authoredOnly = [] }) {
     mkdirSync(join(dir, 'sites', slug), { recursive: true });
     writeFileSync(join(dir, 'sites', slug, 'index.html'), page, 'utf8');
     writeFileSync(join(dir, 'sites', slug, 'about.html'), page, 'utf8');
+    mkdirSync(join(dir, 'sites', slug, 'img'), { recursive: true });
+    writeFileSync(join(dir, 'sites', slug, 'img', 'og.png'), 'png', 'utf8');
     // 404s are reached only through the root shim and carry noindex, so they
     // must never reach the sitemap. Present here so that exclusion is tested.
     writeFileSync(join(dir, 'sites', slug, '404.html'), page, 'utf8');

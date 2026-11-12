@@ -88,6 +88,8 @@ function makeFixture(kits, { pinFiles = null, pinCount = null, sites = true } = 
     const slug = name.replace(/\.js$/, '');
     mkdirSync(join(dir, 'sites', slug), { recursive: true });
     writeFileSync(join(dir, 'sites', slug, 'index.html'), '<html><head></head><body>x</body></html>', 'utf8');
+    mkdirSync(join(dir, 'sites', slug, 'img'), { recursive: true });
+    writeFileSync(join(dir, 'sites', slug, 'img', 'og.png'), 'png', 'utf8');
   }
 
   const files = pinFiles ?? Object.keys(kits).sort();
