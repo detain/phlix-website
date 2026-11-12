@@ -61,4 +61,3 @@ Sentient AI organizing your media with mechanical precision.
 - `js/avatar-evolution.js` - Evolving avatar system
 - `js/servo-interaction.js` - Mechanical feedback
 - `js/main.js` - Core initialization
-- `reviews/android-dreams/index.html` - User system logs

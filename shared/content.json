@@ -13,7 +13,7 @@
   "hero": {
     "eyebrow": "Self-hosted media server",
     "headline": "Your media. Your library. Your Phlix.",
-    "subheadline": "An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone (beta), and any DLNA device — with SyncPlay, Live TV, transcoding, and a hub that follows you anywhere.",
+    "subheadline": "An open-source PHP media server that streams to your Roku, Samsung TV, Windows desktop, phone (beta), and any DLNA device — with SyncPlay watch-together, Live TV, transcoding, and a hub that follows you anywhere.",
     "primary_cta": {
       "label": "Get Phlix",
       "href": "#install",
@@ -23,8 +23,8 @@
   },
   "pitch_bullets": [
     "Bring your own media — Phlix plays the files you own, on hardware you control, and your library never leaves it unless you say so. Free and open source; no subscription, no catalog to buy",
-    "Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console — plus the web portal and any DLNA device",
-    "Real-time SyncPlay with NTP-style time sync so movie night actually stays in sync",
+    "Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and the Linux console — plus the web portal and any DLNA device",
+    "Real-time SyncPlay for watching together on separate screens — NTP-style clock sync keeps every player in step, so movie night actually stays in sync",
     "Multi-source metadata: TMDB, TVDB, Fanart.tv, and local NFO with 24-hour cache",
     "Adaptive HLS streaming, FFmpeg transcoding, per-device quality profiles",
     "Live TV with DVR + EPG guide integration",
@@ -150,7 +150,7 @@
     { "name": "phlix-server", "repo": "https://github.com/detain/phlix-server", "what": "The media server itself — PHP 8.3+, Workerman 5.x" },
     { "name": "phlix-hub", "repo": "https://github.com/detain/phlix-hub", "what": "Cloud directory + reverse-tunnel relay" },
     { "name": "phlix-shared", "repo": "https://github.com/detain/phlix-shared", "what": "Shared interfaces, DTOs, event types — Composer package" },
-    { "name": "phlix-contracts", "repo": "https://github.com/detain/phlix-contracts", "what": "Versioned wire + REST DTO contracts — shared TypeScript types, the estate error-code registry, the server route manifest, and MCP scopes" },
+    { "name": "phlix-contracts", "repo": "https://github.com/detain/phlix-contracts", "what": "Versioned contracts between the server and its apps — shared TypeScript types for the REST API and real-time messages, the error-code list every app understands, the server route manifest, and the permission scopes for AI-assistant (MCP) access" },
     { "name": "phlix-syncplay", "repo": "https://github.com/detain/phlix-syncplay", "what": "SyncPlay wire protocol + NTP time-sync for the JavaScript clients" },
     { "name": "phlix-tokens", "repo": "https://github.com/detain/phlix-tokens", "what": "Design tokens — the theme token source of truth consumed by the web UI" },
     { "name": "phlix-docs", "repo": "https://github.com/detain/phlix-docs", "what": "End-user, developer, and hub-admin docs (VitePress)" },
@@ -165,7 +165,7 @@
 
     {
       "q": "Is Phlix like Plex / Jellyfin / Emby?",
-      "a": "Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman, ships with a versioned plugin contract, and includes a hub for accessing remote servers behind NAT without a third-party tunnel."
+      "a": "Yes — same job, different stack. Phlix is built in PHP 8.3+ on Workerman (an always-running PHP server engine), ships with a versioned plugin contract so each plugin declares the Phlix version it needs, and includes a hub for reaching your server from anywhere — even behind a home router (NAT) — without a third-party tunnel."
     },
     {
       "q": "Do I need to expose my server to the internet?",
@@ -243,11 +243,11 @@
       "command": "git clone https://github.com/detain/phlix-server.git\ncd phlix-server\ncomposer install",
       "notes": "This is a development checkout only. It does not create a database, a service, or run migrations. Never present it as the way to install Phlix."
     },
-    "requirements": "PHP 8.3+, MySQL, ffmpeg. The installer targets a fresh Ubuntu/Debian host and also compiles the Swoole and php-uv extensions from source, skipping the build when they already load.",
+    "requirements": "PHP 8.3+, MySQL, ffmpeg — the installer sets these up itself, so there is nothing to install first. It targets a fresh Ubuntu/Debian host (a spare PC, a mini PC or a virtual machine all work) and also compiles the Swoole and php-uv extensions from source, skipping the build when they already load.",
     "docs_url": "https://detain.github.io/phlix-docs/install/linux"
   },
   "meta": {
-    "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile. SyncPlay, Live TV, DVR, DLNA support.",
+    "description": "Self-hostable PHP media server with native apps for Roku, Samsung TV, Windows & mobile (beta). SyncPlay, Live TV, DVR, DLNA support.",
     "keywords": ["phlix", "media server", "plex alternative", "jellyfin alternative", "self-hosted streaming", "php media server"],
     "og_image": "img/og.png",
     "og_image_note": "Per-site filename only. Each page must emit og:image as the ABSOLUTE URL <site.url>/<slug>/img/og.png — tools/check-meta.mjs rule 5 rejects a relative URL and rejects .svg, which several platforms will not render. Keep og.svg as the editable source and rasterize with: node tools/gen-og.mjs --site <slug>",
