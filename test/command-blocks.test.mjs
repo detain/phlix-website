@@ -1,0 +1,40 @@
+// Guard (WEB-S5 / WEB-3): command text in kit pages must survive HTML
+// whitespace collapsing. Rejects a shell line-continuation backslash before a
+// pipe ("\ |" flattens to a broken command) and run-on `git clone ... cd ...
+// composer` text with no `&&` or newline-preserving <pre>.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'sites');
+const pages = [];
+for (const d of readdirSync(root, { withFileTypes: true })) {
+  if (!d.isDirectory()) continue;
+  for (const f of readdirSync(join(root, d.name))) {
+    if (f.endsWith('.html')) pages.push(join(root, d.name, f));
+  }
+}
+
+test('kit pages exist', () => {
+  assert.ok(pages.length > 100 && existsSync(pages[0]));
+});
+
+test('no flattened "\\ |" continuation outside <pre>', () => {
+  const bad = pages.filter((p) => {
+    const rest = readFileSync(p, 'utf8').replace(/<pre[\s\S]*?<\/pre>/g, '');
+    return /\\\s+\|/.test(rest);
+  });
+  assert.deepEqual(bad, []);
+});
+
+test('no run-on git clone / cd / composer command text', () => {
+  const bad = pages.filter((p) => {
+    const html = readFileSync(p, 'utf8');
+    // outside <pre> blocks (which preserve newlines)
+    const rest = html.replace(/<pre[\s\S]*?<\/pre>/g, '');
+    return /git clone\s+\S+\s+cd\s/.test(rest);
+  });
+  assert.deepEqual(bad, []);
+});
