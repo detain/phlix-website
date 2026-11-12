@@ -170,6 +170,35 @@ function renderKitCard(kit, index) {
   return card;
 }
 
+// The gallery's default view: a curated dozen that spans the range of looks
+// (editorial, neon, organic, retro, ornate, playful), so the section reads as
+// a showcase instead of a 79-iframe wall. Everything else is one click away
+// ("Show all"). Order here is display order. Slugs that are missing or not
+// built are skipped; if none match (e.g. a fixture build), every kit shows.
+// test/root-value-prop.test.mjs pins each slug to a built kit.
+const FEATURED_SLUGS = [
+  'swiss-modernist',
+  'neon-noir',
+  'art-nouveau-garden',
+  'cyber-tokyo',
+  'wabi-sabi',
+  'retro-seventies',
+  'speakeasy-gold',
+  'solarpunk-eden',
+  'pixel-dungeon',
+  'afrofuturism',
+  'ice-cathedral',
+  'pop-art-explosion',
+];
+
+function splitFeatured(kits) {
+  const bySlug = new Map(kits.map((k) => [k.slug, k]));
+  const featured = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((k) => k && k.built);
+  if (!featured.length) return { featured: kits, rest: [] };
+  const picked = new Set(featured);
+  return { featured, rest: kits.filter((k) => !picked.has(k)) };
+}
+
 function init() {
   const container = document.getElementById('variants-container');
 
@@ -186,10 +215,20 @@ function init() {
   grid.className = 'variants-grid';
 
   const builtCount = KITS.filter((k) => k.built).length;
-  const subtitle = document.querySelector('.subtitle');
-  if (subtitle) {
-    subtitle.textContent = `${KITS.length} brand kits · ${builtCount} live`;
+  const { featured, rest } = splitFeatured(KITS);
+
+  // The count lives in its OWN node. The instruction line (.subtitle) is
+  // static template copy and is never written by script, so it survives
+  // the render.
+  const count = document.querySelector('.gallery-count');
+  function setCount(shown) {
+    if (!count) return;
+    count.textContent =
+      shown < KITS.length
+        ? `${shown} featured of ${KITS.length} brand kits · ${builtCount} live`
+        : `${KITS.length} brand kits · ${builtCount} live`;
   }
+  setCount(featured.length);
 
   // R-WEBSITE-07 forward-fix 4 — the grid is appended a few cards per
   // FRAME instead of all 79 inside one task. Building and laying out the
@@ -199,27 +238,58 @@ function init() {
   // spreads the same total work frame-by-frame, below the blocking
   // threshold. Appends only grow the grid downward; nothing painted above
   // them can shift, and the entrance stagger (animationDelay) already
-  // staged the cards' appearance.
+  // staged the cards' appearance. "Show all" reuses the same chunker.
   const CARDS_PER_FRAME = 24;
-  let cursor = 0;
-  function buildNextChunk() {
-    const end = Math.min(cursor + CARDS_PER_FRAME, KITS.length);
-    for (; cursor < end; cursor++) grid.appendChild(renderKitCard(KITS[cursor], cursor));
-    if (cursor < KITS.length) {
-      requestAnimationFrame(buildNextChunk);
-      return;
+  let resizeBound = false;
+  function appendCards(list, onFirstChunk) {
+    let cursor = 0;
+    function buildNextChunk() {
+      const end = Math.min(cursor + CARDS_PER_FRAME, list.length);
+      const first = cursor;
+      for (; cursor < end; cursor++) grid.appendChild(renderKitCard(list[cursor], cursor));
+      if (first === 0 && onFirstChunk) onFirstChunk();
+      if (cursor < list.length) {
+        requestAnimationFrame(buildNextChunk);
+        return;
+      }
+      // Cards are laid out now — size every preview to its card width (one
+      // batched measure/write pass, never a read per card), and keep them
+      // correct as the grid reflows on resize.
+      applyAllPreviewScales();
+      if (resizeBound) return;
+      resizeBound = true;
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(applyAllPreviewScales, 150);
+      });
     }
-    // Cards are laid out now — size every preview to its card width (one
-    // batched measure/write pass, never a read per card), and keep them
-    // correct as the grid reflows on resize.
-    applyAllPreviewScales();
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(applyAllPreviewScales, 150);
-    });
+    requestAnimationFrame(buildNextChunk);
   }
-  requestAnimationFrame(buildNextChunk);
+
+  container.appendChild(grid);
+  appendCards(featured);
+
+  const more = document.querySelector('.gallery-more');
+  if (more && rest.length) {
+    more.textContent = `Show all ${KITS.length} brand kits`;
+    more.hidden = false;
+    more.addEventListener(
+      'click',
+      () => {
+        more.hidden = true;
+        setCount(KITS.length);
+        // Keep keyboard users in place: focus moves to the first card the
+        // click revealed, not back to the top of the page.
+        const firstNew = featured.length;
+        appendCards(rest, () => {
+          const card = grid.children[firstNew];
+          if (card && typeof card.focus === 'function') card.focus({ preventScroll: true });
+        });
+      },
+      { once: true },
+    );
+  }
 
   // The hover instruction belongs to the gallery, not to the page: only
   // show it while the gallery section is actually on screen.

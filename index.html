@@ -471,7 +471,33 @@
         text-transform: uppercase;
         letter-spacing: 0.2em;
         text-align: center;
+        margin-bottom: 0.4rem;
+      }
+
+      /* Script-written kit count — its own node, so the instruction above
+         is never overwritten by the render. */
+      .gallery-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.08em;
+        text-align: center;
+        min-height: 1.2em;
         margin-bottom: 0.9rem;
+      }
+
+      .gallery-more-wrap {
+        text-align: center;
+        margin-top: 1.4rem;
+      }
+
+      .gallery-more {
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .gallery-more[hidden] {
+        display: none;
       }
 
       /* One continuous grid for every variant. Cards are ordered by set and
@@ -950,14 +976,22 @@
             each account picks in Settings.
           </p>
         </div>
+        <!-- The instruction line is static copy: gallery.js writes the kit count
+             into .gallery-count and never touches .subtitle. -->
         <p class="subtitle">Brand-kit site previews — hover to enlarge, click to open.</p>
+        <p class="gallery-count" aria-live="polite"></p>
         <div id="variants-container">
           <!-- Brand-kit cards are injected here by JavaScript -->
+        </div>
+        <div class="gallery-more-wrap">
+          <button type="button" class="btn btn-secondary gallery-more" hidden>
+            Show all brand kits
+          </button>
         </div>
       </section>
     </main>
 
-    <div class="hover-hint">Hover to preview &middot; Click to open</div>
+    <div class="hover-hint">Hover to enlarge &middot; Click to open</div>
 
     <footer>
       Open-source media, on your terms — free to use, no subscription. You pay only for your own
