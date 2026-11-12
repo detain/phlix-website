@@ -46,15 +46,21 @@
 //   4. useIncognitoBrowserContext is false while concurrency > 1.
 //   5. tools/a11y.mjs still treats a non-{0,2} exit as fatal, so a crash can
 //      never again be mistaken for a pass.
+//   6. An EMPTY page corpus is fatal too (exit 1, never "skipped" exit 0) --
+//      both as pure policy (classifyCorpus) and behaviourally, by running the
+//      real script from an empty cwd. Same law as tools/lint.mjs
+//      `requiresFiles: true` and tools/linkcheck-internal.mjs.
 //
 // Every assertion strips comments from the file it inspects first, so this
 // detector cannot pass by matching the prose above or the prose in its subject.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (p) => JSON.parse(readFileSync(resolve(root, p), 'utf8'));
@@ -172,6 +178,44 @@ test('tools/a11y.mjs treats a harness crash as fatal', async () => {
   }
   // ...and strictness must not be able to excuse a crash either.
   assert.equal(classifyExit(1, true).exit, 1);
+});
+
+test('an empty page corpus is a failure, not a skip (policy)', async () => {
+  // Formerly `inspected 0 pages -> exit 0 (skipped)`: a gate that looked at
+  // nothing reported green on the deploy path. Assert the mapping, not a grep.
+  const { classifyCorpus } = await import('../tools/a11y.mjs');
+
+  for (const n of [0, -1, NaN, undefined, null]) {
+    const got = classifyCorpus(n);
+    assert.equal(got.kind, 'empty', `corpus of ${n} pages must classify as empty`);
+    assert.notEqual(got.exit, 0, `corpus of ${n} pages must NOT be reported as success`);
+  }
+  assert.deepEqual(classifyCorpus(1), { exit: 0, kind: 'run' });
+  assert.deepEqual(classifyCorpus(144), { exit: 0, kind: 'run' });
+});
+
+test('npm run a11y from a tree with no sites/**/index.html exits non-zero', () => {
+  // Behavioural: run the real script with an empty cwd. PAGES is globbed
+  // relative to cwd, so this yields zero pages and must exit 1 BEFORE
+  // pa11y-ci is spawned (so this costs milliseconds, not a browser run).
+  const dir = mkdtempSync(join(tmpdir(), 'phlix-a11y-empty-'));
+  try {
+    const r = spawnSync(process.execPath, [resolve(root, 'tools/a11y.mjs')], {
+      cwd: dir,
+      encoding: 'utf8',
+      timeout: 30_000,
+    });
+    assert.equal(r.error, undefined, `spawn failed: ${r.error}`);
+    assert.equal(
+      r.status,
+      1,
+      `empty corpus must exit 1; got status ${r.status} signal ${r.signal}\nstdout:\n${r.stdout}\nstderr:\n${r.stderr}`,
+    );
+    assert.match(r.stderr, /empty corpus/, 'the refusal must say why it failed');
+    assert.ok(!/skipped/.test(r.stdout + r.stderr), 'an empty corpus must never be reported as "skipped"');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('importing tools/a11y.mjs does not launch pa11y-ci', async () => {

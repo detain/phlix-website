@@ -58,6 +58,14 @@
 //        indistinguishable from a pass. Crashes are now fatal; findings are not.
 //
 // Set A11Y_STRICT=1 to fail on findings too, once the debt is paid down.
+//
+// An EMPTY page corpus is also fatal (exit 1), before pa11y-ci is ever spawned.
+// It used to print "inspected 0 pages -> exit 0 (skipped)" and pass, which is
+// exactly the fake green the crash rule above exists to kill: a moved/renamed
+// sites/ tree or a wrong cwd would turn this step on the deploy path
+// (.github/workflows/pages.yml) into a silent no-op. Same law as
+// tools/lint.mjs `requiresFiles: true` and tools/linkcheck-internal.mjs:
+// refuse to report success on an empty corpus. See classifyCorpus() below.
 
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -105,15 +113,37 @@ export function classifyExit(code, strict = false) {
   return { exit: 1, kind: 'crash' };
 }
 
+/**
+ * Decide whether the globbed page corpus is runnable.
+ *
+ * Exported and pure for the same reason as classifyExit: the test asserts the
+ * POLICY (zero pages is a failure, never a skip) rather than grepping for an
+ * exit literal. Any non-positive / non-finite count is treated as empty.
+ *
+ * @param {number} count  number of pages matched by PAGES
+ * @returns {{exit: number, kind: 'run'|'empty'}}
+ */
+export function classifyCorpus(count) {
+  if (Number.isFinite(count) && count > 0) {
+    return { exit: 0, kind: 'run' };
+  }
+  return { exit: 1, kind: 'empty' };
+}
+
 function main() {
   const cfgPath = resolve(process.cwd(), CONFIG);
   const pages = globSync(PAGES).sort();
 
   // A gate that inspected zero pages passes every assertion it makes, so the
-  // page count is printed on every exit path -- same reasoning as tools/lint.mjs.
-  if (pages.length === 0) {
-    console.log(`[a11y] pa11y-ci inspected 0 pages (no ${PAGES}) -> exit 0 (skipped)`);
-    process.exit(0);
+  // page count is printed on every exit path, and an empty corpus FAILS --
+  // same law as tools/lint.mjs (requiresFiles) and tools/linkcheck-internal.mjs.
+  const corpus = classifyCorpus(pages.length);
+  if (corpus.kind === 'empty') {
+    console.error(
+      `[a11y] no files match ${PAGES} (cwd ${process.cwd()}) -> exit ${corpus.exit}\n` +
+        `[a11y] pa11y-ci would inspect 0 pages. Refusing to report success on an empty corpus.`,
+    );
+    process.exit(corpus.exit);
   }
 
   if (!existsSync(cfgPath)) {
