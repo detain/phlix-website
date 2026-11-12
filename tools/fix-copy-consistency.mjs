@@ -144,6 +144,14 @@
  *     survivor sentences were recast by hand in the same commit as the arms
  *     that now convict them when planted (red-first pinned by test/copy-sweep-
  *     stability.test.mjs laws 3/6/7).
+ *  P17 identity-provider roster (WEB-12, round-2026-11-11 WEB-S2): the auth
+ *     body's "Bring your existing identity too" sentence named OIDC, LDAP,
+ *     and passkeys but not GitHub sign-in, which the server ships alongside
+ *     them (phlix-server src/Plugins/Github/GithubOAuthProvider.php next to
+ *     src/Plugins/{Oidc,Ldap}). One whitespace-tolerant literal swap inserts
+ *     GitHub into the list on every carrier AND in the shared/content.json
+ *     SSOT tail block, so mirrors and source move together. Idempotent: the
+ *     cured list ("OIDC, LDAP, GitHub, and passkeys") cannot re-match.
  *
  * House doctrine (carved by tools/fix-license-facts.mjs PASS 2): matching is
  * whitespace-tolerant because Prettier owns wrapping and mid-sentence breaks
@@ -506,7 +514,7 @@ const EXTENDED = [
   ],
   [
     "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content.",
-    "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing identity too: OIDC, LDAP, and passkeys all work, so Phlix fits the sign-in you already run.",
+    "One account, up to 5 personal profiles by default, each lockable with a 4- or 6-digit PIN. Passwords are protected with Argon2ID — today's strongest widely recommended hashing — and sign-ins stay secure with tokens that refresh themselves. Rating filters from G to NC-17 keep kids' profiles to kids' content. Bring your existing identity too: OIDC, LDAP, GitHub, and passkeys all work, so Phlix fits the sign-in you already run.",
   ],
   [
     "Every device gets the right quality on its own — dedicated profiles for phones, web, and 4K TVs. When a file won't play directly, Phlix transcodes it on the fly with FFmpeg (H.264 defaults to CRF 23, the sweet spot between quality and size) and delivers it as adaptive HLS that rides out network hiccups.",
@@ -521,6 +529,19 @@ const EXTENDED = [
     'The hub is a small server you run in the cloud that connects your devices to your home server — no ports to open, no third-party tunnel. Sign in once and watch your library from anywhere. You run the hub, you own the relay. Hubs can even link up with each other, each proving its identity with an Ed25519 signature.',
   ],
 ].map(([o, n]) => litGrow(o, n));
+
+// P17 identity-provider roster (WEB-12): add GitHub sign-in to the auth body's
+// provider list. NEW text never re-matches OLD (house idempotency law).
+const IDP_ROSTER_OLD = /OIDC,\s+LDAP,\s+and\s+passkeys/g;
+const IDP_ROSTER_NEW = 'OIDC, LDAP, GitHub, and passkeys';
+function sweepIdpRoster(t) {
+  let n = 0;
+  const out = t.replace(IDP_ROSTER_OLD, () => {
+    n++;
+    return IDP_ROSTER_NEW;
+  });
+  return [out, n];
+}
 
 // P7: the primary install-command block ends at `sudo bash` closed through any
 // of the three shipped shapes (`</code></pre>`, span-wrapped, or a wrapped
@@ -994,6 +1015,7 @@ const counts = {
   secretKeyCured: 0,
   httpsClaims: 0,
   httpsPorts: 0,
+  idpRoster: 0,
   httpsResidual: [],
 };
 for (const f of files) {
@@ -1030,6 +1052,8 @@ for (const f of files) {
     [t, o] = swap(t);
     counts.extended += o;
   }
+  [t, o] = sweepIdpRoster(t);
+  counts.idpRoster += o;
   for (const swap of ROSTER_CLAIMS) {
     [t, o] = swap(t);
     counts.roster += o;
@@ -1093,16 +1117,19 @@ for (const f of files) {
 
 // content.json is prettier-ignored; fix the one British word in its note and
 // cure the installer env-key name in the install SSOT (P15, TW-084). The P16
-// families run here too so the SSOT moves with the mirrors, not against them.
+// families and the P17 identity-provider roster run here too so the SSOT moves
+// with the mirrors, not against them.
 {
   const f = 'shared/content.json';
   let t = readFileSync(f, 'utf8');
   const [orthoFixed, n] = ortho(t);
   const [secKey, n2] = sweepSecretKey(orthoFixed);
   const [claims, n3] = sweepHttpsClaims(secKey);
-  const [fixed, n4] = sweepHttpsPorts(claims);
-  const changed = n || n2 || n3 || n4;
+  const [ported, n4] = sweepHttpsPorts(claims);
+  const [fixed, n5] = sweepIdpRoster(ported);
+  const changed = n || n2 || n3 || n4 || n5;
   if (changed && !DRY) writeFileSync(f, fixed);
+  counts.idpRoster += n5;
   counts.ortho += n;
   counts.secretKeyCured += n2;
   counts.httpsClaims += n3;
@@ -1139,6 +1166,7 @@ console.log(
       secretKeyCured: counts.secretKeyCured,
       httpsClaimsCured: counts.httpsClaims,
       httpsPortsCured: counts.httpsPorts,
+      idpRosterSwaps: counts.idpRoster,
       httpsResiduals: counts.httpsResidual,
     },
     null,

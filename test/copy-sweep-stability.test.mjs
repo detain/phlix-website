@@ -94,6 +94,12 @@
 //        silent on BOTH sides of the claim, and the sentence-initial capital
 //        infinitive "To provision HTTPS in the same run" (the loading-screen
 //        block cure-1 mis-rewrote) must acquit sweep and detector alike.
+//   LAW 8 (P17 identity-provider roster — WEB-12, round-2026-11-11 WEB-S2) —
+//        REGRESSION. The auth body names GitHub sign-in beside OIDC, LDAP,
+//        and passkeys (phlix-server src/Plugins/Github/GithubOAuthProvider.php)
+//        in the SSOT, and the swap keeps its teeth: a Prettier-wrapped plant of
+//        the pre-fix list is counted once, cured to the GitHub form by a live
+//        run, and stays cured; the SSOT tail block moves with the mirrors.
 //
 // STATED BOUNDARIES (disclosed, not hidden): law 1 proves zero-COUNTER
 // stability; laws 2/4 prove zero-WRITE stability on copies. A counter that
@@ -154,6 +160,7 @@ const MUTATING_COUNTERS = [
   'secretKeyCured',
   'httpsClaimsCured',
   'httpsPortsCured',
+  'idpRosterSwaps',
 ];
 
 function runTool(cwd, extraArgs) {
@@ -604,6 +611,43 @@ test('law 7: the w17 L7 enum/adjective families cure to pinned grammar, honest g
       after.get('sites/synth/wire-convictions.html'),
       'the live run rewrote report-only wire copy — the detector is never a hidden second sweeper',
     );
+  } finally {
+    rmSync(dir, { recursive: true, force: true, maxRetries: 3 });
+  }
+});
+
+// ── LAW 8 ─────────────────────────────────────────────────────────────────────
+test('law 8: the auth identity-provider list names GitHub in the SSOT and the P17 swap keeps its teeth', () => {
+  const content = JSON.parse(readFileSync(join(ROOT, 'shared', 'content.json'), 'utf8'));
+  const auth = content.features.find((x) => x.id === 'auth');
+  assert.ok(auth, 'the auth feature vanished from shared/content.json — re-derive this law');
+  assert.ok(
+    auth.body.includes('Bring your existing identity too: OIDC, LDAP, GitHub, and passkeys all work'),
+    `the SSOT auth body must name GitHub sign-in beside OIDC/LDAP/passkeys, got: ${auth.body}`,
+  );
+  const dir = scratchTree();
+  try {
+    const rel = 'sites/synth/features.html';
+    writeFileSync(
+      join(dir, rel),
+      '<!doctype html><html><body><p>Bring your existing identity too: OIDC,\n      LDAP, and passkeys all work.</p></body></html>\n',
+    );
+    writeFileSync(
+      join(dir, 'shared', 'content.json'),
+      JSON.stringify({ body: 'Bring your existing identity too: OIDC, LDAP, and passkeys all work.' }) + '\n',
+    );
+    const dry = runTool(dir, ['--dry-run']);
+    assert.equal(dry.idpRosterSwaps, 2, 'the wrapped plant and the SSOT carrier must each be counted once');
+    const live = runTool(dir);
+    assert.equal(live.idpRosterSwaps, 2, 'live identity-roster count drifted from dry count');
+    for (const f of [rel, 'shared/content.json']) {
+      assert.ok(
+        readFileSync(join(dir, f), 'utf8').includes('OIDC, LDAP, GitHub, and passkeys'),
+        `${f} was not cured to the GitHub form`,
+      );
+    }
+    const again = runTool(dir, ['--dry-run']);
+    assert.equal(again.idpRosterSwaps, 0, 'the identity-roster cure is not idempotent');
   } finally {
     rmSync(dir, { recursive: true, force: true, maxRetries: 3 });
   }
