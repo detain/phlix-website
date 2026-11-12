@@ -80,7 +80,9 @@ const EXPECTED = JSON.parse(readFileSync(resolve(SRC_KITS, 'expected-kits.json')
 {
   const expected = EXPECTED.kits;
   if (!Array.isArray(expected) || expected.length === 0) {
-    throw new Error('build: brand-kits/expected-kits.json has no "kits" array — the pin is vacuous');
+    throw new Error(
+      'build: brand-kits/expected-kits.json has no "kits" array — the pin is vacuous',
+    );
   }
   if (expected.length !== EXPECTED.count) {
     throw new Error(
@@ -250,7 +252,15 @@ writeFileSync(join(DIST, 'robots.txt'), robotsTxt(), 'utf8');
 // site is ever fronted by Cloudflare). The live, shipped policy is the meta
 // tag injected above; both forms come from tools/csp.mjs.
 if (existsSync(resolve(ROOT, '_headers'))) {
-  cpSync(resolve(ROOT, '_headers'), join(DIST, '_headers'));
+  // Comment-stripped copy: the authoring prose (host caveat, measurement
+  // notes) stays in the repo file; the deployed artifact carries directives only.
+  const stripped = readFileSync(resolve(ROOT, '_headers'), 'utf8')
+    .split('\n')
+    .filter((l) => !/^\s*#/.test(l))
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\n+/, '');
+  writeFileSync(join(DIST, '_headers'), stripped, 'utf8');
 }
 
 const builtCount = kitSummaries.filter((k) => k.built).length;
@@ -356,11 +366,13 @@ function keepInSite(src) {
   const base = basename(src);
   if (base.startsWith('.')) return false;
   if (base === 'reviews') return false;
-  if (/\.worklog\.md$/i.test(base)) return false;
-  if (/^ROUND-\d+\.md$/i.test(base)) return false;
-  return !['BUILD_LOG.md', 'SITE.md', 'PROMPTS.md', 'REGEN_PLAN.md', 'FINAL-REVIEW.md'].includes(
-    base,
-  );
+  // Directories are walked (their files are judged individually); everything
+  // else must carry a known-deployable extension. An allowlist, not a name
+  // denylist: a new authoring stray (NOTES.md, README.md, ...) stays out of
+  // dist/ by default instead of riding the copy until someone names it.
+  if (statSync(src).isDirectory()) return true;
+  // webp ships today (measured on the built tree), so it joins the set.
+  return /\.(?:html|css|js|json|xml|txt|png|svg|woff2|webmanifest|ico|webp)$/i.test(base);
 }
 
 /**
@@ -497,7 +509,10 @@ function errorPage(kits) {
     `${SITE_URL}/assets/js/error-shim.js`,
   );
   const manifestSrc = `${SITE_URL}/assets/js/error-manifest.js`;
-  writeManifest('error-manifest.js', `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};`);
+  writeManifest(
+    'error-manifest.js',
+    `window.__PHLIX_404__=${JSON.stringify({ base: BASE_PATH, kits })};`,
+  );
   return html.replace('</head>', `  <script src="${manifestSrc}"></script>\n</head>`);
 }
 

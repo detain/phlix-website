@@ -41,7 +41,15 @@
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -79,7 +87,11 @@ test('law 1: the policy splits exactly where the platform splits', () => {
   }
   // R-WEBSITE-06: the script floor is STRICT. 'unsafe-inline' was only ever
   // tolerated because the site's own islands needed it; they are files now.
-  assert.match(CSP_META, /script-src 'self';/, `script-src is not the strict 'self' floor: ${CSP_META}`);
+  assert.match(
+    CSP_META,
+    /script-src 'self';/,
+    `script-src is not the strict 'self' floor: ${CSP_META}`,
+  );
   assert.ok(!/script-src[^;]*unsafe-inline/.test(CSP_META), 'script-src regained unsafe-inline');
   // Honesty about what is NOT cured: inline styles remain (496 of the 723
   // shipped pages' style=, re-swept from a fresh build 2026-11-06),
@@ -253,7 +265,11 @@ test('law 5: the real repo build ships the CSP on every page it emits', () => {
   // rewrites the reference and test stubs may omit it — here is where the
   // real tree is held to the cure): gallery.js published under the rewritten
   // path, and the 404 shim via a SITE_URL-absolute src for deep URLs.
-  assert.match(gallery, /<script defer src="assets\/js\/gallery\.js"><\/script>/, 'dist gallery renderer vanished');
+  assert.match(
+    gallery,
+    /<script defer src="assets\/js\/gallery\.js"><\/script>/,
+    'dist gallery renderer vanished',
+  );
   assert.ok(
     existsSync(join(ROOT, 'dist', 'assets', 'js', 'gallery.js')),
     'gallery.js was not published into dist/assets/js/',
@@ -313,15 +329,27 @@ test('law 7: the build reds BY NAME on planted inline islands (the cure has teet
     '<!doctype html><html><head><link rel="stylesheet" href="css/theme.css"></head><body>' +
     'CONTENT</body></html>';
   const vectors = [
-    ['executable inline script', KIT_BASE.replace('CONTENT', '<script>alert(1)</script>'), /inline executable/],
-    ['inline event handler', KIT_BASE.replace('CONTENT', '<button onclick="alert(1)">x</button>'), /inline event handler/],
+    [
+      'executable inline script',
+      KIT_BASE.replace('CONTENT', '<script>alert(1)</script>'),
+      /inline executable/,
+    ],
+    [
+      'inline event handler',
+      KIT_BASE.replace('CONTENT', '<button onclick="alert(1)">x</button>'),
+      /inline event handler/,
+    ],
   ];
   for (const [what, pageHtml, expected] of vectors) {
     const dir = makeFixture();
     writeFileSync(join(dir, 'sites', 'alpha-kit', 'index.html'), pageHtml, 'utf8');
     const built = runBuild(dir);
     assert.notEqual(built.code, 0, `build accepted a planted ${what}`);
-    assert.match(built.out, expected, `inline-executable check fired but not BY NAME (${what}):\n${built.out}`);
+    assert.match(
+      built.out,
+      expected,
+      `inline-executable check fired but not BY NAME (${what}):\n${built.out}`,
+    );
   }
   // And the exemption is real: the same fixture with only JSON-LD inline
   // builds clean (a blanket ban would have killed 101 data blocks too).
@@ -487,13 +515,24 @@ test('law 10: the deployed tree carries zero dotfiles — kit dev-config strays 
   writeFileSync(join(dir, 'sites', 'alpha-kit', '.htaccess'), 'RewriteEngine On\n', 'utf8');
   mkdirSync(join(dir, 'sites', 'alpha-kit', 'img'), { recursive: true });
   writeFileSync(join(dir, 'sites', 'alpha-kit', 'img', '.gitkeep'), 'placeholder\n', 'utf8');
+  // Non-dotfile authoring strays: the extension allowlist drops them too.
+  writeFileSync(join(dir, 'sites', 'alpha-kit', 'NOTES.md'), 'notes\n', 'utf8');
+  writeFileSync(join(dir, 'sites', 'alpha-kit', 'README.md'), 'readme\n', 'utf8');
+  writeFileSync(join(dir, 'sites', 'alpha-kit', 'img', 'README.md'), 'readme\n', 'utf8');
   const built = runBuild(dir);
   assert.equal(built.code, 0, `fixture build failed:\n${built.out}`);
   assert.ok(
     existsSync(join(dir, 'dist', 'alpha-kit', 'index.html')),
     'the dotfile rule took real pages down with it',
   );
-  for (const stray of ['.stylelintrc.json', '.htaccess', 'img/.gitkeep']) {
+  for (const stray of [
+    '.stylelintrc.json',
+    '.htaccess',
+    'img/.gitkeep',
+    'NOTES.md',
+    'README.md',
+    'img/README.md',
+  ]) {
     assert.equal(
       existsSync(join(dir, 'dist', 'alpha-kit', stray)),
       false,
