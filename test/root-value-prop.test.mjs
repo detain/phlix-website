@@ -67,6 +67,9 @@ const template = () => readFileSync(join(ROOT, 'index.html'), 'utf8');
 const ALLOWED_ABS = new Set([
   content.hero.secondary_cta.href,
   content.install.docs_url,
+  // WEB-S4: Docker/Kubernetes/macOS/Windows guides beside the one-liner (SSOT-derived;
+  // all four curl-verified HTTP 200 on 2026-11-12).
+  ...content.install.other_platforms.links.map((l) => l.url),
   content.site.social.github,
   `${content.site.social.github}/releases`,
   `${content.site.social.github}/blob/master/LICENSE`,
@@ -129,7 +132,11 @@ function runBuild(cwd) {
 test('law 1: the root template opens with the content.json hero, one <h1>', () => {
   const html = template();
   const h1s = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/g) ?? [];
-  assert.equal(h1s.length, 1, `root index.html has ${h1s.length} <h1> elements, expected exactly 1`);
+  assert.equal(
+    h1s.length,
+    1,
+    `root index.html has ${h1s.length} <h1> elements, expected exactly 1`,
+  );
   assert.equal(
     fold(h1s[0].replace(/<[^>]*>/g, '')),
     fold(content.hero.headline),
@@ -232,7 +239,11 @@ test('law 5: the gallery survives, contextualised, and BELOW the install section
     `the product screenshot shared/assets/img/${img[1]} is missing on disk`,
   );
   assert.match(img[0], /\balt="[^"]{20,}"/, 'the product screenshot lost its descriptive alt text');
-  assert.match(img[0], /\bwidth="\d+"[\s\S]*\bheight="\d+"/, 'the screenshot lost its CLS-safe size');
+  assert.match(
+    img[0],
+    /\bwidth="\d+"[\s\S]*\bheight="\d+"/,
+    'the screenshot lost its CLS-safe size',
+  );
   assert.ok(
     html.indexOf('class="why-shot"') < galleryAt,
     'the product screenshot must sit above the brand-kit gallery',
@@ -244,6 +255,7 @@ test('law 5: the gallery survives, contextualised, and BELOW the install section
     ['requirements', content.install.requirements],
     ['installer notes', content.install.primary.notes],
     ['install docs link', content.install.docs_url],
+    ...content.install.other_platforms.links.map((l) => [`${l.label} install link`, l.url]),
   ]) {
     assert.ok(fold(html).includes(fold(needle)), `install section is missing the SSOT ${what}`);
   }
@@ -331,7 +343,11 @@ test('law 7: the landing pin reddens the build by name for each stripped SSOT st
   const strip = (needle) => {
     // Long prose is prettier-wrapped in the template: match it whitespace-
     // flexibly so the surgery removes the real bytes, not an idealised copy.
-    const rx = new RegExp(fold(needle).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+'));
+    const rx = new RegExp(
+      fold(needle)
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        .replace(/ /g, '\\s+'),
+    );
     assert.ok(rx.test(html), `pin fixture premise: "${needle.slice(0, 40)}…" is in the template`);
     return html.replace(rx, 'X');
   };

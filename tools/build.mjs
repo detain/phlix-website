@@ -418,6 +418,10 @@ function assertLandingHero(template) {
     ['hero subheadline', c.hero.subheadline],
     ['install command (install.primary.command)', c.install.primary.command],
     ['install docs link (install.docs_url)', c.install.docs_url],
+    ...c.install.other_platforms.links.map((l) => [
+      `install alt-platform link (${l.label})`,
+      l.url,
+    ]),
     ['secondary CTA href', c.hero.secondary_cta.href],
   ]) {
     if (!folded.includes(foldWs(needle))) {
