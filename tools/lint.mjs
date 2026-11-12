@@ -48,10 +48,13 @@ const ROOT_HTML = ['*.html'];
 //    braces. --timeout stops a hung socket stalling the job forever (the old
 //    run also produced 11 links in state [0], no status at all).
 //
-// 2. SCOPE. sites/ holds 138 site directories. `npm run build` only emits the
-//    ones that have a loadable brand-kits/<slug>.js — 76 of them — and dist/ is
-//    what GitHub Pages publishes. The other 62 are not on the internet, so
-//    every absolute self-reference they contain is a guaranteed 404: 653 of the
+// 2. SCOPE. sites/ holds more site directories than ship. `npm run build` only
+//    emits the ones that have a loadable brand-kits/<slug>.js — the exact set
+//    and its count are pinned in brand-kits/expected-kits.json (deliberately
+//    not restated here, so this comment cannot drift from the pin) — and dist/
+//    is what GitHub Pages publishes. The rest are not on the internet, so
+//    every absolute self-reference they contain is a guaranteed 404: in the
+//    run that motivated this target (historical measurement), 653 of the
 //    843 distinct broken urls were exactly that, correctly-written links to
 //    pages that are simply not deployed. Checking them told us nothing about
 //    the published site and buried the ~121 real defects underneath.
