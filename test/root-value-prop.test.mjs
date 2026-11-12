@@ -204,10 +204,38 @@ test('law 5: the gallery survives, contextualised, and BELOW the install section
   const installAt = html.indexOf('id="install"');
   const galleryAt = html.indexOf('id="variants-container"');
   assert.ok(installAt !== -1 && galleryAt > installAt, 'the gallery is not demoted below install');
+  // WEB-S7 (WEB-9): the old "Your server, your look: official brand-kit
+  // themes" H2 sold the gallery as APP themes. It is a showcase of WEBSITE
+  // skins; app theming is theme plugins picked per account in Settings.
   assert.match(
     fold(html),
-    /<h2>Your server, your look: official brand-kit themes<\/h2>/,
-    'the gallery lost its "official themes" framing — it is a showcase, not the product',
+    /<h2>Brand-kit website skins: this site in many looks<\/h2>/,
+    'the gallery lost its "website skins" framing — it is a showcase, not the product',
+  );
+  assert.ok(
+    fold(html).includes('These are website skins, not app themes'),
+    'the gallery intro no longer separates website skins from app themes (theme plugins)',
+  );
+  assert.doesNotMatch(
+    fold(html),
+    /Browse the themes below/,
+    'a "themes below" link is back — the gallery holds website skins, not app themes',
+  );
+  // ...and the product itself is on the page, ABOVE the gallery, so the skins
+  // are never the only picture of Phlix a visitor gets.
+  const shot = html.match(/<figure class="why-shot">([\s\S]*?)<\/figure>/);
+  assert.ok(shot, 'the web-app product screenshot figure vanished from the root page');
+  const img = shot[1].match(/<img\b[^>]*\bsrc="assets\/img\/([^"]+)"[^>]*>/);
+  assert.ok(img, 'the product screenshot figure carries no assets/img/ <img>');
+  assert.ok(
+    statSync(join(ROOT, 'shared', 'assets', 'img', img[1])).isFile(),
+    `the product screenshot shared/assets/img/${img[1]} is missing on disk`,
+  );
+  assert.match(img[0], /\balt="[^"]{20,}"/, 'the product screenshot lost its descriptive alt text');
+  assert.match(img[0], /\bwidth="\d+"[\s\S]*\bheight="\d+"/, 'the screenshot lost its CLS-safe size');
+  assert.ok(
+    html.indexOf('class="why-shot"') < galleryAt,
+    'the product screenshot must sit above the brand-kit gallery',
   );
   // The install copy itself: SSOT strings verbatim, nothing retyped.
   for (const [what, needle] of [
@@ -252,6 +280,17 @@ test('law 6: in the built artifact every link resolves and no card points at a 4
   }
   for (const url of ALLOWED_ABS) {
     assert.ok(absolutes.has(url), `allow-list entry ${url} is no longer linked — prune it here`);
+  }
+  // (a') every <img src> is a shipped file (WEB-S7 product screenshot: the
+  // template's assets/img/ path must land in dist/assets/img/ via shared/).
+  const imgSrcs = [...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(imgSrcs.length >= 1, 'the built root page ships no <img> — the product shot is gone');
+  for (const src of imgSrcs) {
+    assert.ok(!/^[a-z]+:/i.test(src), `root page <img> must be self-hosted, got ${src}`);
+    assert.ok(
+      existsSync(join(dist, src.replace(/^\.?\//, ''))),
+      `root page <img src="${src}"> is not in dist/ (broken image)`,
+    );
   }
 
   // (b) the gallery cards the page JS will build are cards on THIS manifest:
