@@ -175,7 +175,7 @@ function renderKitCard(kit, index) {
 // a showcase instead of a 79-iframe wall. Everything else is one click away
 // ("Show all"). Order here is display order. Slugs that are missing or not
 // built are skipped; if none match (e.g. a fixture build), every kit shows.
-// test/root-value-prop.test.mjs pins each slug to a built kit.
+// test/gallery-ux.test.mjs pins each slug to a built kit.
 const FEATURED_SLUGS = [
   'swiss-modernist',
   'neon-noir',
