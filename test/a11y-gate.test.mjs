@@ -82,7 +82,7 @@ test('the glob override no longer reaches pa11y-ci’s globby', () => {
 
   assert.equal(
     pkg.overrides.glob,
-    '^13.0.0',
+    '^14.0.6',
     'the top-level glob override is still wanted for everything else; if it went away, this guard is moot and should be re-thought rather than deleted',
   );
 

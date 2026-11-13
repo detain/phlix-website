@@ -151,14 +151,16 @@ A kit must be an ES module — this package is `"type": "module"`, so
 `module.exports = kit` or `window.X = kit` exports **nothing**. Use
 `export default kit`.
 
-### Stylelint v17 / `stylelint-config-standard` v40
+### Stylelint v18 / `stylelint-config-standard` v41
 
-The dev stack pins `stylelint@^17`, `stylelint-config-standard@^40`,
-and `stylelint-config-recommended@^18`. **Do not** mix these majors —
-v17 of stylelint requires the v40 / v18 configs; pairing v17 with the
-older v3x configs surfaces a peer-dep conflict at `npm install` time
-and `npm` will refuse to resolve. If you need to bump stylelint,
-bump all three packages together.
+The dev stack pins `stylelint@^18`, `stylelint-config-standard@^41`
+(which brings `stylelint-config-recommended@^19`). **Do not** mix these
+majors — v41 of the standard config peers on `stylelint@^18`, and
+older pairings surface a peer-dep conflict at `npm install` time. If
+you need to bump stylelint, bump the standard config in the same change.
+Stylelint 18's value validator rejects genuinely invalid CSS (e.g.
+`-var(--x)`, `rgb(var(--hex), .1)`, a colour layer in `background-image`):
+fix the declaration, never disable the rule.
 
 ### eslint config
 

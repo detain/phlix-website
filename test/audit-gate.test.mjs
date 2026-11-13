@@ -49,7 +49,7 @@ import {
   decide,
 } from '../scripts/audit-gate.mjs';
 
-const G3GM = 'GHSA-3g3m-2fjr-6pw4'; // glob (14.0.2 patch is cross-major from the ^13 override line)
+const G3GM = 'GHSA-3g3m-2fjr-6pw4'; // glob — CLEARED by the glob 14.0.6 upgrade; must NOT be allow-listed any more
 const C475 = 'GHSA-c475-qrg2-pj4r'; // basic-ftp (patch unreachable under get-uri ^5.x)
 const G3HV = 'GHSA-g3hv-75wg-m249'; // minimatch (11.0.1 patch; no 10.x/3.x backports — installed are tops-of-line)
 const GCQX = 'GHSA-gcqx-w48m-w2h4'; // deepmerge (no patched release exists)
@@ -82,7 +82,7 @@ function v3Report(entries) {
 const json = (report) => JSON.stringify(report);
 
 describe('collectAdvisoryIds', () => {
-  it('dedupes the 29 affected dev-chain packages down to the five real advisories', () => {
+  it('dedupes the affected dev-chain packages down to the four real advisories', () => {
     // Condensed from the live `npm audit --json` on master at tip 1f76b441: npm
     // counts 29 vulnerable PACKAGES (the five advisory roots glob/basic-ftp/
     // minimatch/deepmerge/zod plus dependents like lighthouse, pa11y or eslint
@@ -104,16 +104,6 @@ describe('collectAdvisoryIds', () => {
       'lighthouse',
       '@lhci/utils',
     ];
-    const globChain = [
-      'glob',
-      'cacache',
-      'globby',
-      'htmlhint',
-      'linkinator',
-      'make-fetch-happen',
-      'node-gyp',
-      'ttf2woff2',
-    ];
     const matchChain = [
       'minimatch',
       'eslint',
@@ -126,14 +116,13 @@ describe('collectAdvisoryIds', () => {
         chain.map((pkg) => [pkg, [pkg === rootPkg ? advisory(ghsa, rootPkg) : rootPkg]]),
       );
     const report = v3Report({
-      ...asChain(globChain, 'glob', G3GM),
       ...asChain(ftpChain, 'basic-ftp', C475),
       ...asChain(matchChain, 'minimatch', G3HV),
       ...asChain(mergeChain, 'deepmerge', GCQX),
       ...asChain(zodChain, 'zod', MRHX),
     });
-    assert.equal(Object.keys(report.vulnerabilities).length, 29);
-    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [G3GM, C475, G3HV, GCQX, MRHX]);
+    assert.equal(Object.keys(report.vulnerabilities).length, 21);
+    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [C475, G3HV, GCQX, MRHX]);
   });
 
   it('collects every distinct advisory id across packages', () => {
@@ -209,12 +198,11 @@ describe('decide — pass verdicts', () => {
     assert.deepEqual(verdict.allowed, [GCQX]);
   });
 
-  it('passes the live seven-advisory state, each with its documented escape analysis', () => {
+  it('passes the live six-advisory state, each with its documented escape analysis', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
-          glob: [advisory(G3GM, 'glob')],
           'basic-ftp': [
             advisory(C475, 'basic-ftp'),
             advisory(FTP_5PM8, 'basic-ftp'),
@@ -229,19 +217,8 @@ describe('decide — pass verdicts', () => {
     assert.equal(verdict.code, EXIT_OK);
     assert.deepEqual(
       [...verdict.allowed].sort(),
-      [G3GM, C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
+      [C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
     );
-
-    const g3gm = ALLOWED_ADVISORIES.get(G3GM);
-    assert.equal(g3gm.package, 'glob');
-    assert.match(g3gm.justification, /dev-chain-only/);
-    assert.match(g3gm.justification, />=9\.0\.0 <=14\.0\.1/);
-    assert.match(g3gm.justification, /NO in-range update exists/);
-    assert.match(g3gm.justification, /registry version list verified 2026-10-31/);
-    assert.match(g3gm.justification, /cross-major override to 14\.0\.2\+ was rejected/);
-    assert.match(g3gm.justification, /glob@7\.2\.3 sitting below the >=9 floor/);
-    assert.match(g3gm.justification, /UPSTREAM WATCH/);
-    assert.match(g3gm.justification, /Re-verify advisory status by 2027-01-03/);
 
     const c475 = ALLOWED_ADVISORIES.get(C475);
     assert.equal(c475.package, 'basic-ftp');
@@ -293,7 +270,6 @@ describe('decide — fail-loud verdicts', () => {
       exitCode: 1,
       stdout: json(
         v3Report({
-          glob: [advisory(G3GM, 'glob')],
           'basic-ftp': [advisory(C475, 'basic-ftp')],
           minimatch: [advisory(G3HV, 'minimatch')],
           deepmerge: [advisory(GCQX, 'deepmerge')],
@@ -305,7 +281,7 @@ describe('decide — fail-loud verdicts', () => {
     assert.equal(verdict.code, EXIT_VIOLATION);
     assert.deepEqual(verdict.unknown, ['GHSA-dead-beef-cafe']);
     assert.match(verdict.problems.join(' '), /NOT on the allow-list: GHSA-dead-beef-cafe/);
-    assert.deepEqual(verdict.allowed, [G3GM, C475, G3HV, GCQX, MRHX]); // still reported for context
+    assert.deepEqual(verdict.allowed, [C475, G3HV, GCQX, MRHX]); // still reported for context
   });
 
   it('reddens a withdrawn-era id that npm stopped reporting (braces, stale in the list)', () => {
@@ -369,11 +345,15 @@ describe('decide — fail-loud verdicts', () => {
 });
 
 describe('allow-list integrity', () => {
-  it('contains EXACTLY the seven justified entries (3g3m/glob, c475+5pm8+r4jh/basic-ftp, g3hv/minimatch, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
+  it('contains EXACTLY the six justified entries (c475+5pm8+r4jh/basic-ftp, g3hv/minimatch, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
     assert.deepEqual(
       [...ALLOWED_ADVISORIES.keys()].sort(),
-      [G3GM, C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
+      [C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
     );
+  });
+
+  it('no longer carries the glob entry (GHSA-3g3m-2fjr-6pw4, cleared by glob 14.0.6)', () => {
+    assert.equal(ALLOWED_ADVISORIES.has(G3GM), false);
   });
 
   it('no longer carries the withdrawn braces entry (GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23)', () => {
@@ -396,7 +376,6 @@ describe('allow-list integrity', () => {
   it('names the package each allowed advisory was reported against in the live lockfile', () => {
     // If the gate script and the allow-list keys ever drift apart (id typo,
     // renamed package), the live-state test above and this pin both react.
-    assert.equal(ALLOWED_ADVISORIES.get(G3GM).package, 'glob');
     assert.equal(ALLOWED_ADVISORIES.get(C475).package, 'basic-ftp');
     assert.equal(ALLOWED_ADVISORIES.get(FTP_5PM8).package, 'basic-ftp');
     assert.equal(ALLOWED_ADVISORIES.get(FTP_R4JH).package, 'basic-ftp');
