@@ -53,6 +53,8 @@ const G3GM = 'GHSA-3g3m-2fjr-6pw4'; // glob (14.0.2 patch is cross-major from th
 const C475 = 'GHSA-c475-qrg2-pj4r'; // basic-ftp (patch unreachable under get-uri ^5.x)
 const G3HV = 'GHSA-g3hv-75wg-m249'; // minimatch (11.0.1 patch; no 10.x/3.x backports — installed are tops-of-line)
 const GCQX = 'GHSA-gcqx-w48m-w2h4'; // deepmerge (no patched release exists)
+const FTP_5PM8 = 'GHSA-5pm8-86m8-9m6r'; // basic-ftp MLSD parser (6.2.4 patch unreachable under get-uri ^5.x)
+const FTP_R4JH = 'GHSA-r4jh-29pc-gfqr'; // basic-ftp login/download control chars (6.2.3 patch unreachable)
 const MRHX = 'GHSA-mrhx-c7xc-m3w5'; // zod (4.6.6 cross-major; S321 override pins the chain)
 
 /** v3 npm-audit advisory object for an arbitrary GHSA (url carries the id). */
@@ -131,13 +133,7 @@ describe('collectAdvisoryIds', () => {
       ...asChain(zodChain, 'zod', MRHX),
     });
     assert.equal(Object.keys(report.vulnerabilities).length, 29);
-    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [
-      G3GM,
-      C475,
-      G3HV,
-      GCQX,
-      MRHX,
-    ]);
+    assert.deepEqual([...collectAdvisoryIds(json(report))].sort(), [G3GM, C475, G3HV, GCQX, MRHX]);
   });
 
   it('collects every distinct advisory id across packages', () => {
@@ -213,13 +209,17 @@ describe('decide — pass verdicts', () => {
     assert.deepEqual(verdict.allowed, [GCQX]);
   });
 
-  it('passes the live five-advisory state, each with its documented escape analysis', () => {
+  it('passes the live seven-advisory state, each with its documented escape analysis', () => {
     const verdict = decide({
       exitCode: 1,
       stdout: json(
         v3Report({
           glob: [advisory(G3GM, 'glob')],
-          'basic-ftp': [advisory(C475, 'basic-ftp')],
+          'basic-ftp': [
+            advisory(C475, 'basic-ftp'),
+            advisory(FTP_5PM8, 'basic-ftp'),
+            advisory(FTP_R4JH, 'basic-ftp'),
+          ],
           minimatch: [advisory(G3HV, 'minimatch')],
           deepmerge: [advisory(GCQX, 'deepmerge')],
           zod: [advisory(MRHX, 'zod')],
@@ -227,7 +227,10 @@ describe('decide — pass verdicts', () => {
       ),
     });
     assert.equal(verdict.code, EXIT_OK);
-    assert.deepEqual(verdict.allowed, [G3GM, C475, G3HV, GCQX, MRHX]);
+    assert.deepEqual(
+      [...verdict.allowed].sort(),
+      [G3GM, C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
+    );
 
     const g3gm = ALLOWED_ADVISORIES.get(G3GM);
     assert.equal(g3gm.package, 'glob');
@@ -366,8 +369,11 @@ describe('decide — fail-loud verdicts', () => {
 });
 
 describe('allow-list integrity', () => {
-  it('contains EXACTLY the five justified entries (3g3m/glob, c475/basic-ftp, g3hv/minimatch, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
-    assert.deepEqual([...ALLOWED_ADVISORIES.keys()].sort(), [G3GM, C475, G3HV, GCQX, MRHX]);
+  it('contains EXACTLY the seven justified entries (3g3m/glob, c475+5pm8+r4jh/basic-ftp, g3hv/minimatch, gcqx/deepmerge, mrhx/zod) — additions/removals must be a reviewed decision', () => {
+    assert.deepEqual(
+      [...ALLOWED_ADVISORIES.keys()].sort(),
+      [G3GM, C475, FTP_5PM8, FTP_R4JH, G3HV, GCQX, MRHX].sort(),
+    );
   });
 
   it('no longer carries the withdrawn braces entry (GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23)', () => {
@@ -392,6 +398,8 @@ describe('allow-list integrity', () => {
     // renamed package), the live-state test above and this pin both react.
     assert.equal(ALLOWED_ADVISORIES.get(G3GM).package, 'glob');
     assert.equal(ALLOWED_ADVISORIES.get(C475).package, 'basic-ftp');
+    assert.equal(ALLOWED_ADVISORIES.get(FTP_5PM8).package, 'basic-ftp');
+    assert.equal(ALLOWED_ADVISORIES.get(FTP_R4JH).package, 'basic-ftp');
     assert.equal(ALLOWED_ADVISORIES.get(G3HV).package, 'minimatch');
     assert.equal(ALLOWED_ADVISORIES.get(GCQX).package, 'deepmerge');
     assert.equal(ALLOWED_ADVISORIES.get(MRHX).package, 'zod');

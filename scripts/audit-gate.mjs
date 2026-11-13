@@ -66,15 +66,15 @@ export const ALLOWED_ADVISORIES = new Map([
         '^13.0.6: link checking, HTML linting and npm cache machinery; the site ' +
         'emits static files and nothing of this chain is served to users). The flaw ' +
         'is an AbortSignal cancellation bypass letting a timed-out glob walk keep ' +
-        'touching the filesystem — every walk here traverses this repo\'s own ' +
-        'checked-out tree with this repo\'s own patterns, never hostile input. The ' +
+        "touching the filesystem — every walk here traverses this repo's own " +
+        "checked-out tree with this repo's own patterns, never hostile input. The " +
         'advisory range is >=9.0.0 <=14.0.1 and NO in-range update exists: 13.0.6 ' +
         'is the newest 13.x ever published (registry version list verified ' +
         '2026-10-31), 14.0.2 is the first patched release, and every version the ' +
         'parents declare sits inside the vulnerable band — a downgrade cannot ' +
         'escape either, because ^10/^13 floors start at 10. Only the globby@7 ' +
         'carve-out override is safe, its nested glob@7.2.3 sitting below the >=9 ' +
-        'floor. A cross-major override to 14.0.2+ was rejected: this repo\'s S430 ' +
+        "floor. A cross-major override to 14.0.2+ was rejected: this repo's S430 " +
         'discipline ("overrides only when a parent range blocks resolution, never ' +
         'majors", deps-audit-floors.test.mjs header) forbids forcing glob@14 onto ' +
         'cacache (declares ^10) across an unaudited API boundary. UPSTREAM WATCH ' +
@@ -110,22 +110,68 @@ export const ALLOWED_ADVISORIES = new Map([
     },
   ],
   [
+    'GHSA-5pm8-86m8-9m6r',
+    {
+      package: 'basic-ftp',
+      justification:
+        'dev-chain-only (@lhci/cli -> proxy-agent -> pac-proxy-agent -> get-uri -> ' +
+        'basic-ftp; Lighthouse CI proxy machinery, nothing shipped to users — and the ' +
+        'vulnerable MLSD directory-listing parser (Client.list() and the dir helpers built on it) only runs when an ftp:// URI is fetched, which no workflow in this ' +
+        'repo ever does, and the server-supplied listing line that trips it never arrives); a patched release EXISTS (6.2.4, advisory published ' +
+        '2026-11-12) but is UNREACHABLE: get-uri 6.0.5 declares basic-ftp ^5.0.2 and even ' +
+        'the newest upstream get-uri 8.0.1 declares ^5.3.1 (registry verified 2026-11-13), ' +
+        'while the advisory flags <=6.2.3 — every 5.x is vulnerable, so no in-range update ' +
+        "clears it. A cross-major override was rejected: this repo's S430 discipline " +
+        '("overrides only when a parent range blocks resolution, never majors", ' +
+        'deps-audit-floors.test.mjs header) and never force a major across an unaudited ' +
+        'API boundary for a DoS in a code path that never executes. UPSTREAM WATCH (the ' +
+        "removal plan): when get-uri declares basic-ftp ^6.2.4+ (or npm's suggested fix " +
+        'ever becomes non-breaking): `npm update basic-ftp` clears it — then REMOVE this ' +
+        'entry, its justification, and its fixtures in test/audit-gate.test.mjs. ' +
+        'Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-5pm8-86m8-9m6r',
+    },
+  ],
+  [
+    'GHSA-r4jh-29pc-gfqr',
+    {
+      package: 'basic-ftp',
+      justification:
+        'dev-chain-only (@lhci/cli -> proxy-agent -> pac-proxy-agent -> get-uri -> ' +
+        'basic-ftp; Lighthouse CI proxy machinery, nothing shipped to users — and the ' +
+        'vulnerable Client.login()/downloadTo() control-character path only runs when an ftp:// URI is fetched, which no workflow in this ' +
+        'repo ever does, and no FTP credential or remote path is ever supplied); a patched release EXISTS (6.2.3, advisory published ' +
+        '2026-11-12) but is UNREACHABLE: get-uri 6.0.5 declares basic-ftp ^5.0.2 and even ' +
+        'the newest upstream get-uri 8.0.1 declares ^5.3.1 (registry verified 2026-11-13), ' +
+        'while the advisory flags <=6.2.2 — every 5.x is vulnerable, so no in-range update ' +
+        "clears it. A cross-major override was rejected: this repo's S430 discipline " +
+        '("overrides only when a parent range blocks resolution, never majors", ' +
+        'deps-audit-floors.test.mjs header) and never force a major across an unaudited ' +
+        'API boundary for a DoS in a code path that never executes. UPSTREAM WATCH (the ' +
+        "removal plan): when get-uri declares basic-ftp ^6.2.4+ (or npm's suggested fix " +
+        'ever becomes non-breaking): `npm update basic-ftp` clears it — then REMOVE this ' +
+        'entry, its justification, and its fixtures in test/audit-gate.test.mjs. ' +
+        'Re-verify advisory status by 2027-01-03: ' +
+        'https://github.com/advisories/GHSA-r4jh-29pc-gfqr',
+    },
+  ],
+  [
     'GHSA-g3hv-75wg-m249',
     {
       package: 'minimatch',
       justification:
         'dev-chain-only (the hoisted minimatch@10.2.6 backs pattern matching for ' +
         'glob@13 ^10.2.2, eslint ^10.2.5 and @eslint/config-array ^10.2.4, and the ' +
-        'globby@7 carve-out override\'s nested glob@7.2.3 pulls minimatch@3.1.5 — ' +
+        "globby@7 carve-out override's nested glob@7.2.3 pulls minimatch@3.1.5 — " +
         'build and lint tooling only; the site emits static files and nothing of ' +
         'this chain is served to users). The DoS is pattern amplification at ' +
         'optimizationLevel>=2 driven by a HOSTILE glob pattern; every pattern in ' +
-        'these chains comes from this repo\'s own config and package declarations, ' +
+        "these chains comes from this repo's own config and package declarations, " +
         'never untrusted input. The advisory range is <11.0.1 and no backport ' +
         'exists: first_patched_version is 11.0.1 only, while 10.2.6 is the newest ' +
         '10.x ever published and 3.1.5 the newest 3.x ever published (registry ' +
         'version lists verified 2026-10-31) — every installable version under the ' +
-        'parents\' ^10.x/^3.x declarations stays flagged, so `npm update` cannot ' +
+        "parents' ^10.x/^3.x declarations stays flagged, so `npm update` cannot " +
         'clear it: eslint 10.14.0 (itself the newest eslint) STILL declares ' +
         'minimatch ^10.2.6, and @eslint/config-array is already at its latest ' +
         '0.23.5. A global cross-major override to 11.0.1+ was rejected: this ' +
@@ -155,7 +201,7 @@ export const ALLOWED_ADVISORIES = new Map([
         'MINIMUM installable under the parent, and every 4.x inside the parent range is ' +
         'flagged. google-fonts-helper 3.7.4 (itself the latest release) is the only ' +
         'declarer. The flaw is prototype poisoning of objects returned by mergeObject() ' +
-        'for crafted merge inputs — the inputs here are this repo\'s own font manifests, ' +
+        "for crafted merge inputs — the inputs here are this repo's own font manifests, " +
         'never untrusted data. UPSTREAM WATCH (the removal plan): the moment a 4.3.2+ ' +
         'lands, `npm update deepmerge` resolves inside the existing ^4.3.1 declaration — ' +
         'then REMOVE this entry, its justification, and the gcqx fixtures in ' +
@@ -172,10 +218,10 @@ export const ALLOWED_ADVISORIES = new Map([
         '^3.24.1; the accessibility harness drives a LOCAL Chrome and zod parses internal ' +
         'BiDi protocol messages — nothing external reaches the parser and nothing shipped ' +
         'to users); a patched release EXISTS (4.6.6) but is UNREACHABLE at two axes: ' +
-        'the fix is CROSS-MAJOR from the parent\'s ^3.24.1 declaration and zod\'s newest ' +
+        "the fix is CROSS-MAJOR from the parent's ^3.24.1 declaration and zod's newest " +
         'stable 3.x release is 3.25.76 — exactly what is installed, no 3.x backport was ' +
         'ever published (registry version list verified 2026-10-29); and the puppeteer ' +
-        'chain is deliberately pinned by this repo\'s own overrides ' +
+        "chain is deliberately pinned by this repo's own overrides " +
         '("puppeteer": "25.8.0", "puppeteer-core": "25.8.0") — the S321 cure (34c99e33) ' +
         'that dropped the permanently-unfixed extract-zip advisory (GHSA-jmr9-qjv8-65gv) ' +
         'in favour of @puppeteer/browsers 3.2.1 modern-tar. Moving the chain requires ' +
