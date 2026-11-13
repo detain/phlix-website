@@ -29,12 +29,25 @@ test('no flattened "\\ |" continuation outside <pre>', () => {
   assert.deepEqual(bad, []);
 });
 
+// A `git clone <url>` or `cd <dir>` immediately followed (no `&&`, `;` or
+// newline) by another shell command word is a flattened run-on.
+const RUN_ON =
+  /\b(?:git\s+clone|cd)\s+[^\s&|;+]\S*\s+(?:cd|git|composer|npm|npx|php|make|docker|sudo|bash|sh|curl|wget|bin\/\S+|\.\/\S+)\s/;
+
 test('no run-on git clone / cd / composer command text', () => {
   const bad = pages.filter((p) => {
     const html = readFileSync(p, 'utf8');
     // outside <pre> blocks (which preserve newlines)
     const rest = html.replace(/<pre[\s\S]*?<\/pre>/g, '');
-    return /git clone\s+\S+\s+cd\s/.test(rest);
+    return RUN_ON.test(rest);
   });
   assert.deepEqual(bad, []);
+});
+
+test('run-on guard shape: flags flattened command chains, spares chained ones', () => {
+  assert.ok(RUN_ON.test('git clone https://x/y.git cd y '));
+  assert.ok(RUN_ON.test('cd /srv/phlix composer install '));
+  assert.ok(RUN_ON.test('cd /srv/phlix npm ci '));
+  assert.ok(!RUN_ON.test('git clone https://x/y.git &amp;&amp; cd y &amp;&amp; composer install'));
+  assert.ok(!RUN_ON.test('cd /srv/phlix && composer install'));
 });

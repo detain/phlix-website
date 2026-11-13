@@ -253,3 +253,13 @@ test('law 5: every featured slug is a pinned, built kit', () => {
     );
   }
 });
+
+// WEB-S8 follow-up: "Show all" focuses the first revealed card; an unbuilt
+// tile is a plain <div>, whose focus() is a no-op unless it has a tabindex.
+test('unbuilt kit tiles are programmatically focusable (tabindex -1)', () => {
+  assert.match(
+    GALLERY_SRC,
+    /else\s*\{[^}]*card\.tabIndex\s*=\s*-1/,
+    'renderKitCard must give unbuilt (div) cards tabIndex = -1 so the Show-all focus lands',
+  );
+});

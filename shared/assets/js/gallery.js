@@ -112,6 +112,11 @@ function renderKitCard(kit, index) {
   card.className = 'variant-card' + (built ? '' : ' unbuilt');
   if (built) {
     card.href = `./${kit.slug}/index.html`;
+  } else {
+    // Unbuilt tiles are non-interactive divs; tabindex=-1 keeps them out of the
+    // tab order but lets "Show all" move focus onto one when it is the first
+    // card revealed (focus() is a no-op on a plain div).
+    card.tabIndex = -1;
   }
   card.title = built ? kit.name : `${kit.name} (site not built yet)`;
   // Cap the entrance stagger so later cards don't stay hidden for long.
