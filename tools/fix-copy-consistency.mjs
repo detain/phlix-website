@@ -168,8 +168,7 @@ import { globSync } from 'glob';
 
 const DRY = process.argv.includes('--dry-run');
 
-const SEC_URL =
-  'https://detain.github.io/phlix-docs/security/vulnerability-disclosure.html';
+const SEC_URL = 'https://detain.github.io/phlix-docs/security/vulnerability-disclosure.html';
 
 // Explicit stem pairs; occurrence census (tip, shipped scope) drove the list.
 const BRIT = [
@@ -250,8 +249,7 @@ function sweepOxford(t) {
 // Shape 2 (root index.html, foot-links divs): bare <a> ... License ... </a>
 const LIC_LI =
   /([ \t]*)(<li[ >](?:(?!<li[ >]|<\/li>)[\s\S]){0,300}?Licen[cs]e\s*\(MPL[\s\S]*?<\/li>)/;
-const LIC_A =
-  /([ \t]*)(<a(?:(?!<\/a>)[\s\S]){0,300}?Licen[cs]e\s*\(MPL[\s\S]*?<\/a\s*>)/;
+const LIC_A = /([ \t]*)(<a(?:(?!<\/a>)[\s\S]){0,300}?Licen[cs]e\s*\(MPL[\s\S]*?<\/a\s*>)/;
 function sweepSecurity(t) {
   if (t.includes('vulnerability-disclosure')) return [t, 0];
   // Five kit index pages (abstract-canvas, afrofuturism, bollywood-dreams,
@@ -265,8 +263,7 @@ function sweepSecurity(t) {
   const lm = footer.match(LIC_LI);
   if (lm) {
     const indent = lm[1];
-    const li =
-      `${indent}<li>\n${indent}  <a href="${SEC_URL}" rel="noopener noreferrer">Security</a>\n${indent}</li>\n`;
+    const li = `${indent}<li>\n${indent}  <a href="${SEC_URL}" rel="noopener noreferrer">Security</a>\n${indent}</li>\n`;
     return [t.replace(footer, footer.replace(lm[0], li + lm[0])), 1];
   }
   const am = footer.match(LIC_A);
@@ -344,7 +341,7 @@ const REVOCED = [
   // pitch_bullets in shared/content.json exactly.
   [
     'Native clients on Roku, Samsung Tizen, Windows, Mobile, plus any DLNA device',
-    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console — plus the web portal and any DLNA device',
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and the Linux console — plus the web portal and any DLNA device',
   ],
 ].map(([o, n]) => litSwap(o, n));
 
@@ -361,6 +358,14 @@ const ROSTER_CLAIMS = [
   ],
 ].map(([o, n]) => litSwap(o, n));
 
+// ROSTER_BETA — (WEB-S1 follow-on) the SSOT bullet now marks Mobile as beta
+// ("Windows, Mobile (beta), and the Linux console"). Kit pages already swept to
+// the pre-beta wording get the marker; the beta-marked text no longer matches,
+// so the pass is idempotent. Whitespace-tolerant via litSwap.
+const ROSTER_BETA = [
+  ['Windows, Mobile, and the Linux console', 'Windows, Mobile (beta), and the Linux console'],
+].map(([o, n]) => litSwap(o, n));
+
 // NEAR_ROSTERS — (M-WEBSITE-18/19) the six kit-voiced roster sentences where the
 // SSOT bullet survived with small tail ornaments ((beta) markers, &nbsp;, strong
 // splits, kit metaphors). Targeted, context-anchored, whitespace-tolerant rules;
@@ -371,7 +376,7 @@ const ROSTER_CLAIMS = [
 const NEAR_ROSTERS = [
   [
     /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile<\/strong>,\s+plus\s+any\s+DLNA\s+device/g,
-    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console</strong>, plus the web portal and any DLNA device',
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and the Linux console</strong>, plus the web portal and any DLNA device',
   ],
   [
     /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile\s+\(beta\)<\/strong>,\s+plus\s+any\s+DLNA\s+device/g,
@@ -379,7 +384,7 @@ const NEAR_ROSTERS = [
   ],
   [
     /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile,\s+plus\s+any\s+DLNA&nbsp;device/g,
-    'Native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console — plus the web portal and any DLNA&nbsp;device',
+    'Native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and the Linux console — plus the web portal and any DLNA&nbsp;device',
   ],
   [
     /Native\s+clients\s+on\s+Roku,\s+Samsung\s+Tizen,\s+Windows,\s+Mobile\s+\(beta\),\s+plus\s+any\s+DLNA\s+device/g,
@@ -405,14 +410,26 @@ const NEAR_ROSTERS = [
 // test/variant-copy-truth law 5 and are fixed by hand — this pass is the floor.
 const RENATIVES = [
   [/\b4(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, '5'],
-  [/\bFour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, 'Five'],
-  [/\bfour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g, 'five'],
+  [
+    /\bFour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g,
+    'Five',
+  ],
+  [
+    /\bfour(?=[\s\u00a0]+[Nn]ative(?:[\s\u00a0]+[A-Za-z][\w-]*){0,2}[\s\u00a0]+[Cc]lients?\b)/g,
+    'five',
+  ],
   // Cross-element stat-grid shapes: the count lives in its own node and the noun
   // in the sibling label — the hop window matches what law 5 sees after markup
   // collapses, so these pairings move with the floor.
   [/\b4(?=<\/(?:div|span|p|dd|dt|strong|em|b)>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, '5'],
-  [/\bFour(?=<\/(?:div|span|p|dd|dt|strong|em|b)>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'Five'],
-  [/\bfour(?=<\/(?:div|span|p|dd|dt|strong|em|b)\s*>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g, 'five'],
+  [
+    /\bFour(?=<\/(?:div|span|p|dd|dt|strong|em|b)>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g,
+    'Five',
+  ],
+  [
+    /\bfour(?=<\/(?:div|span|p|dd|dt|strong|em|b)\s*>[\s\S]{0,60}?(?:[Nn]ative\s+[Cc]lients?\b))/g,
+    'five',
+  ],
   // Prettier's tag-split shape: >4</span\n> then the label span — the closing
   // tag may be broken across lines before its '>'.
   [/\b4(?=<\/(?:span|div|p|h3)\s*\n\s*>[\s\S]{0,160}?(?:[Nn]ative\s+[Cc]lients?\b))/g, '5'],
@@ -428,7 +445,6 @@ const RENATIVES = [
   [/(label:\s*"Native Clients",\s*value:\s*")4("\s*})/g, '$15$2'],
 ];
 
-
 // P5b near-verbatim families (M-WEBSITE-07 census tail): kit re-casts that kept
 // the old jargon inside their own sentence shapes ("Sign in once. Reverse-tunnel
 // relay handles NAT. Fully self-hostable." ×190; "LifecycleInterface + manifest
@@ -441,9 +457,19 @@ const RENATIVES = [
 // LifecycleInterface {`) are deliberately out of scope: visible-styled widgets,
 // factual option names, and developer documentation respectively.
 const PHRASES = [
-  [/The\s+Hub's\s+reverse-tunnel\s+relay\s+handles\s+NAT\s+traversal/g, "The Hub reaches your home server through an encrypted relay"],
-  [/\b([Rr])everse-tunnel\s+relay\s+handles\s+(?:the\s+)?NAT(?:\s+traversal)?\b/g, (m, c) => `${c === 'R' ? 'A' : 'a'} relay you run reaches your home server without opening ports`],
-  [/([Ww])eighted-mean\s+NTP\s+offset\s+over\s+\d+\s+samples/g, (m, c) => `${c === 'W' ? 'A' : 'a'} tightly-synchronized playback clock`],
+  [
+    /The\s+Hub's\s+reverse-tunnel\s+relay\s+handles\s+NAT\s+traversal/g,
+    'The Hub reaches your home server through an encrypted relay',
+  ],
+  [
+    /\b([Rr])everse-tunnel\s+relay\s+handles\s+(?:the\s+)?NAT(?:\s+traversal)?\b/g,
+    (m, c) =>
+      `${c === 'R' ? 'A' : 'a'} relay you run reaches your home server without opening ports`,
+  ],
+  [
+    /([Ww])eighted-mean\s+NTP\s+offset\s+over\s+\d+\s+samples/g,
+    (m, c) => `${c === 'W' ? 'A' : 'a'} tightly-synchronized playback clock`,
+  ],
   [/Weighted-mean\s+NTP\s+timing/g, 'Tight playback timing'],
   [/Folder-watcher\s+hashes\s+mtimes/g, 'Phlix watches your folders for changes'],
   // r2 (W-min194 review): the P5b era-rule [/scanner parses/ → 'recognizes']
@@ -454,13 +480,28 @@ const PHRASES = [
   [/([Tt])he\s+scanner\s+parses/g, (m, c) => `${c}he scanner recognizes`],
   [/([Tt])he\s+recognizes/g, (m, c) => `${c}he scanner recognizes`],
   [/scanner\s+parses/g, 'recognizes'],
-  [/ItemRepository\s+hydrates\s+metadata_json/g, 'Phlix fills in titles, artwork, and descriptions'],
+  [
+    /ItemRepository\s+hydrates\s+metadata_json/g,
+    'Phlix fills in titles, artwork, and descriptions',
+  ],
   [/JWT\s+auth\s+with\s+refresh\s+tokens/g, 'secure sign-in that renews itself'],
-  [/ChannelManager,\s+GuideManager,\s+and\s+Recorder/g, 'Built-in scheduling, the guide, and the recorder'],
-  [/ContentDirectory\s+and\s+AvTransport\s+over\s+DLNA/g, 'the DLNA directory and transport protocols'],
-  [/ContentDirectory,\s+AvTransport,\s+and\s+a\s+DeviceRegistry/g, 'the DLNA directory and transport protocols'],
+  [
+    /ChannelManager,\s+GuideManager,\s+and\s+Recorder/g,
+    'Built-in scheduling, the guide, and the recorder',
+  ],
+  [
+    /ContentDirectory\s+and\s+AvTransport\s+over\s+DLNA/g,
+    'the DLNA directory and transport protocols',
+  ],
+  [
+    /ContentDirectory,\s+AvTransport,\s+and\s+a\s+DeviceRegistry/g,
+    'the DLNA directory and transport protocols',
+  ],
   [/ContentDirectory\s+and\s+AvTransport/g, 'the DLNA directory and transport protocols'],
-  [/QualitySelector\s+profiles\s+for\s+mobile-low,\s+mobile-high,\s+web,\s+and\s+tv-4k/g, 'Dedicated quality profiles for phones, web, and 4K TVs'],
+  [
+    /QualitySelector\s+profiles\s+for\s+mobile-low,\s+mobile-high,\s+web,\s+and\s+tv-4k/g,
+    'Dedicated quality profiles for phones, web, and 4K TVs',
+  ],
   [/QualitySelector\s+profiles/g, 'quality profiles'],
   [/libx264\/libx265\s+transcoding/g, 'FFmpeg transcoding'],
   [/LifecycleInterface\s+\+\s+manifest\s+schema/g, 'A versioned plugin contract'],
@@ -572,19 +613,49 @@ function sweepReleases(t) {
 // "root@phlix:~# cat error.log" taglines) takes it as an em-dash clause so the
 // terminal voice survives. Intrinsic idempotence: the grown shape never
 // re-matches; classed carriers also guard on 'no subscription'.
-const COST_SENTENCE = ' Free to use, no subscription. You pay only for your own hardware and bandwidth.';
-const COST_CLAUSE = ' — free to use, no subscription. You pay only for your own hardware and bandwidth.';
+const COST_SENTENCE =
+  ' Free to use, no subscription. You pay only for your own hardware and bandwidth.';
+const COST_CLAUSE =
+  ' — free to use, no subscription. You pay only for your own hardware and bandwidth.';
 const COST_KITS = new Set([
-  'abstract-canvas', 'art-nouveau-garden', 'celtic-twilight', 'chrome-velocity',
-  'copper-steampunk', 'cosmic-odyssey', 'cottagecore-bloom', 'cyber-pursuit',
-  'demolition-crew', 'desert-horizon', 'dia-de-muertos', 'digital-combat-zone',
-  'editorial-underground', 'egyptian-dusk', 'festive-lantern',
-  'holographic-future', 'ice-cathedral', 'inferno', 'library-amber',
-  'manga-studio', 'marble-atrium', 'midnight-jazz', 'neon-noir', 'nexus-core',
-  'pixel-dungeon', 'quantum-stream', 'renaissance-atelier', 'ricochet',
-  'solarpunk-eden', 'soundwave-studio', 'speakeasy-gold',
-  'stardust-observatory', 'storm-chaser', 'street-mural', 'swiss-modernist',
-  'velocity-rush', 'wabi-sabi', 'wilderness-trail',
+  'abstract-canvas',
+  'art-nouveau-garden',
+  'celtic-twilight',
+  'chrome-velocity',
+  'copper-steampunk',
+  'cosmic-odyssey',
+  'cottagecore-bloom',
+  'cyber-pursuit',
+  'demolition-crew',
+  'desert-horizon',
+  'dia-de-muertos',
+  'digital-combat-zone',
+  'editorial-underground',
+  'egyptian-dusk',
+  'festive-lantern',
+  'holographic-future',
+  'ice-cathedral',
+  'inferno',
+  'library-amber',
+  'manga-studio',
+  'marble-atrium',
+  'midnight-jazz',
+  'neon-noir',
+  'nexus-core',
+  'pixel-dungeon',
+  'quantum-stream',
+  'renaissance-atelier',
+  'ricochet',
+  'solarpunk-eden',
+  'soundwave-studio',
+  'speakeasy-gold',
+  'stardust-observatory',
+  'storm-chaser',
+  'street-mural',
+  'swiss-modernist',
+  'velocity-rush',
+  'wabi-sabi',
+  'wilderness-trail',
 ]);
 function costJoin(pText) {
   return /[.!?]\s*$/.test(pText) ? COST_SENTENCE : COST_CLAUSE;
@@ -731,7 +802,8 @@ function sweepSecretKey(t) {
 // same clause-binding discipline the verb arms follow.
 const HTTPS_LE = "Let(?:'|’|&rsquo;)s\\s+Encrypt";
 const HTTPS_OPTIN = 'optional HTTPS via --domain and --admin-email';
-const HTTPS_PORT_TAIL = '(:443 once HTTPS is provisioned in the same run via --domain and --admin-email)';
+const HTTPS_PORT_TAIL =
+  '(:443 once HTTPS is provisioned in the same run via --domain and --admin-email)';
 const HTTPS_SPECIALS = [
   // velocity-x FAQ: no admin-panel certificate generator exists in the server.
   [
@@ -781,10 +853,7 @@ const HTTPS_SPECIALS = [
     `with ${HTTPS_OPTIN}`,
   ],
   // "…and HTTPS with Let's Encrypt." enumeration tails.
-  [
-    new RegExp(`and\\s+HTTPS\\s+with\\s+${HTTPS_LE}`, 'g'),
-    `and ${HTTPS_OPTIN}`,
-  ],
+  [new RegExp(`and\\s+HTTPS\\s+with\\s+${HTTPS_LE}`, 'g'), `and ${HTTPS_OPTIN}`],
 ];
 // Shared verb body + exemption guards: the sweep and the residual detector both
 // consume these constants (test/copy-sweep-stability.test.mjs pins the reference
@@ -877,7 +946,10 @@ const HTTPS_TAIL_ENUM_WIRE =
 // Let's Encrypt certificate" (wilderness-trail) is case law. Also report-only.
 const HTTPS_CERT_SHAPE = String.raw`provisions?\s+(?:an?\s+)?(?:auto-?renewing\s+)?${HTTPS_LE}\s+(?:certificates?|certs?)`;
 const HTTPS_CERT_WIRE =
-  HTTPS_SENTENCE_NO_FLAGS_BEFORE + HTTPS_TO_GUARD + HTTPS_CERT_SHAPE + HTTPS_SENTENCE_NO_FLAGS_AFTER;
+  HTTPS_SENTENCE_NO_FLAGS_BEFORE +
+  HTTPS_TO_GUARD +
+  HTTPS_CERT_SHAPE +
+  HTTPS_SENTENCE_NO_FLAGS_AFTER;
 // The doubled-optin splice: cure-1's cert-tail and verb arms fired
 // sequentially over one span and emitted the replacement twice (leaderboard-
 // elite). The collapse is deterministic, so this family ships the full one
@@ -892,7 +964,10 @@ const HTTPS_OPTIN_ESC = HTTPS_OPTIN.split(/\s+/)
   .join('\\s+');
 const HTTPS_OPTIN_DUP_SHAPE = `(${HTTPS_OPTIN_ESC})(?:\\s+(?:with|and)\\s+|,\\s*(?:and\\s+)?)${HTTPS_OPTIN_ESC}`;
 const HTTPS_ADJ_RE = new RegExp(HTTPS_ADJ_SHAPE, 'g');
-const HTTPS_FULLY_RE = new RegExp(HTTPS_FULLY_LEAD + String.raw`HTTPS,\s+([^,.<]+?),\s+and\s+`, 'g');
+const HTTPS_FULLY_RE = new RegExp(
+  HTTPS_FULLY_LEAD + String.raw`HTTPS,\s+([^,.<]+?),\s+and\s+`,
+  'g',
+);
 const HTTPS_ENUM_MID_RE = new RegExp(HTTPS_ENUM_MID_SHAPE, 'g');
 const HTTPS_ENUM_END_RE = new RegExp(HTTPS_ENUM_END_SHAPE, 'g');
 const HTTPS_HEAD_AUTO_RE = new RegExp(HTTPS_HEAD_AUTO_SHAPE, 'g');
@@ -958,9 +1033,20 @@ function sweepHttpsPorts(t) {
 // body as the passes — honest opt-in prose never trips it, and by construction
 // it can no longer be weaker than the sweep that just ran over the same text).
 const HTTPS_RESIDUALS = [
-  [new RegExp(String.raw`${HTTPS_PROXY_GUARD}(?:with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` + HTTPS_LE), 'cert-tail'],
-  [new RegExp(String.raw`${HTTPS_TO_GUARD}(?:${HTTPS_VERB_BODY})\s+(?:an?\s+)?HTTPS\b`), 'https-verb'],
-  [/behind\s+(?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy)\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)/i, 'port'],
+  [
+    new RegExp(
+      String.raw`${HTTPS_PROXY_GUARD}(?:with|and|,)\s+(?:an?\s+)?(?:auto-?renewing\s+)?` + HTTPS_LE,
+    ),
+    'cert-tail',
+  ],
+  [
+    new RegExp(String.raw`${HTTPS_TO_GUARD}(?:${HTTPS_VERB_BODY})\s+(?:an?\s+)?HTTPS\b`),
+    'https-verb',
+  ],
+  [
+    /behind\s+(?:an?\s+)?(?:the\s+)?(?:HAProxy|reverse\s+proxy)\s+on\s+(?:<code>)?:80(?:<\/code>)?\s*(?:\/|\s+and\s+)/i,
+    'port',
+  ],
   [/behind\s+HAProxy\s+:80\s*\/\s*:443/, 'chip'],
   // w17 L7 families. The adjective/enum arms mirror their sweeps exactly (one
   // well); the "fully" and "handled" arms are wires that OUTGROW the narrow
@@ -1055,6 +1141,10 @@ for (const f of files) {
   [t, o] = sweepIdpRoster(t);
   counts.idpRoster += o;
   for (const swap of ROSTER_CLAIMS) {
+    [t, o] = swap(t);
+    counts.roster += o;
+  }
+  for (const swap of ROSTER_BETA) {
     [t, o] = swap(t);
     counts.roster += o;
   }

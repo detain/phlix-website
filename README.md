@@ -5,7 +5,7 @@
 [![Link Check](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/linkcheck.yml)
 [![Lighthouse](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/detain/phlix-website/actions/workflows/lighthouse.yml)
 
-The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native apps for Roku, Samsung Tizen, Windows, Mobile, and the Linux console, plus a web portal and any DLNA device.
+The marketing / landing site for **[Phlix](https://github.com/detain/phlix-server)** — a self-hostable PHP media server with native apps for Roku, Samsung Tizen, Windows, Mobile (beta), and the Linux console, plus a web portal and any DLNA device.
 
 This repo ships **one site per brand kit**: each site is **hand-authored** under `sites/<slug>/`, and `npm run build` copies those pages into `dist/<slug>/` as-is. `shared/content.json` is the shared **fact source**, not a runtime template: kit pages must _agree_ with its facts — a house sweep tool (`tools/fix-copy-consistency.mjs`) walks the whole corpus whenever that copy changes — while carrying each kit's own voice on top of its own visual language. The earlier five-variant `variants/` tree was removed on 2026-06-30 — `tools/render.mjs` is legacy and is no longer part of the deploy path.
 
